@@ -1,0 +1,15 @@
+{
+	"package" : "de.gmino.geobase"
+	"concept" : "value",
+	"name" : "DateSpan",
+	"attributes" : [
+		{
+			"type" : "Date",
+			"name" : "start"
+		},	
+		{
+			"type" : "Date",
+			"name" : "end"
+		}
+	]
+}

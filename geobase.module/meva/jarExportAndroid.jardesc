@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jardesc>
+    <jar path="checkinAndroid/libs/java-common.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/checkinJavaCommon/jarExportAndroid.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="false" manifestLocation="/checkinJavaCommon/manifest" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <javaElement handleIdentifier="=checkinJavaCommon/src"/>
+        <file path="/checkinJavaCommon/.project"/>
+        <javaElement handleIdentifier="=checkinJavaCommon/gen"/>
+        <file path="/checkinJavaCommon/.gitignore"/>
+        <file path="/checkinJavaCommon/manifest"/>
+        <file path="/checkinJavaCommon/.classpath"/>
+    </selectedElements>
+</jardesc>

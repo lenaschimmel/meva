@@ -1,0 +1,15 @@
+{
+	"concept" : "value",
+	"package" : "de.gmino.geobase"
+	"name" : "LatLon",
+	"attributes" : [
+		{
+			"type" : "double",
+			"name" : "latitude"
+		},	
+		{
+			"type" : "double",
+			"name" : "longitude"
+		}	
+	]
+}

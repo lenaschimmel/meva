@@ -1,0 +1,20 @@
+{
+	"concept" : "value",
+	"package" : "de.gmino.geobase"
+	"name" : "QueryNearbyShops",
+	"query" : "true",
+	"attributes" : [
+		{
+			"type" : "LatLon",
+			"name" : "location"
+		},	
+		{
+			"type" : "double",
+			"name" : "radius"
+		},	
+		{
+			"type" : "int",
+			"name" : "maxCount"
+		}	
+	]
+}

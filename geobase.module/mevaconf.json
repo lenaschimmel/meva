@@ -1,0 +1,6 @@
+{
+	"name" : "geobase",
+	"depends" : [
+		"meva"
+	]
+}
