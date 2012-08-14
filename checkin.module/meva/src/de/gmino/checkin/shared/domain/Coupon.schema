@@ -1,0 +1,31 @@
+{
+	"package" : "de.gmino.checkin"
+	"concept" : "entity",
+	"name" : "Coupon",
+	"attributes" : [
+		{
+			"type" : "Shop",
+			"name" : "shop"
+		},	
+		{
+			"type" : "String",
+			"name" : "img"
+		}	
+		{
+			"type" : "String",
+			"name" : "title"
+		}	
+		{
+			"type" : "String",
+			"name" : "text"
+		}	
+		{
+			"type" : "short",
+			"name" : "neededVisits",
+		}
+		{
+			"type" : "DateSpan",
+			"name" : "validty",
+		}
+	]
+}

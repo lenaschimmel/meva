@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="app_name">CheckIn</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">CheckIn</string>
+    <string name="title_section3">Check In History</string>
+    <string name="title_section2">Stores</string>
+    <string name="title_section1">Meine Gutscheine</string>
+    <string name="title_activity_qrscanner">QRScanner</string>
+    <string name="title_activity_shop_list">ShopList</string>
+
+</resources>
