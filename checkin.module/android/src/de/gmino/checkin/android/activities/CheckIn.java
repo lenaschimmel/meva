@@ -20,6 +20,7 @@ import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
 
+import de.gmino.checkin.android.PlacesCheckInListener;
 import de.gmino.checkin.android.R;
 import de.gmino.checkin.android.domain.Shop;
 
@@ -87,6 +88,23 @@ public class CheckIn extends Activity {
 		if (intent.getCharSequenceExtra("fid") != null) {
 			checkinWithFid(intent.getCharSequenceExtra("fid").toString());
 		}
+		
+		// Tonis version:
+		//		Uri data = intent.getData();
+		//		
+		//		if (data!=null){
+		//		
+		//		String[] array = data.toString().split("/");
+		//		String fid=array[array.length-1];
+		//
+		//		if (fid != null) {
+		//
+		//			checkinWithFid(fid);
+		//		}
+		//		if (intent.getCharSequenceExtra("fid") != null) {
+		//			checkinWithFid(intent.getCharSequenceExtra("fid").toString());
+		//		}
+		
 	}
 
 
@@ -189,7 +207,7 @@ public class CheckIn extends Activity {
 		params.putString("message", "Ich bin hier");
 		params.putString("coordinates", shop.getLocation().toString());
 		mAsyncRunner.request("me/checkins", params, "POST",
-				new placesCheckInListener(CheckIn.this, shop),
+				new PlacesCheckInListener(CheckIn.this, shop),
 				null);
 	}
 
