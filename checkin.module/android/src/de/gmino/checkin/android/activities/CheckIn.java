@@ -22,7 +22,7 @@ import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
 
 import de.gmino.checkin.android.R;
-import de.gmino.checkin.android.placesCheckInListener;
+import de.gmino.checkin.android.PlacesCheckInListener;
 import de.gmino.checkin.android.domain.Shop;
 
 public class CheckIn extends Activity {
@@ -191,7 +191,7 @@ public class CheckIn extends Activity {
 		params.putString("message", "Ich bin hier");
 		params.putString("coordinates", shop.getLocation().toString());
 		mAsyncRunner.request("me/checkins", params, "POST",
-				new placesCheckInListener(CheckIn.this, shop),
+				new PlacesCheckInListener(CheckIn.this, shop),
 				null);
 	}
 
