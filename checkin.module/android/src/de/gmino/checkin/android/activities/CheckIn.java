@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +21,6 @@ import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
 
 import de.gmino.checkin.android.R;
-import de.gmino.checkin.android.placesCheckInListener;
 import de.gmino.checkin.android.domain.Shop;
 
 public class CheckIn extends Activity {

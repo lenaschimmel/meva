@@ -1,6 +1,5 @@
 package de.gmino.checkin.android.activities;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import android.app.ListActivity;
@@ -15,7 +14,7 @@ import de.gmino.checkin.android.R;
 import de.gmino.checkin.android.domain.Shop;
 import de.gmino.geobase.android.domain.LatLon;
 import de.gmino.geobase.android.request.QueryNearbyShops;
-import de.gmino.geobase.android.request.RequestEntititesByQuery;
+import de.gmino.meva.android.request.RequestEntititesByQuery;
 import de.gmino.meva.shared.Query;
 
 

@@ -1,6 +1,6 @@
 
 
-// DONTEDIT This file has been copied from /home/lena/workspaceNeu/checkin.module/meva/src/de/gmino/checkin/shared/domain/Shop.java.
+// DONTEDIT This file has been copied from C:\Users\greenmobile\meva\checkin.module\meva\src\de\gmino\checkin\shared\domain\Shop.java.
 
 // This warning may apply even when the original file contained a message that explicitly allows editing.
 
