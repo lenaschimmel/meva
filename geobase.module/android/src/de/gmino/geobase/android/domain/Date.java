@@ -15,11 +15,19 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+// imports for JSON
+import org.itemscript.core.values.JsonObject;
+import org.itemscript.core.values.JsonValue;
+
 // imports for SQL stuff
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
+
+// android
+import de.gmino.meva.android.EntityAndroid;
+import de.gmino.meva.android.ValueAndroid;
 
 
 import de.gmino.geobase.android.domain.gen.DateGen;
@@ -27,11 +35,19 @@ public class Date extends DateGen {
 	// Constructors
 	public Date(DataInputStream dis) throws IOException
 	{
-		super(
+		this(
 			dis.readShort(),
 			dis.readShort(),
 			dis.readShort());
 	}
+	public Date(JsonObject json) throws IOException
+	{
+		this(
+			Short.parseShort(json.get("day").asString().stringValue()),
+			Short.parseShort(json.get("month").asString().stringValue()),
+			Short.parseShort(json.get("year").asString().stringValue()));
+	}
+
 	public Date(
 			short day,
 			short month,

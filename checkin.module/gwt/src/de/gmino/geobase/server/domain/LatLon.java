@@ -21,14 +21,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+// imports for JSON
+import org.itemscript.core.values.JsonObject;
+import org.itemscript.core.values.JsonValue;
+
 // imports for SQL stuff
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
-
-// imports for GWT JSON Parser
-import com.google.gwt.json.client.*;
 
 
 import de.gmino.geobase.server.domain.gen.LatLonGen;
@@ -44,15 +45,15 @@ public class LatLon extends LatLonGen {
 	}
 	public LatLon(DataInputStream dis) throws IOException
 	{
-		super(
+		this(
 			dis.readDouble(),
 			dis.readDouble());
 	}
-	public LatLon(JSONObject json) throws IOException
+	public LatLon(JsonObject json) throws IOException
 	{
-		super(
-			Double.parseDouble(json.get("latitude").isString().stringValue()),
-			Double.parseDouble(json.get("longitude").isString().stringValue()));
+		this(
+			Double.parseDouble(json.get("latitude").asString().stringValue()),
+			Double.parseDouble(json.get("longitude").asString().stringValue()));
 	}
 
 	public LatLon(

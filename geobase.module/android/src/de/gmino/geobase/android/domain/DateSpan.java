@@ -15,11 +15,19 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+// imports for JSON
+import org.itemscript.core.values.JsonObject;
+import org.itemscript.core.values.JsonValue;
+
 // imports for SQL stuff
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
+
+// android
+import de.gmino.meva.android.EntityAndroid;
+import de.gmino.meva.android.ValueAndroid;
 
 // imports for field types
 import de.gmino.geobase.android.domain.Date;
@@ -30,10 +38,17 @@ public class DateSpan extends DateSpanGen {
 	// Constructors
 	public DateSpan(DataInputStream dis) throws IOException
 	{
-		super(
+		this(
 			new Date(dis),
 			new Date(dis));
 	}
+	public DateSpan(JsonObject json) throws IOException
+	{
+		this(
+			new Date(json.get("start").asObject()),
+			new Date(json.get("end").asObject()));
+	}
+
 	public DateSpan(
 			Date start,
 			Date end)

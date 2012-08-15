@@ -1,4 +1,4 @@
-package de.gmino.geobase.android.request;
+package de.gmino.meva.android.request;
 
 import java.io.DataInputStream;
 import java.io.InputStream;
@@ -11,7 +11,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import de.gmino.geobase.android.EntityAndroid;
+import de.gmino.meva.android.EntityAndroid;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.ReturnEntityPolicy;

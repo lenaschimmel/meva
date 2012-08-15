@@ -1,4 +1,4 @@
-package de.gmino.geobase.android.request;
+package de.gmino.meva.android.request;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -16,7 +16,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.content.Context;
-import de.gmino.geobase.android.ValueAndroid;
+import de.gmino.meva.android.ValueAndroid;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.Query;

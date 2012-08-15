@@ -1,4 +1,4 @@
-package de.gmino.geobase.android.request;
+package de.gmino.meva.android.request;
 
 import java.util.Collection;
 

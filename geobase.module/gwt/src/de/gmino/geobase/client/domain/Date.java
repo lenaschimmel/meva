@@ -21,12 +21,19 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 
+import org.itemscript.core.values.JsonObject;
+
 // imports for GWT JSON Parser
 import com.google.gwt.json.client.*;
 
 
 import de.gmino.geobase.client.domain.gen.DateGen;
 public class Date extends DateGen {
+	public Date(JsonObject json) throws IOException {
+		super(json);
+		// TODO Auto-generated constructor stub
+	}
+
 	// Constructors
 	public Date(JSONObject json) throws IOException
 	{

@@ -33,9 +33,16 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 
+import org.itemscript.core.values.JsonObject;
+
 
 import de.gmino.geobase.shared.domain.gen.LatLonGen;
 public class LatLon extends LatLonGen {
+	public LatLon(JsonObject json) throws IOException {
+		super(json);
+		// TODO Auto-generated constructor stub
+	}
+
 	// Constructors
 	public LatLon(
 			double latitude,

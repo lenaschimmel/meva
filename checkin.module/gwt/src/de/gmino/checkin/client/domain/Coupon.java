@@ -15,14 +15,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-// imports for SQL stuff
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.sql.SQLException;
-
-// imports for GWT JSON Parser
-import com.google.gwt.json.client.*;
+// imports for JSON
+import org.itemscript.core.values.JsonObject;
+import org.itemscript.core.values.JsonValue;
 
 // imports for field types
 import de.gmino.checkin.client.domain.Shop;

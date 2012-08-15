@@ -13,6 +13,8 @@ import java.sql.Statement;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.itemscript.core.values.JsonObject;
+
 import com.google.gwt.json.client.JSONObject;
 
 import de.gmino.geobase.server.domain.LatLon;
@@ -30,10 +32,9 @@ public class QueryNearbyShops extends QueryNearbyShopsGen {
 		super(new LatLon(dis), dis.readDouble(), dis.readInt());
 	}
 
-	public QueryNearbyShops(JSONObject json) throws IOException {
-		super(new LatLon(json.get("location").isObject()), Double
-				.parseDouble(json.get("radius").isString().stringValue()),
-				Integer.parseInt(json.get("maxCount").isString().stringValue()));
+	public QueryNearbyShops(JsonObject json) throws IOException {
+		super(json);
+		// TODO Auto-generated constructor stub
 	}
 
 	public QueryNearbyShops(LatLon location, double radius, int maxCount) {

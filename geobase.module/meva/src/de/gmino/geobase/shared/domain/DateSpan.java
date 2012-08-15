@@ -21,6 +21,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 
+import org.itemscript.core.values.JsonObject;
+
 // imports for field types
 import de.gmino.geobase.shared.domain.Date;
 
@@ -36,6 +38,11 @@ public class DateSpan extends DateSpanGen {
 			(de.gmino.geobase.shared.domain.Date)start,
 			(de.gmino.geobase.shared.domain.Date)end
 		);
+	}
+
+	public DateSpan(JsonObject json) throws IOException {
+		super(json);
+		// TODO Auto-generated constructor stub
 	}
 	
 

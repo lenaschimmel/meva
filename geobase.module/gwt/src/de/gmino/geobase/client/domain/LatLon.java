@@ -21,6 +21,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 
+import org.itemscript.core.values.JsonObject;
+
 // imports for GWT JSON Parser
 import com.google.gwt.json.client.*;
 
@@ -33,6 +35,10 @@ public class LatLon extends LatLonGen {
 		super(
 			Double.parseDouble(json.get("latitude").isString().stringValue()),
 			Double.parseDouble(json.get("longitude").isString().stringValue()));
+	}
+
+	public LatLon(JsonObject json) throws IOException {
+		super(json);
 	}
 
 	public LatLon(
