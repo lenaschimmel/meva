@@ -2,6 +2,9 @@ package de.gmino.checkin.client;
 
 import java.io.IOException;
 
+import org.itemscript.core.gwt.GwtSystem;
+import org.itemscript.core.values.JsonObject;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -13,8 +16,6 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
-import com.google.gwt.json.client.JSONObject;
-import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
@@ -134,13 +135,14 @@ public class CheckinGwt implements EntryPoint {
 										Response response) {
 									if (200 == response.getStatusCode()) {
 
-										JSONObject json = (JSONObject) JSONParser
-												.parseLenient(response
-														.getText());
+										 
+										JsonObject json = GwtSystem.SYSTEM.parse(response.getText()).asObject();
+
+										
 										Shop shop;
 										try {
 											// TODO solchen Code gibts nicht! Direkte Konstruktoraufrufe, wo kommen wir da hin?! 
-											shop = new Shop(0);
+											shop =  new Shop(0);
 											shop.deserializeJson(json);
 											serverResponseLabel
 											.setText("Hier gibts nichts zu sehen, außer "

@@ -1,6 +1,6 @@
 
 
-// DONTEDIT This file has been copied from C:\Users\greenmobile\meva\geobase.module\meva\src\de\gmino\geobase\shared\request\QueryNearbyShops.java.
+// DONTEDIT This file has been copied from /home/lena/workspaceNeu/geobase.module/meva/src/de/gmino/geobase/shared/request/QueryNearbyShops.java.
 
 // This warning may apply even when the original file contained a message that explicitly allows editing.
 
