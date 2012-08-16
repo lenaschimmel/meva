@@ -10,10 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gwt.json.client.JSONParser;
-import com.google.gwt.json.client.JSONValue;
-
-import de.gmino.geobase.server.request.QueryNearbyShops;
+import de.gmino.checkin.server.request.QueryNearbyShops;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.Query;
 

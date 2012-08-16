@@ -21,6 +21,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 
+import org.itemscript.core.values.JsonObject;
+
 // imports for GWT JSON Parser
 import com.google.gwt.json.client.*;
 
@@ -30,6 +32,11 @@ import de.gmino.geobase.client.domain.Date;
 
 import de.gmino.geobase.client.domain.gen.DateSpanGen;
 public class DateSpan extends DateSpanGen {
+	public DateSpan(JsonObject json) throws IOException {
+		super(json);
+		// TODO Auto-generated constructor stub
+	}
+
 	// Constructors
 	public DateSpan(JSONObject json) throws IOException
 	{

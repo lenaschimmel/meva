@@ -12,8 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import de.gmino.checkin.android.R;
 import de.gmino.checkin.android.domain.Shop;
+import de.gmino.checkin.android.request.QueryNearbyShops;
 import de.gmino.geobase.android.domain.LatLon;
-import de.gmino.geobase.android.request.QueryNearbyShops;
 import de.gmino.meva.android.request.RequestEntititesByQuery;
 import de.gmino.meva.shared.Query;
 

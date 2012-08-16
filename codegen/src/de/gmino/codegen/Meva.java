@@ -66,7 +66,8 @@ public class Meva {
 			json = (JSONObject) JSONValue.parse(new FileReader(moduleConf));
 			moduleName = (String) json.get("name");
 
-			// Füge die aktuelle Modul/Platform-Kombo zu den insgesamt bekannten Projekten hinzu
+			// Füge die aktuelle Modul/Platform-Kombo zu den insgesamt bekannten
+			// Projekten hinzu
 			projects.put(moduleName + "/ " + platform, this);
 
 			srcDir = new File(projectRootDir.getCanonicalPath() + "/src");
@@ -81,6 +82,11 @@ public class Meva {
 									.equals("android") ? "/mevagen" : "/gen")));
 			cpyDir = new File(projectRootDir.getCanonicalPath()
 					+ (platform.equals("gwt") ? "/src" : "/cpy"));
+
+			if (!platform.equals("gwt")) {
+				emptyDir(genDir);
+				emptyDir(cpyDir);
+			}
 
 			definitions = new TreeMap<String, ClassDefinition>();
 			TreeMap<String, ClassDefinition> definitionsToBuild = new TreeMap<String, ClassDefinition>();
@@ -123,6 +129,24 @@ public class Meva {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
+	}
+
+	private void emptyDir(File dir) {
+		if (!dir.exists())
+			return;
+		if (dir.isDirectory())
+			for (File c : dir.listFiles())
+				delete(c);
+		else
+			System.err.println(dir + " is not a dir.");
+	}
+
+	void delete(File f) {
+		if (f.isDirectory()) {
+			for (File c : f.listFiles())
+				delete(c);
+		}
+		f.delete();
 	}
 
 	private void collectDefinitions(File dir,

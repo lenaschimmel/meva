@@ -1,5 +1,5 @@
 {
-	"package" : "de.gmino.checkin"
+	"package" : "de.gmino.checkin.TARGET.domain"
 	"concept" : "entity",
 	"name" : "Shop",
 	"attributes" : [

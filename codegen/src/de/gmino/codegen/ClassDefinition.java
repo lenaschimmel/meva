@@ -1012,7 +1012,7 @@ public class ClassDefinition {
 	}
 
 	public String getFullPackage(String target, boolean gen) {
-		return packageName + "." + target + (query ? ".request" : ".domain")
+		return packageName.replace("TARGET", target) 
 				+ (gen ? ".gen" : "");
 	}
 

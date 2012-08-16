@@ -1,6 +1,6 @@
 {
 	"concept" : "value",
-	"package" : "de.gmino.geobase"
+	"package" : "de.gmino.geobase.TARGET.domain"
 	"name" : "LatLon",
 	"attributes" : [
 		{

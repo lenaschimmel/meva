@@ -1,6 +1,6 @@
 {
 	"concept" : "value",
-	"package" : "de.gmino.geobase"
+	"package" : "de.gmino.checkin.TARGET.request",
 	"name" : "QueryNearbyShops",
 	"query" : "true",
 	"attributes" : [

@@ -1,7 +1,7 @@
 // You may edit this file. It has been generated, but it will NOT be overwritten by Meva.
 // To regenerate this file, delete it and run Meva again.
 
-package de.gmino.geobase.server.request;
+package de.gmino.checkin.server.request;
 
 // gmino stuff
 import java.io.DataInputStream;
@@ -15,33 +15,46 @@ import java.util.LinkedList;
 
 import org.itemscript.core.values.JsonObject;
 
-import com.google.gwt.json.client.JSONObject;
-
+import de.gmino.checkin.server.request.gen.QueryNearbyShopsGen;
 import de.gmino.geobase.server.domain.LatLon;
-import de.gmino.geobase.server.request.gen.QueryNearbyShopsGen;
-
 public class QueryNearbyShops extends QueryNearbyShopsGen {
 	// Constructors
 	// Constructor for SQL deseralizaiton
-	public QueryNearbyShops(String prefix, ResultSet rs) throws SQLException {
-		super(new LatLon(prefix + "location_", rs), rs.getDouble(prefix
-				+ "radius"), rs.getInt(prefix + "maxCount"));
+	public QueryNearbyShops(String prefix, ResultSet rs) throws SQLException
+	{
+		super(
+			new LatLon(prefix + "location_", rs),
+			rs.getDouble(prefix + "radius"),
+			rs.getInt(prefix + "maxCount")
+		);
+	}
+	public QueryNearbyShops(DataInputStream dis) throws IOException
+	{
+		this(
+			new LatLon(dis),
+			dis.readDouble(),
+			dis.readInt());
+	}
+	public QueryNearbyShops(JsonObject json) throws IOException
+	{
+		this(
+			new LatLon(json.get("location").asObject()),
+			Double.parseDouble(json.get("radius").asString().stringValue()),
+			Integer.parseInt(json.get("maxCount").asString().stringValue()));
 	}
 
-	public QueryNearbyShops(DataInputStream dis) throws IOException {
-		super(new LatLon(dis), dis.readDouble(), dis.readInt());
+	public QueryNearbyShops(
+			LatLon location,
+			double radius,
+			int maxCount)
+	{
+		super(
+			(de.gmino.geobase.server.domain.LatLon)location,
+			radius,
+			maxCount
+		);
 	}
-
-	public QueryNearbyShops(JsonObject json) throws IOException {
-		super(json);
-		// TODO Auto-generated constructor stub
-	}
-
-	public QueryNearbyShops(LatLon location, double radius, int maxCount) {
-		super((de.gmino.geobase.server.domain.LatLon) location, radius,
-				maxCount);
-	}
-
+	
 	@Override
 	public Collection<Long> evaluate() {
 		try {
@@ -68,5 +81,6 @@ public class QueryNearbyShops extends QueryNearbyShopsGen {
 		}
 		
 	}
+
 
 }

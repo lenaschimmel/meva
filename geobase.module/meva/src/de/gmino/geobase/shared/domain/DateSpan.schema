@@ -1,5 +1,5 @@
 {
-	"package" : "de.gmino.geobase"
+	"package" : "de.gmino.geobase.TARGET.domain"
 	"concept" : "value",
 	"name" : "DateSpan",
 	"attributes" : [
