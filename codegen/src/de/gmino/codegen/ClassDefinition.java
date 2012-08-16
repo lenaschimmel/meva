@@ -15,6 +15,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+
 // Für später auf iOS: siehe Klasse http://redmine.h1898116.stratoserver.net/projects/ira/repository/revisions/master/entry/ios-reiseapp/ReiseMapViewController.m
 
 public class ClassDefinition {
@@ -302,7 +303,8 @@ public class ClassDefinition {
 			generateBinaryDeserializer(pw);
 		// if (target.equals("server") || target.equals("client")||
 		// target.equals("android"))
-		generateJsonDeserializer(pw);
+		if (target.equals("shared"))
+			generateJsonDeserializer(pw);
 	}
 
 	private void generateGetNew(PrintWriter pw) {
@@ -475,7 +477,17 @@ public class ClassDefinition {
 				pw.println("			" + attribute.attributeName
 						+ " = dis.readUTF();");
 			} else if (type.equals("relation")) {
-				pw.println("		mustDo(crazyShit);");
+				pw.println("		long " + attribute.attributeName
+						+ "Id = dis.readLong();");
+				pw.println("		while(" + attribute.attributeName + "Id != 0)");
+				pw.println("		{");
+				pw.println("			" + attribute.attributeName + ".add(("
+						+ attribute.reltype + ")EntityFactory.getEntityById(\""
+						+ attribute.reltype + "\", " + attribute.attributeName
+						+ "Id, ReturnEntityPolicy.RETURN_UNLOADED));");
+				pw.println("			" + attribute.attributeName
+						+ "Id = dis.readLong();");
+				pw.println("		}");
 			} else {
 				ClassDefinition typeDef = attribute.getClassDefinition();
 				if (typeDef.entity) {
@@ -539,7 +551,11 @@ public class ClassDefinition {
 						+ attribute.attributeName + ");");
 			else if (type.equals("relation")) {
 
-				pw.println("		mustDo(crazyShit);");
+				pw.println("		for(Entity " + attribute.attributeName
+						+ "Item : " + attribute.attributeName + ")");
+				pw.println("			dos.writeLong(" + attribute.attributeName
+						+ "Item.getId());");
+				pw.println("		dos.writeLong(0);");
 
 			} else if (type.equals("String")) {
 
@@ -607,7 +623,14 @@ public class ClassDefinition {
 				pw.println("		" + attribute.attributeName
 						+ " = val.asString().stringValue();");
 			} else if (type.equals("relation")) {
-				pw.println("		mustDo(crazyShit);");
+				pw.println("		for(JsonValue subVal : val.asArray())");
+				pw.println("		{");
+				pw.println("			long "+attribute.attributeName+"Id = Long.parseLong(subVal.asString().stringValue());");
+				pw.println("			" + attribute.attributeName + ".add(("
+						+ attribute.reltype + ")EntityFactory.getEntityById(\""
+						+ attribute.reltype + "\", " + attribute.attributeName
+						+ "Id, ReturnEntityPolicy.RETURN_UNLOADED));");
+				pw.println("		}");
 			} else {
 				if (attribute.isEntity()) {
 					pw.println("		long "
@@ -684,9 +707,22 @@ public class ClassDefinition {
 					+ "\\\" : \");");
 			if (attribute.isNativeOrString())
 				pw.println("		sb.append(\"\\\"\" + " + name + " + \"\\\"\");");
-			else if (type.equals("relation"))
-				pw.println("		mustDo(crazyShit);");
-			else {
+			else if (type.equals("relation")) {
+				pw.println("		sb.append(\"\\n\" + moreIndentation + \"[\");");
+				String firstName = "first"
+						+ capitalizeFirst(attribute.attributeName);
+				pw.println("		boolean " + firstName + " = true;");
+				pw.println("		for(Entity " + attribute.attributeName
+						+ "Item : " + attribute.attributeName + ")");
+				pw.println("		{");
+				pw.println("			sb.append(" + firstName
+						+ " ? \"\\n\" : \",\\n\");");
+				pw.println("			sb.append(moreIndentation + \"\\t\" + "
+						+ attribute.attributeName + "Item.getId());");
+				pw.println("			" + firstName + " = false;");
+				pw.println("		}");
+				pw.println("		sb.append(moreIndentation + \"]\");");
+			} else {
 				if (attribute.isEntity())
 					pw.println("		sb.append(\"\\\"\" + " + name
 							+ "_id  +\"\\\"\");");
@@ -938,7 +974,8 @@ public class ClassDefinition {
 		for (AttributeDefiniton def : attributes)
 			if (def.isRelation())
 				pw.println("		this." + def.attributeName
-						+ " = new RelationCollection<" + def.reltype + ">();");
+						+ " = new RelationCollection();"); // <" + def.reltype + ">
+															// did not work
 		pw.println("	}");
 		pw.println("	");
 	}

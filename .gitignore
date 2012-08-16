@@ -3,3 +3,7 @@ gen/
 cpy/
 mevagen/
 *.*~
+android-reiseapp/
+facebook-android-sdk/
+.metadata/
+

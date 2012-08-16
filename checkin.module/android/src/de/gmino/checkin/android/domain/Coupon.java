@@ -16,28 +16,15 @@ public class Coupon extends CouponGen {
 	{
 		super(id);
 	}
-	
-	public Coupon(
-			long id,
-			boolean ready,
-			Shop shop,
-			String img,
-			String title,
-			String text,
-			short neededVisits,
-			DateSpan validty)
-	{
-		super(
-			id,
-			ready,
-			(de.gmino.checkin.android.domain.Shop)shop,
-			img,
-			title,
-			text,
-			neededVisits,
-			(de.gmino.geobase.android.domain.DateSpan)validty
-		);
+
+	public Coupon(long id, boolean ready, Shop shopWhichIssues,
+			Shop shopWhichAccepts, String img, String title, String text,
+			short neededVisits, DateSpan validty) {
+		super(id, ready, shopWhichIssues, shopWhichAccepts, img, title, text,
+				neededVisits, validty);
+		// TODO Auto-generated constructor stub
 	}
+	
 	
 
 }

@@ -7,6 +7,7 @@ package de.gmino.checkin.server.domain;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.ReturnEntityPolicy;
+import de.gmino.meva.shared.RelationCollection;
 
 // default imports
 import java.io.DataInputStream;
@@ -15,17 +16,18 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+// imports for JSON
+import org.itemscript.core.values.JsonObject;
+import org.itemscript.core.values.JsonValue;
+
 // imports for SQL stuff
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 
-// imports for GWT JSON Parser
-import com.google.gwt.json.client.*;
-
 // imports for field types
-import de.gmino.checkin.server.domain.Shop;
+import de.gmino.checkin.server.domain.Coupon;
 import de.gmino.geobase.server.domain.LatLon;
 
 
@@ -35,6 +37,8 @@ public class Shop extends ShopGen {
 	public Shop(long id)
 	{
 		super(id);
+		this.issuedCoupons = new RelationCollection();
+		this.acceptedCoupons = new RelationCollection();
 	}
 	
 	public Shop(
@@ -44,8 +48,6 @@ public class Shop extends ShopGen {
 			String img,
 			String title,
 			String text,
-			String owner,
-			Shop neighbour,
 			String facebookId)
 	{
 		super(
@@ -55,8 +57,6 @@ public class Shop extends ShopGen {
 			img,
 			title,
 			text,
-			owner,
-			(de.gmino.checkin.server.domain.Shop)neighbour,
 			facebookId
 		);
 	}

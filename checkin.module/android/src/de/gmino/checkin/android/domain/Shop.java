@@ -16,30 +16,13 @@ public class Shop extends ShopGen {
 	{
 		super(id);
 	}
-	
-	public Shop(
-			long id,
-			boolean ready,
-			LatLon location,
-			String img,
-			String title,
-			String text,
-			String owner,
-			Shop neighbour,
-			String facebookId)
-	{
-		super(
-			id,
-			ready,
-			(de.gmino.geobase.android.domain.LatLon)location,
-			img,
-			title,
-			text,
-			owner,
-			(de.gmino.checkin.android.domain.Shop)neighbour,
-			facebookId
-		);
+
+	public Shop(long id, boolean ready, LatLon location, String img,
+			String title, String text, String facebookId) {
+		super(id, ready, location, img, title, text, facebookId);
+		// TODO Auto-generated constructor stub
 	}
 	
+
 
 }

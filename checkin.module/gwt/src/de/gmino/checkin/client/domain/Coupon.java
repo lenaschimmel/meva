@@ -7,6 +7,7 @@ package de.gmino.checkin.client.domain;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.ReturnEntityPolicy;
+import de.gmino.meva.shared.RelationCollection;
 
 // default imports
 import java.io.DataInputStream;
@@ -35,7 +36,8 @@ public class Coupon extends CouponGen {
 	public Coupon(
 			long id,
 			boolean ready,
-			Shop shop,
+			Shop shopWhichIssues,
+			Shop shopWhichAccepts,
 			String img,
 			String title,
 			String text,
@@ -45,7 +47,8 @@ public class Coupon extends CouponGen {
 		super(
 			id,
 			ready,
-			(de.gmino.checkin.client.domain.Shop)shop,
+			(de.gmino.checkin.client.domain.Shop)shopWhichIssues,
+			(de.gmino.checkin.client.domain.Shop)shopWhichAccepts,
 			img,
 			title,
 			text,

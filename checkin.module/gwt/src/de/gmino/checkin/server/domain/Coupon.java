@@ -7,6 +7,7 @@ package de.gmino.checkin.server.domain;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.ReturnEntityPolicy;
+import de.gmino.meva.shared.RelationCollection;
 
 // default imports
 import java.io.DataInputStream;
@@ -15,14 +16,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+// imports for JSON
+import org.itemscript.core.values.JsonObject;
+import org.itemscript.core.values.JsonValue;
+
 // imports for SQL stuff
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
-
-// imports for GWT JSON Parser
-import com.google.gwt.json.client.*;
 
 // imports for field types
 import de.gmino.checkin.server.domain.Shop;
@@ -40,7 +42,8 @@ public class Coupon extends CouponGen {
 	public Coupon(
 			long id,
 			boolean ready,
-			Shop shop,
+			Shop shopWhichIssues,
+			Shop shopWhichAccepts,
 			String img,
 			String title,
 			String text,
@@ -50,7 +53,8 @@ public class Coupon extends CouponGen {
 		super(
 			id,
 			ready,
-			(de.gmino.checkin.server.domain.Shop)shop,
+			(de.gmino.checkin.server.domain.Shop)shopWhichIssues,
+			(de.gmino.checkin.server.domain.Shop)shopWhichAccepts,
 			img,
 			title,
 			text,
