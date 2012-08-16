@@ -17,7 +17,7 @@ import org.json.simple.JSONValue;
 
 public class Meva {
 
-	private Map<String, ClassDefinition> definitions;
+	public static Map<String, ClassDefinition> definitions;
 	private static Map<String, Meva> projects = new TreeMap<String, Meva>();
 
 	private File projectRootDir;
@@ -42,6 +42,7 @@ public class Meva {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
+		definitions = new TreeMap<String, ClassDefinition>();
 		for (String arg : args) {
 			File rootDir = new File(arg).getCanonicalFile();
 			new Meva(rootDir, new ArrayList<File>()).buildProject();
@@ -88,7 +89,6 @@ public class Meva {
 				emptyDir(cpyDir);
 			}
 
-			definitions = new TreeMap<String, ClassDefinition>();
 			TreeMap<String, ClassDefinition> definitionsToBuild = new TreeMap<String, ClassDefinition>();
 
 			if (!platform.equals("meva"))
@@ -157,8 +157,8 @@ public class Meva {
 			if (file.getName().endsWith(".schema")) {
 				try {
 					System.out.println("Reading schema " + file);
-					ClassDefinition def = ClassDefinition.fromFile(file,
-							definitions, moduleName);
+					ClassDefinition def = ClassDefinition.fromFile(file
+							, moduleName);
 					collection.put(file.getName().replace(".schema", ""), def);
 				} catch (Exception e) {
 					throw new RuntimeException("Error while reading schema.", e);
@@ -272,4 +272,12 @@ public class Meva {
 		}
 	}
 
+	
+	public static ClassDefinition getClassDefinition(String type,
+			boolean throwIfNotFound) {
+		ClassDefinition typeDef = Meva.definitions.get(type);
+		if (throwIfNotFound && typeDef == null)
+			throw new RuntimeException("Type " + type + " in unknown.");
+		return typeDef;
+	}
 }

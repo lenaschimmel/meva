@@ -10,30 +10,11 @@
 package de.gmino.checkin.shared.domain;
 
 // gmino stuff
-import de.gmino.meva.shared.Entity;
-import de.gmino.meva.shared.EntityFactory;
-import de.gmino.meva.shared.ReturnEntityPolicy;
-
-// default imports
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-// imports for SQL stuff
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.sql.SQLException;
-
-// imports for field types
-import de.gmino.checkin.shared.domain.Shop;
-import de.gmino.geobase.shared.domain.LatLon;
-
+import java.util.Collection;
 
 import de.gmino.checkin.shared.domain.gen.ShopGen;
-public class Shop extends ShopGen {
+import de.gmino.geobase.shared.domain.LatLon;
+public class Shop extends ShopGen implements Comparable<Shop>{
 	// Constructors
 	public Shop(long id)
 	{
@@ -62,6 +43,12 @@ public class Shop extends ShopGen {
 			(de.gmino.checkin.shared.domain.Shop)neighbour,
 			facebookId
 		);
+	}
+	
+	public Collection<Coupon> getCoupons()
+	{
+		// This method  
+		return null;
 	}
 	
 

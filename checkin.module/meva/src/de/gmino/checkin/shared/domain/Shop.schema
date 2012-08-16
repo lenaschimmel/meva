@@ -1,5 +1,5 @@
 {
-	"package" : "de.gmino.checkin.TARGET.domain"
+	"package" : "de.gmino.checkin.TARGET.domain",
 	"concept" : "entity",
 	"name" : "Shop",
 	"attributes" : [
@@ -10,26 +10,30 @@
 		{
 			"type" : "String",
 			"name" : "img"
-		}	
+		},	
 		{
 			"type" : "String",
 			"name" : "title"
-		}	
+		},	
 		{
 			"type" : "String",
 			"name" : "text"
-		}	
-		{
-			"type" : "String",
-			"name" : "owner",
-		}
-		{
-			"type" : "Shop",
-			"name" : "neighbour",
-		}		
+		},	
 		{
 			"type" : "String",
 			"name" : "facebookId",
+		},
+		{
+			"type" : "relation",
+			"name" : "issuedCoupons",
+			"reltype" : "Coupon",
+			"relname" : "shopWhichIssues"
+		},
+		{
+			"type" : "relation",
+			"name" : "acceptedCoupons",
+			"reltype" : "Coupon",
+			"relname" : "shopWhichAccepts"
 		}
 	]
 }

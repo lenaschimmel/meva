@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public interface Entity {
+public interface Entity<T> extends Comparable<T> {
 
 	// Binary
 	//public void serializeBinary(DataOutputStream dos) throws IOException;
@@ -31,5 +31,7 @@ public interface Entity {
 	public String getTypeName();
 
 	public boolean isReady();
+	
+	public void reassignRelation(String relname, Entity e);
  
 }
