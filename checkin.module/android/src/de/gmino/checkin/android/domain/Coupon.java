@@ -10,10 +10,10 @@ import de.gmino.geobase.android.domain.DateSpan;
 // imports for SQL stuff
 // android
 // imports for field types
+
 public class Coupon extends CouponGen {
 	// Constructors
-	public Coupon(long id)
-	{
+	public Coupon(long id) {
 		super(id);
 	}
 
@@ -22,9 +22,5 @@ public class Coupon extends CouponGen {
 			short neededVisits, DateSpan validty) {
 		super(id, ready, shopWhichIssues, shopWhichAccepts, img, title, text,
 				neededVisits, validty);
-		// TODO Auto-generated constructor stub
 	}
-	
-	
-
 }

@@ -347,7 +347,7 @@ public class ClassDefinition {
 			String typeName = attribute.typeName;
 			String attributeName = attribute.attributeName;
 
-			if (typeName.equals("relation"))
+			if (attribute.isRelation())
 				continue;
 
 			if (typeName.equals("String"))
@@ -757,11 +757,28 @@ public class ClassDefinition {
 		pw.println("		System.out.println(selectString);");
 		pw.println("		ResultSet rs = stat.executeQuery(selectString);");
 		pw.println("		rs.next();");
+		
 		// pw.println("		return new " + getFullyQualifiedName(target, false) +
 		// "(\"\", rs);");
 		printValueReadList("", pw);
 		// printValueReadList("", "", pw);
+		pw.println();
+		for(AttributeDefiniton def : attributes)
+			if(def.isRelation())
+				generateSqlRelationDeserializer(pw, def);
 		pw.println("	}");
+	}
+
+	private void generateSqlRelationDeserializer(PrintWriter pw, AttributeDefiniton def) {
+		pw.println("		// Read the related " + def.attributeName);
+		pw.println("		selectString = \"SELECT id FROM `" + Meva.getClassDefinition(def.reltype, true).baseClassName + "` WHERE "+def.relname+" = '\"+id+\"';\";");
+		pw.println("		stat.executeQuery(selectString);");
+		pw.println("		System.out.println(selectString);");
+		pw.println("		rs = stat.executeQuery(selectString);");
+		pw.println("		while(rs.next())");
+		pw.println("			" + def.attributeName + ".add(("
+				+ def.reltype + ")EntityFactory.getEntityById(\""
+				+ def.reltype + "\", rs.getLong(1), ReturnEntityPolicy.RETURN_UNLOADED));");
 	}
 
 	/**
@@ -781,7 +798,7 @@ public class ClassDefinition {
 			if (superHasSqlDeserializerConstructor)
 				pw.println("		super(prefix, rs);");
 			else {
-				pw.println("		super(");
+				pw.print("		super(");
 				printValueReadListArguments("", pw);
 				pw.println("		);");
 			}
@@ -813,7 +830,7 @@ public class ClassDefinition {
 		boolean first = true;
 		for (int i = 0; i < size; i++) {
 			AttributeDefiniton attribute = attributes.get(i);
-			if (attribute.typeName.equals("relation"))
+			if (attribute.typeName.equals("relation") || attribute.attributeName.equals("ready"))
 				continue;
 			if (!first)
 				pw.print(",");
@@ -837,7 +854,7 @@ public class ClassDefinition {
 		boolean first = true;
 		for (int i = 0; i < size; i++) {
 			AttributeDefiniton attribute = attributes.get(i);
-			if (attribute.typeName.equals("relation"))
+			if (attribute.typeName.equals("relation") || attribute.attributeName.equals("ready"))
 				continue;
 
 			if (!first)
@@ -866,20 +883,20 @@ public class ClassDefinition {
 
 		for (int i = 0; i < size; i++) {
 			AttributeDefiniton attribute = attributes.get(i);
-			if (attribute.typeName.equals("relation"))
+			if (attribute.typeName.equals("relation") || attribute.attributeName.equals("ready"))
 				continue;
 			if (attribute.isNativeOrString())
-				pw.println("			" + attribute.attributeName + " = rs.get"
+				pw.println("		" + attribute.attributeName + " = rs.get"
 						+ capitalizeFirst(attribute.typeName) + "(prefix + \""
 						+ prefixDash + attribute.attributeName + "\");");
 			else {
 				ClassDefinition classDef = attribute.getClassDefinition();
 				if (classDef.entity)
-					pw.println("			" + attribute.attributeName
+					pw.println("		" + attribute.attributeName
 							+ "_id = rs.getLong(\"" + attribute.attributeName
 							+ "_id\");");
 				else
-					pw.println("			" + attribute.attributeName + " = new "
+					pw.println("		" + attribute.attributeName + " = new "
 							+ classDef.className + "(prefix + \""
 							+ attribute.attributeName + "_" + "\", rs);");
 			}
@@ -889,8 +906,12 @@ public class ClassDefinition {
 	private void printValueReadListArguments(String prefixDash, PrintWriter pw) {
 		final int size = attributes.size();
 
+		boolean first = true;
 		for (int i = 0; i < size; i++) {
+			pw.print(first ? "\n" : ",\n");
 			AttributeDefiniton attribute = attributes.get(i);
+			if(attribute.isRelation() || attribute.attributeName.equals("ready"))
+					continue;
 			if (attribute.isNativeOrString())
 				pw.print("			rs.get" + capitalizeFirst(attribute.typeName)
 						+ "(prefix + \"" + prefixDash + attribute.attributeName
@@ -906,7 +927,8 @@ public class ClassDefinition {
 					pw.print("			new " + classDef.className + "(prefix + \""
 							+ attribute.attributeName + "_" + "\", rs)");
 			}
-			pw.print((i < size - 1) ? ",\n" : "\n");
+			
+			first = false;
 		}
 	}
 

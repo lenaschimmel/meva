@@ -45,8 +45,5 @@ public class Coupon extends CouponGen {
 			short neededVisits, DateSpan validty) {
 		super(id, ready, shopWhichIssues, shopWhichAccepts, img, title, text,
 				neededVisits, validty);
-		// TODO Auto-generated constructor stub
 	}
-	
-
 }
