@@ -22,35 +22,28 @@ import org.itemscript.core.values.JsonValue;
 
 // imports for field types
 import de.gmino.checkin.client.domain.Shop;
-import de.gmino.geobase.client.domain.Duration;
-import de.gmino.geobase.client.domain.ImageUrl;
 
 
-import de.gmino.checkin.client.domain.gen.CouponGen;
-public class Coupon extends CouponGen {
+import de.gmino.checkin.client.domain.gen.ShopAdminGen;
+public class ShopAdmin extends ShopAdminGen {
 	// Constructors
-	public Coupon(long id)
+	public ShopAdmin(long id)
 	{
 		super(id);
+		this.shops = new RelationCollection();
 	}
 	
-	public Coupon(
+	public ShopAdmin(
 			long id,
 			boolean ready,
-			Shop shop,
-			String title,
-			String description,
-			ImageUrl image,
-			Duration duration)
+			String username,
+			String password)
 	{
 		super(
 			id,
 			ready,
-			(de.gmino.checkin.client.domain.Shop)shop,
-			title,
-			description,
-			(de.gmino.geobase.client.domain.ImageUrl)image,
-			(de.gmino.geobase.client.domain.Duration)duration
+			username,
+			password
 		);
 	}
 	

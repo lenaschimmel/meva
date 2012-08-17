@@ -1,7 +1,7 @@
 // You may edit this file. It has been generated, but it will NOT be overwritten by Meva.
 // To regenerate this file, delete it and run Meva again.
 
-package de.gmino.checkin.client.domain;
+package de.gmino.checkin.shared.domain;
 
 // gmino stuff
 import de.gmino.meva.shared.Entity;
@@ -20,37 +20,24 @@ import java.io.StringWriter;
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
-// imports for field types
-import de.gmino.checkin.client.domain.Shop;
-import de.gmino.geobase.client.domain.Duration;
-import de.gmino.geobase.client.domain.ImageUrl;
 
-
-import de.gmino.checkin.client.domain.gen.CouponGen;
-public class Coupon extends CouponGen {
+import de.gmino.checkin.shared.domain.gen.ConsumerGen;
+public class Consumer extends ConsumerGen {
 	// Constructors
-	public Coupon(long id)
+	public Consumer(long id)
 	{
 		super(id);
 	}
 	
-	public Coupon(
+	public Consumer(
 			long id,
 			boolean ready,
-			Shop shop,
-			String title,
-			String description,
-			ImageUrl image,
-			Duration duration)
+			String facebookId)
 	{
 		super(
 			id,
 			ready,
-			(de.gmino.checkin.client.domain.Shop)shop,
-			title,
-			description,
-			(de.gmino.geobase.client.domain.ImageUrl)image,
-			(de.gmino.geobase.client.domain.Duration)duration
+			facebookId
 		);
 	}
 	

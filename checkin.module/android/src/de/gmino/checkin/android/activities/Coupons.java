@@ -142,6 +142,6 @@ public class Coupons extends FragmentActivity {
 	}
 
 	public CharSequence getGutscheinText(int position) {
-		return coupons.get(position).getText();
+		return coupons.get(position).getDescription();
 	}
 }

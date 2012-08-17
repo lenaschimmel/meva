@@ -1,12 +1,13 @@
 // You may edit this file. It has been generated, but it will NOT be overwritten by Meva.
 // To regenerate this file, delete it and run Meva again.
 
-package de.gmino.geobase.android.domain;
+package de.gmino.checkin.server.domain;
 
 // gmino stuff
-import de.gmino.meva.shared.Value;
+import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.ReturnEntityPolicy;
+import de.gmino.meva.shared.RelationCollection;
 
 // default imports
 import java.io.DataInputStream;
@@ -25,38 +26,29 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 
-// android
-import de.gmino.meva.android.EntityAndroid;
-import de.gmino.meva.android.ValueAndroid;
+// imports for field types
+import de.gmino.geobase.server.domain.Timestamp;
 
 
-import de.gmino.geobase.android.domain.gen.DateGen;
-public class Date extends DateGen {
+import de.gmino.checkin.server.domain.gen.CouponOwenershipGen;
+public class CouponOwenership extends CouponOwenershipGen {
 	// Constructors
-	public Date(DataInputStream dis) throws IOException
+	public CouponOwenership(long id)
 	{
-		this(
-			dis.readShort(),
-			dis.readShort(),
-			dis.readShort());
+		super(id);
 	}
-	public Date(JsonObject json) throws IOException
-	{
-		this(
-			Short.parseShort(json.get("day").asString().stringValue()),
-			Short.parseShort(json.get("month").asString().stringValue()),
-			Short.parseShort(json.get("year").asString().stringValue()));
-	}
-
-	public Date(
-			short day,
-			short month,
-			short year)
+	
+	public CouponOwenership(
+			long id,
+			boolean ready,
+			Timestamp acquired,
+			Timestamp invalidated)
 	{
 		super(
-			day,
-			month,
-			year
+			id,
+			ready,
+			(de.gmino.geobase.server.domain.Timestamp)acquired,
+			(de.gmino.geobase.server.domain.Timestamp)invalidated
 		);
 	}
 	

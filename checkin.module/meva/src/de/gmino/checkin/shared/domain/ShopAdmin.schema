@@ -1,0 +1,21 @@
+{
+	"package" : "de.gmino.checkin.TARGET.domain",
+	"concept" : "entity",
+	"name" : "ShopAdmin",
+	"attributes" : [
+		{
+			"type" : "String",
+			"name" : "username"
+		},	
+		{
+			"type" : "String",
+			"name" : "password"
+		},
+		{
+			"type" : "relation",
+			"name" : "shops",
+			"reltype" : "Shop",
+			"relname" : "admin"
+		}
+	]
+}

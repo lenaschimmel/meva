@@ -1,10 +1,16 @@
+
+
+// DONTEDIT This file has been copied from /home/lena/workspaceNeu/geobase.module/meva/src/de/gmino/checkin/shared/domain/ImageUrl.java.
+
+// This warning may apply even when the original file contained a message that explicitly allows editing.
+
 // You may edit this file. It has been generated, but it will NOT be overwritten by Meva.
 // To regenerate this file, delete it and run Meva again.
 
 package de.gmino.checkin.shared.domain;
 
 // gmino stuff
-import de.gmino.meva.shared.Entity;
+import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.ReturnEntityPolicy;
 import de.gmino.meva.shared.RelationCollection;
@@ -20,37 +26,21 @@ import java.io.StringWriter;
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
-// imports for field types
-import de.gmino.checkin.shared.domain.Shop;
-import de.gmino.geobase.shared.domain.Duration;
-import de.gmino.geobase.shared.domain.ImageUrl;
 
-
-import de.gmino.checkin.shared.domain.gen.CouponGen;
-public class Coupon extends CouponGen {
+import de.gmino.checkin.shared.domain.gen.ImageUrlGen;
+public class ImageUrl extends ImageUrlGen {
 	// Constructors
-	public Coupon(long id)
+	public ImageUrl(JsonObject json) throws IOException
 	{
-		super(id);
+		this(
+			json.get("url").asString().stringValue());
 	}
-	
-	public Coupon(
-			long id,
-			boolean ready,
-			Shop shop,
-			String title,
-			String description,
-			ImageUrl image,
-			Duration duration)
+
+	public ImageUrl(
+			String url)
 	{
 		super(
-			id,
-			ready,
-			(de.gmino.checkin.shared.domain.Shop)shop,
-			title,
-			description,
-			(de.gmino.geobase.shared.domain.ImageUrl)image,
-			(de.gmino.geobase.shared.domain.Duration)duration
+			url
 		);
 	}
 	

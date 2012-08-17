@@ -1,0 +1,11 @@
+{
+	"package" : "de.gmino.geobase.TARGET.domain",
+	"concept" : "value",
+	"name" : "Timestamp",
+	"attributes" : [
+		{
+			"type" : "long",
+			"name" : "millisSinceEpoch"
+		}
+	]
+}

@@ -1,10 +1,10 @@
 // You may edit this file. It has been generated, but it will NOT be overwritten by Meva.
 // To regenerate this file, delete it and run Meva again.
 
-package de.gmino.checkin.android.domain;
+package de.gmino.geobase.android.domain;
 
 // gmino stuff
-import de.gmino.meva.shared.Entity;
+import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.ReturnEntityPolicy;
 import de.gmino.meva.shared.RelationCollection;
@@ -30,37 +30,26 @@ import java.sql.SQLException;
 import de.gmino.meva.android.EntityAndroid;
 import de.gmino.meva.android.ValueAndroid;
 
-// imports for field types
-import de.gmino.checkin.android.domain.Shop;
-import de.gmino.geobase.android.domain.Duration;
-import de.gmino.geobase.android.domain.ImageUrl;
 
-
-import de.gmino.checkin.android.domain.gen.CouponGen;
-public class Coupon extends CouponGen {
+import de.gmino.geobase.android.domain.gen.ImageUrlGen;
+public class ImageUrl extends ImageUrlGen {
 	// Constructors
-	public Coupon(long id)
+	public ImageUrl(DataInputStream dis) throws IOException
 	{
-		super(id);
+		this(
+				dis.readUTF());
 	}
-	
-	public Coupon(
-			long id,
-			boolean ready,
-			Shop shop,
-			String title,
-			String description,
-			ImageUrl image,
-			Duration duration)
+	public ImageUrl(JsonObject json) throws IOException
+	{
+		this(
+			json.get("url").asString().stringValue());
+	}
+
+	public ImageUrl(
+			String url)
 	{
 		super(
-			id,
-			ready,
-			(de.gmino.checkin.android.domain.Shop)shop,
-			title,
-			description,
-			(de.gmino.geobase.android.domain.ImageUrl)image,
-			(de.gmino.geobase.android.domain.Duration)duration
+			url
 		);
 	}
 	

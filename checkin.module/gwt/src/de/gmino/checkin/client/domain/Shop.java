@@ -22,6 +22,9 @@ import org.itemscript.core.values.JsonValue;
 
 // imports for field types
 import de.gmino.checkin.client.domain.Coupon;
+import de.gmino.checkin.client.domain.ShopAdmin;
+import de.gmino.geobase.client.domain.Address;
+import de.gmino.geobase.client.domain.ImageUrl;
 import de.gmino.geobase.client.domain.LatLon;
 
 
@@ -31,27 +34,32 @@ public class Shop extends ShopGen {
 	public Shop(long id)
 	{
 		super(id);
-		this.issuedCoupons = new RelationCollection();
-		this.acceptedCoupons = new RelationCollection();
+		this.coupons = new RelationCollection();
 	}
 	
 	public Shop(
 			long id,
 			boolean ready,
 			LatLon location,
-			String img,
+			String facebookId,
 			String title,
-			String text,
-			String facebookId)
+			String description,
+			ImageUrl logo,
+			Address shopAddress,
+			Address billingAddress,
+			ShopAdmin admin)
 	{
 		super(
 			id,
 			ready,
 			(de.gmino.geobase.client.domain.LatLon)location,
-			img,
+			facebookId,
 			title,
-			text,
-			facebookId
+			description,
+			(de.gmino.geobase.client.domain.ImageUrl)logo,
+			(de.gmino.geobase.client.domain.Address)shopAddress,
+			(de.gmino.geobase.client.domain.Address)billingAddress,
+			(de.gmino.checkin.client.domain.ShopAdmin)admin
 		);
 	}
 	

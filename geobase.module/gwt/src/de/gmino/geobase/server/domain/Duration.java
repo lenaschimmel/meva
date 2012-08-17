@@ -1,12 +1,13 @@
 // You may edit this file. It has been generated, but it will NOT be overwritten by Meva.
 // To regenerate this file, delete it and run Meva again.
 
-package de.gmino.geobase.android.domain;
+package de.gmino.geobase.server.domain;
 
 // gmino stuff
 import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.ReturnEntityPolicy;
+import de.gmino.meva.shared.RelationCollection;
 
 // default imports
 import java.io.DataInputStream;
@@ -25,37 +26,32 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 
-// android
-import de.gmino.meva.android.EntityAndroid;
-import de.gmino.meva.android.ValueAndroid;
 
-// imports for field types
-import de.gmino.geobase.android.domain.Date;
-
-
-import de.gmino.geobase.android.domain.gen.DateSpanGen;
-public class DateSpan extends DateSpanGen {
+import de.gmino.geobase.server.domain.gen.DurationGen;
+public class Duration extends DurationGen {
 	// Constructors
-	public DateSpan(DataInputStream dis) throws IOException
-	{
-		this(
-			new Date(dis),
-			new Date(dis));
-	}
-	public DateSpan(JsonObject json) throws IOException
-	{
-		this(
-			new Date(json.get("start").asObject()),
-			new Date(json.get("end").asObject()));
-	}
-
-	public DateSpan(
-			Date start,
-			Date end)
+	// Constructor for SQL deseralizaiton
+	public Duration(String prefix, ResultSet rs) throws SQLException
 	{
 		super(
-			(de.gmino.geobase.android.domain.Date)start,
-			(de.gmino.geobase.android.domain.Date)end
+			rs.getLong(prefix + "milliseconds")		);
+	}
+	public Duration(DataInputStream dis) throws IOException
+	{
+		this(
+			dis.readLong());
+	}
+	public Duration(JsonObject json) throws IOException
+	{
+		this(
+			Long.parseLong(json.get("milliseconds").asString().stringValue()));
+	}
+
+	public Duration(
+			long milliseconds)
+	{
+		super(
+			milliseconds
 		);
 	}
 	

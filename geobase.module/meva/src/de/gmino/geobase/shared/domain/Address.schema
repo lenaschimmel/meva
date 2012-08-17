@@ -1,0 +1,31 @@
+{
+	"package" : "de.gmino.geobase.TARGET.domain",
+	"concept" : "value",
+	"name" : "Address",
+	"attributes" : [
+		{
+			"type" : "String",
+			"name" : "recipientName"
+		},
+		{
+			"type" : "String",
+			"name" : "street"
+		},	
+		{
+			"type" : "String",
+			"name" : "houseNumber"
+		},	
+		{
+			"type" : "String",
+			"name" : "zip"
+		},	
+		{
+			"type" : "String",
+			"name" : "city"
+		},	
+		{
+			"type" : "String",
+			"name" : "additionalAddressLine"
+		}
+	]
+}

@@ -1,7 +1,13 @@
+
+
+// DONTEDIT This file has been copied from /home/lena/workspaceNeu/checkin.module/meva/src/de/gmino/checkin/shared/domain/Checkin.java.
+
+// This warning may apply even when the original file contained a message that explicitly allows editing.
+
 // You may edit this file. It has been generated, but it will NOT be overwritten by Meva.
 // To regenerate this file, delete it and run Meva again.
 
-package de.gmino.checkin.client.domain;
+package de.gmino.checkin.shared.domain;
 
 // gmino stuff
 import de.gmino.meva.shared.Entity;
@@ -21,36 +27,26 @@ import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
 // imports for field types
-import de.gmino.checkin.client.domain.Shop;
-import de.gmino.geobase.client.domain.Duration;
-import de.gmino.geobase.client.domain.ImageUrl;
+import de.gmino.geobase.shared.domain.Timestamp;
 
 
-import de.gmino.checkin.client.domain.gen.CouponGen;
-public class Coupon extends CouponGen {
+import de.gmino.checkin.shared.domain.gen.CheckinGen;
+public class Checkin extends CheckinGen {
 	// Constructors
-	public Coupon(long id)
+	public Checkin(long id)
 	{
 		super(id);
 	}
 	
-	public Coupon(
+	public Checkin(
 			long id,
 			boolean ready,
-			Shop shop,
-			String title,
-			String description,
-			ImageUrl image,
-			Duration duration)
+			Timestamp timestamp)
 	{
 		super(
 			id,
 			ready,
-			(de.gmino.checkin.client.domain.Shop)shop,
-			title,
-			description,
-			(de.gmino.geobase.client.domain.ImageUrl)image,
-			(de.gmino.geobase.client.domain.Duration)duration
+			(de.gmino.geobase.shared.domain.Timestamp)timestamp
 		);
 	}
 	

@@ -7,6 +7,7 @@ package de.gmino.geobase.shared.domain;
 import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.ReturnEntityPolicy;
+import de.gmino.meva.shared.RelationCollection;
 
 // default imports
 import java.io.DataInputStream;
@@ -15,32 +16,25 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-// imports for SQL stuff
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.sql.SQLException;
-
+// imports for JSON
 import org.itemscript.core.values.JsonObject;
+import org.itemscript.core.values.JsonValue;
 
 
-import de.gmino.geobase.shared.domain.gen.DateGen;
-public class Date extends DateGen {
-	public Date(JsonObject json) throws IOException {
-		super(json);
-		// TODO Auto-generated constructor stub
+import de.gmino.geobase.shared.domain.gen.ImageUrlGen;
+public class ImageUrl extends ImageUrlGen {
+	// Constructors
+	public ImageUrl(JsonObject json) throws IOException
+	{
+		this(
+			json.get("url").asString().stringValue());
 	}
 
-	// Constructors
-	public Date(
-			short day,
-			short month,
-			short year)
+	public ImageUrl(
+			String url)
 	{
 		super(
-			day,
-			month,
-			year
+			url
 		);
 	}
 	

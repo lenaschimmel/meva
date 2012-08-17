@@ -5,31 +5,23 @@
 	"attributes" : [
 		{
 			"type" : "Shop",
-			"name" : "shopWhichIssues"
+			"name" : "shop"
 		},			
-		{
-			"type" : "Shop",
-			"name" : "shopWhichAccepts"
-		},	
-		{
-			"type" : "String",
-			"name" : "img"
-		},	
 		{
 			"type" : "String",
 			"name" : "title"
 		},	
 		{
 			"type" : "String",
-			"name" : "text"
+			"name" : "description"
 		},	
 		{
-			"type" : "short",
-			"name" : "neededVisits",
-		},
+			"type" : "ImageUrl",
+			"name" : "image"
+		},	
 		{
-			"type" : "DateSpan",
-			"name" : "validty",
+			"type" : "Duration",
+			"name" : "duration"
 		}
 	]
 }

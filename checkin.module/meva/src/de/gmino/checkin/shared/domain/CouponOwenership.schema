@@ -1,0 +1,15 @@
+{
+	"package" : "de.gmino.checkin.TARGET.domain",
+	"concept" : "entity",
+	"name" : "CouponOwenership",
+	"attributes" : [
+		{
+			"type" : "Timestamp",
+			"name" : "acquired"
+		},	
+		{
+			"type" : "Timestamp",
+			"name" : "invalidated"
+		}
+	]
+}

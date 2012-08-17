@@ -1,7 +1,7 @@
 // You may edit this file. It has been generated, but it will NOT be overwritten by Meva.
 // To regenerate this file, delete it and run Meva again.
 
-package de.gmino.checkin.client.domain;
+package de.gmino.checkin.android.domain;
 
 // gmino stuff
 import de.gmino.meva.shared.Entity;
@@ -20,37 +20,40 @@ import java.io.StringWriter;
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
+// imports for SQL stuff
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.SQLException;
+
+// android
+import de.gmino.meva.android.EntityAndroid;
+import de.gmino.meva.android.ValueAndroid;
+
 // imports for field types
-import de.gmino.checkin.client.domain.Shop;
-import de.gmino.geobase.client.domain.Duration;
-import de.gmino.geobase.client.domain.ImageUrl;
+import de.gmino.checkin.android.domain.Shop;
 
 
-import de.gmino.checkin.client.domain.gen.CouponGen;
-public class Coupon extends CouponGen {
+import de.gmino.checkin.android.domain.gen.ShopAdminGen;
+public class ShopAdmin extends ShopAdminGen {
 	// Constructors
-	public Coupon(long id)
+	public ShopAdmin(long id)
 	{
 		super(id);
+		this.shops = new RelationCollection();
 	}
 	
-	public Coupon(
+	public ShopAdmin(
 			long id,
 			boolean ready,
-			Shop shop,
-			String title,
-			String description,
-			ImageUrl image,
-			Duration duration)
+			String username,
+			String password)
 	{
 		super(
 			id,
 			ready,
-			(de.gmino.checkin.client.domain.Shop)shop,
-			title,
-			description,
-			(de.gmino.geobase.client.domain.ImageUrl)image,
-			(de.gmino.geobase.client.domain.Duration)duration
+			username,
+			password
 		);
 	}
 	

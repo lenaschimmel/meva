@@ -1,0 +1,11 @@
+{
+	"package" : "de.gmino.checkin.TARGET.domain",
+	"concept" : "entity",
+	"name" : "Checkin",
+	"attributes" : [
+		{
+			"type" : "Timestamp",
+			"name" : "timestamp"
+		}
+	]
+}

@@ -4,7 +4,7 @@
 package de.gmino.checkin.server.domain;
 
 // gmino stuff
-import de.gmino.meva.shared.Entity;
+import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.ReturnEntityPolicy;
 import de.gmino.meva.shared.RelationCollection;
@@ -26,37 +26,32 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 
-// imports for field types
-import de.gmino.checkin.server.domain.Shop;
-import de.gmino.geobase.server.domain.Duration;
-import de.gmino.geobase.server.domain.ImageUrl;
 
-
-import de.gmino.checkin.server.domain.gen.CouponGen;
-public class Coupon extends CouponGen {
+import de.gmino.checkin.server.domain.gen.TimestampGen;
+public class Timestamp extends TimestampGen {
 	// Constructors
-	public Coupon(long id)
-	{
-		super(id);
-	}
-	
-	public Coupon(
-			long id,
-			boolean ready,
-			Shop shop,
-			String title,
-			String description,
-			ImageUrl image,
-			Duration duration)
+	// Constructor for SQL deseralizaiton
+	public Timestamp(String prefix, ResultSet rs) throws SQLException
 	{
 		super(
-			id,
-			ready,
-			(de.gmino.checkin.server.domain.Shop)shop,
-			title,
-			description,
-			(de.gmino.geobase.server.domain.ImageUrl)image,
-			(de.gmino.geobase.server.domain.Duration)duration
+			rs.getLong(prefix + "millisSinceEpoch")		);
+	}
+	public Timestamp(DataInputStream dis) throws IOException
+	{
+		this(
+			dis.readLong());
+	}
+	public Timestamp(JsonObject json) throws IOException
+	{
+		this(
+			Long.parseLong(json.get("millisSinceEpoch").asString().stringValue()));
+	}
+
+	public Timestamp(
+			long millisSinceEpoch)
+	{
+		super(
+			millisSinceEpoch
 		);
 	}
 	

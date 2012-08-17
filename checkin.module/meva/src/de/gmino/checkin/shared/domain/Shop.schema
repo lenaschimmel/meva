@@ -9,7 +9,7 @@
 		},	
 		{
 			"type" : "String",
-			"name" : "img"
+			"name" : "facebookId"
 		},	
 		{
 			"type" : "String",
@@ -17,23 +17,29 @@
 		},	
 		{
 			"type" : "String",
-			"name" : "text"
+			"name" : "description"
 		},	
 		{
-			"type" : "String",
-			"name" : "facebookId",
+			"type" : "ImageUrl",
+			"name" : "logo"
+		},		
+		{
+			"type" : "Address",
+			"name" : "shopAddress",
+		},
+		{
+			"type" : "Address",
+			"name" : "billingAddress"
+		},		
+		{
+			"type" : "ShopAdmin",
+			"name" : "admin"
 		},
 		{
 			"type" : "relation",
-			"name" : "issuedCoupons",
+			"name" : "coupons",
 			"reltype" : "Coupon",
-			"relname" : "shopWhichIssues"
-		},
-		{
-			"type" : "relation",
-			"name" : "acceptedCoupons",
-			"reltype" : "Coupon",
-			"relname" : "shopWhichAccepts"
+			"relname" : "shop"
 		}
 	]
 }

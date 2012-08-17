@@ -28,6 +28,9 @@ import java.sql.SQLException;
 
 // imports for field types
 import de.gmino.checkin.server.domain.Coupon;
+import de.gmino.checkin.server.domain.ShopAdmin;
+import de.gmino.geobase.server.domain.Address;
+import de.gmino.geobase.server.domain.ImageUrl;
 import de.gmino.geobase.server.domain.LatLon;
 
 
@@ -37,27 +40,32 @@ public class Shop extends ShopGen {
 	public Shop(long id)
 	{
 		super(id);
-		this.issuedCoupons = new RelationCollection();
-		this.acceptedCoupons = new RelationCollection();
+		this.coupons = new RelationCollection();
 	}
 	
 	public Shop(
 			long id,
 			boolean ready,
 			LatLon location,
-			String img,
+			String facebookId,
 			String title,
-			String text,
-			String facebookId)
+			String description,
+			ImageUrl logo,
+			Address shopAddress,
+			Address billingAddress,
+			ShopAdmin admin)
 	{
 		super(
 			id,
 			ready,
 			(de.gmino.geobase.server.domain.LatLon)location,
-			img,
+			facebookId,
 			title,
-			text,
-			facebookId
+			description,
+			(de.gmino.geobase.server.domain.ImageUrl)logo,
+			(de.gmino.geobase.server.domain.Address)shopAddress,
+			(de.gmino.geobase.server.domain.Address)billingAddress,
+			(de.gmino.checkin.server.domain.ShopAdmin)admin
 		);
 	}
 	
