@@ -31,6 +31,8 @@ import de.gmino.meva.android.EntityAndroid;
 import de.gmino.meva.android.ValueAndroid;
 
 // imports for field types
+import de.gmino.checkin.android.domain.Consumer;
+import de.gmino.checkin.android.domain.Shop;
 import de.gmino.geobase.android.domain.Timestamp;
 
 
@@ -45,12 +47,16 @@ public class Checkin extends CheckinGen {
 	public Checkin(
 			long id,
 			boolean ready,
-			Timestamp timestamp)
+			Timestamp timestamp,
+			Consumer consumer,
+			Shop shop)
 	{
 		super(
 			id,
 			ready,
-			(de.gmino.geobase.android.domain.Timestamp)timestamp
+			(de.gmino.geobase.android.domain.Timestamp)timestamp,
+			(de.gmino.checkin.android.domain.Consumer)consumer,
+			(de.gmino.checkin.android.domain.Shop)shop
 		);
 	}
 	

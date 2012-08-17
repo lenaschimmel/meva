@@ -27,6 +27,8 @@ import java.sql.Statement;
 import java.sql.SQLException;
 
 // imports for field types
+import de.gmino.checkin.server.domain.Consumer;
+import de.gmino.checkin.server.domain.Coupon;
 import de.gmino.geobase.server.domain.Timestamp;
 
 
@@ -42,13 +44,17 @@ public class CouponOwenership extends CouponOwenershipGen {
 			long id,
 			boolean ready,
 			Timestamp acquired,
-			Timestamp invalidated)
+			Timestamp invalidated,
+			Consumer consumer,
+			Coupon coupon)
 	{
 		super(
 			id,
 			ready,
 			(de.gmino.geobase.server.domain.Timestamp)acquired,
-			(de.gmino.geobase.server.domain.Timestamp)invalidated
+			(de.gmino.geobase.server.domain.Timestamp)invalidated,
+			(de.gmino.checkin.server.domain.Consumer)consumer,
+			(de.gmino.checkin.server.domain.Coupon)coupon
 		);
 	}
 	

@@ -10,6 +10,14 @@
 		{
 			"type" : "Timestamp",
 			"name" : "invalidated"
+		},
+		{
+			"type" : "Consumer",
+			"name" : "consumer"
+		},
+		{
+			"type" : "Coupon",
+			"name" : "coupon"
 		}
 	]
 }

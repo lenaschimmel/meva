@@ -21,6 +21,8 @@ import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
 // imports for field types
+import de.gmino.checkin.client.domain.Consumer;
+import de.gmino.checkin.client.domain.Shop;
 import de.gmino.geobase.client.domain.Timestamp;
 
 
@@ -35,12 +37,16 @@ public class Checkin extends CheckinGen {
 	public Checkin(
 			long id,
 			boolean ready,
-			Timestamp timestamp)
+			Timestamp timestamp,
+			Consumer consumer,
+			Shop shop)
 	{
 		super(
 			id,
 			ready,
-			(de.gmino.geobase.client.domain.Timestamp)timestamp
+			(de.gmino.geobase.client.domain.Timestamp)timestamp,
+			(de.gmino.checkin.client.domain.Consumer)consumer,
+			(de.gmino.checkin.client.domain.Shop)shop
 		);
 	}
 	

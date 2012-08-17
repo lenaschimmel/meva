@@ -21,6 +21,8 @@ import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
 // imports for field types
+import de.gmino.checkin.client.domain.Consumer;
+import de.gmino.checkin.client.domain.Coupon;
 import de.gmino.geobase.client.domain.Timestamp;
 
 
@@ -36,13 +38,17 @@ public class CouponOwenership extends CouponOwenershipGen {
 			long id,
 			boolean ready,
 			Timestamp acquired,
-			Timestamp invalidated)
+			Timestamp invalidated,
+			Consumer consumer,
+			Coupon coupon)
 	{
 		super(
 			id,
 			ready,
 			(de.gmino.geobase.client.domain.Timestamp)acquired,
-			(de.gmino.geobase.client.domain.Timestamp)invalidated
+			(de.gmino.geobase.client.domain.Timestamp)invalidated,
+			(de.gmino.checkin.client.domain.Consumer)consumer,
+			(de.gmino.checkin.client.domain.Coupon)coupon
 		);
 	}
 	

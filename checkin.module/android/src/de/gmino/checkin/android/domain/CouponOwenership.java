@@ -31,6 +31,8 @@ import de.gmino.meva.android.EntityAndroid;
 import de.gmino.meva.android.ValueAndroid;
 
 // imports for field types
+import de.gmino.checkin.android.domain.Consumer;
+import de.gmino.checkin.android.domain.Coupon;
 import de.gmino.geobase.android.domain.Timestamp;
 
 
@@ -46,13 +48,17 @@ public class CouponOwenership extends CouponOwenershipGen {
 			long id,
 			boolean ready,
 			Timestamp acquired,
-			Timestamp invalidated)
+			Timestamp invalidated,
+			Consumer consumer,
+			Coupon coupon)
 	{
 		super(
 			id,
 			ready,
 			(de.gmino.geobase.android.domain.Timestamp)acquired,
-			(de.gmino.geobase.android.domain.Timestamp)invalidated
+			(de.gmino.geobase.android.domain.Timestamp)invalidated,
+			(de.gmino.checkin.android.domain.Consumer)consumer,
+			(de.gmino.checkin.android.domain.Coupon)coupon
 		);
 	}
 	

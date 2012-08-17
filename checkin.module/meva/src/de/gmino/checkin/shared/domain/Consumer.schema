@@ -6,6 +6,18 @@
 		{
 			"type" : "String",
 			"name" : "facebookId"
+		},
+		{
+			"type" : "relation",
+			"name" : "couponOwnerships",
+			"reltype" : "CouponOwenership",
+			"relname" : "consumer"
+		},
+		{
+			"type" : "relation",
+			"name" : "checkins",
+			"reltype" : "Checkin",
+			"relname" : "comsumer"
 		}
 	]
 }
