@@ -43,7 +43,7 @@ public class RequestEntititesByQuery<Result extends Entity> {
 		super();
 		this.ctx = ctx;
 		this.query = query;
-		this.typeName = returnClass.getCanonicalName();
+		this.typeName = returnClass.getSimpleName();
 		results = new LinkedList<Result>();
 	}
 

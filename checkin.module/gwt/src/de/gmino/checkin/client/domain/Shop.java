@@ -34,7 +34,6 @@ public class Shop extends ShopGen {
 	public Shop(long id)
 	{
 		super(id);
-		this.coupons = new RelationCollection();
 	}
 	
 	public Shop(

@@ -33,20 +33,16 @@ public class Timestamp extends TimestampGen {
 	// Constructor for SQL deseralizaiton
 	public Timestamp(String prefix, ResultSet rs) throws SQLException
 	{
-		super(
-			rs.getLong(prefix + "millisSinceEpoch")		);
+		super(prefix, rs);
 	}
 	public Timestamp(DataInputStream dis) throws IOException
 	{
-		this(
-			dis.readLong());
+		super(dis);
 	}
 	public Timestamp(JsonObject json) throws IOException
 	{
-		this(
-			Long.parseLong(json.get("millisSinceEpoch").asString().stringValue()));
+		super(json);
 	}
-
 	public Timestamp(
 			long millisSinceEpoch)
 	{

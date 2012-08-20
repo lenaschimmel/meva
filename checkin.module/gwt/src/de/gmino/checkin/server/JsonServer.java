@@ -56,7 +56,7 @@ public class JsonServer extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		System.out.println("Huhu!");
-			resp.getWriter().write("Yeah, du lustige Tante, ich bin hier!");
+			resp.getWriter().write("Yeah, du lustige Tante, ich bin hier! Du solltest aber POST-Request machen, nicht GET. Versuche doch mal <a href=\"http://gmino.de/legacy/php/post.php\">http://gmino.de/legacy/php/post.php</a>.");
 		/*
 		String fid = req.getParameter("facebookId").toString();
 

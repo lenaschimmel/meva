@@ -36,7 +36,6 @@ public class ShopAdmin extends ShopAdminGen {
 	public ShopAdmin(long id)
 	{
 		super(id);
-		this.shops = new RelationCollection();
 	}
 	
 	public ShopAdmin(

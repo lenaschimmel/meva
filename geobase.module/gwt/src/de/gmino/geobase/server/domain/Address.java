@@ -33,35 +33,16 @@ public class Address extends AddressGen {
 	// Constructor for SQL deseralizaiton
 	public Address(String prefix, ResultSet rs) throws SQLException
 	{
-		super(
-			rs.getString(prefix + "recipientName"),
-			rs.getString(prefix + "street"),
-			rs.getString(prefix + "houseNumber"),
-			rs.getString(prefix + "zip"),
-			rs.getString(prefix + "city"),
-			rs.getString(prefix + "additionalAddressLine")		);
+		super(prefix, rs);
 	}
 	public Address(DataInputStream dis) throws IOException
 	{
-		this(
-				dis.readUTF(),
-				dis.readUTF(),
-				dis.readUTF(),
-				dis.readUTF(),
-				dis.readUTF(),
-				dis.readUTF());
+		super(dis);
 	}
 	public Address(JsonObject json) throws IOException
 	{
-		this(
-			json.get("recipientName").asString().stringValue(),
-			json.get("street").asString().stringValue(),
-			json.get("houseNumber").asString().stringValue(),
-			json.get("zip").asString().stringValue(),
-			json.get("city").asString().stringValue(),
-			json.get("additionalAddressLine").asString().stringValue());
+		super(json);
 	}
-
 	public Address(
 			String recipientName,
 			String street,

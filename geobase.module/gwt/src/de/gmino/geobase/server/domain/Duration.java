@@ -33,20 +33,16 @@ public class Duration extends DurationGen {
 	// Constructor for SQL deseralizaiton
 	public Duration(String prefix, ResultSet rs) throws SQLException
 	{
-		super(
-			rs.getLong(prefix + "milliseconds")		);
+		super(prefix, rs);
 	}
 	public Duration(DataInputStream dis) throws IOException
 	{
-		this(
-			dis.readLong());
+		super(dis);
 	}
 	public Duration(JsonObject json) throws IOException
 	{
-		this(
-			Long.parseLong(json.get("milliseconds").asString().stringValue()));
+		super(json);
 	}
-
 	public Duration(
 			long milliseconds)
 	{

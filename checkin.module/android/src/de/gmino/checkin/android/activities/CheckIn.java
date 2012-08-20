@@ -81,39 +81,26 @@ public class CheckIn extends Activity {
 	private void handleIntent(Intent intent) {
 		Uri data = intent.getData();
 
-		if (data != null && data.toString().substring(0, 6).equals("fid://")) {
+		if (data != null) {
 
-			checkinWithFid(data.toString().substring(6));
+			String[] array = data.toString().split("/");
+			String fid = array[array.length - 1];
+
+			if (fid != null) {
+
+				checkinWithFid(fid);
+			}
 		}
 		if (intent.getCharSequenceExtra("fid") != null) {
 			checkinWithFid(intent.getCharSequenceExtra("fid").toString());
 		}
-		
-		// Tonis version:
-		//		Uri data = intent.getData();
-		//		
-		//		if (data!=null){
-		//		
-		//		String[] array = data.toString().split("/");
-		//		String fid=array[array.length-1];
-		//
-		//		if (fid != null) {
-		//
-		//			checkinWithFid(fid);
-		//		}
-		//		if (intent.getCharSequenceExtra("fid") != null) {
-		//			checkinWithFid(intent.getCharSequenceExtra("fid").toString());
-		//		}
-		
 	}
-
 
 	@Override
 	protected void onNewIntent(Intent intent) {
 		handleIntent(intent);
 		Log.d("de.gmino.checkin", "intent erhalten");
 	}
-
 
 	private void logIn() {
 		facebook.authorize(this, permissions, new DialogListener() {
@@ -145,26 +132,20 @@ public class CheckIn extends Activity {
 	private void checkinWithFid(final String fid) {
 		if (fid != null) {
 			/*
-			new AsyncTask<Void, Void, Shop>() {
-				@Override
-				protected Shop doInBackground(Void... params) {
-					return CheckinQueries.getShopByFid(fid);
-				}
-				@Override
-				protected void onPostExecute(Shop shop) {
-					Toast toast = Toast.makeText(getApplicationContext(),
-							"Checke bei " + shop.getTitle() + " ein...",
-							Toast.LENGTH_SHORT);
-					toast.show();
-					checkIn(shop);
-				}
-			}.execute();
-			*/
+			 * new AsyncTask<Void, Void, Shop>() {
+			 * 
+			 * @Override protected Shop doInBackground(Void... params) { return
+			 * CheckinQueries.getShopByFid(fid); }
+			 * 
+			 * @Override protected void onPostExecute(Shop shop) { Toast toast =
+			 * Toast.makeText(getApplicationContext(), "Checke bei " +
+			 * shop.getTitle() + " ein...", Toast.LENGTH_SHORT); toast.show();
+			 * checkIn(shop); } }.execute();
+			 */
 		}
 	}
 
 	@Override
-
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
@@ -176,7 +157,6 @@ public class CheckIn extends Activity {
 				Toast.LENGTH_SHORT);
 		toast.show();
 	}
-
 
 	private OnClickListener buttonListener1 = new OnClickListener() {
 		public void onClick(View v) {
@@ -200,15 +180,14 @@ public class CheckIn extends Activity {
 	};
 
 	public void checkIn(Shop shop) {
-		
+
 		Bundle params = new Bundle();
 
 		params.putString("place", shop.getFacebookId());
 		params.putString("message", "Ich bin hier");
 		params.putString("coordinates", shop.getLocation().toString());
 		mAsyncRunner.request("me/checkins", params, "POST",
-				new PlacesCheckInListener(CheckIn.this, shop),
-				null);
+				new PlacesCheckInListener(CheckIn.this, shop), null);
 	}
 
 	public void onResume() {

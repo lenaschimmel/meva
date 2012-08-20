@@ -33,20 +33,16 @@ public class ImageUrl extends ImageUrlGen {
 	// Constructor for SQL deseralizaiton
 	public ImageUrl(String prefix, ResultSet rs) throws SQLException
 	{
-		super(
-			rs.getString(prefix + "url")		);
+		super(prefix, rs);
 	}
 	public ImageUrl(DataInputStream dis) throws IOException
 	{
-		this(
-				dis.readUTF());
+		super(dis);
 	}
 	public ImageUrl(JsonObject json) throws IOException
 	{
-		this(
-			json.get("url").asString().stringValue());
+		super(json);
 	}
-
 	public ImageUrl(
 			String url)
 	{

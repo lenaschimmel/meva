@@ -7,6 +7,7 @@ package de.gmino.geobase.server.domain;
 import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.ReturnEntityPolicy;
+import de.gmino.meva.shared.RelationCollection;
 
 // default imports
 import java.io.DataInputStream;
@@ -32,24 +33,16 @@ public class LatLon extends LatLonGen {
 	// Constructor for SQL deseralizaiton
 	public LatLon(String prefix, ResultSet rs) throws SQLException
 	{
-		super(
-			rs.getDouble(prefix + "latitude"),
-			rs.getDouble(prefix + "longitude")
-		);
+		super(prefix, rs);
 	}
 	public LatLon(DataInputStream dis) throws IOException
 	{
-		this(
-			dis.readDouble(),
-			dis.readDouble());
+		super(dis);
 	}
 	public LatLon(JsonObject json) throws IOException
 	{
-		this(
-			Double.parseDouble(json.get("latitude").asString().stringValue()),
-			Double.parseDouble(json.get("longitude").asString().stringValue()));
+		super(json);
 	}
-
 	public LatLon(
 			double latitude,
 			double longitude)

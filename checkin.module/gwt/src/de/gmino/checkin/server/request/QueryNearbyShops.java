@@ -15,11 +15,12 @@ import java.util.LinkedList;
 
 import org.itemscript.core.values.JsonObject;
 
+import de.gmino.checkin.server.SqlHelper;
 import de.gmino.checkin.server.request.gen.QueryNearbyShopsGen;
 import de.gmino.geobase.server.domain.LatLon;
 public class QueryNearbyShops extends QueryNearbyShopsGen {
 	// Constructors
-	// Constructor for SQL deseralizaiton
+	// Constructor for SQL deserialization
 	public QueryNearbyShops(String prefix, ResultSet rs) throws SQLException
 	{
 		super(
@@ -28,21 +29,7 @@ public class QueryNearbyShops extends QueryNearbyShopsGen {
 			rs.getInt(prefix + "maxCount")
 		);
 	}
-	public QueryNearbyShops(DataInputStream dis) throws IOException
-	{
-		this(
-			new LatLon(dis),
-			dis.readDouble(),
-			dis.readInt());
-	}
-	public QueryNearbyShops(JsonObject json) throws IOException
-	{
-		this(
-			new LatLon(json.get("location").asObject()),
-			Double.parseDouble(json.get("radius").asString().stringValue()),
-			Integer.parseInt(json.get("maxCount").asString().stringValue()));
-	}
-
+	
 	public QueryNearbyShops(
 			LatLon location,
 			double radius,
@@ -55,10 +42,18 @@ public class QueryNearbyShops extends QueryNearbyShopsGen {
 		);
 	}
 	
+	public QueryNearbyShops(DataInputStream dis) throws IOException {
+		super(dis);
+	}
+
+	public QueryNearbyShops(JsonObject json) throws IOException {
+		super(json);
+	}
+
 	@Override
 	public Collection<Long> evaluate() {
 		try {
-			Connection con = null;
+			Connection con = SqlHelper.getConnection();
 			Statement stat = con.createStatement();
 			double offLat = radius / 111111.0;
 			double offLon = radius / (111111.0 * Math.cos(location.getLatitude() * Math.PI / 180.0));

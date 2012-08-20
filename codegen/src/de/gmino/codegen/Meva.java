@@ -112,7 +112,7 @@ public class Meva {
 
 			for (ClassDefinition def : definitionsToBuild.values()) {
 
-				System.out.println("Creating source for " + def.className);
+				System.out.print("Creating source for " + def.className);
 				if (platform.equals("gwt")) {
 					def.createJavaSourceFiles(srcDir, genDir, "server");
 					def.createJavaSourceFiles(srcDir, genDir, "client");
@@ -120,7 +120,7 @@ public class Meva {
 					def.createJavaSourceFiles(srcDir, genDir, "shared");
 				else
 					def.createJavaSourceFiles(srcDir, genDir, platform);
-
+				System.out.println(" (Hash: "+ def.hashCode() + ")");
 			}
 
 			System.out.println("Finished Building: " + moduleName + ".module/"
@@ -241,8 +241,8 @@ public class Meva {
 
 	public static void copyFile(File sourceFile, File destFile)
 			throws IOException {
-		System.out.println("Copying File from " + sourceFile + " to "
-				+ destFile);
+		//System.out.println("Copying File from " + sourceFile + " to "
+		//		+ destFile);
 
 		if (!destFile.exists()) {
 			destFile.createNewFile();

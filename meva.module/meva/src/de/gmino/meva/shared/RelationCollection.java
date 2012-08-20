@@ -10,6 +10,15 @@ public class RelationCollection<Item extends Entity> extends
 	Entity container;
 	String relname;
 	TreeSet<Item> items;
+	
+	
+
+	public RelationCollection(Entity container, String relname) {
+		super();
+		this.container = container;
+		this.relname = relname;
+		this.items = new TreeSet<Item>();
+	}
 
 	@Override
 	public Iterator<Item> iterator() {

@@ -10,22 +10,10 @@
 package de.gmino.geobase.shared.domain;
 
 // gmino stuff
-import de.gmino.meva.shared.Value;
-import de.gmino.meva.shared.EntityFactory;
-import de.gmino.meva.shared.ReturnEntityPolicy;
-import de.gmino.meva.shared.RelationCollection;
-
-// default imports
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.util.Date;
 
-// imports for JSON
 import org.itemscript.core.values.JsonObject;
-import org.itemscript.core.values.JsonValue;
-
 
 import de.gmino.geobase.shared.domain.gen.TimestampGen;
 public class Timestamp extends TimestampGen {
@@ -44,5 +32,23 @@ public class Timestamp extends TimestampGen {
 		);
 	}
 	
-
+	public Date toDate()
+	{
+		return new Date(millisSinceEpoch);
+	}
+	
+	public Timestamp addDuration(Duration d)
+	{
+		return new Timestamp(millisSinceEpoch + d.getMilliseconds());
+	}
+	
+	public static Timestamp now()
+	{
+		return new Timestamp(System.currentTimeMillis());
+	}
+	
+	public Duration timeUntil(Timestamp then)
+	{
+		return new Duration(then.getMillisSinceEpoch() - millisSinceEpoch);
+	}
 }

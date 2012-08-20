@@ -1,5 +1,6 @@
 package de.gmino.codegen;
 
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -14,7 +15,6 @@ import java.util.TreeSet;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-
 
 // Für später auf iOS: siehe Klasse http://redmine.h1898116.stratoserver.net/projects/ira/repository/revisions/master/entry/ios-reiseapp/ReiseMapViewController.m
 
@@ -77,7 +77,7 @@ public class ClassDefinition {
 
 		pw.println("public class " + className + " extends " + className
 				+ "Gen {");
-		generateConstructors(pw, true);
+		generateConstructors(pw, true, target.equals("shared"));
 		pw.println("}");
 		pw.close();
 		fos.close();
@@ -106,7 +106,7 @@ public class ClassDefinition {
 				+ (entity ? " implements EntityAndroid"
 						: " implements ValueAndroid") + " {");
 
-		generateConstructors(pw, true);
+		generateConstructors(pw, true, true);
 		if (entity)
 			generateDeserialisers(pw);
 
@@ -133,7 +133,7 @@ public class ClassDefinition {
 		pw.println("public " + modifier + "class " + className + " extends "
 				+ getFullPackage("shared", false) + "." + baseClassName + " {");
 
-		generateConstructors(pw, true);
+		generateConstructors(pw, true, true);
 
 		if (entity) {
 			generateDeserialisers(pw);
@@ -166,7 +166,7 @@ public class ClassDefinition {
 		String modifier = query ? "abstract " : " ";
 		pw.println("public " + modifier + "class " + className + " extends "
 				+ getFullPackage("shared", false) + "." + baseClassName + " {");
-		generateConstructors(pw, true);
+		generateConstructors(pw, true, true);
 		if (entity)
 			generateDeserialisers(pw);
 
@@ -198,7 +198,7 @@ public class ClassDefinition {
 		generateAttributes(pw);
 		pw.println();
 
-		generateConstructors(pw, false);
+		generateConstructors(pw, false, false);
 		if (entity)
 			generateDeserialisers(pw);
 
@@ -244,9 +244,27 @@ public class ClassDefinition {
 			generateReassignRelation(pw);
 		}
 
+		generateClassHash(pw);
+
 		pw.println("}");
 		pw.close();
 		fos.close();
+	}
+
+	private void generateClassHash(PrintWriter pw) {
+		pw.println("	public static long getClassHash() {");
+		pw.println("		return " + hashCode() + ";");
+		pw.println("	}");
+
+		pw.println("	public static DataInputStream checkClassHash(DataInputStream dis) {");
+		pw.println("		try {");
+		pw.println("			if(dis.readLong() != " + hashCode() + ")");
+		pw.println("				throw new RuntimeException(\"Invalid class hash read.\");");
+		pw.println("		} catch (IOException e) {");
+		pw.println("			throw new RuntimeException(\"Error reading class hash.\", e);");
+		pw.println("		}");
+		pw.println("		return dis;");
+		pw.println("	}");
 	}
 
 	private void generateReassignRelation(PrintWriter pw) {
@@ -270,7 +288,8 @@ public class ClassDefinition {
 		pw.println("	}");
 	}
 
-	private void generateConstructors(PrintWriter pw, boolean superConstructor) {
+	private void generateConstructors(PrintWriter pw, boolean superConstructor,
+			boolean extendsShared) {
 		pw.println("	// Constructors");
 		// pw.println("	protected " + className + "()");
 		// pw.println("	{");
@@ -280,9 +299,11 @@ public class ClassDefinition {
 			generateIdConstructor(pw, superConstructor);
 		else {
 			if (target.equals("server"))
-				generateSqlDeserializerConstructor(pw, superConstructor, false);
+				generateSqlDeserializerConstructor(pw, superConstructor,
+						!extendsShared && superConstructor);
 			if (target.equals("server") || target.equals("android"))
-				generateBinaryDeserializerConstructor(pw, superConstructor);
+				generateBinaryDeserializerConstructor(pw, !extendsShared
+						&& superConstructor);
 			generateJsonDeserializerConstructor(pw, superConstructor);
 		}
 
@@ -464,6 +485,9 @@ public class ClassDefinition {
 	private void generateBinaryDeserializer(PrintWriter pw) {
 		pw.println("	public void deserializeBinary(DataInputStream dis) throws IOException");
 		pw.println("	{");
+		pw.println("		long readClassHash = dis.readLong();");
+		pw.println("		if(readClassHash != getClassHash())");
+		pw.println("			throw new RuntimeException(\"Invalid class hash: expected \" + getClassHash() + \" but got \" + readClassHash);");
 		for (AttributeDefiniton attribute : attributes) {
 			String type = attribute.typeName;
 			if (attribute.isNative())
@@ -516,23 +540,34 @@ public class ClassDefinition {
 		pw.println("	public " + className
 				+ "(DataInputStream dis) throws IOException");
 		pw.println("	{");
+
+		if (superConstructor) {
+			pw.println("		super(dis);");
+			pw.println("	}");
+			return;
+		}
+
 		pw.print("		this(");
 		boolean first = true;
 		for (AttributeDefiniton attribute : attributes) {
+			String dis = first ? "checkClassHash(dis)" : "dis";
+
 			pw.print(first ? "\n" : ",\n");
 			String type = attribute.typeName;
 			if (attribute.isNative())
-				pw.print("			dis.read" + capitalizeFirst(type) + "()");
+				pw.print("			" + dis + ".read" + capitalizeFirst(type) + "()");
 			else if (type.equals("String")) {
-				pw.print("				dis.readUTF()");
+				pw.print("			" + dis + ".readUTF()");
 			} else {
 				if (attribute.isEntity()) {
 					pw.print("			dis.readLong()");
 				} else {
 					if (entity) {
-						pw.print("			new " + attribute.typeName + "(dis)");
+						pw.print("			new " + attribute.typeName + "(" + dis
+								+ ")");
 					} else {
-						pw.print("			new " + attribute.typeName + "(dis)");
+						pw.print("			new " + attribute.typeName + "(" + dis
+								+ ")");
 					}
 				}
 			}
@@ -544,6 +579,7 @@ public class ClassDefinition {
 	private void generateBinarySerializer(PrintWriter pw) {
 		pw.println("	public void serializeBinary(DataOutputStream dos) throws IOException");
 		pw.println("	{");
+		pw.println("		dos.writeLong(getClassHash());");
 		for (AttributeDefiniton attribute : attributes) {
 			String type = attribute.typeName;
 			if (attribute.isNative())
@@ -625,7 +661,9 @@ public class ClassDefinition {
 			} else if (type.equals("relation")) {
 				pw.println("		for(JsonValue subVal : val.asArray())");
 				pw.println("		{");
-				pw.println("			long "+attribute.attributeName+"Id = Long.parseLong(subVal.asString().stringValue());");
+				pw.println("			long "
+						+ attribute.attributeName
+						+ "Id = Long.parseLong(subVal.asString().stringValue());");
 				pw.println("			" + attribute.attributeName + ".add(("
 						+ attribute.reltype + ")EntityFactory.getEntityById(\""
 						+ attribute.reltype + "\", " + attribute.attributeName
@@ -653,8 +691,14 @@ public class ClassDefinition {
 		pw.println("	public " + className
 				+ "(JsonObject json) throws IOException");
 		pw.println("	{");
-		pw.print("		this(");
 
+		if (superConstructor) {
+			pw.println("		super(json);");
+			pw.println("	}");
+			return;
+		}
+
+		pw.print("		this(");
 		boolean first = true;
 		for (AttributeDefiniton attribute : attributes) {
 			pw.print(first ? "\n" : ",\n");
@@ -757,28 +801,31 @@ public class ClassDefinition {
 		pw.println("		System.out.println(selectString);");
 		pw.println("		ResultSet rs = stat.executeQuery(selectString);");
 		pw.println("		rs.next();");
-		
+
 		// pw.println("		return new " + getFullyQualifiedName(target, false) +
 		// "(\"\", rs);");
 		printValueReadList("", pw);
 		// printValueReadList("", "", pw);
 		pw.println();
-		for(AttributeDefiniton def : attributes)
-			if(def.isRelation())
+		for (AttributeDefiniton def : attributes)
+			if (def.isRelation())
 				generateSqlRelationDeserializer(pw, def);
 		pw.println("	}");
 	}
 
-	private void generateSqlRelationDeserializer(PrintWriter pw, AttributeDefiniton def) {
+	private void generateSqlRelationDeserializer(PrintWriter pw,
+			AttributeDefiniton def) {
 		pw.println("		// Read the related " + def.attributeName);
-		pw.println("		selectString = \"SELECT id FROM `" + Meva.getClassDefinition(def.reltype, true).baseClassName + "` WHERE "+def.relname+" = '\"+id+\"';\";");
+		pw.println("		selectString = \"SELECT id FROM `"
+				+ Meva.getClassDefinition(def.reltype, true).baseClassName
+				+ "` WHERE " + def.relname + " = '\"+id+\"';\";");
 		pw.println("		stat.executeQuery(selectString);");
 		pw.println("		System.out.println(selectString);");
 		pw.println("		rs = stat.executeQuery(selectString);");
 		pw.println("		while(rs.next())");
-		pw.println("			" + def.attributeName + ".add(("
-				+ def.reltype + ")EntityFactory.getEntityById(\""
-				+ def.reltype + "\", rs.getLong(1), ReturnEntityPolicy.RETURN_UNLOADED));");
+		pw.println("			" + def.attributeName + ".add((" + def.reltype
+				+ ")EntityFactory.getEntityById(\"" + def.reltype
+				+ "\", rs.getLong(1), ReturnEntityPolicy.RETURN_UNLOADED));");
 	}
 
 	/**
@@ -830,7 +877,8 @@ public class ClassDefinition {
 		boolean first = true;
 		for (int i = 0; i < size; i++) {
 			AttributeDefiniton attribute = attributes.get(i);
-			if (attribute.typeName.equals("relation") || attribute.attributeName.equals("ready"))
+			if (attribute.typeName.equals("relation")
+					|| attribute.attributeName.equals("ready"))
 				continue;
 			if (!first)
 				pw.print(",");
@@ -854,7 +902,8 @@ public class ClassDefinition {
 		boolean first = true;
 		for (int i = 0; i < size; i++) {
 			AttributeDefiniton attribute = attributes.get(i);
-			if (attribute.typeName.equals("relation") || attribute.attributeName.equals("ready"))
+			if (attribute.typeName.equals("relation")
+					|| attribute.attributeName.equals("ready"))
 				continue;
 
 			if (!first)
@@ -883,7 +932,8 @@ public class ClassDefinition {
 
 		for (int i = 0; i < size; i++) {
 			AttributeDefiniton attribute = attributes.get(i);
-			if (attribute.typeName.equals("relation") || attribute.attributeName.equals("ready"))
+			if (attribute.typeName.equals("relation")
+					|| attribute.attributeName.equals("ready"))
 				continue;
 			if (attribute.isNativeOrString())
 				pw.println("		" + attribute.attributeName + " = rs.get"
@@ -910,8 +960,9 @@ public class ClassDefinition {
 		for (int i = 0; i < size; i++) {
 			pw.print(first ? "\n" : ",\n");
 			AttributeDefiniton attribute = attributes.get(i);
-			if(attribute.isRelation() || attribute.attributeName.equals("ready"))
-					continue;
+			if (attribute.isRelation()
+					|| attribute.attributeName.equals("ready"))
+				continue;
 			if (attribute.isNativeOrString())
 				pw.print("			rs.get" + capitalizeFirst(attribute.typeName)
 						+ "(prefix + \"" + prefixDash + attribute.attributeName
@@ -927,7 +978,7 @@ public class ClassDefinition {
 					pw.print("			new " + classDef.className + "(prefix + \""
 							+ attribute.attributeName + "_" + "\", rs)");
 			}
-			
+
 			first = false;
 		}
 	}
@@ -991,13 +1042,15 @@ public class ClassDefinition {
 		pw.println("	{");
 		if (superConstructor)
 			pw.println("		super(id);");
-		else
+		else {
 			pw.println("		this.id = id;");
-		for (AttributeDefiniton def : attributes)
-			if (def.isRelation())
-				pw.println("		this." + def.attributeName
-						+ " = new RelationCollection();"); // <" + def.reltype + ">
-															// did not work
+			for (AttributeDefiniton def : attributes)
+				if (def.isRelation())
+					pw.println("		this." + def.attributeName
+							+ " = new RelationCollection(this, \""
+							+ def.attributeName + "\");"); // <" + def.reltype + ">
+			// did not work
+		}
 		pw.println("	}");
 		pw.println("	");
 	}
@@ -1117,6 +1170,18 @@ public class ClassDefinition {
 
 		return getFullPackage(target, gen) + "." + tmpClassName
 				+ (gen ? "Gen" : "");
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((attributes == null) ? 0 : attributes.hashCode());
+		result = prime * result
+				+ ((baseClassName == null) ? 0 : baseClassName.hashCode());
+		result = prime * result + (query ? 1231 : 1237);
+		return result;
 	}
 
 }
