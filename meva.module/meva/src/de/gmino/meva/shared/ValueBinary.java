@@ -1,10 +1,10 @@
-package de.gmino.meva.android;
+package de.gmino.meva.shared;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public interface ValueAndroid {
+public interface ValueBinary {
 
 	public void serializeBinary(DataOutputStream dos) throws IOException;
 

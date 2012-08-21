@@ -1,10 +1,10 @@
-package de.gmino.meva.android;
+package de.gmino.meva.shared;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public interface EntityAndroid {
+public interface EntityBinary {
 
 	public void deserializeBinary(DataInputStream dis) throws IOException;
 

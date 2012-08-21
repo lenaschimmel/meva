@@ -26,9 +26,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 
-// android
-import de.gmino.meva.android.EntityAndroid;
-import de.gmino.meva.android.ValueAndroid;
+// imports for serialization interfaces
+import de.gmino.meva.shared.EntityBinary;
+import de.gmino.meva.shared.ValueBinary;
 
 
 import de.gmino.geobase.android.domain.gen.AddressGen;
@@ -36,25 +36,12 @@ public class Address extends AddressGen {
 	// Constructors
 	public Address(DataInputStream dis) throws IOException
 	{
-		this(
-				dis.readUTF(),
-				dis.readUTF(),
-				dis.readUTF(),
-				dis.readUTF(),
-				dis.readUTF(),
-				dis.readUTF());
+		super(dis);
 	}
 	public Address(JsonObject json) throws IOException
 	{
-		this(
-			json.get("recipientName").asString().stringValue(),
-			json.get("street").asString().stringValue(),
-			json.get("houseNumber").asString().stringValue(),
-			json.get("zip").asString().stringValue(),
-			json.get("city").asString().stringValue(),
-			json.get("additionalAddressLine").asString().stringValue());
+		super(json);
 	}
-
 	public Address(
 			String recipientName,
 			String street,

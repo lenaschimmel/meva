@@ -7,6 +7,7 @@ package de.gmino.geobase.android.domain;
 import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.ReturnEntityPolicy;
+import de.gmino.meva.shared.RelationCollection;
 
 // default imports
 import java.io.DataInputStream;
@@ -25,9 +26,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 
-// android
-import de.gmino.meva.android.EntityAndroid;
-import de.gmino.meva.android.ValueAndroid;
+// imports for serialization interfaces
+import de.gmino.meva.shared.EntityBinary;
+import de.gmino.meva.shared.ValueBinary;
 
 
 import de.gmino.geobase.android.domain.gen.LatLonGen;
@@ -35,17 +36,12 @@ public class LatLon extends LatLonGen {
 	// Constructors
 	public LatLon(DataInputStream dis) throws IOException
 	{
-		this(
-			dis.readDouble(),
-			dis.readDouble());
+		super(dis);
 	}
 	public LatLon(JsonObject json) throws IOException
 	{
-		this(
-			Double.parseDouble(json.get("latitude").asString().stringValue()),
-			Double.parseDouble(json.get("longitude").asString().stringValue()));
+		super(json);
 	}
-
 	public LatLon(
 			double latitude,
 			double longitude)

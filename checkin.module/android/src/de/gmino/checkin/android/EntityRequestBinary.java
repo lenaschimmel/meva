@@ -1,10 +1,22 @@
 package de.gmino.checkin.android;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import de.gmino.meva.shared.Entity;
+import de.gmino.meva.shared.EntityBinary;
 import de.gmino.meva.shared.EntityRequestInterface;
 
 /**
@@ -24,7 +36,35 @@ public class EntityRequestBinary implements EntityRequestInterface {
 	public void loadEntities(Collection<Entity> c) {
 		if(c.isEmpty())
 			return;
-		// TODO actual request
+		try {
+			HttpClient client = new DefaultHttpClient();
+			HttpPost request = new HttpPost();
+			request.setURI(new URI("http://192.168.178.64:8888/Binary/getEntities"));
+			// StringBuilder sb = new StringBuilder();
+			// query.serializeJson(sb);
+
+			String typeName = c.iterator().next().getTypeName();
+			
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			DataOutputStream dos = new DataOutputStream(baos);
+			dos.writeUTF(typeName);
+			for(Entity e : c)
+				dos.writeLong(e.getId());
+			dos.writeLong(0);
+			
+			HttpEntity postBody = new ByteArrayEntity(baos.toByteArray());
+			request.setEntity(postBody);
+
+			HttpResponse response = client.execute(request);
+			DataInputStream dis = new DataInputStream(response.getEntity()
+					.getContent());
+
+			for(Entity e : c)
+				((EntityBinary)e).deserializeBinary(dis);
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override

@@ -29,9 +29,10 @@ public class EntityFactory {
 		if (entityMaps == null)
 			entityMaps = new TreeMap<String, Map<Long, Entity>>();
 		if (!entityMaps.containsKey(typeName))
-			entityMaps.put("Shop", new TreeMap<Long, Entity>());
-		System.out.println("Registered domain type in EntityFactory: " + typeName);
-
+		{
+			entityMaps.put(typeName, new TreeMap<Long, Entity>());
+			System.out.println("Registered domain type in EntityFactory: " + typeName);
+		}
 	}
 
 	public static Collection<Entity> getEntitiesById(String typeName,
@@ -39,9 +40,12 @@ public class EntityFactory {
 		if (factoryImplementation == null || requestImplementation == null)
 			throw new RuntimeException("You must first call setImplementations.");
 
+		// TODO: This is kind of a hack, but maybe thats ok:
+		registerType(typeName);
 		Map<Long, Entity> mapForThisType = entityMaps.get(typeName);
-		if (mapForThisType == null)
-			throw new RuntimeException("Type '"+typeName+"' not supported.");
+		
+		//if (mapForThisType == null)
+		//	throw new RuntimeException("Type '"+typeName+"' not supported.");
 
 		Collection<Entity> ret = new ArrayList<Entity>(ids.size());
 		Collection<Entity> entitiesToFetch = new LinkedList<Entity>();
@@ -50,8 +54,9 @@ public class EntityFactory {
 			Entity e = mapForThisType.get(id);
 			if (e == null) {
 				e = factoryImplementation.createEntityObject(typeName, id);
-				entitiesToFetch.add(e);
 			}
+			if(!e.isReady())
+				entitiesToFetch.add(e);
 			ret.add(e);
 		}
 

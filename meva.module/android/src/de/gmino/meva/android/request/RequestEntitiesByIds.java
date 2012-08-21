@@ -5,14 +5,15 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import de.gmino.meva.android.EntityAndroid;
 import de.gmino.meva.shared.Entity;
+import de.gmino.meva.shared.EntityBinary;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.ReturnEntityPolicy;
 
@@ -63,51 +64,26 @@ public abstract class RequestEntitiesByIds<Result extends Entity> {
 				onFinishOnUi(results);
 		}
 
-		final StringBuffer sbRequestUrl = new StringBuffer(
-				"http://gmino.de:8080/YourProject/getentities?typename="
-						+ typeName + "&ids=");
+		Collection<Entity> entitiedToLoad = new LinkedList<Entity>();
 		int requestIdCount = 0;
 		for (long id : ids) {
 			Result entity = (Result) EntityFactory.getEntityById(typeName, id,
 					ReturnEntityPolicy.RETURN_UNLOADED);
+			results.add(entity);
 			if (entity.isReady()) {
 
 				onNewResult(entity);
 				onNewResultOnUi(entity);
-				results.add(entity);
-			} else {
-				requestIdCount++;
-				sbRequestUrl.append(id).append(',');
-			}
-		}
-
-		if (requestIdCount == 0) // do we already have all entities that we
-									// need?
-		{
-			onFinish(results);
-			onFinishOnUi(results);
-		} else {
-			if (callUiCallbacks) {
-				task = new InjectibleAsyncTask<Result>() {
-					@Override
-					protected Collection<Result> doInBackground(Void... params) {
-						return performRequest(sbRequestUrl);
-					}
-
-					protected void onProgressUpdate(Result[] values) {
-						for (Result value : values)
-							onNewResultOnUi(value);
-					}
-
-					@Override
-					protected void onPostExecute(Collection<Result> result) {
-						onFinishOnUi(results);
-					}
-				};
-				task.execute();
 			} else
-				performRequest(sbRequestUrl);
+				entitiedToLoad.add(entity);
 		}
+
+		if (!entitiedToLoad.isEmpty())
+			EntityFactory.loadEntities(entitiedToLoad);
+
+		onFinish(results);
+		onFinishOnUi(results);
+
 	}
 
 	public void startFromWorkerThread() {
@@ -153,34 +129,5 @@ public abstract class RequestEntitiesByIds<Result extends Entity> {
 
 	protected void onNewResultOnUi(Result result) {
 		// To be overwritten.
-	}
-
-	private Collection<Result> performRequest(final StringBuffer sbRequestUrl) {
-		try {
-			HttpClient client = new DefaultHttpClient();
-			HttpGet request = new HttpGet();
-			sbRequestUrl.setLength(sbRequestUrl.length() - 1);
-			request.setURI(new URI(sbRequestUrl.toString()));
-			HttpResponse response = client.execute(request);
-			InputStream is = response.getEntity().getContent();
-			DataInputStream dis = new DataInputStream(is);
-			long nextId = dis.readLong();
-			while (nextId > 0) {
-				Result result = (Result) EntityFactory.getEntityById(typeName,
-						nextId, ReturnEntityPolicy.RETURN_UNLOADED);
-				((EntityAndroid) result).deserializeBinary(dis);
-				onNewResult(result);
-				if (task != null)
-					task.newResult(result);
-				results.add(result);
-
-				nextId = dis.readLong();
-			}
-			onFinish(results);
-			return results;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 }

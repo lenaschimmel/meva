@@ -1,22 +1,34 @@
 package de.gmino.checkin.server;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Collection;
+import java.util.LinkedList;
 
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityRequestInterface;
+import de.gmino.meva.shared.EntitySql;
 
 public class LocalRequestFoo implements EntityRequestInterface {
 
 	@Override
 	public void loadEntities(Collection<Entity> c) {
-		// TODO Auto-generated method stub
-
+		Connection dbCon = SqlHelper.getConnection();
+		for(Entity e : c)
+		{
+			try {
+				((EntitySql)e).deserializeSql(dbCon);
+			} catch (SQLException e1) {
+				throw new RuntimeException(e1);
+			}
+		}
 	}
 
 	@Override
 	public void loadEntity(Entity e) {
-		// TODO Auto-generated method stub
-
+		LinkedList<Entity> entities = new LinkedList<Entity>();
+		entities.add(e);
+		loadEntities(entities);
 	}
 
 	@Override

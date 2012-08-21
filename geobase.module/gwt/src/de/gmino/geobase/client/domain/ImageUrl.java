@@ -26,10 +26,8 @@ public class ImageUrl extends ImageUrlGen {
 	// Constructors
 	public ImageUrl(JsonObject json) throws IOException
 	{
-		this(
-			json.get("url").asString().stringValue());
+		super(json);
 	}
-
 	public ImageUrl(
 			String url)
 	{

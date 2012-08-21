@@ -1,15 +1,11 @@
 package de.gmino.codegen;
 
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.json.simple.JSONArray;
@@ -103,8 +99,8 @@ public class ClassDefinition {
 				+ getFullPackage("shared", false)
 				+ "."
 				+ baseClassName
-				+ (entity ? " implements EntityAndroid"
-						: " implements ValueAndroid") + " {");
+				+ (entity ? " implements EntityBinary"
+						: " implements ValueBinary") + " {");
 
 		generateConstructors(pw, true, true);
 		if (entity)
@@ -130,8 +126,16 @@ public class ClassDefinition {
 		pw.println();
 
 		String modifier = query ? "abstract " : " ";
-		pw.println("public " + modifier + "class " + className + " extends "
-				+ getFullPackage("shared", false) + "." + baseClassName + " {");
+		pw.println("public "
+				+ modifier
+				+ "class "
+				+ className
+				+ " extends "
+				+ getFullPackage("shared", false)
+				+ "."
+				+ baseClassName
+				+ (entity ? " implements EntityBinary, EntitySql"
+						: " implements ValueBinary") + " {");
 
 		generateConstructors(pw, true, true);
 
@@ -353,7 +357,7 @@ public class ClassDefinition {
 		pw.println("/*");
 		pw.println("To generate a table, use the following SQL command:");
 		pw.println();
-		pw.println("CREATE TABLE IF NOT EXISTS `" + className + "` (");
+		pw.println("CREATE TABLE IF NOT EXISTS `" + baseClassName + "` (");
 		generateTableCommentAttributeList("", pw);
 		pw.println("\tPRIMARY KEY (`id`)");
 		pw.println(") ENGINE=MyISAM DEFAULT CHARSET=utf8;");
@@ -448,14 +452,14 @@ public class ClassDefinition {
 			pw.println("import java.sql.Statement;");
 			pw.println("import java.sql.SQLException;");
 			pw.println();
-		}
-
-		if (target.equals("android")) {
-			pw.println("// android");
-			pw.println("import de.gmino.meva.android.EntityAndroid;");
-			pw.println("import de.gmino.meva.android.ValueAndroid;");
+			pw.println("// imports for serialization interfaces");
+			pw.println("import de.gmino.meva.shared.EntityBinary;");
+			pw.println("import de.gmino.meva.shared.ValueBinary;");
+			if (target.equals("server"))
+				pw.println("import de.gmino.meva.shared.EntitySql;");
 			pw.println();
 		}
+
 		TreeSet<String> importClasses = new TreeSet<String>();
 		for (AttributeDefiniton attribute : attributes) {
 			ClassDefinition classDef = null;
@@ -532,6 +536,8 @@ public class ClassDefinition {
 				}
 			}
 		}
+		if(entity)
+			pw.println("		ready = true;");
 		pw.println("	}");
 	}
 
@@ -547,6 +553,8 @@ public class ClassDefinition {
 			return;
 		}
 
+		boolean hasStringAttribute = false;
+
 		pw.print("		this(");
 		boolean first = true;
 		for (AttributeDefiniton attribute : attributes) {
@@ -557,7 +565,8 @@ public class ClassDefinition {
 			if (attribute.isNative())
 				pw.print("			" + dis + ".read" + capitalizeFirst(type) + "()");
 			else if (type.equals("String")) {
-				pw.print("			" + dis + ".readUTF()");
+				pw.print("			readStringOrNull(" + dis + ")");
+				hasStringAttribute = true;
 			} else {
 				if (attribute.isEntity()) {
 					pw.print("			dis.readLong()");
@@ -574,6 +583,20 @@ public class ClassDefinition {
 			first = false;
 		}
 		pw.println(");\n	}");
+
+		if (hasStringAttribute) {
+
+			pw.println();
+			pw.println("	public static String readStringOrNull(DataInputStream dis) throws IOException");
+			pw.println("	{");
+			pw.println("		byte hasString = dis.readByte();");
+			pw.println("		if(hasString != 0)");
+			pw.println("			return dis.readUTF();");
+			pw.println("		else");
+			pw.println("			return null;");
+			pw.println("	}");
+
+		}
 	}
 
 	private void generateBinarySerializer(PrintWriter pw) {
@@ -681,6 +704,7 @@ public class ClassDefinition {
 				}
 			}
 		}
+		pw.println("		ready = true;");
 		pw.println("	}");
 		pw.println();
 	}
@@ -810,6 +834,8 @@ public class ClassDefinition {
 		for (AttributeDefiniton def : attributes)
 			if (def.isRelation())
 				generateSqlRelationDeserializer(pw, def);
+		if(entity)
+			pw.println("		ready = true;");
 		pw.println("	}");
 	}
 
@@ -818,7 +844,7 @@ public class ClassDefinition {
 		pw.println("		// Read the related " + def.attributeName);
 		pw.println("		selectString = \"SELECT id FROM `"
 				+ Meva.getClassDefinition(def.reltype, true).baseClassName
-				+ "` WHERE " + def.relname + " = '\"+id+\"';\";");
+				+ "` WHERE " + def.relname + "_id = '\"+id+\"';\";");
 		pw.println("		stat.executeQuery(selectString);");
 		pw.println("		System.out.println(selectString);");
 		pw.println("		rs = stat.executeQuery(selectString);");

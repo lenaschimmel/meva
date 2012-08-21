@@ -17,18 +17,30 @@
     <servlet-class>de.gmino.checkin.server.JsonServer</servlet-class>
   </servlet>
 
+  
   <servlet-mapping>
     <servlet-name>JsonServer</servlet-name>
-    <url-pattern>/QueryNearbyShops</url-pattern>
+    <url-pattern>/Json/QueryNearbyShops</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>JsonServer</servlet-name>
+    <url-pattern>/Json/getEntities</url-pattern>
   </servlet-mapping>
   
   <servlet>
-    <servlet-name>ServletGetEntities</servlet-name>
-    <servlet-class>de.gmino.checkin.server.ServletGetEntities</servlet-class>
+    <servlet-name>BinaryServer</servlet-name>
+    <servlet-class>de.gmino.checkin.server.BinaryServer</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>ServletGetEntities</servlet-name>
-    <url-pattern>/getentities</url-pattern>
+    <servlet-name>BinaryServer</servlet-name>
+    <url-pattern>/Binary/QueryNearbyShops</url-pattern>
   </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>BinaryServer</servlet-name>
+    <url-pattern>/Binary/getEntities</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

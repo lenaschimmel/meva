@@ -26,6 +26,11 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 
+// imports for serialization interfaces
+import de.gmino.meva.shared.EntityBinary;
+import de.gmino.meva.shared.ValueBinary;
+import de.gmino.meva.shared.EntitySql;
+
 
 import de.gmino.geobase.server.domain.gen.ImageUrlGen;
 public class ImageUrl extends ImageUrlGen {

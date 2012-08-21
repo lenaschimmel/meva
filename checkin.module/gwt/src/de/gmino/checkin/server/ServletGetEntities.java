@@ -46,6 +46,8 @@ public class ServletGetEntities extends HttpServlet {
 		for (String idString : idStrings) 
 			ids.add(Long.parseLong(idString));
 		
+		System.out.println("Got request for entities of type " + typeName + " with ids: " + idsString);
+		
 		Collection<Entity> entities = EntityFactory.getEntitiesById(typeName, ids, ReturnEntityPolicy.BLOCK_IF_NEEDED);
 			
 		boolean first = true;
@@ -53,7 +55,10 @@ public class ServletGetEntities extends HttpServlet {
 		{
 			sb.append(first ? "\n" : ",\n");
 			if (ret != null)
+			{
 				ret.serializeJson(sb);
+				System.out.println("Output entity: " + ret.toString());
+			}
 			else
 				sb.append("null");
 			first = false;

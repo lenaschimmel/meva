@@ -12,15 +12,14 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.content.Context;
-import de.gmino.meva.android.ValueAndroid;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.Query;
 import de.gmino.meva.shared.ReturnEntityPolicy;
+import de.gmino.meva.shared.ValueBinary;
 
 /**
  * Executes a query asynchronously by making a HTTP request.
@@ -96,14 +95,14 @@ public class RequestEntititesByQuery<Result extends Entity> {
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpPost request = new HttpPost();
-			request.setURI(new URI("http://192.168.178.64:8888/"
+			request.setURI(new URI("http://192.168.178.64:8888/Binary/"
 					+ query.getUrlPostfix()));
 			// StringBuilder sb = new StringBuilder();
 			// query.serializeJson(sb);
 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			DataOutputStream dos = new DataOutputStream(baos);
-			((ValueAndroid)query).serializeBinary(dos);
+			((ValueBinary)query).serializeBinary(dos);
 
 			HttpEntity postBody = new ByteArrayEntity(baos.toByteArray());
 			request.setEntity(postBody);

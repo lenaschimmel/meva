@@ -26,9 +26,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 
-// android
-import de.gmino.meva.android.EntityAndroid;
-import de.gmino.meva.android.ValueAndroid;
+// imports for serialization interfaces
+import de.gmino.meva.shared.EntityBinary;
+import de.gmino.meva.shared.ValueBinary;
 
 
 import de.gmino.geobase.android.domain.gen.TimestampGen;
@@ -36,15 +36,12 @@ public class Timestamp extends TimestampGen {
 	// Constructors
 	public Timestamp(DataInputStream dis) throws IOException
 	{
-		this(
-			dis.readLong());
+		super(dis);
 	}
 	public Timestamp(JsonObject json) throws IOException
 	{
-		this(
-			Long.parseLong(json.get("millisSinceEpoch").asString().stringValue()));
+		super(json);
 	}
-
 	public Timestamp(
 			long millisSinceEpoch)
 	{

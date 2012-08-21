@@ -26,9 +26,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 
-// android
-import de.gmino.meva.android.EntityAndroid;
-import de.gmino.meva.android.ValueAndroid;
+// imports for serialization interfaces
+import de.gmino.meva.shared.EntityBinary;
+import de.gmino.meva.shared.ValueBinary;
 
 
 import de.gmino.geobase.android.domain.gen.ImageUrlGen;
@@ -36,15 +36,12 @@ public class ImageUrl extends ImageUrlGen {
 	// Constructors
 	public ImageUrl(DataInputStream dis) throws IOException
 	{
-		this(
-				dis.readUTF());
+		super(dis);
 	}
 	public ImageUrl(JsonObject json) throws IOException
 	{
-		this(
-			json.get("url").asString().stringValue());
+		super(json);
 	}
-
 	public ImageUrl(
 			String url)
 	{
