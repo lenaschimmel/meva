@@ -61,8 +61,9 @@ public class EntityFactory {
 			ret.add(e);
 		}
 
-		if (!entitiesToFetch.isEmpty())
-			requestImplementation.loadEntities(entitiesToFetch);
+		// no need to load here -> policy will do this if requested
+//		if (!entitiesToFetch.isEmpty())
+	//		requestImplementation.loadEntities(entitiesToFetch);
 
 		return policy.performAction(ret);
 	}
@@ -123,6 +124,21 @@ public class EntityFactory {
 			throw new RuntimeException(
 					"You must first call setImplementations.");
 		requestImplementation.loadEntity(e);
+	}
+
+
+	public static void saveEntities(Collection<Entity> c) {
+		if (requestImplementation == null)
+			throw new RuntimeException(
+					"You must first call setImplementations.");
+		requestImplementation.saveEntities(c);
+	}
+	
+	public static void saveEntity(Entity e) {
+		if (requestImplementation == null)
+			throw new RuntimeException(
+					"You must first call setImplementations.");
+		requestImplementation.saveEntity(e);
 	}
 
 }

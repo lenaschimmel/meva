@@ -15,4 +15,6 @@ public interface EntityRequestInterface {
 	void loadEntities(Collection<Entity> c);
 	void loadEntity(Entity e);
 	Collection<Long> getNewEntities(String typeName, int count);
+	void saveEntity(Entity e);
+	void saveEntities(Collection<Entity> c);
 }

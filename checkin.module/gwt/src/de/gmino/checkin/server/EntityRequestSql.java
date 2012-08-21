@@ -47,10 +47,28 @@ public class EntityRequestSql implements EntityRequestInterface {
 			for(int i = 0; i < count; i++)
 				ret.add(++maxId);
 			stat.executeUpdate("UPDATE MaxId SET maxId = '"+maxId+"' WHERE typeName = '"+typeName+"';");
+			System.out.println("Created new Entites of type " + typeName + " with ids from " + (maxId - count + 1) + " to " + maxId);
 			return ret;
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Override
+	public void saveEntity(Entity e) {
+		System.out.println("Saving " + e.toShortString() + " to SQL.");
+		Connection dbCon = SqlHelper.getConnection();
+		try {
+			((EntitySql)e).serializeSql(dbCon);
+		} catch (SQLException e1) {
+			throw new RuntimeException(e1);
+		}
+	}
+
+	@Override
+	public void saveEntities(Collection<Entity> c) {
+		for(Entity e : c)
+			saveEntity(e);
 	}
 
 }

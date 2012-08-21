@@ -3,6 +3,8 @@ package de.gmino.checkin.server;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -12,12 +14,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.http.impl.entity.EntitySerializer;
-
 import de.gmino.checkin.server.request.QueryNearbyShops;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityBinary;
 import de.gmino.meva.shared.EntityFactory;
+import de.gmino.meva.shared.EntitySql;
 import de.gmino.meva.shared.Query;
 import de.gmino.meva.shared.ReturnEntityPolicy;
 
@@ -48,6 +49,8 @@ public class BinaryServer extends HttpServlet {
 			getEntities(req, resp);
 		} else if (lastPart.equals("newEntities")) {
 			newEntities(req, resp);
+		} else if (lastPart.equals("saveEntities")) {
+			saveEntities(req, resp);
 		} else {
 			otherRequest(req, resp, lastPart);
 		}
@@ -68,6 +71,30 @@ public class BinaryServer extends HttpServlet {
 		DataOutputStream dos = new DataOutputStream(resp.getOutputStream());
 		for (long id : ids)
 			dos.writeLong(id);
+		dos.writeLong(0);
+		dos.flush();
+		dos.close();
+	}
+	
+	private void saveEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		Connection dbCon = SqlHelper.getConnection();
+		Query query = null;
+		DataInputStream dis = new DataInputStream(req.getInputStream());
+		String typeName = dis.readUTF();
+		long id = dis.readLong();
+		while(id != 0)
+		{
+			Entity e = EntityFactory.getEntityById(typeName, id, ReturnEntityPolicy.RETURN_UNLOADED);
+			try {
+				((EntityBinary)e).deserializeBinary(dis);
+				EntityFactory.saveEntity(e);
+			} catch (Exception e1) {
+				throw new RuntimeException(e1);
+			}
+			id = dis.readLong();
+		}
+		
+		DataOutputStream dos = new DataOutputStream(resp.getOutputStream());
 		dos.writeLong(0);
 		dos.flush();
 		dos.close();
@@ -96,6 +123,8 @@ public class BinaryServer extends HttpServlet {
 			((EntityBinary)e).serializeBinary(dos);
 			System.out.println("Written " + e.toShortString());
 		}
+		dos.flush();
+		dos.close();
 	}
 
 
@@ -112,6 +141,8 @@ public class BinaryServer extends HttpServlet {
 		{
 			dos.writeLong(e.getId());
 		}
+		dos.flush();
+		dos.close();
 	}
 
 	@Override

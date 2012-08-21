@@ -374,6 +374,9 @@ public class ClassDefinition {
 
 			if (attribute.isRelation())
 				continue;
+			
+			if (attributeName.equals("ready"))
+				continue;
 
 			if (typeName.equals("String"))
 				pw.println("\t`" + prefix + attributeName + "` varchar("
@@ -888,7 +891,7 @@ public class ClassDefinition {
 		pw.println("	public void serializeSql(Connection dbCon) throws SQLException");
 		pw.println("	{");
 		pw.println("		Statement stat = dbCon.createStatement();");
-		pw.print("		String replaceString = \"REPLACE INTO `" + className
+		pw.print("		String replaceString = \"REPLACE INTO `" + baseClassName
 				+ "` (");
 		printAttributeList("", pw);
 		pw.print(") VALUES (");
@@ -1058,7 +1061,8 @@ public class ClassDefinition {
 					pw.println("		this." + attribute.attributeName + " = "
 							+ attribute.attributeName + ";");
 			}
-
+		if(entity)
+			pw.println("		this.ready = true;");
 		pw.println("	}");
 		pw.println("	");
 	}

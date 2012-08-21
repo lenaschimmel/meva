@@ -105,4 +105,43 @@ public class EntityRequestBinary implements EntityRequestInterface {
 		}
 	}
 
+	@Override
+	public void saveEntity(Entity e) {
+		Collection<Entity> c = new LinkedList<Entity>();
+		c.add(e);
+		saveEntities(c);
+	}
+
+	@Override
+	public void saveEntities(Collection<Entity> c) {
+		try {
+			String typeName = c.iterator().next().getTypeName();
+
+			HttpClient client = new DefaultHttpClient();
+			HttpPost request = new HttpPost();
+			request.setURI(new URI(
+					"http://192.168.178.64:8888/Binary/saveEntities"));
+
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			DataOutputStream dos = new DataOutputStream(baos);
+			dos.writeUTF(typeName);
+			
+			for(Entity e : c)
+			{
+				dos.writeLong(e.getId());
+				((EntityBinary)e).serializeBinary(dos);
+			}
+			dos.writeLong(0);
+			
+			HttpEntity postBody = new ByteArrayEntity(baos.toByteArray());
+			request.setEntity(postBody);
+
+			HttpResponse response = client.execute(request);
+			DataInputStream dis = new DataInputStream(response.getEntity()
+					.getContent());
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }

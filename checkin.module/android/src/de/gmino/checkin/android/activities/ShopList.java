@@ -20,7 +20,6 @@ import de.gmino.meva.android.request.RequestNewEntities;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.Query;
 
-
 public class ShopList extends ListActivity implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -30,37 +29,46 @@ public class ShopList extends ListActivity implements
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_shop_list);
-	
+
 		LatLon myLocation = new LatLon(52.2723, 10.53547);
 		Query q = new QueryNearbyShops(myLocation, 5000, 20);
 
 		new RequestEntititesByQuery<Shop>(this, q, Shop.class) {
-		   protected void onFinishOnUi(Collection<Shop> results) {
-			   String[] arr = new String[results.size()];
-			   int i = 0;
-			   for(Shop s : results)
-			   {
-				   arr[i++] = s.toString();
-			   }
-				ArrayAdapter<String> adapter = 
-						new ArrayAdapter<String>(ShopList.this, R.layout.shoplistitem,R.id.textView_List, arr);
-				setListAdapter(adapter);			   
-		   }
-		   
-		   protected void onErrorOnUi(String message) {
-			   Toast.makeText(ShopList.this, message, Toast.LENGTH_LONG).show();
-		   }
+			protected void onFinishOnUi(Collection<Shop> results) {
+				String[] arr = new String[results.size()];
+				int i = 0;
+				for (Shop s : results) {
+					arr[i++] = s.toString();
+				}
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+						ShopList.this, R.layout.shoplistitem,
+						R.id.textView_List, arr);
+				setListAdapter(adapter);
+			}
+
+			protected void onErrorOnUi(String message) {
+				Toast.makeText(ShopList.this, message, Toast.LENGTH_LONG)
+						.show();
+			}
 		}.start();
-		
-		
-		new RequestNewEntities<Consumer>("Consumer", 1) {@Override
-		protected void onFinishOnUi(Collection<Consumer> results) {
-			Consumer c = results.iterator().next();
-			c.setFacebookId("testId");
-			System.out.println(c);
-			Toast.makeText(ShopList.this, c.toString(), Toast.LENGTH_LONG).show();
-		}}.start();
-		
+
+		new RequestNewEntities<Consumer>("Consumer", 1) {
+			protected void onFinish(java.util.Collection<Consumer> results) {
+				Consumer c = results.iterator().next();
+				c.setFacebookId("testId");
+				System.out.println(c);
+
+				EntityFactory.saveEntity(c);
+			};
+
+			@Override
+			protected void onFinishOnUi(Collection<Consumer> results) {
+				Consumer c = results.iterator().next();
+				Toast.makeText(ShopList.this, c.toString(), Toast.LENGTH_LONG)
+						.show();
+			}
+		}.start();
+
 	}
 
 	@Override
@@ -72,14 +80,13 @@ public class ShopList extends ListActivity implements
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 }
