@@ -28,24 +28,25 @@ public class EntityFactory {
 	public static void registerType(String typeName) {
 		if (entityMaps == null)
 			entityMaps = new TreeMap<String, Map<Long, Entity>>();
-		if (!entityMaps.containsKey(typeName))
-		{
+		if (!entityMaps.containsKey(typeName)) {
 			entityMaps.put(typeName, new TreeMap<Long, Entity>());
-			System.out.println("Registered domain type in EntityFactory: " + typeName);
+			System.out.println("Registered domain type in EntityFactory: "
+					+ typeName);
 		}
 	}
 
 	public static Collection<Entity> getEntitiesById(String typeName,
 			Collection<Long> ids, ReturnEntityPolicy policy) {
 		if (factoryImplementation == null || requestImplementation == null)
-			throw new RuntimeException("You must first call setImplementations.");
+			throw new RuntimeException(
+					"You must first call setImplementations.");
 
 		// TODO: This is kind of a hack, but maybe thats ok:
 		registerType(typeName);
 		Map<Long, Entity> mapForThisType = entityMaps.get(typeName);
-		
-		//if (mapForThisType == null)
-		//	throw new RuntimeException("Type '"+typeName+"' not supported.");
+
+		// if (mapForThisType == null)
+		// throw new RuntimeException("Type '"+typeName+"' not supported.");
 
 		Collection<Entity> ret = new ArrayList<Entity>(ids.size());
 		Collection<Entity> entitiesToFetch = new LinkedList<Entity>();
@@ -55,7 +56,7 @@ public class EntityFactory {
 			if (e == null) {
 				e = factoryImplementation.createEntityObject(typeName, id);
 			}
-			if(!e.isReady())
+			if (!e.isReady())
 				entitiesToFetch.add(e);
 			ret.add(e);
 		}
@@ -84,7 +85,11 @@ public class EntityFactory {
 
 	public static Collection<Entity> getNewEntities(String typeName, int count) {
 		if (factoryImplementation == null)
-			throw new RuntimeException("You must first call setImplementations.");
+			throw new RuntimeException(
+					"You must first call setImplementations.");
+
+		// TODO: This is kind of a hack, but maybe thats ok:
+		registerType(typeName);
 
 		Map<Long, Entity> mapForThisType = entityMaps.get(typeName);
 		if (mapForThisType == null)
@@ -92,29 +97,31 @@ public class EntityFactory {
 
 		final Collection<Long> ids = requestImplementation.getNewEntities(
 				typeName, count);
-		Collection<Entity> ret = factoryImplementation.createEntityObjects(typeName, ids);
-		
+		Collection<Entity> ret = factoryImplementation.createEntityObjects(
+				typeName, ids);
+
 		for (Entity e : ret)
 			mapForThisType.put(e.getId(), e);
 		return ret;
 	}
 
-	public static void setImplementations(
-			EntityFactoryInterface factory, EntityRequestInterface request) {
+	public static void setImplementations(EntityFactoryInterface factory,
+			EntityRequestInterface request) {
 		factoryImplementation = factory;
 		requestImplementation = request;
 	}
-	
-	public static void loadEntities(Collection<Entity> c)
-	{
+
+	public static void loadEntities(Collection<Entity> c) {
 		if (requestImplementation == null)
-			throw new RuntimeException("You must first call setImplementations.");
+			throw new RuntimeException(
+					"You must first call setImplementations.");
 		requestImplementation.loadEntities(c);
 	}
-	
-	public static void loadEntity(Entity e){
+
+	public static void loadEntity(Entity e) {
 		if (requestImplementation == null)
-			throw new RuntimeException("You must first call setImplementations.");
+			throw new RuntimeException(
+					"You must first call setImplementations.");
 		requestImplementation.loadEntity(e);
 	}
 

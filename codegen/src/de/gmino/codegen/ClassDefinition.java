@@ -536,7 +536,7 @@ public class ClassDefinition {
 				}
 			}
 		}
-		if(entity)
+		if (entity)
 			pw.println("		ready = true;");
 		pw.println("	}");
 	}
@@ -834,7 +834,7 @@ public class ClassDefinition {
 		for (AttributeDefiniton def : attributes)
 			if (def.isRelation())
 				generateSqlRelationDeserializer(pw, def);
-		if(entity)
+		if (entity)
 			pw.println("		ready = true;");
 		pw.println("	}");
 	}
@@ -1176,6 +1176,13 @@ public class ClassDefinition {
 		pw.println("		}");
 		pw.println("		return sb.toString();");
 		pw.println("	}");
+		if (entity) {
+			pw.println();
+			pw.println("	@Override");
+			pw.println("	public String toShortString() {");
+			pw.println("		return \"(" + baseClassName + ":\" + id + ')';");
+			pw.println("	}");
+		}
 	}
 
 	private void generateGetTypeName(PrintWriter pw) {

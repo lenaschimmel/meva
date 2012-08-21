@@ -10,12 +10,5 @@ public class CheckinApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		EntityFactory.setImplementations(new EntityFactoryImpl(), new EntityRequestBinary("http://134.169.137.217:8002/"));
-		System.out.println(Shop.class.getCanonicalName());
-		System.out.println(Coupon.class.getCanonicalName());
-		try {
-			Class.forName("de.gmino.checkin.android.domain.Shop");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 	}
 }

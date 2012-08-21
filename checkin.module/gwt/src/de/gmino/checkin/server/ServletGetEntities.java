@@ -23,7 +23,7 @@ public class ServletGetEntities extends HttpServlet {
 		super.init();
 		try {
 			EntityFactory.setImplementations(new EntityFactoryImpl(),
-					new LocalRequestFoo());
+					new EntityRequestSql());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ServletException(e);

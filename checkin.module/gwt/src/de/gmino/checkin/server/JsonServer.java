@@ -22,7 +22,7 @@ public class JsonServer extends HttpServlet {
 	public void init() throws ServletException {
 		super.init();
 		try {
-			EntityFactory.setImplementations(new EntityFactoryImpl(), new LocalRequestFoo());
+			EntityFactory.setImplementations(new EntityFactoryImpl(), new EntityRequestSql());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ServletException(e);

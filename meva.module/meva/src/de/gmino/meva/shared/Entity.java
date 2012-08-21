@@ -34,4 +34,5 @@ public interface Entity<T> extends Comparable<T> {
 	
 	public void reassignRelation(String relname, Entity e);
  
+	public String toShortString();
 }

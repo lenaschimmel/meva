@@ -3,6 +3,10 @@ package de.gmino.checkin.server;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import de.gmino.checkin.server.domain.Checkin;
+import de.gmino.checkin.server.domain.Consumer;
+import de.gmino.checkin.server.domain.CouponOwenership;
+import de.gmino.checkin.server.domain.ShopAdmin;
 import de.gmino.checkin.server.domain.Coupon;
 import de.gmino.checkin.server.domain.Shop;
 import de.gmino.meva.shared.Entity;
@@ -30,6 +34,14 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 			return new Shop(id);
 		if(typeName.equals("Coupon"))
 			return new Coupon(id);
+		if(typeName.equals("Checkin"))
+			return new Checkin(id);
+		if(typeName.equals("CouponOwenership"))
+			return new CouponOwenership(id);
+		if(typeName.equals("ShopAdmin"))
+			return new ShopAdmin(id);
+		if(typeName.equals("Consumer"))
+			return new Consumer(id);
 		throw new RuntimeException("Unsupported Entity type: " + typeName);
 	}
 

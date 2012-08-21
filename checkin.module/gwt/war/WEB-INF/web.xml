@@ -42,5 +42,15 @@
     <servlet-name>BinaryServer</servlet-name>
     <url-pattern>/Binary/getEntities</url-pattern>
   </servlet-mapping>
+    
+  <servlet-mapping>
+    <servlet-name>BinaryServer</servlet-name>
+    <url-pattern>/Binary/newEntities</url-pattern>
+  </servlet-mapping>    
+  
+  <servlet-mapping>
+    <servlet-name>BinaryServer</servlet-name>
+    <url-pattern>/Binary/saveEntities</url-pattern>
+  </servlet-mapping>
   
 </web-app>

@@ -1,7 +1,10 @@
 package de.gmino.checkin.server;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -9,13 +12,14 @@ import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityRequestInterface;
 import de.gmino.meva.shared.EntitySql;
 
-public class LocalRequestFoo implements EntityRequestInterface {
+public class EntityRequestSql implements EntityRequestInterface {
 
 	@Override
 	public void loadEntities(Collection<Entity> c) {
 		Connection dbCon = SqlHelper.getConnection();
 		for(Entity e : c)
 		{
+			System.out.println("Reading " + e.toShortString() + " from SQL.");
 			try {
 				((EntitySql)e).deserializeSql(dbCon);
 			} catch (SQLException e1) {
@@ -33,8 +37,20 @@ public class LocalRequestFoo implements EntityRequestInterface {
 
 	@Override
 	public Collection<Long> getNewEntities(String typeName, int count) {
-		// TODO Auto-generated method stub
-		return null;
+		Collection<Long> ret = new ArrayList<Long>(count);
+		Connection dbCon = SqlHelper.getConnection();
+		try {
+			Statement stat = dbCon.createStatement();
+			ResultSet rs = stat.executeQuery("SELECT maxId FROM MaxId WHERE typeName = '"+typeName+"';");
+			rs.next();
+			long maxId = rs.getLong(1);
+			for(int i = 0; i < count; i++)
+				ret.add(++maxId);
+			stat.executeUpdate("UPDATE MaxId SET maxId = '"+maxId+"' WHERE typeName = '"+typeName+"';");
+			return ret;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

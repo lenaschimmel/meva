@@ -21,37 +21,37 @@ import de.gmino.meva.shared.EntityRequestInterface;
 
 /**
  * This class is used by EntityFactory to perform actual requests to a server.
+ * 
  * @author lena
- *
+ * 
  */
 public class EntityRequestBinary implements EntityRequestInterface {
 
 	String baseUrl;
-	
+
 	public EntityRequestBinary(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
-	
+
 	@Override
 	public void loadEntities(Collection<Entity> c) {
-		if(c.isEmpty())
+		if (c.isEmpty())
 			return;
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpPost request = new HttpPost();
-			request.setURI(new URI("http://192.168.178.64:8888/Binary/getEntities"));
-			// StringBuilder sb = new StringBuilder();
-			// query.serializeJson(sb);
+			request.setURI(new URI(
+					"http://192.168.178.64:8888/Binary/getEntities"));
 
 			String typeName = c.iterator().next().getTypeName();
-			
+
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			DataOutputStream dos = new DataOutputStream(baos);
 			dos.writeUTF(typeName);
-			for(Entity e : c)
+			for (Entity e : c)
 				dos.writeLong(e.getId());
 			dos.writeLong(0);
-			
+
 			HttpEntity postBody = new ByteArrayEntity(baos.toByteArray());
 			request.setEntity(postBody);
 
@@ -59,8 +59,8 @@ public class EntityRequestBinary implements EntityRequestInterface {
 			DataInputStream dis = new DataInputStream(response.getEntity()
 					.getContent());
 
-			for(Entity e : c)
-				((EntityBinary)e).deserializeBinary(dis);
+			for (Entity e : c)
+				((EntityBinary) e).deserializeBinary(dis);
 
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -77,11 +77,32 @@ public class EntityRequestBinary implements EntityRequestInterface {
 	@Override
 	public Collection<Long> getNewEntities(String typeName, int count) {
 		Collection<Long> ret = new ArrayList<Long>(count);
-		if(count == 0)
+		if (count == 0)
 			return ret;
-		// TODO actual request
-		return ret;
-	}
+		try {
+			HttpClient client = new DefaultHttpClient();
+			HttpPost request = new HttpPost();
+			request.setURI(new URI(
+					"http://192.168.178.64:8888/Binary/newEntities"));
 
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			DataOutputStream dos = new DataOutputStream(baos);
+			dos.writeUTF(typeName);
+			dos.writeInt(count);
+
+			HttpEntity postBody = new ByteArrayEntity(baos.toByteArray());
+			request.setEntity(postBody);
+
+			HttpResponse response = client.execute(request);
+			DataInputStream dis = new DataInputStream(response.getEntity()
+					.getContent());
+
+			for (int i = 0; i < count; i++)
+				ret.add(dis.readLong());
+			return ret;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 }

@@ -30,9 +30,7 @@ public class BinaryServer extends HttpServlet {
 		super.init();
 		try {
 			EntityFactory.setImplementations(new EntityFactoryImpl(),
-					new LocalRequestFoo());
-			EntityFactory.registerType("Shop");
-			EntityFactory.registerType("Coupon");
+					new EntityRequestSql());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ServletException(e);
@@ -47,47 +45,72 @@ public class BinaryServer extends HttpServlet {
 		String lastPart = parts[parts.length - 1];
 
 		if (lastPart.equals("getEntities")) {
-			DataInputStream dis = new DataInputStream(req.getInputStream());
-			String typeName = dis.readUTF();
-			long id = dis.readLong();
-			if(id == 0)
-				return;
-			
-			Collection<Long> ids = new LinkedList<Long>();
-			while(id != 0)
-			{
-				ids.add(id);
-				id = dis.readLong();
-			}
-			
-			System.out.println("Got a query for ids of type " + typeName + ": " + Arrays.toString(ids.toArray()));
-			
-			Collection<Entity> entities = EntityFactory.getEntitiesById(typeName, ids, ReturnEntityPolicy.BLOCK_ALWAYS);
-			
-			DataOutputStream dos = new DataOutputStream(resp.getOutputStream());
-			for (Entity e : entities)
-			{
-				((EntityBinary)e).serializeBinary(dos);
-				System.out.println("Written " + e.toString());
-			}
-			
+			getEntities(req, resp);
+		} else if (lastPart.equals("newEntities")) {
+			newEntities(req, resp);
 		} else {
-			Query query = null;
-			if (lastPart.equals("QueryNearbyShops"))
-				query = new QueryNearbyShops(new DataInputStream(
-						req.getInputStream()));
-			if (query == null)
-				throw new RuntimeException("Unrecognized query type: "
-						+ lastPart);
-			System.out.println("Got a query of type " + lastPart);
-			System.out.println(query.toString());
-			Collection<Long> ids = query.evaluate();
-			DataOutputStream dos = new DataOutputStream(resp.getOutputStream());
-			for (long id : ids)
-				dos.writeLong(id);
-			dos.writeLong(0);
-			dos.flush();
-			dos.close();
+			otherRequest(req, resp, lastPart);
+		}
+	}
+
+	private void otherRequest(HttpServletRequest req, HttpServletResponse resp,
+			String lastPart) throws IOException {
+		Query query = null;
+		if (lastPart.equals("QueryNearbyShops"))
+			query = new QueryNearbyShops(new DataInputStream(
+					req.getInputStream()));
+		if (query == null)
+			throw new RuntimeException("Unrecognized query type: "
+					+ lastPart);
+		System.out.println("Got a query of type " + lastPart);
+		System.out.println(query.toString());
+		Collection<Long> ids = query.evaluate();
+		DataOutputStream dos = new DataOutputStream(resp.getOutputStream());
+		for (long id : ids)
+			dos.writeLong(id);
+		dos.writeLong(0);
+		dos.flush();
+		dos.close();
+	}
+
+	private void getEntities(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
+		DataInputStream dis = new DataInputStream(req.getInputStream());
+		String typeName = dis.readUTF();
+		long id = dis.readLong();
+		
+		Collection<Long> ids = new LinkedList<Long>();
+		while(id != 0)
+		{
+			ids.add(id);
+			id = dis.readLong();
+		}
+		
+		System.out.println("Got a query for ids of type " + typeName + ": " + Arrays.toString(ids.toArray()));
+		
+		Collection<Entity> entities = EntityFactory.getEntitiesById(typeName, ids, ReturnEntityPolicy.BLOCK_ALWAYS);
+		
+		DataOutputStream dos = new DataOutputStream(resp.getOutputStream());
+		for (Entity e : entities)
+		{
+			((EntityBinary)e).serializeBinary(dos);
+			System.out.println("Written " + e.toShortString());
+		}
+	}
+
+
+	private void newEntities(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
+		DataInputStream dis = new DataInputStream(req.getInputStream());
+		String typeName = dis.readUTF();
+		int count = dis.readInt();
+		
+		Collection<Entity> entities = EntityFactory.getNewEntities(typeName, count);
+		
+		DataOutputStream dos = new DataOutputStream(resp.getOutputStream());
+		for (Entity e : entities)
+		{
+			dos.writeLong(e.getId());
 		}
 	}
 
