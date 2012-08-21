@@ -36,13 +36,15 @@ import de.gmino.meva.shared.ValueBinary;
 public class RequestEntititesByQuery<Result extends Entity> {
 	Context ctx;
 	InjectibleAsyncTask<Result> task;
+	ReturnEntityPolicy policy;
 
 	public RequestEntititesByQuery(Context ctx, Query query,
-			Class<Result> returnClass) {
+			Class<Result> returnClass, ReturnEntityPolicy policy) {
 		super();
 		this.ctx = ctx;
 		this.query = query;
 		this.typeName = returnClass.getSimpleName();
+		this.policy = policy;
 		results = new LinkedList<Result>();
 	}
 
@@ -120,7 +122,7 @@ public class RequestEntititesByQuery<Result extends Entity> {
 			}
 
 			if (!ids.isEmpty()) {
-				results.addAll((Collection<? extends Result>) EntityFactory.getEntitiesById(typeName, ids, ReturnEntityPolicy.BLOCK_IF_NEEDED));
+				results.addAll((Collection<? extends Result>) EntityFactory.getEntitiesById(typeName, ids, policy));
 			}
 
 		} catch (Exception e) {

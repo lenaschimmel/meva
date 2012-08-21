@@ -19,6 +19,7 @@ import de.gmino.meva.android.request.RequestEntititesByQuery;
 import de.gmino.meva.android.request.RequestNewEntities;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.Query;
+import de.gmino.meva.shared.ReturnEntityPolicy;
 
 public class ShopList extends ListActivity implements
 		LoaderManager.LoaderCallbacks<Cursor> {
@@ -33,7 +34,7 @@ public class ShopList extends ListActivity implements
 		LatLon myLocation = new LatLon(52.2723, 10.53547);
 		Query q = new QueryNearbyShops(myLocation, 5000, 20);
 
-		new RequestEntititesByQuery<Shop>(this, q, Shop.class) {
+		new RequestEntititesByQuery<Shop>(this, q, Shop.class, ReturnEntityPolicy.BLOCK_IF_NEEDED) {
 			protected void onFinishOnUi(Collection<Shop> results) {
 				String[] arr = new String[results.size()];
 				int i = 0;
@@ -51,6 +52,8 @@ public class ShopList extends ListActivity implements
 						.show();
 			}
 		}.start();
+		
+		System.out.println("I STARTED DA DANG!");
 
 		new RequestNewEntities<Consumer>("Consumer", 1) {
 			protected void onFinish(java.util.Collection<Consumer> results) {

@@ -55,6 +55,7 @@ public class EntityFactory {
 			Entity e = mapForThisType.get(id);
 			if (e == null) {
 				e = factoryImplementation.createEntityObject(typeName, id);
+				mapForThisType.put(id, e);
 			}
 			if (!e.isReady())
 				entitiesToFetch.add(e);
