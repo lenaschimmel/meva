@@ -776,8 +776,10 @@ public class ClassDefinition {
 			String type = attribute.typeName;
 			pw.println("		sb.append(moreIndentation + \"\\\"" + name
 					+ "\\\" : \");");
-			if (attribute.isNativeOrString())
+			if (attribute.isNative())
 				pw.println("		sb.append(\"\\\"\" + " + name + " + \"\\\"\");");
+			else if (attribute.typeName.equals("String"))
+				pw.println("		sb.append(\"\\\"\" + " + name + ".replace(\"\\\\\",\"\\\\\\\\\").replace(\"\\\"\",\"\\\\\\\"\") + \"\\\"\");");
 			else if (type.equals("relation")) {
 				pw.println("		sb.append(\"\\n\" + moreIndentation + \"[\");");
 				String firstName = "first"

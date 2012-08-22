@@ -65,7 +65,7 @@ public class BinaryServer extends HttpServlet {
 		if (query == null)
 			throw new RuntimeException("Unrecognized query type: "
 					+ lastPart);
-		System.out.println("Got a query of type " + lastPart);
+		System.out.println("Got a binary query of type " + lastPart);
 		System.out.println(query.toString());
 		Collection<Long> ids = query.evaluate();
 		DataOutputStream dos = new DataOutputStream(resp.getOutputStream());
@@ -113,7 +113,7 @@ public class BinaryServer extends HttpServlet {
 			id = dis.readLong();
 		}
 		
-		System.out.println("Got a query for ids of type " + typeName + ": " + Arrays.toString(ids.toArray()));
+		System.out.println("Got a binary query for ids of type " + typeName + ": " + Arrays.toString(ids.toArray()));
 		
 		Collection<Entity> entities = EntityFactory.getEntitiesById(typeName, ids, ReturnEntityPolicy.BLOCK_ALWAYS);
 		
@@ -150,7 +150,7 @@ public class BinaryServer extends HttpServlet {
 			throws ServletException, IOException {
 		System.out.println("Huhu!");
 		resp.getWriter()
-				.write("Yeah, du lustige Tante, ich bin hier! Du solltest aber POST-Request machen, nicht GET. Versuche doch mal <a href=\"http://gmino.de/legacy/php/post.php\">http://gmino.de/legacy/php/post.php</a>.");
+				.write("Yeah, du lustige Tante, ich bin hier! Du solltest aber POST-Request machen, nicht GET. Versuche doch mal <a href=\"http://gmino.de/legacy/php/post.php\">http://gmino.de/legacy/php/post2.php</a>.");
 		/*
 		 * String fid = req.getParameter("facebookId").toString();
 		 * 

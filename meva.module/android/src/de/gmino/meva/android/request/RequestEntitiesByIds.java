@@ -22,6 +22,9 @@ import de.gmino.meva.shared.ReturnEntityPolicy;
  * low-level request, only to be used from other high-level requests which have
  * their own async-handling code.
  * 
+ * TODO Having the same functionality, but with Entities instead of Ids, would
+ * make this a useful high level request.
+ * 
  * FIXME This class lacks the AsyncTask and just does everything synchronously.
  * 
  * Performs a request to get several Entities of the same type by their ids.
@@ -53,7 +56,8 @@ public abstract class RequestEntitiesByIds<Result extends Entity> {
 	public RequestEntitiesByIds(String typeName, Collection<Long> ids) {
 		this.ids = ids;
 		this.typeName = typeName;
-		throw new RuntimeException("This class should not be used at all, see documentation.");
+		throw new RuntimeException(
+				"This class should not be used at all, see documentation.");
 	}
 
 	private void start() {

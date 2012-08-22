@@ -15,6 +15,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import de.gmino.meva.android.request.Util;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityBinary;
 import de.gmino.meva.shared.EntityRequestInterface;
@@ -34,14 +35,14 @@ public class EntityRequestBinary implements EntityRequestInterface {
 	}
 
 	@Override
-	public void loadEntities(Collection<Entity> c) {
+	public void loadEntities(Collection<? extends Entity> c) {
 		if (c.isEmpty())
 			return;
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpPost request = new HttpPost();
 			request.setURI(new URI(
-					"http://192.168.178.64:8888/Binary/getEntities"));
+					baseUrl+"Binary/getEntities"));
 
 			String typeName = c.iterator().next().getTypeName();
 
@@ -83,7 +84,7 @@ public class EntityRequestBinary implements EntityRequestInterface {
 			HttpClient client = new DefaultHttpClient();
 			HttpPost request = new HttpPost();
 			request.setURI(new URI(
-					"http://192.168.178.64:8888/Binary/newEntities"));
+					baseUrl+"Binary/newEntities"));
 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			DataOutputStream dos = new DataOutputStream(baos);
@@ -113,14 +114,14 @@ public class EntityRequestBinary implements EntityRequestInterface {
 	}
 
 	@Override
-	public void saveEntities(Collection<Entity> c) {
+	public void saveEntities(Collection<? extends Entity> c) {
 		try {
 			String typeName = c.iterator().next().getTypeName();
 
 			HttpClient client = new DefaultHttpClient();
 			HttpPost request = new HttpPost();
 			request.setURI(new URI(
-					"http://192.168.178.64:8888/Binary/saveEntities"));
+					baseUrl+"Binary/saveEntities"));
 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			DataOutputStream dos = new DataOutputStream(baos);

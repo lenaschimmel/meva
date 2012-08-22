@@ -12,9 +12,9 @@ import java.util.Collection;
  * 
  */
 public interface EntityRequestInterface {
-	void loadEntities(Collection<Entity> c);
+	void loadEntities(Collection<? extends Entity> c);
 	void loadEntity(Entity e);
 	Collection<Long> getNewEntities(String typeName, int count);
 	void saveEntity(Entity e);
-	void saveEntities(Collection<Entity> c);
+	void saveEntities(Collection<? extends Entity> c);
 }

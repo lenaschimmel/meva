@@ -113,7 +113,7 @@ public class EntityFactory {
 		requestImplementation = request;
 	}
 
-	public static void loadEntities(Collection<Entity> c) {
+	public static void loadEntities(Collection<? extends Entity> c) {
 		if (requestImplementation == null)
 			throw new RuntimeException(
 					"You must first call setImplementations.");
@@ -128,7 +128,7 @@ public class EntityFactory {
 	}
 
 
-	public static void saveEntities(Collection<Entity> c) {
+	public static void saveEntities(Collection<? extends Entity> c) {
 		if (requestImplementation == null)
 			throw new RuntimeException(
 					"You must first call setImplementations.");

@@ -97,10 +97,11 @@ public class RequestEntititesByQuery<Result extends Entity> {
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpPost request = new HttpPost();
-			request.setURI(new URI("http://192.168.178.64:8888/Binary/"
+			
+			// TODO why is the actual connection within this Request class, even though other request classes delegate that to Impl classes?
+			
+			request.setURI(new URI(Util.getBaseUrl()+"Binary/"
 					+ query.getUrlPostfix()));
-			// StringBuilder sb = new StringBuilder();
-			// query.serializeJson(sb);
 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			DataOutputStream dos = new DataOutputStream(baos);

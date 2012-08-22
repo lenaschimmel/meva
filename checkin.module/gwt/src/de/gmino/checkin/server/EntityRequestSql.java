@@ -15,7 +15,7 @@ import de.gmino.meva.shared.EntitySql;
 public class EntityRequestSql implements EntityRequestInterface {
 
 	@Override
-	public void loadEntities(Collection<Entity> c) {
+	public void loadEntities(Collection<? extends Entity> c) {
 		Connection dbCon = SqlHelper.getConnection();
 		for(Entity e : c)
 		{
@@ -66,7 +66,7 @@ public class EntityRequestSql implements EntityRequestInterface {
 	}
 
 	@Override
-	public void saveEntities(Collection<Entity> c) {
+	public void saveEntities(Collection<? extends Entity> c) {
 		for(Entity e : c)
 			saveEntity(e);
 	}
