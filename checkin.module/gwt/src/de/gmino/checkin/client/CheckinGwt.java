@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.gmino.checkin.client.domain.Shop;
+import de.gmino.meva.shared.EntityFactory;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -43,6 +44,8 @@ public class CheckinGwt implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+		EntityFactory.setImplementations(new EntityFactoryImpl(), new EntityRequestJson());
+		
 		final Button sendButton = new Button("Send");
 		final TextBox nameField = new TextBox();
 		nameField.setText("GWT User");
