@@ -45,7 +45,6 @@ public class ShopList extends ListActivity implements
 				int i = 0;
 				for (Shop shop : results) {
 					arr[i++] = shop.getTitle() + "("+shop.getLocation().getDistanceTo(myLocation)+" entfernt)";
-					// TODO: Can't add this because of inheritance problems.
 					couponsToLoad.addAll(shop.getCoupons());
 				}
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(
@@ -53,9 +52,21 @@ public class ShopList extends ListActivity implements
 						R.id.textView_List, arr);
 				setListAdapter(adapter);
 				
-				// TODO: Need an asynchronous wrapper for that. Both of those variants are synchronous: 
-				//EntityFactory.loadEntities(couponsToLoad);
-				//new RequestEntitiesByIds<Entity>(null, null) {		};
+				Requests.loadEntities(couponsToLoad, new RequestListener<Coupon>() {
+					@Override
+					public void onFinished(Collection<Coupon> coupons) {
+						StringBuilder sb = new StringBuilder("Coupons: ");
+						boolean first = true;
+						for(Coupon c : coupons)
+						{
+							if(!first)
+								sb.append(", ");
+							sb.append(c.getTitle());
+							first = false;
+						}
+						Toast.makeText(ShopList.this, sb.toString(), Toast.LENGTH_LONG).show();
+					}
+				});
 			}
 			
 			@Override
