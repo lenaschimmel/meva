@@ -1,10 +1,6 @@
 package de.gmino.meva.shared;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 public interface Entity<T> extends Comparable<T> {
 
@@ -35,4 +31,6 @@ public interface Entity<T> extends Comparable<T> {
 	public void reassignRelation(String relname, Entity e);
  
 	public String toShortString();
+	
+	public EntityTypeName getType();
 }

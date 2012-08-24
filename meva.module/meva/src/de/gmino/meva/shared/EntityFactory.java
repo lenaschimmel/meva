@@ -22,7 +22,6 @@ import java.util.TreeMap;
  */
 public class EntityFactory {
 	static EntityFactoryInterface factoryImplementation;
-	static EntityRequestInterface requestImplementation;
 	static Map<String, Map<Long, Entity>> entityMaps;
 
 	public static void registerType(String typeName) {
@@ -34,112 +33,46 @@ public class EntityFactory {
 					+ typeName);
 		}
 	}
-
-	public static Collection<Entity> getEntitiesById(String typeName,
-			Collection<Long> ids, ReturnEntityPolicy policy) {
-		if (factoryImplementation == null || requestImplementation == null)
-			throw new RuntimeException(
-					"You must first call setImplementations.");
-
-		// TODO: This is kind of a hack, but maybe thats ok:
-		registerType(typeName);
-		Map<Long, Entity> mapForThisType = entityMaps.get(typeName);
-
-		// if (mapForThisType == null)
-		// throw new RuntimeException("Type '"+typeName+"' not supported.");
-
-		Collection<Entity> ret = new ArrayList<Entity>(ids.size());
-		Collection<Entity> entitiesToFetch = new LinkedList<Entity>();
-
-		for (Long id : ids) {
-			Entity e = mapForThisType.get(id);
-			if (e == null) {
-				e = factoryImplementation.createEntityObject(typeName, id);
-				mapForThisType.put(id, e);
-			}
-			if (!e.isReady())
-				entitiesToFetch.add(e);
-			ret.add(e);
-		}
-
-		// no need to load here -> policy will do this if requested
-//		if (!entitiesToFetch.isEmpty())
-	//		requestImplementation.loadEntities(entitiesToFetch);
-
-		return policy.performAction(ret);
-	}
-
-	public static Entity getEntityById(String typeName, long id,
-			ReturnEntityPolicy policy) {
-		// TODO Always delegating to the collection-variant avoids code
-		// duplication, but is not the best decision for performance.
-		Collection<Long> idList = new LinkedList<Long>();
-		idList.add(id);
-		Collection<Entity> ret = getEntitiesById(typeName, idList, policy);
-		if (ret == null)
-			return null;
-		return ret.iterator().next();
-	}
-
-	public static Entity getNewEntity(String typeName) {
-		return getNewEntities(typeName, 1).iterator().next();
-	}
-
-	public static Collection<Entity> getNewEntities(String typeName, int count) {
+	
+	public static <EntityClass extends Entity> Collection<EntityClass> getUnloadedEntitiesById(EntityTypeName type,
+			Collection<Long> ids) {
 		if (factoryImplementation == null)
 			throw new RuntimeException(
 					"You must first call setImplementations.");
 
 		// TODO: This is kind of a hack, but maybe thats ok:
-		registerType(typeName);
+		registerType(type.toString());
+		Map<Long, Entity> mapForThisType = entityMaps.get(type.toString());
 
-		Map<Long, Entity> mapForThisType = entityMaps.get(typeName);
-		if (mapForThisType == null)
-			throw new RuntimeException("Type not supported.");
+		// if (mapForThisType == null)
+		// throw new RuntimeException("Type '"+typeName+"' not supported.");
 
-		final Collection<Long> ids = requestImplementation.getNewEntities(
-				typeName, count);
-		Collection<Entity> ret = factoryImplementation.createEntityObjects(
-				typeName, ids);
+		Collection<EntityClass> ret = new ArrayList<EntityClass>(ids.size());
 
-		for (Entity e : ret)
-			mapForThisType.put(e.getId(), e);
+		for (Long id : ids) {
+			EntityClass e = (EntityClass) mapForThisType.get(id);
+			if (e == null) {
+				e = (EntityClass) factoryImplementation.createEntityObject(type.toString(), id);
+				mapForThisType.put(id, e);
+			}
+			ret.add(e);
+		}
+
 		return ret;
 	}
-
-	public static void setImplementations(EntityFactoryInterface factory,
-			EntityRequestInterface request) {
-		factoryImplementation = factory;
-		requestImplementation = request;
-	}
-
-	public static void loadEntities(Collection<? extends Entity> c) {
-		if (requestImplementation == null)
-			throw new RuntimeException(
-					"You must first call setImplementations.");
-		requestImplementation.loadEntities(c);
-	}
-
-	public static void loadEntity(Entity e) {
-		if (requestImplementation == null)
-			throw new RuntimeException(
-					"You must first call setImplementations.");
-		requestImplementation.loadEntity(e);
-	}
-
-
-	public static void saveEntities(Collection<? extends Entity> c) {
-		if (requestImplementation == null)
-			throw new RuntimeException(
-					"You must first call setImplementations.");
-		requestImplementation.saveEntities(c);
-	}
 	
-	public static void saveEntity(Entity e) {
-		if (requestImplementation == null)
-			throw new RuntimeException(
-					"You must first call setImplementations.");
-		requestImplementation.saveEntity(e);
+	public static Entity getUnloadedEntityById(EntityTypeName type, long id) {
+		// TODO Always delegating to the collection-variant avoids code
+		// duplication, but is not the best decision for performance.
+		Collection<Long> idList = new LinkedList<Long>();
+		idList.add(id);
+		Collection<Entity> ret = getUnloadedEntitiesById(type, idList);
+		if (ret == null)
+			return null;
+		return ret.iterator().next();
 	}
 
+	public static void setImplementations(EntityFactoryInterface factory) {
+		factoryImplementation = factory;
+	}
 }

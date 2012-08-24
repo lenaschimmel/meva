@@ -4,31 +4,10 @@
 package de.gmino.checkin.shared.domain;
 
 // gmino stuff
-import de.gmino.meva.shared.Entity;
-import de.gmino.meva.shared.EntityFactory;
-import de.gmino.meva.shared.ReturnEntityPolicy;
-import de.gmino.meva.shared.RelationCollection;
-
-// default imports
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-// imports for JSON
-import org.itemscript.core.values.JsonObject;
-import org.itemscript.core.values.JsonValue;
-
-// imports for field types
-import de.gmino.checkin.shared.domain.Coupon;
-import de.gmino.checkin.shared.domain.ShopAdmin;
+import de.gmino.checkin.shared.domain.gen.ShopGen;
 import de.gmino.geobase.shared.domain.Address;
 import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.LatLon;
-
-
-import de.gmino.checkin.shared.domain.gen.ShopGen;
 public class Shop extends ShopGen {
 	// Constructors
 	public Shop(long id)

@@ -4,27 +4,12 @@
 package de.gmino.checkin.shared.request;
 
 // gmino stuff
-import de.gmino.meva.shared.Value;
-import de.gmino.meva.shared.Query;
-import de.gmino.meva.shared.EntityFactory;
-import de.gmino.meva.shared.ReturnEntityPolicy;
-
-// default imports
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
-// imports for JSON
 import org.itemscript.core.values.JsonObject;
-import org.itemscript.core.values.JsonValue;
-
-// imports for field types
-import de.gmino.geobase.shared.domain.LatLon;
-
 
 import de.gmino.checkin.shared.request.gen.QueryNearbyShopsGen;
+import de.gmino.geobase.shared.domain.LatLon;
 public abstract class QueryNearbyShops extends QueryNearbyShopsGen {
 	// Constructors
 	public QueryNearbyShops(JsonObject json) throws IOException

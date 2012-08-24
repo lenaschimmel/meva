@@ -12,7 +12,6 @@ package de.gmino.geobase.shared.domain;
 // gmino stuff
 import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.EntityFactory;
-import de.gmino.meva.shared.ReturnEntityPolicy;
 
 // default imports
 import java.io.DataInputStream;

@@ -3,11 +3,11 @@ package de.gmino.checkin.client;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import de.gmino.checkin.client.domain.Coupon;
-import de.gmino.checkin.client.domain.Shop;
 import de.gmino.checkin.client.domain.Checkin;
 import de.gmino.checkin.client.domain.Consumer;
+import de.gmino.checkin.client.domain.Coupon;
 import de.gmino.checkin.client.domain.CouponOwenership;
+import de.gmino.checkin.client.domain.Shop;
 import de.gmino.checkin.client.domain.ShopAdmin;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactoryInterface;

@@ -1,25 +1,18 @@
 package de.gmino.checkin.client;
 
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.net.URI;
 import java.util.Collection;
 import java.util.LinkedList;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.itemscript.core.JsonSystem;
 import org.itemscript.core.connectors.GetCallback;
 import org.itemscript.core.gwt.GwtSystem;
 import org.itemscript.core.values.JsonValue;
 
 import de.gmino.meva.shared.Entity;
-import de.gmino.meva.shared.EntityBinary;
 import de.gmino.meva.shared.EntityRequestInterface;
 
 public class EntityRequestJson implements EntityRequestInterface {
@@ -44,20 +37,20 @@ public class EntityRequestJson implements EntityRequestInterface {
 
 					ByteArrayOutputStream baos = new ByteArrayOutputStream();
 					DataOutputStream dos = new DataOutputStream(baos);
-					dos.writeUTF(typeName);
+				/*	dos.writeUTF(typeName);
 					for (Entity e : c)
 						dos.writeLong(e.getId());
 					dos.writeLong(0);
-
+*/
 					HttpEntity postBody = new ByteArrayEntity(baos.toByteArray());
-					request.setEntity(postBody);
+			/*		request.setEntity(postBody);
 
 					HttpResponse response = client.execute(request);
 					DataInputStream dis = new DataInputStream(response.getEntity()
 							.getContent());
-
-					for (Entity e : c)
-						((EntityBinary) e).deserializeBinary(dis);
+*/
+	//				for (Entity e : c)
+		//				((EntityBinary) e).deserializeBinary(dis);
 				}
 
 				@Override

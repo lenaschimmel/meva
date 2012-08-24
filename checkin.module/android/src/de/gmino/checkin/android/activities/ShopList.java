@@ -17,11 +17,9 @@ import de.gmino.checkin.android.domain.Coupon;
 import de.gmino.checkin.android.domain.Shop;
 import de.gmino.checkin.android.request.QueryNearbyShops;
 import de.gmino.geobase.android.domain.LatLon;
-import de.gmino.meva.android.request.RequestEntitiesByIds;
-import de.gmino.meva.android.request.RequestEntititesByQuery;
-import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.Query;
-import de.gmino.meva.shared.ReturnEntityPolicy;
+import de.gmino.meva.shared.request.RequestListener;
+import de.gmino.meva.shared.request.Requests;
 
 public class ShopList extends ListActivity implements
 		LoaderManager.LoaderCallbacks<Cursor> {
@@ -36,8 +34,9 @@ public class ShopList extends ListActivity implements
 		// Request all shops near you
 		final LatLon myLocation = new LatLon(52.2723, 10.53547);
 		Query q = new QueryNearbyShops(myLocation, 5000, 20);
-		new RequestEntititesByQuery<Shop>(this, q, Shop.class, ReturnEntityPolicy.BLOCK_IF_NEEDED) {
-			protected void onFinishOnUi(Collection<Shop> results) {
+		Requests.getLoadedEntitiesByQuery(Shop.type, q, new RequestListener<Shop>() {
+			@Override
+			public void onFinished(Collection<Shop> results) {
 				// prepare a set of all the Coupons that we should pre-load, because the shops may contain unloaded coupons.
 				Set<Coupon> couponsToLoad = new HashSet<Coupon>();
 				
@@ -47,7 +46,7 @@ public class ShopList extends ListActivity implements
 				for (Shop shop : results) {
 					arr[i++] = shop.getTitle() + "("+shop.getLocation().getDistanceTo(myLocation)+" entfernt)";
 					// TODO: Can't add this because of inheritance problems.
-					// couponsToLoad.addAll(shop.getCoupons());
+					couponsToLoad.addAll(shop.getCoupons());
 				}
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 						ShopList.this, R.layout.shoplistitem,
@@ -57,14 +56,15 @@ public class ShopList extends ListActivity implements
 				// TODO: Need an asynchronous wrapper for that. Both of those variants are synchronous: 
 				//EntityFactory.loadEntities(couponsToLoad);
 				//new RequestEntitiesByIds<Entity>(null, null) {		};
-				
 			}
-
-			protected void onErrorOnUi(String message) {
+			
+			@Override
+			public void onError(String message, Throwable e) {
 				Toast.makeText(ShopList.this, message, Toast.LENGTH_LONG)
-						.show();
+				.show();
 			}
-		}.start();
+		});
+		
 	
 		/*
 		System.out.println("I STARTED DA DANG!");

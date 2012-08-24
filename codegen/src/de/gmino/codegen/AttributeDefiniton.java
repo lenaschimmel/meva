@@ -93,7 +93,7 @@ public class AttributeDefiniton {
 	public String getUsableType()
 	{
 		if(isRelation())
-			return "RelationCollection<"+reltype+">";
+			return "RelationCollection<? extends "+reltype+">";
 		else
 			return typeName;
 	}

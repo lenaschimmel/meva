@@ -5,10 +5,10 @@ import java.util.Collection;
 
 import de.gmino.checkin.server.domain.Checkin;
 import de.gmino.checkin.server.domain.Consumer;
-import de.gmino.checkin.server.domain.CouponOwenership;
-import de.gmino.checkin.server.domain.ShopAdmin;
 import de.gmino.checkin.server.domain.Coupon;
+import de.gmino.checkin.server.domain.CouponOwenership;
 import de.gmino.checkin.server.domain.Shop;
+import de.gmino.checkin.server.domain.ShopAdmin;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactoryInterface;
 

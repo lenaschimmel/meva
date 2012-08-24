@@ -4,7 +4,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -14,13 +13,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import de.gmino.checkin.server.request.LocalRequetsImpl;
+import de.gmino.checkin.server.request.NetworkRequestsImplAsyncLocalSql;
 import de.gmino.checkin.server.request.QueryNearbyShops;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityBinary;
 import de.gmino.meva.shared.EntityFactory;
-import de.gmino.meva.shared.EntitySql;
+import de.gmino.meva.shared.EntityTypeName;
 import de.gmino.meva.shared.Query;
-import de.gmino.meva.shared.ReturnEntityPolicy;
+import de.gmino.meva.shared.request.Requests;
 
 public class BinaryServer extends HttpServlet {
 
@@ -30,8 +31,8 @@ public class BinaryServer extends HttpServlet {
 	public void init() throws ServletException {
 		super.init();
 		try {
-			EntityFactory.setImplementations(new EntityFactoryImpl(),
-					new EntityRequestSql());
+			EntityFactory.setImplementations(new EntityFactoryImpl());
+			Requests.setImplementation(new NetworkRequestsImplAsyncLocalSql());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ServletException(e);
@@ -63,8 +64,7 @@ public class BinaryServer extends HttpServlet {
 			query = new QueryNearbyShops(new DataInputStream(
 					req.getInputStream()));
 		if (query == null)
-			throw new RuntimeException("Unrecognized query type: "
-					+ lastPart);
+			throw new RuntimeException("Unrecognized query type: " + lastPart);
 		System.out.println("Got a binary query of type " + lastPart);
 		System.out.println(query.toString());
 		Collection<Long> ids = query.evaluate();
@@ -75,25 +75,28 @@ public class BinaryServer extends HttpServlet {
 		dos.flush();
 		dos.close();
 	}
-	
-	private void saveEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+	private void saveEntities(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
 		Connection dbCon = SqlHelper.getConnection();
 		Query query = null;
 		DataInputStream dis = new DataInputStream(req.getInputStream());
 		String typeName = dis.readUTF();
+		EntityTypeName type = EntityTypeName.getByString(typeName);
 		long id = dis.readLong();
-		while(id != 0)
-		{
-			Entity e = EntityFactory.getEntityById(typeName, id, ReturnEntityPolicy.RETURN_UNLOADED);
+		Collection<Entity> entities = new LinkedList<Entity>();
+		while (id != 0) {
+			Entity e = EntityFactory.getUnloadedEntityById(type, id);
 			try {
-				((EntityBinary)e).deserializeBinary(dis);
-				EntityFactory.saveEntity(e);
+				((EntityBinary) e).deserializeBinary(dis);
+				entities.add(e);
 			} catch (Exception e1) {
 				throw new RuntimeException(e1);
 			}
 			id = dis.readLong();
 		}
-		
+		LocalRequetsImpl.saveEntities(entities);
+
 		DataOutputStream dos = new DataOutputStream(resp.getOutputStream());
 		dos.writeLong(0);
 		dos.flush();
@@ -104,41 +107,41 @@ public class BinaryServer extends HttpServlet {
 			throws IOException {
 		DataInputStream dis = new DataInputStream(req.getInputStream());
 		String typeName = dis.readUTF();
+		EntityTypeName type = EntityTypeName.getByString(typeName);
 		long id = dis.readLong();
-		
+
 		Collection<Long> ids = new LinkedList<Long>();
-		while(id != 0)
-		{
+		while (id != 0) {
 			ids.add(id);
 			id = dis.readLong();
 		}
-		
-		System.out.println("Got a binary query for ids of type " + typeName + ": " + Arrays.toString(ids.toArray()));
-		
-		Collection<Entity> entities = EntityFactory.getEntitiesById(typeName, ids, ReturnEntityPolicy.BLOCK_ALWAYS);
-		
+
+		System.out.println("Got a binary query for ids of type " + typeName
+				+ ": " + Arrays.toString(ids.toArray()));
+
+		Collection<Entity> entities = LocalRequetsImpl.getLoadedEntitiesById(type, ids);
+
 		DataOutputStream dos = new DataOutputStream(resp.getOutputStream());
-		for (Entity e : entities)
-		{
-			((EntityBinary)e).serializeBinary(dos);
+		for (Entity e : entities) {
+			((EntityBinary) e).serializeBinary(dos);
 			System.out.println("Written " + e.toShortString());
 		}
 		dos.flush();
 		dos.close();
 	}
 
-
 	private void newEntities(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		DataInputStream dis = new DataInputStream(req.getInputStream());
 		String typeName = dis.readUTF();
+		EntityTypeName type = EntityTypeName.getByString(typeName);
 		int count = dis.readInt();
-		
-		Collection<Entity> entities = EntityFactory.getNewEntities(typeName, count);
-		
+
+		Collection<Entity> entities = LocalRequetsImpl.getNewEntities(type,
+				count);
+
 		DataOutputStream dos = new DataOutputStream(resp.getOutputStream());
-		for (Entity e : entities)
-		{
+		for (Entity e : entities) {
 			dos.writeLong(e.getId());
 		}
 		dos.flush();

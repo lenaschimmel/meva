@@ -51,10 +51,8 @@ public class ClassDefinition {
 		createJavaExtends(new File(fullSrcDir + "/" + className + ".java"));
 	}
 
-	private void createRegisterType(PrintWriter pw) {
-		pw.println("	static {");
-		pw.println("		EntityFactory.registerType(\"" + baseClassName + "\");");
-		pw.println("	}");
+	private void generateType(PrintWriter pw) {
+		pw.println("	public static final EntityTypeName type = EntityTypeName.getByString(\""+baseClassName+"\");");
 		pw.println();
 	}
 
@@ -196,7 +194,7 @@ public class ClassDefinition {
 				+ (query ? ", Query" : "") + " {");
 
 		if (entity)
-			createRegisterType(pw);
+			generateType(pw);
 
 		pw.println("	// Attributes");
 		generateAttributes(pw);
@@ -209,7 +207,6 @@ public class ClassDefinition {
 		if (entity) {
 			pw.println("	// Factory- and entity-related");
 			generateGetById(pw);
-			generateGetNew(pw);
 			pw.println();
 		}
 
@@ -332,22 +329,11 @@ public class ClassDefinition {
 			generateJsonDeserializer(pw);
 	}
 
-	private void generateGetNew(PrintWriter pw) {
-		pw.println("	public static " + className + " getNew()");
-		pw.println("	{");
-		pw.println("		return (" + className + ")EntityFactory.getNewEntity(\""
-				+ baseClassName + "\");");
-		pw.println("	}");
-		pw.println();
-
-	}
-
 	private void generateGetById(PrintWriter pw) {
 		pw.println("	public static " + className
-				+ " getById(long id, ReturnEntityPolicy policy)");
+				+ " getById(long id)");
 		pw.println("	{");
-		pw.println("		return (" + className + ")EntityFactory.getEntityById(\""
-				+ baseClassName + "\", id, policy);");
+		pw.println("		return (" + className + ")EntityFactory.getUnloadedEntityById(type, id);");
 		pw.println("	}");
 		pw.println();
 	}
@@ -430,8 +416,8 @@ public class ClassDefinition {
 			pw.println("import de.gmino.meva.shared.Query;");
 
 		pw.println("import de.gmino.meva.shared.EntityFactory;");
-		pw.println("import de.gmino.meva.shared.ReturnEntityPolicy;");
 		pw.println("import de.gmino.meva.shared.RelationCollection;");
+		pw.println("import de.gmino.meva.shared.EntityTypeName;");
 		pw.println();
 
 		pw.println("// default imports");
@@ -513,9 +499,9 @@ public class ClassDefinition {
 				pw.println("		while(" + attribute.attributeName + "Id != 0)");
 				pw.println("		{");
 				pw.println("			" + attribute.attributeName + ".add(("
-						+ attribute.reltype + ")EntityFactory.getEntityById(\""
-						+ attribute.reltype + "\", " + attribute.attributeName
-						+ "Id, ReturnEntityPolicy.RETURN_UNLOADED));");
+						+ attribute.reltype + ")EntityFactory.getUnloadedEntityById("
+						+ attribute.reltype + ".type, " + attribute.attributeName
+						+ "Id));");
 				pw.println("			" + attribute.attributeName
 						+ "Id = dis.readLong();");
 				pw.println("		}");
@@ -613,10 +599,10 @@ public class ClassDefinition {
 						+ attribute.attributeName + ");");
 			else if (type.equals("relation")) {
 
-				pw.println("		for(Entity " + attribute.attributeName
-						+ "Item : " + attribute.attributeName + ")");
-				pw.println("			dos.writeLong(" + attribute.attributeName
-						+ "Item.getId());");
+				pw.println("		for(Object " + attribute.attributeName
+						+ "Object : " + attribute.attributeName + ")");
+				pw.println("			dos.writeLong(((Entity)" + attribute.attributeName
+						+ "Object).getId());");
 				pw.println("		dos.writeLong(0);");
 
 			} else if (type.equals("String")) {
@@ -691,9 +677,9 @@ public class ClassDefinition {
 						+ attribute.attributeName
 						+ "Id = Long.parseLong(subVal.asString().stringValue());");
 				pw.println("			" + attribute.attributeName + ".add(("
-						+ attribute.reltype + ")EntityFactory.getEntityById(\""
-						+ attribute.reltype + "\", " + attribute.attributeName
-						+ "Id, ReturnEntityPolicy.RETURN_UNLOADED));");
+						+ attribute.reltype + ")EntityFactory.getUnloadedEntityById("
+						+ attribute.reltype + ".type, " + attribute.attributeName
+						+ "Id));");
 				pw.println("		}");
 			} else {
 				if (attribute.isEntity()) {
@@ -785,13 +771,13 @@ public class ClassDefinition {
 				String firstName = "first"
 						+ capitalizeFirst(attribute.attributeName);
 				pw.println("		boolean " + firstName + " = true;");
-				pw.println("		for(Entity " + attribute.attributeName
-						+ "Item : " + attribute.attributeName + ")");
+				pw.println("		for(Object " + attribute.attributeName
+						+ "Object : " + attribute.attributeName + ")");
 				pw.println("		{");
 				pw.println("			sb.append(" + firstName
 						+ " ? \"\\n\" : \",\\n\");");
-				pw.println("			sb.append(moreIndentation + \"\\t\" + "
-						+ attribute.attributeName + "Item.getId());");
+				pw.println("			sb.append(moreIndentation + \"\\t\" + ((Entity)"
+						+ attribute.attributeName + "Object).getId());");
 				pw.println("			" + firstName + " = false;");
 				pw.println("		}");
 				pw.println("		sb.append(moreIndentation + \"]\");");
@@ -855,8 +841,8 @@ public class ClassDefinition {
 		pw.println("		rs = stat.executeQuery(selectString);");
 		pw.println("		while(rs.next())");
 		pw.println("			" + def.attributeName + ".add((" + def.reltype
-				+ ")EntityFactory.getEntityById(\"" + def.reltype
-				+ "\", rs.getLong(1), ReturnEntityPolicy.RETURN_UNLOADED));");
+				+ ")EntityFactory.getUnloadedEntityById(" + def.reltype
+				+ ".type, rs.getLong(1)));");
 	}
 
 	/**
@@ -1102,11 +1088,11 @@ public class ClassDefinition {
 		if (attribute.isEntity()) {
 			pw.println("	public " + attribute.typeName + " get"
 					+ capitalizeFirst(attribute.attributeName)
-					+ "(ReturnEntityPolicy policy)");
+					+ "()");
 			pw.println("	{");
 			pw.println("		return (" + attribute.typeName
-					+ ")EntityFactory.getEntityById(\"" + attribute.typeName
-					+ "\"," + attribute.attributeName + "_id, policy);");
+					+ ")EntityFactory.getUnloadedEntityById(" + attribute.typeName
+					+ ".type," + attribute.attributeName + "_id);");
 		} else {
 			pw.println("	public " + attribute.getUsableType()
 					+ ((attribute.typeName.equals("boolean")) ? " is" : " get")
@@ -1196,7 +1182,13 @@ public class ClassDefinition {
 		pw.println("	public String getTypeName() {");
 		pw.println("		return \"" + baseClassName + "\";");
 		pw.println("	}");
-	}
+		pw.println();
+		pw.println("	@Override");
+		pw.println("	public EntityTypeName getType() {");
+		pw.println("		return type;");
+		pw.println("	}");
+		pw.println();
+}
 
 	public String getFullPackage(String target, boolean gen) {
 		return packageName.replace("TARGET", target) + (gen ? ".gen" : "");

@@ -15,17 +15,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.itemscript.core.JsonSystem;
-import org.itemscript.core.gwt.GwtSystem;
 import org.itemscript.core.values.JsonArray;
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 import org.itemscript.standard.StandardConfig;
 
+import de.gmino.checkin.server.request.LocalRequetsImpl;
+import de.gmino.checkin.server.request.NetworkRequestsImplAsyncLocalSql;
 import de.gmino.checkin.server.request.QueryNearbyShops;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
+import de.gmino.meva.shared.EntityTypeName;
 import de.gmino.meva.shared.Query;
-import de.gmino.meva.shared.ReturnEntityPolicy;
+import de.gmino.meva.shared.request.Requests;
 
 public class JsonServer extends HttpServlet {
 
@@ -35,8 +37,8 @@ public class JsonServer extends HttpServlet {
 	public void init() throws ServletException {
 		super.init();
 		try {
-			EntityFactory.setImplementations(new EntityFactoryImpl(),
-					new EntityRequestSql());
+			EntityFactory.setImplementations(new EntityFactoryImpl());
+			Requests.setImplementation(new NetworkRequestsImplAsyncLocalSql());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ServletException(e);
@@ -90,6 +92,7 @@ public class JsonServer extends HttpServlet {
 			first = false;
 		}
 		sb.append("]");
+		resp.setContentType("text/json");
 		writeAnswer(resp.getOutputStream(), "OK", sb.toString());
 	}
 
@@ -124,6 +127,7 @@ public class JsonServer extends HttpServlet {
 		JsonObject requestObject = requestValue.asObject();
 		
 		String typeName = requestObject.getString("typeName");
+		EntityTypeName type = EntityTypeName.getByString(typeName);
 		JsonArray idArray = requestObject.getArray("ids");
 		
 		Collection<Long> ids = new LinkedList<Long>();
@@ -134,8 +138,7 @@ public class JsonServer extends HttpServlet {
 		System.out.println("Got a JSON query for ids of type " + typeName + ": "
 				+ Arrays.toString(ids.toArray()));
 
-		Collection<Entity> entities = EntityFactory.getEntitiesById(typeName,
-				ids, ReturnEntityPolicy.BLOCK_ALWAYS);
+		Collection<Entity> entities = LocalRequetsImpl.getLoadedEntitiesById(type, ids);
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("[");
@@ -148,11 +151,13 @@ public class JsonServer extends HttpServlet {
 		}
 		sb.append("]");
 
+		resp.setContentType("text/json");
 		writeAnswer(resp.getOutputStream(), "OK", sb.toString());
 	}
 
 	private void newEntities(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
+		resp.setContentType("text/json");
 		writeAnswer(resp.getOutputStream(), "ERROR", "This kind of request is currently not available as JSON. Use the binary interface or ask Lena.");
 
 	}
@@ -161,6 +166,7 @@ public class JsonServer extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		System.out.println("Huhu!");
+		resp.setContentType("text/json");
 		writeAnswer(resp.getOutputStream(), "ERROR", "\"Yeah, du lustige Tante, ich bin hier! Du solltest aber POST-Request machen, nicht GET. Versuche doch mal <a href=\\\"http://gmino.de/legacy/php/post.php\\\">http://gmino.de/legacy/php/post2.php</a>.\"");
 	}
 

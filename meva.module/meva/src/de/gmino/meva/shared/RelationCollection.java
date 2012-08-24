@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 public class RelationCollection<Item extends Entity> extends
-		AbstractCollection<Item> {
+		AbstractCollection {
 
 	Entity container;
 	String relname;
@@ -35,10 +35,11 @@ public class RelationCollection<Item extends Entity> extends
 		return items.contains(o);
 	}
 
-	public boolean add(Item e) {
-		e.reassignRelation(relname, container);
-		return items.add(e);
-	}
+	@Override
+	public boolean add(Object e) {
+		((Entity) e).reassignRelation(relname, container);
+		return items.add((Item) e);
+	};
 
 	@Override
 	public boolean remove(Object o) {

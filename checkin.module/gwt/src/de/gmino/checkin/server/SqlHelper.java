@@ -2,7 +2,6 @@ package de.gmino.checkin.server;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class SqlHelper {
 	static Connection con;
