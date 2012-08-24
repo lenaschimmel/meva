@@ -40,7 +40,7 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 	}
 
 	@Override
-	public void getIdsByQuery(Query query, RequestListener<Long> listener) {
+	public void getIdsByQuery(Query query, final RequestListener<Long> listener) {
 		new AsyncTask<Query, Long, Collection<Long>>() {
 
 			protected Collection<Long> doInBackground(Query... queryParams) {
@@ -81,13 +81,17 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 				}
 				return ids;
 			};
+
+			protected void onPostExecute(java.util.Collection<Long> result) {
+				listener.onFinished(result);
+			};
 		}.execute(query);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void getNewIds(final EntityTypeName type, int count,
-			RequestListener<Long> listener) {
+			final RequestListener<Long> listener) {
 
 		new AsyncTask<Integer, Long, Collection<Long>>() {
 			protected Collection<Long> doInBackground(Integer... countParams) {
@@ -117,6 +121,10 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 					throw new RuntimeException(e);
 				}
 				return ids;
+			};
+			
+			protected void onPostExecute(java.util.Collection<Long> result) {
+				listener.onFinished(result);
 			};
 		}.execute(count);
 	}
@@ -163,6 +171,10 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 				}
 				return entities;
 			};
+			
+			protected void onPostExecute(java.util.Collection<EntityClass> result) {
+				listener.onFinished(result);
+			};
 		}.execute(entities);
 	}
 
@@ -170,7 +182,7 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 	@Override
 	public <EntityClass extends Entity> void saveEntities(
 			Collection<EntityClass> entities,
-			RequestListener<EntityClass> listener) {
+			final RequestListener<EntityClass> listener) {
 		new AsyncTask<Collection<EntityClass>, EntityClass, Collection<EntityClass>>() {
 			protected Collection<EntityClass> doInBackground(
 					Collection<EntityClass>... entitiesParams) {
@@ -203,7 +215,13 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 				}
 				return entities;
 			};
+			
+			protected void onPostExecute(java.util.Collection<EntityClass> result) {
+				listener.onFinished(result);
+			};
 		}.execute(entities);
+		
+
 	}
 
 }
