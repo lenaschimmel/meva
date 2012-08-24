@@ -1,6 +1,12 @@
 package de.gmino.checkin.client;
 
 import java.io.IOException;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.itemscript.core.gwt.GwtSystem;
 import org.itemscript.core.values.JsonObject;
@@ -16,6 +22,7 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
@@ -24,7 +31,15 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.gmino.checkin.client.domain.Coupon;
 import de.gmino.checkin.client.domain.Shop;
+import de.gmino.checkin.client.request.NetworkRequestsImplAsyncJson;
+import de.gmino.checkin.client.request.QueryNearbyShops;
+import de.gmino.geobase.client.domain.LatLon;
+import de.gmino.meva.shared.EntityFactory;
+import de.gmino.meva.shared.Query;
+import de.gmino.meva.shared.request.RequestListener;
+import de.gmino.meva.shared.request.Requests;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -43,7 +58,8 @@ public class CheckinGwt implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		//EntityFactory.setImplementations(new EntityFactoryImpl(), new EntityRequestJson());
+		EntityFactory.setImplementations(new EntityFactoryImpl());
+		Requests.setImplementation(new NetworkRequestsImplAsyncJson(Util.getBaseUrl()));
 		
 		final Button sendButton = new Button("Send");
 		final TextBox nameField = new TextBox();
@@ -119,68 +135,47 @@ public class CheckinGwt implements EntryPoint {
 				String textToServer = nameField.getText();
 
 				// Then, we send the input to the server.
-
-				// Send request to server and catch any errors.
-				RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
-						"http://127.0.0.1:8888/jsonserver?facebookId="
-								+ URL.encode(textToServer));
-
-				try {
-					Request request = builder.sendRequest(null,
-							new RequestCallback() {
-								public void onError(Request request,
-										Throwable exception) {
-									displayError("Couldn't retrieve JSON");
+				// Request all shops near you
+				final LatLon myLocation = new LatLon(52.2723, 10.53547);
+				Query q = new QueryNearbyShops(myLocation, 5000, 20);
+				Requests.getLoadedEntitiesByQuery(Shop.type, q, new RequestListener<Shop>() {
+					@Override
+					public void onFinished(Collection<Shop> results) {
+						Window.alert("onFinishCalled");
+						
+						// prepare a set of all the Coupons that we should pre-load, because the shops may contain unloaded coupons.
+						Set<Coupon> couponsToLoad = new HashSet<Coupon>();
+						
+						int i = 0;
+						for (Shop shop : results) {
+							String message = shop.getTitle() + "("+shop.getLocation().getDistanceTo(myLocation)+" entfernt)";
+							Window.alert(message);
+							couponsToLoad.addAll(shop.getCoupons());
+						}
+						
+						
+						Requests.loadEntities(couponsToLoad, new RequestListener<Coupon>() {
+							@Override
+							public void onFinished(Collection<Coupon> coupons) {
+								StringBuilder sb = new StringBuilder("Coupons: ");
+								boolean first = true;
+								for(Coupon c : coupons)
+								{
+									if(!first)
+										sb.append(", ");
+									sb.append(c.getTitle());
+									first = false;
 								}
-
-								public void onResponseReceived(Request request,
-										Response response) {
-									if (200 == response.getStatusCode()) {
-
-										 
-										JsonObject json = GwtSystem.SYSTEM.parse(response.getText()).asObject();
-
-										
-										Shop shop;
-										try {
-											// TODO solchen Code gibts nicht! Direkte Konstruktoraufrufe, wo kommen wir da hin?! 
-											shop =  new Shop(0);
-											shop.deserializeJson(json);
-											serverResponseLabel
-											.setText("Hier gibts nichts zu sehen, außer "
-													+ shop.getTitle() + "!");
-											
-
-											sendButton.setEnabled(false);
-											
-											dialogBox.setText("Remote Procedure Call");
-											serverResponseLabel.removeStyleName("serverResponseLabelError");
-											dialogBox.center();
-											closeButton.setFocus(true);
-											
-										} catch (IOException e) {
-											e.printStackTrace();
-											displayError("Couldn't parse Shop ("
-													+ response.getStatusText()
-													+ ")");
-										}
-										
-										
-										
-
-									} else {
-										displayError("Couldn't retrieve JSON ("
-												+ response.getStatusText()
-												+ ")");
-									}
-								}
-							});
-				} catch (Exception e) {
-					e.printStackTrace();
-					displayError("Couldn't retrieve JSON: " + e.toString());
-				}
-
-
+								Window.alert(sb.toString());
+							}
+						});
+					}
+					
+					@Override
+					public void onError(String message, Throwable e) {
+						Window.alert(message);
+					}
+				});
 			}
 		}
 

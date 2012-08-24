@@ -105,6 +105,7 @@ public class ClassDefinition {
 			generateDeserialisers(pw);
 
 		pw.println("	// Binary");
+		generateCheckClassHash(pw);
 		generateBinarySerializer(pw);
 
 		pw.println("}");
@@ -147,6 +148,7 @@ public class ClassDefinition {
 		}
 
 		pw.println("	// Binary");
+		generateCheckClassHash(pw);
 		generateBinarySerializer(pw);
 
 		pw.println("}");
@@ -255,16 +257,6 @@ public class ClassDefinition {
 	private void generateClassHash(PrintWriter pw) {
 		pw.println("	public static long getClassHash() {");
 		pw.println("		return " + hashCode() + ";");
-		pw.println("	}");
-
-		pw.println("	public static DataInputStream checkClassHash(DataInputStream dis) {");
-		pw.println("		try {");
-		pw.println("			if(dis.readLong() != " + hashCode() + ")");
-		pw.println("				throw new RuntimeException(\"Invalid class hash read.\");");
-		pw.println("		} catch (IOException e) {");
-		pw.println("			throw new RuntimeException(\"Error reading class hash.\", e);");
-		pw.println("		}");
-		pw.println("		return dis;");
 		pw.println("	}");
 	}
 
@@ -475,6 +467,19 @@ public class ClassDefinition {
 		return moduleName;
 	}
 
+	private void generateCheckClassHash(PrintWriter pw) {
+		pw.println("	public static DataInputStream checkClassHash(DataInputStream dis) {");
+		pw.println("		try {");
+		pw.println("			if(dis.readLong() != " + hashCode() + ")");
+		pw.println("				throw new RuntimeException(\"Invalid class hash read.\");");
+		pw.println("		} catch (IOException e) {");
+		pw.println("			throw new RuntimeException(\"Error reading class hash.\", e);");
+		pw.println("		}");
+		pw.println("		return dis;");
+		pw.println("	}");
+		pw.println();
+	}
+	
 	private void generateBinaryDeserializer(PrintWriter pw) {
 		pw.println("	public void deserializeBinary(DataInputStream dis) throws IOException");
 		pw.println("	{");
@@ -776,8 +781,8 @@ public class ClassDefinition {
 				pw.println("		{");
 				pw.println("			sb.append(" + firstName
 						+ " ? \"\\n\" : \",\\n\");");
-				pw.println("			sb.append(moreIndentation + \"\\t\" + ((Entity)"
-						+ attribute.attributeName + "Object).getId());");
+				pw.println("			sb.append(moreIndentation + \"\\t\\\"\" + ((Entity)"
+						+ attribute.attributeName + "Object).getId() + \"\\\"\");");
 				pw.println("			" + firstName + " = false;");
 				pw.println("		}");
 				pw.println("		sb.append(moreIndentation + \"]\");");

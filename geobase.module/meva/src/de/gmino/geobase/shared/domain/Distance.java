@@ -56,6 +56,11 @@ public class Distance extends DistanceGen {
 	 * The smaller the value, the more higher the precision used.
 	 */
 	public String toMetricString() {
+		return getInMeter() + "m";
+		// TODO Put a printf-method in a shared class with distinct implementations per platform. On
+		// gwt client, call http://www.diveintojavascript.com/projects/javascript-sprintf
+		// by using the technique from http://stackoverflow.com/questions/5085255/how-to-use-java-varargs-with-the-gwt-javascript-native-interface-aka-gwt-has
+		/*
 		if (meters < 20)
 			return String.format("%.1fm", meters);
 		else if (meters < 1000)
@@ -66,6 +71,7 @@ public class Distance extends DistanceGen {
 			return String.format("%.1fkm", meters / 1000.0);
 		else
 			return String.format("%dkm", (int)(meters / 1000.0));
+			*/
 	}
 
 	/**

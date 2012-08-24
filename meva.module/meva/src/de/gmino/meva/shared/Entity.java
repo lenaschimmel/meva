@@ -1,6 +1,7 @@
 package de.gmino.meva.shared;
 
 import java.io.IOException;
+import org.itemscript.core.values.JsonObject;
 
 public interface Entity<T> extends Comparable<T> {
 
@@ -13,6 +14,8 @@ public interface Entity<T> extends Comparable<T> {
 	public void serializeJson(StringBuilder sb, String indentation)
 			throws IOException;
 
+	public void deserializeJson(JsonObject json) throws IOException;
+	
 	// public void serializeSql(Connection dbCon) throws SQLException;
 
 	// Getters
