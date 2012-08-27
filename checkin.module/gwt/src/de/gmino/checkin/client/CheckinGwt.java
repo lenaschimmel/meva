@@ -42,6 +42,7 @@ import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.Query;
+import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
@@ -63,21 +64,25 @@ public class CheckinGwt implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		EntityFactory.setImplementations(new EntityFactoryImpl());
+		Util.setImpl(new UtilClient());
 		Requests.setImplementation(new NetworkRequestsImplAsyncJson(Util
 				.getBaseUrl()));
 
 		final Button sendButton = new Button("Send");
+		final Button testButton = new Button("Test format / sprintf");
 		final TextBox nameField = new TextBox();
 		nameField.setText("GWT User");
 		errorLabel = new Label();
 
 		// We can add style names to widgets
 		sendButton.addStyleName("sendButton");
+		testButton.addStyleName("sendButton");
 
 		// Add the nameField and sendButton to the RootPanel
 		// Use RootPanel.get() to get the entire body element
 		RootPanel.get("nameFieldContainer").add(nameField);
 		RootPanel.get("sendButtonContainer").add(sendButton);
+		RootPanel.get("sendButtonContainer").add(testButton);
 		RootPanel.get("errorLabelContainer").add(errorLabel);
 
 		// Focus the cursor on the name field when the app loads
@@ -118,7 +123,10 @@ public class CheckinGwt implements EntryPoint {
 			 * Fired when the user clicks on the sendButton.
 			 */
 			public void onClick(ClickEvent event) {
-				doExampleRequests();
+				if(event.getSource().equals(sendButton))
+					doExampleRequests();
+				else if(event.getSource().equals(testButton))
+					doFormatTest();
 			}
 
 			/**
@@ -134,7 +142,16 @@ public class CheckinGwt implements EntryPoint {
 		// Add a handler to send the name to the server
 		MyHandler handler = new MyHandler();
 		sendButton.addClickHandler(handler);
+		testButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
+	}
+	
+	void doFormatTest()
+	{
+		int lday   = 5;
+		int lmonth = 1;
+		int lyear  = 2006;
+		Window.alert(Util.format("the date is: %02d.%02d.%04d\n",lday,lmonth,lyear));
 	}
 
 	/**

@@ -9,6 +9,7 @@ import java.io.IOException;
 import org.itemscript.core.values.JsonObject;
 
 import de.gmino.geobase.shared.domain.gen.DistanceGen;
+import de.gmino.meva.shared.Util;
 
 public class Distance extends DistanceGen {
 	private static final double METER_PER_MILE = 1609.344;
@@ -62,18 +63,16 @@ public class Distance extends DistanceGen {
 	 * The smaller the value, the more higher the precision used.
 	 */
 	public String toMetricString() {
-		return getInMeter() + "m";
-
-		// if (meters < 20)
-		// return String.format("%.1fm", meters);
-		// else if (meters < 1000)
-		// return String.format("%dm", (int) meters);
-		// else if (meters < 5000)
-		// return String.format("%.2fkm", meters / 1000.0);
-		// else if (meters < 20000)
-		// return String.format("%.1fkm", meters / 1000.0);
-		// else
-		// return String.format("%dkm", (int) (meters / 1000.0));
+		if (meters < 20)
+			return Util.format("%.1fm", meters);
+		else if (meters < 1000)
+			return Util.format("%dm", (int) meters);
+		else if (meters < 5000)
+			return Util.format("%.2fkm", meters / 1000.0);
+		else if (meters < 20000)
+			return Util.format("%.1fkm", meters / 1000.0);
+		else
+			return Util.format("%dkm", (int) (meters / 1000.0));
 
 	}
 
@@ -84,20 +83,19 @@ public class Distance extends DistanceGen {
 	 */
 	public String toImperialString() {
 		final double foot = getInFoot();
-		return foot + "′";
 
-		// if (foot < 20)
-		// return String.format("%.1f′", foot);
-		// else if (foot < 1000)
-		// return String.format("%d′", (int)foot);
-		// else {
-		// final double miles = getInMiles();
-		// if (miles < 5)
-		// return String.format("%.2fmi", miles);
-		// else if (miles < 20)
-		// return String.format("%.1fmi", miles);
-		// else
-		// return String.format("%dmi", (int)miles);
-		// }
+		if (foot < 20)
+			return Util.format("%.1f′", foot);
+		else if (foot < 1000)
+			return Util.format("%d′", (int) foot);
+		else {
+			final double miles = getInMiles();
+			if (miles < 5)
+				return Util.format("%.2fmi", miles);
+			else if (miles < 20)
+				return Util.format("%.1fmi", miles);
+			else
+				return Util.format("%dmi", (int) miles);
+		}
 	}
 }

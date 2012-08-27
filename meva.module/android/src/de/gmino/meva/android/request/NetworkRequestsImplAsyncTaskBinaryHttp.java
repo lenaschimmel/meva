@@ -23,6 +23,7 @@ import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityBinary;
 import de.gmino.meva.shared.EntityTypeName;
 import de.gmino.meva.shared.Query;
+import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.ValueBinary;
 import de.gmino.meva.shared.request.NetworkRequests;
 import de.gmino.meva.shared.request.RequestListener;
