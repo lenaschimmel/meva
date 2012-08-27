@@ -56,6 +56,12 @@ public class Distance extends DistanceGen {
 		return toMetricString();
 	}
 
+	// TODO Put a printf-method in a shared class with distinct implementations
+	// per platform. On gwt client, call
+	// http://www.diveintojavascript.com/projects/javascript-sprintf
+	// by using the technique from
+	// http://stackoverflow.com/questions/5085255/how-to-use-java-varargs-with-the-gwt-javascript-native-interface-aka-gwt-has
+
 	/**
 	 * Formats the distance into a metric dimension. The unit is either m or km
 	 * and the number may have 0, 1 or 2 decimals, depending on the magnitude.
@@ -63,21 +69,18 @@ public class Distance extends DistanceGen {
 	 */
 	public String toMetricString() {
 		return getInMeter() + "m";
-		// TODO Put a printf-method in a shared class with distinct implementations per platform. On
-		// gwt client, call http://www.diveintojavascript.com/projects/javascript-sprintf
-		// by using the technique from http://stackoverflow.com/questions/5085255/how-to-use-java-varargs-with-the-gwt-javascript-native-interface-aka-gwt-has
-		/*
-		if (meters < 20)
-			return String.format("%.1fm", meters);
-		else if (meters < 1000)
-			return String.format("%dm", (int)meters);
-		else if (meters < 5000)
-			return String.format("%.2fkm", meters / 1000.0);
-		else if (meters < 20000)
-			return String.format("%.1fkm", meters / 1000.0);
-		else
-			return String.format("%dkm", (int)(meters / 1000.0));
-			*/
+
+		// if (meters < 20)
+		// return String.format("%.1fm", meters);
+		// else if (meters < 1000)
+		// return String.format("%dm", (int) meters);
+		// else if (meters < 5000)
+		// return String.format("%.2fkm", meters / 1000.0);
+		// else if (meters < 20000)
+		// return String.format("%.1fkm", meters / 1000.0);
+		// else
+		// return String.format("%dkm", (int) (meters / 1000.0));
+
 	}
 
 	/**
@@ -87,18 +90,20 @@ public class Distance extends DistanceGen {
 	 */
 	public String toImperialString() {
 		final double foot = getInFoot();
-		if (foot < 20)
-			return String.format("%.1f′", foot);
-		else if (foot < 1000)
-			return String.format("%d′", (int)foot);
-		else {
-			final double miles = getInMiles();
-			if (miles < 5)
-				return String.format("%.2fmi", miles);
-			else if (miles < 20)
-				return String.format("%.1fmi", miles);
-			else
-				return String.format("%dmi", (int)miles);
-		}
+		return foot + "′";
+
+		// if (foot < 20)
+		// return String.format("%.1f′", foot);
+		// else if (foot < 1000)
+		// return String.format("%d′", (int)foot);
+		// else {
+		// final double miles = getInMiles();
+		// if (miles < 5)
+		// return String.format("%.2fmi", miles);
+		// else if (miles < 20)
+		// return String.format("%.1fmi", miles);
+		// else
+		// return String.format("%dmi", (int)miles);
+		// }
 	}
 }
