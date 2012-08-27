@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import javax.management.RuntimeErrorException;
-
 import org.itemscript.core.JsonSystem;
 import org.itemscript.core.gwt.GwtSystem;
 import org.itemscript.core.values.JsonArray;
@@ -17,7 +15,6 @@ import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
-import com.google.gwt.user.client.Window;
 
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityTypeName;

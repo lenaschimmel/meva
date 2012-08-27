@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import de.gmino.checkin.android.domain.Checkin;
+import de.gmino.checkin.android.domain.Consumer;
 import de.gmino.checkin.android.domain.Coupon;
 import de.gmino.checkin.android.domain.CouponOwenership;
 import de.gmino.checkin.android.domain.Shop;
-import de.gmino.checkin.android.domain.Consumer;
 import de.gmino.checkin.android.domain.ShopAdmin;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactoryInterface;

@@ -6,35 +6,28 @@
  */
 package de.gmino.checkin.android.activities;
 
-import de.gmino.checkin.android.CameraPreview;
-import de.gmino.checkin.android.R;
-import de.gmino.checkin.android.R.id;
-import de.gmino.checkin.android.R.layout;
+import net.sourceforge.zbar.Config;
+import net.sourceforge.zbar.Image;
+import net.sourceforge.zbar.ImageScanner;
+import net.sourceforge.zbar.Symbol;
+import net.sourceforge.zbar.SymbolSet;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.hardware.Camera;
+import android.hardware.Camera.AutoFocusCallback;
+import android.hardware.Camera.PreviewCallback;
+import android.hardware.Camera.Size;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
-import android.view.View.OnClickListener;
-import android.widget.FrameLayout;
 import android.widget.Button;
-import android.widget.Toast;
-
-import android.hardware.Camera;
-import android.hardware.Camera.PreviewCallback;
-import android.hardware.Camera.AutoFocusCallback;
-import android.hardware.Camera.Size;
-
+import android.widget.FrameLayout;
 import android.widget.TextView;
-/* Import ZBar Class files */
-import net.sourceforge.zbar.ImageScanner;
-import net.sourceforge.zbar.Image;
-import net.sourceforge.zbar.Symbol;
-import net.sourceforge.zbar.SymbolSet;
-import net.sourceforge.zbar.Config;
+import android.widget.Toast;
+import de.gmino.checkin.android.CameraPreview;
+import de.gmino.checkin.android.R;
 
 public class QRScanner extends Activity
 {

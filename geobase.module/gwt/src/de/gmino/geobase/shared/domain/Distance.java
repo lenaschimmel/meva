@@ -57,12 +57,6 @@ public class Distance extends DistanceGen {
 		return toMetricString();
 	}
 
-	// TODO Put a printf-method in a shared class with distinct implementations
-	// per platform. On gwt client, call
-	// http://www.diveintojavascript.com/projects/javascript-sprintf
-	// by using the technique from
-	// http://stackoverflow.com/questions/5085255/how-to-use-java-varargs-with-the-gwt-javascript-native-interface-aka-gwt-has
-
 	/**
 	 * Formats the distance into a metric dimension. The unit is either m or km
 	 * and the number may have 0, 1 or 2 decimals, depending on the magnitude.

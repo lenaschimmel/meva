@@ -2,7 +2,6 @@ package de.gmino.checkin.android.activities;
 
 import java.util.ArrayList;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -20,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.gmino.checkin.android.R;
 import de.gmino.checkin.android.domain.Coupon;
-import de.gmino.checkin.android.domain.Shop;
 
 public class Coupons extends FragmentActivity {
 

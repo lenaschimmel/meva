@@ -1,6 +1,7 @@
 package de.gmino.meva.shared;
 
 import java.io.IOException;
+
 import org.itemscript.core.values.JsonObject;
 
 public interface Entity<T> extends Comparable<T> {

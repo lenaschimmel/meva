@@ -1,6 +1,5 @@
 package de.gmino.meva.shared;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 

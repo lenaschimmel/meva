@@ -1,8 +1,6 @@
 package de.gmino.meva.shared;
  
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 public interface Value {
 

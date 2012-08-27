@@ -1,6 +1,5 @@
 package de.gmino.checkin.client;
 
-import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 
 import de.gmino.meva.shared.UtilImpl;

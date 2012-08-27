@@ -1,7 +1,5 @@
 package de.gmino.meva.shared;
 
-import java.io.IOException;
-import java.sql.Connection;
 
 public interface ValueSql {
 

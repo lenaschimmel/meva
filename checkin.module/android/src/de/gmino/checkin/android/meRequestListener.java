@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 
 import android.app.Activity;
-import android.content.Context;
-import android.widget.Toast;
 
 import com.facebook.android.AsyncFacebookRunner.RequestListener;
 import com.facebook.android.FacebookError;
