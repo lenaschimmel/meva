@@ -52,7 +52,8 @@ public class ClassDefinition {
 	}
 
 	private void generateType(PrintWriter pw) {
-		pw.println("	public static final EntityTypeName type = EntityTypeName.getByString(\""+baseClassName+"\");");
+		pw.println("	public static final EntityTypeName type = EntityTypeName.getByString(\""
+				+ baseClassName + "\");");
 		pw.println();
 	}
 
@@ -322,10 +323,10 @@ public class ClassDefinition {
 	}
 
 	private void generateGetById(PrintWriter pw) {
-		pw.println("	public static " + className
-				+ " getById(long id)");
+		pw.println("	public static " + className + " getById(long id)");
 		pw.println("	{");
-		pw.println("		return (" + className + ")EntityFactory.getUnloadedEntityById(type, id);");
+		pw.println("		return (" + className
+				+ ")EntityFactory.getUnloadedEntityById(type, id);");
 		pw.println("	}");
 		pw.println();
 	}
@@ -352,7 +353,7 @@ public class ClassDefinition {
 
 			if (attribute.isRelation())
 				continue;
-			
+
 			if (attributeName.equals("ready"))
 				continue;
 
@@ -479,7 +480,7 @@ public class ClassDefinition {
 		pw.println("	}");
 		pw.println();
 	}
-	
+
 	private void generateBinaryDeserializer(PrintWriter pw) {
 		pw.println("	public void deserializeBinary(DataInputStream dis) throws IOException");
 		pw.println("	{");
@@ -504,9 +505,10 @@ public class ClassDefinition {
 				pw.println("		while(" + attribute.attributeName + "Id != 0)");
 				pw.println("		{");
 				pw.println("			" + attribute.attributeName + ".add(("
-						+ attribute.reltype + ")EntityFactory.getUnloadedEntityById("
-						+ attribute.reltype + ".type, " + attribute.attributeName
-						+ "Id));");
+						+ attribute.reltype
+						+ ")EntityFactory.getUnloadedEntityById("
+						+ attribute.reltype + ".type, "
+						+ attribute.attributeName + "Id));");
 				pw.println("			" + attribute.attributeName
 						+ "Id = dis.readLong();");
 				pw.println("		}");
@@ -606,8 +608,8 @@ public class ClassDefinition {
 
 				pw.println("		for(Object " + attribute.attributeName
 						+ "Object : " + attribute.attributeName + ")");
-				pw.println("			dos.writeLong(((Entity)" + attribute.attributeName
-						+ "Object).getId());");
+				pw.println("			dos.writeLong(((Entity)"
+						+ attribute.attributeName + "Object).getId());");
 				pw.println("		dos.writeLong(0);");
 
 			} else if (type.equals("String")) {
@@ -682,15 +684,16 @@ public class ClassDefinition {
 						+ attribute.attributeName
 						+ "Id = Long.parseLong(subVal.asString().stringValue());");
 				pw.println("			" + attribute.attributeName + ".add(("
-						+ attribute.reltype + ")EntityFactory.getUnloadedEntityById("
-						+ attribute.reltype + ".type, " + attribute.attributeName
-						+ "Id));");
+						+ attribute.reltype
+						+ ")EntityFactory.getUnloadedEntityById("
+						+ attribute.reltype + ".type, "
+						+ attribute.attributeName + "Id));");
 				pw.println("		}");
 			} else {
 				if (attribute.isEntity()) {
-					pw.println("		long "
+					pw.println("		"
 							+ attribute.attributeName
-							+ "Id = Long.parseLong(val.asString().stringValue());");
+							+ "_id = Long.parseLong(val.asString().stringValue());");
 				} else {
 					pw.println("		" + attribute.attributeName + " = new "
 							+ attribute.typeName + "(val.asObject());");
@@ -770,7 +773,9 @@ public class ClassDefinition {
 			if (attribute.isNative())
 				pw.println("		sb.append(\"\\\"\" + " + name + " + \"\\\"\");");
 			else if (attribute.typeName.equals("String"))
-				pw.println("		sb.append(\"\\\"\" + " + name + ".replace(\"\\\\\",\"\\\\\\\\\").replace(\"\\\"\",\"\\\\\\\"\") + \"\\\"\");");
+				pw.println("		sb.append(\"\\\"\" + "
+						+ name
+						+ ".replace(\"\\\\\",\"\\\\\\\\\").replace(\"\\\"\",\"\\\\\\\"\") + \"\\\"\");");
 			else if (type.equals("relation")) {
 				pw.println("		sb.append(\"\\n\" + moreIndentation + \"[\");");
 				String firstName = "first"
@@ -782,7 +787,8 @@ public class ClassDefinition {
 				pw.println("			sb.append(" + firstName
 						+ " ? \"\\n\" : \",\\n\");");
 				pw.println("			sb.append(moreIndentation + \"\\t\\\"\" + ((Entity)"
-						+ attribute.attributeName + "Object).getId() + \"\\\"\");");
+						+ attribute.attributeName
+						+ "Object).getId() + \"\\\"\");");
 				pw.println("			" + firstName + " = false;");
 				pw.println("		}");
 				pw.println("		sb.append(moreIndentation + \"]\");");
@@ -1054,7 +1060,7 @@ public class ClassDefinition {
 					pw.println("		this." + attribute.attributeName + " = "
 							+ attribute.attributeName + ";");
 			}
-		if(entity)
+		if (entity)
 			pw.println("		this.ready = true;");
 		pw.println("	}");
 		pw.println("	");
@@ -1085,6 +1091,9 @@ public class ClassDefinition {
 		pw.println("	{");
 		pw.println("		this." + attribute.attributeName + " = "
 				+ attribute.attributeName + ";");
+		if (attribute.isEntity())
+			pw.println("		this." + attribute.attributeName + "_id = "
+					+ attribute.attributeName + ".getId();");
 		pw.println("	}");
 		pw.println("	");
 	}
@@ -1092,12 +1101,14 @@ public class ClassDefinition {
 	private void generateGetter(AttributeDefiniton attribute, PrintWriter pw) {
 		if (attribute.isEntity()) {
 			pw.println("	public " + attribute.typeName + " get"
-					+ capitalizeFirst(attribute.attributeName)
-					+ "()");
+					+ capitalizeFirst(attribute.attributeName) + "()");
 			pw.println("	{");
-			pw.println("		return (" + attribute.typeName
-					+ ")EntityFactory.getUnloadedEntityById(" + attribute.typeName
-					+ ".type," + attribute.attributeName + "_id);");
+			
+			pw.println("		if (" + attribute.attributeName + " == null)");
+			pw.println("			" + attribute.attributeName + " = ("+attribute.typeName +")EntityFactory.getUnloadedEntityById("
+					+ attribute.typeName + ".type," + attribute.attributeName
+					+ "_id);");
+			pw.println("		return " + attribute.attributeName + ";");
 		} else {
 			pw.println("	public " + attribute.getUsableType()
 					+ ((attribute.typeName.equals("boolean")) ? " is" : " get")
@@ -1193,7 +1204,7 @@ public class ClassDefinition {
 		pw.println("		return type;");
 		pw.println("	}");
 		pw.println();
-}
+	}
 
 	public String getFullPackage(String target, boolean gen) {
 		return packageName.replace("TARGET", target) + (gen ? ".gen" : "");
