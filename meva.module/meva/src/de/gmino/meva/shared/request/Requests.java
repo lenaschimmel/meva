@@ -48,9 +48,9 @@ public class Requests {
 	}
 
 	public static void getIdsByQuery(Query q, RequestListener<Long> listener) {
-		
+
 		ensureImplementation();
-		
+
 		networkImpl.getIdsByQuery(q, listener);
 	}
 
@@ -59,8 +59,9 @@ public class Requests {
 			RequestListener<EntityClass> listener) {
 
 		ensureImplementation();
-		
-		Collection<EntityClass> entities = EntityFactory.getUnloadedEntitiesById(type, ids);
+
+		Collection<EntityClass> entities = EntityFactory
+				.getUnloadedEntitiesById(type, ids);
 		loadEntities(entities, listener);
 	}
 
@@ -126,17 +127,37 @@ public class Requests {
 			RequestListener<EntityClass> listener) {
 
 		ensureImplementation();
-
+		ensureSameTypes(entities);
 		networkImpl.loadEntities(entities, listener);
 	}
 
+	/**
+	 * This is the only requests that accepts null as a listener. Be warned
+	 * though: if no listener is passed an and error occurs, a Runtime exception
+	 * will be thrown, possibly on the same or another thread as the one that
+	 * started the request.
+	 * 
+	 * @param entities
+	 * @param listener
+	 *            A listener or null.
+	 */
 	public static <EntityClass extends Entity> void saveEntities(
 			Collection<EntityClass> entities,
 			RequestListener<EntityClass> listener) {
 
 		ensureImplementation();
-
+		ensureSameTypes(entities);
 		networkImpl.saveEntities(entities, listener);
 	}
 
+	public static void ensureSameTypes(Collection<? extends Entity> entities) {
+		EntityTypeName fistTypeName = entities.iterator().next().getType();
+		for (Entity e : entities) {
+			if (fistTypeName != e.getType())
+				throw new RuntimeException(
+						"Heterogenous types in Request: first Entity has type "
+								+ fistTypeName + ", another one has "
+								+ e.getType());
+		}
+	}
 }

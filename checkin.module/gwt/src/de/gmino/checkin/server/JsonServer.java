@@ -3,9 +3,11 @@ package de.gmino.checkin.server;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
@@ -68,7 +70,7 @@ public class JsonServer extends HttpServlet {
 		Query query = null;
 
 		JsonSystem system = StandardConfig.createSystem();
-		
+
 		JsonObject request = system.parseReader(
 				new InputStreamReader(req.getInputStream())).asObject();
 
@@ -96,11 +98,22 @@ public class JsonServer extends HttpServlet {
 		writeAnswer(resp.getOutputStream(), "OK", sb.toString());
 	}
 
+	/**
+	 * 
+	 * @param outputStream
+	 * @param status
+	 * @param content
+	 *            Please not that you must wrap Strings in an extra pair of
+	 *            (escaped) quotes if they are used as Json Strong values,
+	 *            because this parameter is written "as is", so that you can
+	 *            pass a Number or Array or Object.
+	 */
 	private void writeAnswer(ServletOutputStream outputStream, String status,
 			String content) {
 		try {
 			OutputStreamWriter osw = new OutputStreamWriter(outputStream);
-			osw.write("{ \"status\":\"" + status + "\" , \"content\":" + content + "}");
+			osw.write("{ \"status\":\"" + status + "\" , \"content\":"
+					+ content + "}");
 			osw.flush();
 			osw.close();
 			outputStream.flush();
@@ -112,33 +125,55 @@ public class JsonServer extends HttpServlet {
 
 	private void saveEntities(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-		writeAnswer(resp.getOutputStream(), "ERROR", "This kind of request is currently not available as JSON. Use the binary interface or ask Lena.");
+		JsonSystem system = StandardConfig.createSystem();
+		ServletInputStream inputStream = req.getInputStream();
+		String requestString = new java.util.Scanner(inputStream).useDelimiter(
+				"\\A").next();
+		JsonValue requestValue = system.parse(requestString);
+		JsonObject requestObject = requestValue.asObject();
 
+		String typeName = requestObject.getString("typeName");
+		EntityTypeName type = EntityTypeName.getByString(typeName);
+		JsonObject entitiesMap = requestObject.getObject("entities");
+
+		Collection<Entity> entitiesToSave = new ArrayList<Entity>(entitiesMap.size());
+		
+		for (Entry<String, JsonValue> entry : entitiesMap.entrySet()) {
+			long id = Long.parseLong(entry.getKey());
+			Entity e = EntityFactory.getUnloadedEntityById(type, id);
+			e.deserializeJson(entry.getValue().asObject());
+			entitiesToSave.add(e);
+		}
+		LocalRequetsImpl.saveEntities(entitiesToSave);
+
+		resp.setContentType("text/json");
+		writeAnswer(resp.getOutputStream(), "OK",
+				"\"All entities saved to the database.\"");
 	}
 
 	private void getEntities(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		JsonSystem system = StandardConfig.createSystem();
-				//new ItemscriptSystem(new GwtConfig()); 
-				//GwtSystem.SYSTEM;
 		ServletInputStream inputStream = req.getInputStream();
-		String requestString =new java.util.Scanner(inputStream).useDelimiter("\\A").next();
+		String requestString = new java.util.Scanner(inputStream).useDelimiter(
+				"\\A").next();
 		JsonValue requestValue = system.parse(requestString);
 		JsonObject requestObject = requestValue.asObject();
-		
+
 		String typeName = requestObject.getString("typeName");
 		EntityTypeName type = EntityTypeName.getByString(typeName);
 		JsonArray idArray = requestObject.getArray("ids");
-		
+
 		Collection<Long> ids = new LinkedList<Long>();
 		for (JsonValue id : idArray) {
 			ids.add(Long.parseLong(id.asString().stringValue()));
 		}
 
-		System.out.println("Got a JSON query for ids of type " + typeName + ": "
-				+ Arrays.toString(ids.toArray()));
+		System.out.println("Got a JSON query for ids of type " + typeName
+				+ ": " + Arrays.toString(ids.toArray()));
 
-		Collection<Entity> entities = LocalRequetsImpl.getLoadedEntitiesById(type, ids);
+		Collection<Entity> entities = LocalRequetsImpl.getLoadedEntitiesById(
+				type, ids);
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("[");
@@ -157,9 +192,34 @@ public class JsonServer extends HttpServlet {
 
 	private void newEntities(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-		resp.setContentType("text/json");
-		writeAnswer(resp.getOutputStream(), "ERROR", "This kind of request is currently not available as JSON. Use the binary interface or ask Lena.");
 
+		JsonSystem system = StandardConfig.createSystem();
+		ServletInputStream inputStream = req.getInputStream();
+		String requestString = new java.util.Scanner(inputStream).useDelimiter(
+				"\\A").next();
+		JsonValue requestValue = system.parse(requestString);
+		JsonObject requestObject = requestValue.asObject();
+
+		String typeName = requestObject.getString("typeName");
+		EntityTypeName type = EntityTypeName.getByString(typeName);
+		int count = Integer.parseInt(requestObject.getString("count"));
+
+		Collection<Long> ids = LocalRequetsImpl.getNewIds(type, count);
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("[");
+		boolean first = true;
+		for (long id : ids) {
+			if (!first)
+				sb.append(',');
+			sb.append('"');
+			sb.append(id);
+			sb.append('"');
+			first = false;
+		}
+		sb.append("]");
+		resp.setContentType("text/json");
+		writeAnswer(resp.getOutputStream(), "OK", sb.toString());
 	}
 
 	@Override
@@ -167,7 +227,10 @@ public class JsonServer extends HttpServlet {
 			throws ServletException, IOException {
 		System.out.println("Huhu!");
 		resp.setContentType("text/json");
-		writeAnswer(resp.getOutputStream(), "ERROR", "\"Yeah, du lustige Tante, ich bin hier! Du solltest aber POST-Request machen, nicht GET. Versuche doch mal <a href=\\\"http://gmino.de/legacy/php/post.php\\\">http://gmino.de/legacy/php/post2.php</a>.\"");
+		writeAnswer(
+				resp.getOutputStream(),
+				"ERROR",
+				"\"Yeah, du lustige Tante, ich bin hier! Du solltest aber POST-Request machen, nicht GET. Versuche doch mal <a href=\\\"http://gmino.de/legacy/php/post.php\\\">http://gmino.de/legacy/php/post2.php</a>.\"");
 	}
 
 	String convertStreamToString(java.io.InputStream is) {

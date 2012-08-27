@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import javax.management.RuntimeErrorException;
+
 import org.itemscript.core.JsonSystem;
 import org.itemscript.core.gwt.GwtSystem;
 import org.itemscript.core.values.JsonArray;
@@ -46,7 +48,6 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 							Collection<Long> ids = new LinkedList<Long>();
 							JsonSystem system = GwtSystem.SYSTEM;
 							String jsonString = response.getText();
-							Window.alert(jsonString);
 							JsonObject answer = system.parse(jsonString).asObject();
 							String status = answer.getString("status");
 							if(status.equals("ERROR"))
@@ -80,9 +81,52 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 
 	@Override
 	public void getNewIds(EntityTypeName type, int count,
-			RequestListener<Long> listener) {
-		// TODO Auto-generated method stub
-
+			final RequestListener<Long> listener) {
+	
+		final String typeName = type.toString();
+		
+	RequestBuilder rb = new RequestBuilder(RequestBuilder.POST,
+			 baseUrl + "Json/newEntities");
+			rb.setHeader("Content-Type",
+			                   "application/json");
+			try 
+			{
+				rb.sendRequest("{\"typeName\":\""+typeName+"\", \"count\":\""+count+"\"}", new RequestCallback() {
+					
+					@Override
+					public void onResponseReceived(Request request, Response response) {
+						Collection<Long> ids = new LinkedList<Long>();
+						JsonSystem system = GwtSystem.SYSTEM;
+						String jsonString = response.getText();
+						JsonObject answer = system.parse(jsonString).asObject();
+						String status = answer.getString("status");
+						if(status.equals("ERROR"))
+						{
+							String message = answer.getString("content");
+							listener.onError("The server reported an error: " + message, null);
+						}
+						else
+						{
+							JsonArray idValues = answer.getArray("content");
+							for(JsonValue idValue : idValues)
+							{
+								Long id = Long.parseLong(idValue.asString().stringValue());
+								ids.add(id);
+								listener.onNewResult(id);
+							}
+							listener.onFinished(ids);
+						}
+					}
+					
+					@Override
+					public void onError(Request request, Throwable exception) {
+						listener.onError("Json request generated an exception (via method).", exception);
+					}
+				});
+			}
+			catch (Exception exception) {
+				listener.onError("Json request generated an exception (thrown).", exception);
+			}
 	}
 
 	@Override
@@ -112,7 +156,6 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 							Collection<Long> ids = new LinkedList<Long>();
 							JsonSystem system = GwtSystem.SYSTEM;
 							String jsonString = response.getText();
-							Window.alert(jsonString);
 							JsonObject answer = system.parse(jsonString).asObject();
 							String status = answer.getString("status");
 							if(status.equals("ERROR"))
@@ -152,10 +195,69 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 
 	@Override
 	public <EntityClass extends Entity> void saveEntities(
-			Collection<EntityClass> entities,
-			RequestListener<EntityClass> listener) {
-		// TODO Auto-generated method stub
-
+			final Collection<EntityClass> entities,
+			final RequestListener<EntityClass> listener) {
+		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST,
+				 baseUrl + "Json/saveEntities");
+				rb.setHeader("Content-Type",
+				                   "application/json");
+				try 
+				{
+					String typeName = entities.iterator().next().getTypeName();
+					StringBuilder requestBody = new StringBuilder("{\"typeName\":\""+typeName+"\", \"entities\":{");
+					boolean first = true;
+					for(EntityClass e : entities)
+					{
+						if(!first)
+							requestBody.append(',');
+						requestBody.append('"');
+						requestBody.append(e.getId());
+						requestBody.append('"');
+						requestBody.append(':');
+						e.serializeJson(requestBody);
+						first = false;
+					}
+					requestBody.append("}}");
+					
+				    rb.sendRequest(requestBody.toString(), new RequestCallback() {
+						
+						@Override
+						public void onResponseReceived(Request request, Response response) {
+							Collection<Long> ids = new LinkedList<Long>();
+							JsonSystem system = GwtSystem.SYSTEM;
+							String jsonString = response.getText();
+							JsonObject answer = system.parse(jsonString).asObject();
+							String status = answer.getString("status");
+							if(status.equals("ERROR"))
+							{
+								String message = answer.getString("content");
+								if(listener != null)
+									listener.onError("The server reported an error: " + message, null);
+								else
+									throw new RuntimeException("The server reported an error: " + message, null);
+							}
+							else
+							{
+								if(listener != null)
+									listener.onFinished(entities);
+							}
+						}
+						
+						@Override
+						public void onError(Request request, Throwable exception) {
+							if(listener != null)
+								listener.onError("Json request generated an exception (via method).", exception);
+							else
+								throw new RuntimeException("Json request generated an exception (via method).", exception);
+						}
+					});
+				}
+				catch (Exception exception) {
+					if(listener != null)
+						listener.onError("Json request generated an exception (thrown).", exception);
+					else
+						throw new RuntimeException("Json request generated an exception (thrown).", exception);
+				}
 	}
 
 }

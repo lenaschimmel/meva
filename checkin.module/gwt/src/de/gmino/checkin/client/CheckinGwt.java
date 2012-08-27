@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 import org.itemscript.core.gwt.GwtSystem;
@@ -36,6 +37,9 @@ import de.gmino.checkin.client.domain.Shop;
 import de.gmino.checkin.client.request.NetworkRequestsImplAsyncJson;
 import de.gmino.checkin.client.request.QueryNearbyShops;
 import de.gmino.geobase.client.domain.LatLon;
+import de.gmino.geobase.shared.domain.Duration;
+import de.gmino.geobase.shared.domain.ImageUrl;
+import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.Query;
 import de.gmino.meva.shared.request.RequestListener;
@@ -59,8 +63,9 @@ public class CheckinGwt implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		EntityFactory.setImplementations(new EntityFactoryImpl());
-		Requests.setImplementation(new NetworkRequestsImplAsyncJson(Util.getBaseUrl()));
-		
+		Requests.setImplementation(new NetworkRequestsImplAsyncJson(Util
+				.getBaseUrl()));
+
 		final Button sendButton = new Button("Send");
 		final TextBox nameField = new TextBox();
 		nameField.setText("GWT User");
@@ -113,7 +118,7 @@ public class CheckinGwt implements EntryPoint {
 			 * Fired when the user clicks on the sendButton.
 			 */
 			public void onClick(ClickEvent event) {
-				sendNameToServer();
+				doExampleRequests();
 			}
 
 			/**
@@ -121,61 +126,8 @@ public class CheckinGwt implements EntryPoint {
 			 */
 			public void onKeyUp(KeyUpEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					sendNameToServer();
+					doExampleRequests();
 				}
-			}
-
-			/**
-			 * Send the name from the nameField to the server and wait for a
-			 * response.
-			 */
-			private void sendNameToServer() {
-				// First, we validate the input.
-				errorLabel.setText("");
-				String textToServer = nameField.getText();
-
-				// Then, we send the input to the server.
-				// Request all shops near you
-				final LatLon myLocation = new LatLon(52.2723, 10.53547);
-				Query q = new QueryNearbyShops(myLocation, 5000, 20);
-				Requests.getLoadedEntitiesByQuery(Shop.type, q, new RequestListener<Shop>() {
-					@Override
-					public void onFinished(Collection<Shop> results) {
-						Window.alert("onFinishCalled");
-						
-						// prepare a set of all the Coupons that we should pre-load, because the shops may contain unloaded coupons.
-						Set<Coupon> couponsToLoad = new HashSet<Coupon>();
-						
-						int i = 0;
-						for (Shop shop : results) {
-							String message = shop.getTitle() + "("+shop.getLocation().getDistanceTo(myLocation)+" entfernt)";
-							Window.alert(message);
-							couponsToLoad.addAll(shop.getCoupons());
-						}
-						
-						
-						Requests.loadEntities(couponsToLoad, new RequestListener<Coupon>() {
-							@Override
-							public void onFinished(Collection<Coupon> coupons) {
-								StringBuilder sb = new StringBuilder("Coupons: ");
-								boolean first = true;
-								for(Coupon c : coupons)
-								{
-									if(!first)
-										sb.append(", ");
-									sb.append(c.getTitle());
-									first = false;
-								}
-								Window.alert(sb.toString());
-							}
-						});
-					}
-					
-					@Override
-					public void onError(String message, Throwable e) {
-						Window.alert(message);
-					}
-				});
 			}
 		}
 
@@ -183,6 +135,81 @@ public class CheckinGwt implements EntryPoint {
 		MyHandler handler = new MyHandler();
 		sendButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
+	}
+
+	/**
+	 * Send the name from the nameField to the server and wait for a response.
+	 */
+	void doExampleRequests() {
+		// First, we validate the input.
+		errorLabel.setText("");
+
+		// Then, we send the input to the server.
+		// Request all shops near you
+		final LatLon myLocation = new LatLon(52.2723, 10.53547);
+		Query q = new QueryNearbyShops(myLocation, 5000, 20);
+		Requests.getLoadedEntitiesByQuery(Shop.type, q,
+				new RequestListener<Shop>() {
+					@Override
+					public void onFinished(final Collection<Shop> shops) {
+						// prepare a set of all the Coupons that we should
+						// pre-load, because the shops may contain unloaded
+						// coupons.
+						Set<Coupon> couponsToLoad = new HashSet<Coupon>();
+
+						int i = 0;
+						for (Shop shop : shops) {
+							String message = shop.getTitle()
+									+ "("
+									+ shop.getLocation().getDistanceTo(
+											myLocation) + " entfernt)";
+							Window.alert(message);
+							couponsToLoad.addAll(shop.getCoupons());
+						}
+
+						Requests.loadEntities(couponsToLoad,
+								new RequestListener<Coupon>() {
+									@Override
+									public void onFinished(
+											Collection<Coupon> coupons) {
+										StringBuilder sb = new StringBuilder(
+												"Coupons: ");
+										boolean first = true;
+										for (Coupon c : coupons) {
+											if (!first)
+												sb.append(", ");
+											sb.append(c.getTitle());
+											first = false;
+										}
+										Window.alert(sb.toString());
+									}
+								});
+
+						Requests.getNewEntities(Coupon.type, 1,
+								new RequestListener<Coupon>() {
+									@Override
+									public void onFinished(
+											Collection<Coupon> results) {
+										Coupon c = results.iterator().next();
+										c.setTitle("Einmal freuen gratis!");
+										c.setDescription("Dieser Coupon wurde per GWT erstellt. Das sollte doch aussreichen, um sich zu freuen!");
+										c.setShop(shops.iterator().next());
+										c.setDuration(new Duration(3600000));
+										c.setImage(new ImageUrl(
+												"http://img.fotocommunity.com/Emotionen/Freude/Joy-Freude-a18796755.jpg"));
+
+										Collection<Entity> entities = new LinkedList<Entity>();
+										entities.add(c);
+										Requests.saveEntities(entities, null);
+									}
+								});
+					}
+
+					@Override
+					public void onError(String message, Throwable e) {
+						Window.alert(message);
+					}
+				});
 	}
 
 	/**
