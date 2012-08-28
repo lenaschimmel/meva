@@ -104,6 +104,12 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 					protected void onPostExecute(java.util.Collection<Long> result) {
 						listener.onFinished(result);
 					};
+					
+					protected void onProgressUpdate(Long... ids) 
+					{
+						for(long id : ids)
+							listener.onNewResult(id);
+					};
 				}.execute(query);
 			}
 		} catch (IOException e1) {
@@ -141,7 +147,13 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 							.getEntity().getContent());
 
 					for (int i = 0; i < count; i++)
-						ids.add(dis.readLong());
+					{
+						long id = dis.readLong();
+						publishProgress(id);
+						ids.add(id);
+					}
+					
+					
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				}
@@ -150,6 +162,12 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 			
 			protected void onPostExecute(java.util.Collection<Long> result) {
 				listener.onFinished(result);
+			};
+			
+			protected void onProgressUpdate(Long... ids) 
+			{
+				for(long id : ids)
+					listener.onNewResult(id);
 			};
 		}.execute(count);
 	}
@@ -218,6 +236,12 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 			protected void onPostExecute(java.util.Collection<EntityClass> result) {
 				listener.onFinished(result);
 			};
+			
+			protected void onProgressUpdate(EntityClass... entities)
+			{
+				for(EntityClass entity : entities)
+					listener.onNewResult(entity);
+			};
 		}.execute(unloadedEntities);
 	}
 
@@ -261,6 +285,12 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 			
 			protected void onPostExecute(java.util.Collection<EntityClass> result) {
 				listener.onFinished(result);
+			};
+			
+			protected void onProgressUpdate(EntityClass... entities)
+			{
+				for(EntityClass entity : entities)
+					listener.onNewResult(entity);
 			};
 		}.execute(entities);
 		

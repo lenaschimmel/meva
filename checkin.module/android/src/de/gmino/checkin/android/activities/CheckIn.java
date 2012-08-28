@@ -10,9 +10,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.Toast;
 import de.gmino.checkin.android.FacebookUtil;
 import de.gmino.checkin.android.R;
 import de.gmino.checkin.android.domain.Shop;
+import de.gmino.meva.shared.request.RequestListener;
+import de.gmino.meva.shared.request.Requests;
 
 public class CheckIn extends ActivityWithFacebook {
 
@@ -39,6 +42,15 @@ public class CheckIn extends ActivityWithFacebook {
 		handleIntent(getIntent());
 	}
 
+	/**
+	 * Handles incoming intents, no matter if the activity was just created or
+	 * has got a new intent afterwards.
+	 * 
+	 * Searches both data and extra of the intent for an fid. Data should
+	 * contain the fid within an URL, but extras should contain a plain fid.
+	 * 
+	 * @param intent
+	 */
 	private void handleIntent(Intent intent) {
 		Uri data = intent.getData();
 
@@ -57,6 +69,9 @@ public class CheckIn extends ActivityWithFacebook {
 		}
 	}
 
+	/**
+	 * Called when the activity is already running an another intent comes in.
+	 */
 	@Override
 	protected void onNewIntent(Intent intent) {
 		handleIntent(intent);
@@ -65,17 +80,17 @@ public class CheckIn extends ActivityWithFacebook {
 
 	private void checkinWithFid(final String fid) {
 		if (fid != null) {
-			/*
-			 * new AsyncTask<Void, Void, Shop>() {
-			 * 
-			 * @Override protected Shop doInBackground(Void... params) { return
-			 * CheckinQueries.getShopByFid(fid); }
-			 * 
-			 * @Override protected void onPostExecute(Shop shop) { Toast toast =
-			 * Toast.makeText(getApplicationContext(), "Checke bei " +
-			 * shop.getTitle() + " ein...", Toast.LENGTH_SHORT); toast.show();
-			 * checkIn(shop); } }.execute();
-			 */
+			Long id = Long.parseLong(fid);
+			Requests.getLoadedEntityById(Shop.type, id, new RequestListener<Shop>(){
+				@Override
+				public void onNewResult(Shop shop) {
+					Toast toast = Toast.makeText(getApplicationContext(),
+							"Checke bei " + shop.getTitle() + " ein...",
+							Toast.LENGTH_SHORT);
+					toast.show();
+					FacebookUtil.checkIn("Ich bin hier!", shop);
+				}
+			});
 		}
 	}
 
@@ -100,14 +115,5 @@ public class CheckIn extends ActivityWithFacebook {
 		}
 	};
 
-	public void checkIn(Shop shop) {
-
-		Bundle params = new Bundle();
-
-		params.putString("place", shop.getFacebookId());
-		params.putString("message", "Ich bin hier");
-		params.putString("coordinates", shop.getLocation().toString());
-		FacebookUtil.checkIn(params, shop);
-	}
 
 }

@@ -1,6 +1,7 @@
 package de.gmino.meva.shared.request;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
@@ -54,6 +55,14 @@ public class Requests {
 		networkImpl.getIdsByQuery(q, listener);
 	}
 
+	public static <EntityClass extends Entity> void getLoadedEntityById(EntityTypeName type, long id,
+	RequestListener<EntityClass> listener)
+	{
+		Collection<Long> list = new LinkedList<Long>();
+		list.add(id);
+		getLoadedEntitiesById(type,list,listener);
+	}
+	
 	public static <EntityClass extends Entity> void getLoadedEntitiesById(
 			EntityTypeName type, Collection<Long> ids,
 			RequestListener<EntityClass> listener) {
@@ -82,6 +91,14 @@ public class Requests {
 		});
 	}
 
+
+	public static <EntityClass extends Entity> void getNewEntity(
+			final EntityTypeName type, 
+			final RequestListener<EntityClass> listener) {
+
+		getNewEntities(type, 1, listener);
+	}
+	
 	public static <EntityClass extends Entity> void getNewEntities(
 			final EntityTypeName type, final int count,
 			final RequestListener<EntityClass> listener) {
@@ -120,6 +137,34 @@ public class Requests {
 				listener.onFinished(entities);
 			}
 		});
+	}
+	
+
+	public static <EntityClass extends Entity> void loadEntity(
+			EntityClass entity,
+			RequestListener<EntityClass> listener) {
+		Collection<EntityClass> entities = new LinkedList<EntityClass>();
+		entities.add(entity);
+		loadEntities(entities , listener);
+	}
+
+	/**
+	 * This is the only requests that accepts null as a listener. Be warned
+	 * though: if no listener is passed an and error occurs, a Runtime exception
+	 * will be thrown, possibly on the same or another thread as the one that
+	 * started the request.
+	 * 
+	 * @param entities
+	 * @param listener
+	 *            A listener or null.
+	 */
+	public static <EntityClass extends Entity> void saveEntity(
+			EntityClass entity,
+			RequestListener<EntityClass> listener) {
+		
+		Collection<EntityClass> entities = new LinkedList<EntityClass>();
+		entities.add(entity);
+		saveEntities(entities , listener);
 	}
 
 	public static <EntityClass extends Entity> void loadEntities(

@@ -85,7 +85,13 @@ public class FacebookUtil {
 		toast.show();
 	}
 
-	public static void checkIn(Bundle params, Shop shop) {
+	public static void checkIn(String message, Shop shop) {
+		Bundle params = new Bundle();
+
+		params.putString("place", shop.getFacebookId());
+		params.putString("message", message);
+		params.putString("coordinates", shop.getLocation().toString());
+	
 		mAsyncRunner.request("me/checkins", params, "POST",
 				new PlacesCheckInListener(activity, shop), null);
 	}
