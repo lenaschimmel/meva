@@ -1,6 +1,7 @@
 package de.gmino.checkin.android.activities;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.gmino.checkin.android.R;
 import de.gmino.checkin.android.domain.Coupon;
+import de.gmino.checkin.android.domain.Shop;
+import de.gmino.meva.shared.request.RequestListener;
+import de.gmino.meva.shared.request.Requests;
 
 public class Coupons extends FragmentActivity {
 
@@ -36,34 +40,41 @@ public class Coupons extends FragmentActivity {
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-	ArrayList<Coupon> coupons;
+	ArrayList<Coupon> loadedCoupons;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		final long shopId = getIntent().getExtras().getLong("shopId");
-		/*
-		new AsyncTask<Void, Void, ArrayList<Coupon>>() {
-			@Override
-			protected ArrayList<Coupon> doInBackground(Void... params) {
-				return CheckinQueries.getCouponsByShop(Shop.getById(shopId));
-			}
+		
+		loadedCoupons = new ArrayList<Coupon>();
+		
+		mSectionsPagerAdapter = new SectionsPagerAdapter(
+				getSupportFragmentManager());
 
-			@Override
-			protected void onPostExecute(ArrayList<Coupon> result) {
-				coupons = result;
-				mSectionsPagerAdapter = new SectionsPagerAdapter(
-						getSupportFragmentManager());
-
-				// Set up the ViewPager with the sections adapter.
-				mViewPager = (ViewPager) findViewById(R.id.pager);
-				mViewPager.setAdapter(mSectionsPagerAdapter);
-			}
-		}.execute();
-*/
 		setContentView(R.layout.coupons);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+
+		
+		// Set up the ViewPager with the sections adapter.
+		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mViewPager.setAdapter(mSectionsPagerAdapter);
+		
+		Requests.getLoadedEntityById(Shop.type, shopId, new RequestListener<Shop>() {
+			@Override
+			public void onNewResult(Shop shop) {
+				Collection<Coupon> coupons = shop.getCoupons();
+				Requests.loadEntities(coupons, new RequestListener<Coupon>() {
+					@Override
+					public void onNewResult(Coupon result) {
+						loadedCoupons.add(result);
+						mSectionsPagerAdapter.notifyDataSetChanged();
+					}
+				});
+			}
+		});
+		
 
 	}
 
@@ -104,12 +115,12 @@ public class Coupons extends FragmentActivity {
 
 		@Override
 		public int getCount() {
-			return coupons.size();
+			return loadedCoupons.size();
 		}
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			return coupons.get(position).getTitle();
+			return loadedCoupons.get(position).getTitle();
 		}
 	}
 
@@ -140,6 +151,6 @@ public class Coupons extends FragmentActivity {
 	}
 
 	public CharSequence getGutscheinText(int position) {
-		return coupons.get(position).getDescription();
+		return loadedCoupons.get(position).getDescription();
 	}
 }
