@@ -71,8 +71,9 @@ public class JsonServer extends HttpServlet {
 
 		JsonSystem system = StandardConfig.createSystem();
 
-		JsonObject request = system.parseReader(
-				new InputStreamReader(req.getInputStream())).asObject();
+		String input = convertStreamToString(req.getInputStream());
+		System.out.println("Query: " + input);
+		JsonObject request = system.parse(input).asObject();
 
 		if (lastPart.equals("QueryNearbyShops"))
 			query = new QueryNearbyShops(request);
