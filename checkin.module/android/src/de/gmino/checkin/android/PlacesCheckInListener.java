@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,9 +18,9 @@ import de.gmino.checkin.android.domain.Shop;
 
 public class PlacesCheckInListener implements RequestListener {
 	
-	CheckIn context;
+	Activity context;
 	Shop shop;
-	public PlacesCheckInListener(CheckIn context, Shop shop) {
+	public PlacesCheckInListener(Activity context, Shop shop) {
 		super();
 		this.shop = shop;
 		this.context = context;
