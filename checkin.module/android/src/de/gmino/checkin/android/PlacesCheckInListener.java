@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.facebook.android.AsyncFacebookRunner.RequestListener;
 import com.facebook.android.FacebookError;
 
-import de.gmino.checkin.android.activities.CheckIn;
 import de.gmino.checkin.android.activities.Coupons;
 import de.gmino.checkin.android.domain.Shop;
 

@@ -1,14 +1,6 @@
 package de.gmino.checkin.android;
 
-import com.facebook.android.DialogError;
-import com.facebook.android.Facebook;
-import com.facebook.android.FacebookError;
-import com.facebook.android.Facebook.DialogListener;
-
 import android.app.Application;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.util.Log;
 import de.gmino.meva.android.request.NetworkRequestsImplAsyncTaskBinaryHttp;
 import de.gmino.meva.android.request.UtilAndroid;
 import de.gmino.meva.shared.EntityFactory;

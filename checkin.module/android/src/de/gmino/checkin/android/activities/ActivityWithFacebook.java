@@ -1,9 +1,9 @@
 package de.gmino.checkin.android.activities;
 
-import de.gmino.checkin.android.FacebookUtil;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import de.gmino.checkin.android.FacebookUtil;
 
 public class ActivityWithFacebook extends Activity {
 	@Override
