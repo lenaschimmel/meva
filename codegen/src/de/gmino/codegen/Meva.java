@@ -7,8 +7,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.json.simple.JSONArray;
@@ -32,6 +34,7 @@ public class Meva {
 	private File cpyDir;
 
 	private File schemaDir;
+	public static TreeMap<String,TreeMap<String, ClassDefinition>> definitionsPerMoudle;
 
 	public static Meva getModule(String moduleName, String platform) {
 		return projects.get(moduleName + "/" + platform);
@@ -43,15 +46,29 @@ public class Meva {
 	 */
 	public static void main(String[] args) throws IOException {
 		definitions = new TreeMap<String, ClassDefinition>();
+		definitionsPerMoudle = new TreeMap<String, TreeMap<String, ClassDefinition>>();
 		for (String arg : args) {
 			File rootDir = new File(arg).getCanonicalFile();
 			new Meva(rootDir, new ArrayList<File>()).buildProject();
 		}
+		UmlDiagram.tryWriteDotFile(new File("meva.dot"));
 	}
 
 	public Meva(File projectRootDir, List<File> callStack) {
 		this.projectRootDir = projectRootDir;
 		this.callStack = new ArrayList<File>(callStack);
+		
+	}
+	
+	public static void addDefinitionToModule(String moduleName, ClassDefinition def)
+	{
+		TreeMap<String, ClassDefinition> defs = definitionsPerMoudle.get(moduleName);
+		if(defs == null)
+		{
+			defs = new TreeMap<String, ClassDefinition>();
+			definitionsPerMoudle.put(moduleName, defs);
+		}
+		defs.put(def.className, def);
 	}
 
 	public void buildProject() {
@@ -63,7 +80,7 @@ public class Meva {
 					+ "/mevaconf.json");
 			platform = projectRootDir.getName();
 
-			// Lese Konfiguratuib für das ganze Modul
+			// Lese Konfiguration für das ganze Modul
 			json = (JSONObject) JSONValue.parse(new FileReader(moduleConf));
 			moduleName = (String) json.get("name");
 
@@ -159,6 +176,7 @@ public class Meva {
 					System.out.println("Reading schema " + file);
 					ClassDefinition def = ClassDefinition.fromFile(file
 							, moduleName);
+					addDefinitionToModule(moduleName, def);
 					collection.put(file.getName().replace(".schema", ""), def);
 				} catch (Exception e) {
 					throw new RuntimeException("Error while reading schema.", e);

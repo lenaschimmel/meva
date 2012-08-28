@@ -112,4 +112,11 @@ public class AttributeDefiniton {
 	{
 		return Meva.getClassDefinition(typeName, true);
 	}
+
+	public boolean isValue() {
+		boolean attributeIsValue = false;
+		if (isDomainType())
+			attributeIsValue = !Meva.getClassDefinition(typeName, true).entity;
+		return attributeIsValue;
+	}
 }

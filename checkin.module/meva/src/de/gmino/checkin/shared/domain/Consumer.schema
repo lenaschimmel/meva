@@ -17,7 +17,7 @@
 			"type" : "relation",
 			"name" : "checkins",
 			"reltype" : "Checkin",
-			"relname" : "comsumer"
+			"relname" : "consumer"
 		}
 	]
 }
