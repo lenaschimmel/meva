@@ -20,7 +20,7 @@
 		<h2>Aktuelle Coupons:</h2>
 		<ul>
 		<c:forEach var="coupon" items="${myShop.coupons}">
-			<li><i>Coupon:</i> ${coupon.title}</li>
+			<li><b><i>Coupon:</i> ${coupon.title}</b><br/>${coupon.description}<br/><br/></li>
 		</c:forEach>
 		</ul>
 		<a href="http://www.facebook.com/pages/pages/${myShop.facebookId}">Besuche ${myShop.title} auf Facebook!</a>

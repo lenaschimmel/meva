@@ -23,14 +23,13 @@ public class ShopTag extends SimpleTagSupport {
 	
 	@Override
 	public void doTag() throws JspException, IOException {
-		System.out.println("Do all the tags! scanCode: " + scanCode);
+		// FIXME Don't create multiple instances!
 		EntityFactory.setImplementations(new EntityFactoryImpl());
 		Requests.setImplementation(new NetworkRequestsImplAsyncLocalSql());
 
-		Query q = new QueryShopByCode(scanCode); //req.getParameter("scanCode"));
+		Query q = new QueryShopByCode(scanCode);
 		Shop shop = (Shop) LocalRequetsImpl.getLoadedEntitiesByQuery(Shop.type, q).iterator().next();
 		LocalRequetsImpl.loadEntities(shop.getCoupons());
-		System.out.println("Loaded " + shop.getTitle());
 		getJspContext().setAttribute(varname, shop);
 	}
 	
