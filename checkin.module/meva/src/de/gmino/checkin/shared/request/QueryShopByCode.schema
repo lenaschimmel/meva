@@ -1,0 +1,12 @@
+{
+	"concept" : "value",
+	"package" : "de.gmino.checkin.TARGET.request",
+	"name" : "QueryShopByCode",
+	"query" : "true",
+	"attributes" : [
+		{
+			"type" : "String",
+			"name" : "scanCode"
+		}	
+	]
+}

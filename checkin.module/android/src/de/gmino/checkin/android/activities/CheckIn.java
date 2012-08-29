@@ -14,6 +14,7 @@ import android.widget.Toast;
 import de.gmino.checkin.android.FacebookUtil;
 import de.gmino.checkin.android.R;
 import de.gmino.checkin.android.domain.Shop;
+import de.gmino.checkin.android.request.QueryShopByCode;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
@@ -57,15 +58,15 @@ public class CheckIn extends ActivityWithFacebook {
 		if (data != null) {
 
 			String[] array = data.toString().split("/");
-			String fid = array[array.length - 1];
+			String scanCode = array[array.length - 1];
 
-			if (fid != null) {
+			if (scanCode != null) {
 
-				checkinWithFid(fid);
+				checkinWithScanCode(scanCode);
 			}
 		}
-		if (intent.getCharSequenceExtra("fid") != null) {
-			checkinWithFid(intent.getCharSequenceExtra("fid").toString());
+		if (intent.getCharSequenceExtra("scanCode") != null) {
+			checkinWithScanCode(intent.getCharSequenceExtra("scanCode").toString());
 		}
 	}
 
@@ -78,10 +79,11 @@ public class CheckIn extends ActivityWithFacebook {
 		Log.d("de.gmino.checkin", "intent erhalten");
 	}
 
-	private void checkinWithFid(final String fid) {
-		if (fid != null) {
-			Long id = Long.parseLong(fid);
-			Requests.getLoadedEntityById(Shop.type, id, new RequestListener<Shop>(){
+	private void checkinWithScanCode(final String scanCode) {
+		if (scanCode != null) {
+			System.out.println("Got code: " + scanCode);
+			QueryShopByCode q = new QueryShopByCode(scanCode);
+			Requests.getLoadedEntitiesByQuery(Shop.type, q, new RequestListener<Shop>(){
 				@Override
 				public void onNewResult(Shop shop) {
 					Toast toast = Toast.makeText(getApplicationContext(),

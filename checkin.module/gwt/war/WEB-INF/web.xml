@@ -16,52 +16,21 @@
   <servlet>
     <servlet-name>JsonServer</servlet-name>
     <servlet-class>de.gmino.checkin.server.JsonServer</servlet-class>
-  </servlet>
-
-  
-  <servlet-mapping>
-    <servlet-name>JsonServer</servlet-name>
-    <url-pattern>/Json/QueryNearbyShops</url-pattern>
-  </servlet-mapping>
-  
-  <servlet-mapping>
-    <servlet-name>JsonServer</servlet-name>
-    <url-pattern>/Json/getEntities</url-pattern>
-  </servlet-mapping>
-  
-    <servlet-mapping>
-    <servlet-name>JsonServer</servlet-name>
-    <url-pattern>/Json/newEntities</url-pattern>
-  </servlet-mapping>    
-  
-  <servlet-mapping>
-    <servlet-name>JsonServer</servlet-name>
-    <url-pattern>/Json/saveEntities</url-pattern>
-  </servlet-mapping>
-  
+  </servlet>  
   <servlet>
     <servlet-name>BinaryServer</servlet-name>
     <servlet-class>de.gmino.checkin.server.BinaryServer</servlet-class>
   </servlet>
 
+  
   <servlet-mapping>
-    <servlet-name>BinaryServer</servlet-name>
-    <url-pattern>/Binary/QueryNearbyShops</url-pattern>
+    <servlet-name>JsonServer</servlet-name>
+    <url-pattern>/Json/*</url-pattern>
   </servlet-mapping>
   
   <servlet-mapping>
     <servlet-name>BinaryServer</servlet-name>
-    <url-pattern>/Binary/getEntities</url-pattern>
-  </servlet-mapping>
-    
-  <servlet-mapping>
-    <servlet-name>BinaryServer</servlet-name>
-    <url-pattern>/Binary/newEntities</url-pattern>
-  </servlet-mapping>    
-  
-  <servlet-mapping>
-    <servlet-name>BinaryServer</servlet-name>
-    <url-pattern>/Binary/saveEntities</url-pattern>
+    <url-pattern>/Binary/*</url-pattern>
   </servlet-mapping>
   
 </web-app>

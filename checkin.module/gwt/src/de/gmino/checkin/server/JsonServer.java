@@ -24,6 +24,7 @@ import org.itemscript.standard.StandardConfig;
 import de.gmino.checkin.server.request.LocalRequetsImpl;
 import de.gmino.checkin.server.request.NetworkRequestsImplAsyncLocalSql;
 import de.gmino.checkin.server.request.QueryNearbyShops;
+import de.gmino.checkin.server.request.QueryShopByCode;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.EntityTypeName;
@@ -76,6 +77,8 @@ public class JsonServer extends HttpServlet {
 
 		if (lastPart.equals("QueryNearbyShops"))
 			query = new QueryNearbyShops(request);
+		if (lastPart.equals("QueryShopByCode"))
+			query = new QueryShopByCode(request);
 		if (query == null)
 			throw new RuntimeException("Unrecognized query type: " + lastPart);
 		System.out.println("Got a JSON query of type " + lastPart);
