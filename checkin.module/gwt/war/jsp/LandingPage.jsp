@@ -12,7 +12,7 @@
 		<title>Checkin bei ${myShop.title} - ${myShop.description}</title>
 	</head>
 	<body>
-	  
+	 
 		<h1>Wilkommen bei ${myShop.title}!</h1>
 		
 		Was sie hier erwartet: ${myShop.description}<br/>
@@ -20,8 +20,8 @@
 		<h2>Aktuelle Coupons:</h2>
 		<ul>
 		<c:forEach var="coupon" items="${myShop.coupons}">
-	      <li><i>Coupon:</i> ${coupon.title}</li>
-        </c:forEach>
+			<li><i>Coupon:</i> ${coupon.title}</li>
+		</c:forEach>
 		</ul>
 		<a href="http://www.facebook.com/pages/pages/${myShop.facebookId}">Besuche ${myShop.title} auf Facebook!</a>
 	</body>
