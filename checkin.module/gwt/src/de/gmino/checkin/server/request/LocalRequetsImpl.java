@@ -54,6 +54,11 @@ public class LocalRequetsImpl {
 	public static void loadEntities(Collection<? extends Entity> entities) {
 		Connection dbCon = SqlHelper.getConnection();
 		for (Entity e : entities) {
+			if(e.isReady())
+			{
+				System.out.println("Already present: " + e.toShortString());
+				continue;
+			}
 			System.out.println("Reading " + e.toShortString() + " from SQL.");
 			try {
 				((EntitySql) e).deserializeSql(dbCon);

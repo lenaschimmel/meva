@@ -2,11 +2,23 @@ package de.gmino.checkin.server;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class SqlHelper {
 	static Connection con;
 	public static Connection getConnection()
 	{
+		if(con != null)
+		{
+			try {
+				java.sql.Statement stmt = con.createStatement();
+				ResultSet rset = stmt.executeQuery("SELECT NOW() FROM DUAL");
+			} catch (SQLException e) {
+				System.err.println("Detected db error, trying to reconnect.");
+				con = null;
+			}
+		}
 		if(con == null)
 		{
 			try {
