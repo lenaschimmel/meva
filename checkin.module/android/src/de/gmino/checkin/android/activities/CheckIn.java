@@ -20,25 +20,22 @@ import de.gmino.meva.shared.request.Requests;
 
 public class CheckIn extends ActivityWithFacebook {
 
-	ImageView shopsButton;
-	ImageView QRButton;
-	ImageView gutscheinButton;
+	ImageView btDiscover;
+	ImageView btScan;
+	ImageView btCoupons;
 	Intent intent;
-
-	private NfcAdapter mNfcAdapter = null;
-	private PendingIntent mNfcPendingIntent = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main);
-		shopsButton = (ImageView) findViewById(R.id.button1);
-		shopsButton.setOnClickListener(buttonListener1);
-		QRButton = (ImageView) findViewById(R.id.button2);
-		QRButton.setOnClickListener(buttonListener2);
-		gutscheinButton = (ImageView) findViewById(R.id.button3);
-		gutscheinButton.setOnClickListener(buttonListener3);
+		btDiscover = (ImageView) findViewById(R.id.btDiscover);
+		btDiscover.setOnClickListener(btDiscoverListener);
+		btScan = (ImageView) findViewById(R.id.btScan);
+		btScan.setOnClickListener(btScanListener);
+		btCoupons = (ImageView) findViewById(R.id.btCoupons);
+		btCoupons.setOnClickListener(btCouponsListener);
 
 		handleIntent(getIntent());
 	}
@@ -96,21 +93,21 @@ public class CheckIn extends ActivityWithFacebook {
 		}
 	}
 
-	private OnClickListener buttonListener1 = new OnClickListener() {
+	private OnClickListener btDiscoverListener = new OnClickListener() {
 		public void onClick(View v) {
 			Intent intent = new Intent(CheckIn.this, ShopList.class);
 			startActivity(intent);
 		}
 	};
 
-	private OnClickListener buttonListener2 = new OnClickListener() {
+	private OnClickListener btScanListener = new OnClickListener() {
 		public void onClick(View v) {
 			Intent intent = new Intent(CheckIn.this, QRScanner.class);
 			startActivity(intent);
 		}
 	};
 
-	private OnClickListener buttonListener3 = new OnClickListener() {
+	private OnClickListener btCouponsListener = new OnClickListener() {
 		public void onClick(View v) {
 			Intent intent = new Intent(CheckIn.this, Coupons.class);
 			startActivity(intent);

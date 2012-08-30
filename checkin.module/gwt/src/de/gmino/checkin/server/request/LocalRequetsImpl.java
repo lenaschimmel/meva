@@ -92,7 +92,7 @@ public class LocalRequetsImpl {
 	public static <EntityClass extends Entity> Collection<EntityClass> getLoadedEntitiesByQuery(
 			final EntityTypeName type, Query q) {
 
-		Collection<Long> ids = getIdsByQuery(q);
+		Collection<Long> ids = q.evaluate();
 		Collection<EntityClass> entities = EntityFactory
 				.getUnloadedEntitiesById(type, ids);
 		loadEntities(entities);
@@ -112,7 +112,7 @@ public class LocalRequetsImpl {
 	public static <EntityClass extends Entity> Collection<EntityClass> getUnloadedEntitiesByQuery(
 			final EntityTypeName type, Query q) {
 
-		Collection<Long> ids = getIdsByQuery(q);
+		Collection<Long> ids = q.evaluate();
 
 		Collection<EntityClass> entities = EntityFactory
 				.getUnloadedEntitiesById(type, ids);
