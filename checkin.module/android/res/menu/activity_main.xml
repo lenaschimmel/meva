@@ -1,6 +1,17 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_settings"
-        android:title="@string/menu_settings"
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_settings"
         android:orderInCategory="100"
-        android:showAsAction="never" />
+        android:showAsAction="never"
+        android:title="@string/menu_settings"/>
+    <item
+        android:id="@+id/miLogout"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_save"
+        android:title="Ausloggen bei Facebook"
+        android:titleCondensed="Ausloggen"
+        android:visible="true">
+    </item>
+
 </menu>

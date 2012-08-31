@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
-import de.gmino.checkin.android.facebook.FacebookEventListener;
+import de.gmino.checkin.android.facebook.FacebookLoginStatusListener;
 import de.gmino.checkin.android.facebook.FacebookUtil;
 
-public class ActivityWithFacebook extends Activity implements FacebookEventListener {
+public class ActivityWithFacebook extends Activity implements FacebookLoginStatusListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		System.out.println("onCreate");

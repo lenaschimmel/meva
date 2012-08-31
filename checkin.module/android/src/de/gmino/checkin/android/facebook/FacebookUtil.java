@@ -1,8 +1,5 @@
 package de.gmino.checkin.android.facebook;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.Set;
 
 import org.itemscript.core.JsonSystem;
@@ -14,20 +11,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.facebook.android.AsyncFacebookRunner;
-import com.facebook.android.AsyncFacebookRunner.RequestListener;
-import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
-import com.facebook.android.Facebook.DialogListener;
-import com.facebook.android.Facebook.ServiceListener;
-import com.facebook.android.FacebookError;
 
 import de.gmino.checkin.android.PlacesCheckInListener;
 import de.gmino.checkin.android.WeakHashSet;
-import de.gmino.checkin.android.meRequestListener;
 import de.gmino.checkin.android.domain.Shop;
+import de.gmino.checkin.android.facebook.errorhandling.FacebookDialogListener;
+import de.gmino.checkin.android.facebook.errorhandling.FacebookRequestListener;
+import de.gmino.checkin.android.facebook.errorhandling.FacebookServiceListener;
 
 public class FacebookUtil {
 	private static String[] permissions = { "offline_access", "publish_stream",
@@ -39,13 +32,14 @@ public class FacebookUtil {
 	private static AsyncFacebookRunner mAsyncRunner;
 	private static String fid = null;
 	private static String name = null;
-	private static Set<FacebookEventListener> listeners;
+	private static Set<FacebookLoginStatusListener> listeners;
 
 	static {
-		listeners = new WeakHashSet<FacebookEventListener>();
+		listeners = new WeakHashSet<FacebookLoginStatusListener>();
 	}
 
-	public static boolean addFacebookEventListener(FacebookEventListener object) {
+	public static boolean addFacebookEventListener(
+			FacebookLoginStatusListener object) {
 		return listeners.add(object);
 	}
 
@@ -70,22 +64,12 @@ public class FacebookUtil {
 		if (mAsyncRunner == null)
 			mAsyncRunner = new AsyncFacebookRunner(facebook);
 
-		if (facebook.isSessionValid()) {
-			System.out.println("Session already valid.");
-			requestFid();
-			return;
-		}
-
-		/*
-		 * Get existing access_token if any
-		 */
 		mPrefs = activity.getSharedPreferences("facebook",
 				Activity.MODE_PRIVATE);
 		String access_token = mPrefs.getString("access_token", null);
 		long expires = mPrefs.getLong("access_expires", 0);
 		if (access_token != null) {
 			facebook.setAccessToken(access_token);
-			Log.d("de.gmino.checkin", "Token exist: " + access_token);
 		}
 		if (expires != 0) {
 			facebook.setAccessExpires(expires);
@@ -95,28 +79,94 @@ public class FacebookUtil {
 		 * Only call authorize if the access_token has expired.
 		 */
 		if (!facebook.isSessionValid()) {
-			showLoginDialog();
+			System.err.println("INVALID session, now showing the dialog.");
+			facebook.authorize(activity, new String[] {},
+					new FacebookDialogListener() {
+						@Override
+						public void onComplete(Bundle values) {
+							SharedPreferences.Editor editor = mPrefs.edit();
+							editor.putString("access_token",
+									facebook.getAccessToken());
+							editor.putLong("access_expires",
+									facebook.getAccessExpires());
+							editor.commit();
+							requestFid();
+						}
+					});
+		} else {
+			System.err.println("VALID session.");
+			requestFid();
 		}
 
-		requestFid();
+		// ################
+		//
+		// if (facebook.isSessionValid()) {
+		// System.out.println("Session already valid.");
+		// requestFid();
+		// return;
+		// }
+		//
+		// /*
+		// * Get existing access_token if any
+		// */
+		// mPrefs = activity.getSharedPreferences("facebook",
+		// Activity.MODE_PRIVATE);
+		// String access_token = mPrefs.getString("access_token", null);
+		// long expires = mPrefs.getLong("access_expires", 0);
+		// if (access_token != null) {
+		// facebook.setAccessToken(access_token);
+		// Log.d("de.gmino.checkin", "Token exist: " + access_token);
+		// }
+		// if (expires != 0) {
+		// facebook.setAccessExpires(expires);
+		// }
+		//
+		// /*
+		// * Only call authorize if the access_token has expired.
+		// */
+		// if (!facebook.isSessionValid()) {
+		// showLoginDialog();
+		// }
+		//
+		// requestFid();
 	}
 
 	private static void requestFid() {
+		if (!facebook.isSessionValid()) {
+			System.err.println("Can't get FID while not logged in.");
+			return;
+		}
 		System.out.println("Requesting FID, current token: "
 				+ facebook.getAccessToken());
-		mAsyncRunner.request("me", new meRequestListener(activity) {
+		mAsyncRunner.request("me", new FacebookRequestListener() {
 			@Override
 			public void onComplete(String response, Object state) {
 				JsonSystem json = StandardConfig.createSystem();
 				JsonObject user = json.parse(response).asObject();
-				String oldFid = fid;
-				fid = user.getString("id");
-				name = user.getString("name");
+				if (checkResponse(user)) {
+					String oldFid = fid;
+					fid = user.getString("id");
+					name = user.getString("name");
 
-				System.out.println("Your FID: " + fid);
-				if (!fid.equals(oldFid)) {
-					for (FacebookEventListener listener : listeners) {
-						listener.onLoggedIn(fid, name);
+					if (fid == null) {
+						System.err.println("fid is null, response was "
+								+ response);
+						return;
+					}
+
+					System.out.println("Your FID: " + fid);
+					if (!fid.equals(oldFid)) {
+
+						activity.runOnUiThread(new Runnable() {
+
+							@Override
+							public void run() {
+								for (FacebookLoginStatusListener listener : listeners) {
+									listener.onLoggedIn(fid, name);
+								}
+
+							}
+						});
 					}
 				}
 			}
@@ -125,7 +175,7 @@ public class FacebookUtil {
 
 	private static void showLoginDialog() {
 		System.out.println("showLoginDialog/authorize");
-		facebook.authorize(activity, permissions, new DialogListener() {
+		facebook.authorize(activity, permissions, new FacebookDialogListener() {
 			@Override
 			public void onComplete(Bundle values) {
 				SharedPreferences.Editor editor = mPrefs.edit();
@@ -134,19 +184,6 @@ public class FacebookUtil {
 				editor.commit();
 				requestFid();
 				Log.d("logged_in", "logged in");
-			}
-
-			@Override
-			public void onFacebookError(FacebookError error) {
-			}
-
-			@Override
-			public void onError(DialogError e) {
-				Log.d("error", "error");
-			}
-
-			@Override
-			public void onCancel() {
 			}
 		});
 	}
@@ -164,18 +201,7 @@ public class FacebookUtil {
 
 	public static void extendAccessTokenIfNeeded() {
 		boolean res = facebook.extendAccessTokenIfNeeded(activity,
-				new ServiceListener() {
-
-					@Override
-					public void onFacebookError(FacebookError e) {
-						System.out.println("extend onFacebookError: " + e);
-					}
-
-					@Override
-					public void onError(Error e) {
-						System.out.println("extend onError: " + e);
-					}
-
+				new FacebookServiceListener() {
 					@Override
 					public void onComplete(Bundle values) {
 						System.out.println("extend onComplete");
@@ -191,37 +217,30 @@ public class FacebookUtil {
 		facebook.authorizeCallback(requestCode, resultCode, data);
 	}
 
-	public static void logout()
-	{
-			mAsyncRunner.logout(activity, new RequestListener() {
-				
-				@Override
-				public void onMalformedURLException(MalformedURLException e, Object state) {
-					System.err.println("Facebookerror on log out: " + e);
-				}
-				
-				@Override
-				public void onIOException(IOException e, Object state) {
-					System.err.println("Facebookerror on log out: " + e);
-				}
-				
-				@Override
-				public void onFileNotFoundException(FileNotFoundException e, Object state) {
-					System.err.println("Facebookerror on log out: " + e);
-				}
-				
-				@Override
-				public void onFacebookError(FacebookError e, Object state) {
-					System.err.println("Facebookerror on log out: " + e);
-				}
-				
-				@Override
-				public void onComplete(String response, Object state) {
-					fid = null;
-					for (FacebookEventListener listener : listeners) {
-						listener.onLoggedOut();
+	public static void logout() {
+		mAsyncRunner.logout(activity, new FacebookRequestListener() {
+			@Override
+			public void onComplete(String response, Object state) {
+				invalidateCode();
+				fid = null;
+				activity.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						for (FacebookLoginStatusListener listener : listeners) {
+							listener.onLoggedOut();
+						}
 					}
-				}
-			});
+				});
+			}
+		});
+	}
+
+	public static void invalidateCode() {
+		SharedPreferences.Editor editor = mPrefs.edit();
+		editor.remove("access_token");
+		editor.remove("access_expires");
+		editor.commit();
+		facebook.setAccessToken(null);
+		facebook.setAccessExpires(0);
 	}
 }
