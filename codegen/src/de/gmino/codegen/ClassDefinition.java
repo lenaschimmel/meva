@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.TreeSet;
 
 import org.json.simple.JSONArray;
@@ -73,6 +74,7 @@ public class ClassDefinition {
 		pw.println("public class " + className + " extends " + className
 				+ "Gen {");
 		generateConstructors(pw, true, target.equals("shared"));
+
 		pw.println("}");
 		pw.close();
 		fos.close();
@@ -237,6 +239,11 @@ public class ClassDefinition {
 			pw.println("	public String getUrlPostfix()");
 			pw.println("	{");
 			pw.println("		return \"" + baseClassName + "\";");
+			pw.println("	}");
+			pw.println();
+			pw.println("	@Override");
+			pw.println("	public Collection<Long> evaluate() {");
+			pw.println("		throw new RuntimeException(\"No, this method does not exist here.\");");
 			pw.println("	}");
 		}
 
@@ -419,6 +426,7 @@ public class ClassDefinition {
 		pw.println("import java.io.IOException;");
 		pw.println("import java.io.PrintWriter;");
 		pw.println("import java.io.StringWriter;");
+		pw.println("import java.util.Collection;");
 
 		pw.println();
 
@@ -1103,9 +1111,11 @@ public class ClassDefinition {
 			pw.println("	public " + attribute.typeName + " get"
 					+ capitalizeFirst(attribute.attributeName) + "()");
 			pw.println("	{");
-			
+
 			pw.println("		if (" + attribute.attributeName + " == null)");
-			pw.println("			" + attribute.attributeName + " = ("+attribute.typeName +")EntityFactory.getUnloadedEntityById("
+			pw.println("			" + attribute.attributeName + " = ("
+					+ attribute.typeName
+					+ ")EntityFactory.getUnloadedEntityById("
 					+ attribute.typeName + ".type," + attribute.attributeName
 					+ "_id);");
 			pw.println("		return " + attribute.attributeName + ";");

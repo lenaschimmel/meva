@@ -1,28 +1,26 @@
 package de.gmino.checkin.android.activities;
 
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.net.Uri;
-import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.Toast;
-import de.gmino.checkin.android.FacebookUtil;
 import de.gmino.checkin.android.R;
 import de.gmino.checkin.android.domain.Shop;
+import de.gmino.checkin.android.facebook.FacebookUtil;
 import de.gmino.checkin.android.request.QueryShopByCode;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
 public class CheckIn extends ActivityWithFacebook {
 
-	ImageView btDiscover;
-	ImageView btScan;
-	ImageView btCoupons;
+	Button btDiscover;
+	Button btScan;
+	Button btCoupons;
 	Intent intent;
 
 	@Override
@@ -30,11 +28,11 @@ public class CheckIn extends ActivityWithFacebook {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main);
-		btDiscover = (ImageView) findViewById(R.id.btDiscover);
+		btDiscover = (Button) findViewById(R.id.btDiscover);
 		btDiscover.setOnClickListener(btDiscoverListener);
-		btScan = (ImageView) findViewById(R.id.btScan);
+		btScan = (Button) findViewById(R.id.btScan);
 		btScan.setOnClickListener(btScanListener);
-		btCoupons = (ImageView) findViewById(R.id.btCoupons);
+		btCoupons = (Button) findViewById(R.id.btCoupons);
 		btCoupons.setOnClickListener(btCouponsListener);
 
 		handleIntent(getIntent());

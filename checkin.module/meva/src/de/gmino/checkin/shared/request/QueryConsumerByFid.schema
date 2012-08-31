@@ -1,0 +1,12 @@
+{
+	"concept" : "value",
+	"package" : "de.gmino.checkin.TARGET.request",
+	"name" : "QueryConsumerByFid",
+	"query" : "true",
+	"attributes" : [
+		{
+			"type" : "String",
+			"name" : "fid"
+		}	
+	]
+}

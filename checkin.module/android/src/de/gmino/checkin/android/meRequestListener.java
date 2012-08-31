@@ -9,19 +9,17 @@ import android.app.Activity;
 import com.facebook.android.AsyncFacebookRunner.RequestListener;
 import com.facebook.android.FacebookError;
 
-import de.gmino.checkin.android.activities.CheckIn;
-
 public class meRequestListener implements RequestListener {
 
-	CheckIn context;
-	public meRequestListener(CheckIn context) {
+	Activity context;
+	public meRequestListener(Activity context) {
 		super();
 		this.context = context;
 	}
 
 	@Override
 	public void onComplete(final String response, Object state) {
-		((Activity)context).runOnUiThread(new Runnable() {
+		context.runOnUiThread(new Runnable() {
 			
 			@Override
 			public void run() {
