@@ -2,10 +2,10 @@ package de.gmino.checkin.android.activities;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
@@ -18,13 +18,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import de.gmino.checkin.android.CheckinApplication;
 import de.gmino.checkin.android.R;
+import de.gmino.checkin.android.domain.Consumer;
 import de.gmino.checkin.android.domain.Coupon;
 import de.gmino.checkin.android.domain.Shop;
+import de.gmino.checkin.shared.domain.CouponOwenership;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
-public class Coupons extends FragmentActivity {
+public class Coupons extends ActivityWithFacebook {
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -47,34 +50,54 @@ public class Coupons extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 
 		final long shopId = getIntent().getExtras().getLong("shopId");
-		
+
 		loadedCoupons = new ArrayList<Coupon>();
-		
-		mSectionsPagerAdapter = new SectionsPagerAdapter(
-				getSupportFragmentManager());
+
+		// mSectionsPagerAdapter = new SectionsPagerAdapter(
+		// getSupportFragmentManager());
 
 		setContentView(R.layout.coupons);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
-		
-		Requests.getLoadedEntityById(Shop.type, shopId, new RequestListener<Shop>() {
-			@Override
-			public void onNewResult(Shop shop) {
-				Collection<Coupon> coupons = shop.getCoupons();
-				Requests.loadEntities(coupons, new RequestListener<Coupon>() {
+
+		Consumer me = ((CheckinApplication) getApplication()).getConsumer();
+		Collection<CouponOwenership> myCouponOwnerships = me
+				.getCouponOwnerships();
+
+		Requests.loadEntities(myCouponOwnerships,
+				new RequestListener<CouponOwenership>() {
+					Collection<Coupon> coupons = new HashSet<Coupon>();
+
 					@Override
-					public void onNewResult(Coupon result) {
-						loadedCoupons.add(result);
-						mSectionsPagerAdapter.notifyDataSetChanged();
+					public void onNewResult(CouponOwenership result) {
+						coupons.add((Coupon) result.getCoupon());
+					}
+
+					@Override
+					public void onFinished(Collection<CouponOwenership> results) {
+						Requests.loadEntities(coupons, null);
 					}
 				});
-			}
-		});
-		
+
+		Requests.getLoadedEntityById(Shop.type, shopId,
+				new RequestListener<Shop>() {
+					@Override
+					public void onNewResult(Shop shop) {
+						Collection<Coupon> coupons = shop.getCoupons();
+						Requests.loadEntities(coupons,
+								new RequestListener<Coupon>() {
+									@Override
+									public void onNewResult(Coupon result) {
+										loadedCoupons.add(result);
+										mSectionsPagerAdapter
+												.notifyDataSetChanged();
+									}
+								});
+					}
+				});
 
 	}
 

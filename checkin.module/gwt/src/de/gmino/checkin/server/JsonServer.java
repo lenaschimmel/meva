@@ -23,6 +23,7 @@ import org.itemscript.standard.StandardConfig;
 
 import de.gmino.checkin.server.request.LocalRequetsImpl;
 import de.gmino.checkin.server.request.NetworkRequestsImplAsyncLocalSql;
+import de.gmino.checkin.server.request.QueryConsumerByFid;
 import de.gmino.checkin.server.request.QueryNearbyShops;
 import de.gmino.checkin.server.request.QueryShopByCode;
 import de.gmino.meva.shared.Entity;
@@ -79,6 +80,8 @@ public class JsonServer extends HttpServlet {
 			query = new QueryNearbyShops(request);
 		if (lastPart.equals("QueryShopByCode"))
 			query = new QueryShopByCode(request);
+		if (lastPart.equals("QueryConsumerByFid"))
+			query = new QueryConsumerByFid(request);
 		if (query == null)
 			throw new RuntimeException("Unrecognized query type: " + lastPart);
 		System.out.println("Got a JSON query of type " + lastPart);
@@ -139,8 +142,9 @@ public class JsonServer extends HttpServlet {
 		EntityTypeName type = EntityTypeName.getByString(typeName);
 		JsonObject entitiesMap = requestObject.getObject("entities");
 
-		Collection<Entity> entitiesToSave = new ArrayList<Entity>(entitiesMap.size());
-		
+		Collection<Entity> entitiesToSave = new ArrayList<Entity>(
+				entitiesMap.size());
+
 		for (Entry<String, JsonValue> entry : entitiesMap.entrySet()) {
 			long id = Long.parseLong(entry.getKey());
 			Entity e = EntityFactory.getUnloadedEntityById(type, id);

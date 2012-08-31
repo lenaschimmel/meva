@@ -15,7 +15,7 @@ import java.util.LinkedList;
 
 import org.itemscript.core.values.JsonObject;
 
-import de.gmino.checkin.client.domain.Consumer;
+import de.gmino.checkin.server.domain.Consumer;
 import de.gmino.checkin.server.SqlHelper;
 import de.gmino.checkin.server.request.gen.QueryConsumerByFidGen;
 import de.gmino.meva.shared.Entity;
@@ -45,8 +45,8 @@ public class QueryConsumerByFid extends QueryConsumerByFidGen {
 			Connection con = SqlHelper.getConnection();
 			Statement stat = con.createStatement();
 
-			ResultSet result = stat.executeQuery("SELECT id FROM Shop "
-					+ "WHERE scanCode = '" + fid + "';");
+			ResultSet result = stat.executeQuery("SELECT id FROM Consumer "
+					+ "WHERE facebookId = '" + fid + "';");
 			Collection<Long> ids = new LinkedList<Long>();
 			if (result.next())
 				ids.add(result.getLong(1));

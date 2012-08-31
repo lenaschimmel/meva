@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import de.gmino.checkin.server.request.LocalRequetsImpl;
 import de.gmino.checkin.server.request.NetworkRequestsImplAsyncLocalSql;
+import de.gmino.checkin.server.request.QueryConsumerByFid;
 import de.gmino.checkin.server.request.QueryNearbyShops;
 import de.gmino.checkin.server.request.QueryShopByCode;
 import de.gmino.meva.shared.Entity;
@@ -66,6 +67,9 @@ public class BinaryServer extends HttpServlet {
 					req.getInputStream()));
 		if (lastPart.equals("QueryShopByCode"))
 			query = new QueryShopByCode(new DataInputStream(
+					req.getInputStream()));
+		if (lastPart.equals("QueryConsumerByFid"))
+			query = new QueryConsumerByFid(new DataInputStream(
 					req.getInputStream()));
 		if (query == null)
 			throw new RuntimeException("Unrecognized query type: " + lastPart);
