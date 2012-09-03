@@ -88,6 +88,12 @@ public class Requests {
 				loadEntities(entities, listener);
 
 			}
+			
+			@Override
+			public void onError(String message, Throwable e) {
+				listener.onError(message, e);
+			}
+
 		});
 	}
 
@@ -111,6 +117,11 @@ public class Requests {
 				Collection<EntityClass> entitites = EntityFactory
 						.getUnloadedEntitiesById(type, ids);
 				listener.onFinished(entitites);
+			}
+			
+			@Override
+			public void onError(String message, Throwable e) {
+				listener.onError(message, e);
 			}
 		});
 	}

@@ -37,6 +37,13 @@ public class CheckinApplication extends Application implements
 						me = result;
 						System.out.println("Me object: " + me);
 					}
+							
+					@Override
+					public void onError(String message, Throwable e) {
+						System.err.println("Could not get Consumer-Entity:");
+						System.err.println(message);
+						e.printStackTrace();
+					}
 				});
 	}
 

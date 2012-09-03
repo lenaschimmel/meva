@@ -61,6 +61,9 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 			{
 				new AsyncTask<Query, Long, Collection<Long>>() {
 
+					private Throwable storedException;
+
+
 					protected Collection<Long> doInBackground(Query... queryParams) {
 						Query query = queryParams[0];
 						Collection<Long> ids = new LinkedList<Long>();
@@ -68,10 +71,6 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 						try {
 							HttpClient client = new DefaultHttpClient();
 							HttpPost request = new HttpPost();
-
-							// TODO why is the actual connection within this Request
-							// class, even though other request classes delegate that to
-							// Impl classes?
 
 							request.setURI(new URI(Util.getBaseUrl() + "Binary/"
 									+ query.getUrlPostfix()));
@@ -95,7 +94,9 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 								id = dis.readLong();
 							}
 						} catch (Exception e) {
-							throw new RuntimeException(e);
+							this.cancel(false);
+							storedException = e;
+							return null;
 						}
 						queryCache.put(queryHash, ids);
 						return ids;
@@ -109,6 +110,11 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 					{
 						for(long id : ids)
 							listener.onNewResult(id);
+					};
+					
+					
+					protected void onCancelled(java.util.Collection<Long> result) {
+						listener.onError("Request was cancelled due to an exception.", storedException);
 					};
 				}.execute(query);
 			}
@@ -125,6 +131,9 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 			final RequestListener<Long> listener) {
 
 		new AsyncTask<Integer, Long, Collection<Long>>() {
+			private Throwable storedException;
+
+
 			protected Collection<Long> doInBackground(Integer... countParams) {
 				int count = countParams[0];
 				Collection<Long> ids = new ArrayList<Long>(count);
@@ -155,7 +164,9 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 					
 					
 				} catch (Exception e) {
-					throw new RuntimeException(e);
+					this.cancel(false);
+					storedException = e;
+					return null;
 				}
 				return ids;
 			};
@@ -168,6 +179,11 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 			{
 				for(long id : ids)
 					listener.onNewResult(id);
+			};
+			
+			
+			protected void onCancelled(java.util.Collection<Long> result) {
+				listener.onError("Request was cancelled due to an exception.", storedException);
 			};
 		}.execute(count);
 	}
@@ -197,6 +213,9 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 		}
 		
 		new AsyncTask<Collection<EntityClass>, EntityClass, Collection<EntityClass>>() {
+			private Throwable storedException;
+
+
 			protected Collection<EntityClass> doInBackground(
 					Collection<EntityClass>... entitiesParams) {
 				Collection<EntityClass> entities = entitiesParams[0];
@@ -228,7 +247,10 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 					}
 
 				} catch (Exception e) {
-					throw new RuntimeException(e);
+					this.cancel(false);
+					storedException = e;
+					return null;
+					
 				}
 				return entities;
 			};
@@ -242,6 +264,11 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 				for(EntityClass entity : entities)
 					listener.onNewResult(entity);
 			};
+			
+			
+			protected void onCancelled(java.util.Collection<EntityClass> result) {
+				listener.onError("Request was cancelled due to an exception.", storedException);
+			};
 		}.execute(unloadedEntities);
 	}
 
@@ -251,6 +278,8 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 			Collection<EntityClass> entities,
 			final RequestListener<EntityClass> listener) {
 		new AsyncTask<Collection<EntityClass>, EntityClass, Collection<EntityClass>>() {
+			private Throwable storedException;
+
 			protected Collection<EntityClass> doInBackground(
 					Collection<EntityClass>... entitiesParams) {
 				Collection<EntityClass> entities = entitiesParams[0];
@@ -278,7 +307,9 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 
 					client.execute(request);
 				} catch (Exception e) {
-					throw new RuntimeException(e);
+					this.cancel(false);
+					storedException = e;
+					return null;
 				}
 				return entities;
 			};
@@ -291,6 +322,10 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 			{
 				for(EntityClass entity : entities)
 					listener.onNewResult(entity);
+			};
+			
+			protected void onCancelled(java.util.Collection<EntityClass> result) {
+				listener.onError("Request was cancelled due to an exception.", storedException);
 			};
 		}.execute(entities);
 		
