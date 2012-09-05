@@ -19,12 +19,13 @@ import de.gmino.checkin.android.request.QueryShopByCode;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
-public class CheckIn extends ActivityWithFacebook {
+public class MainMenu extends ActivityWithFacebook {
 
-	Button btDiscover;
-	Button btScan;
-	Button btCoupons;
-	Intent intent;
+	private Button btDiscover;
+	private Button btScan;
+	private Button btCoupons;
+	private Intent intent;
+	private Button btSettings;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,8 @@ public class CheckIn extends ActivityWithFacebook {
 		btScan.setOnClickListener(btScanListener);
 		btCoupons = (Button) findViewById(R.id.btCoupons);
 		btCoupons.setOnClickListener(btCouponsListener);
+		btSettings = (Button) findViewById(R.id.btSettings);
+		btSettings.setOnClickListener(btSettingsListener);
 
 		handleIntent(getIntent());
 	}
@@ -96,22 +99,28 @@ public class CheckIn extends ActivityWithFacebook {
 
 	private OnClickListener btDiscoverListener = new OnClickListener() {
 		public void onClick(View v) {
-			Intent intent = new Intent(CheckIn.this, ShopList.class);
+			Intent intent = new Intent(MainMenu.this, ShopList.class);
 			startActivity(intent);
 		}
 	};
 
 	private OnClickListener btScanListener = new OnClickListener() {
 		public void onClick(View v) {
-			Intent intent = new Intent(CheckIn.this, QRScanner.class);
+			Intent intent = new Intent(MainMenu.this, QRScanner.class);
 			startActivity(intent);
 		}
 	};
 
 	private OnClickListener btCouponsListener = new OnClickListener() {
 		public void onClick(View v) {
-			Intent intent = new Intent(CheckIn.this, Coupons.class);
+			Intent intent = new Intent(MainMenu.this, Coupons.class);
 			startActivity(intent);
+		}
+	};
+
+	private OnClickListener btSettingsListener = new OnClickListener() {
+		public void onClick(View v) {
+			openOptionsMenu();
 		}
 	};
 

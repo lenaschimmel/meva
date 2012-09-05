@@ -34,7 +34,7 @@ public class QRScanner extends Activity
     private Camera mCamera;
     private CameraPreview mPreview;
     private Handler autoFocusHandler;
-    CheckIn myCheckIn;
+    MainMenu myCheckIn;
 
     TextView scanText;
     Button scanButton;

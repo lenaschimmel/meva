@@ -207,6 +207,12 @@ public class Requests {
 	}
 
 	public static void ensureSameTypes(Collection<? extends Entity> entities) {
+		if(entities.isEmpty())
+		{
+			System.err.println("Warning: ensureSameTypes on an empty collection.");
+			new Throwable().printStackTrace();
+			return;
+		}
 		EntityTypeName fistTypeName = entities.iterator().next().getType();
 		for (Entity e : entities) {
 			if (fistTypeName != e.getType())

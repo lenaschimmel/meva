@@ -16,16 +16,18 @@ public class FacebookErrorListener {
 		innerCause.printStackTrace();
 		System.err.println("Asynchronous call was made from:");
 		constructionContext.printStackTrace();
+		FacebookUtil.handleLoggedOutCondition();
 	}
 	
-
 	public void handleError(Throwable innerCause, Object state)
 	{
 		System.err.println("Error while communicatin with Facebook. Inner error:");
 		innerCause.printStackTrace();
+		System.err.println("State Object:");
+		System.err.println(state.toString());
 		System.err.println("Asynchronous call was made from:");
 		constructionContext.printStackTrace();
-		System.err.println("State was :" + state);
+		FacebookUtil.handleLoggedOutCondition();
 	}
 	
 	protected boolean checkResponse(JsonObject response)
@@ -35,7 +37,7 @@ public class FacebookErrorListener {
 			System.err.println("Error in response: " + response.toCompactJsonString());
 			int errorCode = response.getObject("error").getInt("code");
 			if(errorCode == 190)
-				FacebookUtil.invalidateCode();
+				FacebookUtil.handleLoggedOutCondition();
 			return false;
 		}
 		return true;

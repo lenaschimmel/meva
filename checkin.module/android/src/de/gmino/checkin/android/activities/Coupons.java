@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.gmino.checkin.android.CheckinApplication;
 import de.gmino.checkin.android.R;
 import de.gmino.checkin.android.domain.Consumer;
@@ -49,12 +50,7 @@ public class Coupons extends ActivityWithFacebook {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		final long shopId = getIntent().getExtras().getLong("shopId");
-
 		loadedCoupons = new ArrayList<Coupon>();
-
-		// mSectionsPagerAdapter = new SectionsPagerAdapter(
-		// getSupportFragmentManager());
 
 		setContentView(R.layout.coupons);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -63,42 +59,64 @@ public class Coupons extends ActivityWithFacebook {
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 
-		Consumer me = ((CheckinApplication) getApplication()).getConsumer();
-		Collection<CouponOwenership> myCouponOwnerships = me
-				.getCouponOwnerships();
+		if (getIntent() != null && getIntent().getExtras() != null) {
+			final long shopId = getIntent().getExtras().getLong("shopId");
 
-		Requests.loadEntities(myCouponOwnerships,
-				new RequestListener<CouponOwenership>() {
-					Collection<Coupon> coupons = new HashSet<Coupon>();
+			Requests.getLoadedEntityById(Shop.type, shopId,
+					new RequestListener<Shop>() {
+						@Override
+						public void onNewResult(Shop shop) {
+							getActionBar().setTitle(
+									"Coupons bei " + shop.getTitle());
+							Collection<Coupon> coupons = shop.getCoupons();
+							Requests.loadEntities(coupons,
+									new RequestListener<Coupon>() {
+										@Override
+										public void onNewResult(Coupon result) {
+											loadedCoupons.add(result);
+											mSectionsPagerAdapter
+													.notifyDataSetChanged();
+										}
+									});
+						}
+					});
+		} else {
+			getActionBar().setTitle("Meine Coupons");
 
-					@Override
-					public void onNewResult(CouponOwenership result) {
-						coupons.add((Coupon) result.getCoupon());
-					}
+			Consumer me = ((CheckinApplication) getApplication()).getConsumer();
+			Collection<CouponOwenership> myCouponOwnerships = me
+					.getCouponOwnerships();
 
-					@Override
-					public void onFinished(Collection<CouponOwenership> results) {
-						Requests.loadEntities(coupons, null);
-					}
-				});
+			if (myCouponOwnerships.isEmpty()) {
+				// TODO show a permanent message
+				Toast.makeText(this, "Du hast keine Coupons", Toast.LENGTH_LONG);
+			} else {
+				Requests.loadEntities(myCouponOwnerships,
+						new RequestListener<CouponOwenership>() {
+							Collection<Coupon> coupons = new HashSet<Coupon>();
 
-		Requests.getLoadedEntityById(Shop.type, shopId,
-				new RequestListener<Shop>() {
-					@Override
-					public void onNewResult(Shop shop) {
-						Collection<Coupon> coupons = shop.getCoupons();
-						Requests.loadEntities(coupons,
-								new RequestListener<Coupon>() {
-									@Override
-									public void onNewResult(Coupon result) {
-										loadedCoupons.add(result);
-										mSectionsPagerAdapter
-												.notifyDataSetChanged();
-									}
-								});
-					}
-				});
+							@Override
+							public void onNewResult(CouponOwenership result) {
+								coupons.add((Coupon) result.getCoupon());
+							}
 
+							@Override
+							public void onFinished(
+									Collection<CouponOwenership> results) {
+								Requests.loadEntities(coupons,
+										new RequestListener<Coupon>() {
+											@Override
+											public void onNewResult(
+													Coupon result) {
+												loadedCoupons.add(result);
+												mSectionsPagerAdapter
+														.notifyDataSetChanged();
+											}
+										});
+							}
+						});
+			}
+		}
 	}
 
 	@Override

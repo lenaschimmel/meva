@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 import de.gmino.checkin.android.facebook.FacebookLoginStatusListener;
 import de.gmino.checkin.android.facebook.FacebookUtil;
+import de.gmino.checkin.android.facebook.FacebookUtil.State;
 
 public class ActivityWithFacebook extends Activity implements FacebookLoginStatusListener {
 	@Override
@@ -13,7 +14,7 @@ public class ActivityWithFacebook extends Activity implements FacebookLoginStatu
 		System.out.println("onCreate");
 		super.onCreate(savedInstanceState);
 		FacebookUtil.addFacebookEventListener(this);
-		FacebookUtil.ensureFacebookLogin(this);
+		//FacebookUtil.ensureFacebookLogin(this);
 	}
 	
 	@Override
@@ -26,17 +27,19 @@ public class ActivityWithFacebook extends Activity implements FacebookLoginStatu
 	public void onResume() {
 		System.out.println("onResume");
 		super.onResume();
-		FacebookUtil.extendAccessTokenIfNeeded();
+		//FacebookUtil.extendAccessTokenIfNeeded();
 	}
 
 	@Override
 	public void onLoggedIn(String fid, String name) {
-		Toast.makeText(this, "Du bist eingeloggt, " + name, Toast.LENGTH_LONG).show();
+//		Toast.makeText(this, "Du bist eingeloggt, " + name, Toast.LENGTH_LONG).show();
 	}
 
 	@Override
-	public void onLoggedOut() {
-		Toast.makeText(this, "Du bist ausgeloggt.", Toast.LENGTH_LONG).show();
+	public void onStateChanged(State state) {
+		System.out.println("State changed to " + state);
+		if(state == State.LOGGED_OUT)
+			finish();
 	}
 	
 	@Override

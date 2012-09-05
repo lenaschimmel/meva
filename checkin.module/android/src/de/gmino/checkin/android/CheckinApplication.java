@@ -4,6 +4,7 @@ import android.app.Application;
 import de.gmino.checkin.android.domain.Consumer;
 import de.gmino.checkin.android.facebook.FacebookLoginStatusListener;
 import de.gmino.checkin.android.facebook.FacebookUtil;
+import de.gmino.checkin.android.facebook.FacebookUtil.State;
 import de.gmino.checkin.android.request.QueryConsumerByFid;
 import de.gmino.meva.android.request.NetworkRequestsImplAsyncTaskBinaryHttp;
 import de.gmino.meva.android.request.UtilAndroid;
@@ -48,8 +49,9 @@ public class CheckinApplication extends Application implements
 	}
 
 	@Override
-	public void onLoggedOut() {
-		me = null;
+	public void onStateChanged(State state) {
+		if(state == State.LOGGED_OUT || state == State.TOKEN_EXPIRED)
+			me = null;
 	}
 
 	public Consumer getConsumer() {
