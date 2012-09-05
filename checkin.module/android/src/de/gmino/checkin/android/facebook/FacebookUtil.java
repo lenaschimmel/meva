@@ -1,8 +1,5 @@
 package de.gmino.checkin.android.facebook;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.Set;
 
 import org.itemscript.core.JsonSystem;
@@ -17,7 +14,6 @@ import android.util.Log;
 
 import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.Facebook;
-import com.facebook.android.FacebookError;
 
 import de.gmino.checkin.android.PlacesCheckInListener;
 import de.gmino.checkin.android.WeakHashSet;

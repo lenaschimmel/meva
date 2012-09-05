@@ -1,31 +1,38 @@
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:foreground="@drawable/fg">
-<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_new"
-    android:orientation="vertical">
+    android:background="@drawable/background3b"
+    android:orientation="vertical" >
 
-    <TextView
+    <ScrollView
+        android:id="@+id/svList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="50dp"
-        android:text=""
-        tools:context=".ShopList" />
+        android:layout_weight="1" >
 
-    <ListView
-        android:id="@+id/android:list"
+    </ScrollView>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content"
+        android:background="#000000" >
 
-    </ListView>
+        <Button
+            android:id="@+id/btCoupons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Coupons"
+            android:textColor="#FFFFFF" />
 
-
-
+        <Button
+            android:id="@+id/btShops"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Shops"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
 
 </LinearLayout>
- 
-    </FrameLayout>
