@@ -7,4 +7,5 @@ mevagen/
 android-reiseapp/
 facebook-android-sdk/
 .metadata/
+*.war
 
