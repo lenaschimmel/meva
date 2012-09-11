@@ -1,5 +1,5 @@
 <project
-    name="test"
+    name="checkin"
     basedir="."
     default="default" >
 
@@ -54,7 +54,7 @@
 
         <war
             basedir="war"
-            destfile="YourProject.war"
+            destfile="checkin.war"
             webxml="war/WEB-INF/web.xml" >
 
             <exclude name="WEB-INF/**" />
@@ -69,10 +69,11 @@
         </war>
     </target>
 
-    <target name="deploy" >
-
-        <copy
-            file="YourProject.war"
-            todir="." />
+    <target name="deploy" depends="buildwar">
+    	<scp file="checkin.war" trust="true" remoteTofile="root:kEzEr6Tw@h1898116.stratoserver.net:/usr/share/jetty/wardeploy/checkin.war" />
+    	<sshexec host="gmino.de"
+    		username="root"
+    		password="kEzEr6Tw"
+    		command="touch /usr/share/jetty/contexts/checkin.xml"/>
     </target>
 </project>
