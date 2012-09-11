@@ -8,4 +8,6 @@ android-reiseapp/
 facebook-android-sdk/
 .metadata/
 *.war
+checkin.module/gwt/war
+meva.dot
 
