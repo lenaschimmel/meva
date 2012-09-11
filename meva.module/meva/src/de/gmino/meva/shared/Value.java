@@ -15,5 +15,4 @@ public interface Value {
 
 	// Stuff
 	public String toString();
-
 }

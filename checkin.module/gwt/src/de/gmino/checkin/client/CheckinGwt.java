@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
+import com.gargoylesoftware.htmlunit.AlertHandler;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -57,7 +58,7 @@ public class CheckinGwt implements EntryPoint {
 				.getBaseUrl()));
 
 		final Button sendButton = new Button("Send");
-		final Button testButton = new Button("Test format / sprintf");
+		final Button testButton = new Button("Test data");
 		final TextBox nameField = new TextBox();
 		nameField.setText("GWT User");
 		errorLabel = new Label();
@@ -111,10 +112,10 @@ public class CheckinGwt implements EntryPoint {
 			 * Fired when the user clicks on the sendButton.
 			 */
 			public void onClick(ClickEvent event) {
-				if(event.getSource().equals(sendButton))
+				if (event.getSource().equals(sendButton))
 					doExampleRequests();
-				else if(event.getSource().equals(testButton))
-					doFormatTest();
+				else if (event.getSource().equals(testButton))
+					doTestData();
 			}
 
 			/**
@@ -133,13 +134,39 @@ public class CheckinGwt implements EntryPoint {
 		testButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
 	}
-	
-	void doFormatTest()
-	{
-		int lday   = 5;
-		int lmonth = 1;
-		int lyear  = 2006;
-		Window.alert(Util.format("the date is: %02d.%02d.%04d\n",lday,lmonth,lyear));
+
+	void doTestData() {
+		/*
+		 * int lday = 5; int lmonth = 1; int lyear = 2006;
+		 * Window.alert(Util.format
+		 * ("the date is: %02d.%02d.%04d\n",lday,lmonth,lyear));
+		 */
+		Requests.getNewEntity(Shop.type, new RequestListener<Shop>() {
+			@Override
+			public void onNewResult(final Shop shop) {
+				shop.fillWithRandomData();
+
+				Requests.getNewEntities(Coupon.type, 2,
+						new RequestListener<Coupon>() {
+							@Override
+							public void onNewResult(Coupon coupon) {
+								coupon.fillWithRandomData();
+								// coupon.setShop(shop);
+								shop.getCoupons().add(coupon);
+								Window.alert(coupon.toString());
+								Requests.saveEntity(coupon, null);
+							}
+
+							@Override
+							public void onFinished(Collection<Coupon> results) {
+								Window.alert(shop.toString());
+								Requests.saveEntity(shop, null);
+							}
+
+						});
+			}
+
+		});
 	}
 
 	/**

@@ -120,6 +120,12 @@ public class Requests {
 			}
 			
 			@Override
+			public void onNewResult(Long result) {
+				EntityClass e = (EntityClass) EntityFactory.getUnloadedEntityById(type, result);
+				listener.onNewResult(e);
+			}
+			
+			@Override
 			public void onError(String message, Throwable e) {
 				listener.onError(message, e);
 			}

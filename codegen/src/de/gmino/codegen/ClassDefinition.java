@@ -275,10 +275,13 @@ public class ClassDefinition {
 			if (def.isEntity()) {
 				pw.println("		if(relname.equals(\"" + def.attributeName
 						+ "\"))");
+				pw.println("		{");
 				pw.println("			this.set" + capitalizeFirst(def.attributeName)
 						+ "((" + def.typeName + ")e);");
-
+				pw.println("			return;");
+				pw.println("		}");
 			}
+		pw.println("		throw new RuntimeException(\"Unknown relname: \" + relname);");
 		pw.println("	}");
 	}
 
@@ -1085,7 +1088,7 @@ public class ClassDefinition {
 				if (def.isRelation())
 					pw.println("		this." + def.attributeName
 							+ " = new RelationCollection(this, \""
-							+ def.attributeName + "\");"); // <" + def.reltype + ">
+							+ def.relname + "\");"); // <" + def.reltype + ">
 			// did not work
 		}
 		pw.println("	}");
@@ -1140,7 +1143,7 @@ public class ClassDefinition {
 		}
 	}
 
-	private String capitalizeFirst(String str) {
+	private static String capitalizeFirst(String str) {
 		return str.substring(0, 1).toUpperCase() + str.substring(1);
 	}
 

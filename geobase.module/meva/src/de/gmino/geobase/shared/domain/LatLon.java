@@ -9,9 +9,35 @@ import java.io.IOException;
 import org.itemscript.core.values.JsonObject;
 
 import de.gmino.geobase.shared.domain.gen.LatLonGen;
+import de.gmino.meva.shared.Util;
 
 public class LatLon extends LatLonGen {
 	public static final double EARTH_RADIUS_IN_M = 6371000;
+	
+	
+	static class GeoRect
+	{
+		LatLon min;
+		LatLon max;
+		
+		public GeoRect(double d, double e, double f, double g) {
+			min = new LatLon(d, e);
+			max = new LatLon(f, g);
+		}
+
+		public void setRandomWithin(LatLon toSet)
+		{
+			toSet.latitude = min.latitude + Math.random() * (max.latitude - min.latitude);
+			toSet.longitude = min.longitude + Math.random() * (max.longitude - min.longitude);
+		}
+	}
+
+	static GeoRect[] rects = { 
+		new GeoRect(52.296,10.4769,52.2243,10.5761),
+		new GeoRect(52.271,10.5128,52.2572,10.5294),
+		new GeoRect(52.422, 9.6660,52.3260, 9.8230),
+		new GeoRect(52.683, 9.6660,51.8420,11.2840),
+		new GeoRect(51.645, 6.6910,51.4110, 7.5590)}; 
 
 	public LatLon(JsonObject json) throws IOException {
 		super(json);
@@ -34,5 +60,10 @@ public class LatLon extends LatLonGen {
 		double dist = EARTH_RADIUS_IN_M * c;
 
 		return new Distance(dist);
+	}
+	
+	public void fillWithRandomData()
+	{
+		Util.randomElementFrom(rects).setRandomWithin(this);
 	}
 }

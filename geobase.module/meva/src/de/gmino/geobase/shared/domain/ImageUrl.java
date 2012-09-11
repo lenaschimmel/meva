@@ -23,5 +23,8 @@ public class ImageUrl extends ImageUrlGen {
 		);
 	}
 	
-
+	public void fillWithRandomData()
+	{
+		url = "http://gmino.de/static/img/logotest/" + (int)(Math.random() * 467 + 474) + ".jpg";
+	}
 }
