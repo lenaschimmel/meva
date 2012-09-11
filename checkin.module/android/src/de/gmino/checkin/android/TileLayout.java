@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 
 public class TileLayout extends ViewGroup {
 	
@@ -37,6 +36,7 @@ public class TileLayout extends ViewGroup {
 		final int lp = (width - columns * columnWidth) / 2;
 		
 		final int count = getChildCount();
+		System.out.println("Measured " + count + " buttons.");
 		int row = 0;
 		int column = 0;
 		for (int i = 0; i < count; i++) {
@@ -75,6 +75,7 @@ public class TileLayout extends ViewGroup {
 		final int lp = (w - columns * columnWidth) / 2;
 		
 		final int count = getChildCount();
+		System.out.println("Layed out" + count + " buttons.");
 		int row = 0;
 		int column = 0;
 		for (int i = 0; i < count; i++) {
