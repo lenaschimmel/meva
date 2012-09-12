@@ -38,6 +38,9 @@
 		{
 			"type" : "ShopAdmin",
 			"name" : "admin"
+		},		{
+			"type" : "Coupon",
+			"name" : "currentCoupon"
 		},
 		{
 			"type" : "relation",

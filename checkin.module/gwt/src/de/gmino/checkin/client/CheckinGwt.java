@@ -153,7 +153,8 @@ public class CheckinGwt implements EntryPoint {
 								coupon.fillWithRandomData();
 								// coupon.setShop(shop);
 								shop.getCoupons().add(coupon);
-								Window.alert(coupon.toString());
+								shop.setCurrentCoupon(coupon); // we do this for each coupon, the last one "wins"
+//								Window.alert(coupon.toString());
 								Requests.saveEntity(coupon, null);
 							}
 

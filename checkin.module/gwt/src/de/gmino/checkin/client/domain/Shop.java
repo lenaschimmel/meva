@@ -5,6 +5,7 @@ package de.gmino.checkin.client.domain;
 
 // gmino stuff
 import de.gmino.checkin.client.domain.gen.ShopGen;
+import de.gmino.checkin.shared.domain.Coupon;
 import de.gmino.geobase.client.domain.Address;
 import de.gmino.geobase.client.domain.ImageUrl;
 import de.gmino.geobase.client.domain.LatLon;
@@ -26,7 +27,8 @@ public class Shop extends ShopGen {
 			ImageUrl logo,
 			Address shopAddress,
 			Address billingAddress,
-			ShopAdmin admin)
+			ShopAdmin admin,
+			Coupon currentCoupon)
 	{
 		super(
 			id,
@@ -39,7 +41,8 @@ public class Shop extends ShopGen {
 			(de.gmino.geobase.client.domain.ImageUrl)logo,
 			(de.gmino.geobase.client.domain.Address)shopAddress,
 			(de.gmino.geobase.client.domain.Address)billingAddress,
-			(de.gmino.checkin.client.domain.ShopAdmin)admin
+			(de.gmino.checkin.client.domain.ShopAdmin)admin,
+			(de.gmino.checkin.client.domain.Coupon) currentCoupon
 		);
 	}
 	

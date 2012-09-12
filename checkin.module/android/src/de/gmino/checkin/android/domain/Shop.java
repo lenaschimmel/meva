@@ -5,6 +5,7 @@ package de.gmino.checkin.android.domain;
 
 // gmino stuff
 import de.gmino.checkin.android.domain.gen.ShopGen;
+import de.gmino.checkin.shared.domain.Coupon;
 import de.gmino.geobase.android.domain.Address;
 import de.gmino.geobase.android.domain.ImageUrl;
 import de.gmino.geobase.android.domain.LatLon;
@@ -26,7 +27,8 @@ public class Shop extends ShopGen {
 			ImageUrl logo,
 			Address shopAddress,
 			Address billingAddress,
-			ShopAdmin admin)
+			ShopAdmin admin,
+			Coupon currentCoupon)
 	{
 		super(
 			id,
@@ -39,7 +41,8 @@ public class Shop extends ShopGen {
 			(de.gmino.geobase.android.domain.ImageUrl)logo,
 			(de.gmino.geobase.android.domain.Address)shopAddress,
 			(de.gmino.geobase.android.domain.Address)billingAddress,
-			(de.gmino.checkin.android.domain.ShopAdmin)admin
+			(de.gmino.checkin.android.domain.ShopAdmin)admin,
+			(de.gmino.checkin.android.domain.Coupon) currentCoupon
 		);
 	}
 	
