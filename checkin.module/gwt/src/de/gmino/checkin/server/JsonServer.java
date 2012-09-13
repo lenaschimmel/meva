@@ -30,6 +30,7 @@ import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.EntityTypeName;
 import de.gmino.meva.shared.Query;
+import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.request.Requests;
 
 public class JsonServer extends HttpServlet {
@@ -55,14 +56,24 @@ public class JsonServer extends HttpServlet {
 		String[] parts = req.getRequestURI().split("/");
 		String lastPart = parts[parts.length - 1];
 
-		if (lastPart.equals("getEntities")) {
-			getEntities(req, resp);
-		} else if (lastPart.equals("newEntities")) {
-			newEntities(req, resp);
-		} else if (lastPart.equals("saveEntities")) {
-			saveEntities(req, resp);
-		} else {
-			otherRequest(req, resp, lastPart);
+		try {
+			if (lastPart.equals("getEntities")) {
+				getEntities(req, resp);
+			} else if (lastPart.equals("newEntities")) {
+				newEntities(req, resp);
+			} else if (lastPart.equals("saveEntities")) {
+				saveEntities(req, resp);
+			} else {
+				otherRequest(req, resp, lastPart);
+			}
+		} catch (Exception e) {
+			resp.setContentType("text/json");
+			System.err.println("Error while answering a POST-JSON-request. Error will be reportet to the client as short, JSON-Encoded answer. Full stack trace below:");
+			e.printStackTrace();
+			writeAnswer(
+					resp.getOutputStream(),
+					"ERROR",
+					"\"An Exception occured while processing the request: "+Util.escapeForJson(e.toString())+" A more detailed cause has been written to stderr on the server.\"");
 		}
 	}
 

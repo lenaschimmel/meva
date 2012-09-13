@@ -421,6 +421,7 @@ public class ClassDefinition {
 		pw.println("import de.gmino.meva.shared.EntityFactory;");
 		pw.println("import de.gmino.meva.shared.RelationCollection;");
 		pw.println("import de.gmino.meva.shared.EntityTypeName;");
+		pw.println("import de.gmino.meva.shared.Util;");
 		pw.println();
 
 		pw.println("// default imports");
@@ -784,9 +785,9 @@ public class ClassDefinition {
 			if (attribute.isNative())
 				pw.println("		sb.append(\"\\\"\" + " + name + " + \"\\\"\");");
 			else if (attribute.typeName.equals("String"))
-				pw.println("		sb.append(\"\\\"\" + "
+				pw.println("		sb.append('\"' + Util.escapeForJson("
 						+ name
-						+ ".replace(\"\\\\\",\"\\\\\\\\\").replace(\"\\\"\",\"\\\\\\\"\") + \"\\\"\");");
+						+ ") + '\"');");
 			else if (type.equals("relation")) {
 				pw.println("		sb.append(\"\\n\" + moreIndentation + \"[\");");
 				String firstName = "first"
