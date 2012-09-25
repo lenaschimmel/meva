@@ -1,0 +1,50 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:layout_weight="1"
+    android:background="#66000066"
+    >
+    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="@drawable/stripe_dialog"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical"
+        android:padding="25px" >
+
+    <Button
+        android:id="@+id/btState1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/state_1_states" />
+
+    <ImageView
+        android:id="@+id/ivArray1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/arrow" />
+
+    <Button
+        android:id="@+id/btState2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/state_2" />
+
+    <ImageView
+        android:id="@+id/ivArray2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/arrow" />
+
+    <Button
+        android:id="@+id/btState3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/state_3" />
+
+</LinearLayout>
+</FrameLayout>

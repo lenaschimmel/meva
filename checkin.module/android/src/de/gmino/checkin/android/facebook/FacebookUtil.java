@@ -224,15 +224,18 @@ public class FacebookUtil {
 		});
 	}
 
-	public static void checkIn(String message, Shop shop) {
+	public static void checkIn(String message, Shop shop, PlacesCheckInListener listener) {
 		Bundle params = new Bundle();
 
 		params.putString("place", shop.getFacebookId());
 		params.putString("message", message);
 		params.putString("coordinates", shop.getLocation().toString());
 
+		if(listener == null)
+			listener = new PlacesCheckInListener(activity, shop);
+		
 		mAsyncRunner.request("me/checkins", params, "POST",
-				new PlacesCheckInListener(activity, shop), null);
+				listener, null);
 	}
 
 	public static void extendAccessTokenIfNeeded() {

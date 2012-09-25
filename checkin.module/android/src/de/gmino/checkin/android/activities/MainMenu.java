@@ -24,7 +24,6 @@ public class MainMenu extends ActivityWithFacebook {
 	private Button btDiscover;
 	private Button btScan;
 	private Button btCoupons;
-	private Intent intent;
 	private Button btSettings;
 
 	@Override
@@ -40,62 +39,9 @@ public class MainMenu extends ActivityWithFacebook {
 		btCoupons.setOnClickListener(btCouponsListener);
 		btSettings = (Button) findViewById(R.id.btSettings);
 		btSettings.setOnClickListener(btSettingsListener);
-
-		handleIntent(getIntent());
 	}
 
-	/**
-	 * Handles incoming intents, no matter if the activity was just created or
-	 * has got a new intent afterwards.
-	 * 
-	 * Searches both data and extra of the intent for an fid. Data should
-	 * contain the fid within an URL, but extras should contain a plain fid.
-	 * 
-	 * @param intent
-	 */
-	private void handleIntent(Intent intent) {
-		Uri data = intent.getData();
-
-		if (data != null) {
-
-			String[] array = data.toString().split("/");
-			String scanCode = array[array.length - 1];
-
-			if (scanCode != null) {
-
-				checkinWithScanCode(scanCode);
-			}
-		}
-		if (intent.getCharSequenceExtra("scanCode") != null) {
-			checkinWithScanCode(intent.getCharSequenceExtra("scanCode").toString());
-		}
-	}
-
-	/**
-	 * Called when the activity is already running an another intent comes in.
-	 */
-	@Override
-	protected void onNewIntent(Intent intent) {
-		handleIntent(intent);
-		Log.d("de.gmino.checkin", "intent erhalten");
-	}
-
-	private void checkinWithScanCode(final String scanCode) {
-		if (scanCode != null) {
-			System.out.println("Got code: " + scanCode);
-			QueryShopByCode q = new QueryShopByCode(scanCode);
-			Requests.getLoadedEntitiesByQuery(Shop.type, q, new RequestListener<Shop>(){
-				@Override
-				public void onNewResult(Shop shop) {
-					Toast toast = Toast.makeText(getApplicationContext(),
-							"Checke bei " + shop.getTitle() + " ein...",
-							Toast.LENGTH_SHORT);
-					toast.show();
-					FacebookUtil.checkIn("Ich bin hier!", shop);
-				}
-			});
-		}
-	}
+	
 
 	private OnClickListener btDiscoverListener = new OnClickListener() {
 		public void onClick(View v) {
@@ -113,7 +59,8 @@ public class MainMenu extends ActivityWithFacebook {
 
 	private OnClickListener btCouponsListener = new OnClickListener() {
 		public void onClick(View v) {
-			Intent intent = new Intent(MainMenu.this, Coupons.class);
+			Intent intent = new Intent(MainMenu.this, CheckinProgress.class);
+			intent.setData(Uri.parse("http://gmino.de/qr/c/test/nQA1JWbi"));
 			startActivity(intent);
 		}
 	};

@@ -15,20 +15,46 @@
         <activity
             android:name=".activities.Start"
             android:label="@string/title_activity_main"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-                <activity
+        <activity
             android:name=".activities.Login"
             android:label="@string/title_activity_main" >
         </activity>
         <activity
             android:name=".activities.MainMenu"
             android:label="@string/title_activity_main" >
+        </activity>
+        <activity
+            android:name=".activities.Coupons"
+            android:label="@string/title_activity_main" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.gmino.checkin.android.CheckIn" />
+        </activity>
+        <activity
+            android:name=".activities.QRScanner"
+            android:label="@string/title_activity_qrscanner" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.gmino.checkin.android.CheckIn" />
+        </activity>
+        <activity
+            android:name=".activities.ShopList"
+            android:label="@string/title_activity_shop_list" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.gmino.checkin.android.CheckIn" />
+        </activity>
+        <activity android:name=".activities.CheckinProgress" 
+                android:label="Checkin Fortschritt"
+             android:theme="@style/Theme.CopyTransparent" >
+
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
@@ -60,26 +86,16 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.Coupons"
-            android:label="@string/title_activity_main" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.gmino.checkin.android.CheckIn" />
-        </activity>
-        <activity
-            android:name=".activities.QRScanner"
-            android:label="@string/title_activity_qrscanner" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.gmino.checkin.android.CheckIn" />
-        </activity>
-        <activity
-            android:name=".activities.ShopList"
-            android:label="@string/title_activity_shop_list" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.gmino.checkin.android.CheckIn" />
+         <activity
+            android:name=".activities.MainActivity"
+            android:label="Testaktiv"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+             >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
