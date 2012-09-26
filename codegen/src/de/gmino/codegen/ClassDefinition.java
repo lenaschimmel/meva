@@ -577,7 +577,7 @@ public class ClassDefinition {
 				hasStringAttribute = true;
 			} else {
 				if (attribute.isEntity()) {
-					pw.print("			dis.readLong()");
+					pw.print("			("+type+")EntityFactory.getUnloadedEntityById("+type+".type, dis.readLong())");
 				} else {
 					if (entity) {
 						pw.print("			new " + attribute.typeName + "(" + dis
@@ -745,8 +745,8 @@ public class ClassDefinition {
 				pw.print("			" + val + ".asString().stringValue()");
 			} else {
 				if (attribute.isEntity()) {
-					pw.print("			Long.parseLong(" + val
-							+ ".asString().stringValue())");
+					pw.print("			("+type+")EntityFactory.getUnloadedEntityById("+type+".type, Long.parseLong(" + val
+							+ ".asString().stringValue()))");
 				} else {
 					pw.print("			new " + attribute.typeName + "(" + val
 							+ ".asObject())");
@@ -1011,8 +1011,7 @@ public class ClassDefinition {
 				ClassDefinition classDef = attribute.getClassDefinition();
 				if (classDef.entity)
 					pw.print("			(" + classDef.baseClassName
-							+ ")EntityFactory.getEntityById(\""
-							+ classDef.baseClassName + "\",rs.getLong(\""
+							+ ")EntityFactory.getUnloadedEntityById("+attribute.typeName+".type, rs.getLong(\""
 							+ attribute.attributeName + "_id\"))");
 				else
 					pw.print("			new " + classDef.className + "(prefix + \""

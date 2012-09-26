@@ -32,7 +32,7 @@
         android:id="@+id/btState2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/state_2" />
+        android:background="@drawable/state_2_states" />
 
     <ImageView
         android:id="@+id/ivArray2"
@@ -44,7 +44,7 @@
         android:id="@+id/btState3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/state_3" />
+        android:background="@drawable/state_3_states" />
 
 </LinearLayout>
 </FrameLayout>

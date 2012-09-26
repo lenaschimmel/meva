@@ -1,0 +1,27 @@
+{
+	"concept" : "value",
+	"package" : "de.gmino.checkin.TARGET.request",
+	"name" : "ReplyPerformCheckin",
+	"attributes" : [
+		{
+			"type" : "boolean",
+			"name" : "success"
+		},
+		{
+			"type" : "String",
+			"name" : "message"
+		},
+		{
+			"type" : "Shop",
+			"name" : "shop"
+		},	
+		{
+			"type" : "Coupon",
+			"name" : "coupon"
+		},	
+		{
+			"type" : "CouponOwenership",
+			"name" : "ownership"
+		}	
+	]
+}

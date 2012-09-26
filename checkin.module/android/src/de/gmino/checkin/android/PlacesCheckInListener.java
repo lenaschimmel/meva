@@ -28,18 +28,6 @@ public class PlacesCheckInListener implements RequestListener {
 	@Override
 	public void onComplete(String response, Object state) {
 		// TODO Auto-generated method stub
-        Intent intent = new Intent(this.context, Coupons.class);
-        intent.putExtra("shopId", shop.getId());
-        context.startActivity(intent);
-
-    	context.runOnUiThread(new Runnable(){
-
-			@Override
-			public void run() {
-		    	Toast toast = Toast.makeText(context, "Checked in!", Toast.LENGTH_SHORT);
-		    	toast.show();				
-			}});
-
 	}
 
 	@Override

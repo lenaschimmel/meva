@@ -1,7 +1,7 @@
 {
 	"concept" : "value",
 	"package" : "de.gmino.checkin.TARGET.request",
-	"name" : "QueryPerformCheckin",
+	"name" : "QueryShopByCode",
 	"query" : "true",
 	"attributes" : [
 		{
