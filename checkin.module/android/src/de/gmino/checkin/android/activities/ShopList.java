@@ -16,7 +16,7 @@ import de.gmino.checkin.android.domain.Coupon;
 import de.gmino.checkin.android.domain.Shop;
 import de.gmino.checkin.android.request.QueryNearbyShops;
 import de.gmino.geobase.android.domain.LatLon;
-import de.gmino.meva.shared.Query;
+import de.gmino.meva.shared.EntityQuery;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
@@ -42,7 +42,7 @@ public class ShopList extends Activity {
 
 		// Request all shops near you
 		final LatLon myLocation = new LatLon(52.2723, 10.53547);
-		Query q = new QueryNearbyShops(myLocation, 500000, 25);
+		EntityQuery q = new QueryNearbyShops(myLocation, 500000, 25);
 		Requests.getLoadedEntitiesByQuery(Shop.type, q,
 				new RequestListener<Shop>() {
 					@Override

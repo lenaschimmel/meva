@@ -10,7 +10,7 @@ import de.gmino.meva.shared.ValueQuery;
 
 public interface NetworkRequests {
 	public void getIdsByQuery(EntityQuery query, RequestListener<Long> listener);
-	public void getValuesByQuery(ValueQuery query, RequestListener<Value> listener);
+	public <ValueClass extends Value> void getValuesByQuery(ValueQuery query, RequestListener<ValueClass> listener);
 
 	public void getNewIds(EntityTypeName type, int count,
 			RequestListener<Long> listener);

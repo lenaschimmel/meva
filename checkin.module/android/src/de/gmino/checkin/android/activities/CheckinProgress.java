@@ -13,7 +13,9 @@ import de.gmino.checkin.android.domain.CouponOwenership;
 import de.gmino.checkin.android.domain.Shop;
 import de.gmino.checkin.android.facebook.FacebookUtil;
 import de.gmino.checkin.android.request.QueryShopByCode;
-import de.gmino.meva.shared.Query;
+import de.gmino.checkin.shared.request.QueryPerformCheckin;
+import de.gmino.checkin.shared.request.ReplyPerformCheckin;
+import de.gmino.meva.shared.ValueQuery;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
@@ -91,11 +93,11 @@ public class CheckinProgress extends ActivityWithFacebook {
 									
 								}
 							});
-							Query checkinQuery = null;
-							Requests.getLoadedEntitiesByQuery(CouponOwenership.type, checkinQuery, new RequestListener<CouponOwenership>() {
+							ValueQuery checkinQuery = new QueryPerformCheckin(scanCode);
+							Requests.getValuesByQuery(checkinQuery, new RequestListener<ReplyPerformCheckin>() {
 								@Override
-								public void onNewResult(CouponOwenership own) {
-									Coupon c = (Coupon) own.getCoupon();
+								public void onNewResult(ReplyPerformCheckin reply) {
+									Coupon c = (Coupon) reply.getCoupon();
 									Requests.loadEntity(c, new RequestListener<Coupon>() {
 										public void onNewResult(Coupon result) {
 											System.out.println("New Coupon: " + result.getTitle());

@@ -34,7 +34,7 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 	}
 
 	@Override
-	public void getValuesByQuery(final ValueQuery query, final RequestListener<Value> listener) {
+	public <ValueClass extends Value> void getValuesByQuery(final ValueQuery query, final RequestListener<ValueClass> listener) {
 		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST,
 				 baseUrl + "Json/" + query.getUrlPostfix());
 				rb.setHeader("Content-Type",
@@ -61,11 +61,11 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 									JsonArray idValues = answer.getArray("content");
 									for(JsonValue json : idValues)
 									{
-										Value val = query.valueFromJson(json.asObject());
+										ValueClass val = (ValueClass) query.valueFromJson(json.asObject());
 										values.add(val);
 										listener.onNewResult(val);
 									}
-									listener.onFinished(values);
+									listener.onFinished((Collection<ValueClass>) values);
 								} catch (IOException e) {
 									e.printStackTrace();
 									listener.onError("Error while parsing Json reply to ValueQuery", e);

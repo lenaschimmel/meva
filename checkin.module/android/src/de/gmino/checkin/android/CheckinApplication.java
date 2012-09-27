@@ -9,7 +9,7 @@ import de.gmino.checkin.android.request.QueryConsumerByFid;
 import de.gmino.meva.android.request.NetworkRequestsImplAsyncTaskBinaryHttp;
 import de.gmino.meva.android.request.UtilAndroid;
 import de.gmino.meva.shared.EntityFactory;
-import de.gmino.meva.shared.Query;
+import de.gmino.meva.shared.EntityQuery;
 import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
@@ -30,7 +30,7 @@ public class CheckinApplication extends Application implements
 
 	@Override
 	public void onLoggedIn(String fid, String name) {
-		Query q = new QueryConsumerByFid(fid);
+		EntityQuery q = new QueryConsumerByFid(fid);
 		Requests.getLoadedEntitiesByQuery(Consumer.type, q,
 				new RequestListener<Consumer>() {
 					@Override

@@ -7,6 +7,8 @@ import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.EntityTypeName;
 import de.gmino.meva.shared.EntityQuery;
+import de.gmino.meva.shared.Value;
+import de.gmino.meva.shared.ValueQuery;
 
 /**
  * This class contains methods for all kinds of request that an application will
@@ -54,6 +56,14 @@ public class Requests {
 
 		networkImpl.getIdsByQuery(q, listener);
 	}
+	
+	public static void getValuesByQuery(ValueQuery query, RequestListener<? extends Value> listener){
+
+		ensureImplementation();
+
+		networkImpl.getValuesByQuery(query, listener);
+	}
+
 
 	public static <EntityClass extends Entity> void getLoadedEntityById(EntityTypeName type, long id,
 	RequestListener<EntityClass> listener)

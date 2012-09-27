@@ -42,7 +42,7 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 	String baseUrl;
 	
 	Map<Integer, Collection<Long>> entityQueryCache = new TreeMap<Integer, Collection<Long>>();
-	Map<Integer, Collection<Value>> valueQueryCache = new TreeMap<Integer, Collection<Value>>();
+	Map<Integer, Collection<? extends Value>> valueQueryCache = new TreeMap<Integer, Collection<? extends Value>>();
 
 	public NetworkRequestsImplAsyncTaskBinaryHttp(String baseUrl) {
 		this.baseUrl = baseUrl;
@@ -129,12 +129,12 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 	}
 	
 	@Override
-	public void getValuesByQuery(ValueQuery query, final RequestListener<Value> listener) {
+	public <ValueClass extends Value> void getValuesByQuery(ValueQuery query, final RequestListener<ValueClass> listener) {
 		StringBuilder sb = new StringBuilder();
 		try {
 			query.serializeJson(sb);
 			final int queryHash = sb.toString().hashCode();
-			Collection<Value> result = valueQueryCache.get(queryHash);
+			Collection<ValueClass> result = (Collection<ValueClass>) valueQueryCache.get(queryHash);
 			if(result != null)
 			{
 				listener.onFinished(result);
@@ -186,13 +186,13 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 						return vals;
 					};
 
-					protected void onPostExecute(java.util.Collection<Value> result) {
+					protected void onPostExecute(java.util.Collection<ValueClass> result) {
 						listener.onFinished(result);
 					};
 					
-					protected void onProgressUpdate(Value... vals) 
+					protected void onProgressUpdate(ValueClass... vals) 
 					{
-						for(Value val : vals)
+						for(ValueClass val : vals)
 							listener.onNewResult(val);
 					};
 					

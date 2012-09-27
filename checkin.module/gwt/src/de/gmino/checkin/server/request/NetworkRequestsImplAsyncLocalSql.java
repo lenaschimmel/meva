@@ -26,7 +26,7 @@ public class NetworkRequestsImplAsyncLocalSql implements NetworkRequests {
 	}
 	
 	@Override
-	public void getValuesByQuery(ValueQuery query, RequestListener<Value> listener) {
+	public <ValueClass extends Value> void getValuesByQuery(ValueQuery query, RequestListener<ValueClass> listener){
 		listener.onFinished(query.evaluate());
 	}
 
