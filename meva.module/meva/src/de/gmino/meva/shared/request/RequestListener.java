@@ -18,6 +18,6 @@ public abstract class RequestListener<ResultType> {
 	
 	public void onError(String message, Throwable e)
 	{
-		new RuntimeException("Error in request ("+request+"):" + message, e);
+		throw new RuntimeException("Error in request ("+request+"):" + message, e);
 	}
 }

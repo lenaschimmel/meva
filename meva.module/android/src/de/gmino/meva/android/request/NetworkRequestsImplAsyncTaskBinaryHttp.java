@@ -27,6 +27,7 @@ import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.ValueBinary;
 import de.gmino.meva.shared.ValueQuery;
+import de.gmino.meva.shared.ValueQueryBinary;
 import de.gmino.meva.shared.request.NetworkRequests;
 import de.gmino.meva.shared.request.RequestListener;
 
@@ -66,7 +67,7 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 
 					private Throwable storedException;
 
-
+					@Override
 					protected Collection<Long> doInBackground(EntityQuery... queryParams) {
 						EntityQuery query = queryParams[0];
 						Collection<Long> ids = new LinkedList<Long>();
@@ -105,17 +106,19 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 						return ids;
 					};
 
+					@Override
 					protected void onPostExecute(java.util.Collection<Long> result) {
 						listener.onFinished(result);
 					};
 					
+					@Override
 					protected void onProgressUpdate(Long... ids) 
 					{
 						for(long id : ids)
 							listener.onNewResult(id);
 					};
 					
-					
+					@Override
 					protected void onCancelled(java.util.Collection<Long> result) {
 						listener.onError("Request was cancelled due to an exception.", storedException);
 					};
@@ -146,10 +149,10 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 
 					private Throwable storedException;
 
-
+					@Override
 					protected Collection<Value> doInBackground(ValueQuery... queryParams) {
 						ValueQuery query = queryParams[0];
-						Collection<Value> vals = new LinkedList<Value>();
+						Collection<Value> values = new LinkedList<Value>();
 
 						try {
 							HttpClient client = new DefaultHttpClient();
@@ -170,34 +173,38 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 							DataInputStream dis = new DataInputStream(response
 									.getEntity().getContent());
 
-							//Value val = dis.readLong();
-							// TODO do it
-							//while ( != 0) {
-							//	ids.add(id);
-							//	publishProgress(val);
-							//	val = dis.readLong();
-							//}
+							int count = dis.readInt();
+							for(int i = 0; i < count; i++)
+							{
+								ValueClass val = (ValueClass) ((ValueQueryBinary)query).valueFromBinary(dis);
+								values.add(val);
+								listener.onNewResult(val);
+							}
+							
 						} catch (Exception e) {
 							this.cancel(false);
 							storedException = e;
 							return null;
 						}
-						valueQueryCache.put(queryHash, vals);
-						return vals;
+						valueQueryCache.put(queryHash, values);
+						return values;
 					};
+			
 
-					protected void onPostExecute(java.util.Collection<ValueClass> result) {
-						listener.onFinished(result);
+					@Override
+					protected void onPostExecute(java.util.Collection<Value> result) {
+						listener.onFinished((Collection<ValueClass>) result);
 					};
 					
-					protected void onProgressUpdate(ValueClass... vals) 
+					@Override
+					protected void onProgressUpdate(Value... vals) 
 					{
-						for(ValueClass val : vals)
-							listener.onNewResult(val);
+						for(Value val : vals)
+							listener.onNewResult((ValueClass) val);
 					};
 					
-					
-					protected void onCancelled(java.util.Collection<Long> result) {
+					@Override
+					protected void onCancelled(java.util.Collection<Value> result) {
 						listener.onError("Request was cancelled due to an exception.", storedException);
 					};
 				}.execute(query);
@@ -217,7 +224,7 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 		new AsyncTask<Integer, Long, Collection<Long>>() {
 			private Throwable storedException;
 
-
+			@Override
 			protected Collection<Long> doInBackground(Integer... countParams) {
 				int count = countParams[0];
 				Collection<Long> ids = new ArrayList<Long>(count);
@@ -255,17 +262,19 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 				return ids;
 			};
 			
+			@Override
 			protected void onPostExecute(java.util.Collection<Long> result) {
 				listener.onFinished(result);
 			};
 			
+			@Override
 			protected void onProgressUpdate(Long... ids) 
 			{
 				for(long id : ids)
 					listener.onNewResult(id);
 			};
 			
-			
+			@Override
 			protected void onCancelled(java.util.Collection<Long> result) {
 				listener.onError("Request was cancelled due to an exception.", storedException);
 			};
@@ -299,7 +308,7 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 		new AsyncTask<Collection<EntityClass>, EntityClass, Collection<EntityClass>>() {
 			private Throwable storedException;
 
-
+			@Override
 			protected Collection<EntityClass> doInBackground(
 					Collection<EntityClass>... entitiesParams) {
 				Collection<EntityClass> entities = entitiesParams[0];
@@ -339,17 +348,19 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 				return entities;
 			};
 			
+			@Override
 			protected void onPostExecute(java.util.Collection<EntityClass> result) {
 				listener.onFinished(result);
 			};
 			
+			@Override
 			protected void onProgressUpdate(EntityClass... entities)
 			{
 				for(EntityClass entity : entities)
 					listener.onNewResult(entity);
 			};
 			
-			
+			@Override
 			protected void onCancelled(java.util.Collection<EntityClass> result) {
 				listener.onError("Request was cancelled due to an exception.", storedException);
 			};
@@ -364,6 +375,7 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 		new AsyncTask<Collection<EntityClass>, EntityClass, Collection<EntityClass>>() {
 			private Throwable storedException;
 
+			@Override
 			protected Collection<EntityClass> doInBackground(
 					Collection<EntityClass>... entitiesParams) {
 				Collection<EntityClass> entities = entitiesParams[0];
@@ -398,22 +410,22 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 				return entities;
 			};
 			
+			@Override
 			protected void onPostExecute(java.util.Collection<EntityClass> result) {
 				listener.onFinished(result);
 			};
 			
+			@Override
 			protected void onProgressUpdate(EntityClass... entities)
 			{
 				for(EntityClass entity : entities)
 					listener.onNewResult(entity);
 			};
 			
+			@Override
 			protected void onCancelled(java.util.Collection<EntityClass> result) {
 				listener.onError("Request was cancelled due to an exception.", storedException);
 			};
 		}.execute(entities);
-		
-
 	}
-
 }

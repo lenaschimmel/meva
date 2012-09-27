@@ -234,6 +234,9 @@ public class FacebookUtil {
 		if(listener == null)
 			listener = new PlacesCheckInListener(activity, shop);
 		
+		if(mAsyncRunner == null)
+			throw new RuntimeException("Da liegt der Hase im Zimt.");
+		
 		mAsyncRunner.request("me/checkins", params, "POST",
 				listener, null);
 	}

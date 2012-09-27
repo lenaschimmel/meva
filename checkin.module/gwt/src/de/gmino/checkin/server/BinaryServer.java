@@ -79,6 +79,7 @@ public class BinaryServer extends HttpServlet {
 
 		DataOutputStream dos = new DataOutputStream(resp.getOutputStream());
 		if (entityQuery != null) {
+			System.out.println("Evaluating " + entityQuery);
 			Collection<Long> ids = entityQuery.evaluate();
 			for (long id : ids)
 				dos.writeLong(id);
@@ -86,6 +87,7 @@ public class BinaryServer extends HttpServlet {
 		}
 		else
 		{
+			System.out.println("Evaluating " + valueQuery);
 			Collection<Value> values = valueQuery.evaluate();
 			dos.writeInt(values.size());
 			for (Value val : values)
