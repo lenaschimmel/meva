@@ -5,7 +5,7 @@ package de.gmino.checkin.shared.request;
 
 // gmino stuff
 import de.gmino.meva.shared.Value;
-import de.gmino.meva.shared.Query;
+import de.gmino.meva.shared.ValueQuery;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.RelationCollection;
 import de.gmino.meva.shared.EntityTypeName;
@@ -37,6 +37,12 @@ public class QueryPerformCheckin extends QueryPerformCheckinGen {
 		super(
 			scanCode
 		);
+	}
+	
+	@Override
+	public Value valueFromJson(JsonObject json) throws IOException {
+		// TODO Auto-generated method stub
+		return new ReplyPerformCheckin(json);
 	}
 	
 

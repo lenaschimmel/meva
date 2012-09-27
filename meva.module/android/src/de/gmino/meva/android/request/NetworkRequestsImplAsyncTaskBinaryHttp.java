@@ -21,10 +21,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.os.AsyncTask;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityBinary;
+import de.gmino.meva.shared.EntityQuery;
 import de.gmino.meva.shared.EntityTypeName;
-import de.gmino.meva.shared.Query;
 import de.gmino.meva.shared.Util;
+import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.ValueBinary;
+import de.gmino.meva.shared.ValueQuery;
 import de.gmino.meva.shared.request.NetworkRequests;
 import de.gmino.meva.shared.request.RequestListener;
 
@@ -39,19 +41,20 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 
 	String baseUrl;
 	
-	Map<Integer, Collection<Long>> queryCache = new TreeMap<Integer, Collection<Long>>();
+	Map<Integer, Collection<Long>> entityQueryCache = new TreeMap<Integer, Collection<Long>>();
+	Map<Integer, Collection<Value>> valueQueryCache = new TreeMap<Integer, Collection<Value>>();
 
 	public NetworkRequestsImplAsyncTaskBinaryHttp(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
 
 	@Override
-	public void getIdsByQuery(Query query, final RequestListener<Long> listener) {
+	public void getIdsByQuery(EntityQuery query, final RequestListener<Long> listener) {
 		StringBuilder sb = new StringBuilder();
 		try {
 			query.serializeJson(sb);
 			final int queryHash = sb.toString().hashCode();
-			Collection<Long> result = queryCache.get(queryHash);
+			Collection<Long> result = entityQueryCache.get(queryHash);
 			if(result != null)
 			{
 				listener.onFinished(result);
@@ -59,13 +62,13 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 			}
 			else
 			{
-				new AsyncTask<Query, Long, Collection<Long>>() {
+				new AsyncTask<EntityQuery, Long, Collection<Long>>() {
 
 					private Throwable storedException;
 
 
-					protected Collection<Long> doInBackground(Query... queryParams) {
-						Query query = queryParams[0];
+					protected Collection<Long> doInBackground(EntityQuery... queryParams) {
+						EntityQuery query = queryParams[0];
 						Collection<Long> ids = new LinkedList<Long>();
 
 						try {
@@ -98,7 +101,7 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 							storedException = e;
 							return null;
 						}
-						queryCache.put(queryHash, ids);
+						entityQueryCache.put(queryHash, ids);
 						return ids;
 					};
 
@@ -110,6 +113,87 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 					{
 						for(long id : ids)
 							listener.onNewResult(id);
+					};
+					
+					
+					protected void onCancelled(java.util.Collection<Long> result) {
+						listener.onError("Request was cancelled due to an exception.", storedException);
+					};
+				}.execute(query);
+			}
+		} catch (IOException e1) {
+			throw new RuntimeException(e1);
+		}
+		
+	
+	}
+	
+	@Override
+	public void getValuesByQuery(ValueQuery query, final RequestListener<Value> listener) {
+		StringBuilder sb = new StringBuilder();
+		try {
+			query.serializeJson(sb);
+			final int queryHash = sb.toString().hashCode();
+			Collection<Value> result = valueQueryCache.get(queryHash);
+			if(result != null)
+			{
+				listener.onFinished(result);
+				return;
+			}
+			else
+			{
+				new AsyncTask<ValueQuery, Value, Collection<Value>>() {
+
+					private Throwable storedException;
+
+
+					protected Collection<Value> doInBackground(ValueQuery... queryParams) {
+						ValueQuery query = queryParams[0];
+						Collection<Value> vals = new LinkedList<Value>();
+
+						try {
+							HttpClient client = new DefaultHttpClient();
+							HttpPost request = new HttpPost();
+
+							request.setURI(new URI(Util.getBaseUrl() + "Binary/"
+									+ query.getUrlPostfix()));
+
+							ByteArrayOutputStream baos = new ByteArrayOutputStream();
+							DataOutputStream dos = new DataOutputStream(baos);
+							((ValueBinary) query).serializeBinary(dos);
+
+							HttpEntity postBody = new ByteArrayEntity(
+									baos.toByteArray());
+							request.setEntity(postBody);
+
+							HttpResponse response = client.execute(request);
+							DataInputStream dis = new DataInputStream(response
+									.getEntity().getContent());
+
+							//Value val = dis.readLong();
+							// TODO do it
+							//while ( != 0) {
+							//	ids.add(id);
+							//	publishProgress(val);
+							//	val = dis.readLong();
+							//}
+						} catch (Exception e) {
+							this.cancel(false);
+							storedException = e;
+							return null;
+						}
+						valueQueryCache.put(queryHash, vals);
+						return vals;
+					};
+
+					protected void onPostExecute(java.util.Collection<Value> result) {
+						listener.onFinished(result);
+					};
+					
+					protected void onProgressUpdate(Value... vals) 
+					{
+						for(Value val : vals)
+							listener.onNewResult(val);
 					};
 					
 					

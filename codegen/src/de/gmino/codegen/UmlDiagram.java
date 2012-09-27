@@ -128,8 +128,10 @@ public class UmlDiagram {
 	
 	public static String getType(ClassDefinition def)
 	{
-		if(def.query)
-			return "Query/Value";
+		if(def.isEntityQuery())
+			return "EntityQuery/Value";
+		if(def.isValueQuery())
+			return "ValueQuery/Value";
 		if(def.entity)
 			return "Entity";
 		else

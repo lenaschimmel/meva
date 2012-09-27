@@ -1,5 +1,6 @@
 package de.gmino.checkin.server;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -25,12 +26,17 @@ import de.gmino.checkin.server.request.LocalRequetsImpl;
 import de.gmino.checkin.server.request.NetworkRequestsImplAsyncLocalSql;
 import de.gmino.checkin.server.request.QueryConsumerByFid;
 import de.gmino.checkin.server.request.QueryNearbyShops;
+import de.gmino.checkin.server.request.QueryPerformCheckin;
 import de.gmino.checkin.server.request.QueryShopByCode;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
+import de.gmino.meva.shared.EntityQuery;
 import de.gmino.meva.shared.EntityTypeName;
 import de.gmino.meva.shared.Query;
 import de.gmino.meva.shared.Util;
+import de.gmino.meva.shared.Value;
+import de.gmino.meva.shared.ValueBinary;
+import de.gmino.meva.shared.ValueQuery;
 import de.gmino.meva.shared.request.Requests;
 
 public class JsonServer extends HttpServlet {
@@ -79,8 +85,9 @@ public class JsonServer extends HttpServlet {
 
 	private void otherRequest(HttpServletRequest req, HttpServletResponse resp,
 			String lastPart) throws IOException {
-		Query query = null;
-
+		EntityQuery entityQuery = null;
+		ValueQuery valueQuery = null;
+		
 		JsonSystem system = StandardConfig.createSystem();
 
 		String input = convertStreamToString(req.getInputStream());
@@ -88,28 +95,45 @@ public class JsonServer extends HttpServlet {
 		JsonObject request = system.parse(input).asObject();
 
 		if (lastPart.equals("QueryNearbyShops"))
-			query = new QueryNearbyShops(request);
-		if (lastPart.equals("QueryShopByCode"))
-			query = new QueryShopByCode(request);
-		if (lastPart.equals("QueryConsumerByFid"))
-			query = new QueryConsumerByFid(request);
-		if (query == null)
+			entityQuery = new QueryNearbyShops(request);
+		else if (lastPart.equals("QueryShopByCode"))
+			entityQuery = new QueryShopByCode(request);
+		else if (lastPart.equals("QueryConsumerByFid"))
+			entityQuery = new QueryConsumerByFid(request);
+		else if (lastPart.equals("QueryPerformCheckin"))
+			valueQuery = new QueryPerformCheckin(request);
+		else 
 			throw new RuntimeException("Unrecognized query type: " + lastPart);
-		System.out.println("Got a JSON query of type " + lastPart);
-		System.out.println(query.toString());
-		Collection<Long> ids = query.evaluate();
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("[");
-		boolean first = true;
-		for (long id : ids) {
-			if (!first)
-				sb.append(',');
-			sb.append('"');
-			sb.append(id);
-			sb.append('"');
-			first = false;
+		
+		if (entityQuery != null) {
+			Collection<Long> ids = entityQuery.evaluate();
+			boolean first = true;
+			for (long id : ids) {
+				if (!first)
+					sb.append(',');
+				sb.append('"');
+				sb.append(id);
+				sb.append('"');
+				first = false;
+			}
 		}
+		else
+		{
+			Collection<Value> values = valueQuery.evaluate();
+			boolean first = true;
+			for (Value val : values) {
+				if (!first)
+					sb.append(',');
+				sb.append('"');
+				val.serializeJson(sb);
+				sb.append('"');
+				first = false;
+			}
+		}
+		
 		sb.append("]");
 		resp.setContentType("text/json");
 		writeAnswer(resp.getOutputStream(), "OK", sb.toString());

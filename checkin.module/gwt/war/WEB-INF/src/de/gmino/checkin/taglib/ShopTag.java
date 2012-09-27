@@ -1,11 +1,8 @@
 package de.gmino.checkin.taglib;
 
 import java.io.IOException;
-import java.util.Collection;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import de.gmino.checkin.server.EntityFactoryImpl;
@@ -14,7 +11,7 @@ import de.gmino.checkin.server.request.LocalRequetsImpl;
 import de.gmino.checkin.server.request.NetworkRequestsImplAsyncLocalSql;
 import de.gmino.checkin.server.request.QueryShopByCode;
 import de.gmino.meva.shared.EntityFactory;
-import de.gmino.meva.shared.Query;
+import de.gmino.meva.shared.EntityQuery;
 import de.gmino.meva.shared.request.Requests;
 
 public class ShopTag extends SimpleTagSupport {
@@ -27,7 +24,7 @@ public class ShopTag extends SimpleTagSupport {
 		EntityFactory.setImplementations(new EntityFactoryImpl());
 		Requests.setImplementation(new NetworkRequestsImplAsyncLocalSql());
 
-		Query q = new QueryShopByCode(scanCode);
+		EntityQuery q = new QueryShopByCode(scanCode);
 		Shop shop = (Shop) LocalRequetsImpl.getLoadedEntitiesByQuery(Shop.type, q).iterator().next();
 		LocalRequetsImpl.loadEntities(shop.getCoupons());
 		getJspContext().setAttribute(varname, shop);

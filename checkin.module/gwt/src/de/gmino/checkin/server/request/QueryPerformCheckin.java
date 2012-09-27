@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Collection;
+import java.util.LinkedList;
 
 // imports for JSON
 import org.itemscript.core.values.JsonObject;
@@ -59,5 +60,11 @@ public class QueryPerformCheckin extends QueryPerformCheckinGen {
 		);
 	}
 	
+	@Override
+	public Collection<Value> evaluate() {
+		Collection<Value> ret = new LinkedList<Value>();
+		ret.add(new ReplyPerformCheckin(false, "Wir haben das noch nicht fertig programmiert. Sorry!", null, null, null));
+		return ret;
+	}
 
 }

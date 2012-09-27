@@ -10,6 +10,7 @@ import java.util.Collection;
 import de.gmino.checkin.server.SqlHelper;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
+import de.gmino.meva.shared.EntityQuery;
 import de.gmino.meva.shared.EntitySql;
 import de.gmino.meva.shared.EntityTypeName;
 import de.gmino.meva.shared.Query;
@@ -90,7 +91,7 @@ public class LocalRequetsImpl {
 	}
 
 	public static <EntityClass extends Entity> Collection<EntityClass> getLoadedEntitiesByQuery(
-			final EntityTypeName type, Query q) {
+			final EntityTypeName type, EntityQuery q) {
 
 		Collection<Long> ids = q.evaluate();
 		Collection<EntityClass> entities = EntityFactory

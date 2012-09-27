@@ -19,7 +19,7 @@ public class ClassDefinition {
 	String packageName;
 	String className;
 	boolean entity;
-	boolean query;
+	String query;
 	ArrayList<AttributeDefiniton> attributes;
 
 	String target;
@@ -91,7 +91,7 @@ public class ClassDefinition {
 		generateImports(pw);
 		pw.println();
 
-		String modifier = query ? "abstract " : " ";
+		String modifier = isQuery() ? "abstract " : " ";
 		pw.println("public "
 				+ modifier
 				+ "class "
@@ -117,6 +117,10 @@ public class ClassDefinition {
 
 	}
 
+	public boolean isQuery() {
+		return query != null && query.length() > 0;
+	}
+
 	public void createJavaServerGen(File file) throws IOException {
 		final FileOutputStream fos = new FileOutputStream(file);
 		PrintWriter pw = new PrintWriter(fos);
@@ -127,7 +131,7 @@ public class ClassDefinition {
 		generateImports(pw);
 		pw.println();
 
-		String modifier = query ? "abstract " : " ";
+		String modifier = isQuery() ? "abstract " : " ";
 		pw.println("public "
 				+ modifier
 				+ "class "
@@ -170,7 +174,7 @@ public class ClassDefinition {
 		generateImports(pw);
 		pw.println();
 
-		String modifier = query ? "abstract " : " ";
+		String modifier = isQuery() ? "abstract " : " ";
 		pw.println("public " + modifier + "class " + className + " extends "
 				+ getFullPackage("shared", false) + "." + baseClassName + " {");
 		generateConstructors(pw, true, true);
@@ -193,10 +197,11 @@ public class ClassDefinition {
 
 		generateImports(pw);
 
-		String modifier = query ? "abstract " : " ";
+		String modifier = isQuery() ? "abstract " : " ";
+				
 		pw.println("public " + modifier + "class " + className + " implements "
 				+ (entity ? ("Entity<" + className + ">") : "Value")
-				+ (query ? ", Query" : "") + " {");
+				+ (isEntityQuery() ? ", EntityQuery" : "") + (isValueQuery() ? ", ValueQuery" : "") + " {");
 
 		if (entity)
 			generateType(pw);
@@ -234,7 +239,7 @@ public class ClassDefinition {
 			}
 		}
 
-		if (query) {
+		if (isQuery()) {
 			pw.println("	// Query specific");
 			pw.println("	public String getUrlPostfix()");
 			pw.println("	{");
@@ -242,7 +247,10 @@ public class ClassDefinition {
 			pw.println("	}");
 			pw.println();
 			pw.println("	@Override");
-			pw.println("	public Collection<Long> evaluate() {");
+			if(isValueQuery())
+				pw.println("	public Collection<Value> evaluate() {");
+			else if(isEntityQuery())
+				pw.println("	public Collection<Long> evaluate() {");
 			pw.println("		throw new RuntimeException(\"No, this method does not exist here.\");");
 			pw.println("	}");
 		}
@@ -260,6 +268,14 @@ public class ClassDefinition {
 		pw.println("}");
 		pw.close();
 		fos.close();
+	}
+
+	public boolean isEntityQuery() {
+		return query != null && query.length() > 0 && Meva.getClassDefinition(query, true).entity;
+	}
+
+	public boolean isValueQuery() {
+		return query != null && query.length() > 0 && !Meva.getClassDefinition(query, true).entity;
 	}
 
 	private void generateClassHash(PrintWriter pw) {
@@ -415,8 +431,11 @@ public class ClassDefinition {
 		else
 			pw.println("import de.gmino.meva.shared.Value;");
 
-		if (query)
-			pw.println("import de.gmino.meva.shared.Query;");
+		if (isQuery())
+		{
+			pw.println("import de.gmino.meva.shared.EntityQuery;");
+			pw.println("import de.gmino.meva.shared.ValueQuery;");
+		}
 
 		pw.println("import de.gmino.meva.shared.EntityFactory;");
 		pw.println("import de.gmino.meva.shared.RelationCollection;");
@@ -1157,7 +1176,9 @@ public class ClassDefinition {
 		ret.baseClassName = (String) json.get("name");
 		ret.entity = json.get("concept").equals("entity");
 		if (json.containsKey("query"))
-			ret.query = json.get("query").equals("true");
+			ret.query = json.get("query").toString();
+		else
+			ret.query = "";
 
 		ret.attributes = new ArrayList<AttributeDefiniton>();
 
@@ -1240,7 +1261,7 @@ public class ClassDefinition {
 				+ ((attributes == null) ? 0 : attributes.hashCode());
 		result = prime * result
 				+ ((baseClassName == null) ? 0 : baseClassName.hashCode());
-		result = prime * result + (query ? 1231 : 1237);
+		result = prime * result + query.hashCode();
 		return result;
 	}
 

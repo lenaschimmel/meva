@@ -2,7 +2,7 @@
 	"concept" : "value",
 	"package" : "de.gmino.checkin.TARGET.request",
 	"name" : "QueryNearbyShops",
-	"query" : "true",
+	"query" : "Shop",
 	"attributes" : [
 		{
 			"type" : "LatLon",

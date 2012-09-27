@@ -10,6 +10,7 @@ import org.itemscript.core.gwt.GwtSystem;
 import org.itemscript.core.values.JsonArray;
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
+import org.omg.CORBA.portable.ValueFactory;
 
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -17,8 +18,10 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 
 import de.gmino.meva.shared.Entity;
+import de.gmino.meva.shared.EntityQuery;
 import de.gmino.meva.shared.EntityTypeName;
-import de.gmino.meva.shared.Query;
+import de.gmino.meva.shared.Value;
+import de.gmino.meva.shared.ValueQuery;
 import de.gmino.meva.shared.request.NetworkRequests;
 import de.gmino.meva.shared.request.RequestListener;
 
@@ -31,7 +34,57 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 	}
 
 	@Override
-	public void getIdsByQuery(Query query, final RequestListener<Long> listener) {
+	public void getValuesByQuery(final ValueQuery query, final RequestListener<Value> listener) {
+		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST,
+				 baseUrl + "Json/" + query.getUrlPostfix());
+				rb.setHeader("Content-Type",
+				                   "application/json");
+				try 
+				{
+				    rb.sendRequest(query.toString(), new RequestCallback() {
+						
+						@Override
+						public void onResponseReceived(Request request, Response response) {
+							Collection<Value> values = new LinkedList<Value>();
+							JsonSystem system = GwtSystem.SYSTEM;
+							String jsonString = response.getText();
+							JsonObject answer = system.parse(jsonString).asObject();
+							String status = answer.getString("status");
+							if(status.equals("ERROR"))
+							{
+								String message = answer.getString("content");
+								listener.onError("The server reported an error: " + message, null);
+							}
+							else
+							{
+								try {
+									JsonArray idValues = answer.getArray("content");
+									for(JsonValue json : idValues)
+									{
+										Value val = query.valueFromJson(json.asObject());
+										values.add(val);
+										listener.onNewResult(val);
+									}
+									listener.onFinished(values);
+								} catch (IOException e) {
+									e.printStackTrace();
+									listener.onError("Error while parsing Json reply to ValueQuery", e);
+								}
+							}
+						}
+						
+						@Override
+						public void onError(Request request, Throwable exception) {
+							listener.onError("Json request generated an exception (via method).", exception);
+						}
+					});
+				}
+				catch (Exception exception) {
+					listener.onError("Json request generated an exception (thrown).", exception);
+				}
+	}
+	@Override
+	public void getIdsByQuery(EntityQuery query, final RequestListener<Long> listener) {
 		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST,
 				 baseUrl + "Json/" + query.getUrlPostfix());
 				rb.setHeader("Content-Type",

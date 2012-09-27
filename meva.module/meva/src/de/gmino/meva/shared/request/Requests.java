@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.EntityTypeName;
-import de.gmino.meva.shared.Query;
+import de.gmino.meva.shared.EntityQuery;
 
 /**
  * This class contains methods for all kinds of request that an application will
@@ -48,7 +48,7 @@ public class Requests {
 					" Requests.setImplementation must be called before using any of its other methods.");
 	}
 
-	public static void getIdsByQuery(Query q, RequestListener<Long> listener) {
+	public static void getIdsByQuery(EntityQuery q, RequestListener<Long> listener) {
 
 		ensureImplementation();
 
@@ -75,7 +75,7 @@ public class Requests {
 	}
 
 	public static <EntityClass extends Entity> void getLoadedEntitiesByQuery(
-			final EntityTypeName type, Query q,
+			final EntityTypeName type, EntityQuery q,
 			final RequestListener<EntityClass> listener) {
 
 		ensureImplementation();
@@ -141,7 +141,7 @@ public class Requests {
 	}
 
 	public static <EntityClass extends Entity> void getUnloadedEntitiesByQuery(
-			final EntityTypeName type, Query q,
+			final EntityTypeName type, EntityQuery q,
 			final RequestListener<EntityClass> listener) {
 
 		ensureImplementation();

@@ -3,8 +3,10 @@ package de.gmino.checkin.server.request;
 import java.util.Collection;
 
 import de.gmino.meva.shared.Entity;
+import de.gmino.meva.shared.EntityQuery;
 import de.gmino.meva.shared.EntityTypeName;
-import de.gmino.meva.shared.Query;
+import de.gmino.meva.shared.Value;
+import de.gmino.meva.shared.ValueQuery;
 import de.gmino.meva.shared.request.NetworkRequests;
 import de.gmino.meva.shared.request.RequestListener;
 
@@ -19,7 +21,12 @@ import de.gmino.meva.shared.request.RequestListener;
 public class NetworkRequestsImplAsyncLocalSql implements NetworkRequests {
 
 	@Override
-	public void getIdsByQuery(Query query, RequestListener<Long> listener) {
+	public void getIdsByQuery(EntityQuery query, RequestListener<Long> listener) {
+		listener.onFinished(query.evaluate());
+	}
+	
+	@Override
+	public void getValuesByQuery(ValueQuery query, RequestListener<Value> listener) {
 		listener.onFinished(query.evaluate());
 	}
 

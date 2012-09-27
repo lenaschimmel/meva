@@ -1,8 +1,8 @@
 {
 	"concept" : "value",
 	"package" : "de.gmino.checkin.TARGET.request",
-	"name" : "QueryPerformCheckin",
-	"query" : "true",
+	"name" : "QueryShopByCode",
+	"query" : "Shop",
 	"attributes" : [
 		{
 			"type" : "String",

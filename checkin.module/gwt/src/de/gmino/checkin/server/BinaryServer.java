@@ -17,12 +17,17 @@ import de.gmino.checkin.server.request.LocalRequetsImpl;
 import de.gmino.checkin.server.request.NetworkRequestsImplAsyncLocalSql;
 import de.gmino.checkin.server.request.QueryConsumerByFid;
 import de.gmino.checkin.server.request.QueryNearbyShops;
+import de.gmino.checkin.server.request.QueryPerformCheckin;
 import de.gmino.checkin.server.request.QueryShopByCode;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityBinary;
 import de.gmino.meva.shared.EntityFactory;
+import de.gmino.meva.shared.EntityQuery;
 import de.gmino.meva.shared.EntityTypeName;
 import de.gmino.meva.shared.Query;
+import de.gmino.meva.shared.Value;
+import de.gmino.meva.shared.ValueBinary;
+import de.gmino.meva.shared.ValueQuery;
 import de.gmino.meva.shared.request.Requests;
 
 public class BinaryServer extends HttpServlet {
@@ -42,8 +47,7 @@ public class BinaryServer extends HttpServlet {
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("getRequestURI(): " + req.getRequestURI());
 		String[] parts = req.getRequestURI().split("/");
 		String lastPart = parts[parts.length - 1];
@@ -59,33 +63,39 @@ public class BinaryServer extends HttpServlet {
 		}
 	}
 
-	private void otherRequest(HttpServletRequest req, HttpServletResponse resp,
-			String lastPart) throws IOException {
-		Query query = null;
+	private void otherRequest(HttpServletRequest req, HttpServletResponse resp, String lastPart) throws IOException {
+		EntityQuery entityQuery = null;
+		ValueQuery valueQuery = null;
 		if (lastPart.equals("QueryNearbyShops"))
-			query = new QueryNearbyShops(new DataInputStream(
-					req.getInputStream()));
-		if (lastPart.equals("QueryShopByCode"))
-			query = new QueryShopByCode(new DataInputStream(
-					req.getInputStream()));
-		if (lastPart.equals("QueryConsumerByFid"))
-			query = new QueryConsumerByFid(new DataInputStream(
-					req.getInputStream()));
-		if (query == null)
+			entityQuery = new QueryNearbyShops(new DataInputStream(req.getInputStream()));
+		else if (lastPart.equals("QueryShopByCode"))
+			entityQuery = new QueryShopByCode(new DataInputStream(req.getInputStream()));
+		else if (lastPart.equals("QueryConsumerByFid"))
+			entityQuery = new QueryConsumerByFid(new DataInputStream(req.getInputStream()));
+		else if (lastPart.equals("QueryPerformCheckin"))
+			valueQuery = new QueryPerformCheckin(new DataInputStream(req.getInputStream()));
+		else
 			throw new RuntimeException("Unrecognized query type: " + lastPart);
-		System.out.println("Got a binary query of type " + lastPart);
-		System.out.println(query.toString());
-		Collection<Long> ids = query.evaluate();
+
 		DataOutputStream dos = new DataOutputStream(resp.getOutputStream());
-		for (long id : ids)
-			dos.writeLong(id);
-		dos.writeLong(0);
+		if (entityQuery != null) {
+			Collection<Long> ids = entityQuery.evaluate();
+			for (long id : ids)
+				dos.writeLong(id);
+			dos.writeLong(0);
+		}
+		else
+		{
+			Collection<Value> values = valueQuery.evaluate();
+			dos.writeInt(values.size());
+			for (Value val : values)
+				((ValueBinary)val).serializeBinary(dos);
+		}
 		dos.flush();
 		dos.close();
 	}
 
-	private void saveEntities(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException {
+	private void saveEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		Connection dbCon = SqlHelper.getConnection();
 		Query query = null;
 		DataInputStream dis = new DataInputStream(req.getInputStream());
@@ -111,8 +121,7 @@ public class BinaryServer extends HttpServlet {
 		dos.close();
 	}
 
-	private void getEntities(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException {
+	private void getEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		DataInputStream dis = new DataInputStream(req.getInputStream());
 		String typeName = dis.readUTF();
 		EntityTypeName type = EntityTypeName.getByString(typeName);
@@ -124,8 +133,7 @@ public class BinaryServer extends HttpServlet {
 			id = dis.readLong();
 		}
 
-		System.out.println("Got a binary query for ids of type " + typeName
-				+ ": " + Arrays.toString(ids.toArray()));
+		System.out.println("Got a binary query for ids of type " + typeName + ": " + Arrays.toString(ids.toArray()));
 
 		Collection<Entity> entities = LocalRequetsImpl.getLoadedEntitiesById(type, ids);
 
@@ -138,15 +146,13 @@ public class BinaryServer extends HttpServlet {
 		dos.close();
 	}
 
-	private void newEntities(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException {
+	private void newEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		DataInputStream dis = new DataInputStream(req.getInputStream());
 		String typeName = dis.readUTF();
 		EntityTypeName type = EntityTypeName.getByString(typeName);
 		int count = dis.readInt();
 
-		Collection<Entity> entities = LocalRequetsImpl.getNewEntities(type,
-				count);
+		Collection<Entity> entities = LocalRequetsImpl.getNewEntities(type, count);
 
 		DataOutputStream dos = new DataOutputStream(resp.getOutputStream());
 		for (Entity e : entities) {
@@ -157,8 +163,7 @@ public class BinaryServer extends HttpServlet {
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("Huhu!");
 		resp.getWriter()
 				.write("Yeah, du lustige Tante, ich bin hier! Du solltest aber POST-Request machen, nicht GET. Versuche doch mal <a href=\"http://gmino.de/legacy/php/post.php\">http://gmino.de/legacy/php/post2.php</a>.");

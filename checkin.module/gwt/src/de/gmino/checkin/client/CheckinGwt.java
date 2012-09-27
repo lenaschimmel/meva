@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
-import com.gargoylesoftware.htmlunit.AlertHandler;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -30,7 +29,7 @@ import de.gmino.geobase.shared.domain.Duration;
 import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
-import de.gmino.meva.shared.Query;
+import de.gmino.meva.shared.EntityQuery;
 import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
@@ -180,7 +179,7 @@ public class CheckinGwt implements EntryPoint {
 		// Then, we send the input to the server.
 		// Request all shops near you
 		final LatLon myLocation = new LatLon(52.2723, 10.53547);
-		Query q = new QueryNearbyShops(myLocation, 5000, 20);
+		EntityQuery q = new QueryNearbyShops(myLocation, 5000, 20);
 		Requests.getLoadedEntitiesByQuery(Shop.type, q,
 				new RequestListener<Shop>() {
 					@Override

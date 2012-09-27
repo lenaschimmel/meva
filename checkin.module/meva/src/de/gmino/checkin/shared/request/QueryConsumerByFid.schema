@@ -2,7 +2,7 @@
 	"concept" : "value",
 	"package" : "de.gmino.checkin.TARGET.request",
 	"name" : "QueryConsumerByFid",
-	"query" : "true",
+	"query" : "Consumer",
 	"attributes" : [
 		{
 			"type" : "String",

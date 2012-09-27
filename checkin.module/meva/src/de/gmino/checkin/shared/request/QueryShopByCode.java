@@ -5,7 +5,7 @@ package de.gmino.checkin.shared.request;
 
 // gmino stuff
 import de.gmino.meva.shared.Value;
-import de.gmino.meva.shared.Query;
+import de.gmino.meva.shared.EntityQuery;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.RelationCollection;
 import de.gmino.meva.shared.EntityTypeName;
