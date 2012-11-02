@@ -182,5 +182,3 @@ function vsprintf(fmt, argv) {
 	argv.unshift(fmt);
 	return sprintf.apply(null, argv);
 };
-
-alert("Defined vsprintf.");

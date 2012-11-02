@@ -1,0 +1,15 @@
+{
+	"concept" : "value",
+	"package" : "de.gmino.geobase.TARGET.domain"
+	"name" : "LatLonRect",
+	"attributes" : [
+		{
+			"type" : "LatLon",
+			"name" : "min"
+		},	
+		{
+			"type" : "LatLon",
+			"name" : "max"
+		}	
+	]
+}

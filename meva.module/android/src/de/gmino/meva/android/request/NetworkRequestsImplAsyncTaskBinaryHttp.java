@@ -127,8 +127,6 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 		} catch (IOException e1) {
 			throw new RuntimeException(e1);
 		}
-		
-	
 	}
 	
 	@Override
@@ -190,7 +188,6 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 						return values;
 					};
 			
-
 					@Override
 					protected void onPostExecute(java.util.Collection<Value> result) {
 						listener.onFinished((Collection<ValueClass>) result);
@@ -212,8 +209,6 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 		} catch (IOException e1) {
 			throw new RuntimeException(e1);
 		}
-		
-	
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -252,7 +247,6 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 						publishProgress(id);
 						ids.add(id);
 					}
-					
 					
 				} catch (Exception e) {
 					this.cancel(false);

@@ -25,8 +25,10 @@ import de.gmino.checkin.client.domain.Shop;
 import de.gmino.checkin.client.request.NetworkRequestsImplAsyncJson;
 import de.gmino.checkin.client.request.QueryNearbyShops;
 import de.gmino.geobase.client.domain.LatLon;
+import de.gmino.geobase.client.map.OpenLayersMapView;
 import de.gmino.geobase.shared.domain.Duration;
 import de.gmino.geobase.shared.domain.ImageUrl;
+import de.gmino.geobase.shared.map.MapView;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.EntityQuery;
@@ -46,6 +48,7 @@ public class CheckinGwt implements EntryPoint {
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
 	private Label errorLabel;
+	private MapView map;
 
 	/**
 	 * This is the entry point method.
@@ -132,9 +135,15 @@ public class CheckinGwt implements EntryPoint {
 		sendButton.addClickHandler(handler);
 		testButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
+		
+		
 	}
 
 	void doTestData() {
+		// Create the map
+				map = new OpenLayersMapView();
+				map.setCenterAndZoom(new de.gmino.geobase.shared.domain.LatLon(52.27617, 10.53216), 17, false);
+		
 		/*
 		 * int lday = 5; int lmonth = 1; int lyear = 2006;
 		 * Window.alert(Util.format

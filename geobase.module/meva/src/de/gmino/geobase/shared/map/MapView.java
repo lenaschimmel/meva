@@ -1,0 +1,17 @@
+package de.gmino.geobase.shared.map;
+
+import de.gmino.geobase.shared.domain.LatLon;
+import de.gmino.geobase.shared.domain.LatLonRect;
+
+public interface MapView {
+	LatLon getCenter();
+	LatLonRect getVisibleArea();
+	void setCenter(LatLon center, boolean animate);
+	void setCenterAndZoom(LatLon center, double zoom, boolean animate);
+	void setZoom(double zoom);
+	double getMinZoom();
+	double getMaxZoom();
+	double getZoom();
+	boolean supportsFreeZoom();
+	LayerList getLayerList();
+}

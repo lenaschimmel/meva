@@ -61,8 +61,7 @@ public class Shop extends ShopGen {
 	}
 
 	public void fillWithRandomData() {
-		location = new LatLon(0, 0);
-		location.fillWithRandomData();
+		location = LatLon.getWithRandomData();
 		facebookId = (long) (Math.random() * 999999999) + "";
 		scanCode = "";
 		for (int i = 0; i < 8; i++)

@@ -12,21 +12,42 @@
     <!-- Consider inlining CSS to reduce the number of requested files -->
     <!--                                                               -->
     <link type="text/css" rel="stylesheet" href="GminoCheckin.css">
+    <link type="text/css" rel="stylesheet" href="OpenLayers-2.12/theme/default/style.css">
 
     <!--                                           -->
     <!-- Any title is fine                         -->
     <!--                                           -->
     <title>Web Application Starter Project</title>
     
+
+    <script type="text/javascript" language="javascript" src="sprintf-0.7-beta1.js"></script>
+    <script type="text/javascript" language="javascript" src="sprintf-0.7-beta1.js"></script>
+ 	<script type="text/javascript" language="javascript" src="OpenLayers-2.12/OpenLayers.js"></script>
+  
     <!--                                           -->
     <!-- This script loads your compiled module.   -->
     <!-- If you add any GWT meta tags, they must   -->
     <!-- be added before this line.                -->
     <!--                                           -->
-    <script type="text/javascript" language="javascript" src="sprintf-0.7-beta1.js"></script>
-
     <script type="text/javascript" language="javascript" src="GminoCheckin/GminoCheckin.nocache.js"></script>
     
+    <script type="text/javascript">
+        var map, layer;
+        function init(){
+         /*   
+            map = new OpenLayers.Map( 'map');
+            layer = new OpenLayers.Layer.OSM( "Simple OSM Map");
+            map.addLayer(layer);
+            map.setCenter(
+                new OpenLayers.LonLat(-71.147, 42.472).transform(
+                    new OpenLayers.Projection("EPSG:4326"),
+                    map.getProjectionObject()
+                ), 12
+            );
+            
+         */    
+        }
+    </script>
   </head>
 
   <!--                                           -->
@@ -34,7 +55,7 @@
   <!-- you can leave the body empty if you want  -->
   <!-- to create a completely dynamic UI.        -->
   <!--                                           -->
-  <body>
+  <body onload="init()">
 
     <!-- OPTIONAL: include this if you want history support -->
     <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
@@ -61,5 +82,7 @@
         <td colspan="2" style="color:red;" id="errorLabelContainer"></td>
       </tr>
     </table>
+    
+    <div id="map" class="smallmap">Map will go here</div>
   </body>
 </html>
