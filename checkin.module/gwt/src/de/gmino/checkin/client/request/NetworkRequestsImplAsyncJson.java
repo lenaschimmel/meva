@@ -10,7 +10,6 @@ import org.itemscript.core.gwt.GwtSystem;
 import org.itemscript.core.values.JsonArray;
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
-import org.omg.CORBA.portable.ValueFactory;
 
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -98,6 +97,7 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 							Collection<Long> ids = new LinkedList<Long>();
 							JsonSystem system = GwtSystem.SYSTEM;
 							String jsonString = response.getText();
+							System.out.println("JSON answer: " + jsonString);
 							JsonObject answer = system.parse(jsonString).asObject();
 							String status = answer.getString("status");
 							if(status.equals("ERROR"))

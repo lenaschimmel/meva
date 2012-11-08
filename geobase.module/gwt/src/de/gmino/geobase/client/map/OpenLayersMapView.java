@@ -4,29 +4,28 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.shared.domain.LatLonRect;
-import de.gmino.geobase.shared.map.LayerList;
+import de.gmino.geobase.shared.map.MapLayer;
 import de.gmino.geobase.shared.map.MapView;
 
 public class OpenLayersMapView implements MapView {
 
 	JavaScriptObject map;
 	
-	public OpenLayersMapView() {
-		map = nCreateMap();
+	public OpenLayersMapView(String elementName) {
+		map = nCreateMap(elementName);
 	}
 	
-	private native JavaScriptObject nCreateMap() /*-{
-		var map = new $wnd.OpenLayers.Map ('map');
-		var layer = new $wnd.OpenLayers.Layer.OSM( "Simple OSM Map");
-            map.addLayer(layer);
-            map.setCenter(
-                new $wnd.OpenLayers.LonLat(-71.147, 42.472).transform(
-                    new $wnd.OpenLayers.Projection("EPSG:4326"),
-                    map.getProjectionObject()
-                ), 12
-            );    
-        this.pro1 = new $wnd.OpenLayers.Projection("EPSG:4326");
-        this.pro2 =  map.getProjectionObject();
+	private native JavaScriptObject nCreateMap(String elementName) /*-{
+		var map = new $wnd.OpenLayers.Map (elementName);
+        var layer = new $wnd.OpenLayers.Layer.OSM( "Simple OSM Map");
+        map.addLayer(layer);
+        map.pro1 = new $wnd.OpenLayers.Projection("EPSG:4326");
+        map.pro2 =  map.getProjectionObject();
+        map.setCenter(new $wnd.OpenLayers.LonLat(-71.147, 42.472).transform(map.pro1, map.pro2), 12);    
+		map.doTransform = function(lonlat)
+		{
+			return lonlat.transform(map.pro1, map.pro2);
+		}
 		return map;
 	}-*/;	
 	
@@ -60,9 +59,8 @@ public class OpenLayersMapView implements MapView {
 	}
 	
 	private native void nSetCenter(double lat, double lon) /*-{
-		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
-		
-		map.setCenter(new $wnd.OpenLayers.LonLat(lon, lat).transform(this.pro1, this.pro2));
+		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;	
+		map.setCenter(new $wnd.OpenLayers.LonLat(lon, lat).transform(map.pro1, map.pro2));
 	}-*/;
 
 	@Override
@@ -74,20 +72,20 @@ public class OpenLayersMapView implements MapView {
 	@Override
 	public native void setZoom(double zoom)  /*-{
 		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
-		map.setZoom(zoom);
+		map.zoomTo(zoom);
 	}-*/;
 
 
 	@Override
 	public double getMinZoom() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 	@Override
 	public double getMaxZoom() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 166;
 	}
 
 	@Override
@@ -102,9 +100,32 @@ public class OpenLayersMapView implements MapView {
 	}
 
 	@Override
-	public LayerList getLayerList() {
-		// TODO Auto-generated method stub
-		return null;
+	public void addLayer(MapLayer layer) {
+		if (layer instanceof OpenLayersLayer) {
+			OpenLayersLayer oll = (OpenLayersLayer) layer;
+			nAddLayer((oll).getJso());
+		}
+		else
+			throw new RuntimeException("Layer is not supported by OpenLayers.");
 	}
 
+	private native void nAddLayer(JavaScriptObject jso) /*-{
+		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;	
+		map.addLayer(jso);
+	}-*/;
+
+	@Override
+	public void removeLayer(MapLayer layer) {
+		if (layer instanceof OpenLayersLayer) {
+			OpenLayersLayer oll = (OpenLayersLayer) layer;
+			nRemoveLayer((oll).getJso());
+		}
+		else
+			throw new RuntimeException("Layer is not supported by OpenLayers.");
+	}
+
+	private native void nRemoveLayer(JavaScriptObject jso) /*-{
+		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;	
+		map.removeLayer(jso);
+	}-*/;
 }

@@ -19,5 +19,6 @@ public interface MapView {
 	double getMaxZoom();
 	double getZoom();
 	boolean supportsFreeZoom();
-	LayerList getLayerList();
+	void addLayer(MapLayer layer);
+	void removeLayer(MapLayer layer);
 }

@@ -26,9 +26,15 @@ import de.gmino.checkin.client.request.NetworkRequestsImplAsyncJson;
 import de.gmino.checkin.client.request.QueryNearbyShops;
 import de.gmino.geobase.client.domain.LatLon;
 import de.gmino.geobase.client.map.OpenLayersMapView;
+import de.gmino.geobase.client.map.OpenLayersMarker;
+import de.gmino.geobase.client.map.OpenLayersMarkerLayer;
 import de.gmino.geobase.shared.domain.Duration;
 import de.gmino.geobase.shared.domain.ImageUrl;
+import de.gmino.geobase.shared.map.Event;
 import de.gmino.geobase.shared.map.MapView;
+import de.gmino.geobase.shared.map.Marker;
+import de.gmino.geobase.shared.map.MarkerLayer;
+import de.gmino.geobase.shared.map.MarkerListener;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.EntityQuery;
@@ -49,6 +55,8 @@ public class CheckinGwt implements EntryPoint {
 			+ "connection and try again.";
 	private Label errorLabel;
 	private MapView map;
+	private MarkerLayer markerLayer;
+	private MarkerListener markerClickListener;
 
 	/**
 	 * This is the entry point method.
@@ -136,13 +144,22 @@ public class CheckinGwt implements EntryPoint {
 		testButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
 		
-		
+		// Create the map
+		map = new OpenLayersMapView("map");
+		map.setCenterAndZoom(new LatLon(52.27617, 10.53216), 15, false);
+		markerLayer = new OpenLayersMarkerLayer("Coupony-Partner");
+		map.addLayer(markerLayer);
+
+		this.markerClickListener = new MarkerListener(){@Override
+		public void onEvent(Marker marker, Event event) {
+			if(event == Event.click)
+			{
+				Window.alert("Click made it through: " + marker.getTitle());
+			}
+		}};
 	}
 
 	void doTestData() {
-		// Create the map
-				map = new OpenLayersMapView();
-				map.setCenterAndZoom(new de.gmino.geobase.shared.domain.LatLon(52.27617, 10.53216), 17, false);
 		
 		/*
 		 * int lday = 5; int lmonth = 1; int lyear = 2006;
@@ -182,8 +199,7 @@ public class CheckinGwt implements EntryPoint {
 	 * Send the name from the nameField to the server and wait for a response.
 	 */
 	void doExampleRequests() {
-		// First, we validate the input.
-		errorLabel.setText("");
+
 
 		// Then, we send the input to the server.
 		// Request all shops near you
@@ -193,18 +209,25 @@ public class CheckinGwt implements EntryPoint {
 				new RequestListener<Shop>() {
 					@Override
 					public void onFinished(final Collection<Shop> shops) {
+						
 						// prepare a set of all the Coupons that we should
 						// pre-load, because the shops may contain unloaded
 						// coupons.
+						
 						Set<Coupon> couponsToLoad = new HashSet<Coupon>();
 
 						int i = 0;
 						for (Shop shop : shops) {
+							OpenLayersMarker shopMarker = new OpenLayersMarker(shop.getLocation(), shop.getTitle(), shop.getDescription(), shop.getLogo(), (OpenLayersMapView) map);
+							markerLayer.addMarker(shopMarker);
+							shopMarker.addEventListener(Event.click, markerClickListener);
+
+							
 							String message = shop.getTitle()
 									+ "("
 									+ shop.getLocation().getDistanceTo(
 											myLocation) + " entfernt)";
-							Window.alert(message);
+							//Window.alert(message);
 							couponsToLoad.addAll(shop.getCoupons());
 						}
 
@@ -222,7 +245,7 @@ public class CheckinGwt implements EntryPoint {
 											sb.append(c.getTitle());
 											first = false;
 										}
-										Window.alert(sb.toString());
+									//	Window.alert(sb.toString());
 									}
 								});
 
