@@ -15,4 +15,5 @@ public interface MapView {
 	boolean supportsFreeZoom();
 	void addLayer(MapLayer layer);
 	void removeLayer(MapLayer layer);
+	public void addEventListener(Event event, MapListener listener);
 }

@@ -31,6 +31,7 @@ import de.gmino.geobase.client.map.OpenLayersMarkerLayer;
 import de.gmino.geobase.shared.domain.Duration;
 import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.map.Event;
+import de.gmino.geobase.shared.map.MapListener;
 import de.gmino.geobase.shared.map.MapView;
 import de.gmino.geobase.shared.map.Marker;
 import de.gmino.geobase.shared.map.MarkerLayer;
@@ -57,6 +58,7 @@ public class CheckinGwt implements EntryPoint {
 	private MapView map;
 	private MarkerLayer markerLayer;
 	private MarkerListener markerClickListener;
+	private MapListener mapDoubleClickListener;
 
 	/**
 	 * This is the entry point method.
@@ -157,6 +159,15 @@ public class CheckinGwt implements EntryPoint {
 				Window.alert("Click made it through: " + marker.getTitle());
 			}
 		}};
+		
+		this.mapDoubleClickListener = new MapListener() {
+			
+			@Override
+			public void onEvent(de.gmino.geobase.shared.domain.LatLon location, Event event) {
+				Window.alert("Double Click at " + location);
+			}
+		};
+		map.addEventListener(Event.dblclick, mapDoubleClickListener);
 	}
 
 	void doTestData() {

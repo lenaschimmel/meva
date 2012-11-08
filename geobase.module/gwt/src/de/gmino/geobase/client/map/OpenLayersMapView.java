@@ -1,18 +1,28 @@
 package de.gmino.geobase.client.map;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.TreeMap;
+
 import com.google.gwt.core.client.JavaScriptObject;
 
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.shared.domain.LatLonRect;
+import de.gmino.geobase.shared.map.Event;
 import de.gmino.geobase.shared.map.MapLayer;
+import de.gmino.geobase.shared.map.MapListener;
 import de.gmino.geobase.shared.map.MapView;
 
 public class OpenLayersMapView implements MapView {
 
 	JavaScriptObject map;
+	Map<Event,Collection<MapListener>> eventListeners;
+	boolean clickListenerEnabled = false;
 	
 	public OpenLayersMapView(String elementName) {
 		map = nCreateMap(elementName);
+		eventListeners = new TreeMap<Event, Collection<MapListener>>();
 	}
 	
 	private native JavaScriptObject nCreateMap(String elementName) /*-{
@@ -25,6 +35,10 @@ public class OpenLayersMapView implements MapView {
 		map.doTransform = function(lonlat)
 		{
 			return lonlat.transform(map.pro1, map.pro2);
+		}
+		map.undoTransform = function(lonlat)
+		{
+			return lonlat.transform(map.pro2, map.pro1);
 		}
 		return map;
 	}-*/;	
@@ -128,4 +142,77 @@ public class OpenLayersMapView implements MapView {
 		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;	
 		map.removeLayer(jso);
 	}-*/;
+	
+	public void addEventListener(Event event, MapListener listener)
+	{
+		if(!clickListenerEnabled)
+		{
+			nEnableClickListener();
+			clickListenerEnabled = true;
+		}
+		
+		Collection<MapListener> listeners = eventListeners.get(event);
+		if(listeners == null)
+		{
+			listeners = new LinkedList<MapListener>();
+			eventListeners.put(event, listeners);
+		}
+		listeners.add(listener);
+	}
+	
+	private native void nEnableClickListener() /*-{
+		var that = this;
+		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;	
+		clickControl = $wnd.OpenLayers.Class($wnd.OpenLayers.Control, {                
+                defaultHandlerOptions: {
+                    'single': true,
+                    'double': true,
+                    'pixelTolerance': 0,
+                    'stopSingle': false,
+                    'stopDouble': false
+                },
+
+                initialize: function(options) {
+                    this.handlerOptions = $wnd.OpenLayers.Util.extend(
+                        {}, this.defaultHandlerOptions
+                    );
+                    $wnd.OpenLayers.Control.prototype.initialize.apply(
+                        this, arguments
+                    ); 
+                    this.handler = new $wnd.OpenLayers.Handler.Click(
+                        this, {
+                            'mousedown': this.trigger,
+                            'mouseup': this.trigger,
+                            'click': this.trigger,
+                            'rightclick': this.trigger,
+                            'dblclick': this.trigger,
+                            'dblrightclick': this.trigger
+                        }, this.handlerOptions
+                    );
+                }, 
+
+                trigger: function(e) {
+                	var lonlat = map.undoTransform(map.getLonLatFromPixel(e.xy));
+                    that.@de.gmino.geobase.client.map.OpenLayersMapView::handleEvent(DDLjava/lang/String;)(lonlat.lat, lonlat.lon, e.type);
+                }
+
+            });
+            var map;
+         	
+         	var click = new clickControl();
+            map.addControl(click);
+            click.activate();
+	}-*/;
+	
+	private void handleEvent(double lat, double lon, String type)
+	{
+		Event e = Event.valueOf(type);
+		Collection<MapListener> listeners = eventListeners.get(e);
+		if(listeners != null)
+		{
+			LatLon location = new LatLon(lat ,lon);
+			for(MapListener listener : listeners)
+				listener.onEvent(location, e);
+		}
+	}
 }
