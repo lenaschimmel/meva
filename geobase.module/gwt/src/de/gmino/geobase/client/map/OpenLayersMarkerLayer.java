@@ -15,9 +15,11 @@ public class OpenLayersMarkerLayer implements MarkerLayer, OpenLayersLayer {
 	private String name;
 	private JavaScriptObject jso;
 	private Set<Marker> markers;
+	private OpenLayersMapView mapView;
 	
-	public OpenLayersMarkerLayer(String name) {
+	public OpenLayersMarkerLayer(String name, OpenLayersMapView mapView) {
 		this.name = name;
+		this.mapView = mapView;
 		markers = new TreeSet<Marker>();
 		jso = nCreateLayer(name);
 	}
@@ -88,6 +90,11 @@ public class OpenLayersMarkerLayer implements MarkerLayer, OpenLayersLayer {
 	@Override
 	public JavaScriptObject getJso() {
 		return jso;
+	}
+
+	@Override
+	public Marker newMarker(LatLon location, String title, String description, ImageUrl markerImage) {
+		return new OpenLayersMarker(location, title, description, markerImage, this.mapView);
 	}
 
 

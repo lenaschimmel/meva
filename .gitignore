@@ -10,4 +10,24 @@ facebook-android-sdk/
 *.war
 checkin.module/gwt/war
 meva.dot
+HelpPatientenruf/
+JMapViewer/
+JOSM/
+android-fahrzeugapp/
+android-platformtest/
+checkinDesktop/
+desktop-GpsSimulator/
+desktop-JxMapViewer/
+desktop-dbtest/
+gminocode.png
+gpstracer/
+java-buildtool/
+java-platform/
+java-tilecache/
+mapsforge-read-only/
+server-imageimport/
+server-wikicache/
+sqldroid/
+transit-map/
+meva.module/gwt/war/OpenLayers-2.12/
 

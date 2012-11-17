@@ -10,9 +10,9 @@ echo "Note: Just ignore the word 'off' on the previous line :)"
 # it works on Windows, OS X and Linux.
 # This is a trick from http://blog.bigsmoke.us/2007/06/11/microsoft-batch-file-meets-bash-shellscript
 # #####################################################################################################
-java -cp "./bin:lib/*" de.gmino.codegen.Meva ../checkin.module/gwt ../checkin.module/android ../meva.module/android
+java -cp "./bin:lib/*" de.gmino.codegen.Meva ../checkin.module/gwt ../checkin.module/android ../meva.module/android ../cycleway.module/gwt
 exit 0
  
 :WIN
-java -cp "./bin;lib/*" de.gmino.codegen.Meva ../checkin.module/gwt ../checkin.module/android ../meva.module/android
+java -cp "./bin;lib/*" de.gmino.codegen.Meva ../checkin.module/gwt ../checkin.module/android ../meva.module/android ../cycleway.module/gwt
 

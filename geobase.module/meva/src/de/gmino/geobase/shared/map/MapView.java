@@ -16,4 +16,6 @@ public interface MapView {
 	void addLayer(MapLayer layer);
 	void removeLayer(MapLayer layer);
 	public void addEventListener(Event event, MapListener listener);
+	public MarkerLayer newMarkerLayer(String name);
+	public MapLayer newMapLayer(MapProvider provider);
 }

@@ -20,8 +20,8 @@ public class LatLonRect extends LatLonRectGen {
 		super((de.gmino.geobase.shared.domain.LatLon) min, (de.gmino.geobase.shared.domain.LatLon) max);
 	}
 
-	public LatLonRect(double d, double e, double f, double g) {
-		this(new LatLon(d, e), new LatLon(f, g));
+	public LatLonRect(double minLat, double minLon, double maxLat, double maxLon) {
+		this(new LatLon(minLat, minLon), new LatLon(maxLat, maxLon));
 	}
 
 	public LatLon getRandomWithin() {

@@ -188,5 +188,4 @@ public class BinaryServer extends HttpServlet {
 			return "";
 		}
 	}
-
 }

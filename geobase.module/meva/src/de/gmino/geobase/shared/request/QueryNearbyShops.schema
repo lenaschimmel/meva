@@ -1,0 +1,16 @@
+{
+	"concept" : "value",
+	"package" : "de.gmino.geobase.TARGET.request",
+	"name" : "QueryGeoObject",
+	"query" : "GeoObject",
+	"attributes" : [
+		{
+			"type" : "LatLonRect",
+			"name" : "area"
+		},
+		{
+			"type" : "int",
+			"name" : "maxCount"
+		}	
+	]
+}

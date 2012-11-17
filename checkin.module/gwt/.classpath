@@ -10,5 +10,7 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-servlet.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jstl.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/standard.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/checkinMeva"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/geobaseGwt"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

@@ -149,7 +149,7 @@ public class CheckinGwt implements EntryPoint {
 		// Create the map
 		map = new OpenLayersMapView("map");
 		map.setCenterAndZoom(new LatLon(52.27617, 10.53216), 15, false);
-		markerLayer = new OpenLayersMarkerLayer("Coupony-Partner");
+		markerLayer = map.newMarkerLayer("Coupony-Partner");
 		map.addLayer(markerLayer);
 
 		this.markerClickListener = new MarkerListener(){@Override

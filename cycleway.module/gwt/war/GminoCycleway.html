@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+		<title>Problematische Radwege in Braunschweig</title>
+
+		<link type="text/css" rel="stylesheet" href="GminoCycleway.css">
+		<link type="text/css" rel="stylesheet" href="OpenLayers-2.12/theme/default/style.css">
+		<script type="text/javascript" language="javascript" src="sprintf-0.7-beta1.js"></script>
+		<script type="text/javascript" language="javascript" src="OpenLayers-2.12/OpenLayers.js"></script>
+		<script type="text/javascript" language="javascript" src="GminoCycleway/GminoCycleway.nocache.js"></script>
+	</head>
+
+	<body>
+		<iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
+
+		<div id="bar">
+			<span><b>Die Braunschweiger Piraten sammeln hier problematische Radwege <span id="counter"></span> in ihrer Stadt (<a href="letter.html" onclick="showpopup(); return false;">Mehr Infos</a>).</b></span>
+			<span>Doppelklick fügt einen Marker hinzu.</span> 
+			<span><b>Straßensuche:</b> <form action="#" onsubmit="search(); return false;"><input name="street" id="street"/><input type="submit" value="suchen" onclick="search();"/></form></span>
+		</div>
+		<div id="maptest">
+			<div id="mapdiv">
+				<!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
+				<noscript>
+					<div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">Javascript muss aktiviert sein.
+					</div>
+				</noscript>
+			</div> 
+		</div>
+
+		<div id="letterdiv"></div> 
+	</body>
+</html>
