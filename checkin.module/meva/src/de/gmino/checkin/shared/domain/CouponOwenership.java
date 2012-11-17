@@ -6,30 +6,16 @@ package de.gmino.checkin.shared.domain;
 // gmino stuff
 import de.gmino.checkin.shared.domain.gen.CouponOwenershipGen;
 import de.gmino.geobase.shared.domain.Timestamp;
+
 public class CouponOwenership extends CouponOwenershipGen {
 	// Constructors
-	public CouponOwenership(long id)
-	{
+	public CouponOwenership(long id) {
 		super(id);
 	}
-	
-	public CouponOwenership(
-			long id,
-			boolean ready,
-			Timestamp acquired,
-			Timestamp invalidated,
-			Consumer consumer,
-			Coupon coupon)
-	{
-		super(
-			id,
-			ready,
-			(de.gmino.geobase.shared.domain.Timestamp)acquired,
-			(de.gmino.geobase.shared.domain.Timestamp)invalidated,
-			(de.gmino.checkin.shared.domain.Consumer)consumer,
-			(de.gmino.checkin.shared.domain.Coupon)coupon
-		);
+
+	public CouponOwenership(long id, boolean ready, Timestamp acquired, Timestamp invalidated, Consumer consumer, Coupon coupon) {
+		super(id, ready, (de.gmino.geobase.shared.domain.Timestamp) acquired, (de.gmino.geobase.shared.domain.Timestamp) invalidated, (de.gmino.checkin.shared.domain.Consumer) consumer,
+				(de.gmino.checkin.shared.domain.Coupon) coupon);
 	}
-	
 
 }

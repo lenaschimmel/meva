@@ -62,59 +62,49 @@ public class Coupons extends ActivityWithFacebook {
 		if (getIntent() != null && getIntent().getExtras() != null) {
 			final long shopId = getIntent().getExtras().getLong("shopId");
 
-			Requests.getLoadedEntityById(Shop.type, shopId,
-					new RequestListener<Shop>() {
+			Requests.getLoadedEntityById(Shop.type, shopId, new RequestListener<Shop>() {
+				@Override
+				public void onNewResult(Shop shop) {
+					getActionBar().setTitle("Coupons bei " + shop.getTitle());
+					Collection<Coupon> coupons = shop.getCoupons();
+					Requests.loadEntities(coupons, new RequestListener<Coupon>() {
 						@Override
-						public void onNewResult(Shop shop) {
-							getActionBar().setTitle(
-									"Coupons bei " + shop.getTitle());
-							Collection<Coupon> coupons = shop.getCoupons();
-							Requests.loadEntities(coupons,
-									new RequestListener<Coupon>() {
-										@Override
-										public void onNewResult(Coupon result) {
-											loadedCoupons.add(result);
-											mSectionsPagerAdapter
-													.notifyDataSetChanged();
-										}
-									});
+						public void onNewResult(Coupon result) {
+							loadedCoupons.add(result);
+							mSectionsPagerAdapter.notifyDataSetChanged();
 						}
 					});
+				}
+			});
 		} else {
 			getActionBar().setTitle("Meine Coupons");
 
 			Consumer me = ((CheckinApplication) getApplication()).getConsumer();
-			Collection<CouponOwenership> myCouponOwnerships = me
-					.getCouponOwnerships();
+			Collection<CouponOwenership> myCouponOwnerships = me.getCouponOwnerships();
 
 			if (myCouponOwnerships.isEmpty()) {
 				// TODO show a permanent message
 				Toast.makeText(this, "Du hast keine Coupons", Toast.LENGTH_LONG);
 			} else {
-				Requests.loadEntities(myCouponOwnerships,
-						new RequestListener<CouponOwenership>() {
-							Collection<Coupon> coupons = new HashSet<Coupon>();
+				Requests.loadEntities(myCouponOwnerships, new RequestListener<CouponOwenership>() {
+					Collection<Coupon> coupons = new HashSet<Coupon>();
 
-							@Override
-							public void onNewResult(CouponOwenership result) {
-								coupons.add((Coupon) result.getCoupon());
-							}
+					@Override
+					public void onNewResult(CouponOwenership result) {
+						coupons.add((Coupon) result.getCoupon());
+					}
 
+					@Override
+					public void onFinished(Collection<CouponOwenership> results) {
+						Requests.loadEntities(coupons, new RequestListener<Coupon>() {
 							@Override
-							public void onFinished(
-									Collection<CouponOwenership> results) {
-								Requests.loadEntities(coupons,
-										new RequestListener<Coupon>() {
-											@Override
-											public void onNewResult(
-													Coupon result) {
-												loadedCoupons.add(result);
-												mSectionsPagerAdapter
-														.notifyDataSetChanged();
-											}
-										});
+							public void onNewResult(Coupon result) {
+								loadedCoupons.add(result);
+								mSectionsPagerAdapter.notifyDataSetChanged();
 							}
 						});
+					}
+				});
 			}
 		}
 	}
@@ -176,17 +166,13 @@ public class Coupons extends ActivityWithFacebook {
 		public static final String ARG_SECTION_NUMBER = "section_number";
 
 		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			LinearLayout linearlayout = (LinearLayout) inflater.inflate(
-					R.layout.coupon, null);
+		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+			LinearLayout linearlayout = (LinearLayout) inflater.inflate(R.layout.coupon, null);
 			linearlayout.setGravity(Gravity.CENTER);
 			linearlayout.setBackgroundResource(R.drawable.cpn);
 			Bundle args = getArguments();
-			TextView textView = (TextView) linearlayout
-					.findViewById(R.id.textView1);
-			textView.setText(getGutscheinText(getArguments().getInt(
-					ARG_SECTION_NUMBER)));
+			TextView textView = (TextView) linearlayout.findViewById(R.id.textView1);
+			textView.setText(getGutscheinText(getArguments().getInt(ARG_SECTION_NUMBER)));
 			return linearlayout;
 		}
 	}

@@ -45,21 +45,18 @@ public class UmlDiagram {
 		pw.println("		]");
 		pw.println("		}");
 
-		for (Entry<String, TreeMap<String, ClassDefinition>> entry : Meva.definitionsPerMoudle
-				.entrySet()) {
+		for (Entry<String, TreeMap<String, ClassDefinition>> entry : Meva.definitionsPerMoudle.entrySet()) {
 			String moduleName = entry.getKey();
-			pw.println("subgraph cluster" + moduleName + " {  label = \"Module: " 
-					+ moduleName + "\"");
+			pw.println("subgraph cluster" + moduleName + " {  label = \"Module: " + moduleName + "\"");
 			for (ClassDefinition def : entry.getValue().values())
 				printClass(pw, def);
 			pw.println("}");
 		}
 		for (ClassDefinition def : Meva.definitions.values())
 			printClassRelations(pw, def);
-		
-		pw.println("Query -> Value"
-				+ " [arrowhead=\"empty\"]");
-		
+
+		pw.println("Query -> Value" + " [arrowhead=\"empty\"]");
+
 		pw.println("}");
 
 		pw.close();
@@ -67,13 +64,10 @@ public class UmlDiagram {
 
 	private static void printClass(PrintWriter pw, ClassDefinition def) {
 		pw.println(def.className + " [");
-		pw.print("	label = \"{" + def.className + " ("+getType(def)+")|");
+		pw.print("	label = \"{" + def.className + " (" + getType(def) + ")|");
 		for (AttributeDefiniton att : def.attributes) {
-			if ((att.isNativeOrString() || att.isValue())
-					&& !att.attributeName.equals("id")
-					&& !att.attributeName.equals("ready"))
-				pw.print("+ " + att.attributeName + " : " + att.typeName
-						+ "\\l");
+			if ((att.isNativeOrString() || att.isValue()) && !att.attributeName.equals("id") && !att.attributeName.equals("ready"))
+				pw.print("+ " + att.attributeName + " : " + att.typeName + "\\l");
 		}
 		// pw.println("|+ serializeJson(PrintWriter pw) : void\\l}\"");
 		pw.println("}\"");
@@ -83,56 +77,43 @@ public class UmlDiagram {
 
 	private static void printClassRelations(PrintWriter pw, ClassDefinition def) {
 		/*
-		if(def.entity)
-			pw.println(def.className + " -> Entity"
-					+ " [style=dashed,color=gray63, arrowhead=\"empty\"]");
-		else
-			pw.println(def.className + " -> Value"
-					+ " [style=dashed,color=gray63, arrowhead=\"empty\"]");
-		if(def.query)
-			pw.println(def.className + " -> Query"
-					+ " [style=dashed,color=gray63, arrowhead=\"empty\"]");
-	*/
-		
+		 * if(def.entity) pw.println(def.className + " -> Entity" +
+		 * " [style=dashed,color=gray63, arrowhead=\"empty\"]"); else
+		 * pw.println(def.className + " -> Value" +
+		 * " [style=dashed,color=gray63, arrowhead=\"empty\"]"); if(def.query)
+		 * pw.println(def.className + " -> Query" +
+		 * " [style=dashed,color=gray63, arrowhead=\"empty\"]");
+		 */
+
 		for (AttributeDefiniton att : def.attributes) {
 			if (att.isRelation()) {
-				pw.println(def.className + " -> " + att.reltype
-						+ " [headlabel=\"0..* " + att.attributeName
-						+ "\",taillabel=\"1 " + att.relname + "\"]");
+				pw.println(def.className + " -> " + att.reltype + " [headlabel=\"0..* " + att.attributeName + "\",taillabel=\"1 " + att.relname + "\"]");
 			}
 			if (att.isEntity()) {
-				ClassDefinition other = Meva.getClassDefinition(att.typeName,
-						false);
+				ClassDefinition other = Meva.getClassDefinition(att.typeName, false);
 				boolean reverse = false;
 				for (AttributeDefiniton otherAtt : other.attributes) {
-					if (otherAtt.isRelation()
-							&& otherAtt.reltype.equals(def.className)
-							&& otherAtt.relname.equals(att.attributeName)) {
+					if (otherAtt.isRelation() && otherAtt.reltype.equals(def.className) && otherAtt.relname.equals(att.attributeName)) {
 						reverse = true;
 						continue;
 					}
 				}
 				if (!reverse)
-					pw.println(def.className + " -> " + att.typeName
-							+ " [headlabel=\"0..1\", arrowhead=\"open\"]");
+					pw.println(def.className + " -> " + att.typeName + " [headlabel=\"0..1\", arrowhead=\"open\"]");
 			}
 			if (att.isValue()) {
-				pw.println(def.className
-						+ " -> "
-						+ att.typeName
-						+ " [arrowhead=\"open\", style=dashed,color=gray63]");
+				pw.println(def.className + " -> " + att.typeName + " [arrowhead=\"open\", style=dashed,color=gray63]");
 			}
 		}
 
 	}
-	
-	public static String getType(ClassDefinition def)
-	{
-		if(def.isEntityQuery())
+
+	public static String getType(ClassDefinition def) {
+		if (def.isEntityQuery())
 			return "EntityQuery/Value";
-		if(def.isValueQuery())
+		if (def.isValueQuery())
 			return "ValueQuery/Value";
-		if(def.entity)
+		if (def.entity)
 			return "Entity";
 		else
 			return "Value";

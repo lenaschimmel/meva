@@ -29,16 +29,13 @@ public class EntityFactory {
 			entityMaps = new TreeMap<String, Map<Long, Entity>>();
 		if (!entityMaps.containsKey(typeName)) {
 			entityMaps.put(typeName, new TreeMap<Long, Entity>());
-			System.out.println("Registered domain type in EntityFactory: "
-					+ typeName);
+			System.out.println("Registered domain type in EntityFactory: " + typeName);
 		}
 	}
-	
-	public static <EntityClass extends Entity> Collection<EntityClass> getUnloadedEntitiesById(EntityTypeName type,
-			Collection<Long> ids) {
+
+	public static <EntityClass extends Entity> Collection<EntityClass> getUnloadedEntitiesById(EntityTypeName type, Collection<Long> ids) {
 		if (factoryImplementation == null)
-			throw new RuntimeException(
-					"You must first call setImplementations.");
+			throw new RuntimeException("You must first call setImplementations.");
 
 		// TODO: This is kind of a hack, but maybe thats ok:
 		registerType(type.toString());
@@ -60,7 +57,7 @@ public class EntityFactory {
 
 		return ret;
 	}
-	
+
 	public static Entity getUnloadedEntityById(EntityTypeName type, long id) {
 		// TODO Always delegating to the collection-variant avoids code
 		// duplication, but is not the best decision for performance.

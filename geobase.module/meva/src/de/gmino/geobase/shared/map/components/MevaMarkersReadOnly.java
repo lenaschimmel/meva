@@ -45,7 +45,7 @@ public class MevaMarkersReadOnly implements MapListener {
 
 	@Override
 	public void onEvent(LatLon location, Event event) {
-		if(event.isChangingView())
+		if (event.isChangingView())
 			loadMarkers();
 	}
 }

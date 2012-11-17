@@ -9,13 +9,10 @@ import de.gmino.meva.shared.EntityFactoryInterface;
 
 public class EntityFactoryImpl implements EntityFactoryInterface {
 
-	
 	@Override
-	public Collection<Entity> createEntityObjects(String typeName,
-			Collection<Long> ids) {
+	public Collection<Entity> createEntityObjects(String typeName, Collection<Long> ids) {
 		Collection<Entity> ret = new ArrayList<Entity>(ids.size());
-		for(long id:ids)
-		{
+		for (long id : ids) {
 			ret.add(createEntityObject(typeName, id));
 		}
 		return ret;
@@ -25,7 +22,7 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 
 	@Override
 	public Entity createEntityObject(String typeName, long id) {
-		if(typeName.equals("GeoObject"))
+		if (typeName.equals("GeoObject"))
 			return new GeoObject(id);
 		throw new RuntimeException("Unsupported Entity type: " + typeName);
 	}

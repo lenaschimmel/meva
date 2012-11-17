@@ -35,31 +35,27 @@ import de.gmino.meva.shared.EntityBinary;
 import de.gmino.meva.shared.ValueBinary;
 import de.gmino.meva.shared.EntitySql;
 
-
 import de.gmino.checkin.server.request.gen.QueryPerformCheckinGen;
+
 public class QueryPerformCheckin extends QueryPerformCheckinGen {
 	// Constructors
 	// Constructor for SQL deseralizaiton
-	public QueryPerformCheckin(String prefix, ResultSet rs) throws SQLException
-	{
+	public QueryPerformCheckin(String prefix, ResultSet rs) throws SQLException {
 		super(prefix, rs);
 	}
-	public QueryPerformCheckin(DataInputStream dis) throws IOException
-	{
+
+	public QueryPerformCheckin(DataInputStream dis) throws IOException {
 		super(dis);
 	}
-	public QueryPerformCheckin(JsonObject json) throws IOException
-	{
+
+	public QueryPerformCheckin(JsonObject json) throws IOException {
 		super(json);
 	}
-	public QueryPerformCheckin(
-			String scanCode)
-	{
-		super(
-			scanCode
-		);
+
+	public QueryPerformCheckin(String scanCode) {
+		super(scanCode);
 	}
-	
+
 	@Override
 	public Collection<Value> evaluate() {
 		Collection<Value> ret = new LinkedList<Value>();

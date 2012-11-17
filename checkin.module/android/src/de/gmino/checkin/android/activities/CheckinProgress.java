@@ -90,7 +90,7 @@ public class CheckinProgress extends ActivityWithFacebook {
 								@Override
 								public void run() {
 									((Button) findViewById(R.id.btState3)).setActivated(true);
-									
+
 								}
 							});
 							ValueQuery checkinQuery = new QueryPerformCheckin(scanCode);

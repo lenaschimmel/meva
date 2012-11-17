@@ -10,25 +10,19 @@ import java.io.IOException;
 import org.itemscript.core.values.JsonObject;
 
 import de.gmino.geobase.android.domain.gen.LatLonGen;
+
 public class LatLon extends LatLonGen {
 	// Constructors
-	public LatLon(DataInputStream dis) throws IOException
-	{
+	public LatLon(DataInputStream dis) throws IOException {
 		super(dis);
 	}
-	public LatLon(JsonObject json) throws IOException
-	{
+
+	public LatLon(JsonObject json) throws IOException {
 		super(json);
 	}
-	public LatLon(
-			double latitude,
-			double longitude)
-	{
-		super(
-			latitude,
-			longitude
-		);
+
+	public LatLon(double latitude, double longitude) {
+		super(latitude, longitude);
 	}
-	
 
 }

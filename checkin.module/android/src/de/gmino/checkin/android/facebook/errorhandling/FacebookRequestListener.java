@@ -7,9 +7,7 @@ import java.net.MalformedURLException;
 import com.facebook.android.FacebookError;
 import com.facebook.android.AsyncFacebookRunner.RequestListener;
 
-public abstract class FacebookRequestListener extends FacebookErrorListener implements
-		RequestListener {
-
+public abstract class FacebookRequestListener extends FacebookErrorListener implements RequestListener {
 
 	@Override
 	public void onIOException(IOException e, Object state) {

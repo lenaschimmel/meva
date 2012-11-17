@@ -14,11 +14,10 @@ import de.gmino.geobase.shared.map.MapListener;
 import de.gmino.geobase.shared.map.MapProvider;
 import de.gmino.geobase.shared.map.MarkerLayer;
 
-
-public class MapsforgeMapView implements de.gmino.geobase.shared.map.MapView  {
+public class MapsforgeMapView implements de.gmino.geobase.shared.map.MapView {
 
 	MapView inner;
-	
+
 	public MapsforgeMapView(Context context) {
 		inner = new MapView(context);
 		initView();
@@ -28,18 +27,17 @@ public class MapsforgeMapView implements de.gmino.geobase.shared.map.MapView  {
 		inner.setBuiltInZoomControls(true);
 		inner.setClickable(true);
 		inner.setFocusable(true);
-	}	
-	
+	}
+
 	public MapsforgeMapView(MapView view) {
 		inner = view;
 		initView();
 	}
-	
-	public View getAndroidView()
-	{
+
+	public View getAndroidView() {
 		return inner;
 	}
-	
+
 	@Override
 	public LatLon getCenter() {
 		GeoPoint center = inner.getMapViewPosition().getCenter();
@@ -68,7 +66,7 @@ public class MapsforgeMapView implements de.gmino.geobase.shared.map.MapView  {
 
 	@Override
 	public void setZoom(double zoom) {
-		inner.getMapViewPosition().setZoomLevel((byte)zoom);
+		inner.getMapViewPosition().setZoomLevel((byte) zoom);
 	}
 
 	@Override
@@ -93,7 +91,7 @@ public class MapsforgeMapView implements de.gmino.geobase.shared.map.MapView  {
 
 	@Override
 	public void addLayer(MapLayer layer) {
-		
+
 	}
 
 	@Override

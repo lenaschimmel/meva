@@ -51,9 +51,7 @@ public class CheckinGwt implements EntryPoint {
 	 * The message displayed to the user when the server cannot be reached or
 	 * returns an error.
 	 */
-	private static final String SERVER_ERROR = "An error occurred while "
-			+ "attempting to contact the server. Please check your network "
-			+ "connection and try again.";
+	private static final String SERVER_ERROR = "An error occurred while " + "attempting to contact the server. Please check your network " + "connection and try again.";
 	private Label errorLabel;
 	private MapView map;
 	private MarkerLayer markerLayer;
@@ -66,8 +64,7 @@ public class CheckinGwt implements EntryPoint {
 	public void onModuleLoad() {
 		EntityFactory.setImplementations(new EntityFactoryImpl());
 		Util.setImpl(new UtilClient());
-		Requests.setImplementation(new NetworkRequestsImplAsyncJson(Util
-				.getBaseUrl()));
+		Requests.setImplementation(new NetworkRequestsImplAsyncJson(Util.getBaseUrl()));
 
 		final Button sendButton = new Button("Send");
 		final Button testButton = new Button("Test data");
@@ -145,23 +142,24 @@ public class CheckinGwt implements EntryPoint {
 		sendButton.addClickHandler(handler);
 		testButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
-		
+
 		// Create the map
 		map = new OpenLayersMapView("map");
 		map.setCenterAndZoom(new LatLon(52.27617, 10.53216), 15, false);
 		markerLayer = map.newMarkerLayer("Coupony-Partner");
 		map.addLayer(markerLayer);
 
-		this.markerClickListener = new MarkerListener(){@Override
-		public void onEvent(Marker marker, Event event) {
-			if(event == Event.click)
-			{
-				Window.alert("Click made it through: " + marker.getTitle());
+		this.markerClickListener = new MarkerListener() {
+			@Override
+			public void onEvent(Marker marker, Event event) {
+				if (event == Event.click) {
+					Window.alert("Click made it through: " + marker.getTitle());
+				}
 			}
-		}};
-		
+		};
+
 		this.mapDoubleClickListener = new MapListener() {
-			
+
 			@Override
 			public void onEvent(de.gmino.geobase.shared.domain.LatLon location, Event event) {
 				Window.alert("Double Click at " + location);
@@ -171,7 +169,7 @@ public class CheckinGwt implements EntryPoint {
 	}
 
 	void doTestData() {
-		
+
 		/*
 		 * int lday = 5; int lmonth = 1; int lyear = 2006;
 		 * Window.alert(Util.format
@@ -182,25 +180,26 @@ public class CheckinGwt implements EntryPoint {
 			public void onNewResult(final Shop shop) {
 				shop.fillWithRandomData();
 
-				Requests.getNewEntities(Coupon.type, 2,
-						new RequestListener<Coupon>() {
-							@Override
-							public void onNewResult(Coupon coupon) {
-								coupon.fillWithRandomData();
-								// coupon.setShop(shop);
-								shop.getCoupons().add(coupon);
-								shop.setCurrentCoupon(coupon); // we do this for each coupon, the last one "wins"
-//								Window.alert(coupon.toString());
-								Requests.saveEntity(coupon, null);
-							}
+				Requests.getNewEntities(Coupon.type, 2, new RequestListener<Coupon>() {
+					@Override
+					public void onNewResult(Coupon coupon) {
+						coupon.fillWithRandomData();
+						// coupon.setShop(shop);
+						shop.getCoupons().add(coupon);
+						shop.setCurrentCoupon(coupon); // we do this for each
+														// coupon, the last one
+														// "wins"
+						// Window.alert(coupon.toString());
+						Requests.saveEntity(coupon, null);
+					}
 
-							@Override
-							public void onFinished(Collection<Coupon> results) {
-								Window.alert(shop.toString());
-								Requests.saveEntity(shop, null);
-							}
+					@Override
+					public void onFinished(Collection<Coupon> results) {
+						Window.alert(shop.toString());
+						Requests.saveEntity(shop, null);
+					}
 
-						});
+				});
 			}
 
 		});
@@ -211,80 +210,68 @@ public class CheckinGwt implements EntryPoint {
 	 */
 	void doExampleRequests() {
 
-
 		// Then, we send the input to the server.
 		// Request all shops near you
 		final LatLon myLocation = new LatLon(52.2723, 10.53547);
 		EntityQuery q = new QueryNearbyShops(myLocation, 5000, 20);
-		Requests.getLoadedEntitiesByQuery(Shop.type, q,
-				new RequestListener<Shop>() {
+		Requests.getLoadedEntitiesByQuery(Shop.type, q, new RequestListener<Shop>() {
+			@Override
+			public void onFinished(final Collection<Shop> shops) {
+
+				// prepare a set of all the Coupons that we should
+				// pre-load, because the shops may contain unloaded
+				// coupons.
+
+				Set<Coupon> couponsToLoad = new HashSet<Coupon>();
+
+				int i = 0;
+				for (Shop shop : shops) {
+					OpenLayersMarker shopMarker = new OpenLayersMarker(shop.getLocation(), shop.getTitle(), shop.getDescription(), shop.getLogo(), (OpenLayersMapView) map);
+					markerLayer.addMarker(shopMarker);
+					shopMarker.addEventListener(Event.click, markerClickListener);
+
+					String message = shop.getTitle() + "(" + shop.getLocation().getDistanceTo(myLocation) + " entfernt)";
+					// Window.alert(message);
+					couponsToLoad.addAll(shop.getCoupons());
+				}
+
+				Requests.loadEntities(couponsToLoad, new RequestListener<Coupon>() {
 					@Override
-					public void onFinished(final Collection<Shop> shops) {
-						
-						// prepare a set of all the Coupons that we should
-						// pre-load, because the shops may contain unloaded
-						// coupons.
-						
-						Set<Coupon> couponsToLoad = new HashSet<Coupon>();
-
-						int i = 0;
-						for (Shop shop : shops) {
-							OpenLayersMarker shopMarker = new OpenLayersMarker(shop.getLocation(), shop.getTitle(), shop.getDescription(), shop.getLogo(), (OpenLayersMapView) map);
-							markerLayer.addMarker(shopMarker);
-							shopMarker.addEventListener(Event.click, markerClickListener);
-
-							
-							String message = shop.getTitle()
-									+ "("
-									+ shop.getLocation().getDistanceTo(
-											myLocation) + " entfernt)";
-							//Window.alert(message);
-							couponsToLoad.addAll(shop.getCoupons());
+					public void onFinished(Collection<Coupon> coupons) {
+						StringBuilder sb = new StringBuilder("Coupons: ");
+						boolean first = true;
+						for (Coupon c : coupons) {
+							if (!first)
+								sb.append(", ");
+							sb.append(c.getTitle());
+							first = false;
 						}
-
-						Requests.loadEntities(couponsToLoad,
-								new RequestListener<Coupon>() {
-									@Override
-									public void onFinished(
-											Collection<Coupon> coupons) {
-										StringBuilder sb = new StringBuilder(
-												"Coupons: ");
-										boolean first = true;
-										for (Coupon c : coupons) {
-											if (!first)
-												sb.append(", ");
-											sb.append(c.getTitle());
-											first = false;
-										}
-									//	Window.alert(sb.toString());
-									}
-								});
-
-						Requests.getNewEntities(Coupon.type, 1,
-								new RequestListener<Coupon>() {
-									@Override
-									public void onFinished(
-											Collection<Coupon> results) {
-										Coupon c = results.iterator().next();
-										c.setTitle("Einmal freuen gratis!");
-										c.setDescription("Dieser Coupon wurde per GWT erstellt. Das sollte doch aussreichen, um sich zu freuen!");
-										c.setShop(shops.iterator().next());
-										c.setDuration(new Duration(3600000));
-										c.setImage(new ImageUrl(
-												"http://img.fotocommunity.com/Emotionen/Freude/Joy-Freude-a18796755.jpg"));
-
-										Collection<Entity> entities = new LinkedList<Entity>();
-										entities.add(c);
-										Requests.saveEntities(entities, null);
-									}
-								});
-					}
-
-					@Override
-					public void onError(String message, Throwable e) {
-						Window.alert(message);
+						// Window.alert(sb.toString());
 					}
 				});
+
+				Requests.getNewEntities(Coupon.type, 1, new RequestListener<Coupon>() {
+					@Override
+					public void onFinished(Collection<Coupon> results) {
+						Coupon c = results.iterator().next();
+						c.setTitle("Einmal freuen gratis!");
+						c.setDescription("Dieser Coupon wurde per GWT erstellt. Das sollte doch aussreichen, um sich zu freuen!");
+						c.setShop(shops.iterator().next());
+						c.setDuration(new Duration(3600000));
+						c.setImage(new ImageUrl("http://img.fotocommunity.com/Emotionen/Freude/Joy-Freude-a18796755.jpg"));
+
+						Collection<Entity> entities = new LinkedList<Entity>();
+						entities.add(c);
+						Requests.saveEntities(entities, null);
+					}
+				});
+			}
+
+			@Override
+			public void onError(String message, Throwable e) {
+				Window.alert(message);
+			}
+		});
 	}
 
 	/**

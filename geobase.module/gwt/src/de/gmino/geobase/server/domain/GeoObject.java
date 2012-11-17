@@ -37,33 +37,17 @@ import de.gmino.meva.shared.EntitySql;
 import de.gmino.geobase.server.domain.ImageUrl;
 import de.gmino.geobase.server.domain.LatLon;
 
-
 import de.gmino.geobase.server.domain.gen.GeoObjectGen;
+
 public class GeoObject extends GeoObjectGen {
 	// Constructors
-	public GeoObject(long id)
-	{
+	public GeoObject(long id) {
 		super(id);
 	}
-	
-	public GeoObject(
-			long id,
-			boolean ready,
-			LatLon location,
-			String title,
-			String description,
-			ImageUrl markerImage)
-	{
-		super(
-			id,
-			ready,
-			(de.gmino.geobase.server.domain.LatLon)location,
-			title,
-			description,
-			(de.gmino.geobase.server.domain.ImageUrl)markerImage
-		);
+
+	public GeoObject(long id, boolean ready, LatLon location, String title, String description, ImageUrl markerImage) {
+		super(id, ready, (de.gmino.geobase.server.domain.LatLon) location, title, description, (de.gmino.geobase.server.domain.ImageUrl) markerImage);
 		this.ready = true;
 	}
-	
 
 }

@@ -12,28 +12,24 @@ import java.sql.SQLException;
 import org.itemscript.core.values.JsonObject;
 
 import de.gmino.geobase.server.domain.gen.TimestampGen;
+
 public class Timestamp extends TimestampGen {
 	// Constructors
 	// Constructor for SQL deseralizaiton
-	public Timestamp(String prefix, ResultSet rs) throws SQLException
-	{
+	public Timestamp(String prefix, ResultSet rs) throws SQLException {
 		super(prefix, rs);
 	}
-	public Timestamp(DataInputStream dis) throws IOException
-	{
+
+	public Timestamp(DataInputStream dis) throws IOException {
 		super(dis);
 	}
-	public Timestamp(JsonObject json) throws IOException
-	{
+
+	public Timestamp(JsonObject json) throws IOException {
 		super(json);
 	}
-	public Timestamp(
-			long millisSinceEpoch)
-	{
-		super(
-			millisSinceEpoch
-		);
+
+	public Timestamp(long millisSinceEpoch) {
+		super(millisSinceEpoch);
 	}
-	
 
 }

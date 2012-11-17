@@ -10,23 +10,19 @@ import java.io.IOException;
 import org.itemscript.core.values.JsonObject;
 
 import de.gmino.geobase.android.domain.gen.TimestampGen;
+
 public class Timestamp extends TimestampGen {
 	// Constructors
-	public Timestamp(DataInputStream dis) throws IOException
-	{
+	public Timestamp(DataInputStream dis) throws IOException {
 		super(dis);
 	}
-	public Timestamp(JsonObject json) throws IOException
-	{
+
+	public Timestamp(JsonObject json) throws IOException {
 		super(json);
 	}
-	public Timestamp(
-			long millisSinceEpoch)
-	{
-		super(
-			millisSinceEpoch
-		);
+
+	public Timestamp(long millisSinceEpoch) {
+		super(millisSinceEpoch);
 	}
-	
 
 }

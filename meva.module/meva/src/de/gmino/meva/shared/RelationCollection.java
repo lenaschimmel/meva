@@ -4,14 +4,11 @@ import java.util.AbstractCollection;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-public class RelationCollection<Item extends Entity> extends
-		AbstractCollection {
+public class RelationCollection<Item extends Entity> extends AbstractCollection {
 
 	Entity container;
 	String relname;
 	TreeSet<Item> items;
-	
-	
 
 	public RelationCollection(Entity container, String relname) {
 		super();

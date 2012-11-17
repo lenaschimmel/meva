@@ -12,30 +12,24 @@ import java.sql.SQLException;
 import org.itemscript.core.values.JsonObject;
 
 import de.gmino.geobase.server.domain.gen.LatLonGen;
+
 public class LatLon extends LatLonGen {
 	// Constructors
 	// Constructor for SQL deseralizaiton
-	public LatLon(String prefix, ResultSet rs) throws SQLException
-	{
+	public LatLon(String prefix, ResultSet rs) throws SQLException {
 		super(prefix, rs);
 	}
-	public LatLon(DataInputStream dis) throws IOException
-	{
+
+	public LatLon(DataInputStream dis) throws IOException {
 		super(dis);
 	}
-	public LatLon(JsonObject json) throws IOException
-	{
+
+	public LatLon(JsonObject json) throws IOException {
 		super(json);
 	}
-	public LatLon(
-			double latitude,
-			double longitude)
-	{
-		super(
-			latitude,
-			longitude
-		);
+
+	public LatLon(double latitude, double longitude) {
+		super(latitude, longitude);
 	}
-	
 
 }

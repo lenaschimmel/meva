@@ -10,23 +10,19 @@ import java.io.IOException;
 import org.itemscript.core.values.JsonObject;
 
 import de.gmino.geobase.android.domain.gen.DurationGen;
+
 public class Duration extends DurationGen {
 	// Constructors
-	public Duration(DataInputStream dis) throws IOException
-	{
+	public Duration(DataInputStream dis) throws IOException {
 		super(dis);
 	}
-	public Duration(JsonObject json) throws IOException
-	{
+
+	public Duration(JsonObject json) throws IOException {
 		super(json);
 	}
-	public Duration(
-			long milliseconds)
-	{
-		super(
-			milliseconds
-		);
+
+	public Duration(long milliseconds) {
+		super(milliseconds);
 	}
-	
 
 }

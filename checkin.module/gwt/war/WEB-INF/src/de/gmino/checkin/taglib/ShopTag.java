@@ -17,7 +17,7 @@ import de.gmino.meva.shared.request.Requests;
 public class ShopTag extends SimpleTagSupport {
 	private String varname;
 	private String scanCode;
-	
+
 	@Override
 	public void doTag() throws JspException, IOException {
 		// FIXME Don't create multiple instances!
@@ -29,7 +29,7 @@ public class ShopTag extends SimpleTagSupport {
 		LocalRequetsImpl.loadEntities(shop.getCoupons());
 		getJspContext().setAttribute(varname, shop);
 	}
-	
+
 	public void setVarname(String varname) {
 		this.varname = varname;
 	}

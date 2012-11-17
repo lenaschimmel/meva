@@ -21,21 +21,16 @@ import java.io.StringWriter;
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
-
 import de.gmino.checkin.shared.request.gen.QueryShopByCodeGen;
+
 public abstract class QueryShopByCode extends QueryShopByCodeGen {
 	// Constructors
-	public QueryShopByCode(JsonObject json) throws IOException
-	{
+	public QueryShopByCode(JsonObject json) throws IOException {
 		super(json);
 	}
-	public QueryShopByCode(
-			String scanCode)
-	{
-		super(
-			scanCode
-		);
+
+	public QueryShopByCode(String scanCode) {
+		super(scanCode);
 	}
-	
 
 }

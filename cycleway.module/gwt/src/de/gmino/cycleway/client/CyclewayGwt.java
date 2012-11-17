@@ -30,8 +30,7 @@ public class CyclewayGwt implements EntryPoint {
 	public void onModuleLoad() {
 		EntityFactory.setImplementations(new EntityFactoryImpl());
 		Util.setImpl(new UtilClient());
-		Requests.setImplementation(new NetworkRequestsImplAsyncJson(Util
-				.getBaseUrl()));
+		Requests.setImplementation(new NetworkRequestsImplAsyncJson(Util.getBaseUrl()));
 
 		// Create the map
 		map = new OpenLayersMapView("map");
@@ -39,23 +38,24 @@ public class CyclewayGwt implements EntryPoint {
 		markerLayer = map.newMarkerLayer("Coupony-Partner");
 		map.addLayer(markerLayer);
 
-		this.markerClickListener = new MarkerListener(){@Override
-		public void onEvent(Marker marker, Event event) {
-			if(event == Event.click)
-			{
-				Window.alert("Click made it through: " + marker.getTitle());
+		this.markerClickListener = new MarkerListener() {
+			@Override
+			public void onEvent(Marker marker, Event event) {
+				if (event == Event.click) {
+					Window.alert("Click made it through: " + marker.getTitle());
+				}
 			}
-		}};
-		
+		};
+
 		this.mapDoubleClickListener = new MapListener() {
-			
+
 			@Override
 			public void onEvent(de.gmino.geobase.shared.domain.LatLon location, Event event) {
 				Window.alert("Double Click at " + location);
 			}
 		};
 		map.addEventListener(Event.dblclick, mapDoubleClickListener);
-		
+
 		new MevaMarkersReadOnly(map);
 	}
 

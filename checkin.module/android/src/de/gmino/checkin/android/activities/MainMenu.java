@@ -41,8 +41,6 @@ public class MainMenu extends ActivityWithFacebook {
 		btSettings.setOnClickListener(btSettingsListener);
 	}
 
-	
-
 	private OnClickListener btDiscoverListener = new OnClickListener() {
 		public void onClick(View v) {
 			Intent intent = new Intent(MainMenu.this, ShopList.class);
@@ -73,20 +71,20 @@ public class MainMenu extends ActivityWithFacebook {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.activity_main, menu);
-	    return true;
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.activity_main, menu);
+		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		 // Handle item selection
-	    switch (item.getItemId()) {
-	        case R.id.miLogout:
-	        	FacebookUtil.logout();
-	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.miLogout:
+			FacebookUtil.logout();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 }

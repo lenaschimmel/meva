@@ -21,21 +21,16 @@ import java.io.StringWriter;
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
-
 import de.gmino.checkin.client.request.gen.QueryConsumerByFidGen;
+
 public class QueryConsumerByFid extends QueryConsumerByFidGen {
 	// Constructors
-	public QueryConsumerByFid(JsonObject json) throws IOException
-	{
+	public QueryConsumerByFid(JsonObject json) throws IOException {
 		super(json);
 	}
-	public QueryConsumerByFid(
-			String fid)
-	{
-		super(
-			fid
-		);
+
+	public QueryConsumerByFid(String fid) {
+		super(fid);
 	}
-	
 
 }

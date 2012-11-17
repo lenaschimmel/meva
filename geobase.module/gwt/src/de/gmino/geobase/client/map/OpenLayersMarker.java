@@ -13,7 +13,7 @@ import de.gmino.geobase.shared.map.Event;
 import de.gmino.geobase.shared.map.Marker;
 import de.gmino.geobase.shared.map.MarkerListener;
 
-public class OpenLayersMarker implements Marker {	
+public class OpenLayersMarker implements Marker {
 	JavaScriptObject jso;
 
 	String title;
@@ -22,7 +22,7 @@ public class OpenLayersMarker implements Marker {
 	ImageUrl icon;
 	int internalId;
 	static int nextId = 0;
-	Map<Event,Collection<MarkerListener>> eventListeners;
+	Map<Event, Collection<MarkerListener>> eventListeners;
 
 	public OpenLayersMarker(LatLon location, String title, String description, ImageUrl icon, OpenLayersMapView map) {
 		super();
@@ -36,39 +36,36 @@ public class OpenLayersMarker implements Marker {
 	}
 
 	private native JavaScriptObject nCreateMarker(double lat, double lon, String iconUrl, int w, int h, JavaScriptObject mapJso) /*-{
-		var size = new $wnd.OpenLayers.Size(w, h);
-		var offset = new $wnd.OpenLayers.Pixel(-(size.w / 2), -size.h);
-		var icon = new $wnd.OpenLayers.Icon(iconUrl, size, offset);
-		var marker = new $wnd.OpenLayers.Marker(mapJso.doTransform(new $wnd.OpenLayers.LonLat(lon, lat)), icon);
-		return marker;
-	}-*/;
-	
-	public void addEventListener(Event event, MarkerListener listener)
-	{
+																																	var size = new $wnd.OpenLayers.Size(w, h);
+																																	var offset = new $wnd.OpenLayers.Pixel(-(size.w / 2), -size.h);
+																																	var icon = new $wnd.OpenLayers.Icon(iconUrl, size, offset);
+																																	var marker = new $wnd.OpenLayers.Marker(mapJso.doTransform(new $wnd.OpenLayers.LonLat(lon, lat)), icon);
+																																	return marker;
+																																	}-*/;
+
+	public void addEventListener(Event event, MarkerListener listener) {
 		Collection<MarkerListener> listeners = eventListeners.get(event);
-		if(listeners == null)
-		{
+		if (listeners == null) {
 			listeners = new LinkedList<MarkerListener>();
 			eventListeners.put(event, listeners);
 			nRegisterEvent(event.toString(), event);
 		}
 		listeners.add(listener);
 	}
-	
+
 	private native void nRegisterEvent(String name, Event eventEnum) /*-{
-		var marker = this.@de.gmino.geobase.client.map.OpenLayersMarker::jso;	
-		var that = this;
-		marker.events.register(name, marker, function(evt) {
-			that.@de.gmino.geobase.client.map.OpenLayersMarker::handleEvent(Lde/gmino/geobase/shared/map/Event;)(eventEnum);
-			OpenLayers.Event.stop(evt);
-		});
-	}-*/;
+																		var marker = this.@de.gmino.geobase.client.map.OpenLayersMarker::jso;	
+																		var that = this;
+																		marker.events.register(name, marker, function(evt) {
+																		that.@de.gmino.geobase.client.map.OpenLayersMarker::handleEvent(Lde/gmino/geobase/shared/map/Event;)(eventEnum);
+																		OpenLayers.Event.stop(evt);
+																		});
+																		}-*/;
 
 	public void handleEvent(Event e) {
 		Collection<MarkerListener> listeners = eventListeners.get(e);
-		if(listeners != null)
-		{
-			for(MarkerListener listener : listeners)
+		if (listeners != null) {
+			for (MarkerListener listener : listeners)
 				listener.onEvent(this, e);
 		}
 	}

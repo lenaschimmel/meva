@@ -12,28 +12,24 @@ import java.sql.SQLException;
 import org.itemscript.core.values.JsonObject;
 
 import de.gmino.geobase.server.domain.gen.DistanceGen;
+
 public class Distance extends DistanceGen {
 	// Constructors
 	// Constructor for SQL deseralizaiton
-	public Distance(String prefix, ResultSet rs) throws SQLException
-	{
+	public Distance(String prefix, ResultSet rs) throws SQLException {
 		super(prefix, rs);
 	}
-	public Distance(DataInputStream dis) throws IOException
-	{
+
+	public Distance(DataInputStream dis) throws IOException {
 		super(dis);
 	}
-	public Distance(JsonObject json) throws IOException
-	{
+
+	public Distance(JsonObject json) throws IOException {
 		super(json);
 	}
-	public Distance(
-			double meters)
-	{
-		super(
-			meters
-		);
+
+	public Distance(double meters) {
+		super(meters);
 	}
-	
 
 }

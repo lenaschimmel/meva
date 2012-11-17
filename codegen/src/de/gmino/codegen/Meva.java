@@ -95,16 +95,15 @@ public class Meva {
 
 			// Workaround for broken GWT dependency management, see
 			// http://code.google.com/p/google-web-toolkit/issues/detail?id=3928
-			//cpyDir = new File(projectRootDir.getCanonicalPath() + (platform.equals("gwt") ? "/src" : "/cpy"));
+			// cpyDir = new File(projectRootDir.getCanonicalPath() +
+			// (platform.equals("gwt") ? "/src" : "/cpy"));
 			/*
-			cpyDir = new File(projectRootDir.getCanonicalPath()+ "/cpy");
-
-			if (!platform.equals("gwt")) {
-				emptyDir(genDir);
-				emptyDir(cpyDir);
-			}
+			 * cpyDir = new File(projectRootDir.getCanonicalPath()+ "/cpy");
+			 * 
+			 * if (!platform.equals("gwt")) { emptyDir(genDir);
+			 * emptyDir(cpyDir); }
 			 */
-			
+
 			TreeMap<String, ClassDefinition> definitionsToBuild = new TreeMap<String, ClassDefinition>();
 
 			if (!platform.equals("meva"))
@@ -215,14 +214,11 @@ public class Meva {
 			depProject.buildProject();
 			definitions.putAll(depProject.definitions);
 			/*
-			try {
-				copyFiles(depProject.srcDir, cpyDir);
-				copyFiles(depProject.genDir, cpyDir);
-				copyFiles(depProject.cpyDir, cpyDir);
-			} catch (IOException e) {
-				throw new RuntimeException("Error copying files.", e);
-			}
-			*/
+			 * try { copyFiles(depProject.srcDir, cpyDir);
+			 * copyFiles(depProject.genDir, cpyDir);
+			 * copyFiles(depProject.cpyDir, cpyDir); } catch (IOException e) {
+			 * throw new RuntimeException("Error copying files.", e); }
+			 */
 		}
 	}
 

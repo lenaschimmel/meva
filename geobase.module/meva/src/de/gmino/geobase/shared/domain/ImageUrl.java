@@ -9,22 +9,18 @@ import java.io.IOException;
 import org.itemscript.core.values.JsonObject;
 
 import de.gmino.geobase.shared.domain.gen.ImageUrlGen;
+
 public class ImageUrl extends ImageUrlGen {
 	// Constructors
-	public ImageUrl(JsonObject json) throws IOException
-	{
+	public ImageUrl(JsonObject json) throws IOException {
 		super(json);
 	}
-	public ImageUrl(
-			String url)
-	{
-		super(
-			url
-		);
+
+	public ImageUrl(String url) {
+		super(url);
 	}
-	
-	public void fillWithRandomData()
-	{
-		url = "http://gmino.de/static/img/logotest/" + (int)(Math.random() * 467 + 474) + ".jpg";
+
+	public void fillWithRandomData() {
+		url = "http://gmino.de/static/img/logotest/" + (int) (Math.random() * 467 + 474) + ".jpg";
 	}
 }

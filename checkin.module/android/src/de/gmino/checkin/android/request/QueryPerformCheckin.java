@@ -10,23 +10,19 @@ import java.io.IOException;
 import org.itemscript.core.values.JsonObject;
 
 import de.gmino.checkin.android.request.gen.QueryPerformCheckinGen;
+
 public class QueryPerformCheckin extends QueryPerformCheckinGen {
 	// Constructors
-	public QueryPerformCheckin(DataInputStream dis) throws IOException
-	{
+	public QueryPerformCheckin(DataInputStream dis) throws IOException {
 		super(dis);
 	}
-	public QueryPerformCheckin(JsonObject json) throws IOException
-	{
+
+	public QueryPerformCheckin(JsonObject json) throws IOException {
 		super(json);
 	}
-	public QueryPerformCheckin(
-			String scanCode)
-	{
-		super(
-			scanCode
-		);
+
+	public QueryPerformCheckin(String scanCode) {
+		super(scanCode);
 	}
-	
 
 }

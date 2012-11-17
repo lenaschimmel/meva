@@ -7,32 +7,15 @@ package de.gmino.checkin.android.domain;
 import de.gmino.checkin.android.domain.gen.CouponGen;
 import de.gmino.geobase.android.domain.Duration;
 import de.gmino.geobase.android.domain.ImageUrl;
+
 public class Coupon extends CouponGen {
 	// Constructors
-	public Coupon(long id)
-	{
+	public Coupon(long id) {
 		super(id);
 	}
-	
-	public Coupon(
-			long id,
-			boolean ready,
-			Shop shop,
-			String title,
-			String description,
-			ImageUrl image,
-			Duration duration)
-	{
-		super(
-			id,
-			ready,
-			(de.gmino.checkin.android.domain.Shop)shop,
-			title,
-			description,
-			(de.gmino.geobase.android.domain.ImageUrl)image,
-			(de.gmino.geobase.android.domain.Duration)duration
-		);
+
+	public Coupon(long id, boolean ready, Shop shop, String title, String description, ImageUrl image, Duration duration) {
+		super(id, ready, (de.gmino.checkin.android.domain.Shop) shop, title, description, (de.gmino.geobase.android.domain.ImageUrl) image, (de.gmino.geobase.android.domain.Duration) duration);
 	}
-	
 
 }

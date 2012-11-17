@@ -5,26 +5,15 @@ package de.gmino.checkin.shared.domain;
 
 // gmino stuff
 import de.gmino.checkin.shared.domain.gen.ShopAdminGen;
+
 public class ShopAdmin extends ShopAdminGen {
 	// Constructors
-	public ShopAdmin(long id)
-	{
+	public ShopAdmin(long id) {
 		super(id);
 	}
-	
-	public ShopAdmin(
-			long id,
-			boolean ready,
-			String username,
-			String password)
-	{
-		super(
-			id,
-			ready,
-			username,
-			password
-		);
+
+	public ShopAdmin(long id, boolean ready, String username, String password) {
+		super(id, ready, username, password);
 	}
-	
 
 }

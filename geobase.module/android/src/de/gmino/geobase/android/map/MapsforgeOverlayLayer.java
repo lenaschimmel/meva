@@ -9,7 +9,7 @@ public class MapsforgeOverlayLayer implements MarkerLayer {
 
 	String name;
 	private MapsforgeMapView mapView;
-	
+
 	public MapsforgeOverlayLayer(MapsforgeMapView mapsforgeMapView, String name) {
 		this.mapView = mapsforgeMapView;
 		this.name = name;

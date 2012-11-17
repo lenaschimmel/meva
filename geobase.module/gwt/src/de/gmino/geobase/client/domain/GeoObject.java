@@ -26,33 +26,17 @@ import org.itemscript.core.values.JsonValue;
 import de.gmino.geobase.client.domain.ImageUrl;
 import de.gmino.geobase.client.domain.LatLon;
 
-
 import de.gmino.geobase.client.domain.gen.GeoObjectGen;
+
 public class GeoObject extends GeoObjectGen {
 	// Constructors
-	public GeoObject(long id)
-	{
+	public GeoObject(long id) {
 		super(id);
 	}
-	
-	public GeoObject(
-			long id,
-			boolean ready,
-			LatLon location,
-			String title,
-			String description,
-			ImageUrl markerImage)
-	{
-		super(
-			id,
-			ready,
-			(de.gmino.geobase.client.domain.LatLon)location,
-			title,
-			description,
-			(de.gmino.geobase.client.domain.ImageUrl)markerImage
-		);
+
+	public GeoObject(long id, boolean ready, LatLon location, String title, String description, ImageUrl markerImage) {
+		super(id, ready, (de.gmino.geobase.client.domain.LatLon) location, title, description, (de.gmino.geobase.client.domain.ImageUrl) markerImage);
 		this.ready = true;
 	}
-	
 
 }

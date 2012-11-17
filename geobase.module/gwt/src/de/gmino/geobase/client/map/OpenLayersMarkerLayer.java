@@ -16,17 +16,17 @@ public class OpenLayersMarkerLayer implements MarkerLayer, OpenLayersLayer {
 	private JavaScriptObject jso;
 	private Set<Marker> markers;
 	private OpenLayersMapView mapView;
-	
+
 	public OpenLayersMarkerLayer(String name, OpenLayersMapView mapView) {
 		this.name = name;
 		this.mapView = mapView;
 		markers = new TreeSet<Marker>();
 		jso = nCreateLayer(name);
 	}
-	
+
 	private native JavaScriptObject nCreateLayer(String name) /*-{
-		return new $wnd.OpenLayers.Layer.Markers(name);
-	}-*/;
+																return new $wnd.OpenLayers.Layer.Markers(name);
+																}-*/;
 
 	@Override
 	public String getName() {
@@ -61,31 +61,29 @@ public class OpenLayersMarkerLayer implements MarkerLayer, OpenLayersLayer {
 
 	@Override
 	public void addMarker(Marker marker) {
-		if(markers.add(marker))
-		{
-			OpenLayersMarker olm = (OpenLayersMarker)marker;
+		if (markers.add(marker)) {
+			OpenLayersMarker olm = (OpenLayersMarker) marker;
 			nAddMarker(olm.jso);
 		}
 	}
 
 	private native void nAddMarker(JavaScriptObject marker) /*-{
-		var layer = this.@de.gmino.geobase.client.map.OpenLayersMarkerLayer::jso;
-		layer.addMarker(marker);
-	}-*/;
+															var layer = this.@de.gmino.geobase.client.map.OpenLayersMarkerLayer::jso;
+															layer.addMarker(marker);
+															}-*/;
 
 	@Override
 	public void removeMarker(Marker marker) {
-		if(markers.remove(marker))
-		{
-			OpenLayersMarker olm = (OpenLayersMarker)marker;
+		if (markers.remove(marker)) {
+			OpenLayersMarker olm = (OpenLayersMarker) marker;
 			nRemoveMarker(olm.jso);
 		}
 	}
-	
+
 	private native void nRemoveMarker(JavaScriptObject marker) /*-{
-		var layer = this.@de.gmino.geobase.client.map.OpenLayersMarkerLayer::jso;
-	  	layer.removeMarker(marker);
-	}-*/;
+																var layer = this.@de.gmino.geobase.client.map.OpenLayersMarkerLayer::jso;
+																layer.removeMarker(marker);
+																}-*/;
 
 	@Override
 	public JavaScriptObject getJso() {
@@ -96,6 +94,5 @@ public class OpenLayersMarkerLayer implements MarkerLayer, OpenLayersLayer {
 	public Marker newMarker(LatLon location, String title, String description, ImageUrl markerImage) {
 		return new OpenLayersMarker(location, title, description, markerImage, this.mapView);
 	}
-
 
 }

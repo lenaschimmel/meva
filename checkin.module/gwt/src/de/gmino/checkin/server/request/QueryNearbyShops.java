@@ -18,30 +18,18 @@ import org.itemscript.core.values.JsonObject;
 import de.gmino.checkin.server.SqlHelper;
 import de.gmino.checkin.server.request.gen.QueryNearbyShopsGen;
 import de.gmino.geobase.server.domain.LatLon;
+
 public class QueryNearbyShops extends QueryNearbyShopsGen {
 	// Constructors
 	// Constructor for SQL deserialization
-	public QueryNearbyShops(String prefix, ResultSet rs) throws SQLException
-	{
-		super(
-			new LatLon(prefix + "location_", rs),
-			rs.getDouble(prefix + "radius"),
-			rs.getInt(prefix + "maxCount")
-		);
+	public QueryNearbyShops(String prefix, ResultSet rs) throws SQLException {
+		super(new LatLon(prefix + "location_", rs), rs.getDouble(prefix + "radius"), rs.getInt(prefix + "maxCount"));
 	}
-	
-	public QueryNearbyShops(
-			LatLon location,
-			double radius,
-			int maxCount)
-	{
-		super(
-			(de.gmino.geobase.server.domain.LatLon)location,
-			radius,
-			maxCount
-		);
+
+	public QueryNearbyShops(LatLon location, double radius, int maxCount) {
+		super((de.gmino.geobase.server.domain.LatLon) location, radius, maxCount);
 	}
-	
+
 	public QueryNearbyShops(DataInputStream dis) throws IOException {
 		super(dis);
 	}
@@ -61,21 +49,17 @@ public class QueryNearbyShops extends QueryNearbyShopsGen {
 			double minLat = location.getLatitude() - offLat;
 			double maxLon = location.getLongitude() + offLon;
 			double minLon = location.getLongitude() - offLon;
-			ResultSet result = stat.executeQuery("SELECT id FROM Shop "
-					+ "WHERE location_latitude < '" + maxLat
-					+ "' AND location_latitude > '" + minLat
-					+ "' AND location_longitude < '" + maxLon
-					+ "' AND location_longitude > '" + minLon + "' LIMIT " + maxCount +";");
+			ResultSet result = stat.executeQuery("SELECT id FROM Shop " + "WHERE location_latitude < '" + maxLat + "' AND location_latitude > '" + minLat + "' AND location_longitude < '" + maxLon
+					+ "' AND location_longitude > '" + minLon + "' LIMIT " + maxCount + ";");
 			Collection<Long> ids = new LinkedList<Long>();
-			while(result.next())
+			while (result.next())
 				ids.add(result.getLong(1));
 			return ids;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
-		
-	}
 
+	}
 
 }

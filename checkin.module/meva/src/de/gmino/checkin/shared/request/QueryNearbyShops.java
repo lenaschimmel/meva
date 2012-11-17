@@ -10,27 +10,15 @@ import org.itemscript.core.values.JsonObject;
 
 import de.gmino.checkin.shared.request.gen.QueryNearbyShopsGen;
 import de.gmino.geobase.shared.domain.LatLon;
+
 public abstract class QueryNearbyShops extends QueryNearbyShopsGen {
 	// Constructors
-	public QueryNearbyShops(JsonObject json) throws IOException
-	{
-		this(
-			new LatLon(json.get("location").asObject()),
-			Double.parseDouble(json.get("radius").asString().stringValue()),
-			Integer.parseInt(json.get("maxCount").asString().stringValue()));
+	public QueryNearbyShops(JsonObject json) throws IOException {
+		this(new LatLon(json.get("location").asObject()), Double.parseDouble(json.get("radius").asString().stringValue()), Integer.parseInt(json.get("maxCount").asString().stringValue()));
 	}
 
-	public QueryNearbyShops(
-			LatLon location,
-			double radius,
-			int maxCount)
-	{
-		super(
-			(de.gmino.geobase.shared.domain.LatLon)location,
-			radius,
-			maxCount
-		);
+	public QueryNearbyShops(LatLon location, double radius, int maxCount) {
+		super((de.gmino.geobase.shared.domain.LatLon) location, radius, maxCount);
 	}
-	
 
 }

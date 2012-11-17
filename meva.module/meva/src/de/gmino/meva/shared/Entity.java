@@ -7,16 +7,15 @@ import org.itemscript.core.values.JsonObject;
 public interface Entity<T> extends Comparable<T> {
 
 	// Binary
-	//public void serializeBinary(DataOutputStream dos) throws IOException;
+	// public void serializeBinary(DataOutputStream dos) throws IOException;
 
 	// Json
 	public void serializeJson(StringBuilder sb) throws IOException;
 
-	public void serializeJson(StringBuilder sb, String indentation)
-			throws IOException;
+	public void serializeJson(StringBuilder sb, String indentation) throws IOException;
 
 	public void deserializeJson(JsonObject json) throws IOException;
-	
+
 	// public void serializeSql(Connection dbCon) throws SQLException;
 
 	// Getters
@@ -31,10 +30,10 @@ public interface Entity<T> extends Comparable<T> {
 	public String getTypeName();
 
 	public boolean isReady();
-	
+
 	public void reassignRelation(String relname, Entity e);
- 
+
 	public String toShortString();
-	
+
 	public EntityTypeName getType();
 }

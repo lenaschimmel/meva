@@ -27,23 +27,16 @@ import org.itemscript.core.values.JsonValue;
 // imports for field types
 import de.gmino.geobase.shared.domain.LatLonRect;
 
-
 import de.gmino.geobase.shared.request.gen.QueryGeoObjectGen;
+
 public class QueryGeoObject extends QueryGeoObjectGen {
 	// Constructors
-	public QueryGeoObject(JsonObject json) throws IOException
-	{
+	public QueryGeoObject(JsonObject json) throws IOException {
 		super(json);
 	}
-	public QueryGeoObject(
-			LatLonRect area,
-			int maxCount)
-	{
-		super(
-			(de.gmino.geobase.shared.domain.LatLonRect)area,
-			maxCount
-		);
+
+	public QueryGeoObject(LatLonRect area, int maxCount) {
+		super((de.gmino.geobase.shared.domain.LatLonRect) area, maxCount);
 	}
-	
 
 }

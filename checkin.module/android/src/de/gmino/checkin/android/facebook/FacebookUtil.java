@@ -52,8 +52,7 @@ public class FacebookUtil {
 		}
 	}
 
-	private static String[] permissions = { "offline_access", "publish_stream",
-			"publish_checkins", "photo_upload" };
+	private static String[] permissions = { "offline_access", "publish_stream", "publish_checkins", "photo_upload" };
 
 	private static Facebook facebook = new Facebook("349524965127236");
 	private static SharedPreferences mPrefs;
@@ -74,8 +73,7 @@ public class FacebookUtil {
 			if (mAsyncRunner == null)
 				mAsyncRunner = new AsyncFacebookRunner(facebook);
 
-			mPrefs = activity.getSharedPreferences("facebook",
-					Activity.MODE_PRIVATE);
+			mPrefs = activity.getSharedPreferences("facebook", Activity.MODE_PRIVATE);
 			String access_token = mPrefs.getString("access_token", null);
 			if (access_token == null) {
 				setState(State.LOGGED_OUT);
@@ -99,8 +97,7 @@ public class FacebookUtil {
 		activity = a;
 	}
 
-	public static boolean addFacebookEventListener(
-			FacebookLoginStatusListener object) {
+	public static boolean addFacebookEventListener(FacebookLoginStatusListener object) {
 		return listeners.add(object);
 	}
 
@@ -110,8 +107,7 @@ public class FacebookUtil {
 
 	public static String getFid() {
 		if (state != State.LOGGED_IN)
-			throw new RuntimeException(
-					"Can't provide an fid when the User is not logged in on Facebook.");
+			throw new RuntimeException("Can't provide an fid when the User is not logged in on Facebook.");
 		return fid;
 	}
 
@@ -122,19 +118,16 @@ public class FacebookUtil {
 		 */
 		if (!facebook.isSessionValid()) {
 			System.err.println("INVALID session, now showing the dialog.");
-			facebook.authorize(activity, new String[] {},
-					new FacebookDialogListener() {
-						@Override
-						public void onComplete(Bundle values) {
-							SharedPreferences.Editor editor = mPrefs.edit();
-							editor.putString("access_token",
-									facebook.getAccessToken());
-							editor.putLong("access_expires",
-									facebook.getAccessExpires());
-							editor.commit();
-							requestFid();
-						}
-					});
+			facebook.authorize(activity, new String[] {}, new FacebookDialogListener() {
+				@Override
+				public void onComplete(Bundle values) {
+					SharedPreferences.Editor editor = mPrefs.edit();
+					editor.putString("access_token", facebook.getAccessToken());
+					editor.putLong("access_expires", facebook.getAccessExpires());
+					editor.commit();
+					requestFid();
+				}
+			});
 		} else {
 			System.err.println("VALID session.");
 			requestFid();
@@ -146,8 +139,7 @@ public class FacebookUtil {
 			System.err.println("Can't get FID while not logged in.");
 			return;
 		}
-		System.out.println("Requesting FID, current token: "
-				+ facebook.getAccessToken());
+		System.out.println("Requesting FID, current token: " + facebook.getAccessToken());
 		mAsyncRunner.request("me", new FacebookRequestListener() {
 			@Override
 			public void onComplete(String response, Object state) {
@@ -159,8 +151,7 @@ public class FacebookUtil {
 					name = user.getString("name");
 
 					if (fid == null) {
-						System.err.println("fid is null, response was "
-								+ response);
+						System.err.println("fid is null, response was " + response);
 						return;
 					}
 
@@ -231,31 +222,28 @@ public class FacebookUtil {
 		params.putString("message", message);
 		params.putString("coordinates", shop.getLocation().toString());
 
-		if(listener == null)
+		if (listener == null)
 			listener = new PlacesCheckInListener(activity, shop);
-		
-		if(mAsyncRunner == null)
+
+		if (mAsyncRunner == null)
 			throw new RuntimeException("Da liegt der Hase im Zimt.");
-		
-		mAsyncRunner.request("me/checkins", params, "POST",
-				listener, null);
+
+		mAsyncRunner.request("me/checkins", params, "POST", listener, null);
 	}
 
 	public static void extendAccessTokenIfNeeded() {
-		boolean res = facebook.extendAccessTokenIfNeeded(activity,
-				new FacebookServiceListener() {
-					@Override
-					public void onComplete(Bundle values) {
-						System.out.println("extend onComplete");
-						setState(State.PROBABLY_LOGGED_IN);
-						requestFid();
-					}
-				});
+		boolean res = facebook.extendAccessTokenIfNeeded(activity, new FacebookServiceListener() {
+			@Override
+			public void onComplete(Bundle values) {
+				System.out.println("extend onComplete");
+				setState(State.PROBABLY_LOGGED_IN);
+				requestFid();
+			}
+		});
 		System.out.println("extendAccessTokenIfNeeded: " + res);
 	}
 
-	public static void authorizeCallback(int requestCode, int resultCode,
-			Intent data) {
+	public static void authorizeCallback(int requestCode, int resultCode, Intent data) {
 		System.out.println("authorizeCallback");
 		facebook.authorizeCallback(requestCode, resultCode, data);
 	}
@@ -279,9 +267,8 @@ public class FacebookUtil {
 		fid = null;
 		setState(State.LOGGED_OUT);
 	}
-	
-	public static State getState()
-	{
+
+	public static State getState() {
 		return state;
 	}
 }

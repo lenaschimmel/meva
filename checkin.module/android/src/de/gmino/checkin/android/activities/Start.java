@@ -20,8 +20,7 @@ public class Start extends Activity implements FacebookLoginStatusListener {
 		FacebookUtil.setActivity(this);
 		if (FacebookUtil.getState() == State.LOGGED_IN)
 			startMainMenu();
-		else
-		{
+		else {
 			setContentView(R.layout.start);
 			startTimer();
 		}
@@ -47,7 +46,6 @@ public class Start extends Activity implements FacebookLoginStatusListener {
 		startActivity(intent);
 		finish();
 	}
-	
 
 	@Override
 	public void onLoggedIn(String fid, String name) {
@@ -55,12 +53,12 @@ public class Start extends Activity implements FacebookLoginStatusListener {
 
 	@Override
 	public void onStateChanged(State state) {
-		if(state == State.LOGGED_IN)
+		if (state == State.LOGGED_IN)
 			startMainMenu();
-		if(state == State.LOGGED_OUT)
+		if (state == State.LOGGED_OUT)
 			startLogin();
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -69,7 +67,7 @@ public class Start extends Activity implements FacebookLoginStatusListener {
 		else
 			startTimer();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		// Stop all timer tasks.

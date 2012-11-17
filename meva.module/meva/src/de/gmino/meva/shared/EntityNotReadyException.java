@@ -5,8 +5,7 @@ import java.util.Collection;
 public class EntityNotReadyException extends RuntimeException {
 
 	public EntityNotReadyException(Entity e) {
-		super("Entity was not ready: (" + e.getTypeName() + ":" + e.getId()
-				+ ")");
+		super("Entity was not ready: (" + e.getTypeName() + ":" + e.getId() + ")");
 	}
 
 	public EntityNotReadyException(Collection<Entity> c) {
@@ -14,8 +13,7 @@ public class EntityNotReadyException extends RuntimeException {
 	}
 
 	private static String makeText(Collection<Entity> c) {
-		StringBuffer sb = new StringBuffer(
-				"At least on of these entities was not ready:");
+		StringBuffer sb = new StringBuffer("At least on of these entities was not ready:");
 		for (Entity e : c)
 			sb.append("(" + e.getTypeName() + ":" + e.getId() + ") ");
 		return sb.toString();

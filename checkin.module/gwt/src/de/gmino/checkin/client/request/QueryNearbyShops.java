@@ -15,14 +15,11 @@ import de.gmino.geobase.client.domain.LatLon;
 public class QueryNearbyShops extends QueryNearbyShopsGen {
 	// Constructors
 	public QueryNearbyShops(JsonObject json) throws IOException {
-		this(new LatLon(json.get("location").asObject()), Double
-				.parseDouble(json.get("radius").asString().stringValue()),
-				Integer.parseInt(json.get("maxCount").asString().stringValue()));
+		this(new LatLon(json.get("location").asObject()), Double.parseDouble(json.get("radius").asString().stringValue()), Integer.parseInt(json.get("maxCount").asString().stringValue()));
 	}
 
 	public QueryNearbyShops(LatLon location, double radius, int maxCount) {
-		super((de.gmino.geobase.client.domain.LatLon) location, radius,
-				maxCount);
+		super((de.gmino.geobase.client.domain.LatLon) location, radius, maxCount);
 	}
 
 	@Override

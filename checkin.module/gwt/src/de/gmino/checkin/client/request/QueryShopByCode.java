@@ -22,22 +22,18 @@ import java.util.Collection;
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
-
 import de.gmino.checkin.client.request.gen.QueryShopByCodeGen;
+
 public class QueryShopByCode extends QueryShopByCodeGen {
 	// Constructors
-	public QueryShopByCode(JsonObject json) throws IOException
-	{
+	public QueryShopByCode(JsonObject json) throws IOException {
 		super(json);
 	}
-	public QueryShopByCode(
-			String scanCode)
-	{
-		super(
-			scanCode
-		);
+
+	public QueryShopByCode(String scanCode) {
+		super(scanCode);
 	}
-	
+
 	@Override
 	public Collection<Long> evaluate() {
 		throw new RuntimeException("No, this method does not exist here.");

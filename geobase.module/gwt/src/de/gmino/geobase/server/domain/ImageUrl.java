@@ -12,28 +12,24 @@ import java.sql.SQLException;
 import org.itemscript.core.values.JsonObject;
 
 import de.gmino.geobase.server.domain.gen.ImageUrlGen;
+
 public class ImageUrl extends ImageUrlGen {
 	// Constructors
 	// Constructor for SQL deseralizaiton
-	public ImageUrl(String prefix, ResultSet rs) throws SQLException
-	{
+	public ImageUrl(String prefix, ResultSet rs) throws SQLException {
 		super(prefix, rs);
 	}
-	public ImageUrl(DataInputStream dis) throws IOException
-	{
+
+	public ImageUrl(DataInputStream dis) throws IOException {
 		super(dis);
 	}
-	public ImageUrl(JsonObject json) throws IOException
-	{
+
+	public ImageUrl(JsonObject json) throws IOException {
 		super(json);
 	}
-	public ImageUrl(
-			String url)
-	{
-		super(
-			url
-		);
+
+	public ImageUrl(String url) {
+		super(url);
 	}
-	
 
 }

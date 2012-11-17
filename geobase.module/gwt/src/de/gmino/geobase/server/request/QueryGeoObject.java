@@ -38,32 +38,25 @@ import de.gmino.meva.shared.EntitySql;
 // imports for field types
 import de.gmino.geobase.server.domain.LatLonRect;
 
-
 import de.gmino.geobase.server.request.gen.QueryGeoObjectGen;
+
 public class QueryGeoObject extends QueryGeoObjectGen {
 	// Constructors
 	// Constructor for SQL deseralizaiton
-	public QueryGeoObject(String prefix, ResultSet rs) throws SQLException
-	{
+	public QueryGeoObject(String prefix, ResultSet rs) throws SQLException {
 		super(prefix, rs);
 	}
-	public QueryGeoObject(DataInputStream dis) throws IOException
-	{
+
+	public QueryGeoObject(DataInputStream dis) throws IOException {
 		super(dis);
 	}
-	public QueryGeoObject(JsonObject json) throws IOException
-	{
+
+	public QueryGeoObject(JsonObject json) throws IOException {
 		super(json);
 	}
-	public QueryGeoObject(
-			LatLonRect area,
-			int maxCount)
-	{
-		super(
-			(de.gmino.geobase.server.domain.LatLonRect)area,
-			maxCount
-		);
+
+	public QueryGeoObject(LatLonRect area, int maxCount) {
+		super((de.gmino.geobase.server.domain.LatLonRect) area, maxCount);
 	}
-	
 
 }

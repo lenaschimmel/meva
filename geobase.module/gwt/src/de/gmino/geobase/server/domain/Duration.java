@@ -12,28 +12,24 @@ import java.sql.SQLException;
 import org.itemscript.core.values.JsonObject;
 
 import de.gmino.geobase.server.domain.gen.DurationGen;
+
 public class Duration extends DurationGen {
 	// Constructors
 	// Constructor for SQL deseralizaiton
-	public Duration(String prefix, ResultSet rs) throws SQLException
-	{
+	public Duration(String prefix, ResultSet rs) throws SQLException {
 		super(prefix, rs);
 	}
-	public Duration(DataInputStream dis) throws IOException
-	{
+
+	public Duration(DataInputStream dis) throws IOException {
 		super(dis);
 	}
-	public Duration(JsonObject json) throws IOException
-	{
+
+	public Duration(JsonObject json) throws IOException {
 		super(json);
 	}
-	public Duration(
-			long milliseconds)
-	{
-		super(
-			milliseconds
-		);
+
+	public Duration(long milliseconds) {
+		super(milliseconds);
 	}
-	
 
 }

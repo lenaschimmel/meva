@@ -23,21 +23,16 @@ import java.util.Collection;
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
-
 import de.gmino.checkin.client.request.gen.QueryPerformCheckinGen;
+
 public class QueryPerformCheckin extends QueryPerformCheckinGen {
 	// Constructors
-	public QueryPerformCheckin(JsonObject json) throws IOException
-	{
+	public QueryPerformCheckin(JsonObject json) throws IOException {
 		super(json);
 	}
-	public QueryPerformCheckin(
-			String scanCode)
-	{
-		super(
-			scanCode
-		);
+
+	public QueryPerformCheckin(String scanCode) {
+		super(scanCode);
 	}
-	
 
 }

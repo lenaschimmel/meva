@@ -11,28 +11,19 @@ import org.itemscript.core.values.JsonObject;
 import com.google.gwt.json.client.JSONObject;
 
 import de.gmino.geobase.client.domain.gen.LatLonGen;
+
 public class LatLon extends LatLonGen {
 	// Constructors
-	public LatLon(JSONObject json) throws IOException
-	{
-		super(
-			Double.parseDouble(json.get("latitude").isString().stringValue()),
-			Double.parseDouble(json.get("longitude").isString().stringValue()));
+	public LatLon(JSONObject json) throws IOException {
+		super(Double.parseDouble(json.get("latitude").isString().stringValue()), Double.parseDouble(json.get("longitude").isString().stringValue()));
 	}
 
 	public LatLon(JsonObject json) throws IOException {
 		super(json);
 	}
 
-	public LatLon(
-			double latitude,
-			double longitude)
-	{
-		super(
-			latitude,
-			longitude
-		);
+	public LatLon(double latitude, double longitude) {
+		super(latitude, longitude);
 	}
-	
 
 }

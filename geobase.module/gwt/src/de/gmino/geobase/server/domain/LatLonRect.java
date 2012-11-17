@@ -36,32 +36,25 @@ import de.gmino.meva.shared.EntitySql;
 // imports for field types
 import de.gmino.geobase.server.domain.LatLon;
 
-
 import de.gmino.geobase.server.domain.gen.LatLonRectGen;
+
 public class LatLonRect extends LatLonRectGen {
 	// Constructors
 	// Constructor for SQL deseralizaiton
-	public LatLonRect(String prefix, ResultSet rs) throws SQLException
-	{
+	public LatLonRect(String prefix, ResultSet rs) throws SQLException {
 		super(prefix, rs);
 	}
-	public LatLonRect(DataInputStream dis) throws IOException
-	{
+
+	public LatLonRect(DataInputStream dis) throws IOException {
 		super(dis);
 	}
-	public LatLonRect(JsonObject json) throws IOException
-	{
+
+	public LatLonRect(JsonObject json) throws IOException {
 		super(json);
 	}
-	public LatLonRect(
-			LatLon min,
-			LatLon max)
-	{
-		super(
-			(de.gmino.geobase.server.domain.LatLon)min,
-			(de.gmino.geobase.server.domain.LatLon)max
-		);
+
+	public LatLonRect(LatLon min, LatLon max) {
+		super((de.gmino.geobase.server.domain.LatLon) min, (de.gmino.geobase.server.domain.LatLon) max);
 	}
-	
 
 }

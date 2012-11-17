@@ -9,15 +9,13 @@ public class Types {
 	public static Set<String> nativeTypes = new TreeSet<String>();
 	public static Map<String, String> sqlTypes = new TreeMap<String, String>();
 	public static Map<String, String> wrapperTypes = new TreeMap<String, String>();
-	
 
-	static void registerNativeType(String nativeType, String sqlType,
-			String wrapperType) {
+	static void registerNativeType(String nativeType, String sqlType, String wrapperType) {
 		nativeTypes.add(nativeType);
 		sqlTypes.put(nativeType, sqlType);
 		wrapperTypes.put(nativeType, wrapperType);
 	}
-	
+
 	static {
 		registerNativeType("int", "INT", "Integer");
 		registerNativeType("byte", "TINYINT", "Byte");

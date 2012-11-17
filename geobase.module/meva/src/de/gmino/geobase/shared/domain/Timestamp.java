@@ -10,39 +10,30 @@ import java.util.Date;
 import org.itemscript.core.values.JsonObject;
 
 import de.gmino.geobase.shared.domain.gen.TimestampGen;
+
 public class Timestamp extends TimestampGen {
 	// Constructors
-	public Timestamp(JsonObject json) throws IOException
-	{
-		this(
-			Long.parseLong(json.get("millisSinceEpoch").asString().stringValue()));
+	public Timestamp(JsonObject json) throws IOException {
+		this(Long.parseLong(json.get("millisSinceEpoch").asString().stringValue()));
 	}
 
-	public Timestamp(
-			long millisSinceEpoch)
-	{
-		super(
-			millisSinceEpoch
-		);
+	public Timestamp(long millisSinceEpoch) {
+		super(millisSinceEpoch);
 	}
-	
-	public Date toDate()
-	{
+
+	public Date toDate() {
 		return new Date(millisSinceEpoch);
 	}
-	
-	public Timestamp addDuration(Duration d)
-	{
+
+	public Timestamp addDuration(Duration d) {
 		return new Timestamp(millisSinceEpoch + d.getMilliseconds());
 	}
-	
-	public static Timestamp now()
-	{
+
+	public static Timestamp now() {
 		return new Timestamp(System.currentTimeMillis());
 	}
-	
-	public Duration timeUntil(Timestamp then)
-	{
+
+	public Duration timeUntil(Timestamp then) {
 		return new Duration(then.getMillisSinceEpoch() - millisSinceEpoch);
 	}
 }

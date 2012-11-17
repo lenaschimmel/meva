@@ -83,8 +83,7 @@ public class WeakHashSet<E> implements Set<E> {
 	}
 
 	public boolean retainAll(Collection<?> c) {
-		throw new UnsupportedOperationException(
-				"Retain is not yet supported by this class - feel free to implement it!");
+		throw new UnsupportedOperationException("Retain is not yet supported by this class - feel free to implement it!");
 	}
 
 	public int size() {

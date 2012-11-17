@@ -10,23 +10,19 @@ import java.io.IOException;
 import org.itemscript.core.values.JsonObject;
 
 import de.gmino.geobase.android.domain.gen.DistanceGen;
+
 public class Distance extends DistanceGen {
 	// Constructors
-	public Distance(DataInputStream dis) throws IOException
-	{
+	public Distance(DataInputStream dis) throws IOException {
 		super(dis);
 	}
-	public Distance(JsonObject json) throws IOException
-	{
+
+	public Distance(JsonObject json) throws IOException {
 		super(json);
 	}
-	public Distance(
-			double meters)
-	{
-		super(
-			meters
-		);
+
+	public Distance(double meters) {
+		super(meters);
 	}
-	
 
 }

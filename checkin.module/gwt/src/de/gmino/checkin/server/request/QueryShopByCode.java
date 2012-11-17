@@ -43,8 +43,7 @@ public class QueryShopByCode extends QueryShopByCodeGen {
 			Connection con = SqlHelper.getConnection();
 			Statement stat = con.createStatement();
 
-			ResultSet result = stat.executeQuery("SELECT id FROM Shop "
-					+ "WHERE scanCode = '" + scanCode + "';");
+			ResultSet result = stat.executeQuery("SELECT id FROM Shop " + "WHERE scanCode = '" + scanCode + "';");
 			Collection<Long> ids = new LinkedList<Long>();
 			while (result.next())
 				ids.add(result.getLong(1));

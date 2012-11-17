@@ -56,8 +56,7 @@ public class JsonServer extends HttpServlet {
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("getRequestURI(): " + req.getRequestURI());
 		String[] parts = req.getRequestURI().split("/");
 		String lastPart = parts[parts.length - 1];
@@ -76,18 +75,15 @@ public class JsonServer extends HttpServlet {
 			resp.setContentType("text/json");
 			System.err.println("Error while answering a POST-JSON-request. Error will be reportet to the client as short, JSON-Encoded answer. Full stack trace below:");
 			e.printStackTrace();
-			writeAnswer(
-					resp.getOutputStream(),
-					"ERROR",
-					"\"An Exception occured while processing the request: "+Util.escapeForJson(e.toString())+" A more detailed cause has been written to stderr on the server.\"");
+			writeAnswer(resp.getOutputStream(), "ERROR", "\"An Exception occured while processing the request: " + Util.escapeForJson(e.toString())
+					+ " A more detailed cause has been written to stderr on the server.\"");
 		}
 	}
 
-	private void otherRequest(HttpServletRequest req, HttpServletResponse resp,
-			String lastPart) throws IOException {
+	private void otherRequest(HttpServletRequest req, HttpServletResponse resp, String lastPart) throws IOException {
 		EntityQuery entityQuery = null;
 		ValueQuery valueQuery = null;
-		
+
 		JsonSystem system = StandardConfig.createSystem();
 
 		String input = convertStreamToString(req.getInputStream());
@@ -102,12 +98,12 @@ public class JsonServer extends HttpServlet {
 			entityQuery = new QueryConsumerByFid(request);
 		else if (lastPart.equals("QueryPerformCheckin"))
 			valueQuery = new QueryPerformCheckin(request);
-		else 
+		else
 			throw new RuntimeException("Unrecognized query type: " + lastPart);
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("[");
-		
+
 		if (entityQuery != null) {
 			Collection<Long> ids = entityQuery.evaluate();
 			boolean first = true;
@@ -119,9 +115,7 @@ public class JsonServer extends HttpServlet {
 				sb.append('"');
 				first = false;
 			}
-		}
-		else
-		{
+		} else {
 			Collection<Value> values = valueQuery.evaluate();
 			boolean first = true;
 			for (Value val : values) {
@@ -133,7 +127,7 @@ public class JsonServer extends HttpServlet {
 				first = false;
 			}
 		}
-		
+
 		sb.append("]");
 		resp.setContentType("text/json");
 		writeAnswer(resp.getOutputStream(), "OK", sb.toString());
@@ -149,12 +143,10 @@ public class JsonServer extends HttpServlet {
 	 *            because this parameter is written "as is", so that you can
 	 *            pass a Number or Array or Object.
 	 */
-	private void writeAnswer(ServletOutputStream outputStream, String status,
-			String content) {
+	private void writeAnswer(ServletOutputStream outputStream, String status, String content) {
 		try {
 			OutputStreamWriter osw = new OutputStreamWriter(outputStream);
-			osw.write("{ \"status\":\"" + status + "\" , \"content\":"
-					+ content + "}");
+			osw.write("{ \"status\":\"" + status + "\" , \"content\":" + content + "}");
 			osw.flush();
 			osw.close();
 			outputStream.flush();
@@ -164,12 +156,10 @@ public class JsonServer extends HttpServlet {
 		}
 	}
 
-	private void saveEntities(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException {
+	private void saveEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		JsonSystem system = StandardConfig.createSystem();
 		ServletInputStream inputStream = req.getInputStream();
-		String requestString = new java.util.Scanner(inputStream).useDelimiter(
-				"\\A").next();
+		String requestString = new java.util.Scanner(inputStream).useDelimiter("\\A").next();
 		JsonValue requestValue = system.parse(requestString);
 		JsonObject requestObject = requestValue.asObject();
 
@@ -177,8 +167,7 @@ public class JsonServer extends HttpServlet {
 		EntityTypeName type = EntityTypeName.getByString(typeName);
 		JsonObject entitiesMap = requestObject.getObject("entities");
 
-		Collection<Entity> entitiesToSave = new ArrayList<Entity>(
-				entitiesMap.size());
+		Collection<Entity> entitiesToSave = new ArrayList<Entity>(entitiesMap.size());
 
 		for (Entry<String, JsonValue> entry : entitiesMap.entrySet()) {
 			long id = Long.parseLong(entry.getKey());
@@ -189,16 +178,13 @@ public class JsonServer extends HttpServlet {
 		LocalRequetsImpl.saveEntities(entitiesToSave);
 
 		resp.setContentType("text/json");
-		writeAnswer(resp.getOutputStream(), "OK",
-				"\"All entities saved to the database.\"");
+		writeAnswer(resp.getOutputStream(), "OK", "\"All entities saved to the database.\"");
 	}
 
-	private void getEntities(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException {
+	private void getEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		JsonSystem system = StandardConfig.createSystem();
 		ServletInputStream inputStream = req.getInputStream();
-		String requestString = new java.util.Scanner(inputStream).useDelimiter(
-				"\\A").next();
+		String requestString = new java.util.Scanner(inputStream).useDelimiter("\\A").next();
 		JsonValue requestValue = system.parse(requestString);
 		JsonObject requestObject = requestValue.asObject();
 
@@ -211,11 +197,9 @@ public class JsonServer extends HttpServlet {
 			ids.add(Long.parseLong(id.asString().stringValue()));
 		}
 
-		System.out.println("Got a JSON query for ids of type " + typeName
-				+ ": " + Arrays.toString(ids.toArray()));
+		System.out.println("Got a JSON query for ids of type " + typeName + ": " + Arrays.toString(ids.toArray()));
 
-		Collection<Entity> entities = LocalRequetsImpl.getLoadedEntitiesById(
-				type, ids);
+		Collection<Entity> entities = LocalRequetsImpl.getLoadedEntitiesById(type, ids);
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("[");
@@ -232,13 +216,11 @@ public class JsonServer extends HttpServlet {
 		writeAnswer(resp.getOutputStream(), "OK", sb.toString());
 	}
 
-	private void newEntities(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException {
+	private void newEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
 		JsonSystem system = StandardConfig.createSystem();
 		ServletInputStream inputStream = req.getInputStream();
-		String requestString = new java.util.Scanner(inputStream).useDelimiter(
-				"\\A").next();
+		String requestString = new java.util.Scanner(inputStream).useDelimiter("\\A").next();
 		JsonValue requestValue = system.parse(requestString);
 		JsonObject requestObject = requestValue.asObject();
 
@@ -265,8 +247,7 @@ public class JsonServer extends HttpServlet {
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("Huhu!");
 		resp.setContentType("text/json");
 		writeAnswer(

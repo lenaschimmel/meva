@@ -26,6 +26,7 @@ public class LocalRequetsImpl {
 
 	/**
 	 * Just call query.evaluate.
+	 * 
 	 * @param query
 	 * @return
 	 */
@@ -39,12 +40,12 @@ public class LocalRequetsImpl {
 		Connection dbCon = SqlHelper.getConnection();
 		try {
 			Statement stat = dbCon.createStatement();
-			ResultSet rs = stat.executeQuery("SELECT maxId FROM MaxId WHERE typeName = '"+type.toString()+"';");
+			ResultSet rs = stat.executeQuery("SELECT maxId FROM MaxId WHERE typeName = '" + type.toString() + "';");
 			rs.next();
 			long maxId = rs.getLong(1);
-			for(int i = 0; i < count; i++)
+			for (int i = 0; i < count; i++)
 				ret.add(++maxId);
-			stat.executeUpdate("UPDATE MaxId SET maxId = '"+maxId+"' WHERE typeName = '"+type.toString()+"';");
+			stat.executeUpdate("UPDATE MaxId SET maxId = '" + maxId + "' WHERE typeName = '" + type.toString() + "';");
 			System.out.println("Created new Entites of type " + type.toString() + " with ids from " + (maxId - count + 1) + " to " + maxId);
 			return ret;
 		} catch (SQLException e) {
@@ -55,8 +56,7 @@ public class LocalRequetsImpl {
 	public static void loadEntities(Collection<? extends Entity> entities) {
 		Connection dbCon = SqlHelper.getConnection();
 		for (Entity e : entities) {
-			if(e.isReady())
-			{
+			if (e.isReady()) {
 				System.out.println("Already present: " + e.toShortString());
 				continue;
 			}
@@ -81,42 +81,34 @@ public class LocalRequetsImpl {
 		}
 	}
 
-	public static <EntityClass extends Entity> Collection<EntityClass> getLoadedEntitiesById(
-			EntityTypeName type, Collection<Long> ids) {
+	public static <EntityClass extends Entity> Collection<EntityClass> getLoadedEntitiesById(EntityTypeName type, Collection<Long> ids) {
 
-		Collection<EntityClass> entities = EntityFactory
-				.getUnloadedEntitiesById(type, ids);
+		Collection<EntityClass> entities = EntityFactory.getUnloadedEntitiesById(type, ids);
 		loadEntities(entities);
 		return entities;
 	}
 
-	public static <EntityClass extends Entity> Collection<EntityClass> getLoadedEntitiesByQuery(
-			final EntityTypeName type, EntityQuery q) {
+	public static <EntityClass extends Entity> Collection<EntityClass> getLoadedEntitiesByQuery(final EntityTypeName type, EntityQuery q) {
 
 		Collection<Long> ids = q.evaluate();
-		Collection<EntityClass> entities = EntityFactory
-				.getUnloadedEntitiesById(type, ids);
+		Collection<EntityClass> entities = EntityFactory.getUnloadedEntitiesById(type, ids);
 		loadEntities(entities);
 		return entities;
 	}
 
-	public static <EntityClass extends Entity> Collection<EntityClass> getNewEntities(
-			final EntityTypeName type, final int count) {
+	public static <EntityClass extends Entity> Collection<EntityClass> getNewEntities(final EntityTypeName type, final int count) {
 
 		Collection<Long> ids = getNewIds(type, count);
-		Collection<EntityClass> entitites = EntityFactory
-				.getUnloadedEntitiesById(type, ids);
+		Collection<EntityClass> entitites = EntityFactory.getUnloadedEntitiesById(type, ids);
 
 		return entitites;
 	}
 
-	public static <EntityClass extends Entity> Collection<EntityClass> getUnloadedEntitiesByQuery(
-			final EntityTypeName type, Query q) {
+	public static <EntityClass extends Entity> Collection<EntityClass> getUnloadedEntitiesByQuery(final EntityTypeName type, Query q) {
 
 		Collection<Long> ids = q.evaluate();
 
-		Collection<EntityClass> entities = EntityFactory
-				.getUnloadedEntitiesById(type, ids);
+		Collection<EntityClass> entities = EntityFactory.getUnloadedEntitiesById(type, ids);
 		return entities;
 	}
 

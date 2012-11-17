@@ -36,33 +36,17 @@ import de.gmino.meva.shared.ValueBinary;
 import de.gmino.geobase.android.domain.ImageUrl;
 import de.gmino.geobase.android.domain.LatLon;
 
-
 import de.gmino.geobase.android.domain.gen.GeoObjectGen;
+
 public class GeoObject extends GeoObjectGen {
 	// Constructors
-	public GeoObject(long id)
-	{
+	public GeoObject(long id) {
 		super(id);
 	}
-	
-	public GeoObject(
-			long id,
-			boolean ready,
-			LatLon location,
-			String title,
-			String description,
-			ImageUrl markerImage)
-	{
-		super(
-			id,
-			ready,
-			(de.gmino.geobase.android.domain.LatLon)location,
-			title,
-			description,
-			(de.gmino.geobase.android.domain.ImageUrl)markerImage
-		);
+
+	public GeoObject(long id, boolean ready, LatLon location, String title, String description, ImageUrl markerImage) {
+		super(id, ready, (de.gmino.geobase.android.domain.LatLon) location, title, description, (de.gmino.geobase.android.domain.ImageUrl) markerImage);
 		this.ready = true;
 	}
-	
 
 }

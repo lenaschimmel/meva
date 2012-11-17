@@ -26,12 +26,9 @@ public class ClassDefinition {
 	private String moduleName;
 	private String baseClassName;
 
-	public void createJavaSourceFiles(File srcDir, File genDir, String target)
-			throws IOException {
-		String fullSrcDir = srcDir.getCanonicalPath() + "/"
-				+ getFullPackage(target, false).replace(".", "/");
-		String fullGenDir = genDir.getCanonicalPath() + "/"
-				+ getFullPackage(target, true).replace(".", "/");
+	public void createJavaSourceFiles(File srcDir, File genDir, String target) throws IOException {
+		String fullSrcDir = srcDir.getCanonicalPath() + "/" + getFullPackage(target, false).replace(".", "/");
+		String fullGenDir = genDir.getCanonicalPath() + "/" + getFullPackage(target, true).replace(".", "/");
 		new File(fullSrcDir).mkdirs();
 		new File(fullGenDir).mkdirs();
 
@@ -40,8 +37,7 @@ public class ClassDefinition {
 		className += "Gen";
 
 		if (target.equals("android"))
-			createJavaAndroidGen(new File(fullGenDir + "/" + className
-					+ ".java"));
+			createJavaAndroidGen(new File(fullGenDir + "/" + className + ".java"));
 		else if (target.equals("server"))
 			createJavaServerGen(new File(fullGenDir + "/" + className + ".java"));
 		else if (target.equals("client"))
@@ -53,8 +49,7 @@ public class ClassDefinition {
 	}
 
 	private void generateType(PrintWriter pw) {
-		pw.println("	public static final EntityTypeName type = EntityTypeName.getByString(\""
-				+ baseClassName + "\");");
+		pw.println("	public static final EntityTypeName type = EntityTypeName.getByString(\"" + baseClassName + "\");");
 		pw.println();
 	}
 
@@ -71,8 +66,7 @@ public class ClassDefinition {
 		pw.println();
 		pw.println("import " + getFullyQualifiedName(target, true) + ";");
 
-		pw.println("public class " + className + " extends " + className
-				+ "Gen {");
+		pw.println("public class " + className + " extends " + className + "Gen {");
 		generateConstructors(pw, true, target.equals("shared"));
 
 		pw.println("}");
@@ -92,16 +86,8 @@ public class ClassDefinition {
 		pw.println();
 
 		String modifier = isQuery() ? "abstract " : " ";
-		pw.println("public "
-				+ modifier
-				+ "class "
-				+ className
-				+ " extends "
-				+ getFullPackage("shared", false)
-				+ "."
-				+ baseClassName
-				+ (entity ? " implements EntityBinary"
-						: " implements ValueBinary") + " {");
+		pw.println("public " + modifier + "class " + className + " extends " + getFullPackage("shared", false) + "." + baseClassName
+				+ (entity ? " implements EntityBinary" : " implements ValueBinary") + " {");
 
 		generateConstructors(pw, true, true);
 		if (entity)
@@ -132,16 +118,8 @@ public class ClassDefinition {
 		pw.println();
 
 		String modifier = isQuery() ? "abstract " : " ";
-		pw.println("public "
-				+ modifier
-				+ "class "
-				+ className
-				+ " extends "
-				+ getFullPackage("shared", false)
-				+ "."
-				+ baseClassName
-				+ (entity ? " implements EntityBinary, EntitySql"
-						: " implements ValueBinary") + " {");
+		pw.println("public " + modifier + "class " + className + " extends " + getFullPackage("shared", false) + "." + baseClassName
+				+ (entity ? " implements EntityBinary, EntitySql" : " implements ValueBinary") + " {");
 
 		generateConstructors(pw, true, true);
 
@@ -175,8 +153,7 @@ public class ClassDefinition {
 		pw.println();
 
 		String modifier = isQuery() ? "abstract " : " ";
-		pw.println("public " + modifier + "class " + className + " extends "
-				+ getFullPackage("shared", false) + "." + baseClassName + " {");
+		pw.println("public " + modifier + "class " + className + " extends " + getFullPackage("shared", false) + "." + baseClassName + " {");
 		generateConstructors(pw, true, true);
 		if (entity)
 			generateDeserialisers(pw);
@@ -198,10 +175,9 @@ public class ClassDefinition {
 		generateImports(pw);
 
 		String modifier = isQuery() ? "abstract " : " ";
-				
-		pw.println("public " + modifier + "class " + className + " implements "
-				+ (entity ? ("Entity<" + className + ">") : "Value")
-				+ (isEntityQuery() ? ", EntityQuery" : "") + (isValueQuery() ? ", ValueQuery" : "") + " {");
+
+		pw.println("public " + modifier + "class " + className + " implements " + (entity ? ("Entity<" + className + ">") : "Value") + (isEntityQuery() ? ", EntityQuery" : "")
+				+ (isValueQuery() ? ", ValueQuery" : "") + " {");
 
 		if (entity)
 			generateType(pw);
@@ -247,9 +223,9 @@ public class ClassDefinition {
 			pw.println("	}");
 			pw.println();
 			pw.println("	@Override");
-			if(isValueQuery())
+			if (isValueQuery())
 				pw.println("	public Collection<Value> evaluate() {");
-			else if(isEntityQuery())
+			else if (isEntityQuery())
 				pw.println("	public Collection<Long> evaluate() {");
 			pw.println("		throw new RuntimeException(\"No, this method does not exist here.\");");
 			pw.println("	}");
@@ -289,11 +265,9 @@ public class ClassDefinition {
 		pw.println("	public void reassignRelation(String relname, Entity e) {");
 		for (AttributeDefiniton def : attributes)
 			if (def.isEntity()) {
-				pw.println("		if(relname.equals(\"" + def.attributeName
-						+ "\"))");
+				pw.println("		if(relname.equals(\"" + def.attributeName + "\"))");
 				pw.println("		{");
-				pw.println("			this.set" + capitalizeFirst(def.attributeName)
-						+ "((" + def.typeName + ")e);");
+				pw.println("			this.set" + capitalizeFirst(def.attributeName) + "((" + def.typeName + ")e);");
 				pw.println("			return;");
 				pw.println("		}");
 			}
@@ -308,8 +282,7 @@ public class ClassDefinition {
 		pw.println("	}");
 	}
 
-	private void generateConstructors(PrintWriter pw, boolean superConstructor,
-			boolean extendsShared) {
+	private void generateConstructors(PrintWriter pw, boolean superConstructor, boolean extendsShared) {
 		pw.println("	// Constructors");
 		// pw.println("	protected " + className + "()");
 		// pw.println("	{");
@@ -319,11 +292,9 @@ public class ClassDefinition {
 			generateIdConstructor(pw, superConstructor);
 		else {
 			if (target.equals("server"))
-				generateSqlDeserializerConstructor(pw, superConstructor,
-						!extendsShared && superConstructor);
+				generateSqlDeserializerConstructor(pw, superConstructor, !extendsShared && superConstructor);
 			if (target.equals("server") || target.equals("android"))
-				generateBinaryDeserializerConstructor(pw, !extendsShared
-						&& superConstructor);
+				generateBinaryDeserializerConstructor(pw, !extendsShared && superConstructor);
 			generateJsonDeserializerConstructor(pw, superConstructor);
 		}
 
@@ -351,8 +322,7 @@ public class ClassDefinition {
 	private void generateGetById(PrintWriter pw) {
 		pw.println("	public static " + className + " getById(long id)");
 		pw.println("	{");
-		pw.println("		return (" + className
-				+ ")EntityFactory.getUnloadedEntityById(type, id);");
+		pw.println("		return (" + className + ")EntityFactory.getUnloadedEntityById(type, id);");
 		pw.println("	}");
 		pw.println();
 	}
@@ -384,21 +354,16 @@ public class ClassDefinition {
 				continue;
 
 			if (typeName.equals("String"))
-				pw.println("\t`" + prefix + attributeName + "` varchar("
-						+ attribute.maxLen + ") NOT NULL,");
+				pw.println("\t`" + prefix + attributeName + "` varchar(" + attribute.maxLen + ") NOT NULL,");
 
 			else if (attribute.isNative())
-				pw.println("\t`" + prefix + attributeName + "` "
-						+ attribute.getSqlType() + " NOT NULL,");
+				pw.println("\t`" + prefix + attributeName + "` " + attribute.getSqlType() + " NOT NULL,");
 			else {
-				ClassDefinition classDef = Meva.getClassDefinition(typeName,
-						true);
+				ClassDefinition classDef = Meva.getClassDefinition(typeName, true);
 				if (classDef.entity)
 					pw.println("\t`" + prefix + attributeName + "_id` BIGINT,");
 				else
-					Meva.getClassDefinition(typeName, true)
-							.generateTableCommentAttributeList(
-									prefix + attributeName + "_", pw);
+					Meva.getClassDefinition(typeName, true).generateTableCommentAttributeList(prefix + attributeName + "_", pw);
 			}
 		}
 	}
@@ -406,10 +371,8 @@ public class ClassDefinition {
 	private void generateAttributes(PrintWriter pw) {
 		for (AttributeDefiniton attribute : attributes) {
 			if (attribute.isEntity()) {
-				pw.println("	protected " + attribute.typeName + " "
-						+ attribute.attributeName + ";");
-				pw.println("	protected long " + attribute.attributeName
-						+ "_id;");
+				pw.println("	protected " + attribute.typeName + " " + attribute.attributeName + ";");
+				pw.println("	protected long " + attribute.attributeName + "_id;");
 			} else {
 				String modifier = "protected";
 				// we can't use final here, because some subclasses may have
@@ -418,8 +381,7 @@ public class ClassDefinition {
 				// in a call to the super constructor.
 				// if (!entity)
 				// modifier += " final";
-				pw.println("	" + modifier + " " + attribute.getUsableType()
-						+ " " + attribute.attributeName + ";");
+				pw.println("	" + modifier + " " + attribute.getUsableType() + " " + attribute.attributeName + ";");
 			}
 		}
 	}
@@ -431,8 +393,7 @@ public class ClassDefinition {
 		else
 			pw.println("import de.gmino.meva.shared.Value;");
 
-		if (isQuery())
-		{
+		if (isQuery()) {
 			pw.println("import de.gmino.meva.shared.EntityQuery;");
 			pw.println("import de.gmino.meva.shared.ValueQuery;");
 		}
@@ -482,8 +443,7 @@ public class ClassDefinition {
 				classDef = Meva.getClassDefinition(attribute.reltype, true);
 			}
 			if (classDef != null)
-				importClasses
-						.add(classDef.getFullyQualifiedName(target, false));
+				importClasses.add(classDef.getFullyQualifiedName(target, false));
 		}
 		if (importClasses.size() > 0) {
 			pw.println("// imports for field types");
@@ -521,44 +481,31 @@ public class ClassDefinition {
 		for (AttributeDefiniton attribute : attributes) {
 			String type = attribute.typeName;
 			if (attribute.isNative())
-				pw.println("		" + attribute.attributeName + " = dis.read"
-						+ capitalizeFirst(type) + "();");
+				pw.println("		" + attribute.attributeName + " = dis.read" + capitalizeFirst(type) + "();");
 			else if (type.equals("String")) {
-				String varName = "has"
-						+ capitalizeFirst(attribute.attributeName);
+				String varName = "has" + capitalizeFirst(attribute.attributeName);
 				pw.println("		byte " + varName + " = dis.readByte();");
 				pw.println("		if(" + varName + " != 0)");
-				pw.println("			" + attribute.attributeName
-						+ " = dis.readUTF();");
+				pw.println("			" + attribute.attributeName + " = dis.readUTF();");
 			} else if (type.equals("relation")) {
-				pw.println("		long " + attribute.attributeName
-						+ "Id = dis.readLong();");
+				pw.println("		long " + attribute.attributeName + "Id = dis.readLong();");
 				pw.println("		while(" + attribute.attributeName + "Id != 0)");
 				pw.println("		{");
-				pw.println("			" + attribute.attributeName + ".add(("
-						+ attribute.reltype
-						+ ")EntityFactory.getUnloadedEntityById("
-						+ attribute.reltype + ".type, "
-						+ attribute.attributeName + "Id));");
-				pw.println("			" + attribute.attributeName
-						+ "Id = dis.readLong();");
+				pw.println("			" + attribute.attributeName + ".add((" + attribute.reltype + ")EntityFactory.getUnloadedEntityById(" + attribute.reltype + ".type, " + attribute.attributeName + "Id));");
+				pw.println("			" + attribute.attributeName + "Id = dis.readLong();");
 				pw.println("		}");
 			} else {
 				ClassDefinition typeDef = attribute.getClassDefinition();
 				if (typeDef.entity) {
-					pw.println("		" + attribute.attributeName
-							+ "_id = dis.readLong();");
+					pw.println("		" + attribute.attributeName + "_id = dis.readLong();");
 				} else {
 					if (entity) {
-						String varName = "has"
-								+ capitalizeFirst(attribute.attributeName);
+						String varName = "has" + capitalizeFirst(attribute.attributeName);
 						pw.println("		byte " + varName + " = dis.readByte();");
 						pw.println("		if(" + varName + " != 0)");
-						pw.println("			" + attribute.attributeName + " = new "
-								+ attribute.typeName + "(dis);");
+						pw.println("			" + attribute.attributeName + " = new " + attribute.typeName + "(dis);");
 					} else {
-						pw.println("		" + attribute.attributeName + " = new "
-								+ attribute.typeName + "(dis);");
+						pw.println("		" + attribute.attributeName + " = new " + attribute.typeName + "(dis);");
 					}
 				}
 			}
@@ -568,10 +515,8 @@ public class ClassDefinition {
 		pw.println("	}");
 	}
 
-	private void generateBinaryDeserializerConstructor(PrintWriter pw,
-			boolean superConstructor) {
-		pw.println("	public " + className
-				+ "(DataInputStream dis) throws IOException");
+	private void generateBinaryDeserializerConstructor(PrintWriter pw, boolean superConstructor) {
+		pw.println("	public " + className + "(DataInputStream dis) throws IOException");
 		pw.println("	{");
 
 		if (superConstructor) {
@@ -596,14 +541,12 @@ public class ClassDefinition {
 				hasStringAttribute = true;
 			} else {
 				if (attribute.isEntity()) {
-					pw.print("			("+type+")EntityFactory.getUnloadedEntityById("+type+".type, dis.readLong())");
+					pw.print("			(" + type + ")EntityFactory.getUnloadedEntityById(" + type + ".type, dis.readLong())");
 				} else {
 					if (entity) {
-						pw.print("			new " + attribute.typeName + "(" + dis
-								+ ")");
+						pw.print("			new " + attribute.typeName + "(" + dis + ")");
 					} else {
-						pw.print("			new " + attribute.typeName + "(" + dis
-								+ ")");
+						pw.print("			new " + attribute.typeName + "(" + dis + ")");
 					}
 				}
 			}
@@ -633,14 +576,11 @@ public class ClassDefinition {
 		for (AttributeDefiniton attribute : attributes) {
 			String type = attribute.typeName;
 			if (attribute.isNative())
-				pw.println("		dos.write" + capitalizeFirst(type) + "("
-						+ attribute.attributeName + ");");
+				pw.println("		dos.write" + capitalizeFirst(type) + "(" + attribute.attributeName + ");");
 			else if (type.equals("relation")) {
 
-				pw.println("		for(Object " + attribute.attributeName
-						+ "Object : " + attribute.attributeName + ")");
-				pw.println("			dos.writeLong(((Entity)"
-						+ attribute.attributeName + "Object).getId());");
+				pw.println("		for(Object " + attribute.attributeName + "Object : " + attribute.attributeName + ")");
+				pw.println("			dos.writeLong(((Entity)" + attribute.attributeName + "Object).getId());");
 				pw.println("		dos.writeLong(0);");
 
 			} else if (type.equals("String")) {
@@ -658,25 +598,18 @@ public class ClassDefinition {
 					pw.println("		if (" + attribute.attributeName + " == null)");
 					pw.println("			dos.writeLong(0);");
 					pw.println("		else");
-					pw.println("			dos.writeLong(" + attribute.attributeName
-							+ ".getId());");
+					pw.println("			dos.writeLong(" + attribute.attributeName + ".getId());");
 				} else {
 					if (entity) {
-						pw.println("		if (" + attribute.attributeName
-								+ " == null)");
+						pw.println("		if (" + attribute.attributeName + " == null)");
 						pw.println("			dos.writeByte(0);");
 						pw.println("		else");
 						pw.println("		{");
 						pw.println("			dos.writeByte(1);");
-						pw.println("			(("
-								+ typeDef.getFullyQualifiedName(target, false)
-								+ ")" + attribute.attributeName
-								+ ").serializeBinary(dos);");
+						pw.println("			((" + typeDef.getFullyQualifiedName(target, false) + ")" + attribute.attributeName + ").serializeBinary(dos);");
 						pw.println("		}");
 					} else
-						pw.println("		((" + attribute.typeName + ")"
-								+ attribute.attributeName
-								+ ").serializeBinary(dos);");
+						pw.println("		((" + attribute.typeName + ")" + attribute.attributeName + ").serializeBinary(dos);");
 				}
 
 			}
@@ -694,10 +627,7 @@ public class ClassDefinition {
 			String type = attribute.typeName;
 			pw.println("		val = json.get(\"" + attribute.attributeName + "\");");
 			if (attribute.isNative()) {
-				pw.println("		" + attribute.attributeName + " = "
-						+ attribute.getWrapperType() + ".parse"
-						+ capitalizeFirst(type)
-						+ "(val.asString().stringValue());");
+				pw.println("		" + attribute.attributeName + " = " + attribute.getWrapperType() + ".parse" + capitalizeFirst(type) + "(val.asString().stringValue());");
 				/*
 				 * if (type.equals("boolean")) pw.println("		" +
 				 * attribute.attributeName +
@@ -706,28 +636,18 @@ public class ClassDefinition {
 				 * " = ("+type+")val.isNumber().doubleValue();");
 				 */
 			} else if (type.equals("String")) {
-				pw.println("		" + attribute.attributeName
-						+ " = val.asString().stringValue();");
+				pw.println("		" + attribute.attributeName + " = val.asString().stringValue();");
 			} else if (type.equals("relation")) {
 				pw.println("		for(JsonValue subVal : val.asArray())");
 				pw.println("		{");
-				pw.println("			long "
-						+ attribute.attributeName
-						+ "Id = Long.parseLong(subVal.asString().stringValue());");
-				pw.println("			" + attribute.attributeName + ".add(("
-						+ attribute.reltype
-						+ ")EntityFactory.getUnloadedEntityById("
-						+ attribute.reltype + ".type, "
-						+ attribute.attributeName + "Id));");
+				pw.println("			long " + attribute.attributeName + "Id = Long.parseLong(subVal.asString().stringValue());");
+				pw.println("			" + attribute.attributeName + ".add((" + attribute.reltype + ")EntityFactory.getUnloadedEntityById(" + attribute.reltype + ".type, " + attribute.attributeName + "Id));");
 				pw.println("		}");
 			} else {
 				if (attribute.isEntity()) {
-					pw.println("		"
-							+ attribute.attributeName
-							+ "_id = Long.parseLong(val.asString().stringValue());");
+					pw.println("		" + attribute.attributeName + "_id = Long.parseLong(val.asString().stringValue());");
 				} else {
-					pw.println("		" + attribute.attributeName + " = new "
-							+ attribute.typeName + "(val.asObject());");
+					pw.println("		" + attribute.attributeName + " = new " + attribute.typeName + "(val.asObject());");
 
 				}
 			}
@@ -738,10 +658,8 @@ public class ClassDefinition {
 	}
 
 	// only for values
-	private void generateJsonDeserializerConstructor(PrintWriter pw,
-			boolean superConstructor) {
-		pw.println("	public " + className
-				+ "(JsonObject json) throws IOException");
+	private void generateJsonDeserializerConstructor(PrintWriter pw, boolean superConstructor) {
+		pw.println("	public " + className + "(JsonObject json) throws IOException");
 		pw.println("	{");
 
 		if (superConstructor) {
@@ -757,18 +675,14 @@ public class ClassDefinition {
 			String type = attribute.typeName;
 			String val = "json.get(\"" + attribute.attributeName + "\")";
 			if (attribute.isNative()) {
-				pw.print("			" + attribute.getWrapperType() + ".parse"
-						+ capitalizeFirst(type) + "(" + val
-						+ ".asString().stringValue())");
+				pw.print("			" + attribute.getWrapperType() + ".parse" + capitalizeFirst(type) + "(" + val + ".asString().stringValue())");
 			} else if (type.equals("String")) {
 				pw.print("			" + val + ".asString().stringValue()");
 			} else {
 				if (attribute.isEntity()) {
-					pw.print("			("+type+")EntityFactory.getUnloadedEntityById("+type+".type, Long.parseLong(" + val
-							+ ".asString().stringValue()))");
+					pw.print("			(" + type + ")EntityFactory.getUnloadedEntityById(" + type + ".type, Long.parseLong(" + val + ".asString().stringValue()))");
 				} else {
-					pw.print("			new " + attribute.typeName + "(" + val
-							+ ".asObject())");
+					pw.print("			new " + attribute.typeName + "(" + val + ".asObject())");
 
 				}
 			}
@@ -799,39 +713,29 @@ public class ClassDefinition {
 
 			String name = attribute.attributeName;
 			String type = attribute.typeName;
-			pw.println("		sb.append(moreIndentation + \"\\\"" + name
-					+ "\\\" : \");");
+			pw.println("		sb.append(moreIndentation + \"\\\"" + name + "\\\" : \");");
 			if (attribute.isNative())
 				pw.println("		sb.append(\"\\\"\" + " + name + " + \"\\\"\");");
 			else if (attribute.typeName.equals("String"))
-				pw.println("		sb.append('\"' + Util.escapeForJson("
-						+ name
-						+ ") + '\"');");
+				pw.println("		sb.append('\"' + Util.escapeForJson(" + name + ") + '\"');");
 			else if (type.equals("relation")) {
 				pw.println("		sb.append(\"\\n\" + moreIndentation + \"[\");");
-				String firstName = "first"
-						+ capitalizeFirst(attribute.attributeName);
+				String firstName = "first" + capitalizeFirst(attribute.attributeName);
 				pw.println("		boolean " + firstName + " = true;");
-				pw.println("		for(Object " + attribute.attributeName
-						+ "Object : " + attribute.attributeName + ")");
+				pw.println("		for(Object " + attribute.attributeName + "Object : " + attribute.attributeName + ")");
 				pw.println("		{");
-				pw.println("			sb.append(" + firstName
-						+ " ? \"\\n\" : \",\\n\");");
-				pw.println("			sb.append(moreIndentation + \"\\t\\\"\" + ((Entity)"
-						+ attribute.attributeName
-						+ "Object).getId() + \"\\\"\");");
+				pw.println("			sb.append(" + firstName + " ? \"\\n\" : \",\\n\");");
+				pw.println("			sb.append(moreIndentation + \"\\t\\\"\" + ((Entity)" + attribute.attributeName + "Object).getId() + \"\\\"\");");
 				pw.println("			" + firstName + " = false;");
 				pw.println("		}");
 				pw.println("		sb.append(moreIndentation + \"]\");");
 			} else {
 				if (attribute.isEntity())
-					pw.println("		sb.append(\"\\\"\" + " + name
-							+ "_id  +\"\\\"\");");
+					pw.println("		sb.append(\"\\\"\" + " + name + "_id  +\"\\\"\");");
 				else {
 					pw.println("		sb.append(\"\");");
 					pw.println("		if(" + name + " != null)");
-					pw.println("			" + name
-							+ ".serializeJson(sb, moreIndentation);");
+					pw.println("			" + name + ".serializeJson(sb, moreIndentation);");
 					pw.println("		else");
 					pw.println("			sb.append(\"null\");");
 				}
@@ -844,8 +748,7 @@ public class ClassDefinition {
 
 	private void generateSqlDeserializer(PrintWriter pw) {
 		if (!entity)
-			throw new RuntimeException(
-					"Can't serialize value classes into SQL yet.");
+			throw new RuntimeException("Can't serialize value classes into SQL yet.");
 
 		pw.println("	public void deserializeSql(Connection dbCon) throws SQLException");
 		pw.println("	{");
@@ -872,19 +775,14 @@ public class ClassDefinition {
 		pw.println("	}");
 	}
 
-	private void generateSqlRelationDeserializer(PrintWriter pw,
-			AttributeDefiniton def) {
+	private void generateSqlRelationDeserializer(PrintWriter pw, AttributeDefiniton def) {
 		pw.println("		// Read the related " + def.attributeName);
-		pw.println("		selectString = \"SELECT id FROM `"
-				+ Meva.getClassDefinition(def.reltype, true).baseClassName
-				+ "` WHERE " + def.relname + "_id = '\"+id+\"';\";");
+		pw.println("		selectString = \"SELECT id FROM `" + Meva.getClassDefinition(def.reltype, true).baseClassName + "` WHERE " + def.relname + "_id = '\"+id+\"';\";");
 		pw.println("		stat.executeQuery(selectString);");
 		pw.println("		System.out.println(selectString);");
 		pw.println("		rs = stat.executeQuery(selectString);");
 		pw.println("		while(rs.next())");
-		pw.println("			" + def.attributeName + ".add((" + def.reltype
-				+ ")EntityFactory.getUnloadedEntityById(" + def.reltype
-				+ ".type, rs.getLong(1)));");
+		pw.println("			" + def.attributeName + ".add((" + def.reltype + ")EntityFactory.getUnloadedEntityById(" + def.reltype + ".type, rs.getLong(1)));");
 	}
 
 	/**
@@ -894,11 +792,9 @@ public class ClassDefinition {
 	 * @param superConstructor
 	 * @param superHasSqlDeserializerConstructor
 	 */
-	private void generateSqlDeserializerConstructor(PrintWriter pw,
-			boolean superConstructor, boolean superHasSqlDeserializerConstructor) {
+	private void generateSqlDeserializerConstructor(PrintWriter pw, boolean superConstructor, boolean superHasSqlDeserializerConstructor) {
 		pw.println("	// Constructor for SQL deseralizaiton");
-		pw.println("	public " + className
-				+ "(String prefix, ResultSet rs) throws SQLException");
+		pw.println("	public " + className + "(String prefix, ResultSet rs) throws SQLException");
 		pw.println("	{");
 		if (superConstructor) {
 			if (superHasSqlDeserializerConstructor)
@@ -915,14 +811,12 @@ public class ClassDefinition {
 
 	private void generateSqlSerializer(PrintWriter pw) {
 		if (!entity)
-			throw new RuntimeException(
-					"Can't serialize value classes into SQL yet.");
+			throw new RuntimeException("Can't serialize value classes into SQL yet.");
 
 		pw.println("	public void serializeSql(Connection dbCon) throws SQLException");
 		pw.println("	{");
 		pw.println("		Statement stat = dbCon.createStatement();");
-		pw.print("		String replaceString = \"REPLACE INTO `" + baseClassName
-				+ "` (");
+		pw.print("		String replaceString = \"REPLACE INTO `" + baseClassName + "` (");
 		printAttributeList("", pw);
 		pw.print(") VALUES (");
 		printValueList("", pw);
@@ -936,8 +830,7 @@ public class ClassDefinition {
 		boolean first = true;
 		for (int i = 0; i < size; i++) {
 			AttributeDefiniton attribute = attributes.get(i);
-			if (attribute.typeName.equals("relation")
-					|| attribute.attributeName.equals("ready"))
+			if (attribute.typeName.equals("relation") || attribute.attributeName.equals("ready"))
 				continue;
 			if (!first)
 				pw.print(",");
@@ -948,8 +841,7 @@ public class ClassDefinition {
 				if (classDef.entity)
 					pw.print("`" + prefix + attribute.attributeName + "_id`");
 				else
-					classDef.printAttributeList(prefix
-							+ attribute.attributeName + "_", pw);
+					classDef.printAttributeList(prefix + attribute.attributeName + "_", pw);
 			}
 			first = false;
 		}
@@ -961,23 +853,18 @@ public class ClassDefinition {
 		boolean first = true;
 		for (int i = 0; i < size; i++) {
 			AttributeDefiniton attribute = attributes.get(i);
-			if (attribute.typeName.equals("relation")
-					|| attribute.attributeName.equals("ready"))
+			if (attribute.typeName.equals("relation") || attribute.attributeName.equals("ready"))
 				continue;
 
 			if (!first)
 				pw.print(",");
-			final String getter = ((attribute.typeName.equals("boolean")) ? "is"
-					: "get")
-					+ capitalizeFirst(attribute.attributeName) + "()";
+			final String getter = ((attribute.typeName.equals("boolean")) ? "is" : "get") + capitalizeFirst(attribute.attributeName) + "()";
 			if (attribute.isNativeOrString())
 				pw.print("'\" + " + prefix + getter + " + \"'");
 			else {
 				ClassDefinition classDef = attribute.getClassDefinition();
 				if (classDef.entity) {
-					pw.print("'\" + get"
-							+ capitalizeFirst(attribute.attributeName)
-							+ "Id() + \"'");
+					pw.print("'\" + get" + capitalizeFirst(attribute.attributeName) + "Id() + \"'");
 				} else
 					classDef.printValueList(prefix + getter + ".", pw);
 			}
@@ -991,23 +878,16 @@ public class ClassDefinition {
 
 		for (int i = 0; i < size; i++) {
 			AttributeDefiniton attribute = attributes.get(i);
-			if (attribute.typeName.equals("relation")
-					|| attribute.attributeName.equals("ready"))
+			if (attribute.typeName.equals("relation") || attribute.attributeName.equals("ready"))
 				continue;
 			if (attribute.isNativeOrString())
-				pw.println("		" + attribute.attributeName + " = rs.get"
-						+ capitalizeFirst(attribute.typeName) + "(prefix + \""
-						+ prefixDash + attribute.attributeName + "\");");
+				pw.println("		" + attribute.attributeName + " = rs.get" + capitalizeFirst(attribute.typeName) + "(prefix + \"" + prefixDash + attribute.attributeName + "\");");
 			else {
 				ClassDefinition classDef = attribute.getClassDefinition();
 				if (classDef.entity)
-					pw.println("		" + attribute.attributeName
-							+ "_id = rs.getLong(\"" + attribute.attributeName
-							+ "_id\");");
+					pw.println("		" + attribute.attributeName + "_id = rs.getLong(\"" + attribute.attributeName + "_id\");");
 				else
-					pw.println("		" + attribute.attributeName + " = new "
-							+ classDef.className + "(prefix + \""
-							+ attribute.attributeName + "_" + "\", rs);");
+					pw.println("		" + attribute.attributeName + " = new " + classDef.className + "(prefix + \"" + attribute.attributeName + "_" + "\", rs);");
 			}
 		}
 	}
@@ -1019,30 +899,23 @@ public class ClassDefinition {
 		for (int i = 0; i < size; i++) {
 			pw.print(first ? "\n" : ",\n");
 			AttributeDefiniton attribute = attributes.get(i);
-			if (attribute.isRelation()
-					|| attribute.attributeName.equals("ready"))
+			if (attribute.isRelation() || attribute.attributeName.equals("ready"))
 				continue;
 			if (attribute.isNativeOrString())
-				pw.print("			rs.get" + capitalizeFirst(attribute.typeName)
-						+ "(prefix + \"" + prefixDash + attribute.attributeName
-						+ "\")");
+				pw.print("			rs.get" + capitalizeFirst(attribute.typeName) + "(prefix + \"" + prefixDash + attribute.attributeName + "\")");
 			else {
 				ClassDefinition classDef = attribute.getClassDefinition();
 				if (classDef.entity)
-					pw.print("			(" + classDef.baseClassName
-							+ ")EntityFactory.getUnloadedEntityById("+attribute.typeName+".type, rs.getLong(\""
-							+ attribute.attributeName + "_id\"))");
+					pw.print("			(" + classDef.baseClassName + ")EntityFactory.getUnloadedEntityById(" + attribute.typeName + ".type, rs.getLong(\"" + attribute.attributeName + "_id\"))");
 				else
-					pw.print("			new " + classDef.className + "(prefix + \""
-							+ attribute.attributeName + "_" + "\", rs)");
+					pw.print("			new " + classDef.className + "(prefix + \"" + attribute.attributeName + "_" + "\", rs)");
 			}
 
 			first = false;
 		}
 	}
 
-	private void generateAttributeConstructor(PrintWriter pw,
-			boolean superConstructor) {
+	private void generateAttributeConstructor(PrintWriter pw, boolean superConstructor) {
 		pw.print("	public " + className + "(");
 		final int size = attributes.size();
 		boolean first = true;
@@ -1069,11 +942,8 @@ public class ClassDefinition {
 				if (attribute.isNativeOrString())
 					pw.print("\n			" + attribute.attributeName);
 				else {
-					ClassDefinition attributeTypeDef = attribute
-							.getClassDefinition();
-					pw.print("\n			("
-							+ attributeTypeDef.getFullyQualifiedName(target,
-									false) + ")" + attribute.attributeName);
+					ClassDefinition attributeTypeDef = attribute.getClassDefinition();
+					pw.print("\n			(" + attributeTypeDef.getFullyQualifiedName(target, false) + ")" + attribute.attributeName);
 				}
 				first = false;
 			}
@@ -1087,8 +957,7 @@ public class ClassDefinition {
 					pw.println("		this(id);");
 				else
 
-					pw.println("		this." + attribute.attributeName + " = "
-							+ attribute.attributeName + ";");
+					pw.println("		this." + attribute.attributeName + " = " + attribute.attributeName + ";");
 			}
 		if (entity)
 			pw.println("		this.ready = true;");
@@ -1105,9 +974,7 @@ public class ClassDefinition {
 			pw.println("		this.id = id;");
 			for (AttributeDefiniton def : attributes)
 				if (def.isRelation())
-					pw.println("		this." + def.attributeName
-							+ " = new RelationCollection(this, \""
-							+ def.relname + "\");"); // <" + def.reltype + ">
+					pw.println("		this." + def.attributeName + " = new RelationCollection(this, \"" + def.relname + "\");"); // <" + def.reltype + ">
 			// did not work
 		}
 		pw.println("	}");
@@ -1115,36 +982,25 @@ public class ClassDefinition {
 	}
 
 	private void generateSetter(AttributeDefiniton attribute, PrintWriter pw) {
-		pw.println("	public void set"
-				+ capitalizeFirst(attribute.attributeName) + "("
-				+ attribute.typeName + " " + attribute.attributeName + ")");
+		pw.println("	public void set" + capitalizeFirst(attribute.attributeName) + "(" + attribute.typeName + " " + attribute.attributeName + ")");
 		pw.println("	{");
-		pw.println("		this." + attribute.attributeName + " = "
-				+ attribute.attributeName + ";");
+		pw.println("		this." + attribute.attributeName + " = " + attribute.attributeName + ";");
 		if (attribute.isEntity())
-			pw.println("		this." + attribute.attributeName + "_id = "
-					+ attribute.attributeName + ".getId();");
+			pw.println("		this." + attribute.attributeName + "_id = " + attribute.attributeName + ".getId();");
 		pw.println("	}");
 		pw.println("	");
 	}
 
 	private void generateGetter(AttributeDefiniton attribute, PrintWriter pw) {
 		if (attribute.isEntity()) {
-			pw.println("	public " + attribute.typeName + " get"
-					+ capitalizeFirst(attribute.attributeName) + "()");
+			pw.println("	public " + attribute.typeName + " get" + capitalizeFirst(attribute.attributeName) + "()");
 			pw.println("	{");
 
 			pw.println("		if (" + attribute.attributeName + " == null)");
-			pw.println("			" + attribute.attributeName + " = ("
-					+ attribute.typeName
-					+ ")EntityFactory.getUnloadedEntityById("
-					+ attribute.typeName + ".type," + attribute.attributeName
-					+ "_id);");
+			pw.println("			" + attribute.attributeName + " = (" + attribute.typeName + ")EntityFactory.getUnloadedEntityById(" + attribute.typeName + ".type," + attribute.attributeName + "_id);");
 			pw.println("		return " + attribute.attributeName + ";");
 		} else {
-			pw.println("	public " + attribute.getUsableType()
-					+ ((attribute.typeName.equals("boolean")) ? " is" : " get")
-					+ capitalizeFirst(attribute.attributeName) + "()");
+			pw.println("	public " + attribute.getUsableType() + ((attribute.typeName.equals("boolean")) ? " is" : " get") + capitalizeFirst(attribute.attributeName) + "()");
 			pw.println("	{");
 
 			pw.println("		return " + attribute.attributeName + ";");
@@ -1153,8 +1009,7 @@ public class ClassDefinition {
 		pw.println("	");
 
 		if (attribute.isEntity()) {
-			pw.println("	public long get"
-					+ capitalizeFirst(attribute.attributeName) + "Id()");
+			pw.println("	public long get" + capitalizeFirst(attribute.attributeName) + "Id()");
 			pw.println("	{");
 			pw.println("		return " + attribute.attributeName + "_id;");
 			pw.println("	}");
@@ -1166,10 +1021,8 @@ public class ClassDefinition {
 		return str.substring(0, 1).toUpperCase() + str.substring(1);
 	}
 
-	public static ClassDefinition fromFile(File schemaFile, String moduleName)
-			throws IOException {
-		JSONObject json = (JSONObject) JSONValue.parse(new FileReader(
-				schemaFile));
+	public static ClassDefinition fromFile(File schemaFile, String moduleName) throws IOException {
+		JSONObject json = (JSONObject) JSONValue.parse(new FileReader(schemaFile));
 		ClassDefinition ret = new ClassDefinition();
 		ret.packageName = (String) json.get("package");
 		ret.className = (String) json.get("name");
@@ -1192,8 +1045,7 @@ public class ClassDefinition {
 			JSONObject att = (JSONObject) o;
 			String typeName = (String) att.get("type");
 			String attributeName = (String) att.get("name");
-			AttributeDefiniton attributeDefiniton = new AttributeDefiniton(
-					typeName, attributeName);
+			AttributeDefiniton attributeDefiniton = new AttributeDefiniton(typeName, attributeName);
 			ret.attributes.add(attributeDefiniton);
 			if (typeName.equals("relation")) {
 				attributeDefiniton.relname = (String) att.get("relname");
@@ -1249,18 +1101,15 @@ public class ClassDefinition {
 		// use, but is useless when we need the FQN.
 		String tmpClassName = className.replace("Gen", "");
 
-		return getFullPackage(target, gen) + "." + tmpClassName
-				+ (gen ? "Gen" : "");
+		return getFullPackage(target, gen) + "." + tmpClassName + (gen ? "Gen" : "");
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((attributes == null) ? 0 : attributes.hashCode());
-		result = prime * result
-				+ ((baseClassName == null) ? 0 : baseClassName.hashCode());
+		result = prime * result + ((attributes == null) ? 0 : attributes.hashCode());
+		result = prime * result + ((baseClassName == null) ? 0 : baseClassName.hashCode());
 		result = prime * result + query.hashCode();
 		return result;
 	}

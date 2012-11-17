@@ -5,13 +5,11 @@ public class AttributeDefiniton {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((attributeName == null) ? 0 : attributeName.hashCode());
+		result = prime * result + ((attributeName == null) ? 0 : attributeName.hashCode());
 		result = prime * result + maxLen;
 		result = prime * result + ((relname == null) ? 0 : relname.hashCode());
 		result = prime * result + ((reltype == null) ? 0 : reltype.hashCode());
-		result = prime * result
-				+ ((typeName == null) ? 0 : typeName.hashCode());
+		result = prime * result + ((typeName == null) ? 0 : typeName.hashCode());
 		return result;
 	}
 
@@ -54,15 +52,14 @@ public class AttributeDefiniton {
 	public int maxLen = 1000;
 	public String relname;
 	public String reltype;
-	
+
 	public AttributeDefiniton(String typeName, String attributeName) {
 		super();
 		this.typeName = typeName;
 		this.attributeName = attributeName;
 	}
-	
-	public boolean isEntity()
-	{
+
+	public boolean isEntity() {
 		boolean attributeIsEntity = false;
 		if (isDomainType())
 			attributeIsEntity = Meva.getClassDefinition(typeName, true).entity;
@@ -70,46 +67,37 @@ public class AttributeDefiniton {
 	}
 
 	public boolean isDomainType() {
-		return !typeName.equals("String")
-				&& !typeName.equals("relation")
-				&& !Types.nativeTypes.contains(typeName);
+		return !typeName.equals("String") && !typeName.equals("relation") && !Types.nativeTypes.contains(typeName);
 	}
 
-	public boolean isNative()
-	{
+	public boolean isNative() {
 		return Types.nativeTypes.contains(typeName);
 	}
-	
-	public boolean isNativeOrString()
-	{
+
+	public boolean isNativeOrString() {
 		return typeName.equals("String") || Types.nativeTypes.contains(typeName);
 	}
 
-	public boolean isRelation()
-	{
+	public boolean isRelation() {
 		return typeName.equals("relation");
 	}
-	
-	public String getUsableType()
-	{
-		if(isRelation())
-			return "RelationCollection<? extends "+reltype+">";
+
+	public String getUsableType() {
+		if (isRelation())
+			return "RelationCollection<? extends " + reltype + ">";
 		else
 			return typeName;
 	}
 
-	public String getSqlType()
-	{
+	public String getSqlType() {
 		return Types.sqlTypes.get(typeName);
 	}
 
-	public String getWrapperType()
-	{
+	public String getWrapperType() {
 		return Types.wrapperTypes.get(typeName);
 	}
-	
-	public ClassDefinition getClassDefinition()
-	{
+
+	public ClassDefinition getClassDefinition() {
 		return Meva.getClassDefinition(typeName, true);
 	}
 

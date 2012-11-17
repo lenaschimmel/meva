@@ -46,8 +46,7 @@ public class Requests {
 
 	private static void ensureImplementation() {
 		if (networkImpl == null)
-			throw new RuntimeException(
-					" Requests.setImplementation must be called before using any of its other methods.");
+			throw new RuntimeException(" Requests.setImplementation must be called before using any of its other methods.");
 	}
 
 	public static void getIdsByQuery(EntityQuery q, RequestListener<Long> listener) {
@@ -56,49 +55,40 @@ public class Requests {
 
 		networkImpl.getIdsByQuery(q, listener);
 	}
-	
-	public static void getValuesByQuery(ValueQuery query, RequestListener<? extends Value> listener){
+
+	public static void getValuesByQuery(ValueQuery query, RequestListener<? extends Value> listener) {
 
 		ensureImplementation();
 
 		networkImpl.getValuesByQuery(query, listener);
 	}
 
-
-	public static <EntityClass extends Entity> void getLoadedEntityById(EntityTypeName type, long id,
-	RequestListener<EntityClass> listener)
-	{
+	public static <EntityClass extends Entity> void getLoadedEntityById(EntityTypeName type, long id, RequestListener<EntityClass> listener) {
 		Collection<Long> list = new LinkedList<Long>();
 		list.add(id);
-		getLoadedEntitiesById(type,list,listener);
+		getLoadedEntitiesById(type, list, listener);
 	}
-	
-	public static <EntityClass extends Entity> void getLoadedEntitiesById(
-			EntityTypeName type, Collection<Long> ids,
-			RequestListener<EntityClass> listener) {
+
+	public static <EntityClass extends Entity> void getLoadedEntitiesById(EntityTypeName type, Collection<Long> ids, RequestListener<EntityClass> listener) {
 
 		ensureImplementation();
 
-		Collection<EntityClass> entities = EntityFactory
-				.getUnloadedEntitiesById(type, ids);
+		Collection<EntityClass> entities = EntityFactory.getUnloadedEntitiesById(type, ids);
 		loadEntities(entities, listener);
 	}
 
-	public static <EntityClass extends Entity> void getLoadedEntitiesByQuery(
-			final EntityTypeName type, EntityQuery q,
-			final RequestListener<EntityClass> listener) {
+	public static <EntityClass extends Entity> void getLoadedEntitiesByQuery(final EntityTypeName type, EntityQuery q, final RequestListener<EntityClass> listener) {
 
 		ensureImplementation();
 
 		getIdsByQuery(q, new RequestListener<Long>() {
 			@Override
 			public void onFinished(Collection<Long> ids) {
-				Collection<EntityClass> entities = EntityFactory
-						.getUnloadedEntitiesById(type, ids);
+				Collection<EntityClass> entities = EntityFactory.getUnloadedEntitiesById(type, ids);
 				loadEntities(entities, listener);
 
 			}
-			
+
 			@Override
 			public void onError(String message, Throwable e) {
 				listener.onError(message, e);
@@ -107,34 +97,28 @@ public class Requests {
 		});
 	}
 
-
-	public static <EntityClass extends Entity> void getNewEntity(
-			final EntityTypeName type, 
-			final RequestListener<EntityClass> listener) {
+	public static <EntityClass extends Entity> void getNewEntity(final EntityTypeName type, final RequestListener<EntityClass> listener) {
 
 		getNewEntities(type, 1, listener);
 	}
-	
-	public static <EntityClass extends Entity> void getNewEntities(
-			final EntityTypeName type, final int count,
-			final RequestListener<EntityClass> listener) {
+
+	public static <EntityClass extends Entity> void getNewEntities(final EntityTypeName type, final int count, final RequestListener<EntityClass> listener) {
 
 		ensureImplementation();
 
 		getNewIds(type, count, new RequestListener<Long>() {
 			@Override
 			public void onFinished(Collection<Long> ids) {
-				Collection<EntityClass> entitites = EntityFactory
-						.getUnloadedEntitiesById(type, ids);
+				Collection<EntityClass> entitites = EntityFactory.getUnloadedEntitiesById(type, ids);
 				listener.onFinished(entitites);
 			}
-			
+
 			@Override
 			public void onNewResult(Long result) {
 				EntityClass e = (EntityClass) EntityFactory.getUnloadedEntityById(type, result);
 				listener.onNewResult(e);
 			}
-			
+
 			@Override
 			public void onError(String message, Throwable e) {
 				listener.onError(message, e);
@@ -142,37 +126,30 @@ public class Requests {
 		});
 	}
 
-	public static void getNewIds(EntityTypeName type, int count,
-			RequestListener<Long> listener) {
+	public static void getNewIds(EntityTypeName type, int count, RequestListener<Long> listener) {
 
 		ensureImplementation();
 
 		networkImpl.getNewIds(type, count, listener);
 	}
 
-	public static <EntityClass extends Entity> void getUnloadedEntitiesByQuery(
-			final EntityTypeName type, EntityQuery q,
-			final RequestListener<EntityClass> listener) {
+	public static <EntityClass extends Entity> void getUnloadedEntitiesByQuery(final EntityTypeName type, EntityQuery q, final RequestListener<EntityClass> listener) {
 
 		ensureImplementation();
 
 		getIdsByQuery(q, new RequestListener<Long>() {
 			@Override
 			public void onFinished(Collection<Long> ids) {
-				Collection<EntityClass> entities = EntityFactory
-						.getUnloadedEntitiesById(type, ids);
+				Collection<EntityClass> entities = EntityFactory.getUnloadedEntitiesById(type, ids);
 				listener.onFinished(entities);
 			}
 		});
 	}
-	
 
-	public static <EntityClass extends Entity> void loadEntity(
-			EntityClass entity,
-			RequestListener<EntityClass> listener) {
+	public static <EntityClass extends Entity> void loadEntity(EntityClass entity, RequestListener<EntityClass> listener) {
 		Collection<EntityClass> entities = new LinkedList<EntityClass>();
 		entities.add(entity);
-		loadEntities(entities , listener);
+		loadEntities(entities, listener);
 	}
 
 	/**
@@ -185,18 +162,14 @@ public class Requests {
 	 * @param listener
 	 *            A listener or null.
 	 */
-	public static <EntityClass extends Entity> void saveEntity(
-			EntityClass entity,
-			RequestListener<EntityClass> listener) {
-		
+	public static <EntityClass extends Entity> void saveEntity(EntityClass entity, RequestListener<EntityClass> listener) {
+
 		Collection<EntityClass> entities = new LinkedList<EntityClass>();
 		entities.add(entity);
-		saveEntities(entities , listener);
+		saveEntities(entities, listener);
 	}
 
-	public static <EntityClass extends Entity> void loadEntities(
-			Collection<EntityClass> entities,
-			RequestListener<EntityClass> listener) {
+	public static <EntityClass extends Entity> void loadEntities(Collection<EntityClass> entities, RequestListener<EntityClass> listener) {
 
 		ensureImplementation();
 		ensureSameTypes(entities);
@@ -213,9 +186,7 @@ public class Requests {
 	 * @param listener
 	 *            A listener or null.
 	 */
-	public static <EntityClass extends Entity> void saveEntities(
-			Collection<EntityClass> entities,
-			RequestListener<EntityClass> listener) {
+	public static <EntityClass extends Entity> void saveEntities(Collection<EntityClass> entities, RequestListener<EntityClass> listener) {
 
 		ensureImplementation();
 		ensureSameTypes(entities);
@@ -223,8 +194,7 @@ public class Requests {
 	}
 
 	public static void ensureSameTypes(Collection<? extends Entity> entities) {
-		if(entities.isEmpty())
-		{
+		if (entities.isEmpty()) {
 			System.err.println("Warning: ensureSameTypes on an empty collection.");
 			new Throwable().printStackTrace();
 			return;
@@ -232,10 +202,7 @@ public class Requests {
 		EntityTypeName fistTypeName = entities.iterator().next().getType();
 		for (Entity e : entities) {
 			if (fistTypeName != e.getType())
-				throw new RuntimeException(
-						"Heterogenous types in Request: first Entity has type "
-								+ fistTypeName + ", another one has "
-								+ e.getType());
+				throw new RuntimeException("Heterogenous types in Request: first Entity has type " + fistTypeName + ", another one has " + e.getType());
 		}
 	}
 }

@@ -6,8 +6,7 @@ import com.facebook.android.DialogError;
 import com.facebook.android.Facebook.ServiceListener;
 import com.facebook.android.FacebookError;
 
-public abstract class FacebookServiceListener extends FacebookErrorListener implements
-		ServiceListener {
+public abstract class FacebookServiceListener extends FacebookErrorListener implements ServiceListener {
 
 	@Override
 	public void onFacebookError(FacebookError e) {

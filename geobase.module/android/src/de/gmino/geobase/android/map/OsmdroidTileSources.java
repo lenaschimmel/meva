@@ -7,7 +7,7 @@ import de.gmino.geobase.shared.map.MapProvider;
 public class OsmdroidTileSources {
 
 	private static Map<MapProvider, OsmdroidMapLayer> map;
-	
+
 	public static OsmdroidMapLayer getSourceByProvider(MapProvider provider) {
 		OsmdroidMapLayer ret = map.get(provider);
 		if (ret == null) {

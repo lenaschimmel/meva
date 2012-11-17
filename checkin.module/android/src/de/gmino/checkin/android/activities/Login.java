@@ -23,12 +23,10 @@ public class Login extends Activity implements OnClickListener, FacebookLoginSta
 		if (FacebookUtil.getState() == State.LOGGED_IN) {
 			startMainMenu();
 			return;
-		}
-		else
-		{
+		} else {
 			setContentView(R.layout.login);
-			btNearbyShops = (Button)findViewById(R.id.btNearbyShops);
-			btLogin = (Button)findViewById(R.id.btLogin);
+			btNearbyShops = (Button) findViewById(R.id.btNearbyShops);
+			btLogin = (Button) findViewById(R.id.btLogin);
 			btLogin.setOnClickListener(this);
 		}
 	}
@@ -43,19 +41,17 @@ public class Login extends Activity implements OnClickListener, FacebookLoginSta
 		Intent intent = new Intent(this, ShopList.class);
 		startActivity(intent);
 	}
-	
+
 	@Override
 	public void onClick(View v) {
-		if(v == btLogin)
-		{
+		if (v == btLogin) {
 			FacebookUtil.addFacebookEventListener(this);
 			FacebookUtil.ensureFacebookLogin(this);
-		}		
-		if(v == btNearbyShops)
-		{
+		}
+		if (v == btNearbyShops) {
 			startNearbyShops();
 		}
-		
+
 	}
 
 	@Override

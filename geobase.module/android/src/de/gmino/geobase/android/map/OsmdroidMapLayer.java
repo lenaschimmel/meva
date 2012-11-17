@@ -12,9 +12,9 @@ public class OsmdroidMapLayer extends BitmapTileSourceBase implements MapLayer {
 
 	@Override
 	public String getTileRelativeFilenameString(MapTile tile) {
-		return "http://gmino.de:8090/"+mName+"/"+tile.getZoomLevel()+"/"+tile.getX()+"/"+tile.getY()+".png";
+		return "http://gmino.de:8090/" + mName + "/" + tile.getZoomLevel() + "/" + tile.getX() + "/" + tile.getY() + ".png";
 	}
-	
+
 	public OsmdroidMapLayer(String urlName, String readableName) {
 		super(urlName, null, 0, 17, 256, "png");
 		this.readableName = readableName;

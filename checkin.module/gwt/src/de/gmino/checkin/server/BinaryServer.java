@@ -84,14 +84,12 @@ public class BinaryServer extends HttpServlet {
 			for (long id : ids)
 				dos.writeLong(id);
 			dos.writeLong(0);
-		}
-		else
-		{
+		} else {
 			System.out.println("Evaluating " + valueQuery);
 			Collection<Value> values = valueQuery.evaluate();
 			dos.writeInt(values.size());
 			for (Value val : values)
-				((ValueBinary)val).serializeBinary(dos);
+				((ValueBinary) val).serializeBinary(dos);
 		}
 		dos.flush();
 		dos.close();

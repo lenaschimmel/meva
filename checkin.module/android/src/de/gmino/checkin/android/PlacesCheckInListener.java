@@ -16,9 +16,10 @@ import de.gmino.checkin.android.activities.Coupons;
 import de.gmino.checkin.android.domain.Shop;
 
 public class PlacesCheckInListener implements RequestListener {
-	
+
 	Activity context;
 	Shop shop;
+
 	public PlacesCheckInListener(Activity context, Shop shop) {
 		super();
 		this.shop = shop;
@@ -50,7 +51,7 @@ public class PlacesCheckInListener implements RequestListener {
 
 	@Override
 	public void onFacebookError(FacebookError e, Object state) {
-			Log.d("FBerror", e.toString());
+		Log.d("FBerror", e.toString());
 	}
 
 }

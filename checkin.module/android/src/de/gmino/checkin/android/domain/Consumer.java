@@ -5,24 +5,15 @@ package de.gmino.checkin.android.domain;
 
 // gmino stuff
 import de.gmino.checkin.android.domain.gen.ConsumerGen;
+
 public class Consumer extends ConsumerGen {
 	// Constructors
-	public Consumer(long id)
-	{
+	public Consumer(long id) {
 		super(id);
 	}
-	
-	public Consumer(
-			long id,
-			boolean ready,
-			String facebookId)
-	{
-		super(
-			id,
-			ready,
-			facebookId
-		);
+
+	public Consumer(long id, boolean ready, String facebookId) {
+		super(id, ready, facebookId);
 	}
-	
 
 }

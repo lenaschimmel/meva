@@ -97,10 +97,10 @@ public class OsmdroidMapView extends AbstractMapView implements MapListener {
 
 	@Override
 	public void addLayer(MapLayer layer) {
-		if(layer instanceof OsmdroidMapLayer)
-			inner.setTileSource((OsmdroidMapLayer)layer);
+		if (layer instanceof OsmdroidMapLayer)
+			inner.setTileSource((OsmdroidMapLayer) layer);
 		else if (layer instanceof OsmdroidOverlayLayer)
-			inner.getOverlays().add(((OsmdroidOverlayLayer)layer).getOsmdroidImplemenatation());
+			inner.getOverlays().add(((OsmdroidOverlayLayer) layer).getOsmdroidImplemenatation());
 	}
 
 	@Override

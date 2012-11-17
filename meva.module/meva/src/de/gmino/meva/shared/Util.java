@@ -19,16 +19,15 @@ public class Util {
 		return impl.getBaseUrl();
 	}
 
-	public  static <T> T randomElementFrom(T[] array) {
+	public static <T> T randomElementFrom(T[] array) {
 		return array[(int) (0.999 * Math.random() * array.length)];
 	}
-	
+
 	public static String capitalizeFirst(String str) {
 		return str.substring(0, 1).toUpperCase() + str.substring(1);
 	}
-	
-	public static String escapeForJson(String unescaped)
-	{
-		return unescaped.replace("\\","\\\\").replace("\"","\\\"");
+
+	public static String escapeForJson(String unescaped) {
+		return unescaped.replace("\\", "\\\\").replace("\"", "\\\"");
 	}
 }

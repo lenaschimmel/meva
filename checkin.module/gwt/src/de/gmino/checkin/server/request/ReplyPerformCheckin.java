@@ -38,38 +38,25 @@ import de.gmino.checkin.server.domain.Coupon;
 import de.gmino.checkin.server.domain.CouponOwenership;
 import de.gmino.checkin.server.domain.Shop;
 
-
 import de.gmino.checkin.server.request.gen.ReplyPerformCheckinGen;
+
 public class ReplyPerformCheckin extends ReplyPerformCheckinGen {
 	// Constructors
 	// Constructor for SQL deseralizaiton
-	public ReplyPerformCheckin(String prefix, ResultSet rs) throws SQLException
-	{
+	public ReplyPerformCheckin(String prefix, ResultSet rs) throws SQLException {
 		super(prefix, rs);
 	}
-	public ReplyPerformCheckin(DataInputStream dis) throws IOException
-	{
+
+	public ReplyPerformCheckin(DataInputStream dis) throws IOException {
 		super(dis);
 	}
-	public ReplyPerformCheckin(JsonObject json) throws IOException
-	{
+
+	public ReplyPerformCheckin(JsonObject json) throws IOException {
 		super(json);
 	}
-	public ReplyPerformCheckin(
-			boolean success,
-			String message,
-			Shop shop,
-			Coupon coupon,
-			CouponOwenership ownership)
-	{
-		super(
-			success,
-			message,
-			(de.gmino.checkin.server.domain.Shop)shop,
-			(de.gmino.checkin.server.domain.Coupon)coupon,
-			(de.gmino.checkin.server.domain.CouponOwenership)ownership
-		);
+
+	public ReplyPerformCheckin(boolean success, String message, Shop shop, Coupon coupon, CouponOwenership ownership) {
+		super(success, message, (de.gmino.checkin.server.domain.Shop) shop, (de.gmino.checkin.server.domain.Coupon) coupon, (de.gmino.checkin.server.domain.CouponOwenership) ownership);
 	}
-	
 
 }

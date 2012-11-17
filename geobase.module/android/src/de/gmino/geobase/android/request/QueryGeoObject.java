@@ -37,27 +37,20 @@ import de.gmino.meva.shared.ValueBinary;
 // imports for field types
 import de.gmino.geobase.android.domain.LatLonRect;
 
-
 import de.gmino.geobase.android.request.gen.QueryGeoObjectGen;
+
 public class QueryGeoObject extends QueryGeoObjectGen {
 	// Constructors
-	public QueryGeoObject(DataInputStream dis) throws IOException
-	{
+	public QueryGeoObject(DataInputStream dis) throws IOException {
 		super(dis);
 	}
-	public QueryGeoObject(JsonObject json) throws IOException
-	{
+
+	public QueryGeoObject(JsonObject json) throws IOException {
 		super(json);
 	}
-	public QueryGeoObject(
-			LatLonRect area,
-			int maxCount)
-	{
-		super(
-			(de.gmino.geobase.android.domain.LatLonRect)area,
-			maxCount
-		);
+
+	public QueryGeoObject(LatLonRect area, int maxCount) {
+		super((de.gmino.geobase.android.domain.LatLonRect) area, maxCount);
 	}
-	
 
 }

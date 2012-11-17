@@ -32,69 +32,59 @@ public class ShopList extends Activity {
 		setContentView(R.layout.activity_shop_list);
 
 		tiles = new TileLayout(this);
-//		for (int i = 0; i < 20; i++) {
-//			Button button = new Button(this);
-//			button.setText("Button " + i);
-//			tiles.addView(button);
-//		}
+		// for (int i = 0; i < 20; i++) {
+		// Button button = new Button(this);
+		// button.setText("Button " + i);
+		// tiles.addView(button);
+		// }
 		ScrollView svList = (ScrollView) findViewById(R.id.svList);
 		svList.addView(tiles);
 
 		// Request all shops near you
 		final LatLon myLocation = new LatLon(52.2723, 10.53547);
 		EntityQuery q = new QueryNearbyShops(myLocation, 500000, 25);
-		Requests.getLoadedEntitiesByQuery(Shop.type, q,
-				new RequestListener<Shop>() {
-					@Override
-					public void onFinished(Collection<Shop> results) {
-						// prepare a set of all the Coupons that we should
-						// pre-load, because
-						// the shops may contain unloaded coupons.
-						Set<Coupon> couponsToLoad = new HashSet<Coupon>();
+		Requests.getLoadedEntitiesByQuery(Shop.type, q, new RequestListener<Shop>() {
+			@Override
+			public void onFinished(Collection<Shop> results) {
+				// prepare a set of all the Coupons that we should
+				// pre-load, because
+				// the shops may contain unloaded coupons.
+				Set<Coupon> couponsToLoad = new HashSet<Coupon>();
 
-						// put the shops into a list of Strings
-						String[] arr = new String[results.size()];
-						int i = 0;
-						for (Shop shop : results) {
-							arr[i++] = shop.getTitle()
-									+ "("
-									+ shop.getLocation().getDistanceTo(
-											myLocation) + " entfernt)";
-							couponsToLoad.addAll(shop.getCoupons());
-							Button button = new Button(ShopList.this);
-							button.setText(shop.getTitle());
-							tiles.addView(button);
-							System.out.println("Added button: " + shop.getTitle());
+				// put the shops into a list of Strings
+				String[] arr = new String[results.size()];
+				int i = 0;
+				for (Shop shop : results) {
+					arr[i++] = shop.getTitle() + "(" + shop.getLocation().getDistanceTo(myLocation) + " entfernt)";
+					couponsToLoad.addAll(shop.getCoupons());
+					Button button = new Button(ShopList.this);
+					button.setText(shop.getTitle());
+					tiles.addView(button);
+					System.out.println("Added button: " + shop.getTitle());
+				}
+
+				Requests.loadEntities(couponsToLoad, new RequestListener<Coupon>() {
+					@Override
+					public void onFinished(Collection<Coupon> coupons) {
+						StringBuilder sb = new StringBuilder("Coupons: ");
+						boolean first = true;
+						for (Coupon c : coupons) {
+							if (!first)
+								sb.append(", ");
+							sb.append(c.getTitle());
+							first = false;
 						}
-
-						Requests.loadEntities(couponsToLoad,
-								new RequestListener<Coupon>() {
-									@Override
-									public void onFinished(
-											Collection<Coupon> coupons) {
-										StringBuilder sb = new StringBuilder(
-												"Coupons: ");
-										boolean first = true;
-										for (Coupon c : coupons) {
-											if (!first)
-												sb.append(", ");
-											sb.append(c.getTitle());
-											first = false;
-										}
-										Toast.makeText(ShopList.this,
-												sb.toString(),
-												Toast.LENGTH_LONG).show();
-									}
-								});
-					}
-
-					@Override
-					public void onError(String message, Throwable e) {
-						Toast.makeText(ShopList.this, message,
-								Toast.LENGTH_LONG).show();
-						e.printStackTrace();
+						Toast.makeText(ShopList.this, sb.toString(), Toast.LENGTH_LONG).show();
 					}
 				});
+			}
+
+			@Override
+			public void onError(String message, Throwable e) {
+				Toast.makeText(ShopList.this, message, Toast.LENGTH_LONG).show();
+				e.printStackTrace();
+			}
+		});
 
 		/*
 		 * System.out.println("I STARTED DA DANG!");

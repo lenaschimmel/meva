@@ -45,20 +45,17 @@ public class QueryConsumerByFid extends QueryConsumerByFidGen {
 			Connection con = SqlHelper.getConnection();
 			Statement stat = con.createStatement();
 
-			ResultSet result = stat.executeQuery("SELECT id FROM Consumer "
-					+ "WHERE facebookId = '" + fid + "';");
+			ResultSet result = stat.executeQuery("SELECT id FROM Consumer " + "WHERE facebookId = '" + fid + "';");
 			Collection<Long> ids = new LinkedList<Long>();
 			if (result.next())
 				ids.add(result.getLong(1));
 			else {
-				Collection<Consumer> newEntities = LocalRequetsImpl
-						.getNewEntities(Consumer.type, 1);
+				Collection<Consumer> newEntities = LocalRequetsImpl.getNewEntities(Consumer.type, 1);
 				Consumer c = newEntities.iterator().next();
 				c.setFacebookId(fid);
 				LocalRequetsImpl.saveEntities(newEntities);
 				ids.add(c.getId());
-				System.out.println("Created new Consumer " + c.getId()
-						+ " with fid " + fid);
+				System.out.println("Created new Consumer " + c.getId() + " with fid " + fid);
 			}
 			return ids;
 		} catch (SQLException e) {
