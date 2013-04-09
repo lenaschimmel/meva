@@ -8,7 +8,6 @@ android-reiseapp/
 facebook-android-sdk/
 .metadata/
 *.war
-checkin.module/gwt/war
 meva.dot
 HelpPatientenruf/
 JMapViewer/
@@ -29,5 +28,4 @@ server-imageimport/
 server-wikicache/
 sqldroid/
 transit-map/
-meva.module/gwt/war/OpenLayers-2.12/
 
