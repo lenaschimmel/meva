@@ -32,22 +32,4 @@
     <url-pattern>/Binary/*</url-pattern>
   </servlet-mapping>
   
-  <servlet>
-	<servlet-name>LandingPage</servlet-name>
-	<jsp-file>/jsp/LandingPage.jsp</jsp-file>
-	 <init-param>
-        <param-name>compilerSourceVM</param-name>
-        <param-value>1.5</param-value>
-    </init-param>
-    <init-param>
-        <param-name>compilerTargetVM</param-name>
-        <param-value>1.5</param-value>
-    </init-param>
-  </servlet>
- 
-  <servlet-mapping>
-	<servlet-name>LandingPage</servlet-name>
-	<url-pattern>/LandingPage</url-pattern>
-  </servlet-mapping>
-  
 </web-app>

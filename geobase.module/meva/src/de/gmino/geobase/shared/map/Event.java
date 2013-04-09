@@ -8,7 +8,8 @@ package de.gmino.geobase.shared.map;
  * 
  */
 public enum Event {
-	mouseover, mouseout, mousedown, mouseup, mousemove, click, dblclick, rightclick, dblrightclick, resize, focus, blur, touchstart, touchmove, touchend, keydown,
+	mouseover, mouseout, mousedown, mouseup, mousemove, click, dblclick, rightclick, dblrightclick,
+	resize, focus, blur, touchstart, touchmove, touchend, keydown,
 
 	// not directly supported by openlayers:
 	move(true), zoom(true);

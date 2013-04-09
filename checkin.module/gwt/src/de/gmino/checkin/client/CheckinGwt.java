@@ -209,7 +209,6 @@ public class CheckinGwt implements EntryPoint {
 	 * Send the name from the nameField to the server and wait for a response.
 	 */
 	void doExampleRequests() {
-
 		// Then, we send the input to the server.
 		// Request all shops near you
 		final LatLon myLocation = new LatLon(52.2723, 10.53547);
@@ -230,25 +229,26 @@ public class CheckinGwt implements EntryPoint {
 					markerLayer.addMarker(shopMarker);
 					shopMarker.addEventListener(Event.click, markerClickListener);
 
-					String message = shop.getTitle() + "(" + shop.getLocation().getDistanceTo(myLocation) + " entfernt)";
+					//String message = shop.getTitle() + "(" + shop.getLocation().getDistanceTo(myLocation) + " entfernt)";
 					// Window.alert(message);
 					couponsToLoad.addAll(shop.getCoupons());
 				}
 
-				Requests.loadEntities(couponsToLoad, new RequestListener<Coupon>() {
-					@Override
-					public void onFinished(Collection<Coupon> coupons) {
-						StringBuilder sb = new StringBuilder("Coupons: ");
-						boolean first = true;
-						for (Coupon c : coupons) {
-							if (!first)
-								sb.append(", ");
-							sb.append(c.getTitle());
-							first = false;
-						}
-						// Window.alert(sb.toString());
-					}
-				});
+				Requests.loadEntities(couponsToLoad, null); 
+				//, new RequestListener<Coupon>() {
+//					@Override
+//					public void onFinished(Collection<Coupon> coupons) {
+//						StringBuilder sb = new StringBuilder("Coupons: ");
+//						boolean first = true;
+//						for (Coupon c : coupons) {
+//							if (!first)
+//								sb.append(", ");
+//							sb.append(c.getTitle());
+//							first = false;
+//						}
+//						// Window.alert(sb.toString());
+//					}
+			//	});
 
 				Requests.getNewEntities(Coupon.type, 1, new RequestListener<Coupon>() {
 					@Override

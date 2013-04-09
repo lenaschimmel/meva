@@ -2,10 +2,11 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="src" path="cpy"/>
 	<classpathentry kind="src" path="mevagen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="lib" path="libs/itemscript-standard-1.0.0.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/checkinMeva"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/geobaseAndroid"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
