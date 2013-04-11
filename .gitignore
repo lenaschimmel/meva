@@ -30,3 +30,8 @@ sqldroid/
 transit-map/
 *.cache.html
 checkin.module/gwt/war/WEB-INF/lib/*.jar
+gwt-unitCache/
+classes/
+deploy/
+*.nocache.js
+*/gwt/war/WEB-INF/lib/*.jar
