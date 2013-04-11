@@ -10,6 +10,57 @@ h1 {
   text-align: center;
 }
 
+#map {
+	position:absolute;
+	top:103px;
+	left:0px;
+	right:0px;
+	bottom:61px;
+}
+
+#bar_top
+{
+	font-size: 90%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	border-bottom: 3px solid #4DADDE;
+	background: #333;
+	padding: 5px;
+	z-index: 5;
+}
+
+
+#bar_bottom
+{
+	font-size: 90%;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	border-top: 3px solid #4DADDE;
+	background: #333;
+	padding: 5px;
+	z-index: 5;
+	min-height: 50px;
+}
+
+#button
+{
+	font-size: 200%;
+	text-align:center;
+	font-variant:small-caps;
+	color: #4DADDE;
+	border-right: 1px solid #4DADDE;
+	background: #333;
+	padding: 5px;
+	z-index: 5;
+	width: 19%;
+	min-height: 40px;
+	float:left;
+}
+
 .sendButton {
   display: block;
   font-size: 16pt;

@@ -62,26 +62,26 @@ public class IssuemapGwt implements EntryPoint {
 		// Create the map
 				map = new OpenLayersMapView("map");
 				map.setCenterAndZoom(new LatLon(52.27617, 10.53216), 15, false);
-				markerLayer = map.newMarkerLayer("Coupony-Partner");
+				markerLayer = map.newMarkerLayer("cycleway_problems_bs");
 				map.addLayer(markerLayer);
 		
-		final Button sendButton = new Button("Send");
-		final TextBox nameField = new TextBox();
-		nameField.setText("GWT User");
+		final Button searchButton = new Button("Send");
+		final TextBox searchField = new TextBox();
+		searchField.setText("Rebenring");
 		final Label errorLabel = new Label();
 
 		// We can add style names to widgets
-		sendButton.addStyleName("sendButton");
+		searchButton.addStyleName("sendButton");
 
 		// Add the nameField and sendButton to the RootPanel
 		// Use RootPanel.get() to get the entire body element
-		RootPanel.get("nameFieldContainer").add(nameField);
-		RootPanel.get("sendButtonContainer").add(sendButton);
+		RootPanel.get("searchFieldContainer").add(searchField);
+		RootPanel.get("searchButtonContainer").add(searchButton);
 		RootPanel.get("errorLabelContainer").add(errorLabel);
 
-		// Focus the cursor on the name field when the app loads
-		nameField.setFocus(true);
-		nameField.selectAll();
+		// Focus the cursor on the search field when the app loads
+		searchField.setFocus(true);
+		searchField.selectAll();
 
 		// Create the popup dialog box
 		final DialogBox dialogBox = new DialogBox();
@@ -106,8 +106,8 @@ public class IssuemapGwt implements EntryPoint {
 		closeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				dialogBox.hide();
-				sendButton.setEnabled(true);
-				sendButton.setFocus(true);
+				searchButton.setEnabled(true);
+				searchButton.setFocus(true);
 			}
 		});
 
@@ -135,14 +135,14 @@ public class IssuemapGwt implements EntryPoint {
 			private void sendNameToServer() {
 				// First, we validate the input.
 				errorLabel.setText("");
-				String textToServer = nameField.getText();
+				String textToServer = searchField.getText();
 				if (!FieldVerifier.isValidName(textToServer)) {
 					errorLabel.setText("Please enter at least four characters");
 					return;
 				}
 
 				// Then, we send the input to the server.
-				sendButton.setEnabled(false);
+				searchButton.setEnabled(false);
 				textToServerLabel.setText(textToServer);
 				serverResponseLabel.setText("");
 				greetingService.greetServer(textToServer,
@@ -172,7 +172,7 @@ public class IssuemapGwt implements EntryPoint {
 
 		// Add a handler to send the name to the server
 		MyHandler handler = new MyHandler();
-		sendButton.addClickHandler(handler);
-		nameField.addKeyUpHandler(handler);
+		searchButton.addClickHandler(handler);
+		searchField.addKeyUpHandler(handler);
 	}
 }
