@@ -2,31 +2,25 @@ package de.gmino.issuemap.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
-
 import de.gmino.geobase.client.domain.LatLon;
 import de.gmino.geobase.client.map.OpenLayersMapView;
 import de.gmino.geobase.shared.map.MarkerLayer;
+import de.gmino.issuemap.client.domain.Map;
+import de.gmino.issuemap.client.request.QueryMapBySubdomain;
 import de.gmino.issuemap.shared.EntityFactoryImpl;
-import de.gmino.issuemap.shared.FieldVerifier;
 import de.gmino.meva.client.UtilClient;
 import de.gmino.meva.client.request.NetworkRequestsImplAsyncJson;
 import de.gmino.meva.shared.EntityFactory;
+import de.gmino.meva.shared.EntityQuery;
 import de.gmino.meva.shared.Util;
+import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
 /**
@@ -42,7 +36,8 @@ public class IssuemapGwt implements EntryPoint {
 			+ "connection and try again.";
 
 	/**
-	 * Create a remote service proxy to talk to the server-side Greeting service.
+	 * Create a remote service proxy to talk to the server-side Greeting
+	 * service.
 	 */
 	private final GreetingServiceAsync greetingService = GWT
 			.create(GreetingService.class);
@@ -51,29 +46,30 @@ public class IssuemapGwt implements EntryPoint {
 
 	private MarkerLayer markerLayer;
 
+	private String subdomain;
+
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
 		EntityFactory.setImplementations(new EntityFactoryImpl());
 		Util.setImpl(new UtilClient());
-		
-		Requests.setImplementation(new NetworkRequestsImplAsyncJson("http://"+Location.getHost()));
+
+		Requests.setImplementation(new NetworkRequestsImplAsyncJson("http://"
+				+ Location.getHost()+"/"));
 
 		// Create the map
-				map = new OpenLayersMapView("map");
-				map.setCenterAndZoom(new LatLon(52.27617, 10.53216), 15, false);
-				markerLayer = map.newMarkerLayer("cycleway_problems_bs");
-				map.addLayer(markerLayer);
-		
+		map = new OpenLayersMapView("map");
+		map.setCenterAndZoom(new LatLon(52.27617, 10.53216), 15, false);
+		markerLayer = map.newMarkerLayer("cycleway_problems_bs");
+		map.addLayer(markerLayer);
+
 		final Button searchButton = new Button("Send");
 		final TextBox searchField = new TextBox();
 		searchField.setText("Rebenring");
 		final Label errorLabel = new Label();
 		String[] domainSplit = Location.getHostName().split("\\.");
-		Image logo = new Image("http://gmino.de/static/img/map_logos/"+ domainSplit[0]+"_logo.png");
-		logo.setHeight("80px");
-		
+		subdomain = domainSplit[0];
 
 		// We can add style names to widgets
 		searchButton.addStyleName("sendButton");
@@ -83,12 +79,40 @@ public class IssuemapGwt implements EntryPoint {
 		RootPanel.get("searchFieldContainer").add(searchField);
 		RootPanel.get("searchButtonContainer").add(searchButton);
 		RootPanel.get("errorLabelContainer").add(errorLabel);
-		RootPanel.get("logoContainer").add(logo);
+		
 
 		// Focus the cursor on the search field when the app loads
 		searchField.setFocus(true);
 		searchField.selectAll();
+		
+		doExampleRequests();
 
+	}
 
+	/**
+	 * Send the name from the nameField to the server and wait for a response.
+	 */
+	void doExampleRequests() {
+		// Then, we send the input to the server.
+		// Request all shops near you
+		EntityQuery q = new QueryMapBySubdomain(subdomain);
+		Requests.getLoadedEntitiesByQuery(Map.type, q,
+				new RequestListener<Map>() {
+
+					public void onNewResult(Map result) {
+						
+						Image logo = new Image(""+ result.getLogo());
+						logo.setHeight("80px");
+						RootPanel.get("logoContainer").add(logo);
+
+						
+						
+					};
+
+					@Override
+					public void onError(String message, Throwable e) {
+						Window.alert(message);
+					}
+				});
 	}
 }

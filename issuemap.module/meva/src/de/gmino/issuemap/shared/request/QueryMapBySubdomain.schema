@@ -1,0 +1,12 @@
+{
+	"concept" : "value",
+	"package" : "de.gmino.issuemap.TARGET.request",
+	"name" : "QueryMapBySubdomain",
+	"query" : "Map",
+	"attributes" : [
+		{
+			"type" : "String",
+			"name" : "subdomain"
+		}	
+	]
+}
