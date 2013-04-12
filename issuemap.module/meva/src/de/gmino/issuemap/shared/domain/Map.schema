@@ -7,9 +7,13 @@
 			"type" : "String",
 			"name" : "title"
 		},
-				{
+		{
 			"type" : "String",
 			"name" : "description"
+		},
+		{
+			"type" : "String",
+			"name" : "subdomain"
 		},
 		{
 			"type" : "String",

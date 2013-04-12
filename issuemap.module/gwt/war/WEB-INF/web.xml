@@ -7,13 +7,13 @@
 
   <!-- Servlets -->
   <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>de.gmino.issuemap.server.GreetingServiceImpl</servlet-class>
-  </servlet>
+    <servlet-name>JsonServer</servlet-name>
+    <servlet-class>de.gmino.issuemap.server.JsonServer</servlet-class>
+  </servlet>  
   
   <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/issuemapgwt/greet</url-pattern>
+    <servlet-name>JsonServer</servlet-name>
+    <url-pattern>/Json/*</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
