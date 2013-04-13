@@ -36,5 +36,5 @@ deploy/
 *.nocache.js
 */gwt/war/WEB-INF/lib/*.jar
 *.core.prefs
-.classpath
+**/.classpath
 
