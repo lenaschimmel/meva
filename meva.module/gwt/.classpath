@@ -8,6 +8,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-servlet.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jstl.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/standard.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/mevaMeva"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/mevaMeva"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
