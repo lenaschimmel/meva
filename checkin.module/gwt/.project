@@ -22,11 +22,23 @@
 		</buildCommand>
 		<buildCommand>
 			<name>com.google.appengine.eclipse.core.gaeProjectChangeNotifier</name>
+<<<<<<< HEAD
+=======
 			<arguments>
 			</arguments>
 		</buildCommand>
 		<buildCommand>
 			<name>com.google.appengine.eclipse.core.projectValidator</name>
+>>>>>>> 8605eaf2132cb7a3c21f0c7dab308437b039f8e7
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+<<<<<<< HEAD
+			<name>com.google.appengine.eclipse.core.projectValidator</name>
+=======
+			<name>com.google.appengine.eclipse.core.enhancerbuilder</name>
+>>>>>>> 8605eaf2132cb7a3c21f0c7dab308437b039f8e7
 			<arguments>
 			</arguments>
 		</buildCommand>
