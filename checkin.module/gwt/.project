@@ -26,7 +26,7 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>com.google.appengine.eclipse.core.projectValidator</name>
+			<name>com.google.appengine.eclipse.core.projectValidator</name>OB
 			<arguments>
 			</arguments>
 		</buildCommand>

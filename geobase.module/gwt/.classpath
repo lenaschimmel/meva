@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="itemscript-gwt-1.0.0.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/geobaseMeva"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/mevaGwt"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT (1)"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
