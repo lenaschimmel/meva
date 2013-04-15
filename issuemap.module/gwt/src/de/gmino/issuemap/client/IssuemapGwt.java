@@ -74,6 +74,7 @@ public class IssuemapGwt implements EntryPoint {
 		verticalPanel.add(footer);
 		
 		//create buttons & textfields
+		//nix ;)
 		//TODO: Tillmann machts 
 		
 		final Button searchButton = new Button("Send");
