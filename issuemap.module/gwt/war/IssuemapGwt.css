@@ -10,12 +10,16 @@ h1 {
   text-align: center;
 }
 
+td {
+	color: #4DADDE;
+}
+
 #map {
 	position:absolute;
-	top:103px;
+	top:55px;
 	left:0px;
 	right:0px;
-	bottom:61px;
+	bottom:40px;
 }
 
 #bar_top
@@ -27,7 +31,6 @@ h1 {
 	right: 0;
 	border-bottom: 3px solid #4DADDE;
 	background: #333;
-	padding: 5px;
 	z-index: 5;
 }
 
@@ -39,26 +42,47 @@ h1 {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	border-top: 3px solid #4DADDE;
+	border-top: 2px solid #4DADDE;
 	background: #333;
-	padding: 5px;
+	padding-bottom: 3px;
 	z-index: 5;
-	min-height: 50px;
+	min-height: 15px;
+}
+
+#textbox
+{
+	text-align:center;
+	font-variant:small-caps;
+	color: #4DADDE;
+	min-height: 15px;
+	top:-5px;
+	padding-right:10px;
+	padding-left:50%;
+	padding-bottom:10px;
+	float:left;
 }
 
 #button
 {
-	font-size: 200%;
 	text-align:center;
 	font-variant:small-caps;
 	color: #4DADDE;
-	border-right: 1px solid #4DADDE;
-	background: #333;
-	padding: 5px;
-	z-index: 5;
-	width: 19%;
-	min-height: 40px;
+	min-height: 15px;
+	padding-right:25px;
+	padding-left:15px;
+	padding-bottom:10px;
 	float:left;
+}
+
+#icon
+{
+	position:relative;
+	top:10px;
+	
+}
+#button:hover
+{
+	color:#fff;
 }
 
 .sendButton {

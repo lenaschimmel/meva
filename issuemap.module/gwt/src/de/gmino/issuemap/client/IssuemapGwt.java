@@ -5,10 +5,13 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+
 import de.gmino.geobase.client.domain.LatLon;
 import de.gmino.geobase.client.map.OpenLayersMapView;
 import de.gmino.geobase.shared.map.MarkerLayer;
@@ -34,12 +37,12 @@ public class IssuemapGwt implements EntryPoint {
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
-
 	private OpenLayersMapView map;
-
 	private MarkerLayer markerLayer;
-
 	private String subdomain;
+	private VerticalPanel verticalPanel = new VerticalPanel();
+	private HorizontalPanel header =  new HorizontalPanel();
+	private HorizontalPanel footer = new HorizontalPanel();
 
 	/**
 	 * This is the entry point method.
@@ -57,9 +60,19 @@ public class IssuemapGwt implements EntryPoint {
 		markerLayer = map.newMarkerLayer("cycleway_problems_bs");
 		map.addLayer(markerLayer);
 
+		//create header & bottom panels
+		//TODO: Tillmann machts (aufteilung mit panels)
+		verticalPanel.add(header);
+		//not yet, we need a map widget first verticalPanel.add(map);
+		verticalPanel.add(footer);
+		
+		//create buttons & textfields
+		//nix ;)
+		//TODO: Tillmann machts 
+		
 		final Button searchButton = new Button("Send");
 		final TextBox searchField = new TextBox();
-		searchField.setText("Rebenring");
+		searchField.setText("Straßenname");
 		final Label errorLabel = new Label();
 		String[] domainSplit = Location.getHostName().split("\\.");
 		subdomain = domainSplit[0];
@@ -73,18 +86,16 @@ public class IssuemapGwt implements EntryPoint {
 		RootPanel.get("searchButtonContainer").add(searchButton);
 		RootPanel.get("errorLabelContainer").add(errorLabel);
 		
-
 		// Focus the cursor on the search field when the app loads
 		searchField.setFocus(true);
 		searchField.selectAll();
 		
+		//TONI: methode auch hier umbenennen
 		doExampleRequests();
 
 	}
 
-	/**
-	 * Send the name from the nameField to the server and wait for a response.
-	 */
+	//TONI: wieso wird die Anfrage nach einem Logo im example request gemacht??
 	void doExampleRequests() {
 		// Then, we send the input to the server.
 		// Request all shops near you
