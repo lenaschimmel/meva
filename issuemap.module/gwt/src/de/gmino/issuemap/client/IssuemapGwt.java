@@ -14,7 +14,7 @@ import de.gmino.geobase.client.map.OpenLayersMapView;
 import de.gmino.geobase.shared.map.MarkerLayer;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.request.QueryMapBySubdomain;
-import de.gmino.issuemap.shared.EntityFactoryImpl;
+import de.gmino.issuemap.client.EntityFactoryImpl;
 import de.gmino.meva.client.UtilClient;
 import de.gmino.meva.client.request.NetworkRequestsImplAsyncJson;
 import de.gmino.meva.shared.EntityFactory;
@@ -34,13 +34,6 @@ public class IssuemapGwt implements EntryPoint {
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
-
-	/**
-	 * Create a remote service proxy to talk to the server-side Greeting
-	 * service.
-	 */
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
 
 	private OpenLayersMapView map;
 
