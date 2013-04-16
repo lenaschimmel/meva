@@ -2,9 +2,12 @@ package de.gmino.issuemap.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -44,13 +47,15 @@ public class IssuemapGwt implements EntryPoint {
 	 */
 	private final GreetingServiceAsync greetingService = GWT
 			.create(GreetingService.class);
+	
 	private OpenLayersMapView map;
 	private MarkerLayer markerLayer;
 	private String subdomain;
-	private VerticalPanel verticalPanel = new VerticalPanel();
+	
+	private VerticalPanel mainPanel = new VerticalPanel();
 	private HorizontalPanel header =  new HorizontalPanel();
 	private HorizontalPanel footer = new HorizontalPanel();
-
+	
 	/**
 	 * This is the entry point method.
 	 */
@@ -69,29 +74,33 @@ public class IssuemapGwt implements EntryPoint {
 
 		//create header & bottom panels
 		//TODO: Tillmann machts (aufteilung mit panels)
-		verticalPanel.add(header);
+		mainPanel.add(header);
 		//not yet, we need a map widget first verticalPanel.add(map);
-		verticalPanel.add(footer);
+		mainPanel.add(footer);
 		
 		//create buttons & textfields
-		//nix ;)
-		//TODO: Tillmann machts 
-		
+		final Button infoButton = new Button();
+		infoButton.setHTML("<img id='icon' src='icons/info.png'></img>Infos zu dieser Map");
+		infoButton.setStyleName("button");
 		final Button searchButton = new Button("Send");
+		searchButton.addStyleName("searchButton");
 		final TextBox searchField = new TextBox();
 		searchField.setText("Straßenname");
-		final Label errorLabel = new Label();
+
+		
+		// Add Items to Header-Bar
+		header.add(infoButton);
+		header.add(searchField);
+		header.add(searchButton);
+		
+		//Add Header to RootPanel
+		RootPanel.get("bar_top").add(header);	
+		
 		String[] domainSplit = Location.getHostName().split("\\.");
 		subdomain = domainSplit[0];
 
-		// We can add style names to widgets
-		searchButton.addStyleName("sendButton");
 
-		// Add the nameField and sendButton to the RootPanel
-		// Use RootPanel.get() to get the entire body element
-		RootPanel.get("searchFieldContainer").add(searchField);
-		RootPanel.get("searchButtonContainer").add(searchButton);
-		RootPanel.get("errorLabelContainer").add(errorLabel);
+
 		
 		// Focus the cursor on the search field when the app loads
 		searchField.setFocus(true);

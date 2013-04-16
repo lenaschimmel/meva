@@ -30,8 +30,10 @@ td {
 	left: 0;
 	right: 0;
 	border-bottom: 3px solid #4DADDE;
-	background: #333;
+	background: #000;
 	z-index: 5;
+	min-height: 35px;
+	padding: 10px;
 }
 
 
@@ -43,7 +45,7 @@ td {
 	left: 0;
 	right: 0;
 	border-top: 2px solid #4DADDE;
-	background: #333;
+	background: #000;
 	padding-bottom: 3px;
 	z-index: 5;
 	min-height: 15px;
@@ -62,7 +64,7 @@ td {
 	float:left;
 }
 
-#button
+.button
 {
 	text-align:center;
 	font-variant:small-caps;
@@ -72,6 +74,7 @@ td {
 	padding-left:15px;
 	padding-bottom:10px;
 	float:left;
+	background: #333;
 }
 
 #icon
@@ -80,14 +83,15 @@ td {
 	top:10px;
 	
 }
-#button:hover
+.button:hover
 {
 	color:#fff;
 }
 
-.sendButton {
-  display: block;
-  font-size: 16pt;
+.searchButton {
+	padding-left: 5px;
+  	display: block;
+  	font-size: 16pt;
 }
 
 /** Most GWT widgets already have a style name defined */
