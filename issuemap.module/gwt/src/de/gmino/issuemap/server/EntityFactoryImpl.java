@@ -1,11 +1,11 @@
-package de.gmino.issuemap.shared;
+package de.gmino.issuemap.server;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 
-import de.gmino.issuemap.shared.domain.Issue;
-import de.gmino.issuemap.shared.domain.Map;
+import de.gmino.issuemap.server.domain.Issue;
+import de.gmino.issuemap.server.domain.Map;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactoryInterface;
 

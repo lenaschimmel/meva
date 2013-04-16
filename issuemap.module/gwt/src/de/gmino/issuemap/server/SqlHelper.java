@@ -21,7 +21,7 @@ public class SqlHelper {
 		if (con == null) {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
-				final String db_string = "jdbc:mysql://85.214.33.79:3306/checkin";
+				final String db_string = "jdbc:mysql://85.214.33.79:3306/issuemap";
 				con = DriverManager.getConnection(db_string, "checkin", "kw9fn39dfn");
 			} catch (Exception e) {
 				e.printStackTrace();

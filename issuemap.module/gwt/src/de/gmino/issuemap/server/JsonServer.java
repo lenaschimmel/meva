@@ -24,7 +24,8 @@ import org.itemscript.standard.StandardConfig;
 
 import de.gmino.issuemap.server.request.LocalRequetsImpl;
 import de.gmino.issuemap.server.request.NetworkRequestsImplAsyncLocalSql;
-import de.gmino.issuemap.shared.EntityFactoryImpl;
+import de.gmino.issuemap.server.request.QueryMapBySubdomain;
+import de.gmino.issuemap.server.EntityFactoryImpl;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.EntityQuery;
@@ -95,10 +96,8 @@ public class JsonServer extends HttpServlet {
 //			entityQuery = new QueryConsumerByFid(request);
 //		else if (lastPart.equals("QueryPerformCheckin"))
 //			valueQuery = new QueryPerformCheckin(request);
-		if(false)
-		{
-			
-		}
+		if (lastPart.equals("QueryMapBySubdomain"))
+			entityQuery = new QueryMapBySubdomain(request);
 		else
 			throw new RuntimeException("Unrecognized query type: " + lastPart);
 
