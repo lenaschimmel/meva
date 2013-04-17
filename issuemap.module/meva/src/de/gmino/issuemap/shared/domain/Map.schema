@@ -14,6 +14,10 @@
 		{
 			"type" : "String",
 			"name" : "subdomain"
+		},		
+		{
+			"type" : "String",
+			"name" : "color"
 		},
 		{
 			"type" : "String",
