@@ -36,9 +36,22 @@ deploy/
 *.nocache.js
 */gwt/war/WEB-INF/lib/*.jar
 *.core.prefs
-<<<<<<< HEAD
 .classpath
-=======
 **/.classpath
->>>>>>> 8605eaf2132cb7a3c21f0c7dab308437b039f8e7
+/build
+/classes
+*.jar
+*.class
+*~
+*/web-app/gwt
+*/web-app/WEB-INF/classes
+target
+-gwt
+gwt-unitCache
+www-test
+.apt_generated
+.settings/com.google.gdt.eclipse.core.prefs
+.settings/com.google.appengine.eclipse.core.prefs
+build
+private
 
