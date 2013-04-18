@@ -1,0 +1,79 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	
+	<ui:with field="resources" type="de.gmino.issuemap.client.resources.ImageResources" />
+	
+	
+	<ui:style>
+		.header {
+			font-size: 90%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			border-bottom: 3px solid #4DADDE;
+			background: #333;
+			z-index: 5;
+			min-height: 35px;
+			padding: 10px;
+		}
+		
+		.title {
+			font-size: 1.7em;
+			font-weight: bold;
+			margin-top: 5px;
+			text-align: center;
+			font-variant: small-caps;
+		}
+		
+		.searchButton {
+			margin-left: 5px;
+			margin-top: 5px;
+			display: block;
+			font-size: 16pt;
+		}
+		
+		.button {
+			text-align: center;
+			font-variant: small-caps;
+			color: #4DADDE;
+			min-height: 15px;
+			border: 0px;
+			padding-left: 20px;
+			padding-bottom: 12px;
+			background: #333;
+		}
+		
+		.searchField {
+			margin-top: 15px;
+		}
+	</ui:style>
+
+	<g:HorizontalPanel styleName="{style.header}" width="100%"
+		ui:field="header">
+
+		<g:cell width="25%">
+			<g:Image ui:field="logo" url="loading.gif" height="45px" />
+		</g:cell>
+
+		<g:cell width="48%">
+			<g:Label styleName="title" ui:field="title" />
+		</g:cell>
+
+		<g:cell width="2%" horizontalAlignment="ALIGN_LEFT">
+			<g:Button styleName="{style.button}" />
+		</g:cell>
+
+		<g:cell width="20%" horizontalAlignment="ALIGN_RIGHT">
+			<g:TextBox styleName="{style.searchField}" text="Suchbegriff" />
+		</g:cell>
+
+		<g:cell width="5%">
+			<g:Button styleName="{style.button}" ui:field="search_button">
+				<img id='icon' src="{resouces.search_button]"></img>
+			</g:Button>
+		</g:cell>
+
+	</g:HorizontalPanel>
+</ui:UiBinder> 
