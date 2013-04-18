@@ -1,9 +1,10 @@
 package de.gmino.issuemap.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 import de.gmino.geobase.client.map.OpenLayersMapView;
 import de.gmino.geobase.shared.map.MarkerLayer;
@@ -31,15 +32,17 @@ public class IssuemapGwt implements EntryPoint {
 	private MarkerLayer markerLayer;
 	private Footer footer = new Footer();
 	private Header header = new Header();
-
 	
 	public void onModuleLoad() {
+
+
 		EntityFactory.setImplementations(new EntityFactoryImpl());
 		Util.setImpl(new UtilClient());
 
 		Requests.setImplementation(new NetworkRequestsImplAsyncJson("http://"
 				+ Location.getHost()+"/"));
 
+		
 		// Create the map
 		map = new OpenLayersMapView("map");
 		markerLayer = map.newMarkerLayer("cycleway_problems_bs");
