@@ -1,5 +1,8 @@
 package de.gmino.issuemap.server;
 
+import com.google.appengine.api.rdbms.AppEngineDriver;
+import com.google.cloud.sql.Driver;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -20,9 +23,13 @@ public class SqlHelper {
 		}
 		if (con == null) {
 			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				final String db_string = "jdbc:mysql://85.214.33.79:3306/checkin";
-				con = DriverManager.getConnection(db_string, "checkin", "kw9fn39dfn");
+				//Class.forName("com.mysql.jdbc.Driver");
+				//final String db_string = "jdbc:mysql://85.214.33.79:3306/issuemap";
+				//con = DriverManager.getConnection(db_string, "checkin", "kw9fn39dfn");
+				
+				DriverManager.registerDriver(new AppEngineDriver());
+				//DriverManager.registerDriver(new com.google.cloud.sql.Driver());
+			    con = DriverManager.getConnection("jdbc:google:rdbms://gmino-de-cloud-sql:gmino-socialgis-sql/gminosocialmap");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

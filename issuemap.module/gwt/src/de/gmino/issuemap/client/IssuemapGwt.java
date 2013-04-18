@@ -1,10 +1,16 @@
 package de.gmino.issuemap.client;
 
+import javax.swing.event.EventListenerList;
+
+import com.gargoylesoftware.htmlunit.javascript.host.Event;
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -17,7 +23,6 @@ import de.gmino.geobase.client.map.OpenLayersMapView;
 import de.gmino.geobase.shared.map.MarkerLayer;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.request.QueryMapBySubdomain;
-import de.gmino.issuemap.shared.EntityFactoryImpl;
 import de.gmino.meva.client.UtilClient;
 import de.gmino.meva.client.request.NetworkRequestsImplAsyncJson;
 import de.gmino.meva.shared.EntityFactory;
@@ -38,18 +43,14 @@ public class IssuemapGwt implements EntryPoint {
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
 
-	/**
-	 * Create a remote service proxy to talk to the server-side Greeting
-	 * service.
-	 */
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
 	private OpenLayersMapView map;
 	private MarkerLayer markerLayer;
-	private String subdomain;
-	private VerticalPanel verticalPanel = new VerticalPanel();
+	
+	private VerticalPanel mainPanel = new VerticalPanel();
 	private HorizontalPanel header =  new HorizontalPanel();
 	private HorizontalPanel footer = new HorizontalPanel();
+	private Image maplogo = new Image();
+	private Label title = new Label();
 
 	/**
 	 * This is the entry point method.
@@ -63,47 +64,91 @@ public class IssuemapGwt implements EntryPoint {
 
 		// Create the map
 		map = new OpenLayersMapView("map");
-		map.setCenterAndZoom(new LatLon(52.27617, 10.53216), 15, false);
 		markerLayer = map.newMarkerLayer("cycleway_problems_bs");
 		map.addLayer(markerLayer);
 
-		//create header & bottom panels
-		//TODO: Tillmann machts (aufteilung mit panels)
-		verticalPanel.add(header);
-		//not yet, we need a map widget first verticalPanel.add(map);
-		verticalPanel.add(footer);
+		// Create header & bottom panels
+		header.setStyleName("header");
+		footer.setStyleName("footer");
+		mainPanel.add(header);
+		mainPanel.add(footer);
 		
-		//create buttons & textfields
-		//nix ;)
-		//TODO: Tillmann machts 
+		//create buttons, textfields & logo
+		final Button infoButton = new Button();
+		infoButton.setHTML("<img id='icon' src='icons/info.png'></img>");
+		infoButton.setStyleName("button");
 		
-		final Button searchButton = new Button("Send");
+		final Button searchButton = new Button();
+		searchButton.setHTML("<img id='icon' src='icons/search.png'></img>");
+		searchButton.setStyleName("button");
+		
 		final TextBox searchField = new TextBox();
 		searchField.setText("Straßenname");
-		final Label errorLabel = new Label();
-		String[] domainSplit = Location.getHostName().split("\\.");
-		subdomain = domainSplit[0];
+		searchField.setStyleName("searchField");
+		
+		final Button listButton = new Button();
+		listButton.setHTML("<img id='icon' src='icons/chart_bar.png'></img>");
+		listButton.setStyleName("button");
+		listButton.addStyleName("button_list");
+		
+		final Button statsearchButton = new Button();
+		statsearchButton.setHTML("<img id='icon' src='icons/list.png'></img>");
+		statsearchButton.setStyleName("button");
+		
+		final Button preferencesearchButton = new Button();
+		preferencesearchButton.setHTML("<img id='icon' src='icons/preferences.png'></img>");
+		preferencesearchButton.setStyleName("button");
+		
+		final Image gminoLogo= new Image("logo_gmino.png");
 
-		// We can add style names to widgets
-		searchButton.addStyleName("sendButton");
+		
+		// Add Items to Header-Bar
+		header.setWidth("100%");
+		header.add(maplogo);
+		header.add(title);
+		header.add(infoButton);
+		header.add(searchField);
+		header.add(searchButton);
+		header.setCellWidth(maplogo, "30%");
+		header.setCellWidth(title, "38%");
+		header.setCellWidth(infoButton, "2%");
+		header.setCellWidth(searchField, "25%");
+		header.setCellWidth(searchButton, "5%");
+		header.setCellHorizontalAlignment(infoButton, HasHorizontalAlignment.ALIGN_LEFT);
+		header.setCellHorizontalAlignment(searchField, HasHorizontalAlignment.ALIGN_RIGHT);
 
-		// Add the nameField and sendButton to the RootPanel
-		// Use RootPanel.get() to get the entire body element
-		RootPanel.get("searchFieldContainer").add(searchField);
-		RootPanel.get("searchButtonContainer").add(searchButton);
-		RootPanel.get("errorLabelContainer").add(errorLabel);
+
+		// Add Items to Footer-Bar		
+		footer.setWidth("100%");
+		footer.add(listButton);
+		footer.add(statsearchButton);
+		footer.add(preferencesearchButton);
+		footer.add(gminoLogo);
+		footer.setCellHorizontalAlignment(gminoLogo, HasHorizontalAlignment.ALIGN_RIGHT);
+		footer.setCellWidth(statsearchButton, "30px");
+		footer.setCellWidth(listButton, "30px");
+		footer.setCellWidth(preferencesearchButton, "30px");
+		
+		//Add Header to RootPanel
+		RootPanel.get("bar_top").add(header);
+		RootPanel.get("bar_bottom").add(footer);
+		
+
+
+
+
 		
 		// Focus the cursor on the search field when the app loads
 		searchField.setFocus(true);
 		searchField.selectAll();
 		
-		//TONI: methode auch hier umbenennen
-		doExampleRequests();
+		//fetch map-Objekt
+		String[] domainSplit = Location.getHostName().split("\\.");
+		String subdomain = domainSplit[0];
+		mapRequests(subdomain);
 
 	}
-
-	//TONI: wieso wird die Anfrage nach einem Logo im example request gemacht??
-	void doExampleRequests() {
+	void mapRequests(String subdomain) {
 		// Then, we send the input to the server.
 		// Request all shops near you
 		EntityQuery q = new QueryMapBySubdomain(subdomain);
@@ -112,9 +157,18 @@ public class IssuemapGwt implements EntryPoint {
 
 					public void onNewResult(Map result) {
 						
-						Image logo = new Image(""+ result.getLogo());
-						logo.setHeight("80px");
-						RootPanel.get("logoContainer").add(logo);
+						maplogo.setUrl(result.getLogo().getUrl());
+						maplogo.setHeight("50px");
+						title.setText(result.getTitle());
+						title.getElement().getStyle().setColor(result.getColor());
+						title.addStyleName("title");
+						header.getElement().getStyle().setBorderColor(result.getColor());
+						footer.getElement().getStyle().setBorderColor(result.getColor());
+						map.setCenterAndZoom(result.getInitLocation(), result.getInitZoomlevel(), false);
+
+						
+						
+						
 
 						
 						

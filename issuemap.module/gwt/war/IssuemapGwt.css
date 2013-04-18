@@ -2,27 +2,24 @@
 
 
 /** Example rules used by the template application (remove for your app) */
-h1 {
-  font-size: 2em;
+.title {
+  font-size: 1.7em;
   font-weight: bold;
-  color: #777777;
-  margin: 40px 0px 70px;
+  margin-top:5px;
   text-align: center;
+  font-variant:small-caps;
 }
 
-td {
-	color: #4DADDE;
-}
 
 #map {
 	position:absolute;
-	top:55px;
+	top:70px;
 	left:0px;
 	right:0px;
 	bottom:40px;
 }
 
-#bar_top
+.header
 {
 	font-size: 90%;
 	position: absolute;
@@ -32,10 +29,12 @@ td {
 	border-bottom: 3px solid #4DADDE;
 	background: #333;
 	z-index: 5;
+	min-height: 35px;
+	padding: 10px;
 }
 
 
-#bar_bottom
+.footer
 {
 	font-size: 90%;
 	position: absolute;
@@ -44,7 +43,6 @@ td {
 	right: 0;
 	border-top: 2px solid #4DADDE;
 	background: #333;
-	padding-bottom: 3px;
 	z-index: 5;
 	min-height: 15px;
 }
@@ -62,16 +60,20 @@ td {
 	float:left;
 }
 
-#button
+.button
 {
 	text-align:center;
 	font-variant:small-caps;
 	color: #4DADDE;
 	min-height: 15px;
-	padding-right:25px;
-	padding-left:15px;
-	padding-bottom:10px;
-	float:left;
+	border:0px;
+	padding-left:20px;
+	padding-bottom:12px;
+	background: #333;
+}
+
+.button_list{
+	
 }
 
 #icon
@@ -80,14 +82,24 @@ td {
 	top:10px;
 	
 }
-#button:hover
+.button:hover
 {
 	color:#fff;
 }
 
-.sendButton {
-  display: block;
-  font-size: 16pt;
+.searchField{
+	margin-top: 15px;
+}
+
+.searchButton {
+	margin-left: 5px;
+	margin-top: 5px;
+  	display: block;
+  	font-size: 16pt;
+}
+
+.gminologo{
+	
 }
 
 /** Most GWT widgets already have a style name defined */
