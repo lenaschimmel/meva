@@ -4,6 +4,7 @@ import javax.swing.event.EventListenerList;
 
 import com.gargoylesoftware.htmlunit.javascript.host.Event;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
@@ -15,6 +16,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -63,7 +65,7 @@ public class IssuemapGwt implements EntryPoint {
 				+ Location.getHost()+"/"));
 
 		// Create the map
-		map = new OpenLayersMapView("map");
+		map = new OpenLayersMapView("map","mapquest");
 		markerLayer = map.newMarkerLayer("cycleway_problems_bs");
 		map.addLayer(markerLayer);
 
@@ -166,12 +168,15 @@ public class IssuemapGwt implements EntryPoint {
 						footer.getElement().getStyle().setBorderColor(result.getColor());
 						map.setCenterAndZoom(result.getInitLocation(), result.getInitZoomlevel(), false);
 
-						
-						
-						
-
-						
-						
+						DivElement div = ((OpenLayersMapView)map).createPopup(result.getInitLocation(), "centerPopup");
+						System.out.println(div.getId());
+						//div.removeChild(div.getChild(0));
+						//div.getStyle().setBackgroundColor("transparent");
+						//SimplePanel sp = new SimplePanel();
+						//RootPanel.get("centerPopup").add(sp);
+						Button b = new Button("CENTER!");
+						//sp.add(b);
+						div.appendChild(b.getElement());
 					};
 
 					@Override
