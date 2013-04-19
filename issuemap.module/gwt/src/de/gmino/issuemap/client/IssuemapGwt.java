@@ -51,6 +51,7 @@ public class IssuemapGwt implements EntryPoint {
 		
 		//Add Header to RootPanel
 		RootPanel.get("bar_top").add(header);
+		
 		RootPanel.get("bar_bottom").add(footer);
 		
 		

@@ -7,18 +7,12 @@
 	<ui:style>
 		
 		.button {
-				text-align:center;
-				font-variant:normal;
-				color: #4DADDE;
 				border-left: 1px solid #4C4C4C;
     			border-right: 1px solid #000000;
-				background: #FFF;
-				background: #333;
 				cursor: pointer;
 		}
 
 		.footer{
-				font-size: 90%;
 				position: absolute;
 				bottom: 0;
 				left: 0;
@@ -26,34 +20,33 @@
 				border-top: 2px solid #4DADDE;
 				background: #333;
 				z-index: 5;
-				min-height: 15px;
 		}
 	</ui:style>
-	<g:HorizontalPanel styleName="{style.footer}" width="100%"  ui:field="footer">
+	<g:HorizontalPanel styleName="{style.footer}" width="100%" ui:field="footer">
 	
-		<g:cell width="50px" horizontalAlignment="ALIGN_RIGHT">
-			<g:PushButton styleName="{style.button}"  ui:field="chart_button" height="45px" width="50px">
+		<g:cell width="52px" horizontalAlignment="ALIGN_RIGHT">
+			<g:PushButton styleName="{style.button}"  ui:field="chart_button" width="50px">
    				<g:upFace image='{resources.chart}'/>
   				<g:upHoveringFace image='{resources.chart_hover}'/>
 			</g:PushButton>
 		</g:cell>
 		
-		<g:cell width="50px" horizontalAlignment="ALIGN_RIGHT">
-			<g:PushButton styleName="{style.button}"  ui:field="list_button" height="45px" width="50px">
+		<g:cell width="52px"  horizontalAlignment="ALIGN_RIGHT">
+			<g:PushButton styleName="{style.button}" ui:field="list_button" width="50px">
    				<g:upFace image='{resources.list}'/>
   				<g:upHoveringFace image='{resources.list_hover}'/>
 			</g:PushButton> 
 		</g:cell>
 		
-		<g:cell width="50px" horizontalAlignment="ALIGN_RIGHT">   
-			<g:PushButton styleName="{style.button}"  ui:field="preferences_button" height="45px" width="50px">
+		<g:cell width="52px" horizontalAlignment="ALIGN_LEFT">   
+			<g:PushButton styleName="{style.button}" ui:field="preferences_button" width="50px" >
    				<g:upFace image='{resources.preferences}'/>
   				<g:upHoveringFace image='{resources.preferences_hover}'/>
 			</g:PushButton>
 		</g:cell>  
 		
 		<g:cell horizontalAlignment="ALIGN_RIGHT">
-	 	<g:Image url="logo_gmino.png"/>  
+	 		<g:Image url="logo_gmino.png"/>  
 		</g:cell>
 		
 	</g:HorizontalPanel>
