@@ -1,11 +1,12 @@
 package de.gmino.issuemap.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
+
 import de.gmino.geobase.client.map.OpenLayersMapView;
 import de.gmino.geobase.shared.map.MarkerLayer;
 import de.gmino.issuemap.client.domain.Map;
@@ -44,7 +45,7 @@ public class IssuemapGwt implements EntryPoint {
 
 		
 		// Create the map
-		map = new OpenLayersMapView("map");
+		map = new OpenLayersMapView("map","mapquest");
 		markerLayer = map.newMarkerLayer("cycleway_problems_bs");
 		map.addLayer(markerLayer);
 		
@@ -73,10 +74,19 @@ public class IssuemapGwt implements EntryPoint {
 					public void onNewResult(Map result) {
 						
 
+
 						map.setCenterAndZoom(result.getInitLocation(), result.getInitZoomlevel(), false);						
 						header.setDesign(result.getLogo().getUrl(), result.getTitle(), result.getColor());
 						footer.setDesign(result.getColor());
 						
+
+						DivElement div = ((OpenLayersMapView)map).createPopup(result.getInitLocation(), "centerPopup");
+						System.out.println(div.getId());
+
+						Button b = new Button("CENTER!");
+						//sp.add(b);
+						div.appendChild(b.getElement());
+
 					};
 
 					@Override

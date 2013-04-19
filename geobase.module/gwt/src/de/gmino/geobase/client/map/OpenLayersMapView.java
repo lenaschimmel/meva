@@ -1,6 +1,7 @@
 package de.gmino.geobase.client.map;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.DivElement;
 
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.shared.domain.LatLonRect;
@@ -16,26 +17,35 @@ public class OpenLayersMapView extends AbstractMapView {
 	JavaScriptObject map;
 	boolean clickListenerEnabled = false;
 
-	public OpenLayersMapView(String elementName) {
-		map = nCreateMap(elementName);
+	public OpenLayersMapView(String elementName, String layerName) {
+		map = nCreateMap(elementName, layerName);
 	}
 
-	private native JavaScriptObject nCreateMap(String elementName) /*-{
-																	var map = new $wnd.OpenLayers.Map(elementName);
-																	var layer = new $wnd.OpenLayers.Layer.OSM("Simple OSM Map");
-																	map.addLayer(layer);
-																	map.pro1 = new $wnd.OpenLayers.Projection("EPSG:4326");
-																	map.pro2 = map.getProjectionObject();
-																	map.setCenter(new $wnd.OpenLayers.LonLat(-71.147, 42.472).transform(
-																	map.pro1, map.pro2), 12);
-																	map.doTransform = function(lonlat) {
-																	return lonlat.transform(map.pro1, map.pro2);
-																	}
-																	map.undoTransform = function(lonlat) {
-																	return lonlat.transform(map.pro2, map.pro1);
-																	}
-																	return map;
-																	}-*/;
+	private native JavaScriptObject nCreateMap(String elementName, String layerName) /*-{
+		var map = new $wnd.OpenLayers.Map(elementName);
+		var layer = new $wnd.OpenLayers.Layer.OSM("Simple OSM Map", 
+				[
+					"http://a.gmino.de:8090/"+layerName+"/${z}/${x}/${y}.png",
+					"http://b.gmino.de:8090/"+layerName+"/${z}/${x}/${y}.png",
+					"http://c.gmino.de:8090/"+layerName+"/${z}/${x}/${y}.png",
+					"http://d.gmino.de:8090/"+layerName+"/${z}/${x}/${y}.png"
+				],
+				{isBaseLayer: true, visibility: true, transitionEffect: "resize"}
+		);
+		layer.tileOptions = {crossOriginKeyword: null};
+
+		map.addLayer(layer);
+		map.pro1 = new $wnd.OpenLayers.Projection("EPSG:4326");
+		map.pro2 = map.getProjectionObject();
+		map.setCenter(new $wnd.OpenLayers.LonLat(-71.147, 42.472).transform(map.pro1, map.pro2), 12);
+		map.doTransform = function(lonlat) {
+			return lonlat.transform(map.pro1, map.pro2);
+		}
+		map.undoTransform = function(lonlat) {
+			return lonlat.transform(map.pro2, map.pro1);
+		}
+		return map;
+	}-*/;
 
 	@Override
 	public LatLon getCenter() {
@@ -69,7 +79,7 @@ public class OpenLayersMapView extends AbstractMapView {
 															var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
 															map.setCenter(new $wnd.OpenLayers.LonLat(lon, lat).transform(map.pro1,
 															map.pro2));
-															}-*/;
+														}-*/;
 
 	@Override
 	public native void setZoom(double zoom) /*-{
@@ -77,6 +87,22 @@ public class OpenLayersMapView extends AbstractMapView {
 											map.zoomTo(zoom);
 											}-*/;
 
+	public DivElement createPopup(LatLon position, String id) {
+		return nCreatePopup(position.getLatitude(), position.getLongitude(), id);
+	}
+	
+	public native DivElement nCreatePopup(double lat, double lon, String id) /*-{
+					var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
+					var popup = new $wnd.OpenLayers.Popup(id,
+                       new $wnd.OpenLayers.LonLat(lon, lat).transform(map.pro1, map.pro2),
+                       new $wnd.OpenLayers.Size(100,100),
+                       "",
+                       false);
+
+    				map.addPopup(popup);	
+    				return popup.contentDiv;
+	}-*/;
+	
 	@Override
 	public double getMinZoom() {
 		// TODO Auto-generated method stub
