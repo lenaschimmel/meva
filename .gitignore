@@ -54,5 +54,4 @@ www-test
 .settings/com.google.appengine.eclipse.core.prefs
 build
 private
-.gwt-log
-
+*.gwt-log
