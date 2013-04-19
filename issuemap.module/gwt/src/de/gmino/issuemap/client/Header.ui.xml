@@ -28,10 +28,14 @@
 		}
 		
 		.searchButton {
-			margin-left: 5px;
-			margin-top: 5px;
+			margin-top: 10px;
+			margin-left: 3px;
 			display: block;
 			font-size: 16pt;
+			border-left: 1px solid #4C4C4C;
+    		border-right: 1px solid #000000;
+    		border-top: 1px solid #4C4C4C;
+    		border-bottom: 1px solid #000000;
 		}
 		
 		.button {
@@ -43,6 +47,7 @@
 			padding-left: 20px;
 			padding-bottom: 12px;
 			background: #333;
+			cursor: pointer;
 		}
 		
 		.searchField {
@@ -62,18 +67,24 @@
 		</g:cell>
 
 		<g:cell width="2%" horizontalAlignment="ALIGN_LEFT">
-			<g:Button styleName="{style.button}" />
+			<g:PushButton styleName="{style.searchButton}"  ui:field="info_button" height="30px">
+   				<g:upFace image='{resources.info}'/>
+  				<g:upHoveringFace image='{resources.info_hover}'/>
+			</g:PushButton>
 		</g:cell>
 
 		<g:cell width="20%" horizontalAlignment="ALIGN_RIGHT">
 			<g:TextBox styleName="{style.searchField}" text="Suchbegriff" />
 		</g:cell>
 
-		<g:cell width="5%">
-			<g:Button styleName="{style.button}" ui:field="search_button">
-				<img id='icon' src="{resouces.search_button]"></img>
-			</g:Button>
+		<g:cell width="30px">
+			<g:PushButton styleName="{style.searchButton}"  ui:field="search_button" height="30px">
+   				<g:upFace image='{resources.search}'/>
+  				<g:upHoveringFace image='{resources.search_hover}'/>
+			</g:PushButton>
 		</g:cell>
+		<g:cell> <g:Label></g:Label></g:cell>
+
 
 	</g:HorizontalPanel>
 </ui:UiBinder> 

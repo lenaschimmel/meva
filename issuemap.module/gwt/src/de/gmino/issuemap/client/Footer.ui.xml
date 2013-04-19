@@ -10,10 +10,11 @@
 				text-align:center;
 				font-variant:normal;
 				color: #4DADDE;
-				border:0px;
+				border-left: 1px solid #4C4C4C;
+    			border-right: 1px solid #000000;
 				background: #FFF;
-				margin-top: 10px;
 				background: #333;
+				cursor: pointer;
 		}
 
 		.footer{
@@ -29,22 +30,25 @@
 		}
 	</ui:style>
 	<g:HorizontalPanel styleName="{style.footer}" width="100%"  ui:field="footer">
-		<g:cell width="30px;">
-			<g:PushButton styleName="{style.button}"  ui:field="chart_button">
-   				<g:upFace resources='{resources.chart}'/>
-  				<g:downHoveringFace resources='{resources.chart_hover}'/>
+	
+		<g:cell width="50px" horizontalAlignment="ALIGN_RIGHT">
+			<g:PushButton styleName="{style.button}"  ui:field="chart_button" height="45px" width="50px">
+   				<g:upFace image='{resources.chart}'/>
+  				<g:upHoveringFace image='{resources.chart_hover}'/>
 			</g:PushButton>
 		</g:cell>
 		
-		<g:cell width="30px;">
-			<g:PushButton styleName="{style.button}"  ui:field="list_button">
-	<!--	    	<img id='list_icon' src='icons/list_hover.png'></img>-->
+		<g:cell width="50px" horizontalAlignment="ALIGN_RIGHT">
+			<g:PushButton styleName="{style.button}"  ui:field="list_button" height="45px" width="50px">
+   				<g:upFace image='{resources.list}'/>
+  				<g:upHoveringFace image='{resources.list_hover}'/>
 			</g:PushButton> 
 		</g:cell>
 		
-		<g:cell width="30px;">   
-			<g:PushButton styleName="{style.button}"  ui:field="preferences_button">
-		<!--   	 <img id='preferences_icon' src='icons/preferences_hover.png'></img>-->
+		<g:cell width="50px" horizontalAlignment="ALIGN_RIGHT">   
+			<g:PushButton styleName="{style.button}"  ui:field="preferences_button" height="45px" width="50px">
+   				<g:upFace image='{resources.preferences}'/>
+  				<g:upHoveringFace image='{resources.preferences_hover}'/>
 			</g:PushButton>
 		</g:cell>  
 		

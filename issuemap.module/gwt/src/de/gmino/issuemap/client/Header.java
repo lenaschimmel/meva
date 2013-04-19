@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.domain.ImageUrl;
@@ -33,6 +34,10 @@ public class Header extends Composite implements HasText {
 	Image logo;
 	@UiField
 	Label title;
+	@UiField
+	PushButton search_button;
+	@UiField
+	PushButton info_button;
 
 	public Header(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -48,6 +53,8 @@ public class Header extends Composite implements HasText {
 		title.setText(titleString);
 		title.getElement().getStyle().setColor(color);
 		header.getElement().getStyle().setBorderColor(color);
+		search_button.getElement().getStyle().setBackgroundColor(color);
+		info_button.getElement().getStyle().setBackgroundColor(color);
 	}
 
 	@Override
