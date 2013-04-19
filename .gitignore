@@ -38,6 +38,21 @@ deploy/
 *.core.prefs
 .classpath
 **/.classpath
+/build
+/classes
+*.jar
+*.class
+*~
+*/web-app/gwt
+*/web-app/WEB-INF/classes
+target
+-gwt
+gwt-unitCache
+www-test
+.apt_generated
+.settings/com.google.gdt.eclipse.core.prefs
+.settings/com.google.appengine.eclipse.core.prefs
+build
+private
 .gwt-log
-
 
