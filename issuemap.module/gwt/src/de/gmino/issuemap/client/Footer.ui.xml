@@ -25,21 +25,21 @@
 	<g:HorizontalPanel styleName="{style.footer}" width="100%" ui:field="footer">
 	
 		<g:cell width="52px" horizontalAlignment="ALIGN_RIGHT">
-			<g:PushButton styleName="{style.button}"  ui:field="chart_button" width="50px">
+			<g:PushButton styleName="{style.button}"  ui:field="chart_button" width="50px" title="Karten-Statistik anzeigen">
    				<g:upFace image='{resources.chart}'/>
   				<g:upHoveringFace image='{resources.chart_hover}'/>
 			</g:PushButton>
 		</g:cell>
 		
 		<g:cell width="52px"  horizontalAlignment="ALIGN_RIGHT">
-			<g:PushButton styleName="{style.button}" ui:field="list_button" width="50px">
+			<g:PushButton styleName="{style.button}" ui:field="list_button" width="50px" title="Karten-Objekte als Liste anzeigen">
    				<g:upFace image='{resources.list}'/>
   				<g:upHoveringFace image='{resources.list_hover}'/>
 			</g:PushButton> 
 		</g:cell>
 		
 		<g:cell width="52px" horizontalAlignment="ALIGN_LEFT">   
-			<g:PushButton styleName="{style.button}" ui:field="preferences_button" width="50px" >
+			<g:PushButton styleName="{style.button}" ui:field="preferences_button" width="50px"  title="Einstellungen">
    				<g:upFace image='{resources.preferences}'/>
   				<g:upHoveringFace image='{resources.preferences_hover}'/>
 			</g:PushButton>

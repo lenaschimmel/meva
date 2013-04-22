@@ -1,0 +1,43 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+		
+		.div {
+			background-color: #555;
+			padding: 10px;
+			border-width: 3px;
+			border-color: #FFF;
+			border-radius: 5px;
+		}
+	</ui:style>
+	<g:VerticalPanel styleName="{style.div}" width="300px">
+		<g:cell>
+			<g:TextBox text="Titel" width="90%"></g:TextBox>
+		</g:cell>
+		<g:cell>
+			<g:TextArea text="Beschreibung..." width="90%"></g:TextArea>
+		</g:cell>
+		<g:cell>
+			<g:ListBox>
+				<g:item value='1'>
+					Allgemien
+				</g:item>
+				<g:item value='2'>
+					Straßenschaden
+				</g:item>
+				<g:item value='3'>
+					Unfall
+				</g:item>
+			</g:ListBox>
+		</g:cell>
+		<g:cell horizontalAlignment="ALIGN_RIGHT">
+			<g:Button styleName="{style.important}" ui:field="button"
+				text="Speichern" />
+		</g:cell>
+	</g:VerticalPanel>
+
+</ui:UiBinder> 

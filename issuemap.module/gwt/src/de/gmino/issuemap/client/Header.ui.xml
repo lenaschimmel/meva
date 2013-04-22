@@ -16,15 +16,15 @@
 			background: #333;
 			z-index: 5;
 			min-height: 35px;
-			padding: 10px;
+			padding-left: 10px;
+			padding-top: 5px;
+
 		}
 		
 		.title {
 			font-size: 1.7em;
-			font-weight: bold;
 			margin-top: 5px;
 			text-align: center;
-			font-variant: small-caps;
 		}
 		
 		.searchButton {
@@ -58,12 +58,12 @@
 	<g:HorizontalPanel styleName="{style.header}" width="100%"
 		ui:field="header">
 
-		<g:cell width="25%">
+		<g:cell width="25%" verticalAlignment="ALIGN_BOTTOM">
 			<g:Image ui:field="logo" url="loading.gif" height="45px" />
 		</g:cell>
 
 		<g:cell width="48%">
-			<g:Label styleName="title" ui:field="title" />
+			<g:Label styleName="{style.title}" ui:field="title" />
 		</g:cell>
 
 		<g:cell width="2%" horizontalAlignment="ALIGN_LEFT">

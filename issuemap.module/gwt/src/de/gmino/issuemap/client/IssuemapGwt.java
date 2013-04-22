@@ -57,14 +57,18 @@ public class IssuemapGwt implements EntryPoint {
 		
 		RootPanel.get("bar_bottom").add(footer);
 		
-		
+		// Add create-PopUp by Doubble-Click
 		map.addEventListener(Event.dblclick, new MapListener() {
 			
 			@Override
 			public void onEvent(LatLon location, Event event) {
-				DivElement div = ((OpenLayersMapView)map).createPopup(location, "centerPopup");
-				Button b = new Button("CENTER!");
-				div.appendChild(b.getElement());				
+				DivElement div = ((OpenLayersMapView)map).createPopup(location, "centerPopup", 300, 160);
+				div.getStyle().setBackgroundColor("transparent");
+				div.getParentElement().getStyle().setBackgroundColor("transparent");
+				div.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
+				PopUp popUp = new PopUp();
+				div.appendChild(popUp.getElement());
+		
 			}
 		});
 		
@@ -79,8 +83,7 @@ public class IssuemapGwt implements EntryPoint {
 
 	}
 	void mapRequests(String subdomain) {
-		// Then, we send the input to the server.
-		// Request all shops near you
+
 		EntityQuery q = new QueryMapBySubdomain(subdomain);
 		Requests.getLoadedEntitiesByQuery(Map.type, q,
 				new RequestListener<Map>() {
@@ -89,7 +92,6 @@ public class IssuemapGwt implements EntryPoint {
 						map.setCenterAndZoom(result.getInitLocation(), result.getInitZoomlevel(), false);						
 						header.setDesign(result.getLogo().getUrl(), result.getTitle(), result.getColor());
 						footer.setDesign(result.getColor());
-						
 
 					};
 
@@ -99,4 +101,27 @@ public class IssuemapGwt implements EntryPoint {
 					}
 				});
 	}
+	
+	//fetch all POIs for subdomian
+	void poiRequests(String subdomain) {
+
+		EntityQuery q = new QueryMapBySubdomain(subdomain);
+		Requests.getLoadedEntitiesByQuery(Map.type, q,
+				new RequestListener<Map>() {
+
+					public void onNewResult(Map result) {
+						map.setCenterAndZoom(result.getInitLocation(), result.getInitZoomlevel(), false);						
+						header.setDesign(result.getLogo().getUrl(), result.getTitle(), result.getColor());
+						footer.setDesign(result.getColor());
+
+					};
+
+					@Override
+					public void onError(String message, Throwable e) {
+						Window.alert(message);
+					}
+				});
+	}
+	
+	
 }

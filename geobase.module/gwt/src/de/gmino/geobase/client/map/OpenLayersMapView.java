@@ -87,18 +87,17 @@ public class OpenLayersMapView extends AbstractMapView {
 											map.zoomTo(zoom);
 											}-*/;
 
-	public DivElement createPopup(LatLon position, String id) {
-		return nCreatePopup(position.getLatitude(), position.getLongitude(), id);
+	public DivElement createPopup(LatLon position, String id, int width, int height) {
+		return nCreatePopup(position.getLatitude(), position.getLongitude(), id, width, height);
 	}
 	
-	public native DivElement nCreatePopup(double lat, double lon, String id) /*-{
+	public native DivElement nCreatePopup(double lat, double lon, String id, int width, int height) /*-{
 					var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
 					var popup = new $wnd.OpenLayers.Popup(id,
                        new $wnd.OpenLayers.LonLat(lon, lat).transform(map.pro1, map.pro2),
-                       new $wnd.OpenLayers.Size(100,100),
+                       new $wnd.OpenLayers.Size(width,height),
                        "",
                        false);
-
     				map.addPopup(popup);	
     				return popup.contentDiv;
 	}-*/;
