@@ -179,7 +179,7 @@ public class OpenLayersMapView extends AbstractMapView {
 												'double' : true,
 												'pixelTolerance' : 0,
 												'stopSingle' : false,
-												'stopDouble' : false
+												'stopDouble' : true
 												},
 
 												initialize : function(options) {

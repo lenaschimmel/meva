@@ -8,6 +8,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import de.gmino.geobase.client.map.OpenLayersMapView;
+import de.gmino.geobase.shared.domain.LatLon;
+import de.gmino.geobase.shared.map.Event;
+import de.gmino.geobase.shared.map.MapListener;
 import de.gmino.geobase.shared.map.MarkerLayer;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.request.QueryMapBySubdomain;
@@ -55,6 +58,16 @@ public class IssuemapGwt implements EntryPoint {
 		RootPanel.get("bar_bottom").add(footer);
 		
 		
+		map.addEventListener(Event.dblclick, new MapListener() {
+			
+			@Override
+			public void onEvent(LatLon location, Event event) {
+				DivElement div = ((OpenLayersMapView)map).createPopup(location, "centerPopup");
+				Button b = new Button("CENTER!");
+				div.appendChild(b.getElement());				
+			}
+		});
+		
 		// Focus the cursor on the search field when the app loads
 //		searchField.setFocus(true);
 //		searchField.selectAll();
@@ -73,20 +86,10 @@ public class IssuemapGwt implements EntryPoint {
 				new RequestListener<Map>() {
 
 					public void onNewResult(Map result) {
-						
-
-
 						map.setCenterAndZoom(result.getInitLocation(), result.getInitZoomlevel(), false);						
 						header.setDesign(result.getLogo().getUrl(), result.getTitle(), result.getColor());
 						footer.setDesign(result.getColor());
 						
-
-						DivElement div = ((OpenLayersMapView)map).createPopup(result.getInitLocation(), "centerPopup");
-						System.out.println(div.getId());
-
-						Button b = new Button("CENTER!");
-						//sp.add(b);
-						div.appendChild(b.getElement());
 
 					};
 
