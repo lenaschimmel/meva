@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.domain.ImageUrl;
@@ -26,6 +27,11 @@ public class Header extends Composite implements HasText {
 
 	public Header() {
 		initWidget(uiBinder.createAndBindUi(this));
+		info_button.setVisible(false);
+		search_button.setVisible(false);
+		search_field.setVisible(false);
+		logo.setHeight("30px");
+		header.setHeight("57px");
 	}
 
 	@UiField
@@ -37,13 +43,15 @@ public class Header extends Composite implements HasText {
 	@UiField
 	PushButton search_button;
 	@UiField
+	TextBox search_field;
+	@UiField
 	PushButton info_button;
 
 	public Header(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
-	@UiHandler("search_button")
+	@UiHandler("info_button")
 	void onClick(ClickEvent e) {
 		Window.alert("Hello!");
 	}
@@ -55,6 +63,10 @@ public class Header extends Composite implements HasText {
 		header.getElement().getStyle().setBorderColor(color);
 		search_button.getElement().getStyle().setBackgroundColor(color);
 		info_button.getElement().getStyle().setBackgroundColor(color);
+		info_button.setVisible(true);
+		search_button.setVisible(true);
+		search_field.setVisible(true);
+		logo.setHeight("45px");
 	}
 
 	@Override

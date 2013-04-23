@@ -6,41 +6,45 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
-public class PopUp extends Composite implements HasText {
+public class ShowPoi_PopUp extends Composite implements HasText {
 
-	private static PopUpUiBinder uiBinder = GWT.create(PopUpUiBinder.class);
+	private static ShowPoi_PopUpUiBinder uiBinder = GWT
+			.create(ShowPoi_PopUpUiBinder.class);
 
-	interface PopUpUiBinder extends UiBinder<Widget, PopUp> {
+	interface ShowPoi_PopUpUiBinder extends UiBinder<Widget, ShowPoi_PopUp> {
 	}
 
-	public PopUp() {
+	public ShowPoi_PopUp() {
 		initWidget(uiBinder.createAndBindUi(this));
+		simple_marker.setVisible(false);
+		expanded_marker.setVisible(true);
+		
+		
 	}
 
 	@UiField
-	Button button;
+	Image simple_marker;
+	@UiField
+	HTMLPanel expanded_marker;
 
-	public PopUp(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-		button.setText(firstName);
-	}
-
-	@UiHandler("button")
+	@UiHandler("simple_marker")
 	void onClick(ClickEvent e) {
 		Window.alert("Hello!");
 	}
 
 	public void setText(String text) {
-		button.setText(text);
+
 	}
 
 	public String getText() {
-		return button.getText();
+		return null;
+
 	}
 
 }

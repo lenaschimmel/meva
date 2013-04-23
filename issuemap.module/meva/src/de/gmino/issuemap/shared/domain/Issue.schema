@@ -20,6 +20,10 @@
 			"name" : "issueType"
 		},	
 		{
+			"type" : "long",
+			"name" : "map_instance"
+		},		
+		{
 			"type" : "Timestamp",
 			"name" : "creationTimestamp"
 		}

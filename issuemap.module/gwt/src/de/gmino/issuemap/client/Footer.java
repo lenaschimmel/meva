@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -29,19 +30,13 @@ public class Footer extends Composite implements HasText {
 	interface UIUiBinder extends UiBinder<Widget, Footer> {
 	}
 
-	/**
-	 * Because this class has a default constructor, it can
-	 * be used as a binder template. In other words, it can be used in other
-	 * *.ui.xml files as follows:
-	 * <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	 *   xmlns:g="urn:import:**user's package**">
-	 *  <g:**UserClassName**>Hello!</g:**UserClassName>
-	 * </ui:UiBinder>
-	 * Note that depending on the widget that is used, it may be necessary to
-	 * implement HasHTML instead of HasText.
-	 */
+
 	public Footer() {
 		initWidget(uiBinder.createAndBindUi(this));
+		chart_button.setVisible(false);
+		list_button.setVisible(false);
+		preferences_button.setVisible(false);
+		footer.setHeight("50px");
 	}
 
 
@@ -54,6 +49,8 @@ public class Footer extends Composite implements HasText {
 	PushButton list_button;
 	@UiField
 	PushButton preferences_button;
+	@UiField
+	Image gmino_logo;
 	
 	
 	public Footer(String firstName) {
@@ -61,9 +58,9 @@ public class Footer extends Composite implements HasText {
 
 	}
 
-	@UiHandler("chart_button")
+	@UiHandler("gmino_logo")
 	void onClick(ClickEvent e) {
-		Window.alert("Hello!");
+		Window.open("http://www.gmino.de", "greenmobile Innovations", "");
 	}
 	
 	public void setDesign(String color) {
@@ -71,6 +68,9 @@ public class Footer extends Composite implements HasText {
 		chart_button.getElement().getStyle().setBackgroundColor(color);
 		list_button.getElement().getStyle().setBackgroundColor(color);
 		preferences_button.getElement().getStyle().setBackgroundColor(color);
+		chart_button.setVisible(true);
+		list_button.setVisible(true);
+		preferences_button.setVisible(true);
 	}
 
 	@Override

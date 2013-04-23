@@ -1,0 +1,12 @@
+{
+	"concept" : "value",
+	"package" : "de.gmino.issuemap.TARGET.request",
+	"name" : "QueryIssuesByMap",
+	"query" : "Issue",
+	"attributes" : [
+		{
+			"type" : "long",
+			"name" : "map_instance"
+		}	
+	]
+}

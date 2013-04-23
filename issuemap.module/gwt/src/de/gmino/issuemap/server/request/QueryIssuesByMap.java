@@ -18,38 +18,37 @@ import java.sql.Statement;
 import java.sql.SQLException;
 
 import de.gmino.issuemap.server.SqlHelper;
-import de.gmino.issuemap.server.request.gen.QueryMapBySubdomainGen;
-public class QueryMapBySubdomain extends QueryMapBySubdomainGen {
+import de.gmino.issuemap.server.request.gen.QueryIssuesByMapGen;
+public class QueryIssuesByMap extends QueryIssuesByMapGen {
 	// Constructors
 	// Constructor for SQL deseralizaiton
-	public QueryMapBySubdomain(String prefix, ResultSet rs) throws SQLException
+	public QueryIssuesByMap(String prefix, ResultSet rs) throws SQLException
 	{
 		super(prefix, rs);
 	}
-	public QueryMapBySubdomain(DataInputStream dis) throws IOException
+	public QueryIssuesByMap(DataInputStream dis) throws IOException
 	{
 		super(dis);
 	}
-	public QueryMapBySubdomain(JsonObject json) throws IOException
+	public QueryIssuesByMap(JsonObject json) throws IOException
 	{
 		super(json);
 	}
-	public QueryMapBySubdomain(
-			String subdomain)
+	public QueryIssuesByMap(
+			long map_instance)
 	{
 		super(
-			subdomain
+			map_instance
 		);
 	}
 	
 	@Override
 	public Collection<Long> evaluate() {
-
 		try {
 			Connection con = SqlHelper.getConnection();
 			Statement stat = con.createStatement();
 
-			ResultSet result = stat.executeQuery("SELECT id FROM Map " + "WHERE subdomain = '" + subdomain + "';");
+			ResultSet result = stat.executeQuery("SELECT id FROM Issue " + "WHERE map_instance_id = '" + map_instance + "';");
 			Collection<Long> ids = new LinkedList<Long>();
 			while (result.next())
 				ids.add(result.getLong(1));
@@ -58,7 +57,6 @@ public class QueryMapBySubdomain extends QueryMapBySubdomainGen {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
-
 	}
 
 }

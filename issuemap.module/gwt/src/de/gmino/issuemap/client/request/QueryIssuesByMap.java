@@ -6,18 +6,18 @@ package de.gmino.issuemap.client.request;
 import java.io.IOException;
 // imports for JSON
 import org.itemscript.core.values.JsonObject;
-import de.gmino.issuemap.client.request.gen.QueryMapBySubdomainGen;
-public class QueryMapBySubdomain extends QueryMapBySubdomainGen {
+import de.gmino.issuemap.client.request.gen.QueryIssuesByMapGen;
+public class QueryIssuesByMap extends QueryIssuesByMapGen {
 	// Constructors
-	public QueryMapBySubdomain(JsonObject json) throws IOException
+	public QueryIssuesByMap(JsonObject json) throws IOException
 	{
 		super(json);
 	}
-	public QueryMapBySubdomain(
-			String subdomain)
+	public QueryIssuesByMap(
+			long map_instance)
 	{
 		super(
-			subdomain
+			map_instance
 		);
 	}
 	

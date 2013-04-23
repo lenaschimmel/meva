@@ -1,0 +1,53 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+
+		
+	
+		.div {
+
+			background-color: #333;
+			border-width: 3px;
+			border-color: #FFF;
+			border-radius: 10px;
+			
+			/* Override glass panel to 10% opacity (= 90% transparency) */
+    		filter: alpha(opacity = 1) !important; /* IE */
+    		opacity: 0.9 !important; /* non-IE */
+			
+
+		}
+		.innerIcon{
+    		position: absolute;
+    		bottom:57px;
+    		left:3px;
+		}
+		.title_lable{
+			color: #FFF;
+			margin:10px;
+			font-size: 1,5em;
+			text-align: center;
+		}
+		.description_lable{
+			color: #FFF;
+			margin:10px;
+		}
+
+	</ui:style>
+	<g:HTMLPanel>
+	<g:VerticalPanel>
+	
+	
+		
+		<g:HTMLPanel ui:field="expanded_marker" styleName="{style.div}" width="280px" height="100px">
+				<g:Label styleName="{style.title_lable}" text="Der erste Marker"/>
+				<g:Label styleName="{style.description_lable}" text="Hier könnte Ihr individueller Markertext stehen."/>
+				<g:Image styleName="{style.innerIcon}" pixelSize="32,37" url="http://gmino.de/static/img/mapicons_orange_new/pin_export.png"/>
+		</g:HTMLPanel>
+		<g:Image pixelSize="32,37" ui:field="simple_marker" url="http://gmino.de/static/img/mapicons_orange_new/pin_export.png"/>
+		
+		
+	</g:VerticalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder> 

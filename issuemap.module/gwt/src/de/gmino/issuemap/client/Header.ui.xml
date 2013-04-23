@@ -58,23 +58,22 @@
 	<g:HorizontalPanel styleName="{style.header}" width="100%"
 		ui:field="header">
 
-		<g:cell width="25%" verticalAlignment="ALIGN_BOTTOM">
+		<g:cell width="25%" verticalAlignment="ALIGN_MIDDLE">
 			<g:Image ui:field="logo" url="loading.gif" height="45px" />
 		</g:cell>
 
-		<g:cell width="48%">
-			<g:Label styleName="{style.title}" ui:field="title" />
-		</g:cell>
-
-		<g:cell width="2%" horizontalAlignment="ALIGN_LEFT">
-			<g:PushButton styleName="{style.searchButton}"  ui:field="info_button" height="30px">
-   				<g:upFace image='{resources.info}'/>
-  				<g:upHoveringFace image='{resources.info_hover}'/>
-			</g:PushButton>
+		<g:cell width="50%" horizontalAlignment="ALIGN_CENTER">
+			<g:HorizontalPanel>
+				<g:Label styleName="{style.title}" ui:field="title" />
+				<g:PushButton styleName="{style.searchButton}"  ui:field="info_button" height="30px">
+	   				<g:upFace image='{resources.info}'/>
+	  				<g:upHoveringFace image='{resources.info_hover}'/>
+				</g:PushButton>
+			</g:HorizontalPanel> 
 		</g:cell>
 
 		<g:cell width="20%" horizontalAlignment="ALIGN_RIGHT">
-			<g:TextBox styleName="{style.searchField}" text="Suchbegriff" />
+			<g:TextBox styleName="{style.searchField}" text="Suchbegriff" ui:field="search_field"/>
 		</g:cell>
 
 		<g:cell width="30px">

@@ -11,10 +11,12 @@
 			padding: 10px;
 			border-width: 3px;
 			border-color: #FFF;
-			border-radius: 5px;
+			border-top-right-radius: 15px;
+			border-bottom-right-radius: 15px;
+			border-bottom-left-radius: 15px;
 		}
 	</ui:style>
-	<g:VerticalPanel styleName="{style.div}" width="300px">
+	<g:VerticalPanel styleName="{style.div}" width="300px" >
 		<g:cell>
 			<g:TextBox text="Titel" width="90%"></g:TextBox>
 		</g:cell>
@@ -24,7 +26,7 @@
 		<g:cell>
 			<g:ListBox>
 				<g:item value='1'>
-					Allgemien
+					Allgemein
 				</g:item>
 				<g:item value='2'>
 					Straßenschaden
@@ -36,7 +38,7 @@
 		</g:cell>
 		<g:cell horizontalAlignment="ALIGN_RIGHT">
 			<g:Button styleName="{style.important}" ui:field="button"
-				text="Speichern" />
+				text="Eintragen" />
 		</g:cell>
 	</g:VerticalPanel>
 

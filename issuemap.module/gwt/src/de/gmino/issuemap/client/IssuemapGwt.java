@@ -12,8 +12,10 @@ import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.shared.map.Event;
 import de.gmino.geobase.shared.map.MapListener;
 import de.gmino.geobase.shared.map.MarkerLayer;
+import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.request.QueryMapBySubdomain;
+import de.gmino.issuemap.shared.request.QueryIssuesByMap;
 import de.gmino.meva.client.UtilClient;
 import de.gmino.meva.client.request.NetworkRequestsImplAsyncJson;
 import de.gmino.meva.shared.EntityFactory;
@@ -51,6 +53,8 @@ public class IssuemapGwt implements EntryPoint {
 		map = new OpenLayersMapView("map","mapquest");
 		markerLayer = map.newMarkerLayer("cycleway_problems_bs");
 		map.addLayer(markerLayer);
+		map.setCenterAndZoom(new LatLon(0, 0), 0, false);						
+
 		
 		//Add Header to RootPanel
 		RootPanel.get("bar_top").add(header);
@@ -62,11 +66,11 @@ public class IssuemapGwt implements EntryPoint {
 			
 			@Override
 			public void onEvent(LatLon location, Event event) {
-				DivElement div = ((OpenLayersMapView)map).createPopup(location, "centerPopup", 300, 160);
+				DivElement div = ((OpenLayersMapView)map).createPopup(location, "centerPopup", 310, 170);
 				div.getStyle().setBackgroundColor("transparent");
 				div.getParentElement().getStyle().setBackgroundColor("transparent");
 				div.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
-				PopUp popUp = new PopUp();
+				ShowPoi_PopUp popUp = new ShowPoi_PopUp();
 				div.appendChild(popUp.getElement());
 		
 			}
@@ -79,10 +83,10 @@ public class IssuemapGwt implements EntryPoint {
 		//fetch map-Objekt
 		String[] domainSplit = Location.getHostName().split("\\.");
 		String subdomain = domainSplit[0];
-		mapRequests(subdomain);
+		mapRequest(subdomain);
 
 	}
-	void mapRequests(String subdomain) {
+	void mapRequest(String subdomain) {
 
 		EntityQuery q = new QueryMapBySubdomain(subdomain);
 		Requests.getLoadedEntitiesByQuery(Map.type, q,
@@ -92,6 +96,7 @@ public class IssuemapGwt implements EntryPoint {
 						map.setCenterAndZoom(result.getInitLocation(), result.getInitZoomlevel(), false);						
 						header.setDesign(result.getLogo().getUrl(), result.getTitle(), result.getColor());
 						footer.setDesign(result.getColor());
+					//	poiRequest(result.getId());
 
 					};
 
@@ -103,18 +108,23 @@ public class IssuemapGwt implements EntryPoint {
 	}
 	
 	//fetch all POIs for subdomian
-	void poiRequests(String subdomain) {
+	void poiRequest(long mapId) {
 
-		EntityQuery q = new QueryMapBySubdomain(subdomain);
+		EntityQuery q = new QueryIssuesByMap(mapId);
 		Requests.getLoadedEntitiesByQuery(Map.type, q,
-				new RequestListener<Map>() {
+				new RequestListener<Issue>() {
+			
+			@Override
+			public void onNewResult(Issue result) {
+				DivElement div = ((OpenLayersMapView)map).createPopup(result.getLocation(), "centerPopup", 300, 160);
+				div.getStyle().setBackgroundColor("transparent");
+				div.getParentElement().getStyle().setBackgroundColor("transparent");
+				div.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
+				CreatePoi_PopUp popUp = new CreatePoi_PopUp();
+				div.appendChild(popUp.getElement());
 
-					public void onNewResult(Map result) {
-						map.setCenterAndZoom(result.getInitLocation(), result.getInitZoomlevel(), false);						
-						header.setDesign(result.getLogo().getUrl(), result.getTitle(), result.getColor());
-						footer.setDesign(result.getColor());
-
-					};
+				
+			}
 
 					@Override
 					public void onError(String message, Throwable e) {
@@ -123,5 +133,9 @@ public class IssuemapGwt implements EntryPoint {
 				});
 	}
 	
+	void showInfoPopUp(){
+		
+		
+	}
 	
 }

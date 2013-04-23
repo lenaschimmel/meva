@@ -42,6 +42,7 @@ public class Issue extends IssueGen {
 			String title,
 			String description,
 			String issueType,
+			long map_instance,
 			Timestamp creationTimestamp)
 	{
 		super(
@@ -51,6 +52,7 @@ public class Issue extends IssueGen {
 			title,
 			description,
 			issueType,
+			map_instance,
 			(de.gmino.geobase.shared.domain.Timestamp)creationTimestamp
 		);
 		this.ready = true;
