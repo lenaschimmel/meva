@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ShowPoi_PopUp extends Composite implements HasText {
@@ -22,21 +23,14 @@ public class ShowPoi_PopUp extends Composite implements HasText {
 
 	public ShowPoi_PopUp() {
 		initWidget(uiBinder.createAndBindUi(this));
-		simple_marker.setVisible(false);
 		expanded_marker.setVisible(true);
 		
 		
 	}
 
 	@UiField
-	Image simple_marker;
-	@UiField
-	HTMLPanel expanded_marker;
+	VerticalPanel expanded_marker;
 
-	@UiHandler("simple_marker")
-	void onClick(ClickEvent e) {
-		Window.alert("Hello!");
-	}
 
 	public void setText(String text) {
 

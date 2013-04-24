@@ -28,6 +28,6 @@ public class Util {
 	}
 
 	public static String escapeForJson(String unescaped) {
-		return unescaped.replace("\\", "\\\\").replace("\"", "\\\"");
+		return unescaped.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\n");
 	}
 }

@@ -42,7 +42,7 @@ public class Issue extends IssueGen {
 			String title,
 			String description,
 			String issueType,
-			long map_instance,
+			Map map_instance,
 			Timestamp creationTimestamp)
 	{
 		super(

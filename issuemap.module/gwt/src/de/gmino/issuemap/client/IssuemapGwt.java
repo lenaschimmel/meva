@@ -1,10 +1,15 @@
 package de.gmino.issuemap.client;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import de.gmino.geobase.client.map.OpenLayersMapView;
@@ -53,7 +58,7 @@ public class IssuemapGwt implements EntryPoint {
 		map = new OpenLayersMapView("map","mapquest");
 		markerLayer = map.newMarkerLayer("cycleway_problems_bs");
 		map.addLayer(markerLayer);
-		map.setCenterAndZoom(new LatLon(0, 0), 0, false);						
+		map.setCenterAndZoom(new LatLon(20, 0), 0, false);						
 
 		
 		//Add Header to RootPanel
@@ -66,12 +71,16 @@ public class IssuemapGwt implements EntryPoint {
 			
 			@Override
 			public void onEvent(LatLon location, Event event) {
-				DivElement div = ((OpenLayersMapView)map).createPopup(location, "centerPopup", 310, 170);
+				DivElement div = ((OpenLayersMapView)map).createPopup(location, "centerPopup", 100, 100);
+				div.getStyle().setOverflow(Overflow.VISIBLE);
 				div.getStyle().setBackgroundColor("transparent");
+				div.getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
 				div.getParentElement().getStyle().setBackgroundColor("transparent");
+				div.getParentElement().getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
 				div.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
-				ShowPoi_PopUp popUp = new ShowPoi_PopUp();
-				div.appendChild(popUp.getElement());
+				CreatePoi_PopUp popUp = new CreatePoi_PopUp();
+				HTMLPanel.wrap(div).add(popUp);
+			//	div.appendChild(popUp.getElement());
 		
 			}
 		});
@@ -96,8 +105,34 @@ public class IssuemapGwt implements EntryPoint {
 						map.setCenterAndZoom(result.getInitLocation(), result.getInitZoomlevel(), false);						
 						header.setDesign(result.getLogo().getUrl(), result.getTitle(), result.getColor());
 						footer.setDesign(result.getColor());
-					//	poiRequest(result.getId());
-
+						Collection<Issue> tooManyIssues = result.getIssues();
+						Collection<Issue> issues = new ArrayList<Issue>();
+						
+						int i = 0;
+						for (Issue issue : tooManyIssues)
+						{
+							i++;
+							issues.add(issue);
+							if(i > 10)
+								break;
+						}
+						Requests.loadEntities(issues, new RequestListener<Issue>() {
+							@Override
+							public void onNewResult(Issue result) {
+								System.out.println(result.getTitle());
+								DivElement div = ((OpenLayersMapView)map).createPopup(result.getLocation(), "centerPopup", 1, 1);
+								div.getStyle().setOverflow(Overflow.VISIBLE);
+								div.getStyle().setBackgroundColor("transparent");
+								div.getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
+								div.getParentElement().getStyle().setBackgroundColor("transparent");
+								div.getParentElement().getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
+								div.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
+								Marker_Wrapper popUp = new Marker_Wrapper();
+								HTMLPanel.wrap(div).add(popUp);
+								//div.appendChild(popUp.getElement());
+								
+							}
+						});
 					};
 
 					@Override
@@ -107,31 +142,7 @@ public class IssuemapGwt implements EntryPoint {
 				});
 	}
 	
-	//fetch all POIs for subdomian
-	void poiRequest(long mapId) {
-
-		EntityQuery q = new QueryIssuesByMap(mapId);
-		Requests.getLoadedEntitiesByQuery(Map.type, q,
-				new RequestListener<Issue>() {
-			
-			@Override
-			public void onNewResult(Issue result) {
-				DivElement div = ((OpenLayersMapView)map).createPopup(result.getLocation(), "centerPopup", 300, 160);
-				div.getStyle().setBackgroundColor("transparent");
-				div.getParentElement().getStyle().setBackgroundColor("transparent");
-				div.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
-				CreatePoi_PopUp popUp = new CreatePoi_PopUp();
-				div.appendChild(popUp.getElement());
-
-				
-			}
-
-					@Override
-					public void onError(String message, Throwable e) {
-						Window.alert(message);
-					}
-				});
-	}
+	
 	
 	void showInfoPopUp(){
 		

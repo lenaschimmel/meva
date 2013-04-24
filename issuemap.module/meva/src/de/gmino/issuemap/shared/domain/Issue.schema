@@ -20,7 +20,7 @@
 			"name" : "issueType"
 		},	
 		{
-			"type" : "long",
+			"type" : "Map",
 			"name" : "map_instance"
 		},		
 		{
