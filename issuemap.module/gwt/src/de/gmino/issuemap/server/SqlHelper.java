@@ -30,6 +30,7 @@ public class SqlHelper {
 				DriverManager.registerDriver(new AppEngineDriver());
 				//DriverManager.registerDriver(new com.google.cloud.sql.Driver());
 			    con = DriverManager.getConnection("jdbc:google:rdbms://gmino-de-cloud-sql:gmino-socialgis-sql/gminosocialmap");
+			    con.createStatement().execute("set names 'utf8';");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

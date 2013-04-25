@@ -127,7 +127,7 @@ public class IssuemapGwt implements EntryPoint {
 								div.getParentElement().getStyle().setBackgroundColor("transparent");
 								div.getParentElement().getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
 								div.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
-								Marker_Wrapper popUp = new Marker_Wrapper();
+								Marker_Wrapper popUp = new Marker_Wrapper(result);
 								HTMLPanel.wrap(div).add(popUp);
 								//div.appendChild(popUp.getElement());
 								

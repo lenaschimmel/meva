@@ -8,33 +8,38 @@
 	<ui:style>
 		.div {
 			background-color: #333;
-			border-width: 3px;
-			border-color: #FFF;
-			border-radius: 10px;
+			border-top-right-radius: 10px;
+			border-bottom-right-radius: 10px;
+			border-top-left-radius: 1px;
+			border-bottom-left-radius: 1px;
 			/* Override glass panel to 10% opacity (= 90% transparency) */
 			filter: alpha(opacity =   1) !important; /* IE */
 			opacity: 0.9 !important; /* non-IE */
-			margin:3px;
-		}
-		
-		.innerIcon {
 			position: absolute;
-			bottom: 0px;
-			left: 6px;
+			top:2px;
+			left:29px;
+			
 		}
 		
 		.title_lable {
 			color: #FFF;
-			margin-top: 10px;
-			font-weight: bold;
+			margin-top: 5px;
 			text-align: center;
+			font-weight:bold;
+			margin-bottom: 4px;
+			padding-left: 5px;
+			padding-right: 5px;
+			white-space: nowrap;
+			width: auto;
 		}
 		
 		.description_lable {
 			color: #FFF;
 			margin-bottom: 10px;
 			margin-left: 10px;
+			margin-right: 10px;
 			margin-top: 5px;
+
 		}
 
 		
@@ -43,13 +48,9 @@
 		}
 	</ui:style>
 
-			<g:VerticalPanel ui:field="expanded_marker" styleName="{style.div}"
-		width="160px" height="100px">
-				<g:Label styleName="{style.title_lable}" text="Schlagloch" />
-				<g:Label styleName="{style.description_lable}"
-					text="Hier könnte Ihr individueller Markertext stehen." />
-				<g:Image styleName="{style.innerIcon}" pixelSize="32,37"
-					url="http://gmino.de/static/img/mapicons_orange_new/pin_export.png" />
+			<g:VerticalPanel ui:field="expanded_marker" styleName="{style.div}">
+				<g:Label styleName="{style.title_lable}" text="Schlagloch" ui:field="title"/>
+<!-- 				<g:Label ui:field="description"  styleName="{style.description_lable}"/> -->
 			</g:VerticalPanel>
 			
 

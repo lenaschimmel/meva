@@ -5,8 +5,14 @@
 		.important {
 			font-weight: bold;
 		}
+		.icon{
+			position: absolute;
+			top: 0px;
+			z-index: -100;
+}
 	</ui:style>
-	<g:FocusPanel ui:field="body">
-		<g:VerticalPanel ui:field="wrapper"></g:VerticalPanel>
-	</g:FocusPanel>
+
+	<g:HTMLPanel><g:Image styleName="{style.icon}" ui:field="icon"></g:Image></g:HTMLPanel>
+	
+
 </ui:UiBinder> 
