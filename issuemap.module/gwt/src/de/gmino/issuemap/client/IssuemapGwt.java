@@ -39,7 +39,8 @@ public class IssuemapGwt implements EntryPoint {
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
 
-	private OpenLayersMapView map;
+	private static OpenLayersMapView mapView;
+	private static Map mapObject;
 	private MarkerLayer markerLayer;
 	private Footer footer = new Footer();
 	private Header header = new Header();
@@ -55,10 +56,10 @@ public class IssuemapGwt implements EntryPoint {
 
 		
 		// Create the map
-		map = new OpenLayersMapView("map","mapquest");
-		markerLayer = map.newMarkerLayer("cycleway_problems_bs");
-		map.addLayer(markerLayer);
-		map.setCenterAndZoom(new LatLon(20, 0), 0, false);						
+		mapView = new OpenLayersMapView("map","mapquest");
+		markerLayer = mapView.newMarkerLayer("cycleway_problems_bs");
+		mapView.addLayer(markerLayer);
+		mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);						
 
 		
 		//Add Header to RootPanel
@@ -67,27 +68,22 @@ public class IssuemapGwt implements EntryPoint {
 		RootPanel.get("bar_bottom").add(footer);
 		
 		// Add create-PopUp by Doubble-Click
-		map.addEventListener(Event.dblclick, new MapListener() {
+		mapView.addEventListener(Event.dblclick, new MapListener() {
 			
 			@Override
 			public void onEvent(LatLon location, Event event) {
-				DivElement div = ((OpenLayersMapView)map).createPopup(location, "centerPopup", 100, 100);
+				DivElement div = ((OpenLayersMapView)mapView).createPopup(location, "centerPopup", 100, 100);
 				div.getStyle().setOverflow(Overflow.VISIBLE);
 				div.getStyle().setBackgroundColor("transparent");
 				div.getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
 				div.getParentElement().getStyle().setBackgroundColor("transparent");
 				div.getParentElement().getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
 				div.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
-				CreatePoi_PopUp popUp = new CreatePoi_PopUp();
+				CreatePoi_PopUp popUp = new CreatePoi_PopUp(mapObject, location);
 				HTMLPanel.wrap(div).add(popUp);
-			//	div.appendChild(popUp.getElement());
 		
 			}
 		});
-		
-		// Focus the cursor on the search field when the app loads
-//		searchField.setFocus(true);
-//		searchField.selectAll();
 		
 		//fetch map-Objekt
 		String[] domainSplit = Location.getHostName().split("\\.");
@@ -102,10 +98,11 @@ public class IssuemapGwt implements EntryPoint {
 				new RequestListener<Map>() {
 
 					public void onNewResult(Map result) {
-						map.setCenterAndZoom(result.getInitLocation(), result.getInitZoomlevel(), false);						
-						header.setDesign(result.getLogo().getUrl(), result.getTitle(), result.getColor());
-						footer.setDesign(result.getColor());
-						Collection<Issue> tooManyIssues = result.getIssues();
+						mapObject = result;
+						mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);						
+						header.setDesign(mapObject.getLogo().getUrl(), mapObject.getTitle(), mapObject.getColor());
+						footer.setDesign(mapObject.getColor());
+						Collection<Issue> tooManyIssues = mapObject.getIssues();
 						Collection<Issue> issues = new ArrayList<Issue>();
 						
 						int i = 0;
@@ -117,19 +114,19 @@ public class IssuemapGwt implements EntryPoint {
 								break;
 						}
 						Requests.loadEntities(issues, new RequestListener<Issue>() {
-							@Override
+							//Add marker wrapper to the mapview
 							public void onNewResult(Issue result) {
 								System.out.println(result.getTitle());
-								DivElement div = ((OpenLayersMapView)map).createPopup(result.getLocation(), "centerPopup", 1, 1);
+								DivElement div = ((OpenLayersMapView)mapView).createPopup(result.getLocation(), "centerPopup", 1, 1);
 								div.getStyle().setOverflow(Overflow.VISIBLE);
 								div.getStyle().setBackgroundColor("transparent");
 								div.getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
 								div.getParentElement().getStyle().setBackgroundColor("transparent");
 								div.getParentElement().getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
 								div.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
-								Marker_Wrapper popUp = new Marker_Wrapper(result);
-								HTMLPanel.wrap(div).add(popUp);
-								//div.appendChild(popUp.getElement());
+								Marker_Wrapper wrapper = new Marker_Wrapper(result);
+								HTMLPanel.wrap(div).add(wrapper);
+
 								
 							}
 						});
@@ -143,10 +140,23 @@ public class IssuemapGwt implements EntryPoint {
 	}
 	
 	
-	
-	void showInfoPopUp(){
-		
-		
+	//update Map position
+	static void setMapPosition(LatLon position){
+		mapView.setCenterAndZoom(position, mapObject.getInitZoomlevel(), true);						
 	}
+	
+	static void addMarker(Issue nIssue){
+		DivElement div = ((OpenLayersMapView)mapView).createPopup(nIssue.getLocation(), "centerPopup", 1, 1);
+		div.getStyle().setOverflow(Overflow.VISIBLE);
+		div.getStyle().setBackgroundColor("transparent");
+		div.getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
+		div.getParentElement().getStyle().setBackgroundColor("transparent");
+		div.getParentElement().getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
+		div.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
+		Marker_Wrapper wrapper = new Marker_Wrapper(nIssue);
+		HTMLPanel.wrap(div).add(wrapper);
+
+	}
+	
 	
 }
