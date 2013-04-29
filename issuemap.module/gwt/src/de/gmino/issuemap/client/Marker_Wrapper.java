@@ -20,7 +20,7 @@ public class Marker_Wrapper extends AbsolutePanel implements MouseOverHandler, M
 	private int zIndex = 1500;
 
 	public Marker_Wrapper(Issue issue) {
-		this.setSize("60px", "60px");
+		this.setSize("20px", "20px");
 		this.getElement().getStyle().setOverflow(Overflow.VISIBLE);
 		this.mIssue=issue ;
 		mIcon = new MarkerIcon();
