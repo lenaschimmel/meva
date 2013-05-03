@@ -1,0 +1,83 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	
+	<ui:with field="resources" type="de.gmino.issuemap.client.resources.ImageResources" />
+
+	<ui:style>
+		.parent {
+		
+			width: 400px;
+			background-color: #333;
+			position: absolute;
+			top: -50%;
+			left: -200px;
+			/* Override glass panel to 10% opacity (= 90% transparency) */
+			filter: alpha(opacity =         1) !important; /* IE */
+			opacity: 0.9 !important; /* non-IE */
+			border-top-right-radius: 10px;
+			border-bottom-right-radius: 10px;
+			border-top-left-radius: 10px;
+			border-bottom-left-radius: 10px;
+		}
+		
+		.content {
+			padding: 10px;
+			width: 420px;
+			
+		}
+
+		.description{
+			height: 200px;
+		}		
+		.title_label {
+			color: #FFF;
+			text-align: center;
+			font-weight: bold;
+			font-size: larger;
+			padding: 10px;
+			white-space: nowrap;
+			width: auto;
+			border-top-right-radius: 10px;
+			border-top-left-radius: 10px;
+		}
+		
+		.closeButton {
+			position: absolute;
+			top: 0px;
+			right: 0px;
+			cursor: pointer;
+		}
+	</ui:style>
+		<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
+		<g:Label  styleName="{style.title_label}">Marker bearbeiten</g:Label>
+		<g:Image resource="{resources.close}" ui:field="close"
+			styleName="{style.closeButton}"></g:Image>
+			<g:VerticalPanel styleName="{style.content}">
+		<g:cell>
+			<g:TextBox text="Titel" width="90%" ui:field="title"></g:TextBox>
+		</g:cell>
+		<g:cell>
+			<g:TextArea text="Beschreibung..." width="90%" ui:field="description" styleName="{style.description}"></g:TextArea>
+		</g:cell>
+		<g:cell>
+			<g:ListBox ui:field="typebox">
+				<g:item value='1'>
+					Allgemein
+				</g:item>
+				<g:item value='2'>
+					Straßenschaden
+				</g:item>
+				<g:item value='3'>
+					Unfall
+				</g:item>
+			</g:ListBox>
+		</g:cell>
+		<g:cell horizontalAlignment="ALIGN_RIGHT">
+			<g:Button  ui:field="button"
+				text="Eintragen" />
+		</g:cell>
+	</g:VerticalPanel>
+	</g:VerticalPanel>
+
+</ui:UiBinder> 

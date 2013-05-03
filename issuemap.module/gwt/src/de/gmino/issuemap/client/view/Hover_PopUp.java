@@ -1,4 +1,4 @@
-package de.gmino.issuemap.client;
+package de.gmino.issuemap.client.view;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

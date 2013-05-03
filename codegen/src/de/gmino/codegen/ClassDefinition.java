@@ -859,7 +859,9 @@ public class ClassDefinition {
 			if (!first)
 				pw.print(",");
 			final String getter = ((attribute.typeName.equals("boolean")) ? "is" : "get") + capitalizeFirst(attribute.attributeName) + "()";
-			if (attribute.isNativeOrString())
+			if (attribute.typeName.equals("boolean"))
+				pw.print("'\" + (" + prefix + getter + " ? 1 : 0) + \"'");
+			else if (attribute.isNativeOrString())
 				pw.print("'\" + " + prefix + getter + " + \"'");
 			else {
 				ClassDefinition classDef = attribute.getClassDefinition();
@@ -986,7 +988,12 @@ public class ClassDefinition {
 		pw.println("	{");
 		pw.println("		this." + attribute.attributeName + " = " + attribute.attributeName + ";");
 		if (attribute.isEntity())
-			pw.println("		this." + attribute.attributeName + "_id = " + attribute.attributeName + ".getId();");
+		{
+			pw.println("		if(" + attribute.attributeName + " != null)");
+			pw.println("			this." + attribute.attributeName + "_id = " + attribute.attributeName + ".getId();");
+			pw.println("		else");
+			pw.println("			this." + attribute.attributeName + "_id = 0;");
+		}
 		pw.println("	}");
 		pw.println("	");
 	}

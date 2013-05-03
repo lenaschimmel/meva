@@ -25,6 +25,7 @@ import org.itemscript.core.values.JsonValue;
 // imports for field types
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.shared.domain.Timestamp;
+import de.gmino.issuemap.shared.domain.Map;
 
 
 import de.gmino.issuemap.shared.domain.gen.IssueGen;
@@ -43,7 +44,9 @@ public class Issue extends IssueGen {
 			String description,
 			String issueType,
 			Map map_instance,
-			Timestamp creationTimestamp)
+			Timestamp creationTimestamp,
+			boolean resolved,
+			boolean deleted)
 	{
 		super(
 			id,
@@ -52,8 +55,10 @@ public class Issue extends IssueGen {
 			title,
 			description,
 			issueType,
-			map_instance,
-			(de.gmino.geobase.shared.domain.Timestamp)creationTimestamp
+			(de.gmino.issuemap.shared.domain.Map)map_instance,
+			(de.gmino.geobase.shared.domain.Timestamp)creationTimestamp,
+			resolved,
+			deleted
 		);
 		this.ready = true;
 	}

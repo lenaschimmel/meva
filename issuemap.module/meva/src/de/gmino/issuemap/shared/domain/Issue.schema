@@ -26,6 +26,14 @@
 		{
 			"type" : "Timestamp",
 			"name" : "creationTimestamp"
+		},		
+		{
+			"type" : "boolean",
+			"name" : "resolved"
+		},		
+		{
+			"type" : "boolean",
+			"name" : "deleted"
 		}
 	]
 }
