@@ -88,7 +88,11 @@ public class OpenLayersMapView extends AbstractMapView {
 											}-*/;
 
 	public DivElement createPopup(LatLon position, String id, int width, int height) {
-		return nCreatePopup(position.getLatitude(), position.getLongitude(), id, width, height);
+		DivElement inner = nCreatePopup(position.getLatitude(), position.getLongitude(), id, width, height);
+		DivElement middle = (DivElement)inner.getParentElement();
+		DivElement outer = (DivElement)middle.getParentElement();
+		outer.removeChild(middle);
+		return outer;
 	}
 	
 	public native DivElement nCreatePopup(double lat, double lon, String id, int width, int height) /*-{
@@ -98,7 +102,7 @@ public class OpenLayersMapView extends AbstractMapView {
                        new $wnd.OpenLayers.Size(width,height),
                        "",
                        false);
-    				map.addPopup(popup);	
+    				map.addPopup(popup);
     				return popup.contentDiv;
 	}-*/;
 

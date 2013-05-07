@@ -25,7 +25,7 @@ public class Marker_Wrapper extends AbsolutePanel implements MouseOverHandler, M
 	Map mMapObject;
 
 	public Marker_Wrapper(Issue issue, Map mapObject) {
-		this.setSize("60px", "60px");
+		this.setSize("20px", "20px");
 		this.getElement().getStyle().setOverflow(Overflow.VISIBLE);
 		this.mIssue=issue ;
 		this.mMapObject=mapObject;
