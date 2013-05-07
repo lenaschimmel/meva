@@ -2,6 +2,7 @@ package de.gmino.issuemap.client.view;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -11,6 +12,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.Marker_Wrapper;
 import de.gmino.issuemap.client.domain.Issue;
@@ -35,6 +37,11 @@ public class ShowIssue_PopUp extends Composite {
 		this.mIssue = issue;
 		this.mWrapper = marker_Wrapper;
 		setBoarderColor(map.getColor());
+		
+		ImageUrl img= issue.getPrimary_picture();
+		picture.setUrl(img.getUrl());
+		
+		
 	}
 
 	@UiField
@@ -49,6 +56,8 @@ public class ShowIssue_PopUp extends Composite {
 	Image edit;
 	@UiField
 	VerticalPanel parent;
+	@UiField
+	Image picture;
 
 	@UiHandler("close")
 	void onClose(ClickEvent e) {

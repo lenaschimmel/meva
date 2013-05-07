@@ -73,7 +73,7 @@
 				</g:HorizontalPanel>
 			</g:VerticalPanel>
 			<g:VerticalPanel>
-				<g:Image url="http://gmino.de/static/img/schlagloch.jpg"></g:Image>
+				<g:Image ui:field="picture" width="300px"></g:Image>
 				<g:Button ui:field="fotoupload" text="Foto hinzufügen"></g:Button>
 			</g:VerticalPanel>
 		</g:HorizontalPanel>

@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.gmino.geobase.client.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.client.IssuemapGwt;
@@ -46,12 +47,15 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 		title.setText(editIssue.getTitle());
 		description.setText(editIssue.getDescription());
 		typebox.setSelectedIndex(0); // ToDo
+		picture.setText(editIssue.getPrimary_picture().getUrl());
 	}
 
 	@UiField
 	Button button;
 	@UiField
 	TextBox title;
+	@UiField
+	TextBox picture;
 	@UiField
 	TextArea description;
 	@UiField
@@ -87,6 +91,7 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 			mIssue.setDescription(description.getText());
 			mIssue.setCreationTimestamp(Timestamp.now());
 			mIssue.setIssueType(type);
+			mIssue.setPrimary_picture(new ImageUrl(picture.getText()));
 			Requests.saveEntity(mIssue, null);
 		}
 
@@ -100,6 +105,8 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 					issue.setDescription(description.getText());
 					issue.setCreationTimestamp(Timestamp.now());
 					issue.setIssueType(type);
+					issue.setPrimary_picture(new ImageUrl(picture.getText()));
+
 
 					mapObject.getIssues().add(issue);
 					Requests.saveEntity(issue, null);

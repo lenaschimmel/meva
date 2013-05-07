@@ -35,5 +35,9 @@
 			"type" : "boolean",
 			"name" : "deleted"
 		}
+		{
+			"type" : "ImageUrl",
+			"name" : "primary_picture"
+		}
 	]
 }

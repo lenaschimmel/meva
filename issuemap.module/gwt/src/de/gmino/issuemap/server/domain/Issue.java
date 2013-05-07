@@ -34,6 +34,7 @@ import de.gmino.meva.shared.ValueBinary;
 import de.gmino.meva.shared.EntitySql;
 
 // imports for field types
+import de.gmino.geobase.server.domain.ImageUrl;
 import de.gmino.geobase.server.domain.LatLon;
 import de.gmino.geobase.server.domain.Timestamp;
 import de.gmino.issuemap.server.domain.Map;
@@ -57,7 +58,8 @@ public class Issue extends IssueGen {
 			Map map_instance,
 			Timestamp creationTimestamp,
 			boolean resolved,
-			boolean deleted)
+			boolean deleted,
+			ImageUrl primary_picture)
 	{
 		super(
 			id,
@@ -69,7 +71,8 @@ public class Issue extends IssueGen {
 			(de.gmino.issuemap.server.domain.Map)map_instance,
 			(de.gmino.geobase.server.domain.Timestamp)creationTimestamp,
 			resolved,
-			deleted
+			deleted,
+			(de.gmino.geobase.server.domain.ImageUrl)primary_picture
 		);
 		this.ready = true;
 	}

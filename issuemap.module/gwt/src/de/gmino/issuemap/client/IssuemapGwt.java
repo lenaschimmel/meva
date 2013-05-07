@@ -109,17 +109,19 @@ public class IssuemapGwt implements EntryPoint {
 						header.setDesign(mapObject.getLogo().getUrl(), mapObject.getTitle(), mapObject.getColor());
 						footer.setDesign(mapObject.getColor());
 						Collection<Issue> tooManyIssues = mapObject.getIssues();
-						Collection<Issue> issues = new ArrayList<Issue>();
+						//Collection<Issue> issues = new ArrayList<Issue>();
 						
-						int i = 0;
-						for (Issue issue : tooManyIssues)
-						{
-							i++;
-							issues.add(issue);
-							if(i > 10)
-								break;
-						}
-						Requests.loadEntities(issues, new RequestListener<Issue>() {
+//						int i = 0;
+//						for (Issue issue : tooManyIssues)
+//						{
+//							if(issue.isDeleted())
+//								continue;
+//							i++;
+//							issues.add(issue);
+//							if(i > 10)
+//								break;
+//						}
+						Requests.loadEntities(tooManyIssues, new RequestListener<Issue>() {
 							//Add marker wrapper to the mapview
 							public void onNewResult(Issue result) {
 								if (result.isDeleted())
