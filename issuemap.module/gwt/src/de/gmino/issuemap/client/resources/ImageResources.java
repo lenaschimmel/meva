@@ -32,6 +32,12 @@ public interface ImageResources extends ClientBundle {
 	@Source("img/info.png")
 	ImageResource info();
 	
+	@Source("img/delete.png")
+	ImageResource delete();
+
+	@Source("img/edit.png")
+	ImageResource edit();
+	
 	@Source("img/info_hover.png")
 	ImageResource info_hover();
 

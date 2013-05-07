@@ -3,6 +3,7 @@ package de.gmino.issuemap.client;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.TreeMap;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.DivElement;
@@ -20,6 +21,9 @@ import de.gmino.geobase.shared.map.MarkerLayer;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.request.QueryMapBySubdomain;
+import de.gmino.issuemap.client.view.CreateIssue_PopUp;
+import de.gmino.issuemap.client.view.Footer;
+import de.gmino.issuemap.client.view.Header;
 import de.gmino.issuemap.shared.request.QueryIssuesByMap;
 import de.gmino.meva.client.UtilClient;
 import de.gmino.meva.client.request.NetworkRequestsImplAsyncJson;
@@ -41,6 +45,7 @@ public class IssuemapGwt implements EntryPoint {
 
 	private static OpenLayersMapView mapView;
 	private static Map mapObject;
+	private static TreeMap<Issue, DivElement> divByIssue = new TreeMap<Issue, DivElement>();
 	private MarkerLayer markerLayer;
 	private Footer footer = new Footer();
 	private Header header = new Header();
@@ -79,7 +84,7 @@ public class IssuemapGwt implements EntryPoint {
 				div.getParentElement().getStyle().setBackgroundColor("transparent");
 				div.getParentElement().getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
 				div.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
-				CreatePoi_PopUp popUp = new CreatePoi_PopUp(mapObject, location);
+				CreateIssue_PopUp popUp = new CreateIssue_PopUp(mapObject, location);
 				HTMLPanel.wrap(div).add(popUp);
 		
 			}
@@ -99,6 +104,7 @@ public class IssuemapGwt implements EntryPoint {
 
 					public void onNewResult(Map result) {
 						mapObject = result;
+						header.setMap(result);
 						mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);						
 						header.setDesign(mapObject.getLogo().getUrl(), mapObject.getTitle(), mapObject.getColor());
 						footer.setDesign(mapObject.getColor());
@@ -116,16 +122,9 @@ public class IssuemapGwt implements EntryPoint {
 						Requests.loadEntities(issues, new RequestListener<Issue>() {
 							//Add marker wrapper to the mapview
 							public void onNewResult(Issue result) {
-								System.out.println(result.getTitle());
-								DivElement div = ((OpenLayersMapView)mapView).createPopup(result.getLocation(), "centerPopup", 1, 1);
-								div.getStyle().setOverflow(Overflow.VISIBLE);
-								div.getStyle().setBackgroundColor("transparent");
-								div.getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
-								div.getParentElement().getStyle().setBackgroundColor("transparent");
-								div.getParentElement().getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
-								div.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
-								Marker_Wrapper wrapper = new Marker_Wrapper(result);
-								HTMLPanel.wrap(div).add(wrapper);
+								if (result.isDeleted())
+									return;
+								addMarker(result);
 
 								
 							}
@@ -142,10 +141,10 @@ public class IssuemapGwt implements EntryPoint {
 	
 	//update Map position
 	static void setMapPosition(LatLon position){
-		mapView.setCenterAndZoom(position, mapObject.getInitZoomlevel(), true);						
+		mapView.setCenter(position, true);						
 	}
 	
-	static void addMarker(Issue nIssue){
+	public static void addMarker(Issue nIssue){
 		DivElement div = ((OpenLayersMapView)mapView).createPopup(nIssue.getLocation(), "centerPopup", 1, 1);
 		div.getStyle().setOverflow(Overflow.VISIBLE);
 		div.getStyle().setBackgroundColor("transparent");
@@ -153,10 +152,15 @@ public class IssuemapGwt implements EntryPoint {
 		div.getParentElement().getStyle().setBackgroundColor("transparent");
 		div.getParentElement().getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
 		div.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
-		Marker_Wrapper wrapper = new Marker_Wrapper(nIssue);
+		Marker_Wrapper wrapper = new Marker_Wrapper(nIssue, mapObject);
 		HTMLPanel.wrap(div).add(wrapper);
-
+		divByIssue.put(nIssue, div);
 	}
 	
+	public static void deleteMarker(Issue nIssue){
+		DivElement div = divByIssue.get(nIssue);
+		if(div != null)
+			div.removeFromParent();
+	}
 	
 }

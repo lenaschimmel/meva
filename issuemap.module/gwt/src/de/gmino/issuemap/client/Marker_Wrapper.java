@@ -10,33 +10,41 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 import de.gmino.issuemap.client.domain.Issue;
+import de.gmino.issuemap.client.domain.Map;
+import de.gmino.issuemap.client.view.Hover_PopUp;
+import de.gmino.issuemap.client.view.MarkerIcon;
+import de.gmino.issuemap.client.view.ShowIssue_PopUp;
 
 public class Marker_Wrapper extends AbsolutePanel implements MouseOverHandler, MouseOutHandler, ClickHandler { // Composite implements HasText {
 
 	Hover_PopUp hover = new Hover_PopUp();
-	Detail_PopUp detail = new Detail_PopUp();
+	ShowIssue_PopUp detail;
 	MarkerIcon mIcon;
 	Issue mIssue;
 	private int zIndex = 1500;
+	Map mMapObject;
 
-	public Marker_Wrapper(Issue issue) {
+	public Marker_Wrapper(Issue issue, Map mapObject) {
 		this.setSize("20px", "20px");
 		this.getElement().getStyle().setOverflow(Overflow.VISIBLE);
 		this.mIssue=issue ;
+		this.mMapObject=mapObject;
 		mIcon = new MarkerIcon();
 		mIcon.getElement().getStyle().setZIndex(getAbsoluteTop());
 		add(mIcon);
+		mIcon.setColor(mapObject.getColor());
 		mIcon.addDomHandler(this,  MouseOverEvent.getType());
 		mIcon.addDomHandler(this,  MouseOutEvent.getType());
 		mIcon.addDomHandler(this,  ClickEvent.getType());
+		hover.setText(mIssue.getTitle(), mIssue.getDescription());
+		hover.addDomHandler(this,  ClickEvent.getType());
+		hover.getElement().getStyle().setZIndex(zIndex ++);
+
 
 	}
 
 	public void onMouseOver(MouseOverEvent e) {
-		hover.setText(mIssue.getTitle(), mIssue.getDescription());
 		add(hover);
-		hover.addDomHandler(this,  ClickEvent.getType());
-		hover.getElement().getStyle().setZIndex(zIndex ++);
 	}
 	
 	public void onMouseOut(MouseOutEvent e) {
@@ -44,6 +52,7 @@ public class Marker_Wrapper extends AbsolutePanel implements MouseOverHandler, M
 	}
 	
 	public void onClick(ClickEvent e) {
+		detail = new ShowIssue_PopUp(mMapObject, mIssue, this);
 		detail.setText(mIssue.getTitle(), mIssue.getDescription());
 		add(detail);
 		IssuemapGwt.setMapPosition(mIssue.getLocation());

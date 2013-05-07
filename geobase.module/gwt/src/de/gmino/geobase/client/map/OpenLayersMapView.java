@@ -105,6 +105,7 @@ public class OpenLayersMapView extends AbstractMapView {
     				map.addPopup(popup);
     				return popup.contentDiv;
 	}-*/;
+
 	
 	@Override
 	public double getMinZoom() {
@@ -167,7 +168,12 @@ public class OpenLayersMapView extends AbstractMapView {
 	}
 
 	protected void handleEvent(double lat, double lon, String typeName) {
-		super.handleEvent(lat, lon, Event.valueOf(typeName));
+		try{
+			super.handleEvent(lat, lon, Event.valueOf(typeName));
+		} catch (Throwable e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	private native void nEnableClickListener() /*-{

@@ -1,4 +1,4 @@
-package de.gmino.issuemap.client;
+package de.gmino.issuemap.client.view;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -8,19 +8,23 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.domain.ImageUrl;
+import de.gmino.issuemap.client.domain.Map;
 
 public class Header extends Composite implements HasText {
 
 	private static HeaderUiBinder uiBinder = GWT.create(HeaderUiBinder.class);
+	private Map mapObject;
 
 	interface HeaderUiBinder extends UiBinder<Widget, Header> {
 	}
@@ -53,7 +57,12 @@ public class Header extends Composite implements HasText {
 
 	@UiHandler("info_button")
 	void onClick(ClickEvent e) {
-		Window.alert("Hello!");
+		final DecoratedPopupPanel infoPopUp = new DecoratedPopupPanel();
+		infoPopUp.add(new Info_PopUp(mapObject, infoPopUp));
+		infoPopUp.show();
+		infoPopUp.setPopupPosition(Window.getClientWidth()/2, Window.getClientHeight()/3);
+
+
 	}
 	
 	public void setDesign(String imgUrl, String titleString, String color) {
@@ -73,6 +82,10 @@ public class Header extends Composite implements HasText {
 	public String getText() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void setMap(Map map) {
+		this.mapObject = map;
 	}
 
 	@Override
