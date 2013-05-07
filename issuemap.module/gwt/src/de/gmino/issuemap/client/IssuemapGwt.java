@@ -2,8 +2,9 @@ package de.gmino.issuemap.client;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.Comparator;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.DivElement;
@@ -24,7 +25,6 @@ import de.gmino.issuemap.client.request.QueryMapBySubdomain;
 import de.gmino.issuemap.client.view.CreateIssue_PopUp;
 import de.gmino.issuemap.client.view.Footer;
 import de.gmino.issuemap.client.view.Header;
-import de.gmino.issuemap.shared.request.QueryIssuesByMap;
 import de.gmino.meva.client.UtilClient;
 import de.gmino.meva.client.request.NetworkRequestsImplAsyncJson;
 import de.gmino.meva.shared.EntityFactory;
@@ -120,13 +120,23 @@ public class IssuemapGwt implements EntryPoint {
 								break;
 						}
 						Requests.loadEntities(issues, new RequestListener<Issue>() {
-							//Add marker wrapper to the mapview
-							public void onNewResult(Issue result) {
-								if (result.isDeleted())
-									return;
-								addMarker(result);
-
+							@Override
+							public void onFinished(Collection<Issue> results) {
 								
+								Comparator<Issue> compare = new Comparator<Issue>() {
+									@Override
+									public int compare(Issue i1, Issue i2) {
+										return Double.compare(i1.getLocation().getLatitude(),i2.getLocation().getLatitude());
+									}
+								};
+								TreeSet<Issue> sortedIssues = new TreeSet<Issue>(compare);
+								sortedIssues.addAll(results);
+								for(Issue i : sortedIssues)
+								{
+									if (i.isDeleted())
+										return;
+									addMarker(i);
+								}
 							}
 						});
 					};
