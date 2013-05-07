@@ -1,7 +1,6 @@
 package de.gmino.issuemap.server;
 
 import com.google.appengine.api.rdbms.AppEngineDriver;
-import com.google.cloud.sql.Driver;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -29,8 +28,9 @@ public class SqlHelper {
 				
 				DriverManager.registerDriver(new AppEngineDriver());
 				//DriverManager.registerDriver(new com.google.cloud.sql.Driver());
-			    con = DriverManager.getConnection("jdbc:google:rdbms://gmino-de-cloud-sql:gmino-socialgis-sql/gminosocialmap");
-			    con.createStatement().execute("set names 'utf8';");
+			    con = DriverManager.getConnection("jdbc:google:rdbms://gmino-de-cloud-sql:gmino-socialgis-sql/gminosocialmap?useUnicode=yes&characterEncoding=UTF-8");
+			    
+			   con.createStatement().execute("set names 'utf8';");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

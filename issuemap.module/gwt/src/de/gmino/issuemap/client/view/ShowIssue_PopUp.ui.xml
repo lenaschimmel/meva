@@ -17,16 +17,13 @@
 			top: -50%;
 			left: -200px;
 			/* Override glass panel to 10% opacity (= 90% transparency) */
-			filter: alpha(opacity =         1) !important; /* IE */
-			opacity: 0.9 !important; /* non-IE */
+			filter: alpha(opacity = 1) !important; /* IE */
+			opacity: 0.95 !important; /* non-IE */
 			border-top-right-radius: 10px;
 			border-bottom-right-radius: 10px;
 			border-top-left-radius: 10px;
 			border-bottom-left-radius: 10px;
 			border: 3px solid;
-		}
-		
-		.content {
 			padding: 10px;
 		}
 		
@@ -34,8 +31,8 @@
 			color: #FFF;
 			text-align: center;
 			font-weight: bold;
-			font-size: larger;
-			padding: 10px;
+			font-size: large;
+			padding-bottom: 15px;
 			white-space: nowrap;
 			width: auto;
 			border-top-right-radius: 10px;
@@ -44,13 +41,20 @@
 		
 		.divider {
 			color: #FFF;
-			text-align: center;
+			font-weight: bold;
 		}
 		
 		.description_label {
 			color: #FFF;
+			margin-top: 10px;
 			margin-bottom: 10px;
 			padding-right: 10px;
+		}
+		
+		.meta_label{
+			color: #FFF;
+			font-weight: bold;
+			padding-bottom: 3px;
 		}
 		
 		.closeButton {
@@ -64,18 +68,22 @@
 		<g:Label ui:field="title" styleName="{style.title_label}"></g:Label>
 		<g:Image resource="{resources.close}" ui:field="close"
 			styleName="{style.closeButton}"></g:Image>
-		<g:HorizontalPanel styleName="{style.content}">
+		<g:HorizontalPanel>
 			<g:VerticalPanel width="240px">
-				<g:Label ui:field="description" styleName="{style.description_label}"></g:Label>
-				<g:HorizontalPanel>
-					<g:Image resource="{resources.edit}" ui:field="edit"></g:Image>
-					<g:Image resource="{resources.delete}" ui:field="delete"></g:Image>
-				</g:HorizontalPanel>
+				<g:Label styleName="{style.meta_label}" text="Eingetragen am ..."></g:Label>
+				<g:Label styleName="{style.meta_label}" text="Typ: Ampel"></g:Label>
+				<g:Label styleName="{style.meta_label}" text="Erledigt:" ></g:Label>
+				<g:Label styleName="{style.meta_label}" text="Relevanz:" ></g:Label>
 			</g:VerticalPanel>
 			<g:VerticalPanel>
 				<g:Image ui:field="picture" width="300px"></g:Image>
-				<g:Button ui:field="fotoupload" text="Foto hinzufügen"></g:Button>
+				<!-- <g:Button ui:field="fotoupload" text="Foto hinzufügen"></g:Button> -->
 			</g:VerticalPanel>
+		</g:HorizontalPanel>
+		<g:Label ui:field="description" styleName="{style.description_label}"></g:Label>
+		<g:HorizontalPanel>
+			<g:Image resource="{resources.edit}" ui:field="edit"></g:Image>
+			<g:Image resource="{resources.delete}" ui:field="delete"></g:Image>
 		</g:HorizontalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

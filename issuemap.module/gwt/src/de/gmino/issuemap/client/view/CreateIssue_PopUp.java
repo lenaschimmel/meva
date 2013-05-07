@@ -47,7 +47,8 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 		title.setText(editIssue.getTitle());
 		description.setText(editIssue.getDescription());
 		typebox.setSelectedIndex(0); // ToDo
-		picture.setText(editIssue.getPrimary_picture().getUrl());
+		if (editIssue.getPrimary_picture().getUrl().equals("")) picture.setText("Bild URL");
+		else picture.setText(editIssue.getPrimary_picture().getUrl());
 	}
 
 	@UiField

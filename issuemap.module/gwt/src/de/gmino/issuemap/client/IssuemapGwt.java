@@ -113,11 +113,14 @@ public class IssuemapGwt implements EntryPoint {
 						Requests.loadEntities(issues, new RequestListener<Issue>() {
 							@Override
 							public void onFinished(Collection<Issue> results) {
-							
 								Comparator<Issue> compare = new Comparator<Issue>() {
 									@Override
 									public int compare(Issue i1, Issue i2) {
-										return Double.compare(i1.getLocation().getLatitude(),i2.getLocation().getLatitude());
+										int latitudeComparision = Double.compare(i1.getLocation().getLatitude(),i2.getLocation().getLatitude());
+										if(latitudeComparision != 0)
+											return latitudeComparision;
+										else
+											return  (i1.getId() < i2.getId()) ? -1 : ((i1.getId() == i2.getId()) ? 0 : 1); // Long.compare(i1.getId(), i2.getId()); 
 									}
 								};
 								TreeSet<Issue> sortedIssues = new TreeSet<Issue>(compare);
@@ -125,7 +128,7 @@ public class IssuemapGwt implements EntryPoint {
 								for(Issue i : sortedIssues)
 								{
 									if (i.isDeleted())
-										return;
+										continue;
 									addMarker(i);
 								}
 							}

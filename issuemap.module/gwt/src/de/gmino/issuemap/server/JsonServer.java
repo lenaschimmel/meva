@@ -3,6 +3,7 @@ package de.gmino.issuemap.server;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -145,7 +146,7 @@ public class JsonServer extends HttpServlet {
 	 */
 	private void writeAnswer(ServletOutputStream outputStream, String status, String content) {
 		try {
-			OutputStreamWriter osw = new OutputStreamWriter(outputStream);
+			OutputStreamWriter osw = new OutputStreamWriter(outputStream, Charset.forName("ISO-8859-1"));
 			osw.write("{ \"status\":\"" + status + "\" , \"content\":" + content + "}");
 			osw.flush();
 			osw.close();
@@ -212,7 +213,8 @@ public class JsonServer extends HttpServlet {
 		}
 		sb.append("]");
 
-		resp.setContentType("text/json");
+		resp.setContentType("text/json; charset=utf-8");
+		resp.setCharacterEncoding("utf-8");
 		writeAnswer(resp.getOutputStream(), "OK", sb.toString());
 	}
 
