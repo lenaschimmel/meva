@@ -1,6 +1,5 @@
 package de.gmino.issuemap.client;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.TreeMap;
@@ -15,10 +14,10 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import de.gmino.geobase.client.map.OpenLayersMapView;
+import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.shared.map.Event;
 import de.gmino.geobase.shared.map.MapListener;
-import de.gmino.geobase.shared.map.MarkerLayer;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.request.QueryMapBySubdomain;
@@ -46,24 +45,21 @@ public class IssuemapGwt implements EntryPoint {
 	private static OpenLayersMapView mapView;
 	private static Map mapObject;
 	private static TreeMap<Issue, DivElement> divByIssue = new TreeMap<Issue, DivElement>();
-	private MarkerLayer markerLayer;
+	private OpenLayersSmartLayer markerLayer;
 	private Footer footer = new Footer();
 	private Header header = new Header();
 	
 	public void onModuleLoad() {
-
-
 		EntityFactory.setImplementations(new EntityFactoryImpl());
 		Util.setImpl(new UtilClient());
 
 		Requests.setImplementation(new NetworkRequestsImplAsyncJson("http://"
 				+ Location.getHost()+"/"));
-
 		
 		// Create the map
 		mapView = new OpenLayersMapView("map","mapquest");
-		markerLayer = mapView.newMarkerLayer("cycleway_problems_bs");
-		mapView.addLayer(markerLayer);
+		markerLayer = mapView.newSmartLayer("Issues");
+		markerLayer.addMarkerIconRenderer(Issue.type, new IssueIconRenderer());
 		mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);						
 
 		
@@ -72,7 +68,7 @@ public class IssuemapGwt implements EntryPoint {
 		
 		RootPanel.get("bar_bottom").add(footer);
 		
-		// Add create-PopUp by Doubble-Click
+		// Add create-PopUp by Double-Click
 		mapView.addEventListener(Event.dblclick, new MapListener() {
 			
 			@Override
@@ -148,7 +144,9 @@ public class IssuemapGwt implements EntryPoint {
 		mapView.setCenter(position, true);						
 	}
 	
-	public static void addMarker(Issue nIssue){
+	public void addMarker(Issue nIssue){
+		markerLayer.addPoi(nIssue); 
+		/*
 		DivElement div = ((OpenLayersMapView)mapView).createPopup(nIssue.getLocation(), "centerPopup", 1, 1);
 		div.getStyle().setOverflow(Overflow.VISIBLE);
 		div.getStyle().setBackgroundColor("transparent");
@@ -159,12 +157,15 @@ public class IssuemapGwt implements EntryPoint {
 		Marker_Wrapper wrapper = new Marker_Wrapper(nIssue, mapObject);
 		HTMLPanel.wrap(div).add(wrapper);
 		divByIssue.put(nIssue, div);
+		*/
 	}
 	
-	public static void deleteMarker(Issue nIssue){
-		DivElement div = divByIssue.get(nIssue);
-		if(div != null)
-			div.removeFromParent();
+	public void deleteMarker(Issue nIssue){
+		markerLayer.removePoi(nIssue);
+		
+//		DivElement div = divByIssue.get(nIssue);
+//		if(div != null)
+//			div.removeFromParent();
 	}
 	
 }

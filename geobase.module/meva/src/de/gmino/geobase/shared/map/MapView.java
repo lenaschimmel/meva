@@ -31,4 +31,6 @@ public interface MapView {
 	public MarkerLayer newMarkerLayer(String name);
 
 	public MapLayer newMapLayer(MapProvider provider);
+
+	public SmartLayer newSmartLayer(String name);
 }

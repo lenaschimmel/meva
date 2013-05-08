@@ -75,7 +75,7 @@ public class ShowIssue_PopUp extends Composite {
 		mIssue.setDeleted(true);
 		Requests.saveEntity(mIssue, null);
 		this.removeFromParent();
-		IssuemapGwt.deleteMarker(mIssue);
+	// FIXME	IssuemapGwt.deleteMarker(mIssue);
 		
 	}
 

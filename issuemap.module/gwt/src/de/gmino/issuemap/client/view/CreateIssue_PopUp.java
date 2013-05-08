@@ -83,7 +83,7 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 			if (typebox.getSelectedIndex() == 0)
 				type = "Allgemein";
 			if (typebox.getSelectedIndex() == 1)
-				type = "Straßenschaden";
+				type = "Straï¿½enschaden";
 			if (typebox.getSelectedIndex() == 2)
 				type = "Unfall";
 			mIssue.setTitle(title.getText());
@@ -114,7 +114,7 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 					Requests.saveEntity(mapObject, null);
 
 					// Add marker to map
-					IssuemapGwt.addMarker(issue);
+					// FIXME IssuemapGwt.addMarker(issue);
 
 				}
 			});

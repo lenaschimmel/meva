@@ -26,11 +26,12 @@ import org.itemscript.core.values.JsonValue;
 import de.gmino.geobase.client.domain.ImageUrl;
 import de.gmino.geobase.client.domain.LatLon;
 import de.gmino.geobase.client.domain.Timestamp;
+import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.issuemap.client.domain.Map;
 
 
 import de.gmino.issuemap.client.domain.gen.IssueGen;
-public class Issue extends IssueGen {
+public class Issue extends IssueGen implements Poi {
 	// Constructors
 	public Issue(long id)
 	{

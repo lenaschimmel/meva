@@ -11,6 +11,7 @@ import de.gmino.geobase.shared.map.MapLayer;
 import de.gmino.geobase.shared.map.MapListener;
 import de.gmino.geobase.shared.map.MapProvider;
 import de.gmino.geobase.shared.map.MarkerLayer;
+import de.gmino.geobase.shared.map.SmartLayer;
 
 public class OpenLayersMapView extends AbstractMapView {
 
@@ -96,14 +97,14 @@ public class OpenLayersMapView extends AbstractMapView {
 	}
 	
 	public native DivElement nCreatePopup(double lat, double lon, String id, int width, int height) /*-{
-					var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
-					var popup = new $wnd.OpenLayers.Popup(id,
-                       new $wnd.OpenLayers.LonLat(lon, lat).transform(map.pro1, map.pro2),
-                       new $wnd.OpenLayers.Size(width,height),
-                       "",
-                       false);
-    				map.addPopup(popup);
-    				return popup.contentDiv;
+		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
+		var popup = new $wnd.OpenLayers.Popup(id,
+	       new $wnd.OpenLayers.LonLat(lon, lat).transform(map.pro1, map.pro2),
+	       new $wnd.OpenLayers.Size(width,height),
+	       "",
+	       false);
+		map.addPopup(popup);
+		return popup.contentDiv;
 	}-*/;
 
 	
@@ -134,12 +135,12 @@ public class OpenLayersMapView extends AbstractMapView {
 	public void addLayer(MapLayer layer) {
 		if (layer instanceof OpenLayersLayer) {
 			OpenLayersLayer oll = (OpenLayersLayer) layer;
-			nAddLayer((oll).getJso());
+			addLayerJso((oll).getJso());
 		} else
 			throw new RuntimeException("Layer is not supported by OpenLayers.");
 	}
 
-	private native void nAddLayer(JavaScriptObject jso) /*-{
+	public native void addLayerJso(JavaScriptObject jso) /*-{
 														var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
 														map.addLayer(jso);
 														}-*/;
@@ -224,6 +225,11 @@ public class OpenLayersMapView extends AbstractMapView {
 	@Override
 	public MarkerLayer newMarkerLayer(String name) {
 		return new OpenLayersMarkerLayer(name, this);
+	}
+
+	@Override
+	public OpenLayersSmartLayer newSmartLayer(String name) {
+		return new OpenLayersSmartLayer(name, this);
 	}
 
 	@Override

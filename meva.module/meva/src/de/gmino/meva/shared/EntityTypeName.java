@@ -3,7 +3,7 @@ package de.gmino.meva.shared;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class EntityTypeName {
+public class EntityTypeName implements Comparable<EntityTypeName> {
 	private final String typeName;
 	private static Map<String, EntityTypeName> types = new TreeMap<String, EntityTypeName>();
 
@@ -23,5 +23,10 @@ public class EntityTypeName {
 			types.put(typeName, ret);
 		}
 		return ret;
+	}
+
+	@Override
+	public int compareTo(EntityTypeName that) {
+		return this.typeName.compareTo(that.typeName);
 	}
 }

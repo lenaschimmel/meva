@@ -176,7 +176,8 @@ public class ClassDefinition {
 
 		String modifier = isQuery() ? "abstract " : " ";
 
-		pw.println("public " + modifier + "class " + className + " implements " + (entity ? ("Entity<" + className + ">") : "Value") + (isEntityQuery() ? ", EntityQuery" : "")
+		//																		  (entity ? ("Entity<" + className + ">") : "Value")
+		pw.println("public " + modifier + "class " + className + " implements " + (entity ? ("Entity<Entity>") : "Value") + (isEntityQuery() ? ", EntityQuery" : "")
 				+ (isValueQuery() ? ", ValueQuery" : "") + " {");
 
 		if (entity)
@@ -277,8 +278,8 @@ public class ClassDefinition {
 
 	private void generateCompareTo(PrintWriter pw) {
 		pw.println("	@Override");
-		pw.println("	public int compareTo(" + className + " that) {");
-		pw.println("		return new Long(this.id).compareTo(that.id);");
+		pw.println("	public int compareTo(Entity that) {");
+		pw.println("		return new Long(this.id).compareTo(that.getId());");
 		pw.println("	}");
 	}
 

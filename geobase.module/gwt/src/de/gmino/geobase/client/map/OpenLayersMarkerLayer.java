@@ -85,7 +85,7 @@ public class OpenLayersMarkerLayer implements MarkerLayer, OpenLayersLayer {
 																layer.removeMarker(marker);
 																}-*/;
 
-	@Override
+	
 	public JavaScriptObject getJso() {
 		return jso;
 	}
