@@ -54,18 +54,35 @@ public class LocalRequetsImpl {
 	}
 
 	public static void loadEntities(Collection<? extends Entity> entities) {
-		Connection dbCon = SqlHelper.getConnection();
+		Collection<Entity> entitiesToLoad = new ArrayList<Entity>();
+		
 		for (Entity e : entities) {
-			if (e.isReady()) {
-				System.out.println("Already present: " + e.toShortString());
-				continue;
-			}
-			System.out.println("Reading " + e.toShortString() + " from SQL.");
-			try {
-				((EntitySql) e).deserializeSql(dbCon);
-			} catch (SQLException e1) {
-				throw new RuntimeException(e1);
-			}
+			if (!e.isReady())
+				entitiesToLoad.add(e);
+//			if (e.isReady()) {
+//				System.out.println("Already present: " + e.toShortString());
+//				continue;
+//			}
+//			System.out.println("Reading " + e.toShortString() + " from SQL.");
+//			try {
+//				((EntitySql) e).deserializeSql(dbCon);
+//			} catch (SQLException e1) {
+//				throw new RuntimeException(e1);
+//			}
+		}
+		
+		if(entitiesToLoad.isEmpty())
+		{
+			System.out.println("Nothing to load, all present.");
+			return;
+		}
+		Connection dbCon = SqlHelper.getConnection();
+		
+		try {
+			EntitySql e = (EntitySql)entitiesToLoad.iterator().next();
+			e.deserializeSql(dbCon, entitiesToLoad);
+		} catch (SQLException e1) {
+			throw new RuntimeException(e1);
 		}
 	}
 

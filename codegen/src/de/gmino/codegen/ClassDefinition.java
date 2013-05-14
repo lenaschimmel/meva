@@ -177,7 +177,7 @@ public class ClassDefinition {
 		String modifier = isQuery() ? "abstract " : " ";
 
 		//																		  (entity ? ("Entity<" + className + ">") : "Value")
-		pw.println("public " + modifier + "class " + className + " implements " + (entity ? ("Entity<Entity>") : "Value") + (isEntityQuery() ? ", EntityQuery" : "")
+		pw.println("public " + modifier + "class " + className + " implements " + (entity ? ("Entity") : "Value") + (isEntityQuery() ? ", EntityQuery" : "")
 				+ (isValueQuery() ? ", ValueQuery" : "") + " {");
 
 		if (entity)
@@ -278,8 +278,8 @@ public class ClassDefinition {
 
 	private void generateCompareTo(PrintWriter pw) {
 		pw.println("	@Override");
-		pw.println("	public int compareTo(Entity that) {");
-		pw.println("		return new Long(this.id).compareTo(that.getId());");
+		pw.println("	public int compareTo(Object that) {");
+		pw.println("		return new Long(this.id).compareTo(((Entity)that).getId());");
 		pw.println("	}");
 	}
 
@@ -753,7 +753,6 @@ public class ClassDefinition {
 
 		pw.println("	public void deserializeSql(Connection dbCon) throws SQLException");
 		pw.println("	{");
-		pw.println("		String prefix = \"\";");
 		pw.println("		Statement stat = dbCon.createStatement();");
 		pw.print("		String selectString = \"SELECT  ");
 		printAttributeList("", pw);
@@ -762,15 +761,53 @@ public class ClassDefinition {
 		pw.println("		System.out.println(selectString);");
 		pw.println("		ResultSet rs = stat.executeQuery(selectString);");
 		pw.println("		rs.next();");
-
+		pw.println("		deserializeSql(rs, dbCon);");
+		pw.println("	}");
+		pw.println();		
+		pw.println("	public void deserializeSql(Connection dbCon, Collection<Entity> toLoad) throws SQLException");
+		pw.println("	{");
+		pw.println("		String idList = \"\";");
+		pw.println("		for(Entity e : toLoad)");
+		pw.println("			{");
+		pw.println("			if(idList.length() > 0)");
+		pw.println("				idList += ',';");
+		pw.println("			idList += e.getId();");
+		pw.println("			}");
+		pw.println("		Statement stat = dbCon.createStatement();");
+		pw.print(  "		String selectString = \"SELECT  ");
+		printAttributeList("", pw);
+		pw.println(" FROM `" + baseClassName + "` WHERE id IN (\"+idList+\");\";");
+		pw.println("		stat.executeQuery(selectString);");
+		pw.println("		System.out.println(selectString);");
+		pw.println("		ResultSet rs = stat.executeQuery(selectString);");
+		pw.println("		while(rs.next())");
+		pw.println("		{");
+		pw.println("			long id = rs.getLong(\"id\");");
+		pw.println("			((EntitySql) EntityFactory.getUnloadedEntityById(type, id)).deserializeSql(rs, dbCon);");
+		pw.println("		}");
+		pw.println("	}");
+		pw.println();
+		pw.println("	public void deserializeSql(ResultSet rs, Connection dbCon) throws SQLException");
+		pw.println("	{");
+		pw.println("		String prefix = \"\";");
+		
 		// pw.println("		return new " + getFullyQualifiedName(target, false) +
 		// "(\"\", rs);");
 		printValueReadList("", pw);
 		// printValueReadList("", "", pw);
 		pw.println();
+		boolean alreadyHasDbStuff = false;
 		for (AttributeDefiniton def : attributes)
 			if (def.isRelation())
+			{
+				if(!alreadyHasDbStuff)
+				{
+					pw.println("		String selectString = \"\";");
+					pw.println("		Statement stat = dbCon.createStatement();");
+					alreadyHasDbStuff = true;
+				}
 				generateSqlRelationDeserializer(pw, def);
+			}
 		if (entity)
 			pw.println("		ready = true;");
 		pw.println("	}");

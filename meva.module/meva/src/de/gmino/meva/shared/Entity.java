@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.itemscript.core.values.JsonObject;
 
-public interface Entity<T> extends Comparable<T> {
+public interface Entity extends Comparable {
 
 	// Binary
 	// public void serializeBinary(DataOutputStream dos) throws IOException;
