@@ -29,10 +29,11 @@ public class Marker_Wrapper extends AbsolutePanel implements MouseOverHandler, M
 		this.getElement().getStyle().setOverflow(Overflow.VISIBLE);
 		this.mIssue=issue ;
 		this.mMapObject=mapObject;
-		mIcon = new MarkerIcon();
+		mIcon = new MarkerIcon(issue);
 		mIcon.getElement().getStyle().setZIndex(getAbsoluteTop());
 		add(mIcon);
-		mIcon.setColor(mapObject.getColor());
+		if(mIssue.isResolved()) mIcon.setColor("#52D354");
+		else mIcon.setColor(mapObject.getColor());
 		mIcon.addDomHandler(this,  MouseOverEvent.getType());
 		mIcon.addDomHandler(this,  MouseOutEvent.getType());
 		mIcon.addDomHandler(this,  ClickEvent.getType());
@@ -52,6 +53,7 @@ public class Marker_Wrapper extends AbsolutePanel implements MouseOverHandler, M
 	}
 	
 	public void onClick(ClickEvent e) {
+		remove(hover);
 		detail = new ShowIssue_PopUp(mMapObject, mIssue, this);
 		detail.setText(mIssue.getTitle(), mIssue.getDescription());
 		add(detail);

@@ -106,5 +106,12 @@ public interface ImageResources extends ClientBundle {
 	
 	@Source("img/mapicon/trafficlight.png")
 	ImageResource trafficlight();
+	
+	@Source("img/go_down.png")
+	ImageResource go_down();
+	
+	@Source("img/go_up.png")
+	ImageResource go_up();
+
 
 }

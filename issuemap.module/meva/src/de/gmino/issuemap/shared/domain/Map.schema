@@ -53,6 +53,12 @@
 			"name" : "issues",
 			"reltype" : "Issue",
 			"relname" : "map_instance"
+		},
+		{
+			"type" : "relation",
+			"name" : "hasMarkertypes",
+			"reltype" : "MapHasMarkertype",
+			"relname" : "map"
 		}
 	]
 }

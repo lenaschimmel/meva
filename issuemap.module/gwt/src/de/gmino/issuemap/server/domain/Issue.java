@@ -37,7 +37,9 @@ import de.gmino.meva.shared.EntitySql;
 import de.gmino.geobase.server.domain.ImageUrl;
 import de.gmino.geobase.server.domain.LatLon;
 import de.gmino.geobase.server.domain.Timestamp;
+import de.gmino.issuemap.server.domain.Comment;
 import de.gmino.issuemap.server.domain.Map;
+import de.gmino.issuemap.server.domain.Markertype;
 
 
 import de.gmino.issuemap.server.domain.gen.IssueGen;
@@ -54,9 +56,11 @@ public class Issue extends IssueGen {
 			LatLon location,
 			String title,
 			String description,
-			String issueType,
+			Markertype markertype,
 			Map map_instance,
 			Timestamp creationTimestamp,
+			int rating,
+			int number_of_rating,
 			boolean resolved,
 			boolean deleted,
 			ImageUrl primary_picture)
@@ -67,9 +71,11 @@ public class Issue extends IssueGen {
 			(de.gmino.geobase.server.domain.LatLon)location,
 			title,
 			description,
-			issueType,
+			(de.gmino.issuemap.server.domain.Markertype)markertype,
 			(de.gmino.issuemap.server.domain.Map)map_instance,
 			(de.gmino.geobase.server.domain.Timestamp)creationTimestamp,
+			rating,
+			number_of_rating,
 			resolved,
 			deleted,
 			(de.gmino.geobase.server.domain.ImageUrl)primary_picture

@@ -1,0 +1,27 @@
+{
+	"package" : "de.gmino.issuemap.TARGET.domain",
+	"concept" : "entity",
+	"name" : "Comment",
+	"attributes" : [
+		{
+			"type" : "Issue",
+			"name" : "issue"
+		},
+		{
+			"type" : "String",
+			"name" : "text"
+		},	
+		{
+			"type" : "String",
+			"name" : "user"
+		},	
+		{
+			"type" : "Timestamp",
+			"name" : "timestamp"
+		},		
+		{
+			"type" : "boolean",
+			"name" : "deleted"
+		}
+	]
+}

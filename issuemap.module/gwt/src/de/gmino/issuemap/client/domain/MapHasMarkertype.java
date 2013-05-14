@@ -1,7 +1,7 @@
 // You may edit this file. It has been generated, but it will NOT be overwritten by Meva.
 // To regenerate this file, delete it and run Meva again.
 
-package de.gmino.issuemap.shared.domain;
+package de.gmino.issuemap.client.domain;
 
 // gmino stuff
 import de.gmino.meva.shared.Entity;
@@ -23,49 +23,29 @@ import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
 // imports for field types
-import de.gmino.geobase.shared.domain.ImageUrl;
-import de.gmino.geobase.shared.domain.LatLon;
-import de.gmino.issuemap.shared.domain.Issue;
-import de.gmino.issuemap.shared.domain.MapHasMarkertype;
+import de.gmino.issuemap.client.domain.Map;
+import de.gmino.issuemap.client.domain.Markertype;
 
 
-import de.gmino.issuemap.shared.domain.gen.MapGen;
-public class Map extends MapGen {
+import de.gmino.issuemap.client.domain.gen.MapHasMarkertypeGen;
+public class MapHasMarkertype extends MapHasMarkertypeGen {
 	// Constructors
-	public Map(long id)
+	public MapHasMarkertype(long id)
 	{
 		super(id);
 	}
 	
-	public Map(
+	public MapHasMarkertype(
 			long id,
 			boolean ready,
-			String title,
-			String description,
-			String subdomain,
-			String color,
-			String city,
-			LatLon initLocation,
-			int initZoomlevel,
-			String layer,
-			String headerText,
-			ImageUrl logo,
-			String infoText)
+			Markertype markertype,
+			Map map)
 	{
 		super(
 			id,
 			ready,
-			title,
-			description,
-			subdomain,
-			color,
-			city,
-			(de.gmino.geobase.shared.domain.LatLon)initLocation,
-			initZoomlevel,
-			layer,
-			headerText,
-			(de.gmino.geobase.shared.domain.ImageUrl)logo,
-			infoText
+			(de.gmino.issuemap.client.domain.Markertype)markertype,
+			(de.gmino.issuemap.client.domain.Map)map
 		);
 		this.ready = true;
 	}

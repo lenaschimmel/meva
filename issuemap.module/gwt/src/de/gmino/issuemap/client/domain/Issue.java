@@ -27,7 +27,9 @@ import de.gmino.geobase.client.domain.ImageUrl;
 import de.gmino.geobase.client.domain.LatLon;
 import de.gmino.geobase.client.domain.Timestamp;
 import de.gmino.geobase.shared.domain.Poi;
+import de.gmino.issuemap.client.domain.Comment;
 import de.gmino.issuemap.client.domain.Map;
+import de.gmino.issuemap.client.domain.Markertype;
 
 
 import de.gmino.issuemap.client.domain.gen.IssueGen;
@@ -44,9 +46,11 @@ public class Issue extends IssueGen implements Poi {
 			LatLon location,
 			String title,
 			String description,
-			String issueType,
+			Markertype markertype,
 			Map map_instance,
 			Timestamp creationTimestamp,
+			int rating,
+			int number_of_rating,
 			boolean resolved,
 			boolean deleted,
 			ImageUrl primary_picture)
@@ -57,9 +61,11 @@ public class Issue extends IssueGen implements Poi {
 			(de.gmino.geobase.client.domain.LatLon)location,
 			title,
 			description,
-			issueType,
+			(de.gmino.issuemap.client.domain.Markertype)markertype,
 			(de.gmino.issuemap.client.domain.Map)map_instance,
 			(de.gmino.geobase.client.domain.Timestamp)creationTimestamp,
+			rating,
+			number_of_rating,
 			resolved,
 			deleted,
 			(de.gmino.geobase.client.domain.ImageUrl)primary_picture

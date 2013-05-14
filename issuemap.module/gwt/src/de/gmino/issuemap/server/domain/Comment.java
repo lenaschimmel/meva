@@ -1,7 +1,7 @@
 // You may edit this file. It has been generated, but it will NOT be overwritten by Meva.
 // To regenerate this file, delete it and run Meva again.
 
-package de.gmino.issuemap.shared.domain;
+package de.gmino.issuemap.server.domain;
 
 // gmino stuff
 import de.gmino.meva.shared.Entity;
@@ -22,50 +22,47 @@ import java.util.Collection;
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
+// imports for SQL stuff
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.SQLException;
+
+// imports for serialization interfaces
+import de.gmino.meva.shared.EntityBinary;
+import de.gmino.meva.shared.ValueBinary;
+import de.gmino.meva.shared.EntitySql;
+
 // imports for field types
-import de.gmino.geobase.shared.domain.ImageUrl;
-import de.gmino.geobase.shared.domain.LatLon;
-import de.gmino.issuemap.shared.domain.Issue;
-import de.gmino.issuemap.shared.domain.MapHasMarkertype;
+import de.gmino.geobase.server.domain.Timestamp;
+import de.gmino.issuemap.server.domain.Issue;
 
 
-import de.gmino.issuemap.shared.domain.gen.MapGen;
-public class Map extends MapGen {
+import de.gmino.issuemap.server.domain.gen.CommentGen;
+public class Comment extends CommentGen {
 	// Constructors
-	public Map(long id)
+	public Comment(long id)
 	{
 		super(id);
 	}
 	
-	public Map(
+	public Comment(
 			long id,
 			boolean ready,
-			String title,
-			String description,
-			String subdomain,
-			String color,
-			String city,
-			LatLon initLocation,
-			int initZoomlevel,
-			String layer,
-			String headerText,
-			ImageUrl logo,
-			String infoText)
+			Issue issue,
+			String text,
+			String user,
+			Timestamp timestamp,
+			boolean deleted)
 	{
 		super(
 			id,
 			ready,
-			title,
-			description,
-			subdomain,
-			color,
-			city,
-			(de.gmino.geobase.shared.domain.LatLon)initLocation,
-			initZoomlevel,
-			layer,
-			headerText,
-			(de.gmino.geobase.shared.domain.ImageUrl)logo,
-			infoText
+			(de.gmino.issuemap.server.domain.Issue)issue,
+			text,
+			user,
+			(de.gmino.geobase.server.domain.Timestamp)timestamp,
+			deleted
 		);
 		this.ready = true;
 	}

@@ -33,50 +33,26 @@ import de.gmino.meva.shared.EntityBinary;
 import de.gmino.meva.shared.ValueBinary;
 import de.gmino.meva.shared.EntitySql;
 
-// imports for field types
-import de.gmino.geobase.server.domain.ImageUrl;
-import de.gmino.geobase.server.domain.LatLon;
-import de.gmino.issuemap.server.domain.Issue;
-import de.gmino.issuemap.server.domain.MapHasMarkertype;
 
-
-import de.gmino.issuemap.server.domain.gen.MapGen;
-public class Map extends MapGen {
+import de.gmino.issuemap.server.domain.gen.MarkertypeGen;
+public class Markertype extends MarkertypeGen {
 	// Constructors
-	public Map(long id)
+	public Markertype(long id)
 	{
 		super(id);
 	}
 	
-	public Map(
+	public Markertype(
 			long id,
 			boolean ready,
-			String title,
-			String description,
-			String subdomain,
-			String color,
-			String city,
-			LatLon initLocation,
-			int initZoomlevel,
-			String layer,
-			String headerText,
-			ImageUrl logo,
-			String infoText)
+			String markerName,
+			String imageName)
 	{
 		super(
 			id,
 			ready,
-			title,
-			description,
-			subdomain,
-			color,
-			city,
-			(de.gmino.geobase.server.domain.LatLon)initLocation,
-			initZoomlevel,
-			layer,
-			headerText,
-			(de.gmino.geobase.server.domain.ImageUrl)logo,
-			infoText
+			markerName,
+			imageName
 		);
 		this.ready = true;
 	}

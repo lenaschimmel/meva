@@ -23,49 +23,35 @@ import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
 // imports for field types
-import de.gmino.geobase.shared.domain.ImageUrl;
-import de.gmino.geobase.shared.domain.LatLon;
+import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.shared.domain.Issue;
-import de.gmino.issuemap.shared.domain.MapHasMarkertype;
 
 
-import de.gmino.issuemap.shared.domain.gen.MapGen;
-public class Map extends MapGen {
+import de.gmino.issuemap.shared.domain.gen.CommentGen;
+public class Comment extends CommentGen {
 	// Constructors
-	public Map(long id)
+	public Comment(long id)
 	{
 		super(id);
 	}
 	
-	public Map(
+	public Comment(
 			long id,
 			boolean ready,
-			String title,
-			String description,
-			String subdomain,
-			String color,
-			String city,
-			LatLon initLocation,
-			int initZoomlevel,
-			String layer,
-			String headerText,
-			ImageUrl logo,
-			String infoText)
+			Issue issue,
+			String text,
+			String user,
+			Timestamp timestamp,
+			boolean deleted)
 	{
 		super(
 			id,
 			ready,
-			title,
-			description,
-			subdomain,
-			color,
-			city,
-			(de.gmino.geobase.shared.domain.LatLon)initLocation,
-			initZoomlevel,
-			layer,
-			headerText,
-			(de.gmino.geobase.shared.domain.ImageUrl)logo,
-			infoText
+			(de.gmino.issuemap.shared.domain.Issue)issue,
+			text,
+			user,
+			(de.gmino.geobase.shared.domain.Timestamp)timestamp,
+			deleted
 		);
 		this.ready = true;
 	}

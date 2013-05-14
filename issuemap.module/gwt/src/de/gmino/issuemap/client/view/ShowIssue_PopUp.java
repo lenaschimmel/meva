@@ -2,10 +2,11 @@ package de.gmino.issuemap.client.view;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.safehtml.shared.SafeUri;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -21,6 +22,8 @@ import de.gmino.meva.shared.request.Requests;
 
 public class ShowIssue_PopUp extends Composite {
 
+	static DateTimeFormat dtf = DateTimeFormat.getFormat("dd.MM.yyyy");
+
 	private static Detail_PopUpUiBinder uiBinder = GWT
 			.create(Detail_PopUpUiBinder.class);
 
@@ -30,22 +33,50 @@ public class ShowIssue_PopUp extends Composite {
 	Map mapObject;
 	Issue mIssue;
 	Marker_Wrapper mWrapper;
-	
+
 	public ShowIssue_PopUp(Map map, Issue issue, Marker_Wrapper marker_Wrapper) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.mapObject = map;
 		this.mIssue = issue;
 		this.mWrapper = marker_Wrapper;
 		setBoarderColor(map.getColor());
+
+		if (mIssue.getPrimary_picture().equals("")
+				|| mIssue.getPrimary_picture().equals("Bild URL")) { //TODO funktioniert nur halb?!
+			picture.setVisible(false);
+			picture.setHeight("0px");
+		} else {
+			ImageUrl img = mIssue.getPrimary_picture();
+			picture.setUrl(img.getUrl());
+		}
+		date.setText(dtf.format(mIssue.getCreationTimestamp().toDate()));
+		type.setText(mIssue.getMarkertype().getMarkerName());
+		resolved.setValue(mIssue.isResolved());
+		rating.setText("" + mIssue.getRating());
+		up_count.setText("" +(mIssue.getNumber_of_rating()+mIssue.getRating())/2);
+		down_count.setText("" + (mIssue.getNumber_of_rating()-mIssue.getRating())/2);
 		
-		ImageUrl img= issue.getPrimary_picture();
-		picture.setUrl(img.getUrl());
-		
-		
+
 	}
 
 	@UiField
 	Label title;
+	@UiField
+	CheckBox resolved;
+	@UiField
+	Label rating;
+	@UiField
+	Label up_count;
+	@UiField
+	Label down_count;
+	@UiField
+	Image rate_up;
+	@UiField
+	Image rate_down;
+	@UiField
+	Label date;
+	@UiField
+	Label type;
 	@UiField
 	Label description;
 	@UiField
@@ -63,28 +94,55 @@ public class ShowIssue_PopUp extends Composite {
 	void onClose(ClickEvent e) {
 		this.removeFromParent();
 	}
-	
+
 	@UiHandler("edit")
 	void onEdit(ClickEvent e) {
 		this.removeFromParent();
-		mWrapper.add(new CreateIssue_PopUp(mIssue));
+		CreateIssue_PopUp cip = new CreateIssue_PopUp(mapObject, mIssue);
+		cip.setBoarderColor(mapObject.getColor());
+		mWrapper.add(cip);
+
 	}
-	
+
 	@UiHandler("delete")
 	void onDelete(ClickEvent e) {
 		mIssue.setDeleted(true);
 		Requests.saveEntity(mIssue, null);
 		this.removeFromParent();
 	// FIXME	IssuemapGwt.deleteMarker(mIssue);
-		
+
+	}
+
+	@UiHandler("resolved")
+	void onCheckbox(ClickEvent e) {
+		mIssue.setResolved(resolved.getValue());
+		Requests.saveEntity(mIssue, null);
+	}
+
+	@UiHandler("rate_up")
+	void onRateUp(ClickEvent e) {
+		mIssue.setRating(mIssue.getRating() + 1);
+		mIssue.setNumber_of_rating(mIssue.getNumber_of_rating() + 1);
+		rating.setText("" + (mIssue.getRating()));
+		up_count.setText("" +(mIssue.getNumber_of_rating()+mIssue.getRating())/2);
+		Requests.saveEntity(mIssue, null);
+	}
+
+	@UiHandler("rate_down")
+	void onRateDown(ClickEvent e) {
+		mIssue.setRating(mIssue.getRating() - 1);
+		mIssue.setNumber_of_rating(mIssue.getNumber_of_rating() + 1);
+		rating.setText("" + (mIssue.getRating()));
+		down_count.setText("" + (mIssue.getNumber_of_rating()-mIssue.getRating())/2);
+		Requests.saveEntity(mIssue, null);
 	}
 
 	public void setText(String titleString, String descriptionString) {
 		description.setText(descriptionString);
 		title.setText(titleString);
 	}
-	
-	public void setBoarderColor(String color){
+
+	public void setBoarderColor(String color) {
 		parent.getElement().getStyle().setBorderColor(color);
 	}
 }

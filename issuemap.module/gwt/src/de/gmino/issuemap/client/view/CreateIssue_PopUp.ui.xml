@@ -13,16 +13,17 @@
 			top: -50%;
 			left: -200px;
 			/* Override glass panel to 10% opacity (= 90% transparency) */
-			filter: alpha(opacity =           1) !important; /* IE */
-			opacity: 0.9 !important; /* non-IE */
+			filter: alpha(opacity =     1) !important; /* IE */
+			opacity: 0.95 !important; /* non-IE */
 			border-top-right-radius: 10px;
 			border-bottom-right-radius: 10px;
 			border-top-left-radius: 10px;
 			border-bottom-left-radius: 10px;
+			border: 3px solid;
+			padding: 10px;
 		}
 		
 		.content {
-			padding: 10px;
 			width: 420px;
 		}
 		
@@ -34,8 +35,8 @@
 			color: #FFF;
 			text-align: center;
 			font-weight: bold;
-			font-size: larger;
-			padding: 10px;
+			font-size: large;
+			padding-bottom: 15px;
 			white-space: nowrap;
 			width: auto;
 			border-top-right-radius: 10px;
@@ -66,15 +67,6 @@
 			</g:cell>
 			<g:cell>
 				<g:ListBox ui:field="typebox">
-					<g:item value='1'>
-						Allgemein
-					</g:item>
-					<g:item value='2'>
-						Straßenschaden
-					</g:item>
-					<g:item value='3'>
-						Unfall
-					</g:item>
 				</g:ListBox>
 			</g:cell>
 			<g:cell horizontalAlignment="ALIGN_RIGHT">
