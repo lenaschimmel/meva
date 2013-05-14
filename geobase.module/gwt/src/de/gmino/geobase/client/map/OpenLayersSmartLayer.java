@@ -33,6 +33,7 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 		this.mapView = mapView;
 		this.rendererMap = new TreeMap<EntityTypeName, GwtIconRenderer>();
 		this.popupCreatorMap = new TreeMap<EntityTypeName, GwtPopupCreator>();
+		this.pois = new TreeSet<Poi>();
 		markers = new TreeSet<Marker>();
 		vectorLayerJso = nCreateVectorLayer(name);
 		popupLayerJso  = nCreatePopupLayer(name);
@@ -80,9 +81,9 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 	private native void nAddMarker(String iconUrl, double latitude, double longitude) 
 	/*-{
 		var layer = this.@de.gmino.geobase.client.map.OpenLayersSmartLayer::vectorLayerJso;
-		var map   = this.@de.gmino.geobase.client.map.OpenLayersSmartLayer::mapView.map;
+		//var map   = this.@de.gmino.geobase.client.map.OpenLayersSmartLayer::mapView;
 		
-		var style_mark = $wnd.OpenLayers.Util.extend({}, OpenLayers.Feature.Vector.style['default']);
+		var style_mark = $wnd.OpenLayers.Util.extend({}, $wnd.OpenLayers.Feature.Vector.style['default']);
             
         // if graphicWidth and graphicHeight are both set, the aspect ratio
         // of the image will be ignored
@@ -93,7 +94,7 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
         style_mark.externalGraphic = iconUrl;
         
         var point = new $wnd.OpenLayers.Geometry.Point(longitude, latitude);
-        point.transform(map.pro1, map.pro2);
+        //point.transform(map.map.pro1, map.map.pro2);
         var pointFeature = new $wnd.OpenLayers.Feature.Vector(point,null,style_mark);
 		
 		layer.addFeatures([pointFeature]);

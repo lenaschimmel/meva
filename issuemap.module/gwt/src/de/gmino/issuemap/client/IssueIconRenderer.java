@@ -16,11 +16,15 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 
 	@Override
 	public void renderIcon(Canvas can, Issue object) {
-		can.setWidth("30px");
-		can.setHeight("30px");
+		can.setCoordinateSpaceWidth(30);
+		can.setCoordinateSpaceHeight(30);
 		Context2d con = can.getContext2d();
+		
 		con.setFillStyle("#FF3300");
 		con.fillRect(0, 0, 30, 30);
+		con.setFillStyle("#000000");
+		con.fillText(object.getTitle(), 0,12);
+		con.fillText(object.getDescription(), 0,24);
 	}
 	
 	
