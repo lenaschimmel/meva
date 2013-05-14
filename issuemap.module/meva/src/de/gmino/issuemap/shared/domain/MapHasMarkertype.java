@@ -23,51 +23,29 @@ import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
 // imports for field types
-import de.gmino.geobase.shared.domain.ImageUrl;
-import de.gmino.geobase.shared.domain.LatLon;
-import de.gmino.geobase.shared.domain.Timestamp;
-import de.gmino.issuemap.shared.domain.Comment;
 import de.gmino.issuemap.shared.domain.Map;
 import de.gmino.issuemap.shared.domain.Markertype;
 
 
-import de.gmino.issuemap.shared.domain.gen.IssueGen;
-public class Issue extends IssueGen {
+import de.gmino.issuemap.shared.domain.gen.MapHasMarkertypeGen;
+public class MapHasMarkertype extends MapHasMarkertypeGen {
 	// Constructors
-	public Issue(long id)
+	public MapHasMarkertype(long id)
 	{
 		super(id);
 	}
 	
-	public Issue(
+	public MapHasMarkertype(
 			long id,
 			boolean ready,
-			LatLon location,
-			String title,
-			String description,
 			Markertype markertype,
-			Map map_instance,
-			Timestamp creationTimestamp,
-			int rating,
-			int number_of_rating,
-			boolean resolved,
-			boolean deleted,
-			ImageUrl primary_picture)
+			Map map)
 	{
 		super(
 			id,
 			ready,
-			(de.gmino.geobase.shared.domain.LatLon)location,
-			title,
-			description,
 			(de.gmino.issuemap.shared.domain.Markertype)markertype,
-			(de.gmino.issuemap.shared.domain.Map)map_instance,
-			(de.gmino.geobase.shared.domain.Timestamp)creationTimestamp,
-			rating,
-			number_of_rating,
-			resolved,
-			deleted,
-			(de.gmino.geobase.shared.domain.ImageUrl)primary_picture
+			(de.gmino.issuemap.shared.domain.Map)map
 		);
 		this.ready = true;
 	}

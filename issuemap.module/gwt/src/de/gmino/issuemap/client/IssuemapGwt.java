@@ -1,6 +1,5 @@
 package de.gmino.issuemap.client;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.TreeMap;
@@ -21,6 +20,7 @@ import de.gmino.geobase.shared.map.MapListener;
 import de.gmino.geobase.shared.map.MarkerLayer;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
+import de.gmino.issuemap.client.domain.Markertype;
 import de.gmino.issuemap.client.request.QueryMapBySubdomain;
 import de.gmino.issuemap.client.view.CreateIssue_PopUp;
 import de.gmino.issuemap.client.view.Footer;
@@ -35,6 +35,17 @@ import de.gmino.meva.shared.request.Requests;
 
 
 public class IssuemapGwt implements EntryPoint {
+	private final class IssueLatitudeComparator implements Comparator<Issue> {
+		@Override
+		public int compare(Issue i1, Issue i2) {
+			int latitudeComparision = Double.compare(i1.getLocation().getLatitude(),i2.getLocation().getLatitude());
+			if(latitudeComparision != 0)
+				return latitudeComparision;
+			else
+				return  (i1.getId() < i2.getId()) ? -1 : ((i1.getId() == i2.getId()) ? 0 : 1); // Long.compare(i1.getId(), i2.getId()); 
+		}
+	}
+
 	/**
 	 * The message displayed to the user when the server cannot be reached or
 	 * returns an error.
@@ -96,43 +107,42 @@ public class IssuemapGwt implements EntryPoint {
 		mapRequest(subdomain);
 
 	}
+	
 	void mapRequest(String subdomain) {
-
 		EntityQuery q = new QueryMapBySubdomain(subdomain);
 		Requests.getLoadedEntitiesByQuery(Map.type, q,
 				new RequestListener<Map>() {
 
-					public void onNewResult(Map result) {
-						mapObject = result;
-						header.setMap(result);
+					@SuppressWarnings("unchecked")
+					public void onNewResult(Map map) {
+						mapObject = map;
+						header.setMap(map);
 						mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);						
 						header.setDesign(mapObject.getLogo().getUrl(), mapObject.getTitle(), mapObject.getColor());
 						footer.setDesign(mapObject.getColor());
-						Collection<Issue> issues = mapObject.getIssues();
-
-						Requests.loadEntities(issues, new RequestListener<Issue>() {
+						
+						map.loadMarkertypes(new RequestListener<Markertype>() {
 							@Override
-							public void onFinished(Collection<Issue> results) {
-								Comparator<Issue> compare = new Comparator<Issue>() {
+							public void onFinished(
+									Collection<Markertype> results) {
+								
+								Collection<Issue> issues = mapObject.getIssues();
+								Requests.loadEntities(issues, new RequestListener<Issue>() {
 									@Override
-									public int compare(Issue i1, Issue i2) {
-										int latitudeComparision = Double.compare(i1.getLocation().getLatitude(),i2.getLocation().getLatitude());
-										if(latitudeComparision != 0)
-											return latitudeComparision;
-										else
-											return  (i1.getId() < i2.getId()) ? -1 : ((i1.getId() == i2.getId()) ? 0 : 1); // Long.compare(i1.getId(), i2.getId()); 
+									public void onFinished(Collection<Issue> results) {
+										Comparator<Issue> compare = new IssueLatitudeComparator();
+										TreeSet<Issue> sortedIssues = new TreeSet<Issue>(compare);
+										sortedIssues.addAll(results);
+										for(Issue i : sortedIssues)
+										{
+											if (i.isDeleted())
+												continue;
+											addMarker(i);
+										}
 									}
-								};
-								TreeSet<Issue> sortedIssues = new TreeSet<Issue>(compare);
-								sortedIssues.addAll(results);
-								for(Issue i : sortedIssues)
-								{
-									if (i.isDeleted())
-										continue;
-									addMarker(i);
-								}
+								});
 							}
-						});
+						});	
 					};
 
 					@Override
@@ -166,5 +176,6 @@ public class IssuemapGwt implements EntryPoint {
 		if(div != null)
 			div.removeFromParent();
 	}
+
 	
 }

@@ -16,8 +16,8 @@
 			"name" : "description"
 		},	
 		{
-			"type" : "String",
-			"name" : "issueType"
+			"type" : "Markertype",
+			"name" : "markertype"
 		},	
 		{
 			"type" : "Map",
@@ -26,7 +26,15 @@
 		{
 			"type" : "Timestamp",
 			"name" : "creationTimestamp"
-		},		
+		},	
+		{
+			"type" : "int",
+			"name" : "rating"
+		},
+		{
+			"type" : "int",
+			"name" : "number_of_rating"
+		},	
 		{
 			"type" : "boolean",
 			"name" : "resolved"
@@ -38,6 +46,12 @@
 		{
 			"type" : "ImageUrl",
 			"name" : "primary_picture"
+		},
+		{
+			"type" : "relation",
+			"name" : "comments",
+			"reltype" : "Comment",
+			"relname" : "issue"
 		}
 	]
 }

@@ -1,0 +1,15 @@
+{
+	"package" : "de.gmino.issuemap.TARGET.domain",
+	"concept" : "entity",
+	"name" : "Markertype",
+	"attributes" : [
+		{
+			"type" : "String",
+			"name" : "markerName"
+		},
+		{
+			"type" : "String",
+			"name" : "imageName"
+		}
+	]
+}

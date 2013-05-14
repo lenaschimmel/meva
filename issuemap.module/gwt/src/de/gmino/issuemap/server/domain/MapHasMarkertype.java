@@ -1,7 +1,7 @@
 // You may edit this file. It has been generated, but it will NOT be overwritten by Meva.
 // To regenerate this file, delete it and run Meva again.
 
-package de.gmino.issuemap.shared.domain;
+package de.gmino.issuemap.server.domain;
 
 // gmino stuff
 import de.gmino.meva.shared.Entity;
@@ -22,50 +22,41 @@ import java.util.Collection;
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
+// imports for SQL stuff
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.SQLException;
+
+// imports for serialization interfaces
+import de.gmino.meva.shared.EntityBinary;
+import de.gmino.meva.shared.ValueBinary;
+import de.gmino.meva.shared.EntitySql;
+
 // imports for field types
-import de.gmino.geobase.shared.domain.ImageUrl;
-import de.gmino.geobase.shared.domain.LatLon;
-import de.gmino.issuemap.shared.domain.Issue;
-import de.gmino.issuemap.shared.domain.MapHasMarkertype;
+import de.gmino.issuemap.server.domain.Map;
+import de.gmino.issuemap.server.domain.Markertype;
 
 
-import de.gmino.issuemap.shared.domain.gen.MapGen;
-public class Map extends MapGen {
+import de.gmino.issuemap.server.domain.gen.MapHasMarkertypeGen;
+public class MapHasMarkertype extends MapHasMarkertypeGen {
 	// Constructors
-	public Map(long id)
+	public MapHasMarkertype(long id)
 	{
 		super(id);
 	}
 	
-	public Map(
+	public MapHasMarkertype(
 			long id,
 			boolean ready,
-			String title,
-			String description,
-			String subdomain,
-			String color,
-			String city,
-			LatLon initLocation,
-			int initZoomlevel,
-			String layer,
-			String headerText,
-			ImageUrl logo,
-			String infoText)
+			Markertype markertype,
+			Map map)
 	{
 		super(
 			id,
 			ready,
-			title,
-			description,
-			subdomain,
-			color,
-			city,
-			(de.gmino.geobase.shared.domain.LatLon)initLocation,
-			initZoomlevel,
-			layer,
-			headerText,
-			(de.gmino.geobase.shared.domain.ImageUrl)logo,
-			infoText
+			(de.gmino.issuemap.server.domain.Markertype)markertype,
+			(de.gmino.issuemap.server.domain.Map)map
 		);
 		this.ready = true;
 	}

@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.domain.ImageUrl;
@@ -22,6 +23,7 @@ import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
+import de.gmino.issuemap.client.domain.Markertype;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
@@ -35,22 +37,37 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 	interface PopUpUiBinder extends UiBinder<Widget, CreateIssue_PopUp> {
 	}
 
-	public CreateIssue_PopUp(Map map, LatLon location) {
+	private CreateIssue_PopUp(Map map) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.mapObject = map;
+		setBoarderColor(map.getColor());
+		for(Markertype mt : map.getMarkertypes())
+			typebox.addItem(mt.getMarkerName(), mt.getId()+"");
+	}
+	
+	public CreateIssue_PopUp(Map map, LatLon location) {
+		this(map);
 		this.mLocation = location;
 	}
 
-	public CreateIssue_PopUp(Issue editIssue) {
-		initWidget(uiBinder.createAndBindUi(this));
+	public CreateIssue_PopUp(Map map, Issue editIssue) {
+		this(map);
 		this.mIssue = editIssue;
 		title.setText(editIssue.getTitle());
 		description.setText(editIssue.getDescription());
-		typebox.setSelectedIndex(0); // ToDo
+		String markertypeId = editIssue.getMarkertypeId() + "";
+		for(int i = 0; i < typebox.getItemCount(); i++)
+			if(typebox.getValue(i).equals(markertypeId))
+			{
+				typebox.setSelectedIndex(i);
+				break;
+			}
 		if (editIssue.getPrimary_picture().getUrl().equals("")) picture.setText("Bild URL");
 		else picture.setText(editIssue.getPrimary_picture().getUrl());
 	}
-
+	
+	@UiField
+	VerticalPanel parent;
 	@UiField
 	Button button;
 	@UiField
@@ -78,37 +95,18 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 	void onClick(ClickEvent e) {
 
 		// Save changes
-		if (mIssue != null) {
-			String type = null;
-			if (typebox.getSelectedIndex() == 0)
-				type = "Allgemein";
-			if (typebox.getSelectedIndex() == 1)
-				type = "Straßenschaden";
-			if (typebox.getSelectedIndex() == 2)
-				type = "Unfall";
-			mIssue.setTitle(title.getText());
-
-			
-			mIssue.setDescription(description.getText());
-			mIssue.setCreationTimestamp(Timestamp.now());
-			mIssue.setIssueType(type);
-			mIssue.setPrimary_picture(new ImageUrl(picture.getText()));
+		if (mIssue != null) {		
+			setIssueValuesFromMask(mIssue);
 			Requests.saveEntity(mIssue, null);
 		}
 
-		// Fetch new content and add to Database
+		// Add new content to Database
 		else {
 			Requests.getNewEntity(Issue.type, new RequestListener<Issue>() {
 				public void onNewResult(Issue issue) {
-					String type= typebox.getValue(typebox.getSelectedIndex());
-					issue.setTitle(title.getText());
-					issue.setLocation(mLocation);
-					issue.setDescription(description.getText());
+					setIssueValuesFromMask(issue);
 					issue.setCreationTimestamp(Timestamp.now());
-					issue.setIssueType(type);
-					issue.setPrimary_picture(new ImageUrl(picture.getText()));
-
-
+					issue.setLocation(mLocation);
 					mapObject.getIssues().add(issue);
 					Requests.saveEntity(issue, null);
 					Requests.saveEntity(mapObject, null);
@@ -132,4 +130,17 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 		return button.getText();
 	}
 
+	private void setIssueValuesFromMask(Issue issue){
+		long markertypeId = Long.parseLong(typebox.getValue(typebox.getSelectedIndex()));
+		Markertype markertype = mapObject.getMarkertypeById(markertypeId);
+		issue.setTitle(title.getText());
+		issue.setMarkertype(markertype);
+		issue.setDescription(description.getText());
+		issue.setPrimary_picture(new ImageUrl(picture.getText()));
+	}
+	
+	public void setBoarderColor(String color){
+		parent.getElement().getStyle().setBorderColor(color);
+	}
+	
 }
