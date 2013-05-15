@@ -116,7 +116,13 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 
 	@Override
 	public void getNewIds(EntityTypeName type, int count, final RequestListener<Long> listener) {
-
+		if(count == 0)
+		{
+			Collection<Long> ids = new LinkedList<Long>();
+			listener.onFinished(ids);
+			return;
+		}
+		
 		final String typeName = type.toString();
 
 		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, baseUrl + "Json/newEntities");
@@ -157,6 +163,11 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 
 	@Override
 	public <EntityClass extends Entity> void loadEntities(final Collection<EntityClass> entities, final RequestListener<EntityClass> listener) {
+		if(entities.isEmpty())
+		{
+			listener.onFinished(entities);
+			return;
+		}
 		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, baseUrl + "Json/getEntities");
 		rb.setHeader("Content-Type", "application/json");
 		try {
@@ -210,6 +221,11 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 
 	@Override
 	public <EntityClass extends Entity> void saveEntities(final Collection<EntityClass> entities, final RequestListener<EntityClass> listener) {
+		if(entities.isEmpty())
+		{
+			listener.onFinished(entities);
+			return;
+		}
 		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, baseUrl + "Json/saveEntities");
 		rb.setHeader("Content-Type", "application/json");
 		try {
