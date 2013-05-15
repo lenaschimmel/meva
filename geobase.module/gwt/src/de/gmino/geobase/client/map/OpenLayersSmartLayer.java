@@ -123,8 +123,8 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
             
         // if graphicWidth and graphicHeight are both set, the aspect ratio
         // of the image will be ignored
-        style_mark.graphicWidth = 100;
-        style_mark.graphicHeight = 20;
+		style_mark.graphicWidth = 100;
+		style_mark.graphicHeight = 36;
         style_mark.graphicXOffset = 10; // default is -(style_mark.graphicWidth/2);
         style_mark.graphicYOffset = -style_mark.graphicHeight;
         style_mark.externalGraphic = iconUrl;
