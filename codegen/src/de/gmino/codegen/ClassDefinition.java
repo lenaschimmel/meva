@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.TreeSet;
 
 import org.json.simple.JSONArray;
@@ -764,8 +763,12 @@ public class ClassDefinition {
 		pw.println("		deserializeSql(rs, dbCon);");
 		pw.println("	}");
 		pw.println();		
+		
+		// TODO When converting this query to a prepared statement, try http://stackoverflow.com/questions/178479/preparedstatement-in-clause-alternatives#comment15231131_178479
 		pw.println("	public void deserializeSql(Connection dbCon, Collection<Entity> toLoad) throws SQLException");
 		pw.println("	{");
+		pw.println("		System.out.println(\"Loading \" + toLoad.size() + \" entities.\");");
+		pw.println("		long then = System.currentTimeMillis();");
 		pw.println("		String idList = \"\";");
 		pw.println("		for(Entity e : toLoad)");
 		pw.println("			{");
@@ -777,7 +780,6 @@ public class ClassDefinition {
 		pw.print(  "		String selectString = \"SELECT  ");
 		printAttributeList("", pw);
 		pw.println(" FROM `" + baseClassName + "` WHERE id IN (\"+idList+\");\";");
-		pw.println("		stat.executeQuery(selectString);");
 		pw.println("		System.out.println(selectString);");
 		pw.println("		ResultSet rs = stat.executeQuery(selectString);");
 		pw.println("		while(rs.next())");
@@ -785,6 +787,27 @@ public class ClassDefinition {
 		pw.println("			long id = rs.getLong(\"id\");");
 		pw.println("			((EntitySql) EntityFactory.getUnloadedEntityById(type, id)).deserializeSql(rs, dbCon);");
 		pw.println("		}");
+		
+		for (AttributeDefiniton def : attributes)
+			if (def.isRelation())
+			{
+				String defName = def.attributeName;
+				String single = baseClassName;
+				String multiple = def.reltype;
+				pw.println();
+				pw.println("		// Read the related " + defName);
+				pw.println("		String "+defName+"SelectString = \"SELECT "+single+".id as "+single+"_id, "+multiple+".id as "+multiple+"_id FROM `"+single+"`, `"+multiple+"` WHERE "+single+".id = "+multiple+"." + def.relname + "_id;\";");
+				pw.println("		System.out.println("+defName+"SelectString);");
+				pw.println("		ResultSet "+defName+"Rs = stat.executeQuery("+defName+"SelectString);");
+				pw.println("		while("+defName+"Rs.next())");
+				pw.println("		{");
+				pw.println("			long "+uncapitalizeFirst(single)+"Id = "+defName+"Rs.getLong(1);");
+				pw.println("			long "+uncapitalizeFirst(multiple)+"Id = "+defName+"Rs.getLong(2);");
+				pw.println("			((" + baseClassName + "Gen) EntityFactory.getUnloadedEntityById(type, "+uncapitalizeFirst(single)+"Id)).get"+capitalizeFirst(defName)+"().add(EntityFactory.getUnloadedEntityById("+def.reltype+".type, "+uncapitalizeFirst(multiple)+"Id));");
+				pw.println("		}");
+			}
+		pw.println("		long now = System.currentTimeMillis();");
+		pw.println("		System.out.println(\"Finished loading \" + toLoad.size() + \" entities in \" + (now - then) + \" ms.\");");
 		pw.println("	}");
 		pw.println();
 		pw.println("	public void deserializeSql(ResultSet rs, Connection dbCon) throws SQLException");
@@ -796,7 +819,7 @@ public class ClassDefinition {
 		printValueReadList("", pw);
 		// printValueReadList("", "", pw);
 		pw.println();
-		boolean alreadyHasDbStuff = false;
+		/*boolean alreadyHasDbStuff = false;
 		for (AttributeDefiniton def : attributes)
 			if (def.isRelation())
 			{
@@ -808,6 +831,7 @@ public class ClassDefinition {
 				}
 				generateSqlRelationDeserializer(pw, def);
 			}
+			*/
 		if (entity)
 			pw.println("		ready = true;");
 		pw.println("	}");
@@ -1064,6 +1088,10 @@ public class ClassDefinition {
 
 	private static String capitalizeFirst(String str) {
 		return str.substring(0, 1).toUpperCase() + str.substring(1);
+	}
+
+	private static String uncapitalizeFirst(String str) {
+		return str.substring(0, 1).toLowerCase() + str.substring(1);
 	}
 
 	public static ClassDefinition fromFile(File schemaFile, String moduleName) throws IOException {
