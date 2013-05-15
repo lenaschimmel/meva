@@ -53,11 +53,11 @@ public class Marker_Wrapper extends AbsolutePanel implements MouseOverHandler, M
 	}
 	
 	public void onClick(ClickEvent e) {
-		remove(hover);
+	/*	remove(hover);
 		detail = new ShowIssue_PopUp(mMapObject, mIssue, this);
 		detail.setText(mIssue.getTitle(), mIssue.getDescription());
 		add(detail);
 		IssuemapGwt.setMapPosition(mIssue.getLocation());
-		
+		*/
 	}
 }

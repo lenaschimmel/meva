@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.domain.ImageUrl;
+import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.client.IssuemapGwt;
@@ -31,13 +32,15 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 
 	private static PopUpUiBinder uiBinder = GWT.create(PopUpUiBinder.class);
 	private Map mapObject;
+	OpenLayersSmartLayer smartLayer;
 	private LatLon mLocation;
 	private Issue mIssue = null;
 
 	interface PopUpUiBinder extends UiBinder<Widget, CreateIssue_PopUp> {
 	}
 
-	private CreateIssue_PopUp(Map map) {
+	private CreateIssue_PopUp(Map map, OpenLayersSmartLayer smartLayer) {
+		this.smartLayer = smartLayer;
 		initWidget(uiBinder.createAndBindUi(this));
 		this.mapObject = map;
 		setBoarderColor(map.getColor());
@@ -45,13 +48,13 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 			typebox.addItem(mt.getMarkerName(), mt.getId()+"");
 	}
 	
-	public CreateIssue_PopUp(Map map, LatLon location) {
-		this(map);
+	public CreateIssue_PopUp(Map map, LatLon location, OpenLayersSmartLayer smartLayer) {
+		this(map,smartLayer);
 		this.mLocation = location;
 	}
 
-	public CreateIssue_PopUp(Map map, Issue editIssue) {
-		this(map);
+	public CreateIssue_PopUp(Map map, Issue editIssue, OpenLayersSmartLayer smartLayer) {
+		this(map,smartLayer);
 		this.mIssue = editIssue;
 		title.setText(editIssue.getTitle());
 		description.setText(editIssue.getDescription());
@@ -112,6 +115,7 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 					Requests.saveEntity(mapObject, null);
 
 					// Add marker to map
+					smartLayer.addPoi(issue);
 					// FIXME IssuemapGwt.addMarker(issue);
 
 				}

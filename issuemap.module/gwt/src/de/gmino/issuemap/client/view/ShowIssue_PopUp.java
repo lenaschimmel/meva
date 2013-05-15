@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.Marker_Wrapper;
@@ -31,12 +32,14 @@ public class ShowIssue_PopUp extends Composite {
 	}
 
 	Map mapObject;
+	OpenLayersSmartLayer smartLayer;
 	Issue mIssue;
 	Marker_Wrapper mWrapper;
 
-	public ShowIssue_PopUp(Map map, Issue issue, Marker_Wrapper marker_Wrapper) {
+	public ShowIssue_PopUp(Map map, Issue issue, Marker_Wrapper marker_Wrapper, OpenLayersSmartLayer smartLayer) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.mapObject = map;
+		this.smartLayer = smartLayer;
 		this.mIssue = issue;
 		this.mWrapper = marker_Wrapper;
 		setBoarderColor(map.getColor());
@@ -98,7 +101,7 @@ public class ShowIssue_PopUp extends Composite {
 	@UiHandler("edit")
 	void onEdit(ClickEvent e) {
 		this.removeFromParent();
-		CreateIssue_PopUp cip = new CreateIssue_PopUp(mapObject, mIssue);
+		CreateIssue_PopUp cip = new CreateIssue_PopUp(mapObject, mIssue, smartLayer);
 		cip.setBoarderColor(mapObject.getColor());
 		mWrapper.add(cip);
 
@@ -109,8 +112,7 @@ public class ShowIssue_PopUp extends Composite {
 		mIssue.setDeleted(true);
 		Requests.saveEntity(mIssue, null);
 		this.removeFromParent();
-	// FIXME	IssuemapGwt.deleteMarker(mIssue);
-
+		smartLayer.removePoi(mIssue);
 	}
 
 	@UiHandler("resolved")

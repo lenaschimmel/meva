@@ -92,7 +92,7 @@ public class IssuemapGwt implements EntryPoint {
 				div.getParentElement().getStyle().setBackgroundColor("transparent");
 				div.getParentElement().getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
 				div.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
-				CreateIssue_PopUp popUp = new CreateIssue_PopUp(mapObject, location);
+				CreateIssue_PopUp popUp = new CreateIssue_PopUp(mapObject, location, markerLayer);
 				HTMLPanel.wrap(div).add(popUp);
 		
 			}
@@ -113,7 +113,7 @@ public class IssuemapGwt implements EntryPoint {
 					@SuppressWarnings("unchecked")
 					public void onNewResult(Map map) {
 						mapObject = map;
-						markerLayer.addMarkerPopupCreator(Issue.type, new IssuePopupCreator(map));
+						markerLayer.addMarkerPopupCreator(Issue.type, new IssuePopupCreator(map,markerLayer));
 						
 						header.setMap(map);
 						mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);						

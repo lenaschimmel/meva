@@ -30,6 +30,7 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 	private TreeMap<EntityTypeName, GwtIconRenderer> rendererMap;
 	private TreeMap<EntityTypeName, GwtPopupCreator> popupCreatorMap;
 	private TreeMap<Long, Poi> pois;
+	private TreeMap<Poi, JavaScriptObject> poiJsos;
 
 	public OpenLayersSmartLayer(String name, OpenLayersMapView mapView) {
 		this.name = name;
@@ -37,6 +38,7 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 		this.rendererMap = new TreeMap<EntityTypeName, GwtIconRenderer>();
 		this.popupCreatorMap = new TreeMap<EntityTypeName, GwtPopupCreator>();
 		this.pois = new TreeMap<Long, Poi>();
+		this.poiJsos = new TreeMap<Poi, JavaScriptObject>();
 		markers = new TreeSet<Marker>();
 		vectorLayerJso = nCreateVectorLayer(name, mapView.getMapJso());
 		popupLayerJso  = nCreatePopupLayer(name);
@@ -107,12 +109,13 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 			if(renderer == null)
 				throw new RuntimeException("No IconRenderer defined for " + oAsEntity.getType());
 			String iconUrl = renderer.getIconUrl(o);
-			nAddMarker(iconUrl, o.getLocation().getLatitude(), o.getLocation().getLongitude(), mapView.getMapJso(), o.getId());
+			JavaScriptObject jso = nAddMarker(iconUrl, o.getLocation().getLatitude(), o.getLocation().getLongitude(), mapView.getMapJso(), o.getId());
+			poiJsos.put(o, jso);
 		}
 	}
 
 	@UnsafeNativeLong
-	private native void nAddMarker(String iconUrl, double latitude, double longitude, JavaScriptObject mapJso, long poiId) 
+	private native JavaScriptObject nAddMarker(String iconUrl, double latitude, double longitude, JavaScriptObject mapJso, long poiId) 
 	/*-{
 		var layer = this.@de.gmino.geobase.client.map.OpenLayersSmartLayer::vectorLayerJso;
 		
@@ -134,13 +137,24 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
         var pointFeature = new $wnd.OpenLayers.Feature.Vector(point,null,style_mark);
 		pointFeature.poiId = poiId;
 		layer.addFeatures([pointFeature]);
+		return pointFeature;
 	}-*/;
 
 	@Override
 	public void removePoi(Poi o) {
 		if(pois.remove(o.getId()) != null)
 		{
-			
+			JavaScriptObject jso = poiJsos.get(o);
+			if(jso != null)
+			{
+				nRemoveFeature(jso);
+			}
 		}
 	}
+	
+	private native void nRemoveFeature(JavaScriptObject featureJso) 
+	/*-{
+		var layer = this.@de.gmino.geobase.client.map.OpenLayersSmartLayer::vectorLayerJso;
+		layer.removeFeatures([featureJso]);
+	}-*/;	
 }
