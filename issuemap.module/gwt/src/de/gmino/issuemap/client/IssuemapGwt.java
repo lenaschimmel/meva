@@ -113,6 +113,8 @@ public class IssuemapGwt implements EntryPoint {
 					@SuppressWarnings("unchecked")
 					public void onNewResult(Map map) {
 						mapObject = map;
+						markerLayer.addMarkerPopupCreator(Issue.type, new IssuePopupCreator(map));
+						
 						header.setMap(map);
 						mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);						
 						header.setDesign(mapObject.getLogo().getUrl(), mapObject.getTitle(), mapObject.getColor());

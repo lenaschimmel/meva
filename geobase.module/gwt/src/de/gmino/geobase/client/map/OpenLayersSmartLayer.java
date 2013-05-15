@@ -6,9 +6,12 @@ import java.util.TreeSet;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.UnsafeNativeLong;
+import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.geobase.shared.map.IconRenderer;
 import de.gmino.geobase.shared.map.Marker;
@@ -17,8 +20,8 @@ import de.gmino.geobase.shared.map.SmartLayer;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityTypeName;
 
-public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
-
+public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> { 
+	
 	private String name;
 	private JavaScriptObject vectorLayerJso;
 	private JavaScriptObject popupLayerJso;
@@ -26,58 +29,90 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 	private OpenLayersMapView mapView;
 	private TreeMap<EntityTypeName, GwtIconRenderer> rendererMap;
 	private TreeMap<EntityTypeName, GwtPopupCreator> popupCreatorMap;
-	private Set<Poi> pois;
+	private TreeMap<Long, Poi> pois;
 
 	public OpenLayersSmartLayer(String name, OpenLayersMapView mapView) {
 		this.name = name;
 		this.mapView = mapView;
 		this.rendererMap = new TreeMap<EntityTypeName, GwtIconRenderer>();
 		this.popupCreatorMap = new TreeMap<EntityTypeName, GwtPopupCreator>();
-		this.pois = new TreeSet<Poi>();
+		this.pois = new TreeMap<Long, Poi>();
 		markers = new TreeSet<Marker>();
-		vectorLayerJso = nCreateVectorLayer(name);
+		vectorLayerJso = nCreateVectorLayer(name, mapView.getMapJso());
 		popupLayerJso  = nCreatePopupLayer(name);
 		mapView.addLayerJso(vectorLayerJso);
 		mapView.addLayerJso(popupLayerJso);
 	}
+	
+	public void selectedPoi(long poiId)
+	{
+		Poi poi = pois.get(poiId);
+		Entity oAsEntity = (Entity)poi;
+		GwtPopupCreator<Poi> creator = popupCreatorMap.get(oAsEntity.getType());
+		Widget widget = creator.createPopup(poi);
+		DivElement div = mapView.createPopup(poi.getLocation(), poi.getId()+"", 100, 100);
+		div.getStyle().setOverflow(Overflow.VISIBLE);
+		div.getStyle().setBackgroundColor("transparent");
+		div.getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
+		div.getParentElement().getStyle().setBackgroundColor("transparent");
+		div.getParentElement().getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
+		div.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
+		HTMLPanel.wrap(div).add(widget);
+	}
 
 	// TODO: This is a marker layer, not a vector layer
-	private native JavaScriptObject nCreateVectorLayer(String name) 
+	@UnsafeNativeLong
+	private native JavaScriptObject nCreateVectorLayer(String name, JavaScriptObject mapJso) 
 	/*-{
-		return new $wnd.OpenLayers.Layer.Vector(name);
+		var layer = new $wnd.OpenLayers.Layer.Vector(name);
+		
+		var that = this;
+		
+		function selected (evt) {
+    		that.@de.gmino.geobase.client.map.OpenLayersSmartLayer::selectedPoi(J)(evt.feature.poiId);
+		}
+		layer.events.register("featureselected", layer, selected);
+		
+		var control = new $wnd.OpenLayers.Control.SelectFeature(layer);
+		mapJso.addControl(control);
+		control.activate();
+		
+		return layer;
 	}-*/;	
 	
 	private native JavaScriptObject nCreatePopupLayer(String name) 
 	/*-{
-		return new $wnd.OpenLayers.Layer(name);
+		var layer = new $wnd.OpenLayers.Layer(name);
+		return layer;
 	}-*/;
 
 	@Override
 	public void addMarkerIconRenderer(EntityTypeName type,
 			IconRenderer<? extends Poi, Canvas> renderer) {
-		rendererMap.put(type, (GwtIconRenderer) renderer);
+		rendererMap.put(type, (GwtIconRenderer<? extends Poi>) renderer);
 	}
 
 	@Override
 	public void addMarkerPopupCreator(EntityTypeName type,
 			PopupCreator<? extends Poi, Widget> creator) {
-		popupCreatorMap.put(type, (GwtPopupCreator) creator);
+		popupCreatorMap.put(type, (GwtPopupCreator<? extends Poi>) creator);
 	}
 
 	@Override
 	public void addPoi(Poi o) {
-		if(pois.add(o))
+		if(pois.put(o.getId(), o) == null)
 		{
 			Entity oAsEntity = (Entity)o;
 			GwtIconRenderer<? super Poi> renderer = rendererMap.get(oAsEntity.getType());
 			if(renderer == null)
 				throw new RuntimeException("No IconRenderer defined for " + oAsEntity.getType());
 			String iconUrl = renderer.getIconUrl(o);
-			nAddMarker(iconUrl, o.getLocation().getLatitude(), o.getLocation().getLongitude(), mapView.getMapJso());
+			nAddMarker(iconUrl, o.getLocation().getLatitude(), o.getLocation().getLongitude(), mapView.getMapJso(), o.getId());
 		}
 	}
 
-	private native void nAddMarker(String iconUrl, double latitude, double longitude, JavaScriptObject mapJso) 
+	@UnsafeNativeLong
+	private native void nAddMarker(String iconUrl, double latitude, double longitude, JavaScriptObject mapJso, long poiId) 
 	/*-{
 		var layer = this.@de.gmino.geobase.client.map.OpenLayersSmartLayer::vectorLayerJso;
 		
@@ -97,13 +132,13 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
         // point = point.transform(proj, mapJso.getProjectionObject());
         point = point.transform(mapJso.pro1, mapJso.pro2);
         var pointFeature = new $wnd.OpenLayers.Feature.Vector(point,null,style_mark);
-		
+		pointFeature.poiId = poiId;
 		layer.addFeatures([pointFeature]);
 	}-*/;
 
 	@Override
 	public void removePoi(Poi o) {
-		if(pois.remove(o))
+		if(pois.remove(o.getId()) != null)
 		{
 			
 		}
