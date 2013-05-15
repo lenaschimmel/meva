@@ -73,28 +73,29 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 			if(renderer == null)
 				throw new RuntimeException("No IconRenderer defined for " + oAsEntity.getType());
 			String iconUrl = renderer.getIconUrl(o);
-			System.out.println("At " + o.getLocation() + ": " + iconUrl);
-			nAddMarker(iconUrl, o.getLocation().getLatitude(), o.getLocation().getLongitude());
+			nAddMarker(iconUrl, o.getLocation().getLatitude(), o.getLocation().getLongitude(), mapView.getMapJso());
 		}
 	}
 
-	private native void nAddMarker(String iconUrl, double latitude, double longitude) 
+	private native void nAddMarker(String iconUrl, double latitude, double longitude, JavaScriptObject mapJso) 
 	/*-{
 		var layer = this.@de.gmino.geobase.client.map.OpenLayersSmartLayer::vectorLayerJso;
-		//var map   = this.@de.gmino.geobase.client.map.OpenLayersSmartLayer::mapView;
 		
 		var style_mark = $wnd.OpenLayers.Util.extend({}, $wnd.OpenLayers.Feature.Vector.style['default']);
             
         // if graphicWidth and graphicHeight are both set, the aspect ratio
         // of the image will be ignored
-        style_mark.graphicWidth = 24;
+        style_mark.graphicWidth = 100;
         style_mark.graphicHeight = 20;
         style_mark.graphicXOffset = 10; // default is -(style_mark.graphicWidth/2);
         style_mark.graphicYOffset = -style_mark.graphicHeight;
         style_mark.externalGraphic = iconUrl;
+        style_mark.graphicOpacity = 1;
         
         var point = new $wnd.OpenLayers.Geometry.Point(longitude, latitude);
-        //point.transform(map.map.pro1, map.map.pro2);
+        // var proj = new $wnd.OpenLayers.Projection("EPSG:4326");
+        // point = point.transform(proj, mapJso.getProjectionObject());
+        point = point.transform(mapJso.pro1, mapJso.pro2);
         var pointFeature = new $wnd.OpenLayers.Feature.Vector(point,null,style_mark);
 		
 		layer.addFeatures([pointFeature]);

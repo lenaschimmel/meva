@@ -237,4 +237,8 @@ public class OpenLayersMapView extends AbstractMapView {
 		// TODO support Layers
 		return null;
 	}
+
+	public JavaScriptObject getMapJso() {
+		return map;
+	}
 }
