@@ -98,6 +98,7 @@ public class IssuemapGwt implements EntryPoint {
 			}
 		});
 		
+		
 		//fetch map-Objekt
 		String[] domainSplit = Location.getHostName().split("\\.");
 		String subdomain = domainSplit[0];
@@ -125,19 +126,26 @@ public class IssuemapGwt implements EntryPoint {
 							public void onFinished(
 									Collection<Markertype> results) {
 								
-								Collection<Issue> issues = mapObject.getIssues();
-								Requests.loadEntities(issues, new RequestListener<Issue>() {
+											
+								ImageUrlLoader.getInstance().setOnLoadListener(new RequestListener<Void>() {
 									@Override
-									public void onFinished(Collection<Issue> results) {
-										Comparator<Issue> compare = new IssueLatitudeComparator();
-										TreeSet<Issue> sortedIssues = new TreeSet<Issue>(compare);
-										sortedIssues.addAll(results);
-										for(Issue i : sortedIssues)
-										{
-											if (i.isDeleted())
-												continue;
-											addMarker(i);
-										}
+									public void onFinished(
+											Collection<Void> results) {
+										Collection<Issue> issues = mapObject.getIssues();
+										Requests.loadEntities(issues, new RequestListener<Issue>() {
+											@Override
+											public void onFinished(Collection<Issue> results) {
+												Comparator<Issue> compare = new IssueLatitudeComparator();
+												TreeSet<Issue> sortedIssues = new TreeSet<Issue>(compare);
+												sortedIssues.addAll(results);
+												for(Issue i : sortedIssues)
+												{
+													if (i.isDeleted())
+														continue;
+													addMarker(i);
+												}
+											}
+										});
 									}
 								});
 							}

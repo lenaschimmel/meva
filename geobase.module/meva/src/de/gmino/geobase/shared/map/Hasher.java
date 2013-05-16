@@ -52,6 +52,11 @@ public class Hasher {
 			hashInt((int)(1/(-1-d)));
 	}
 	
+	public void hashBoolean(boolean b)
+	{
+		hashInt(b ? 6709 : 7823);
+	}
+	
 	public int getValue()
 	{
 		return hash;

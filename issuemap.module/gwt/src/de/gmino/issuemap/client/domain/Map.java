@@ -9,6 +9,7 @@ import java.util.TreeMap;
 
 import de.gmino.geobase.client.domain.ImageUrl;
 import de.gmino.geobase.client.domain.LatLon;
+import de.gmino.issuemap.client.ImageUrlLoader;
 import de.gmino.issuemap.client.domain.gen.MapGen;
 import de.gmino.issuemap.shared.domain.MapHasMarkertype;
 import de.gmino.meva.shared.RelationCollection;
@@ -73,6 +74,14 @@ public class Map extends MapGen {
 				Requests.loadEntities(markertypesById.values(), new RequestListener<Markertype>() {
 					@Override
 					public void onFinished(Collection<Markertype> results) {
+						ImageUrlLoader loader = ImageUrlLoader.getInstance();
+						for(Markertype mt : results)
+						{
+							String imageName =mt.getImageName();
+							String url = "/mapicon/" + imageName + ".png";
+							loader.addUrl(url);
+						}
+
 						listener.onFinished(results);
 					}
 				});

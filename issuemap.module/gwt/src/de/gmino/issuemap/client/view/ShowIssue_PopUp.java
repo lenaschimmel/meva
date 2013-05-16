@@ -58,7 +58,8 @@ public class ShowIssue_PopUp extends Composite {
 		rating.setText("" + mIssue.getRating());
 		up_count.setText("" +(mIssue.getNumber_of_rating()+mIssue.getRating())/2);
 		down_count.setText("" + (mIssue.getNumber_of_rating()-mIssue.getRating())/2);
-		
+		title.setText(mIssue.getTitle());
+		description.setText(mIssue.getDescription());
 
 	}
 

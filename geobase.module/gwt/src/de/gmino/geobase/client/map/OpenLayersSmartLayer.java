@@ -109,13 +109,13 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 			if(renderer == null)
 				throw new RuntimeException("No IconRenderer defined for " + oAsEntity.getType());
 			String iconUrl = renderer.getIconUrl(o);
-			JavaScriptObject jso = nAddMarker(iconUrl, o.getLocation().getLatitude(), o.getLocation().getLongitude(), mapView.getMapJso(), o.getId());
+			JavaScriptObject jso = nAddMarker(iconUrl, o.getLocation().getLatitude(), o.getLocation().getLongitude(), mapView.getMapJso(), o.getId(), renderer.getWidth(), renderer.getHeight());
 			poiJsos.put(o, jso);
 		}
 	}
 
 	@UnsafeNativeLong
-	private native JavaScriptObject nAddMarker(String iconUrl, double latitude, double longitude, JavaScriptObject mapJso, long poiId) 
+	private native JavaScriptObject nAddMarker(String iconUrl, double latitude, double longitude, JavaScriptObject mapJso, long poiId, int width, int height) 
 	/*-{
 		var layer = this.@de.gmino.geobase.client.map.OpenLayersSmartLayer::vectorLayerJso;
 		
@@ -123,8 +123,8 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
             
         // if graphicWidth and graphicHeight are both set, the aspect ratio
         // of the image will be ignored
-		style_mark.graphicWidth = 100;
-		style_mark.graphicHeight = 36;
+		style_mark.graphicWidth = width;
+		style_mark.graphicHeight = height;
         style_mark.graphicXOffset = 10; // default is -(style_mark.graphicWidth/2);
         style_mark.graphicYOffset = -style_mark.graphicHeight;
         style_mark.externalGraphic = iconUrl;

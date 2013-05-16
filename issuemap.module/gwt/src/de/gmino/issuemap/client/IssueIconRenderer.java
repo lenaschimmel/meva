@@ -9,8 +9,12 @@ import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.issuemap.client.domain.Issue;
 
 public class IssueIconRenderer extends GwtIconRenderer<Issue> {
+	
+	ImageUrlLoader loader = ImageUrlLoader.getInstance();
+	
 	public void getIconHash(de.gmino.geobase.shared.map.Hasher hash, Issue issue) 
 	{
+		hash.hashBoolean(issue.isResolved());
 		hash.hashLong(issue.getMarkertype().getId());
 		hash.hashObject(issue.getTitle());
 		hash.hashObject(issue.getDescription());
@@ -18,13 +22,12 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 
 	@Override
 	public void renderIcon(Canvas can, Issue issue) {
-		can.setCoordinateSpaceWidth(100);
-		can.setCoordinateSpaceHeight(36);
+		can.setCoordinateSpaceWidth(getWidth());
+		can.setCoordinateSpaceHeight(getHeight());
 		Context2d con = can.getContext2d();
 		
 		String imageName = issue.getMarkertype().getImageName();
-		String url = "/mapicon/" + imageName + ".png";
-		Image img = new Image(url);
+		Image img = loader.getImageByUrl("/mapicon/" + imageName + ".png");
 		
 		if(issue.isResolved())
 			con.setFillStyle("#33BB00");
@@ -39,11 +42,21 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		con.lineTo(10, 28);
 		con.fill();
 		con.setFillStyle("#000000");
-		con.fillText(issue.getTitle(), 32,12);
-		con.fillText(issue.getDescription(), 32,24);
+		//con.fillText(issue.getTitle(), 32,12);
+		//con.fillText(issue.getDescription(), 32,24);
 		
 		final ImageElement face = ImageElement.as(img.getElement());
 		con.drawImage(face, 0, 0);
+	}
+
+	@Override
+	public int getWidth() {
+		return 32;
+	}
+
+	@Override
+	public int getHeight() {
+		return 36;
 	}
 	
 	
