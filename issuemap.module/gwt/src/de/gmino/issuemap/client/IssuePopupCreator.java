@@ -24,7 +24,9 @@ public class IssuePopupCreator implements GwtPopupCreator<Issue> {
 	@Override
 	public Widget createPopup(Issue poi) {
 		Marker_Wrapper wrapper = new Marker_Wrapper(poi, map);
-		return new ShowIssue_PopUp(map, poi, wrapper, smartLayer);
+		ShowIssue_PopUp showIssue_PopUp = new ShowIssue_PopUp(map, poi, wrapper, smartLayer);
+		wrapper.add(showIssue_PopUp);
+		return wrapper;
 	}
 
 	@Override
