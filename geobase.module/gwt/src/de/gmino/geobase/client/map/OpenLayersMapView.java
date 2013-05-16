@@ -2,6 +2,7 @@ package de.gmino.geobase.client.map;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.dom.client.Style.Overflow;
 
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.shared.domain.LatLonRect;
@@ -93,6 +94,13 @@ public class OpenLayersMapView extends AbstractMapView {
 		DivElement middle = (DivElement)inner.getParentElement();
 		DivElement outer = (DivElement)middle.getParentElement();
 		outer.removeChild(middle);
+		
+		outer.getStyle().setOverflow(Overflow.VISIBLE);
+		outer.getStyle().setBackgroundColor("transparent");
+		outer.getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
+		outer.getParentElement().getStyle().setBackgroundColor("transparent");
+		outer.getParentElement().getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
+		outer.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
 		return outer;
 	}
 	

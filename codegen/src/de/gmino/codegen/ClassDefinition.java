@@ -782,12 +782,16 @@ public class ClassDefinition {
 		pw.println(" FROM `" + baseClassName + "` WHERE id IN (\"+idList+\");\";");
 		pw.println("		System.out.println(selectString);");
 		pw.println("		ResultSet rs = stat.executeQuery(selectString);");
+		pw.println("		int loadCount = 0;");
 		pw.println("		while(rs.next())");
 		pw.println("		{");
 		pw.println("			long id = rs.getLong(\"id\");");
 		pw.println("			((EntitySql) EntityFactory.getUnloadedEntityById(type, id)).deserializeSql(rs, dbCon);");
+		pw.println("			loadCount++;");
 		pw.println("		}");
-		
+		pw.println("		if(loadCount < toLoad.size())");
+		pw.println("			throw new RuntimeException(\"Could not load all entities. Possible some id's are just not in the DB.\");");
+				
 		for (AttributeDefiniton def : attributes)
 			if (def.isRelation())
 			{

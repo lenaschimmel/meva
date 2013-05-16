@@ -3,6 +3,8 @@ package de.gmino.issuemap.client;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.google.gwt.event.dom.client.ErrorEvent;
+import com.google.gwt.event.dom.client.ErrorHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.user.client.ui.Image;
@@ -10,7 +12,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 import de.gmino.meva.shared.request.RequestListener;
 
-public class ImageUrlLoader implements LoadHandler {
+public class ImageUrlLoader implements LoadHandler, ErrorHandler {
 
 	private static ImageUrlLoader instance;
 
@@ -32,6 +34,7 @@ public class ImageUrlLoader implements LoadHandler {
 		Image img = new Image(url);
 		RootPanel.get().add(img);
 		img.addLoadHandler(this);
+		img.addErrorHandler(this);
 		imagesByUrl.put(url, img);
 		imagesToLoad++;
 	}
@@ -43,12 +46,9 @@ public class ImageUrlLoader implements LoadHandler {
 	
 	@Override
     public void onLoad(LoadEvent event) {
-		System.out.println("Loaded image: " + event);
 		imagesToLoad--;
 		if(imagesToLoad == 0)
-		{
 			listener.onFinished(null);
-		}
     }
 	
 	public Image getImageByUrl(String url) {
@@ -71,4 +71,12 @@ public class ImageUrlLoader implements LoadHandler {
 //			}			
 //		}
 //	}
+
+	@Override
+	public void onError(ErrorEvent event) {
+		imagesToLoad--;
+		System.err.println("Image Load Error, trying to resume: " + event);
+		if(imagesToLoad == 0)
+			listener.onFinished(null);
+	}
 }

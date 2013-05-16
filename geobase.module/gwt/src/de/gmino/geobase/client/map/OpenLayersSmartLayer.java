@@ -31,6 +31,7 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 	private TreeMap<EntityTypeName, GwtPopupCreator> popupCreatorMap;
 	private TreeMap<Long, Poi> pois;
 	private TreeMap<Poi, JavaScriptObject> poiJsos;
+	private TreeMap<Poi, DivElement> poiTooltipDivs;
 
 	public OpenLayersSmartLayer(String name, OpenLayersMapView mapView) {
 		this.name = name;
@@ -39,27 +40,55 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 		this.popupCreatorMap = new TreeMap<EntityTypeName, GwtPopupCreator>();
 		this.pois = new TreeMap<Long, Poi>();
 		this.poiJsos = new TreeMap<Poi, JavaScriptObject>();
+		this.poiTooltipDivs = new TreeMap<Poi, DivElement>();
 		markers = new TreeSet<Marker>();
 		vectorLayerJso = nCreateVectorLayer(name, mapView.getMapJso());
 		popupLayerJso  = nCreatePopupLayer(name);
 		mapView.addLayerJso(vectorLayerJso);
 		mapView.addLayerJso(popupLayerJso);
 	}
-	
+
 	public void selectedPoi(long poiId)
+	{
+		Poi poi = pois.get(poiId);
+		if(poiTooltipDivs.containsKey(poi))
+		{
+			System.out.println("Tooltip already there");
+			return;
+		}
+		Entity oAsEntity = (Entity)poi;
+		GwtPopupCreator<Poi> creator = popupCreatorMap.get(oAsEntity.getType());
+		Widget widget = creator.createTooltip(poi);
+		DivElement div = mapView.createPopup(poi.getLocation(), poi.getId()+"", 100, 100);
+		poiTooltipDivs.put(poi, div);
+		HTMLPanel.wrap(div).add(widget);
+		System.out.println("Tooltip should be there");
+	}
+	
+	public void deselectedPoi(long poiId)
+	{
+		Poi poi = pois.get(poiId);
+		DivElement div = poiTooltipDivs.get(poi);
+		if(div == null)
+		{
+			System.out.println("Tooltip already gone");
+			return;
+		}
+		div.removeFromParent();
+		poiTooltipDivs.remove(poi);
+		System.out.println("Tooltip should disappear.");
+	}
+	
+	public void clickedPoi(long poiId)
 	{
 		Poi poi = pois.get(poiId);
 		Entity oAsEntity = (Entity)poi;
 		GwtPopupCreator<Poi> creator = popupCreatorMap.get(oAsEntity.getType());
 		Widget widget = creator.createPopup(poi);
 		DivElement div = mapView.createPopup(poi.getLocation(), poi.getId()+"", 100, 100);
-		div.getStyle().setOverflow(Overflow.VISIBLE);
-		div.getStyle().setBackgroundColor("transparent");
-		div.getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
-		div.getParentElement().getStyle().setBackgroundColor("transparent");
-		div.getParentElement().getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
-		div.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
+		
 		HTMLPanel.wrap(div).add(widget);
+		System.out.println("Popup should be there");
 	}
 
 	// TODO: This is a marker layer, not a vector layer
@@ -74,8 +103,20 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
     		that.@de.gmino.geobase.client.map.OpenLayersSmartLayer::selectedPoi(J)(evt.feature.poiId);
 		}
 		layer.events.register("featureselected", layer, selected);
+		function deselected (evt) {
+    		that.@de.gmino.geobase.client.map.OpenLayersSmartLayer::deselectedPoi(J)(evt.feature.poiId);
+		}
+		layer.events.register("featureunselected", layer, deselected);
 		
-		var control = new $wnd.OpenLayers.Control.SelectFeature(layer);
+		var control = new $wnd.OpenLayers.Control.SelectFeature(layer,{
+            hover : true,
+            highlightOnly : false,
+             callbacks: {
+                 click : function (feat){
+                      that.@de.gmino.geobase.client.map.OpenLayersSmartLayer::clickedPoi(J)(feat.poiId);
+                 }
+             }
+        });
 		mapJso.addControl(control);
 		control.activate();
 		

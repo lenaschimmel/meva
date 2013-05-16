@@ -1,5 +1,8 @@
 /** Add css rules here for your application. */
 
+body {
+	overflow: hidden;
+}
 
 /** Example rules used by the template application (remove for your app) */
 .title {
@@ -17,6 +20,7 @@
 	left:0px;
 	right:0px;
 	bottom:40px;
+	overflow: hidden;
 }
 
 .header

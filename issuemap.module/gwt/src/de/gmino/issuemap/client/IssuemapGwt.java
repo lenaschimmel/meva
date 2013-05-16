@@ -38,7 +38,7 @@ public class IssuemapGwt implements EntryPoint {
 	private final class IssueLatitudeComparator implements Comparator<Issue> {
 		@Override
 		public int compare(Issue i1, Issue i2) {
-			int latitudeComparision = Double.compare(i1.getLocation().getLatitude(),i2.getLocation().getLatitude());
+			int latitudeComparision = -Double.compare(i1.getLocation().getLatitude(),i2.getLocation().getLatitude());
 			if(latitudeComparision != 0)
 				return latitudeComparision;
 			else
