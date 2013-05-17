@@ -1,5 +1,7 @@
 package de.gmino.issuemap.client;
 
+import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.map.GwtPopupCreator;
@@ -33,6 +35,9 @@ public class IssuePopupCreator implements GwtPopupCreator<Issue> {
 	public Widget createTooltip(Poi poi) {
 		Hover_PopUp hoverPopUp = new Hover_PopUp();
 		hoverPopUp.setText(poi.getTitle(), poi.getDescription());
+		hoverPopUp.getElement().getStyle().setPosition(Position.ABSOLUTE);
+		hoverPopUp.getElement().getStyle().setTop(-34, Unit.PX);
+		hoverPopUp.getElement().getStyle().setLeft(38, Unit.PX);
 		return hoverPopUp;
 	}
 
