@@ -146,7 +146,8 @@ public class JsonServer extends HttpServlet {
 	 */
 	private void writeAnswer(ServletOutputStream outputStream, String status, String content) {
 		try {
-			OutputStreamWriter osw = new OutputStreamWriter(outputStream, Charset.forName("ISO-8859-1"));
+			OutputStreamWriter osw = new OutputStreamWriter(outputStream, Charset.forName("UTF-8"));
+			//OutputStreamWriter osw = new OutputStreamWriter(outputStream, Charset.forName("ISO-8859-1"));
 			osw.write("{ \"status\":\"" + status + "\" , \"content\":" + content + "}");
 			osw.flush();
 			osw.close();
@@ -160,7 +161,7 @@ public class JsonServer extends HttpServlet {
 	private void saveEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		JsonSystem system = StandardConfig.createSystem();
 		ServletInputStream inputStream = req.getInputStream();
-		String requestString = new java.util.Scanner(inputStream).useDelimiter("\\A").next();
+		String requestString = new java.util.Scanner(inputStream, "UTF-8").useDelimiter("\\A").next();
 		JsonValue requestValue = system.parse(requestString);
 		JsonObject requestObject = requestValue.asObject();
 
@@ -185,7 +186,7 @@ public class JsonServer extends HttpServlet {
 	private void getEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		JsonSystem system = StandardConfig.createSystem();
 		ServletInputStream inputStream = req.getInputStream();
-		String requestString = new java.util.Scanner(inputStream).useDelimiter("\\A").next();
+		String requestString = new java.util.Scanner(inputStream, "UTF-8").useDelimiter("\\A").next();
 		JsonValue requestValue = system.parse(requestString);
 		JsonObject requestObject = requestValue.asObject();
 
@@ -222,7 +223,7 @@ public class JsonServer extends HttpServlet {
 
 		JsonSystem system = StandardConfig.createSystem();
 		ServletInputStream inputStream = req.getInputStream();
-		String requestString = new java.util.Scanner(inputStream).useDelimiter("\\A").next();
+		String requestString = new java.util.Scanner(inputStream, "UTF-8").useDelimiter("\\A").next();
 		JsonValue requestValue = system.parse(requestString);
 		JsonObject requestObject = requestValue.asObject();
 
@@ -260,7 +261,7 @@ public class JsonServer extends HttpServlet {
 
 	String convertStreamToString(java.io.InputStream is) {
 		try {
-			return new java.util.Scanner(is).useDelimiter("\\A").next();
+			return new java.util.Scanner(is, "UTF-8").useDelimiter("\\A").next();
 		} catch (java.util.NoSuchElementException e) {
 			return "";
 		}

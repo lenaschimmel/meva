@@ -44,8 +44,8 @@ public class ShowIssue_PopUp extends Composite {
 		this.mWrapper = marker_Wrapper;
 		setBoarderColor(map.getColor());
 
-		if (mIssue.getPrimary_picture().equals("")
-				|| mIssue.getPrimary_picture().equals("Bild URL")) { //TODO funktioniert nur halb?!
+		if (mIssue.getPrimary_picture().getUrl().equals("")
+				|| mIssue.getPrimary_picture().getUrl().equals("Bild URL")) { //TODO funktioniert nur halb?!
 			picture.setVisible(false);
 			picture.setHeight("0px");
 		} else {
@@ -120,6 +120,7 @@ public class ShowIssue_PopUp extends Composite {
 	void onCheckbox(ClickEvent e) {
 		mIssue.setResolved(resolved.getValue());
 		Requests.saveEntity(mIssue, null);
+		smartLayer.updatePoi(mIssue);
 	}
 
 	@UiHandler("rate_up")
