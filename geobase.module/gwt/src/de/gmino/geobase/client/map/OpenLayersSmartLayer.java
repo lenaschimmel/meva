@@ -192,6 +192,12 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 			}
 		}
 	}
+
+	@Override
+	public void updatePoi(Poi o) {
+		removePoi(o);
+		addPoi(o);
+	}
 	
 	private native void nRemoveFeature(JavaScriptObject featureJso) 
 	/*-{

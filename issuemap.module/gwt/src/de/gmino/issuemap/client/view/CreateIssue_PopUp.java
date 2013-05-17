@@ -104,6 +104,7 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 		if (mIssue != null) {
 			setIssueValuesFromMask(mIssue);
 			Requests.saveEntity(mIssue, null);
+			smartLayer.updatePoi(mIssue);
 		}
 
 		// Add new content to Database
