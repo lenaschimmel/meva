@@ -34,6 +34,9 @@ import de.gmino.issuemap.client.domain.Markertype;
 
 import de.gmino.issuemap.client.domain.gen.IssueGen;
 public class Issue extends IssueGen implements Poi {
+	
+	public int vote;
+	
 	// Constructors
 	public Issue(long id)
 	{

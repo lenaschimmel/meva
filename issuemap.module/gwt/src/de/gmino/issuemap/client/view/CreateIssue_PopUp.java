@@ -51,6 +51,7 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 	public CreateIssue_PopUp(Map map, LatLon location, OpenLayersSmartLayer smartLayer) {
 		this(map,smartLayer);
 		this.mLocation = location;
+		headLable.setText("Neuen Marker erstellen");
 	}
 
 	public CreateIssue_PopUp(Map map, Issue editIssue, OpenLayersSmartLayer smartLayer) {
@@ -83,6 +84,8 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 	ListBox typebox;
 	@UiField
 	Image close;
+	@UiField
+	Label headLable;
 
 	public CreateIssue_PopUp(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));

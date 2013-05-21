@@ -51,7 +51,7 @@
 		}
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
-		<g:Label styleName="{style.title_label}">Marker bearbeiten</g:Label>
+		<g:Label styleName="{style.title_label}" ui:field="headLable">Marker bearbeiten</g:Label>
 		<g:Image resource="{resources.close}" ui:field="close"
 			styleName="{style.closeButton}"></g:Image>
 		<g:VerticalPanel styleName="{style.content}">

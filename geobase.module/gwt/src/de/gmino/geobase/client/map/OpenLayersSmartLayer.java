@@ -166,8 +166,8 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
         // of the image will be ignored
 		style_mark.graphicWidth = width;
 		style_mark.graphicHeight = height;
-        style_mark.graphicXOffset = 10; // default is -(style_mark.graphicWidth/2);
-        style_mark.graphicYOffset = -style_mark.graphicHeight;
+        style_mark.graphicXOffset = -16; // default is -(style_mark.graphicWidth/2);
+        style_mark.graphicYOffset = -32;
         style_mark.externalGraphic = iconUrl;
         style_mark.graphicOpacity = 1;
         
