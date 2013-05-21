@@ -36,8 +36,8 @@ public class IssuePopupCreator implements GwtPopupCreator<Issue> {
 		Hover_PopUp hoverPopUp = new Hover_PopUp();
 		hoverPopUp.setText(poi.getTitle(), poi.getDescription());
 		hoverPopUp.getElement().getStyle().setPosition(Position.ABSOLUTE);
-		hoverPopUp.getElement().getStyle().setTop(-34, Unit.PX);
-		hoverPopUp.getElement().getStyle().setLeft(38, Unit.PX);
+		hoverPopUp.getElement().getStyle().setTop(-30, Unit.PX);
+		hoverPopUp.getElement().getStyle().setLeft(12, Unit.PX);
 		return hoverPopUp;
 	}
 

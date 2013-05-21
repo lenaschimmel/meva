@@ -16,10 +16,7 @@ import de.gmino.issuemap.client.view.MarkerIcon;
 import de.gmino.issuemap.client.view.ShowIssue_PopUp;
 
 public class Marker_Wrapper extends AbsolutePanel { // implements MouseOverHandler, MouseOutHandler, ClickHandler { // Composite implements HasText {
-
-	//Hover_PopUp hover = new Hover_PopUp();
 	ShowIssue_PopUp detail;
-//	MarkerIcon mIcon;
 	Issue mIssue;
 	Map mMapObject;
 
@@ -28,35 +25,6 @@ public class Marker_Wrapper extends AbsolutePanel { // implements MouseOverHandl
 		this.getElement().getStyle().setOverflow(Overflow.VISIBLE);
 		this.mIssue=issue ;
 		this.mMapObject=mapObject;
-//		mIcon = new MarkerIcon(issue);
-//		mIcon.getElement().getStyle().setZIndex(getAbsoluteTop());
-//		add(mIcon);
-//		if(mIssue.isResolved()) mIcon.setColor("#52D354");
-//		else mIcon.setColor(mapObject.getColor());
-//		mIcon.addDomHandler(this,  MouseOverEvent.getType());
-//		mIcon.addDomHandler(this,  MouseOutEvent.getType());
-//		mIcon.addDomHandler(this,  ClickEvent.getType());
-//		hover.setText(mIssue.getTitle(), mIssue.getDescription());
-//		hover.addDomHandler(this,  ClickEvent.getType());
-//		hover.getElement().getStyle().setZIndex(zIndex ++);
-
-
 	}
-//
-//	public void onMouseOver(MouseOverEvent e) {
-//		add(hover);
-//	}
-//	
-//	public void onMouseOut(MouseOutEvent e) {
-//		remove(hover);
-//	}
-//	
-//	public void onClick(ClickEvent e) {
-//	/*	remove(hover);
-//		detail = new ShowIssue_PopUp(mMapObject, mIssue, this);
-//		detail.setText(mIssue.getTitle(), mIssue.getDescription());
-//		add(detail);
-//		IssuemapGwt.setMapPosition(mIssue.getLocation());
-//		*/
-//	}
+
 }

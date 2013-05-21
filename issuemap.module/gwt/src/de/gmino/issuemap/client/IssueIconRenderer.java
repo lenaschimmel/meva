@@ -32,7 +32,7 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		if(issue.isResolved())
 			con.setFillStyle("#33BB00");
 		else
-			con.setFillStyle("#FF3300");
+			con.setFillStyle(issue.getMap_instance().getColor());
 		
 		con.fillRect(3, 4, 25, 24);
 		con.beginPath();
