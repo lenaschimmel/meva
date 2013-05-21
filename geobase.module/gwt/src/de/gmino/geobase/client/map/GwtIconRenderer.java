@@ -31,8 +31,8 @@ public abstract class GwtIconRenderer<PoiType extends Poi> implements IconRender
 		return url;
 	}
 
-	public abstract int getWidth();
+	public abstract int getWidth(PoiType poi);
 	
-	public abstract int getHeight();
+	public abstract int getHeight(PoiType poi);
 	
 }

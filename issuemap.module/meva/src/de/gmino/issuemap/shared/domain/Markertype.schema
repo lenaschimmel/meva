@@ -10,6 +10,14 @@
 		{
 			"type" : "String",
 			"name" : "imageName"
+		},
+		{
+			"type" : "int",
+			"name" : "imageWidth"
+		},
+		{
+			"type" : "int",
+			"name" : "imageHeight"
 		}
 	]
 }

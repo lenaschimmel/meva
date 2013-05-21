@@ -35,13 +35,17 @@ public class Markertype extends MarkertypeGen {
 			long id,
 			boolean ready,
 			String markerName,
-			String imageName)
+			String imageName,
+			int imageWidth,
+			int imageHeight)
 	{
 		super(
 			id,
 			ready,
 			markerName,
-			imageName
+			imageName,
+			imageWidth,
+			imageHeight
 		);
 		this.ready = true;
 	}

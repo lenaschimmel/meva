@@ -22,8 +22,8 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 
 	@Override
 	public void renderIcon(Canvas can, Issue issue) {
-		can.setCoordinateSpaceWidth(getWidth());
-		can.setCoordinateSpaceHeight(getHeight());
+		can.setCoordinateSpaceWidth(getWidth(issue));
+		can.setCoordinateSpaceHeight(getHeight(issue));
 		Context2d con = can.getContext2d();
 		
 		String imageName = issue.getMarkertype().getImageName();
@@ -50,13 +50,13 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 	}
 
 	@Override
-	public int getWidth() {
-		return 32;
+	public int getWidth(Issue issue) {
+		return issue.getMarkertype().getImageWidth();
 	}
 
 	@Override
-	public int getHeight() {
-		return 36;
+	public int getHeight(Issue issue) {
+		return issue.getMarkertype().getImageHeight();
 	}
 	
 	

@@ -150,7 +150,7 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 			if(renderer == null)
 				throw new RuntimeException("No IconRenderer defined for " + oAsEntity.getType());
 			String iconUrl = renderer.getIconUrl(o);
-			JavaScriptObject jso = nAddMarker(iconUrl, o.getLocation().getLatitude(), o.getLocation().getLongitude(), mapView.getMapJso(), o.getId(), renderer.getWidth(), renderer.getHeight());
+			JavaScriptObject jso = nAddMarker(iconUrl, o.getLocation().getLatitude(), o.getLocation().getLongitude(), mapView.getMapJso(), o.getId(), renderer.getWidth(o), renderer.getHeight(o));
 			poiJsos.put(o, jso);
 		}
 	}
