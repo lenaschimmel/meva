@@ -33,7 +33,7 @@ import de.gmino.issuemap.shared.domain.Markertype;
 
 import de.gmino.issuemap.shared.domain.gen.IssueGen;
 public class Issue extends IssueGen {
-	// Constructors
+	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public Issue(long id)
 	{
 		super(id);
@@ -82,5 +82,5 @@ public class Issue extends IssueGen {
 		this.ready = true;
 	}
 	
-
+	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 }

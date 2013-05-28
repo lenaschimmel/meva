@@ -27,7 +27,11 @@ import org.itemscript.core.values.JsonValue;
 
 import de.gmino.issuemap.shared.request.gen.QueryIssuesByMapGen;
 public class QueryIssuesByMap extends QueryIssuesByMapGen {
-	// Constructors
+	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
+	public QueryIssuesByMap()
+	{
+	}
+
 	public QueryIssuesByMap(JsonObject json) throws IOException
 	{
 		super(json);
@@ -40,5 +44,5 @@ public class QueryIssuesByMap extends QueryIssuesByMapGen {
 		);
 	}
 	
-
+	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 }

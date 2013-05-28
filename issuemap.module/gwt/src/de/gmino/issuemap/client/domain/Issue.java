@@ -34,10 +34,7 @@ import de.gmino.issuemap.client.domain.Markertype;
 
 import de.gmino.issuemap.client.domain.gen.IssueGen;
 public class Issue extends IssueGen implements Poi {
-	
-	public int vote;
-	
-	// Constructors
+	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public Issue(long id)
 	{
 		super(id);
@@ -69,15 +66,15 @@ public class Issue extends IssueGen implements Poi {
 			(de.gmino.geobase.client.domain.LatLon)location,
 			title,
 			description,
-			markertype,
-			map_instance,
-			creationTimestamp,
+			(de.gmino.issuemap.client.domain.Markertype)markertype,
+			(de.gmino.issuemap.client.domain.Map)map_instance,
+			(de.gmino.geobase.client.domain.Timestamp)creationTimestamp,
 			rating,
 			number_of_rating,
 			resolved,
 			deleted,
-			primary_picture,
-			eventTimestamp,
+			(de.gmino.geobase.client.domain.ImageUrl)primary_picture,
+			(de.gmino.geobase.client.domain.Timestamp)eventTimestamp,
 			price,
 			organizer,
 			email,
@@ -86,5 +83,5 @@ public class Issue extends IssueGen implements Poi {
 		this.ready = true;
 	}
 	
-
+	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 }

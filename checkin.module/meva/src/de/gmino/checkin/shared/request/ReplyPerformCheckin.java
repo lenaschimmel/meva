@@ -27,16 +27,33 @@ import de.gmino.checkin.shared.domain.Coupon;
 import de.gmino.checkin.shared.domain.CouponOwenership;
 import de.gmino.checkin.shared.domain.Shop;
 
-import de.gmino.checkin.shared.request.gen.ReplyPerformCheckinGen;
 
+import de.gmino.checkin.shared.request.gen.ReplyPerformCheckinGen;
 public class ReplyPerformCheckin extends ReplyPerformCheckinGen {
-	// Constructors
-	public ReplyPerformCheckin(JsonObject json) throws IOException {
+	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
+	public ReplyPerformCheckin()
+	{
+	}
+
+	public ReplyPerformCheckin(JsonObject json) throws IOException
+	{
 		super(json);
 	}
-
-	public ReplyPerformCheckin(boolean success, String message, Shop shop, Coupon coupon, CouponOwenership ownership) {
-		super(success, message, (de.gmino.checkin.shared.domain.Shop) shop, (de.gmino.checkin.shared.domain.Coupon) coupon, (de.gmino.checkin.shared.domain.CouponOwenership) ownership);
+	public ReplyPerformCheckin(
+			boolean success,
+			String message,
+			Shop shop,
+			Coupon coupon,
+			CouponOwenership ownership)
+	{
+		super(
+			success,
+			message,
+			(de.gmino.checkin.shared.domain.Shop)shop,
+			(de.gmino.checkin.shared.domain.Coupon)coupon,
+			(de.gmino.checkin.shared.domain.CouponOwenership)ownership
+		);
 	}
-
+	
+	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 }

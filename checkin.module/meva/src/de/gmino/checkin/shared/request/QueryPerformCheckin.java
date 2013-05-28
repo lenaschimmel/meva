@@ -5,6 +5,7 @@ package de.gmino.checkin.shared.request;
 
 // gmino stuff
 import de.gmino.meva.shared.Value;
+import de.gmino.meva.shared.EntityQuery;
 import de.gmino.meva.shared.ValueQuery;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.RelationCollection;
@@ -23,22 +24,25 @@ import java.util.Collection;
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
-import de.gmino.checkin.shared.request.gen.QueryPerformCheckinGen;
 
+import de.gmino.checkin.shared.request.gen.QueryPerformCheckinGen;
 public class QueryPerformCheckin extends QueryPerformCheckinGen {
-	// Constructors
-	public QueryPerformCheckin(JsonObject json) throws IOException {
+	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
+	public QueryPerformCheckin()
+	{
+	}
+
+	public QueryPerformCheckin(JsonObject json) throws IOException
+	{
 		super(json);
 	}
-
-	public QueryPerformCheckin(String scanCode) {
-		super(scanCode);
+	public QueryPerformCheckin(
+			String scanCode)
+	{
+		super(
+			scanCode
+		);
 	}
-
-	@Override
-	public Value valueFromJson(JsonObject json) throws IOException {
-		// TODO Auto-generated method stub
-		return new ReplyPerformCheckin(json);
-	}
-
+	
+	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 }

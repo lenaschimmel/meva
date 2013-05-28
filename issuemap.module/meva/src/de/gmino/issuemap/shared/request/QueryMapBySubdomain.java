@@ -27,7 +27,11 @@ import org.itemscript.core.values.JsonValue;
 
 import de.gmino.issuemap.shared.request.gen.QueryMapBySubdomainGen;
 public class QueryMapBySubdomain extends QueryMapBySubdomainGen {
-	// Constructors
+	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
+	public QueryMapBySubdomain()
+	{
+	}
+
 	public QueryMapBySubdomain(JsonObject json) throws IOException
 	{
 		super(json);
@@ -40,5 +44,5 @@ public class QueryMapBySubdomain extends QueryMapBySubdomainGen {
 		);
 	}
 	
-
+	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 }
