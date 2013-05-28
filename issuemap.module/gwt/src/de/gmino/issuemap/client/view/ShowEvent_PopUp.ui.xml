@@ -1,0 +1,124 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+	<ui:with field="resources"
+		type="de.gmino.issuemap.client.resources.ImageResources" />
+
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+		
+		.parent {
+			width: 300px;
+			background-color: #333;
+			position: absolute;
+			/* Override glass panel to 10% opacity (GLEICH 90% transparency) */
+			filter: alpha(opacity =     1) !important;  /*IE */
+			opacity: 0.95 !important; /* non-IE */
+			border-top-right-radius: 10px;
+			border-bottom-right-radius: 10px;
+			border-top-left-radius: 10px;
+			border-bottom-left-radius: 10px;
+			border: 3px solid;
+			padding: 10px;
+		}
+		
+		.title_label {
+			color: #FFF;
+			text-align: center;
+			font-weight: bold;
+			font-size: large;
+			padding-bottom: 15px;
+			white-space: nowrap;
+			width: auto;
+			border-top-right-radius: 10px;
+			border-top-left-radius: 10px;
+		}
+		
+		.divider {
+			color: #FFF;
+			font-weight: bold;
+		}
+		
+		.description_label {
+			color: #FFF;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			padding-right: 10px;
+		}
+		
+		.meta_label_bold {
+			color: #FFF;
+			font-weight: bold;
+			padding-bottom: 3px;
+		}
+		
+		.meta_label {
+			color: #FFF;
+			padding-bottom: 3px;
+			margin-left: 10px;
+			text-align: right;
+			margin-right: 15px;
+		}
+		
+		.closeButton {
+			position: absolute;
+			top: 0px;
+			right: 0px;
+			cursor: pointer;
+		}
+		
+		.rateButton{
+			padding-right: 10px;
+			cursor: pointer;
+		}
+		
+		.countRatingLabel{
+			color: #FFF;
+			padding-left: 13px;
+		}
+	</ui:style>
+	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
+		<g:Label ui:field="title" styleName="{style.title_label}"></g:Label>
+		<g:Image resource="{resources.close}" ui:field="close"
+			styleName="{style.closeButton}"></g:Image>
+		<g:HorizontalPanel>
+			<g:VerticalPanel width="300px">
+				<g:HorizontalPanel width="100%">
+					<g:cell HorizontalAlignment="ALIGN_LEFT"><g:Label styleName="{style.meta_label_bold}" text="Termin:"></g:Label></g:cell>
+					<g:cell HorizontalAlignment="ALIGN_RIGHT"><g:Label ui:field="date" styleName="{style.meta_label}"></g:Label></g:cell>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel width="100%">
+					<g:cell HorizontalAlignment="ALIGN_LEFT"> <g:Label styleName="{style.meta_label_bold}" text="Typ:"></g:Label></g:cell>
+					<g:cell HorizontalAlignment="ALIGN_RIGHT"><g:Label ui:field="type" styleName="{style.meta_label}"></g:Label></g:cell>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel width="100%">
+					<g:cell HorizontalAlignment="ALIGN_LEFT"><g:Label styleName="{style.meta_label_bold}" text="Teilnahme:"></g:Label></g:cell>
+					<g:cell HorizontalAlignment="ALIGN_RIGHT" width="30px"><g:CheckBox ui:field="resolved"></g:CheckBox></g:cell>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel width="100%">
+					<g:cell HorizontalAlignment="ALIGN_LEFT"><g:Label styleName="{style.meta_label_bold}" text="Vorfreude:"></g:Label></g:cell>
+					<g:cell HorizontalAlignment="ALIGN_RIGHT"><g:Label styleName="{style.meta_label}" text="+3" ui:field="rating"></g:Label></g:cell>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel width="100%">
+					<g:cell width="70%"><g:Label/></g:cell>
+					<g:cell HorizontalAlignment="ALIGN_RIGHT"><g:VerticalPanel><g:Image resource="{resources.go_up}" styleName="{style.rateButton}" ui:field="rate_up"/><g:Label ui:field="up_count" styleName="{style.countRatingLabel}"/> </g:VerticalPanel> </g:cell>
+					<g:cell HorizontalAlignment="ALIGN_RIGHT"><g:VerticalPanel><g:Image resource="{resources.go_down}" styleName="{style.rateButton}" ui:field="rate_down"/><g:Label ui:field="down_count" styleName="{style.countRatingLabel}"/> </g:VerticalPanel></g:cell>
+				</g:HorizontalPanel>
+
+			</g:VerticalPanel>
+			<g:VerticalPanel>
+				<g:Image ui:field="picture" height="200px"></g:Image>
+				<!-- <g:Button ui:field="fotoupload" text="Foto hinzufügen"></g:Button> -->
+			</g:VerticalPanel>
+		</g:HorizontalPanel>
+		<g:Label ui:field="description" styleName="{style.description_label}"></g:Label>
+		<g:HorizontalPanel verticalAlignment="ALIGN_BOTTOM">
+			<g:Image resource="{resources.edit}" ui:field="edit"></g:Image>
+			<g:Image resource="{resources.delete}" ui:field="delete"></g:Image>
+		</g:HorizontalPanel>
+		
+	</g:VerticalPanel>
+</ui:UiBinder> 

@@ -636,7 +636,8 @@ public class ClassDefinition {
 				 * " = ("+type+")val.isNumber().doubleValue();");
 				 */
 			} else if (type.equals("String")) {
-				pw.println("		" + attribute.attributeName + " = val.asString().stringValue();");
+				pw.println("		if(!val.isNull())");
+				pw.println("			" + attribute.attributeName + " = val.asString().stringValue();");
 			} else if (type.equals("relation")) {
 				pw.println("		for(JsonValue subVal : val.asArray())");
 				pw.println("		{");
@@ -647,7 +648,10 @@ public class ClassDefinition {
 				if (attribute.isEntity()) {
 					pw.println("		" + attribute.attributeName + "_id = Long.parseLong(val.asString().stringValue());");
 				} else {
-					pw.println("		" + attribute.attributeName + " = new " + attribute.typeName + "(val.asObject());");
+					pw.println("		if(val.asObject() == null)");
+					pw.println("			" + attribute.attributeName + " = null;");
+					pw.println("		else");
+					pw.println("			" + attribute.attributeName + " = new " + attribute.typeName + "(val.asObject());");
 
 				}
 			}
@@ -683,7 +687,6 @@ public class ClassDefinition {
 					pw.print("			(" + type + ")EntityFactory.getUnloadedEntityById(" + type + ".type, Long.parseLong(" + val + ".asString().stringValue()))");
 				} else {
 					pw.print("			new " + attribute.typeName + "(" + val + ".asObject())");
-
 				}
 			}
 			first = false;
@@ -717,7 +720,13 @@ public class ClassDefinition {
 			if (attribute.isNative())
 				pw.println("		sb.append(\"\\\"\" + " + name + " + \"\\\"\");");
 			else if (attribute.typeName.equals("String"))
-				pw.println("		sb.append('\"' + Util.escapeForJson(" + name + ") + '\"');");
+			{
+				pw.println("		sb.append(\"\");");
+				pw.println("		if(" + name + " != null)");
+				pw.println("			sb.append('\"' + Util.escapeForJson(" + name + ") + '\"');");
+				pw.println("		else");
+				pw.println("			sb.append(\"null\");");
+			}
 			else if (type.equals("relation")) {
 				pw.println("		sb.append(\"\\n\" + moreIndentation + \"[\");");
 				String firstName = "first" + capitalizeFirst(attribute.attributeName);

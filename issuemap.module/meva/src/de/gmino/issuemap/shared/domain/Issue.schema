@@ -42,11 +42,31 @@
 		{
 			"type" : "boolean",
 			"name" : "deleted"
-		}
+		},
 		{
 			"type" : "ImageUrl",
 			"name" : "primary_picture"
 		},
+		{
+			"type" : "Timestamp",
+			"name" : "eventTimestamp"
+		},
+		{
+			"type" : "double",
+			"name" : "price"
+		},
+		{
+			"type" : "String",
+			"name" : "organizer"
+		},
+		{
+			"type" : "String",
+			"name" : "email"
+		},
+		{
+			"type" : "String",
+			"name" : "phone"
+		}
 		{
 			"type" : "relation",
 			"name" : "comments",

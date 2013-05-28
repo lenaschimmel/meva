@@ -68,9 +68,9 @@ public class Footer extends Composite implements HasText {
 		chart_button.getElement().getStyle().setBackgroundColor(color);
 		list_button.getElement().getStyle().setBackgroundColor(color);
 		preferences_button.getElement().getStyle().setBackgroundColor(color);
-		chart_button.setVisible(true);
-		list_button.setVisible(true);
-		preferences_button.setVisible(true);
+//		chart_button.setVisible(true);
+//		list_button.setVisible(true);
+//		preferences_button.setVisible(true);
 	}
 
 	@Override

@@ -56,7 +56,12 @@ public class Issue extends IssueGen implements Poi {
 			int number_of_rating,
 			boolean resolved,
 			boolean deleted,
-			ImageUrl primary_picture)
+			ImageUrl primary_picture,
+			Timestamp eventTimestamp,
+			double price,
+			String organizer,
+			String email,
+			String phone)
 	{
 		super(
 			id,
@@ -64,14 +69,19 @@ public class Issue extends IssueGen implements Poi {
 			(de.gmino.geobase.client.domain.LatLon)location,
 			title,
 			description,
-			(de.gmino.issuemap.client.domain.Markertype)markertype,
-			(de.gmino.issuemap.client.domain.Map)map_instance,
-			(de.gmino.geobase.client.domain.Timestamp)creationTimestamp,
+			markertype,
+			map_instance,
+			creationTimestamp,
 			rating,
 			number_of_rating,
 			resolved,
 			deleted,
-			(de.gmino.geobase.client.domain.ImageUrl)primary_picture
+			primary_picture,
+			eventTimestamp,
+			price,
+			organizer,
+			email,
+			phone
 		);
 		this.ready = true;
 	}

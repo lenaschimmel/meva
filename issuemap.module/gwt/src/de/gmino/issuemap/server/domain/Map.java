@@ -61,7 +61,8 @@ public class Map extends MapGen {
 			String layer,
 			String headerText,
 			ImageUrl logo,
-			String infoText)
+			String infoText,
+			String mapTyp)
 	{
 		super(
 			id,
@@ -76,7 +77,8 @@ public class Map extends MapGen {
 			layer,
 			headerText,
 			(de.gmino.geobase.server.domain.ImageUrl)logo,
-			infoText
+			infoText,
+			mapTyp
 		);
 		this.ready = true;
 	}

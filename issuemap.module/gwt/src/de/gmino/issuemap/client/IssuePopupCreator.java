@@ -10,6 +10,7 @@ import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.view.Hover_PopUp;
+import de.gmino.issuemap.client.view.ShowEvent_PopUp;
 import de.gmino.issuemap.client.view.ShowIssue_PopUp;
 
 public class IssuePopupCreator implements GwtPopupCreator<Issue> {
@@ -26,8 +27,17 @@ public class IssuePopupCreator implements GwtPopupCreator<Issue> {
 	@Override
 	public Widget createPopup(Issue poi) {
 		Marker_Wrapper wrapper = new Marker_Wrapper(poi, map);
-		ShowIssue_PopUp showIssue_PopUp = new ShowIssue_PopUp(map, poi, wrapper, smartLayer);
-		wrapper.add(showIssue_PopUp);
+		if (poi.getMarkertype().getMarkerName().equals("Disco")
+				|| poi.getMarkertype().getMarkerName().equals("Theater")
+				|| poi.getMarkertype().getMarkerName().equals("Konzert")
+				|| poi.getMarkertype().getMarkerName().equals("Sport")
+				|| poi.getMarkertype().getMarkerName().equals("Party")) {
+			ShowEvent_PopUp showEvent_PopUp = new ShowEvent_PopUp(map, poi, wrapper, smartLayer);
+			wrapper.add(showEvent_PopUp);
+		} else {
+			ShowIssue_PopUp showIssue_PopUp = new ShowIssue_PopUp(map, poi, wrapper, smartLayer);
+			wrapper.add(showIssue_PopUp);
+		}
 		return wrapper;
 	}
 

@@ -22,6 +22,7 @@ import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Markertype;
 import de.gmino.issuemap.client.request.QueryMapBySubdomain;
+import de.gmino.issuemap.client.view.CreateEvent_PopUp;
 import de.gmino.issuemap.client.view.CreateIssue_PopUp;
 import de.gmino.issuemap.client.view.Footer;
 import de.gmino.issuemap.client.view.Header;
@@ -33,16 +34,18 @@ import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
-
 public class IssuemapGwt implements EntryPoint {
 	private final class IssueLatitudeComparator implements Comparator<Issue> {
 		@Override
 		public int compare(Issue i1, Issue i2) {
-			int latitudeComparision = -Double.compare(i1.getLocation().getLatitude(),i2.getLocation().getLatitude());
-			if(latitudeComparision != 0)
+			int latitudeComparision = -Double.compare(i1.getLocation()
+					.getLatitude(), i2.getLocation().getLatitude());
+			if (latitudeComparision != 0)
 				return latitudeComparision;
 			else
-				return  (i1.getId() < i2.getId()) ? -1 : ((i1.getId() == i2.getId()) ? 0 : 1); // Long.compare(i1.getId(), i2.getId()); 
+				return (i1.getId() < i2.getId()) ? -1 : ((i1.getId() == i2
+						.getId()) ? 0 : 1); // Long.compare(i1.getId(),
+											// i2.getId());
 		}
 	}
 
@@ -60,52 +63,56 @@ public class IssuemapGwt implements EntryPoint {
 	private OpenLayersSmartLayer markerLayer;
 	private Footer footer = new Footer();
 	private Header header = new Header();
-	
+
 	public void onModuleLoad() {
 		EntityFactory.setImplementations(new EntityFactoryImpl());
 		Util.setImpl(new UtilClient());
 
 		Requests.setImplementation(new NetworkRequestsImplAsyncJson("http://"
-				+ Location.getHost()+"/"));
-		
+				+ Location.getHost() + "/"));
+
 		// Create the map
-		mapView = new OpenLayersMapView("map","mapquest");
+		mapView = new OpenLayersMapView("map", "mapquest");
 		markerLayer = mapView.newSmartLayer("Issues");
 		markerLayer.addMarkerIconRenderer(Issue.type, new IssueIconRenderer());
-		mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);						
+		mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);
 
-		
-		//Add Header to RootPanel
+		// Add Header to RootPanel
 		RootPanel.get("bar_top").add(header);
-		
+
 		RootPanel.get("bar_bottom").add(footer);
-		
+
 		// Add create-PopUp by Double-Click
 		mapView.addEventListener(Event.dblclick, new MapListener() {
-			
+
 			@Override
 			public void onEvent(LatLon location, Event event) {
-				DivElement div = ((OpenLayersMapView)mapView).createPopup(location, "centerPopup", 100, 100);
+				DivElement div = ((OpenLayersMapView) mapView).createPopup(
+						location, "centerPopup", 100, 100);
 				div.getStyle().setOverflow(Overflow.VISIBLE);
 				div.getStyle().setBackgroundColor("transparent");
 				div.getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
 				div.getParentElement().getStyle().setBackgroundColor("transparent");
 				div.getParentElement().getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
 				div.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
-				CreateIssue_PopUp popUp = new CreateIssue_PopUp(mapObject, location, markerLayer);
-				HTMLPanel.wrap(div).add(popUp);
-		
+				if (mapObject.getMapTyp().equals("Issue")) {
+					CreateIssue_PopUp popUp = new CreateIssue_PopUp(mapObject, location, markerLayer);
+					HTMLPanel.wrap(div).add(popUp);
+				} else {
+					CreateEvent_PopUp popUp = new CreateEvent_PopUp(mapObject, location, markerLayer);
+					HTMLPanel.wrap(div).add(popUp);
+				}
+
 			}
 		});
-		
-		
-		//fetch map-Objekt
+
+		// fetch map-Objekt
 		String[] domainSplit = Location.getHostName().split("\\.");
 		String subdomain = domainSplit[0];
 		mapRequest(subdomain);
 
 	}
-	
+
 	void mapRequest(String subdomain) {
 		EntityQuery q = new QueryMapBySubdomain(subdomain);
 		Requests.getLoadedEntitiesByQuery(Map.type, q,
@@ -114,43 +121,51 @@ public class IssuemapGwt implements EntryPoint {
 					@SuppressWarnings("unchecked")
 					public void onNewResult(Map map) {
 						mapObject = map;
-						markerLayer.addMarkerPopupCreator(Issue.type, new IssuePopupCreator(map,markerLayer));
-						
+						markerLayer.addMarkerPopupCreator(Issue.type,
+								new IssuePopupCreator(map, markerLayer));
+
 						header.setMap(map);
 						Window.setTitle(map.getHeaderText());
-						mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);						
-						header.setDesign(mapObject.getLogo().getUrl(), mapObject.getTitle(), mapObject.getColor());
+						mapView.setCenterAndZoom(mapObject.getInitLocation(),
+								mapObject.getInitZoomlevel(), false);
+						header.setDesign(mapObject.getLogo().getUrl(),
+								mapObject.getTitle(), mapObject.getColor());
 						footer.setDesign(mapObject.getColor());
-						
+
 						map.loadMarkertypes(new RequestListener<Markertype>() {
 							@Override
 							public void onFinished(
 									Collection<Markertype> results) {
-								
-											
-								ImageUrlLoader.getInstance().setOnLoadListener(new RequestListener<Void>() {
-									@Override
-									public void onFinished(
-											Collection<Void> results) {
-										Collection<Issue> issues = mapObject.getIssues();
-										Requests.loadEntities(issues, new RequestListener<Issue>() {
+
+								ImageUrlLoader.getInstance().setOnLoadListener(
+										new RequestListener<Void>() {
 											@Override
-											public void onFinished(Collection<Issue> results) {
-												Comparator<Issue> compare = new IssueLatitudeComparator();
-												TreeSet<Issue> sortedIssues = new TreeSet<Issue>(compare);
-												sortedIssues.addAll(results);
-												for(Issue i : sortedIssues)
-												{
-													if (i.isDeleted())
-														continue;
-													addMarker(i);
-												}
+											public void onFinished(
+													Collection<Void> results) {
+												Collection<Issue> issues = mapObject
+														.getIssues();
+												Requests.loadEntities(
+														issues,
+														new RequestListener<Issue>() {
+															@Override
+															public void onFinished(
+																	Collection<Issue> results) {
+																Comparator<Issue> compare = new IssueLatitudeComparator();
+																TreeSet<Issue> sortedIssues = new TreeSet<Issue>(
+																		compare);
+																sortedIssues
+																		.addAll(results);
+																for (Issue i : sortedIssues) {
+																	if (i.isDeleted())
+																		continue;
+																	addMarker(i);
+																}
+															}
+														});
 											}
 										});
-									}
-								});
 							}
-						});	
+						});
 					};
 
 					@Override
@@ -159,36 +174,20 @@ public class IssuemapGwt implements EntryPoint {
 					}
 				});
 	}
-	
-	
-	//update Map position
-	static void setMapPosition(LatLon position){
-		mapView.setCenter(position, true);						
-	}
-	
-	public void addMarker(Issue nIssue){
-		markerLayer.addPoi(nIssue); 
-		/*
-		DivElement div = ((OpenLayersMapView)mapView).createPopup(nIssue.getLocation(), "centerPopup", 1, 1);
-		div.getStyle().setOverflow(Overflow.VISIBLE);
-		div.getStyle().setBackgroundColor("transparent");
-		div.getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
-		div.getParentElement().getStyle().setBackgroundColor("transparent");
-		div.getParentElement().getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
-		div.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
-		Marker_Wrapper wrapper = new Marker_Wrapper(nIssue, mapObject);
-		HTMLPanel.wrap(div).add(wrapper);
-		divByIssue.put(nIssue, div);
-		*/
-	}
-	
-	public void deleteMarker(Issue nIssue){
-		markerLayer.removePoi(nIssue);
-		
-//		DivElement div = divByIssue.get(nIssue);
-//		if(div != null)
-//			div.removeFromParent();
+
+	// update Map position
+	static void setMapPosition(LatLon position) {
+		mapView.setCenter(position, true);
 	}
 
-	
+	public void addMarker(Issue nIssue) {
+		markerLayer.addPoi(nIssue);
+
+	}
+
+	public void deleteMarker(Issue nIssue) {
+		markerLayer.removePoi(nIssue);
+
+	}
+
 }

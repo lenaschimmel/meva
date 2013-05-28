@@ -63,7 +63,12 @@ public class Issue extends IssueGen {
 			int number_of_rating,
 			boolean resolved,
 			boolean deleted,
-			ImageUrl primary_picture)
+			ImageUrl primary_picture,
+			Timestamp eventTimestamp,
+			double price,
+			String organizer,
+			String email,
+			String phone)
 	{
 		super(
 			id,
@@ -78,7 +83,7 @@ public class Issue extends IssueGen {
 			number_of_rating,
 			resolved,
 			deleted,
-			(de.gmino.geobase.server.domain.ImageUrl)primary_picture
+			(de.gmino.geobase.server.domain.ImageUrl)primary_picture, eventTimestamp, price, organizer, email, description
 		);
 		this.ready = true;
 	}

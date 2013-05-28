@@ -47,6 +47,10 @@
 		{
 			"type" : "String",
 			"name" : "infoText"
+		},	
+		{
+			"type" : "String",
+			"name" : "mapTyp"
 		},
 		{
 			"type" : "relation",

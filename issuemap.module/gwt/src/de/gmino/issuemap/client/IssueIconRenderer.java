@@ -29,11 +29,24 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		String imageName = issue.getMarkertype().getImageName();
 		Image img = loader.getImageByUrl("/mapicon/" + imageName + ".png");
 		
-		if(issue.isResolved())
+		if (issue.getMarkertype().getMarkerName().equals("Disco"))
+			con.setFillStyle("#C24704");
+		else if (issue.getMarkertype().getMarkerName().equals("Theater"))
+			con.setFillStyle("#D9CC3C");
+		else if (issue.getMarkertype().getMarkerName().equals("Party"))
 			con.setFillStyle("#33BB00");
-		else
-			con.setFillStyle(issue.getMap_instance().getColor());
-		
+		else if (issue.getMarkertype().getMarkerName().equals("Sport"))
+			con.setFillStyle("#A0E0A9");
+		else if (issue.getMarkertype().getMarkerName().equals("Konzert"))
+			con.setFillStyle("#00ADA7");
+
+		else {
+
+			if (issue.isResolved())
+				con.setFillStyle("#33BB00");
+			else
+				con.setFillStyle(issue.getMap_instance().getColor());
+		}
 		con.fillRect(3, 4, 25, 24);
 		con.beginPath();
 		con.moveTo(10, 28);
