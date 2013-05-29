@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Collection;
+import java.util.Date;
 
 // imports for JSON
 import org.itemscript.core.values.JsonObject;
@@ -43,4 +44,19 @@ public class Timestamp extends TimestampGen {
 	}
 	
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
+	
+	public Date toDate() {
+		return new Date(millisSinceEpoch);
+	}
+
+	public Timestamp addDuration(Duration d) {
+		return new Timestamp(millisSinceEpoch + d.getMilliseconds());
+	}
+	public static Timestamp now() {
+		return new Timestamp(System.currentTimeMillis());
+	}
+
+	public Duration timeUntil(Timestamp then) {
+		return new Duration(then.getMillisSinceEpoch() - millisSinceEpoch);
+	}
 }
