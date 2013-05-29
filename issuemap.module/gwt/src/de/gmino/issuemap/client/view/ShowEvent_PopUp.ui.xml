@@ -95,18 +95,18 @@
 					<g:cell HorizontalAlignment="ALIGN_RIGHT"><g:Label ui:field="type" styleName="{style.meta_label}"></g:Label></g:cell>
 				</g:HorizontalPanel>
 				<g:HorizontalPanel width="100%">
+					<g:cell HorizontalAlignment="ALIGN_LEFT"> <g:Label styleName="{style.meta_label_bold}" text="Veranstalter:"></g:Label></g:cell>
+					<g:cell HorizontalAlignment="ALIGN_RIGHT"><g:Label ui:field="organizer" styleName="{style.meta_label}"></g:Label></g:cell>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel width="100%">
+					<g:cell HorizontalAlignment="ALIGN_LEFT"> <g:Label styleName="{style.meta_label_bold}" text="Eintritt:"></g:Label></g:cell>
+					<g:cell HorizontalAlignment="ALIGN_RIGHT"><g:Label ui:field="price" styleName="{style.meta_label}"></g:Label></g:cell>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel width="100%">
 					<g:cell HorizontalAlignment="ALIGN_LEFT"><g:Label styleName="{style.meta_label_bold}" text="Teilnahme:"></g:Label></g:cell>
 					<g:cell HorizontalAlignment="ALIGN_RIGHT" width="30px"><g:CheckBox ui:field="resolved"></g:CheckBox></g:cell>
 				</g:HorizontalPanel>
-				<g:HorizontalPanel width="100%">
-					<g:cell HorizontalAlignment="ALIGN_LEFT"><g:Label styleName="{style.meta_label_bold}" text="Vorfreude:"></g:Label></g:cell>
-					<g:cell HorizontalAlignment="ALIGN_RIGHT"><g:Label styleName="{style.meta_label}" text="+3" ui:field="rating"></g:Label></g:cell>
-				</g:HorizontalPanel>
-				<g:HorizontalPanel width="100%">
-					<g:cell width="70%"><g:Label/></g:cell>
-					<g:cell HorizontalAlignment="ALIGN_RIGHT"><g:VerticalPanel><g:Image resource="{resources.go_up}" styleName="{style.rateButton}" ui:field="rate_up"/><g:Label ui:field="up_count" styleName="{style.countRatingLabel}"/> </g:VerticalPanel> </g:cell>
-					<g:cell HorizontalAlignment="ALIGN_RIGHT"><g:VerticalPanel><g:Image resource="{resources.go_down}" styleName="{style.rateButton}" ui:field="rate_down"/><g:Label ui:field="down_count" styleName="{style.countRatingLabel}"/> </g:VerticalPanel></g:cell>
-				</g:HorizontalPanel>
+
 
 			</g:VerticalPanel>
 			<g:VerticalPanel>

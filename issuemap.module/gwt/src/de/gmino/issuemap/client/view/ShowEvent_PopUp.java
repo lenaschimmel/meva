@@ -53,11 +53,10 @@ public class ShowEvent_PopUp extends Composite {
 			picture.setUrl(img.getUrl());
 		}
 		date.setText(dtf.format(mIssue.getCreationTimestamp().toDate()));
+		organizer.setText(mIssue.getOrganizer());
+		price.setText(mIssue.getPrice() + " Euro");
 		type.setText(mIssue.getMarkertype().getMarkerName());
 		resolved.setValue(mIssue.isResolved());
-		rating.setText("" + mIssue.getRating());
-		up_count.setText("" +(mIssue.getNumber_of_rating()+mIssue.getRating())/2);
-		down_count.setText("" + (mIssue.getNumber_of_rating()-mIssue.getRating())/2);
 		title.setText(mIssue.getTitle());
 		description.setText(mIssue.getDescription());
 
@@ -67,16 +66,11 @@ public class ShowEvent_PopUp extends Composite {
 	Label title;
 	@UiField
 	CheckBox resolved;
+
 	@UiField
-	Label rating;
+	Label price;
 	@UiField
-	Label up_count;
-	@UiField
-	Label down_count;
-	@UiField
-	Image rate_up;
-	@UiField
-	Image rate_down;
+	Label organizer;
 	@UiField
 	Label date;
 	@UiField
@@ -102,7 +96,7 @@ public class ShowEvent_PopUp extends Composite {
 	@UiHandler("edit")
 	void onEdit(ClickEvent e) {
 		this.removeFromParent();
-		CreateIssue_PopUp cip = new CreateIssue_PopUp(mapObject, mIssue, smartLayer);
+		CreateEvent_PopUp cip = new CreateEvent_PopUp(mapObject, mIssue, smartLayer);
 		cip.setBoarderColor(mapObject.getColor());
 		mWrapper.add(cip);
 
@@ -123,23 +117,6 @@ public class ShowEvent_PopUp extends Composite {
 		smartLayer.updatePoi(mIssue);
 	}
 
-	@UiHandler("rate_up")
-	void onRateUp(ClickEvent e) {
-		mIssue.setRating(mIssue.getRating() + 1);
-		mIssue.setNumber_of_rating(mIssue.getNumber_of_rating() + 1);
-		rating.setText("" + (mIssue.getRating()));
-		up_count.setText("" +(mIssue.getNumber_of_rating()+mIssue.getRating())/2);
-		Requests.saveEntity(mIssue, null);
-	}
-
-	@UiHandler("rate_down")
-	void onRateDown(ClickEvent e) {
-		mIssue.setRating(mIssue.getRating() - 1);
-		mIssue.setNumber_of_rating(mIssue.getNumber_of_rating() + 1);
-		rating.setText("" + (mIssue.getRating()));
-		down_count.setText("" + (mIssue.getNumber_of_rating()-mIssue.getRating())/2);
-		Requests.saveEntity(mIssue, null);
-	}
 
 	public void setText(String titleString, String descriptionString) {
 		description.setText(descriptionString);

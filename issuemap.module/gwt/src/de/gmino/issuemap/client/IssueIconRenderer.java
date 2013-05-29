@@ -30,15 +30,15 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		Image img = loader.getImageByUrl("/mapicon/" + imageName + ".png");
 		
 		if (issue.getMarkertype().getMarkerName().equals("Disco"))
-			con.setFillStyle("#C24704");
-		else if (issue.getMarkertype().getMarkerName().equals("Theater"))
-			con.setFillStyle("#D9CC3C");
-		else if (issue.getMarkertype().getMarkerName().equals("Party"))
 			con.setFillStyle("#33BB00");
+		else if (issue.getMarkertype().getMarkerName().equals("Theater"))
+			con.setFillStyle("#ef4122");
+		else if (issue.getMarkertype().getMarkerName().equals("Party"))
+			con.setFillStyle("#FF8800");
 		else if (issue.getMarkertype().getMarkerName().equals("Sport"))
-			con.setFillStyle("#A0E0A9");
+			con.setFillStyle("#3852AE");
 		else if (issue.getMarkertype().getMarkerName().equals("Konzert"))
-			con.setFillStyle("#00ADA7");
+			con.setFillStyle("#B200FF");
 
 		else {
 
@@ -47,12 +47,13 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 			else
 				con.setFillStyle(issue.getMap_instance().getColor());
 		}
-		con.fillRect(3, 4, 25, 24);
+		
+		con.fillRect(0.11*issue.getMarkertype().getImageWidth(), 0.1081*issue.getMarkertype().getImageHeight(), 0.77*issue.getMarkertype().getImageWidth(), 0.66*issue.getMarkertype().getImageHeight());
 		con.beginPath();
-		con.moveTo(10, 28);
-		con.lineTo(22, 28);
-		con.lineTo(15, 34);
-		con.lineTo(10, 28);
+		con.moveTo(0.5*issue.getMarkertype().getImageWidth(), 0.92*issue.getMarkertype().getImageHeight());
+		con.lineTo(0.7*issue.getMarkertype().getImageWidth(), 0.75*issue.getMarkertype().getImageHeight());
+		con.lineTo(0.3*issue.getMarkertype().getImageWidth(), 0.75*issue.getMarkertype().getImageHeight());
+		con.lineTo(0.5*issue.getMarkertype().getImageWidth(), 0.92*issue.getMarkertype().getImageHeight());
 		con.fill();
 		con.setFillStyle("#000000");
 		//con.fillText(issue.getTitle(), 32,12);
