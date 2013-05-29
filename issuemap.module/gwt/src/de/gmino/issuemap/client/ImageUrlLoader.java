@@ -3,6 +3,7 @@ package de.gmino.issuemap.client;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.event.dom.client.ErrorEvent;
 import com.google.gwt.event.dom.client.ErrorHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
@@ -33,6 +34,7 @@ public class ImageUrlLoader implements LoadHandler, ErrorHandler {
 			return;
 		Image img = new Image(url);
 		RootPanel.get().add(img);
+		img.getElement().getStyle().setDisplay(Display.NONE);
 		img.addLoadHandler(this);
 		img.addErrorHandler(this);
 		imagesByUrl.put(url, img);
