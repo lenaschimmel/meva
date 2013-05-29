@@ -24,26 +24,31 @@ import de.gmino.issuemap.server.request.gen.QueryMapBySubdomainGen;
 
 public class QueryMapBySubdomain extends QueryMapBySubdomainGen {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
-	public QueryMapBySubdomain() {
+	public QueryMapBySubdomain()
+	{
 	}
 
 	// Constructor for SQL deseralizaiton
-	public QueryMapBySubdomain(String prefix, ResultSet rs) throws SQLException {
+	public QueryMapBySubdomain(String prefix, ResultSet rs) throws SQLException
+	{
 		super(prefix, rs);
 	}
-
-	public QueryMapBySubdomain(DataInputStream dis) throws IOException {
+	public QueryMapBySubdomain(DataInputStream dis) throws IOException
+	{
 		super(dis);
 	}
-
-	public QueryMapBySubdomain(JsonObject json) throws IOException {
+	public QueryMapBySubdomain(JsonObject json) throws IOException
+	{
 		super(json);
 	}
-
-	public QueryMapBySubdomain(String subdomain) {
-		super(subdomain);
+	public QueryMapBySubdomain(
+			String subdomain)
+	{
+		super(
+			subdomain
+		);
 	}
-
+	
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 
 	@Override

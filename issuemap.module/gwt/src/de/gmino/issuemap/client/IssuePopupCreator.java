@@ -43,7 +43,7 @@ public class IssuePopupCreator implements GwtPopupCreator<Issue> {
 
 	@Override
 	public Widget createTooltip(Poi poi) {
-		Hover_PopUp hoverPopUp = new Hover_PopUp();
+		Hover_PopUp hoverPopUp = new Hover_PopUp(poi);
 		hoverPopUp.setText(poi.getTitle(), poi.getDescription());
 		hoverPopUp.getElement().getStyle().setPosition(Position.ABSOLUTE);
 		hoverPopUp.getElement().getStyle().setTop(-30, Unit.PX);

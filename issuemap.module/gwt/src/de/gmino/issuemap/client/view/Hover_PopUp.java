@@ -14,6 +14,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.gmino.geobase.shared.domain.Poi;
+
 public class Hover_PopUp extends Composite implements HasText {
 
 	private static ShowPoi_PopUpUiBinder uiBinder = GWT
@@ -22,7 +24,7 @@ public class Hover_PopUp extends Composite implements HasText {
 	interface ShowPoi_PopUpUiBinder extends UiBinder<Widget, Hover_PopUp> {
 	}
 
-	public Hover_PopUp() {
+	public Hover_PopUp(Poi poi) {
 		initWidget(uiBinder.createAndBindUi(this));
 		expanded_marker.setVisible(true);
 		
@@ -33,15 +35,10 @@ public class Hover_PopUp extends Composite implements HasText {
 	VerticalPanel expanded_marker;
 	@UiField
 	Label title;
-//	@UiField
-//	Label description;
+
 
 
 	public void setText(String titleString, String descriptionString) {
-		CharSequence shortDescription = "";
-//		if(descriptionString.length() >= 80 && descriptionString != null){
-//		shortDescription = descriptionString.subSequence(0, 80);
-//		description.setText(shortDescription + " [...]");}
 		title.setText(titleString);
 	}
 
