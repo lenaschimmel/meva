@@ -29,7 +29,7 @@ import de.gmino.issuemap.shared.domain.Markertype;
 
 import de.gmino.issuemap.shared.domain.gen.MapHasMarkertypeGen;
 public class MapHasMarkertype extends MapHasMarkertypeGen {
-	// Constructors
+	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public MapHasMarkertype(long id)
 	{
 		super(id);
@@ -50,5 +50,5 @@ public class MapHasMarkertype extends MapHasMarkertypeGen {
 		this.ready = true;
 	}
 	
-
+	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 }

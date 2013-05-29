@@ -44,7 +44,7 @@ import de.gmino.issuemap.server.domain.Markertype;
 
 import de.gmino.issuemap.server.domain.gen.IssueGen;
 public class Issue extends IssueGen {
-	// Constructors
+	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public Issue(long id)
 	{
 		super(id);
@@ -83,10 +83,15 @@ public class Issue extends IssueGen {
 			number_of_rating,
 			resolved,
 			deleted,
-			(de.gmino.geobase.server.domain.ImageUrl)primary_picture, eventTimestamp, price, organizer, email, description
+			(de.gmino.geobase.server.domain.ImageUrl)primary_picture,
+			(de.gmino.geobase.server.domain.Timestamp)eventTimestamp,
+			price,
+			organizer,
+			email,
+			phone
 		);
 		this.ready = true;
 	}
 	
-
+	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 }

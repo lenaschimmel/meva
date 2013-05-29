@@ -5,10 +5,12 @@ package de.gmino.checkin.client.request;
 
 // gmino stuff
 import de.gmino.meva.shared.Value;
-import de.gmino.meva.shared.Query;
+import de.gmino.meva.shared.EntityQuery;
+import de.gmino.meva.shared.ValueQuery;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.RelationCollection;
 import de.gmino.meva.shared.EntityTypeName;
+import de.gmino.meva.shared.Util;
 
 // default imports
 import java.io.DataInputStream;
@@ -22,20 +24,25 @@ import java.util.Collection;
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
-import de.gmino.checkin.client.request.gen.QueryShopByCodeGen;
 
+import de.gmino.checkin.client.request.gen.QueryShopByCodeGen;
 public class QueryShopByCode extends QueryShopByCodeGen {
-	// Constructors
-	public QueryShopByCode(JsonObject json) throws IOException {
+	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
+	public QueryShopByCode()
+	{
+	}
+
+	public QueryShopByCode(JsonObject json) throws IOException
+	{
 		super(json);
 	}
-
-	public QueryShopByCode(String scanCode) {
-		super(scanCode);
+	public QueryShopByCode(
+			String scanCode)
+	{
+		super(
+			scanCode
+		);
 	}
-
-	@Override
-	public Collection<Long> evaluate() {
-		throw new RuntimeException("No, this method does not exist here.");
-	}
+	
+	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 }

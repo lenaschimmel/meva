@@ -4,21 +4,53 @@
 package de.gmino.geobase.client.domain;
 
 // gmino stuff
-import java.io.IOException;
+import de.gmino.meva.shared.Value;
+import de.gmino.meva.shared.EntityFactory;
+import de.gmino.meva.shared.RelationCollection;
+import de.gmino.meva.shared.EntityTypeName;
+import de.gmino.meva.shared.Util;
 
+// default imports
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Collection;
+
+// imports for JSON
 import org.itemscript.core.values.JsonObject;
+import org.itemscript.core.values.JsonValue;
+
 
 import de.gmino.geobase.client.domain.gen.AddressGen;
-
 public class Address extends AddressGen {
-	// Constructors
-	public Address(JsonObject json) throws IOException {
-		this(json.get("recipientName").asString().stringValue(), json.get("street").asString().stringValue(), json.get("houseNumber").asString().stringValue(), json.get("zip").asString()
-				.stringValue(), json.get("city").asString().stringValue(), json.get("additionalAddressLine").asString().stringValue());
+	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
+	public Address()
+	{
 	}
 
-	public Address(String recipientName, String street, String houseNumber, String zip, String city, String additionalAddressLine) {
-		super(recipientName, street, houseNumber, zip, city, additionalAddressLine);
+	public Address(JsonObject json) throws IOException
+	{
+		super(json);
 	}
-
+	public Address(
+			String recipientName,
+			String street,
+			String houseNumber,
+			String zip,
+			String city,
+			String additionalAddressLine)
+	{
+		super(
+			recipientName,
+			street,
+			houseNumber,
+			zip,
+			city,
+			additionalAddressLine
+		);
+	}
+	
+	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 }

@@ -20,8 +20,7 @@ import de.gmino.meva.shared.request.Requests;
 // imports for field types
 public class Map extends MapGen {
 	final TreeMap<Long, Markertype> markertypesById = new TreeMap<Long, Markertype>();
-	
-	// Constructors
+	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public Map(long id)
 	{
 		super(id);
@@ -62,6 +61,7 @@ public class Map extends MapGen {
 		this.ready = true;
 	}
 	
+	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	@SuppressWarnings("unchecked")
 	public void loadMarkertypes(final RequestListener<Markertype> listener)
 	{

@@ -35,20 +35,33 @@ import de.gmino.meva.shared.ValueBinary;
 // imports for field types
 import de.gmino.geobase.android.domain.LatLon;
 
-import de.gmino.geobase.android.domain.gen.LatLonRectGen;
 
+import de.gmino.geobase.android.domain.gen.LatLonRectGen;
 public class LatLonRect extends LatLonRectGen {
-	// Constructors
-	public LatLonRect(DataInputStream dis) throws IOException {
+	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
+	public LatLonRect()
+	{
+		this.min = new LatLon();
+		this.max = new LatLon();
+	}
+
+	public LatLonRect(DataInputStream dis) throws IOException
+	{
 		super(dis);
 	}
-
-	public LatLonRect(JsonObject json) throws IOException {
+	public LatLonRect(JsonObject json) throws IOException
+	{
 		super(json);
 	}
-
-	public LatLonRect(LatLon min, LatLon max) {
-		super((de.gmino.geobase.android.domain.LatLon) min, (de.gmino.geobase.android.domain.LatLon) max);
+	public LatLonRect(
+			LatLon min,
+			LatLon max)
+	{
+		super(
+			(de.gmino.geobase.android.domain.LatLon)min,
+			(de.gmino.geobase.android.domain.LatLon)max
+		);
 	}
-
+	
+	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 }

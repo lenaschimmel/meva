@@ -1,5 +1,6 @@
 package de.gmino.codegen;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -15,6 +16,9 @@ import org.json.simple.JSONValue;
 // Für später auf iOS: siehe Klasse http://redmine.h1898116.stratoserver.net/projects/ira/repository/revisions/master/entry/ios-reiseapp/ReiseMapViewController.m
 
 public class ClassDefinition {
+	private static final String END_OF_CONSTRUCTOR_BLOCK = "	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT";
+	private static final String BEGINNING_OF_CONSTRUCTOR_BLOCK = "	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT";
+	private static final String DONTEDIT = "// DONTEDIT This file has been generated. \n// You should not edit this file, because your edits will be lost later. \n// There is a derived class without 'Gen' in its name that you may edit.";
 	String packageName;
 	String className;
 	boolean entity;
@@ -53,31 +57,74 @@ public class ClassDefinition {
 	}
 
 	public void createJavaExtends(File file) throws IOException {
-		if (file.exists())
-			return;
-		final FileOutputStream fos = new FileOutputStream(file);
-		PrintWriter pw = new PrintWriter(fos);
-		pw.println("// You may edit this file. It has been generated, but it will NOT be overwritten by Meva.\n// To regenerate this file, delete it and run Meva again.");
-		pw.println();
-		pw.println("package " + getFullPackage(target, false) + ";");
-		pw.println();
-		generateImports(pw);
-		pw.println();
-		pw.println("import " + getFullyQualifiedName(target, true) + ";");
-
-		pw.println("public class " + className + " extends " + className + "Gen {");
-		generateConstructors(pw, true, target.equals("shared"));
-
-		pw.println("}");
-		pw.close();
-		fos.close();
-
+		
+		if (!file.exists())	{
+			final FileOutputStream fos = new FileOutputStream(file);
+			PrintWriter pw = new PrintWriter(fos);
+			pw.println("// You may edit this file. It has been generated, but it will NOT be overwritten by Meva.\n// To regenerate this file, delete it and run Meva again.");
+			pw.println();
+			pw.println("package " + getFullPackage(target, false) + ";");
+			pw.println();
+			generateImports(pw);
+			pw.println();
+			pw.println("import " + getFullyQualifiedName(target, true) + ";");
+	
+			pw.println("public class " + className + " extends " + className + "Gen {");
+			generateConstructors(pw, true, target.equals("shared"));
+	
+			pw.println("}");
+			pw.close();
+			fos.close();
+		}
+		else
+		{
+			File tmpFile = new File(file.getAbsolutePath() + ".tmp");
+			if(!file.renameTo(tmpFile))
+				throw new RuntimeException("Error moving to " + tmpFile);
+			final FileOutputStream fos = new FileOutputStream(file);
+			PrintWriter pw = new PrintWriter(fos);
+			BufferedReader br = new BufferedReader(new FileReader(tmpFile));
+			String line = br.readLine();
+			boolean foundConstructorBlock = false;
+			while(line != null)
+			{
+				if(line.trim().equals(BEGINNING_OF_CONSTRUCTOR_BLOCK.trim()))
+				{
+					foundConstructorBlock = true;
+					while(!line.equals(END_OF_CONSTRUCTOR_BLOCK))
+					{
+						line = br.readLine();
+						if(line == null)
+						{
+							br.close();
+							throw new RuntimeException("Did not find end of constructor block in " + tmpFile);
+						}
+					}
+					generateConstructors(pw, true, target.equals("shared"));
+				}
+				else
+					pw.println(line);
+				line = br.readLine();
+			}
+			br.close();
+			
+			pw.close();
+			fos.close();
+			if(!foundConstructorBlock)
+			{
+			//	file.delete();
+			//	System.err.println("Deleted file without constructor block: " + file);
+				throw new RuntimeException("Did not find start of constructor block in " + tmpFile);
+			}
+			tmpFile.delete();
+		}
+	
 	}
 
 	public void createJavaAndroidGen(File file) throws IOException {
 		final FileOutputStream fos = new FileOutputStream(file);
 		PrintWriter pw = new PrintWriter(fos);
-		pw.println("// DONTEDIT This file has been generated. \n// You should not edit this file, because your edits will be lost later. \n// There is a derived class without 'Gen' in its name that you may edit.");
+		pw.println(DONTEDIT);
 		pw.println();
 		pw.println("package " + getFullPackage(target, true) + ";");
 		pw.println();
@@ -109,7 +156,7 @@ public class ClassDefinition {
 	public void createJavaServerGen(File file) throws IOException {
 		final FileOutputStream fos = new FileOutputStream(file);
 		PrintWriter pw = new PrintWriter(fos);
-		pw.println("// DONTEDIT This file has been generated. \n// You should not edit this file, because your edits will be lost later. \n// There is a derived class without 'Gen' in its name that you may edit.");
+		pw.println(DONTEDIT);
 		pw.println();
 		pw.println("package " + getFullPackage(target, true) + ";");
 		pw.println();
@@ -144,7 +191,7 @@ public class ClassDefinition {
 	public void createJavaClientGen(File file) throws IOException {
 		final FileOutputStream fos = new FileOutputStream(file);
 		PrintWriter pw = new PrintWriter(fos);
-		pw.println("// DONTEDIT This file has been generated. \n// You should not edit this file, because your edits will be lost later. \n// There is a derived class without 'Gen' in its name that you may edit.");
+		pw.println(DONTEDIT);
 		pw.println();
 		pw.println("package " + getFullPackage(target, true) + ";");
 		pw.println();
@@ -166,7 +213,7 @@ public class ClassDefinition {
 	public void createJavaSharedGen(File file) throws IOException {
 		final FileOutputStream fos = new FileOutputStream(file);
 		PrintWriter pw = new PrintWriter(fos);
-		pw.println("// DONTEDIT This file has been generated. \n// You should not edit this file, because your edits will be lost later. \n// There is a derived class without 'Gen' in its name that you may edit.");
+		pw.println(DONTEDIT);
 		pw.println();
 		pw.println("package " + getFullPackage(target, true) + ";");
 		pw.println();
@@ -283,7 +330,7 @@ public class ClassDefinition {
 	}
 
 	private void generateConstructors(PrintWriter pw, boolean superConstructor, boolean extendsShared) {
-		pw.println("	// Constructors");
+		pw.println(BEGINNING_OF_CONSTRUCTOR_BLOCK);
 		// pw.println("	protected " + className + "()");
 		// pw.println("	{");
 		// pw.println("	}");
@@ -291,6 +338,7 @@ public class ClassDefinition {
 		if (entity)
 			generateIdConstructor(pw, superConstructor);
 		else {
+			generateDefaultConstructor(pw);
 			if (target.equals("server"))
 				generateSqlDeserializerConstructor(pw, superConstructor, !extendsShared && superConstructor);
 			if (target.equals("server") || target.equals("android"))
@@ -299,8 +347,7 @@ public class ClassDefinition {
 		}
 
 		generateAttributeConstructor(pw, superConstructor);
-
-		pw.println();
+		pw.println(END_OF_CONSTRUCTOR_BLOCK);
 	}
 
 	/**
@@ -992,6 +1039,20 @@ public class ClassDefinition {
 		}
 	}
 
+	private void generateDefaultConstructor(PrintWriter pw) {
+		pw.println("	public " + className + "()");
+		pw.println("	{");
+		for (AttributeDefiniton attribute : attributes) {
+			if (attribute.isRelation())
+				continue;
+
+			if (attribute.isValue())
+				pw.println("		this." + attribute.attributeName + " = new " + attribute.typeName + "();");
+		}
+		pw.println("	}");
+		pw.println();
+	}
+	
 	private void generateAttributeConstructor(PrintWriter pw, boolean superConstructor) {
 		pw.print("	public " + className + "(");
 		final int size = attributes.size();

@@ -42,7 +42,7 @@ import de.gmino.issuemap.server.domain.MapHasMarkertype;
 
 import de.gmino.issuemap.server.domain.gen.MapGen;
 public class Map extends MapGen {
-	// Constructors
+	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public Map(long id)
 	{
 		super(id);
@@ -83,5 +83,5 @@ public class Map extends MapGen {
 		this.ready = true;
 	}
 	
-
+	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 }

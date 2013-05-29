@@ -29,7 +29,7 @@ import de.gmino.issuemap.client.domain.Issue;
 
 import de.gmino.issuemap.client.domain.gen.CommentGen;
 public class Comment extends CommentGen {
-	// Constructors
+	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public Comment(long id)
 	{
 		super(id);
@@ -56,5 +56,5 @@ public class Comment extends CommentGen {
 		this.ready = true;
 	}
 	
-
+	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 }

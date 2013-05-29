@@ -25,7 +25,7 @@ import org.itemscript.core.values.JsonValue;
 
 import de.gmino.issuemap.shared.domain.gen.MarkertypeGen;
 public class Markertype extends MarkertypeGen {
-	// Constructors
+	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public Markertype(long id)
 	{
 		super(id);
@@ -50,5 +50,5 @@ public class Markertype extends MarkertypeGen {
 		this.ready = true;
 	}
 	
-
+	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 }

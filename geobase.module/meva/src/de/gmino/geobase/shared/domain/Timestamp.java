@@ -4,36 +4,43 @@
 package de.gmino.geobase.shared.domain;
 
 // gmino stuff
-import java.io.IOException;
-import java.util.Date;
+import de.gmino.meva.shared.Value;
+import de.gmino.meva.shared.EntityFactory;
+import de.gmino.meva.shared.RelationCollection;
+import de.gmino.meva.shared.EntityTypeName;
+import de.gmino.meva.shared.Util;
 
+// default imports
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Collection;
+
+// imports for JSON
 import org.itemscript.core.values.JsonObject;
+import org.itemscript.core.values.JsonValue;
+
 
 import de.gmino.geobase.shared.domain.gen.TimestampGen;
-
 public class Timestamp extends TimestampGen {
-	// Constructors
-	public Timestamp(JsonObject json) throws IOException {
-		this(Long.parseLong(json.get("millisSinceEpoch").asString().stringValue()));
+	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
+	public Timestamp()
+	{
 	}
 
-	public Timestamp(long millisSinceEpoch) {
-		super(millisSinceEpoch);
+	public Timestamp(JsonObject json) throws IOException
+	{
+		super(json);
 	}
-
-	public Date toDate() {
-		return new Date(millisSinceEpoch);
+	public Timestamp(
+			long millisSinceEpoch)
+	{
+		super(
+			millisSinceEpoch
+		);
 	}
-
-	public Timestamp addDuration(Duration d) {
-		return new Timestamp(millisSinceEpoch + d.getMilliseconds());
-	}
-
-	public static Timestamp now() {
-		return new Timestamp(System.currentTimeMillis());
-	}
-
-	public Duration timeUntil(Timestamp then) {
-		return new Duration(then.getMillisSinceEpoch() - millisSinceEpoch);
-	}
+	
+	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 }
