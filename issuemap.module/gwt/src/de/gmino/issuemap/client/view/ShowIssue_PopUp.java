@@ -19,11 +19,13 @@ import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.Marker_Wrapper;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
+import de.gmino.issuemap.client.resources.ImageResources;
 import de.gmino.meva.shared.request.Requests;
 
 public class ShowIssue_PopUp extends Composite {
 
 	static DateTimeFormat dtf = DateTimeFormat.getFormat("dd.MM.yyyy");
+	ImageResources imageRes;
 
 	private static Detail_PopUpUiBinder uiBinder = GWT
 			.create(Detail_PopUpUiBinder.class);
@@ -37,6 +39,7 @@ public class ShowIssue_PopUp extends Composite {
 	Marker_Wrapper mWrapper;
 
 	public ShowIssue_PopUp(Map map, Issue issue, Marker_Wrapper marker_Wrapper, OpenLayersSmartLayer smartLayer) {
+		imageRes = GWT.create(ImageResources.class);
 		initWidget(uiBinder.createAndBindUi(this));
 		this.mapObject = map;
 		this.smartLayer = smartLayer;
@@ -60,7 +63,9 @@ public class ShowIssue_PopUp extends Composite {
 		down_count.setText("" + (mIssue.getNumber_of_rating()-mIssue.getRating())/2);
 		title.setText(mIssue.getTitle());
 		description.setText(mIssue.getDescription());
-
+		
+		//mIssue.vote=0;
+		setButtonColors();
 	}
 
 	@UiField
@@ -125,20 +130,41 @@ public class ShowIssue_PopUp extends Composite {
 
 	@UiHandler("rate_up")
 	void onRateUp(ClickEvent e) {
-		mIssue.setRating(mIssue.getRating() + 1);
-		mIssue.setNumber_of_rating(mIssue.getNumber_of_rating() + 1);
-		rating.setText("" + (mIssue.getRating()));
-		up_count.setText("" +(mIssue.getNumber_of_rating()+mIssue.getRating())/2);
-		Requests.saveEntity(mIssue, null);
+		if (mIssue.vote < 1) {
+			mIssue.setRating(mIssue.getRating() + 1);
+			mIssue.setNumber_of_rating(mIssue.getNumber_of_rating() + 1);
+			rating.setText("" + (mIssue.getRating()));
+			up_count.setText(""
+					+ (mIssue.getNumber_of_rating() + mIssue.getRating()) / 2);
+			Requests.saveEntity(mIssue, null);
+			mIssue.vote++;
+			setButtonColors();
+		}
+	}
+
+	private void setButtonColors() {
+		if (mIssue.vote >= 1)
+			rate_up.setResource(imageRes.go_up_grey());
+		if (mIssue.vote >= 0)
+			rate_down.setResource(imageRes.go_down());
+		if (mIssue.vote <= -1)
+			rate_down.setResource(imageRes.go_down_grey());
+		if (mIssue.vote <= 0)
+			rate_up.setResource(imageRes.go_up());
 	}
 
 	@UiHandler("rate_down")
 	void onRateDown(ClickEvent e) {
-		mIssue.setRating(mIssue.getRating() - 1);
-		mIssue.setNumber_of_rating(mIssue.getNumber_of_rating() + 1);
-		rating.setText("" + (mIssue.getRating()));
-		down_count.setText("" + (mIssue.getNumber_of_rating()-mIssue.getRating())/2);
-		Requests.saveEntity(mIssue, null);
+		if (mIssue.vote > -1) {
+			mIssue.setRating(mIssue.getRating() - 1);
+			mIssue.setNumber_of_rating(mIssue.getNumber_of_rating() + 1);
+			rating.setText("" + (mIssue.getRating()));
+			down_count.setText(""
+					+ (mIssue.getNumber_of_rating() - mIssue.getRating()) / 2);
+			Requests.saveEntity(mIssue, null);
+			mIssue.vote--;
+			setButtonColors();
+		}
 	}
 
 	public void setText(String titleString, String descriptionString) {

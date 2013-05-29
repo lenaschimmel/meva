@@ -7,6 +7,6 @@ import de.gmino.geobase.shared.map.PopupCreator;
 
 public interface GwtPopupCreator<PoiType extends Poi> extends PopupCreator<PoiType, Widget>{
 
-	Widget createTooltip(Poi poi);
+	Widget createTooltip(PoiType poi);
 
 }

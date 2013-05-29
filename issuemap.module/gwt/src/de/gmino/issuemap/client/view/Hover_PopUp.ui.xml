@@ -33,14 +33,10 @@
 		
 
 		
-		.picture {
-			padding: 10px;
-		}
 	</ui:style>
 
 			<g:VerticalPanel ui:field="expanded_marker" styleName="{style.div}">
 				<g:Label styleName="{style.title_lable}" text="Schlagloch" ui:field="title"/>
-<!-- 				<g:Label ui:field="description"  styleName="{style.description_lable}"/> -->
 			</g:VerticalPanel>
 			
 

@@ -1,6 +1,7 @@
 package de.gmino.issuemap.client.view;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -15,6 +16,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.shared.domain.Poi;
+import de.gmino.issuemap.client.domain.Issue;
 
 public class Hover_PopUp extends Composite implements HasText {
 
@@ -24,9 +26,10 @@ public class Hover_PopUp extends Composite implements HasText {
 	interface ShowPoi_PopUpUiBinder extends UiBinder<Widget, Hover_PopUp> {
 	}
 
-	public Hover_PopUp(Poi poi) {
+	public Hover_PopUp(Issue poi) {
 		initWidget(uiBinder.createAndBindUi(this));
 		expanded_marker.setVisible(true);
+		expanded_marker.getElement().getStyle().setHeight(0.66*poi.getMarkertype().getImageHeight(), Unit.PX);
 		
 		
 	}
@@ -35,6 +38,7 @@ public class Hover_PopUp extends Composite implements HasText {
 	VerticalPanel expanded_marker;
 	@UiField
 	Label title;
+
 
 
 

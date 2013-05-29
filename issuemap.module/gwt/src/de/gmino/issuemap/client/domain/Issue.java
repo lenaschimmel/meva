@@ -3,7 +3,7 @@
 
 package de.gmino.issuemap.client.domain;
 
-// gmino stuff
+
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.RelationCollection;
@@ -34,6 +34,9 @@ import de.gmino.issuemap.client.domain.Markertype;
 
 import de.gmino.issuemap.client.domain.gen.IssueGen;
 public class Issue extends IssueGen implements Poi {
+	
+	public int vote;
+	
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public Issue(long id)
 	{
