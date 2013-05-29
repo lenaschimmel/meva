@@ -331,10 +331,7 @@ public class ClassDefinition {
 
 	private void generateConstructors(PrintWriter pw, boolean superConstructor, boolean extendsShared) {
 		pw.println(BEGINNING_OF_CONSTRUCTOR_BLOCK);
-		// pw.println("	protected " + className + "()");
-		// pw.println("	{");
-		// pw.println("	}");
-		// pw.println();
+
 		if (entity)
 			generateIdConstructor(pw, superConstructor);
 		else {
@@ -1110,9 +1107,13 @@ public class ClassDefinition {
 			pw.println("		super(id);");
 		else {
 			pw.println("		this.id = id;");
-			for (AttributeDefiniton def : attributes)
-				if (def.isRelation())
-					pw.println("		this." + def.attributeName + " = new RelationCollection(this, \"" + def.relname + "\");"); // <" + def.reltype + ">
+			for (AttributeDefiniton attribute : attributes) {
+				if (attribute.isRelation())
+					pw.println("		this." + attribute.attributeName + " = new RelationCollection(this, \"" + attribute.relname + "\");"); // <" + def.reltype + ">
+				
+				if (attribute.isValue())
+					pw.println("		this." + attribute.attributeName + " = new " + attribute.typeName + "();");
+			}
 			// did not work
 		}
 		pw.println("	}");
