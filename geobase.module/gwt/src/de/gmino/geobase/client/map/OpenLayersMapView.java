@@ -74,14 +74,23 @@ public class OpenLayersMapView extends AbstractMapView {
 
 	@Override
 	public void setCenter(LatLon center, boolean animate) {
-		nSetCenter(center.getLatitude(), center.getLongitude());
+		if(animate)
+			nSetCenterAnimated(center.getLatitude(), center.getLongitude());
+		else
+			nSetCenter(center.getLatitude(), center.getLongitude());
 	}
 
 	private native void nSetCenter(double lat, double lon) /*-{
-															var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
-															map.setCenter(new $wnd.OpenLayers.LonLat(lon, lat).transform(map.pro1,
-															map.pro2));
-														}-*/;
+		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
+		map.setCenter(new $wnd.OpenLayers.LonLat(lon, lat).transform(map.pro1,
+		map.pro2));
+	}-*/;
+	
+	private native void nSetCenterAnimated(double lat, double lon) /*-{
+		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
+		map.panTo(new $wnd.OpenLayers.LonLat(lon, lat).transform(map.pro1,
+		map.pro2));
+	}-*/;
 
 	@Override
 	public native void setZoom(double zoom) /*-{

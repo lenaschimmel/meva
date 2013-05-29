@@ -85,8 +85,9 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 		Entity oAsEntity = (Entity)poi;
 		GwtPopupCreator<Poi> creator = popupCreatorMap.get(oAsEntity.getType());
 		Widget widget = creator.createPopup(poi);
-		DivElement div = mapView.createPopup(poi.getLocation(), poi.getId()+"", 100, 100);
-		
+		// TODO: This div will never be removed, but because of its size it doesn't really matter.
+		DivElement div = mapView.createPopup(poi.getLocation(), poi.getId()+"", 1, 1);
+		mapView.setCenter(poi.getLocation(), true);
 		HTMLPanel.wrap(div).add(widget);
 		System.out.println("Popup should be there");
 	}
