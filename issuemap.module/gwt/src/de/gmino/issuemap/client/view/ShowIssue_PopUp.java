@@ -132,10 +132,13 @@ public class ShowIssue_PopUp extends Composite {
 	void onRateUp(ClickEvent e) {
 		if (mIssue.vote < 1) {
 			mIssue.setRating(mIssue.getRating() + 1);
-			mIssue.setNumber_of_rating(mIssue.getNumber_of_rating() + 1);
+			if (mIssue.vote==0) mIssue.setNumber_of_rating(mIssue.getNumber_of_rating() + 1);
+			if (mIssue.vote==-1) mIssue.setNumber_of_rating(mIssue.getNumber_of_rating() - 1);
 			rating.setText("" + (mIssue.getRating()));
 			up_count.setText(""
 					+ (mIssue.getNumber_of_rating() + mIssue.getRating()) / 2);
+			down_count.setText(""
+					+ (mIssue.getNumber_of_rating() - mIssue.getRating()) / 2);
 			Requests.saveEntity(mIssue, null);
 			mIssue.vote++;
 			setButtonColors();
@@ -144,21 +147,24 @@ public class ShowIssue_PopUp extends Composite {
 
 	private void setButtonColors() {
 		if (mIssue.vote >= 1)
-			rate_up.setResource(imageRes.go_up_grey());
-		if (mIssue.vote >= 0)
-			rate_down.setResource(imageRes.go_down());
-		if (mIssue.vote <= -1)
-			rate_down.setResource(imageRes.go_down_grey());
-		if (mIssue.vote <= 0)
 			rate_up.setResource(imageRes.go_up());
+		if (mIssue.vote >= 0)
+			rate_down.setResource(imageRes.go_down_grey());
+		if (mIssue.vote <= -1)
+			rate_down.setResource(imageRes.go_down());
+		if (mIssue.vote <= 0)
+			rate_up.setResource(imageRes.go_up_grey());
 	}
 
 	@UiHandler("rate_down")
 	void onRateDown(ClickEvent e) {
 		if (mIssue.vote > -1) {
 			mIssue.setRating(mIssue.getRating() - 1);
-			mIssue.setNumber_of_rating(mIssue.getNumber_of_rating() + 1);
+			if (mIssue.vote==0) mIssue.setNumber_of_rating(mIssue.getNumber_of_rating() + 1);
+			if (mIssue.vote==1) mIssue.setNumber_of_rating(mIssue.getNumber_of_rating() - 1);
 			rating.setText("" + (mIssue.getRating()));
+			up_count.setText(""
+					+ (mIssue.getNumber_of_rating() + mIssue.getRating()) / 2);
 			down_count.setText(""
 					+ (mIssue.getNumber_of_rating() - mIssue.getRating()) / 2);
 			Requests.saveEntity(mIssue, null);

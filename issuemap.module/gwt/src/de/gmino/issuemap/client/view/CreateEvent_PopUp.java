@@ -59,6 +59,8 @@ public class CreateEvent_PopUp extends Composite implements HasText {
 		this.mIssue = editIssue;
 		title.setText(editIssue.getTitle());
 		description.setText(editIssue.getDescription());
+		organizer.setText(editIssue.getOrganizer());
+		pricebox.setSelectedIndex((int) editIssue.getPrice()); //TODO
 		String markertypeId = editIssue.getMarkertypeId() + "";
 		for(int i = 0; i < typebox.getItemCount(); i++)
 			if(typebox.getValue(i).equals(markertypeId))
