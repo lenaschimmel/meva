@@ -8,7 +8,8 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.UnsafeNativeLong;
 import com.google.gwt.dom.client.DivElement;
-import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -62,7 +63,6 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 		DivElement div = mapView.createPopup(poi.getLocation(), poi.getId()+"", 100, 100);
 		poiTooltipDivs.put(poi, div);
 		HTMLPanel.wrap(div).add(widget);
-		System.out.println("Tooltip should be there");
 	}
 	
 	public void deselectedPoi(long poiId)
@@ -76,7 +76,6 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 		}
 		div.removeFromParent();
 		poiTooltipDivs.remove(poi);
-		System.out.println("Tooltip should disappear.");
 	}
 	
 	public void clickedPoi(long poiId)
@@ -85,11 +84,12 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 		Entity oAsEntity = (Entity)poi;
 		GwtPopupCreator<Poi> creator = popupCreatorMap.get(oAsEntity.getType());
 		Widget widget = creator.createPopup(poi);
+		
 		// TODO: This div will never be removed, but because of its size it doesn't really matter.
 		DivElement div = mapView.createPopup(poi.getLocation(), poi.getId()+"", 1, 1);
-		mapView.setCenter(poi.getLocation(), true);
 		HTMLPanel.wrap(div).add(widget);
-		System.out.println("Popup should be there");
+		Widget inner = ((AbsolutePanel)widget).getWidget(0);
+		mapView.panRectIntoMap(poi.getLocation(), inner.getOffsetWidth(), inner.getOffsetHeight(), 30, true);
 	}
 
 	// TODO: This is a marker layer, not a vector layer
