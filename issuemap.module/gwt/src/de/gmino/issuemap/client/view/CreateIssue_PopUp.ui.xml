@@ -66,6 +66,9 @@
 				<g:TextBox text="Bild URL" width="90%" ui:field="picture"></g:TextBox>
 			</g:cell>
 			<g:cell>
+				<g:FormPanel ui:field="form" width="90%" ><g:FileUpload ui:field="fileupload"></g:FileUpload> </g:FormPanel>
+			</g:cell>
+			<g:cell>
 				<g:ListBox ui:field="typebox">
 				</g:ListBox>
 			</g:cell>

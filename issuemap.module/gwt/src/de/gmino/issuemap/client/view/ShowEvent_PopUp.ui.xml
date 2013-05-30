@@ -111,7 +111,6 @@
 			</g:VerticalPanel>
 			<g:VerticalPanel>
 				<g:Image ui:field="picture" height="200px"></g:Image>
-				<!-- <g:Button ui:field="fotoupload" text="Foto hinzufügen"></g:Button> -->
 			</g:VerticalPanel>
 		</g:HorizontalPanel>
 		<g:Label ui:field="description" styleName="{style.description_label}"></g:Label>

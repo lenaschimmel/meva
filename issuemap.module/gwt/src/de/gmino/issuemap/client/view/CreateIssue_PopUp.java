@@ -8,6 +8,13 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
+import com.google.gwt.user.client.ui.FormHandler;
+import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormSubmitEvent;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -46,6 +53,22 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 		setBoarderColor(map.getColor());
 		for(Markertype mt : map.getMarkertypes())
 			typebox.addItem(mt.getMarkerName(), mt.getId()+"");
+		
+		form.setAction("http://gmino.de/products/issuemap/upload.php");
+	//	form.setAction("upload.php");
+		 form.setEncoding(FormPanel.ENCODING_MULTIPART);
+		 form.setMethod(FormPanel.METHOD_POST);
+		 fileupload.setName("img");
+		   // Add an event handler to the form.
+		
+		   form.addSubmitCompleteHandler(new SubmitCompleteHandler() {
+
+			@Override
+			public void onSubmitComplete(SubmitCompleteEvent event) {
+				 Window.alert(event.getResults());
+				
+			}
+		   });
 	}
 	
 	public CreateIssue_PopUp(Map map, LatLon location, OpenLayersSmartLayer smartLayer) {
@@ -86,6 +109,10 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 	Image close;
 	@UiField
 	Label headLable;
+	@UiField
+	FileUpload fileupload;
+	@UiField
+	FormPanel form;
 
 	public CreateIssue_PopUp(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -126,10 +153,14 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 			});
 
 		}
+		form.submit();
 		// close PopUp
-		this.removeFromParent();
+		//this.removeFromParent();
 	}
 
+
+
+	
 	public void setText(String text) {
 		button.setText(text);
 	}
