@@ -2,6 +2,7 @@ package de.gmino.issuemap.client;
 
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.map.GwtPopupCreator;
@@ -34,6 +35,9 @@ public class IssuePopupCreator implements GwtPopupCreator<Issue> {
 				|| poi.getMarkertype().getMarkerName().equals("Party")) {
 			ShowEvent_PopUp showEvent_PopUp = new ShowEvent_PopUp(map, poi, wrapper, smartLayer);
 			wrapper.add(showEvent_PopUp);
+			//wrapper.setWidth(showEvent_PopUp.getOffsetWidth()+"px");
+			//wrapper.setHeight(showEvent_PopUp.getOffsetHeight()+"px");
+			//Window.alert("Size: " + showEvent_PopUp.getOffsetWidth() + " x " + showEvent_PopUp.getOffsetHeight());
 		} else {
 			ShowIssue_PopUp showIssue_PopUp = new ShowIssue_PopUp(map, poi, wrapper, smartLayer);
 			wrapper.add(showIssue_PopUp);

@@ -79,7 +79,15 @@ public class OpenLayersMapView extends AbstractMapView {
 		else
 			nSetCenter(center.getLatitude(), center.getLongitude());
 	}
-
+	
+	public void panLatLonToPoint(LatLon latlon, int x, int y, boolean animate) {
+		nPanLatLonToPoint(latlon.getLatitude(), latlon.getLongitude(), x, y, animate);
+	}
+	
+	public void panRectIntoMap(LatLon latlon,  int w, int h, int border, boolean animate) {
+		nPanRectIntoMap(latlon.getLatitude(), latlon.getLongitude(), w, h, border, animate);
+	}
+	
 	private native void nSetCenter(double lat, double lon) /*-{
 		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
 		map.setCenter(new $wnd.OpenLayers.LonLat(lon, lat).transform(map.pro1,
@@ -88,10 +96,58 @@ public class OpenLayersMapView extends AbstractMapView {
 	
 	private native void nSetCenterAnimated(double lat, double lon) /*-{
 		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
-		map.panTo(new $wnd.OpenLayers.LonLat(lon, lat).transform(map.pro1,
-		map.pro2));
+		map.panTo(new $wnd.OpenLayers.LonLat(lon, lat).transform(map.pro1,	map.pro2));
 	}-*/;
 
+	private native void nPanLatLonToPoint(double lat, double lon, int x, int y, boolean animate) /*-{
+		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
+		var pixel = map.getPixelFromLonLat(new $wnd.OpenLayers.LonLat(lon, lat).transform(map.pro1,map.pro2));
+		pixel.x += map.size.w / 2 - x;
+		pixel.y += map.size.h / 2 - y;
+		var newLonLat = map.getLonLatFromPixel(pixel);
+		map.panTo(newLonLat);
+	}-*/;
+	
+	private native void nPanLatLonWithOffset(double lat, double lon, int x, int y, boolean animate) /*-{
+		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
+		var pixel = map.getPixelFromLonLat(new $wnd.OpenLayers.LonLat(lon, lat).transform(map.pro1,map.pro2));
+		pixel.x += x;
+		pixel.y += y;
+		var newLonLat = map.getLonLatFromPixel(pixel);
+		map.panTo(newLonLat);
+	}-*/;	
+	
+	private native int nGetMapWidth() /*-{
+		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
+		return map.size.w;
+	}-*/;
+
+	private native int nGetMapHeight() /*-{
+		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
+		return map.size.h;
+	}-*/;
+
+	public native void nPanRectIntoMap(double lat, double lon, int w, int h, int border, boolean animate) /*-{
+		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
+		var lonlatPixel = map.getPixelFromLonLat(new $wnd.OpenLayers.LonLat(lon, lat).transform(map.pro1,map.pro2));
+		var newLonLatX = lonlatPixel.x;
+		var newLonLatY = lonlatPixel.y;
+		if(newLonLatX < border)
+			newLonLatX = border;
+		if(newLonLatY < border)
+			newLonLatY = border;
+		if(newLonLatX + w > map.size.w - border)
+			newLonLatX = map.size.w - border - w;
+		if(newLonLatY + h > map.size.h - border)
+			newLonLatY = map.size.h - border - h;
+	
+		var centerPixel = new $wnd.OpenLayers.Pixel(map.size.w / 2, map.size.h / 2);
+		centerPixel.x -= newLonLatX - lonlatPixel.x;
+		centerPixel.y -= newLonLatY - lonlatPixel.y;
+		var newLonLat = map.getLonLatFromPixel(centerPixel);
+		map.panTo(newLonLat);
+	}-*/;
+	
 	@Override
 	public native void setZoom(double zoom) /*-{
 											var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
