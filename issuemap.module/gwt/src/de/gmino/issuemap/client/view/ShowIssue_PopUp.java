@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.ImageUrl;
-import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.Marker_Wrapper;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
@@ -65,7 +64,7 @@ public class ShowIssue_PopUp extends Composite {
 		description.setText(mIssue.getDescription());
 		
 		//mIssue.vote=0;
-		setButtonColors();
+		updateButtonColorsAndLabels();
 	}
 
 	@UiField
@@ -130,22 +129,27 @@ public class ShowIssue_PopUp extends Composite {
 
 	@UiHandler("rate_up")
 	void onRateUp(ClickEvent e) {
-		if (mIssue.vote < 1) {
-			mIssue.setRating(mIssue.getRating() + 1);
-			if (mIssue.vote==0) mIssue.setNumber_of_rating(mIssue.getNumber_of_rating() + 1);
-			if (mIssue.vote==-1) mIssue.setNumber_of_rating(mIssue.getNumber_of_rating() - 1);
-			rating.setText("" + (mIssue.getRating()));
-			up_count.setText(""
-					+ (mIssue.getNumber_of_rating() + mIssue.getRating()) / 2);
-			down_count.setText(""
-					+ (mIssue.getNumber_of_rating() - mIssue.getRating()) / 2);
-			Requests.saveEntity(mIssue, null);
-			mIssue.vote++;
-			setButtonColors();
-		}
+		if(mIssue.vote == 1)
+			mIssue.changeRating(0);
+		else
+			mIssue.changeRating(1);
+		
+		Requests.saveEntity(mIssue, null);
+		updateButtonColorsAndLabels();
+	}
+	
+	@UiHandler("rate_down")
+	void onRateDown(ClickEvent e) {
+		if(mIssue.vote == -1)
+			mIssue.changeRating(0);
+		else
+			mIssue.changeRating(-1);
+		
+		Requests.saveEntity(mIssue, null);
+		updateButtonColorsAndLabels();
 	}
 
-	private void setButtonColors() {
+	private void updateButtonColorsAndLabels() {
 		if (mIssue.vote >= 1)
 			rate_up.setResource(imageRes.go_up());
 		if (mIssue.vote >= 0)
@@ -154,23 +158,11 @@ public class ShowIssue_PopUp extends Composite {
 			rate_down.setResource(imageRes.go_down());
 		if (mIssue.vote <= 0)
 			rate_up.setResource(imageRes.go_up_grey());
-	}
-
-	@UiHandler("rate_down")
-	void onRateDown(ClickEvent e) {
-		if (mIssue.vote > -1) {
-			mIssue.setRating(mIssue.getRating() - 1);
-			if (mIssue.vote==0) mIssue.setNumber_of_rating(mIssue.getNumber_of_rating() + 1);
-			if (mIssue.vote==1) mIssue.setNumber_of_rating(mIssue.getNumber_of_rating() - 1);
-			rating.setText("" + (mIssue.getRating()));
-			up_count.setText(""
-					+ (mIssue.getNumber_of_rating() + mIssue.getRating()) / 2);
-			down_count.setText(""
-					+ (mIssue.getNumber_of_rating() - mIssue.getRating()) / 2);
-			Requests.saveEntity(mIssue, null);
-			mIssue.vote--;
-			setButtonColors();
-		}
+		rating.setText("" + (mIssue.getRating()));
+		up_count.setText(""
+				+ (mIssue.getNumber_of_rating() + mIssue.getRating()) / 2);
+		down_count.setText(""
+				+ (mIssue.getNumber_of_rating() - mIssue.getRating()) / 2);
 	}
 
 	public void setText(String titleString, String descriptionString) {

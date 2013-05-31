@@ -37,6 +37,16 @@ public class Issue extends IssueGen implements Poi {
 	
 	public int vote;
 	
+	public void changeRating(int newVote)
+	{
+		rating += newVote - vote;
+		if(vote == 0 && newVote != 0)
+			number_of_rating++;
+		if(vote != 0 && newVote == 0)
+			number_of_rating--;
+		vote = newVote;
+	}
+	
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public Issue(long id)
 	{
