@@ -33,6 +33,7 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 	private TreeMap<Long, Poi> pois;
 	private TreeMap<Poi, JavaScriptObject> poiJsos;
 	private TreeMap<Poi, DivElement> poiTooltipDivs;
+	private Widget currentPopup;
 
 	public OpenLayersSmartLayer(String name, OpenLayersMapView mapView) {
 		this.name = name;
@@ -85,11 +86,19 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 		GwtPopupCreator<Poi> creator = popupCreatorMap.get(oAsEntity.getType());
 		Widget widget = creator.createPopup(poi);
 		
+		if(currentPopup != null)
+		{
+			currentPopup.removeFromParent();
+			currentPopup = null;
+		}
+		
 		// TODO: This div will never be removed, but because of its size it doesn't really matter.
 		DivElement div = mapView.createPopup(poi.getLocation(), poi.getId()+"", 1, 1);
 		HTMLPanel.wrap(div).add(widget);
 		Widget inner = ((AbsolutePanel)widget).getWidget(0);
 		mapView.panRectIntoMap(poi.getLocation(), inner.getOffsetWidth(), inner.getOffsetHeight(), 30, true);
+		
+		currentPopup = widget;
 	}
 
 	// TODO: This is a marker layer, not a vector layer

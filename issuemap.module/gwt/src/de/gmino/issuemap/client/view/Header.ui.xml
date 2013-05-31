@@ -74,7 +74,7 @@
 		</g:cell>
 
 		<g:cell width="20%" horizontalAlignment="ALIGN_RIGHT">
-			<g:TextBox styleName="{style.searchField}" text="Suchbegriff"
+			<g:TextBox styleName="{style.searchField}" text=""
 				ui:field="search_field" />
 		</g:cell>
 

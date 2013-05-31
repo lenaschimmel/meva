@@ -57,7 +57,7 @@ public class IssuemapGwt implements EntryPoint {
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
 
-	private static OpenLayersMapView mapView;
+	public static OpenLayersMapView mapView;
 	private static Map mapObject;
 	private static TreeMap<Issue, DivElement> divByIssue = new TreeMap<Issue, DivElement>();
 	private OpenLayersSmartLayer markerLayer;
