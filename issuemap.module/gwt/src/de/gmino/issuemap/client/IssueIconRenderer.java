@@ -2,6 +2,7 @@ package de.gmino.issuemap.client;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.FillStrokeStyle;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.ui.Image;
 
@@ -18,6 +19,7 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		hash.hashLong(issue.getMarkertype().getId());
 		hash.hashObject(issue.getTitle());
 		hash.hashObject(issue.getDescription());
+		hash.hashInt(issue.getComments().size());
 	}
 
 	@Override
@@ -48,7 +50,11 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 				con.setFillStyle(issue.getMap_instance().getColor());
 		}
 		
-		con.fillRect(0.11*issue.getMarkertype().getImageWidth(), 0.1081*issue.getMarkertype().getImageHeight(), 0.77*issue.getMarkertype().getImageWidth(), 0.66*issue.getMarkertype().getImageHeight());
+		double x = 0.11*issue.getMarkertype().getImageWidth();
+		double y = 0.1081*issue.getMarkertype().getImageHeight();
+		double w = 0.77*issue.getMarkertype().getImageWidth();
+		double h = 0.66*issue.getMarkertype().getImageHeight();
+		con.fillRect(x, y, w, h);
 		con.beginPath();
 		con.moveTo(0.5*issue.getMarkertype().getImageWidth(), 0.92*issue.getMarkertype().getImageHeight());
 		con.lineTo(0.7*issue.getMarkertype().getImageWidth(), 0.75*issue.getMarkertype().getImageHeight());
@@ -61,6 +67,23 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		
 		final ImageElement face = ImageElement.as(img.getElement());
 		con.drawImage(face, 0, 0);
+		
+		int commentCount = issue.getComments().size();
+		if(commentCount > 0)
+		{
+			con.setLineWidth(1);
+			con.setStrokeStyle("#000");
+			con.setFillStyle("#FF0");
+			con.beginPath();
+			con.arc(x+w*0.85,y+w*0.15,w*0.25,0,Math.PI*2);
+			con.fill();
+			con.stroke();
+			con.setFillStyle("#000");
+			String countText = ""+commentCount;
+			if(commentCount > 9)
+				countText = "+";
+			con.fillText(countText, x+w*0.7, y+w*0.3);
+		}
 	}
 
 	@Override

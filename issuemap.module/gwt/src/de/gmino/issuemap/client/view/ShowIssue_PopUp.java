@@ -190,6 +190,7 @@ public class ShowIssue_PopUp extends Composite {
 				showComment(comment);
 				commentTextBox.setText("");
 				commentTextBox.setEnabled(true);
+				smartLayer.updatePoi(mIssue);
 			}
 		});
 	}
