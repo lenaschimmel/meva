@@ -23,6 +23,7 @@
 			border-bottom-left-radius: 10px;
 			border: 3px solid;
 			padding: 10px;
+			color: #fff;
 		}
 		
 		.title_label {
@@ -38,25 +39,21 @@
 		}
 		
 		.divider {
-			color: #FFF;
 			font-weight: bold;
 		}
 		
 		.description_label {
-			color: #FFF;
 			margin-top: 10px;
 			margin-bottom: 10px;
 			padding-right: 10px;
 		}
 		
 		.meta_label_bold {
-			color: #FFF;
 			font-weight: bold;
 			padding-bottom: 3px;
 		}
 		
 		.meta_label {
-			color: #FFF;
 			padding-bottom: 3px;
 			margin-left: 10px;
 			text-align: right;
@@ -76,7 +73,6 @@
 		}
 		
 		.countRatingLabel{
-			color: #FFF;
 			padding-left: 13px;
 		}
 	</ui:style>
@@ -119,6 +115,12 @@
 			<g:Image resource="{resources.edit}" ui:field="edit"></g:Image>
 			<g:Image resource="{resources.delete}" ui:field="delete"></g:Image>
 		</g:HorizontalPanel>
-		
+		<g:VerticalPanel>
+				<g:Label ui:field="commentsHeader" styleName="{style.meta_label_bold}" >Kommentare:</g:Label>
+				<g:VerticalPanel ui:field="commentsPanel">
+				</g:VerticalPanel>
+				<g:TextBox ui:field="commentTextBox"></g:TextBox>
+				<g:Button ui:field="commentButton">Kommentieren</g:Button>
+		</g:VerticalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

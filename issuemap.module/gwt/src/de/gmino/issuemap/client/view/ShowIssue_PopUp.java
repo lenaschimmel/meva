@@ -1,24 +1,30 @@
 package de.gmino.issuemap.client.view;
 
+import java.util.Collection;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.issuemap.client.Marker_Wrapper;
+import de.gmino.issuemap.client.domain.Comment;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.resources.ImageResources;
+import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
 public class ShowIssue_PopUp extends Composite {
@@ -37,6 +43,7 @@ public class ShowIssue_PopUp extends Composite {
 	Issue mIssue;
 	Marker_Wrapper mWrapper;
 
+	@SuppressWarnings("unchecked")
 	public ShowIssue_PopUp(Map map, Issue issue, Marker_Wrapper marker_Wrapper, OpenLayersSmartLayer smartLayer) {
 		imageRes = GWT.create(ImageResources.class);
 		initWidget(uiBinder.createAndBindUi(this));
@@ -65,6 +72,29 @@ public class ShowIssue_PopUp extends Composite {
 		
 		//mIssue.vote=0;
 		updateButtonColorsAndLabels();
+		
+		final int commentCount = issue.getComments().size();
+		if(commentCount == 0)
+			commentsHeader.setText("Bisher keine Kommentare.");
+		else
+		{
+			commentsHeader.setText(commentCount + " Kommentare (lade...)");
+			Requests.loadEntities(issue.getComments(), new RequestListener<Comment>() {
+				@Override
+				public void onFinished(Collection<Comment> comments) {
+					commentsHeader.setText(commentCount + " Kommentare:");
+					for(Comment comment : comments)
+						showComment(comment);
+				}
+
+				
+				
+				@Override
+				public void onError(String message, Throwable e) {
+					commentsHeader.setText("Fehler beim Laden der Kommentare.");
+				}
+			});
+		}
 	}
 
 	@UiField
@@ -97,6 +127,14 @@ public class ShowIssue_PopUp extends Composite {
 	VerticalPanel parent;
 	@UiField
 	Image picture;
+	@UiField
+	VerticalPanel commentsPanel;
+	@UiField
+	Label commentsHeader;
+	@UiField 
+	TextBox commentTextBox;
+	@UiField
+	Button commentButton;
 
 	@UiHandler("close")
 	void onClose(ClickEvent e) {
@@ -138,6 +176,24 @@ public class ShowIssue_PopUp extends Composite {
 		updateButtonColorsAndLabels();
 	}
 	
+	@UiHandler("commentButton")
+	void onCommentButtonClick(ClickEvent e) {
+		commentTextBox.setEnabled(false);
+		Requests.getNewEntity(Comment.type, new RequestListener<Comment>() {
+			@Override
+			public void onNewResult(Comment comment) {
+				comment.setText(commentTextBox.getText());
+				comment.setUser("anonym");
+				mIssue.getComments().add(comment);
+				Requests.saveEntity(comment, null);
+				Requests.saveEntity(mIssue, null);
+				showComment(comment);
+				commentTextBox.setText("");
+				commentTextBox.setEnabled(true);
+			}
+		});
+	}
+	
 	@UiHandler("rate_down")
 	void onRateDown(ClickEvent e) {
 		if(mIssue.vote == -1)
@@ -172,5 +228,9 @@ public class ShowIssue_PopUp extends Composite {
 
 	public void setBoarderColor(String color) {
 		parent.getElement().getStyle().setBorderColor(color);
+	}
+	
+	private void showComment(Comment comment) {
+		commentsPanel.add(new Label(comment.getText()));
 	}
 }
