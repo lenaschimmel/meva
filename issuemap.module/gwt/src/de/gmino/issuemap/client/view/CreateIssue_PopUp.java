@@ -55,7 +55,6 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 			typebox.addItem(mt.getMarkerName(), mt.getId()+"");
 		
 		form.setAction("http://gmino.de/products/issuemap/upload.php");
-	//	form.setAction("upload.php");
 		 form.setEncoding(FormPanel.ENCODING_MULTIPART);
 		 form.setMethod(FormPanel.METHOD_POST);
 		 fileupload.setName("img");

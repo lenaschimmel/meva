@@ -59,7 +59,7 @@ public class ShowIssue_PopUp extends Composite {
 			picture.setHeight("0px");
 		} else {
 			ImageUrl img = mIssue.getPrimary_picture();
-			picture.setUrl(img.getUrl());
+			picture.setUrl(img.getUrl()+"&h=200");
 		}
 		date.setText(dtf.format(mIssue.getCreationTimestamp().toDate()));
 		type.setText(mIssue.getMarkertype().getMarkerName());
