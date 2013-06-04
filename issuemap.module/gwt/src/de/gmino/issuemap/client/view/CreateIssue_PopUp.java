@@ -51,24 +51,26 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.mapObject = map;
 		setBoarderColor(map.getColor());
-		for(Markertype mt : map.getMarkertypes())
-			typebox.addItem(mt.getMarkerName(), mt.getId()+"");
-		
-		form.setAction("http://gmino.de/products/issuemap/upload.php");
-	//	form.setAction("upload.php");
-		 form.setEncoding(FormPanel.ENCODING_MULTIPART);
-		 form.setMethod(FormPanel.METHOD_POST);
-		 fileupload.setName("img");
-		   // Add an event handler to the form.
-		
-		   form.addSubmitCompleteHandler(new SubmitCompleteHandler() {
+		for (Markertype mt : map.getMarkertypes())
+			typebox.addItem(mt.getMarkerName(), mt.getId() + "");
+
+		// form.setAction("http://gmino.de/products/issuemap/upload.php");
+		form.setAction("/Upload/uploader");
+		form.setEncoding(FormPanel.ENCODING_MULTIPART);
+		form.setMethod(FormPanel.METHOD_POST);
+		fileupload.setName("img");
+		// Add an event handler to the form.
+
+		form.addSubmitCompleteHandler(new SubmitCompleteHandler() {
 
 			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
-				 Window.alert(event.getResults());
-				
+				String url = event.getResults().replace("<pre>", "").replace("</pre>", "").trim();
+				mIssue.setPrimary_picture(new de.gmino.geobase.shared.domain.ImageUrl(url));
+				Requests.saveEntity(mIssue, null);
+				CreateIssue_PopUp.this.removeFromParent();
 			}
-		   });
+		});
 	}
 	
 	public CreateIssue_PopUp(Map map, LatLon location, OpenLayersSmartLayer smartLayer) {
@@ -138,6 +140,7 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 		else {
 			Requests.getNewEntity(Issue.type, new RequestListener<Issue>() {
 				public void onNewResult(Issue issue) {
+					mIssue = issue; // needed for upload handler
 					setIssueValuesFromMask(issue);
 					issue.setCreationTimestamp(Timestamp.now());
 					issue.setLocation(mLocation);

@@ -71,7 +71,7 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		int commentCount = issue.getComments().size();
 		if(commentCount > 0)
 		{
-			con.setLineWidth(1);
+			con.setLineWidth(1.5);
 			con.setStrokeStyle("#000");
 			con.setFillStyle("#FF0");
 			con.beginPath();
@@ -82,7 +82,8 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 			String countText = ""+commentCount;
 			if(commentCount > 9)
 				countText = "+";
-			con.fillText(countText, x+w*0.7, y+w*0.3);
+			con.setFont("9px sans-serif");
+			con.fillText(countText, x+w*0.725, y+w*0.3);
 		}
 	}
 

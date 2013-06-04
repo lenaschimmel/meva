@@ -16,6 +16,16 @@
     <url-pattern>/Json/*</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>UploadServlet</servlet-name>
+    <servlet-class>de.gmino.issuemap.server.UploadServlet</servlet-class>
+  </servlet>  
+  
+  <servlet-mapping>
+    <servlet-name>UploadServlet</servlet-name>
+    <url-pattern>/Upload/*</url-pattern>
+  </servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>IssuemapGwt.html</welcome-file>
