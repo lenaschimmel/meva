@@ -469,6 +469,7 @@ public class ClassDefinition {
 			pw.println("import java.sql.ResultSet;");
 			pw.println("import java.sql.Statement;");
 			pw.println("import java.sql.SQLException;");
+			pw.println("import java.util.TreeSet;");
 			pw.println();
 			pw.println("// imports for serialization interfaces");
 			pw.println("import de.gmino.meva.shared.EntityBinary;");
@@ -823,11 +824,13 @@ public class ClassDefinition {
 		pw.println("		System.out.println(\"Loading \" + toLoad.size() + \" entities.\");");
 		pw.println("		long then = System.currentTimeMillis();");
 		pw.println("		String idList = \"\";");
+		pw.println("		Collection<Long> idListCopy = new TreeSet<Long>();");
 		pw.println("		for(Entity e : toLoad)");
 		pw.println("			{");
 		pw.println("			if(idList.length() > 0)");
 		pw.println("				idList += ',';");
 		pw.println("			idList += e.getId();");
+		pw.println("			idListCopy.add(e.getId());");
 		pw.println("			}");
 		pw.println("		Statement stat = dbCon.createStatement();");
 		pw.print(  "		String selectString = \"SELECT  ");
@@ -841,10 +844,14 @@ public class ClassDefinition {
 		pw.println("			long id = rs.getLong(\"id\");");
 		pw.println("			((EntitySql) EntityFactory.getUnloadedEntityById(type, id)).deserializeSql(rs, dbCon);");
 		pw.println("			loadCount++;");
+		pw.println("			idListCopy.remove(id);");
 		pw.println("		}");
 		pw.println("		if(loadCount < toLoad.size())");
+		pw.println("		{");
+		pw.println("			for(Long id: idListCopy)");
+		pw.println("				System.out.println(\"Missing entity: \" + id" + ");");
 		pw.println("			throw new RuntimeException(\"Could not load all entities. Possible some id's are just not in the DB.\");");
-				
+		pw.println("		}");
 		for (AttributeDefiniton def : attributes)
 			if (def.isRelation())
 			{
