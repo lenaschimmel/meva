@@ -1,8 +1,13 @@
 package de.gmino.issuemap.client.view;
 
+import java.awt.Font;
 import java.util.Collection;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.FontStyle;
+import com.google.gwt.dom.client.Style.FontWeight;
+import com.google.gwt.dom.client.Style.TextDecoration;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -11,6 +16,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -19,6 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.ImageUrl;
+import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.client.Marker_Wrapper;
 import de.gmino.issuemap.client.domain.Comment;
 import de.gmino.issuemap.client.domain.Issue;
@@ -184,6 +191,7 @@ public class ShowIssue_PopUp extends Composite {
 			public void onNewResult(Comment comment) {
 				comment.setText(commentTextBox.getText());
 				comment.setUser("anonym");
+				comment.setTimestamp(Timestamp.now());
 				mIssue.getComments().add(comment);
 				Requests.saveEntity(comment, null);
 				Requests.saveEntity(mIssue, null);
@@ -191,6 +199,8 @@ public class ShowIssue_PopUp extends Composite {
 				commentTextBox.setText("");
 				commentTextBox.setEnabled(true);
 				smartLayer.updatePoi(mIssue);
+				int commentCount = mIssue.getComments().size();
+				commentsHeader.setText(commentCount  + " Kommentare:");
 			}
 		});
 	}
@@ -232,6 +242,16 @@ public class ShowIssue_PopUp extends Composite {
 	}
 	
 	private void showComment(Comment comment) {
-		commentsPanel.add(new Label(comment.getText()));
+		VerticalPanel vp = new VerticalPanel();
+		vp.getElement().getStyle().setPaddingBottom(5, Unit.PX);
+		Label commentheader = new Label("Am " + dtf.format(comment.getTimestamp().toDate()) + " von " + comment.getUser() + ":");
+		commentheader.getElement().getStyle().setFontSize(10, Unit.PX);
+		commentheader.getElement().getStyle().setMarginBottom(-1, Unit.PX);
+		vp.add(commentheader);
+		Label commenttext = new Label(comment.getText());
+		commenttext.getElement().getStyle().setLineHeight(16, Unit.PX);
+		commenttext.getElement().getStyle().setFontStyle(FontStyle.ITALIC);
+		vp.add(commenttext);
+		commentsPanel.add(vp);
 	}
 }

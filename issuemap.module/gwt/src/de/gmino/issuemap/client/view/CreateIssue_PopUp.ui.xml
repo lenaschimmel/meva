@@ -62,9 +62,7 @@
 				<g:TextArea text="Beschreibung..." width="90%" ui:field="description"
 					styleName="{style.description}"></g:TextArea>
 			</g:cell>
-			<g:cell>
-				<g:TextBox text="Bild URL" width="90%" ui:field="picture"></g:TextBox>
-			</g:cell>
+
 			<g:cell>
 				<g:FormPanel ui:field="form" width="90%" ><g:FileUpload ui:field="fileupload"></g:FileUpload> </g:FormPanel>
 			</g:cell>

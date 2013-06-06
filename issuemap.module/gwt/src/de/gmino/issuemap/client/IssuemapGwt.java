@@ -125,7 +125,7 @@ public class IssuemapGwt implements EntryPoint {
 								new IssuePopupCreator(map, markerLayer));
 
 						header.setMap(map);
-						Window.setTitle(map.getHeaderText());
+						Window.setTitle(map.getTitle());
 						mapView.setCenterAndZoom(mapObject.getInitLocation(),
 								mapObject.getInitZoomlevel(), false);
 						header.setDesign(mapObject.getLogo().getUrl(),

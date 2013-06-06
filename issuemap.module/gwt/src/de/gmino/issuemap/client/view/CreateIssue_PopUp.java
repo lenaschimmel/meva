@@ -92,8 +92,6 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 				typebox.setSelectedIndex(i);
 				break;
 			}
-		if (editIssue.getPrimary_picture().getUrl().equals("")) picture.setText("Bild URL");
-		else picture.setText(editIssue.getPrimary_picture().getUrl());
 	}
 	
 	@UiField
@@ -102,8 +100,6 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 	Button button;
 	@UiField
 	TextBox title;
-	@UiField
-	TextBox picture;
 	@UiField
 	TextArea description;
 	@UiField
@@ -179,7 +175,6 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 		issue.setTitle(title.getText());
 		issue.setMarkertype(markertype);
 		issue.setDescription(description.getText());
-		issue.setPrimary_picture(new ImageUrl(picture.getText()));
 	}
 	
 	public void setBoarderColor(String color){

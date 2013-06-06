@@ -15,7 +15,7 @@
 			background-color: #333;
 			position: absolute;
 			/* Override glass panel to 10% opacity (GLEICH 90% transparency) */
-			filter: alpha(opacity =     1) !important;  /*IE */
+			filter: alpha(opacity =         1) !important; /*IE */
 			opacity: 0.95 !important; /* non-IE */
 			border-top-right-radius: 10px;
 			border-bottom-right-radius: 10px;
@@ -67,13 +67,17 @@
 			cursor: pointer;
 		}
 		
-		.rateButton{
+		.rateButton {
 			padding-right: 10px;
 			cursor: pointer;
 		}
 		
-		.countRatingLabel{
+		.countRatingLabel {
 			padding-left: 13px;
+		}
+		
+		.footer {
+			margin-top: 5px;
 		}
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
@@ -83,27 +87,57 @@
 		<g:HorizontalPanel>
 			<g:VerticalPanel width="300px">
 				<g:HorizontalPanel width="100%">
-					<g:cell HorizontalAlignment="ALIGN_LEFT"><g:Label styleName="{style.meta_label_bold}" text="Eingetragen:"></g:Label></g:cell>
-					<g:cell HorizontalAlignment="ALIGN_RIGHT"><g:Label ui:field="date" styleName="{style.meta_label}"></g:Label></g:cell>
+					<g:cell HorizontalAlignment="ALIGN_LEFT">
+						<g:Label styleName="{style.meta_label_bold}" text="Eingetragen:"></g:Label>
+					</g:cell>
+					<g:cell HorizontalAlignment="ALIGN_RIGHT">
+						<g:Label ui:field="date" styleName="{style.meta_label}"></g:Label>
+					</g:cell>
 				</g:HorizontalPanel>
 				<g:HorizontalPanel width="100%">
-					<g:cell HorizontalAlignment="ALIGN_LEFT"> <g:Label styleName="{style.meta_label_bold}" text="Typ:"></g:Label></g:cell>
-					<g:cell HorizontalAlignment="ALIGN_RIGHT"><g:Label ui:field="type" styleName="{style.meta_label}"></g:Label></g:cell>
+					<g:cell HorizontalAlignment="ALIGN_LEFT">
+						<g:Label styleName="{style.meta_label_bold}" text="Typ:"></g:Label>
+					</g:cell>
+					<g:cell HorizontalAlignment="ALIGN_RIGHT">
+						<g:Label ui:field="type" styleName="{style.meta_label}"></g:Label>
+					</g:cell>
 				</g:HorizontalPanel>
 				<g:HorizontalPanel width="100%">
-					<g:cell HorizontalAlignment="ALIGN_LEFT"><g:Label styleName="{style.meta_label_bold}" text="Erledigt:"></g:Label></g:cell>
-					<g:cell HorizontalAlignment="ALIGN_RIGHT" width="30px"><g:CheckBox ui:field="resolved"></g:CheckBox></g:cell>
+					<g:cell HorizontalAlignment="ALIGN_LEFT">
+						<g:Label styleName="{style.meta_label_bold}" text="Erledigt:"></g:Label>
+					</g:cell>
+					<g:cell HorizontalAlignment="ALIGN_RIGHT" width="30px">
+						<g:CheckBox ui:field="resolved"></g:CheckBox>
+					</g:cell>
 				</g:HorizontalPanel>
 				<g:HorizontalPanel width="100%">
-					<g:cell HorizontalAlignment="ALIGN_LEFT"><g:Label styleName="{style.meta_label_bold}" text="Relevanz:"></g:Label></g:cell>
-					<g:cell HorizontalAlignment="ALIGN_RIGHT"><g:Label styleName="{style.meta_label}" text="+3" ui:field="rating"></g:Label></g:cell>
+					<g:cell HorizontalAlignment="ALIGN_LEFT">
+						<g:Label styleName="{style.meta_label_bold}" text="Relevanz:"></g:Label>
+					</g:cell>
+					<g:cell HorizontalAlignment="ALIGN_RIGHT">
+						<g:Label styleName="{style.meta_label}" text="+3"
+							ui:field="rating"></g:Label>
+					</g:cell>
 				</g:HorizontalPanel>
 				<g:HorizontalPanel width="100%">
-					<g:cell width="70%"><g:Label/></g:cell>
-					<g:cell HorizontalAlignment="ALIGN_RIGHT"><g:VerticalPanel><g:Image resource="{resources.go_up}" styleName="{style.rateButton}" ui:field="rate_up"/><g:Label ui:field="up_count" styleName="{style.countRatingLabel}"/> </g:VerticalPanel> </g:cell>
-					<g:cell HorizontalAlignment="ALIGN_RIGHT"><g:VerticalPanel><g:Image resource="{resources.go_down}" styleName="{style.rateButton}" ui:field="rate_down"/><g:Label ui:field="down_count" styleName="{style.countRatingLabel}"/> </g:VerticalPanel></g:cell>
+					<g:cell width="70%">
+						<g:Label />
+					</g:cell>
+					<g:cell HorizontalAlignment="ALIGN_RIGHT">
+						<g:VerticalPanel>
+							<g:Image resource="{resources.go_up}" styleName="{style.rateButton}"
+								ui:field="rate_up" />
+							<g:Label ui:field="up_count" styleName="{style.countRatingLabel}" />
+						</g:VerticalPanel>
+					</g:cell>
+					<g:cell HorizontalAlignment="ALIGN_RIGHT">
+						<g:VerticalPanel>
+							<g:Image resource="{resources.go_down}" styleName="{style.rateButton}"
+								ui:field="rate_down" />
+							<g:Label ui:field="down_count" styleName="{style.countRatingLabel}" />
+						</g:VerticalPanel>
+					</g:cell>
 				</g:HorizontalPanel>
-
 			</g:VerticalPanel>
 			<g:VerticalPanel>
 				<g:Image ui:field="picture" height="200px"></g:Image>
@@ -111,16 +145,25 @@
 			</g:VerticalPanel>
 		</g:HorizontalPanel>
 		<g:Label ui:field="description" styleName="{style.description_label}"></g:Label>
-		<g:HorizontalPanel verticalAlignment="ALIGN_BOTTOM">
-			<g:Image resource="{resources.edit}" ui:field="edit"></g:Image>
-			<g:Image resource="{resources.delete}" ui:field="delete"></g:Image>
-		</g:HorizontalPanel>
-		<g:VerticalPanel>
-				<g:Label ui:field="commentsHeader" styleName="{style.meta_label_bold}" >Kommentare:</g:Label>
-				<g:VerticalPanel ui:field="commentsPanel">
-				</g:VerticalPanel>
-				<g:TextBox ui:field="commentTextBox"></g:TextBox>
-				<g:Button ui:field="commentButton">Kommentieren</g:Button>
+		<g:Label ui:field="commentsHeader" styleName="{style.meta_label_bold}">Kommentare:</g:Label>
+		<g:VerticalPanel ui:field="commentsPanel">
 		</g:VerticalPanel>
+		<g:Label styleName="{style.meta_label_bold}">Kommentar
+			abgeben:</g:Label>
+	<g:HorizontalPanel width="100%">
+		<g:cell width="80%">
+		<g:TextBox width="90%" ui:field="commentTextBox"></g:TextBox>
+		</g:cell>
+		<g:cell width="20%" >
+			<g:Button ui:field="commentButton">Kommentieren</g:Button>
+		</g:cell>
+	</g:HorizontalPanel>
+
+
+		<g:HorizontalPanel styleName="{style.footer}">
+				<g:Image resource="{resources.edit}" ui:field="edit"></g:Image>
+				<g:Image resource="{resources.delete}" ui:field="delete"></g:Image>
+
+		</g:HorizontalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 
