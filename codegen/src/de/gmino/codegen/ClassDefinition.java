@@ -398,7 +398,7 @@ public class ClassDefinition {
 				continue;
 
 			if (typeName.equals("String"))
-				pw.println("\t`" + prefix + attributeName + "` varchar(" + attribute.maxLen + ") NOT NULL,");
+				pw.println("\t`" + prefix + attributeName + "` varchar(" + attribute.maxLen + "),");
 
 			else if (attribute.isNative())
 				pw.println("\t`" + prefix + attributeName + "` " + attribute.getSqlType() + " NOT NULL,");
@@ -468,6 +468,7 @@ public class ClassDefinition {
 			pw.println("import java.sql.Connection;");
 			pw.println("import java.sql.ResultSet;");
 			pw.println("import java.sql.Statement;");
+			pw.println("import java.sql.PreparedStatement;");
 			pw.println("import java.sql.SQLException;");
 			pw.println("import java.util.TreeSet;");
 			pw.println();
@@ -726,7 +727,7 @@ public class ClassDefinition {
 			if (attribute.isNative()) {
 				pw.print("			" + attribute.getWrapperType() + ".parse" + capitalizeFirst(type) + "(" + val + ".asString().stringValue())");
 			} else if (type.equals("String")) {
-				pw.print("			" + val + ".asString().stringValue()");
+				pw.print("			" + val + ".isNull() ? null : " + val + ".asString().stringValue()");
 			} else {
 				if (attribute.isEntity()) {
 					pw.print("			(" + type + ")EntityFactory.getUnloadedEntityById(" + type + ".type, Long.parseLong(" + val + ".asString().stringValue()))");
@@ -939,15 +940,21 @@ public class ClassDefinition {
 		if (!entity)
 			throw new RuntimeException("Can't serialize value classes into SQL yet.");
 
+		pw.println("	private static PreparedStatement replaceStatement;");
+		pw.println("	");
 		pw.println("	public void serializeSql(Connection dbCon) throws SQLException");
 		pw.println("	{");
-		pw.println("		Statement stat = dbCon.createStatement();");
-		pw.print("		String replaceString = \"REPLACE INTO `" + baseClassName + "` (");
+		pw.println("		if(replaceStatement == null)");
+		pw.println("		{");
+		pw.print  ("			String replaceString = \"REPLACE INTO `" + baseClassName + "` (");
 		printAttributeList("", pw);
 		pw.print(") VALUES (");
-		printValueList("", pw);
+		printValueList(pw);
 		pw.println(");\";");
-		pw.println("		stat.executeUpdate(replaceString);");
+		pw.println("			replaceStatement = dbCon.prepareStatement(replaceString);");
+		pw.println("		}");
+		printValueSettings("", pw,1);
+		pw.println("		replaceStatement.executeUpdate();");
 		pw.println("	}");
 	}
 
@@ -973,7 +980,30 @@ public class ClassDefinition {
 		}
 	}
 
-	private void printValueList(String prefix, PrintWriter pw) {
+	// placeholders
+	private void printValueList( PrintWriter pw) {
+		final int size = attributes.size();
+
+		boolean first = true;
+		for (int i = 0; i < size; i++) {
+			AttributeDefiniton attribute = attributes.get(i);
+			if (attribute.typeName.equals("relation") || attribute.attributeName.equals("ready"))
+				continue;
+
+			if (!first)
+				pw.print(",");
+			
+			
+			if (attribute.isValue())
+				attribute.getClassDefinition().printValueList(pw);
+			else
+				pw.print("?");
+			first = false;
+		}
+	}
+
+	// actual values
+	private void printOldValueList(String prefix, PrintWriter pw) {
 		final int size = attributes.size();
 
 		boolean first = true;
@@ -994,11 +1024,40 @@ public class ClassDefinition {
 				if (classDef.entity) {
 					pw.print("'\" + get" + capitalizeFirst(attribute.attributeName) + "Id() + \"'");
 				} else
-					classDef.printValueList(prefix + getter + ".", pw);
+					classDef.printOldValueList(prefix + getter + ".", pw);
 			}
 			first = false;
 
 		}
+	}
+
+	private int printValueSettings(String prefix, PrintWriter pw, int n) {
+		final int size = attributes.size();
+
+		
+		for (int i = 0; i < size; i++) {
+			AttributeDefiniton attribute = attributes.get(i);
+			if (attribute.typeName.equals("relation") || attribute.attributeName.equals("ready"))
+				continue;
+
+			final String getter = ((attribute.typeName.equals("boolean")) ? "is" : "get") + capitalizeFirst(attribute.attributeName) + "()";
+			if (attribute.typeName.equals("boolean"))
+				pw.println("		replaceStatement.setInt(" + n + ", " + prefix + getter + " ? 1 : 0);");
+			else if (attribute.isNativeOrString())
+			{
+				pw.println("		replaceStatement.set"+capitalizeFirst(attribute.typeName)+"(" + n + ", " + prefix + getter + ");");
+			}
+			else {
+				ClassDefinition classDef = attribute.getClassDefinition();
+				if (classDef.entity) {
+					pw.println("		replaceStatement.setLong(" + n + ", get" + capitalizeFirst(attribute.attributeName) + "Id());");
+				} else
+					n = classDef.printValueSettings(prefix + getter + ".", pw, n) - 1;
+			}
+			
+			n++;
+		}
+		return n;
 	}
 
 	private void printValueReadList(String prefixDash, PrintWriter pw) {

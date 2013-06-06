@@ -60,7 +60,8 @@ public class ShowIssue_PopUp extends Composite {
 		this.mWrapper = marker_Wrapper;
 		setBoarderColor(map.getColor());
 
-		if (mIssue.getPrimary_picture().getUrl().equals("")
+		if (mIssue.getPrimary_picture().getUrl() == null 
+				|| mIssue.getPrimary_picture().getUrl().equals("")
 				|| mIssue.getPrimary_picture().getUrl().equals("Bild URL")) { //TODO funktioniert nur halb?!
 			picture.setVisible(false);
 			picture.setHeight("0px");

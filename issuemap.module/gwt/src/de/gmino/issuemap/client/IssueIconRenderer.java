@@ -17,8 +17,8 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 	{
 		hash.hashBoolean(issue.isResolved());
 		hash.hashLong(issue.getMarkertype().getId());
-		hash.hashObject(issue.getTitle());
-		hash.hashObject(issue.getDescription());
+		//hash.hashObject(issue.getTitle());
+		//hash.hashObject(issue.getDescription());
 		hash.hashInt(issue.getComments().size());
 	}
 

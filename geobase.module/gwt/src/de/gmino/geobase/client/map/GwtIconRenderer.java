@@ -24,10 +24,14 @@ public abstract class GwtIconRenderer<PoiType extends Poi> implements IconRender
 		String url = imageCache.get(hasher.getValue());
 		if(url == null)
 		{
+			System.out.println("New rendering: " + o.getTitle());
 			renderIcon(canvas, o);
 			url = canvas.toDataUrl();
 			imageCache.put(hasher.getValue(), url);
 		}
+		else
+			System.out.println("Found in cache: " + o.getTitle());
+
 		return url;
 	}
 

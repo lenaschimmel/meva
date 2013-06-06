@@ -153,9 +153,13 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 			});
 
 		}
-		form.submit();
-		// close PopUp
-		//this.removeFromParent();
+		if(fileupload.getFilename() != null && fileupload.getFilename().length() > 0)
+		{
+			System.out.println("Image File Name: " + fileupload.getFilename());
+			form.submit();
+		}
+		else
+			this.removeFromParent();
 	}
 
 
