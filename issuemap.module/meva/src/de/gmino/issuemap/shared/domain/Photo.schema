@@ -1,0 +1,27 @@
+{
+	"package" : "de.gmino.issuemap.TARGET.domain",
+	"concept" : "entity",
+	"name" : "Photo",
+	"attributes" : [
+		{
+			"type" : "Issue",
+			"name" : "issue"
+		},
+		{
+			"type" : "ImageUrl",
+			"name" : "image"
+		},	
+		{
+			"type" : "String",
+			"name" : "user"
+		},	
+		{
+			"type" : "Timestamp",
+			"name" : "timestamp"
+		},		
+		{
+			"type" : "boolean",
+			"name" : "deleted"
+		}
+	]
+}

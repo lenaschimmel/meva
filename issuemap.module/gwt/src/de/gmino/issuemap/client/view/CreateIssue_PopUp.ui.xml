@@ -52,20 +52,16 @@
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
 		<g:Label styleName="{style.title_label}" ui:field="headLable">Marker bearbeiten</g:Label>
-		<g:Image resource="{resources.close}" ui:field="close"
-			styleName="{style.closeButton}"></g:Image>
+		<g:Image resource="{resources.close}" ui:field="close" styleName="{style.closeButton}"></g:Image>
 		<g:VerticalPanel styleName="{style.content}">
 			<g:cell>
 				<g:TextBox text="Titel" width="90%" ui:field="title"></g:TextBox>
 			</g:cell>
 			<g:cell>
-				<g:TextArea text="Beschreibung..." width="90%" ui:field="description"
-					styleName="{style.description}"></g:TextArea>
+				<g:TextArea text="Beschreibung..." width="90%" ui:field="description" styleName="{style.description}"></g:TextArea>
 			</g:cell>
 
-			<g:cell>
-				<g:FormPanel ui:field="form" width="90%" ><g:FileUpload ui:field="fileupload"></g:FileUpload> </g:FormPanel>
-			</g:cell>
+			
 			<g:cell>
 				<g:ListBox ui:field="typebox">
 				</g:ListBox>

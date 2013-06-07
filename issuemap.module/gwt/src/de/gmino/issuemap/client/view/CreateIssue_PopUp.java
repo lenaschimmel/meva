@@ -55,23 +55,7 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 		for (Markertype mt : map.getMarkertypes())
 			typebox.addItem(mt.getMarkerName(), mt.getId() + "");
 
-		// form.setAction("http://gmino.de/products/issuemap/upload.php");
-		form.setAction("/Upload/uploader");
-		form.setEncoding(FormPanel.ENCODING_MULTIPART);
-		form.setMethod(FormPanel.METHOD_POST);
-		fileupload.setName("img");
-		// Add an event handler to the form.
-
-		form.addSubmitCompleteHandler(new SubmitCompleteHandler() {
-
-			@Override
-			public void onSubmitComplete(SubmitCompleteEvent event) {
-				String url = event.getResults().replace("<pre>", "").replace("</pre>", "").trim();
-				mIssue.setPrimary_picture(new de.gmino.geobase.shared.domain.ImageUrl(url));
-				Requests.saveEntity(mIssue, null);
-				CreateIssue_PopUp.this.removeFromParent();
-			}
-		});
+		
 	}
 	
 	public CreateIssue_PopUp(Map map, LatLon location, OpenLayersSmartLayer smartLayer) {
@@ -108,10 +92,7 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 	Image close;
 	@UiField
 	Label headLable;
-	@UiField
-	FileUpload fileupload;
-	@UiField
-	FormPanel form;
+
 
 	public CreateIssue_PopUp(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -153,12 +134,7 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 			});
 
 		}
-		if(fileupload.getFilename() != null && fileupload.getFilename().length() > 0)
-		{
-			System.out.println("Image File Name: " + fileupload.getFilename());
-			form.submit();
-		}
-		else
+		
 			this.removeFromParent();
 	}
 

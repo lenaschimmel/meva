@@ -7,83 +7,82 @@
 
 	<ui:style>
 		.important {
-			font-weight: bold;
+		font-weight: bold;
 		}
-		
+
 		.parent {
-			width: 300px;
-			background-color: #333;
-			position: absolute;
-			/* Override glass panel to 10% opacity (GLEICH 90% transparency) */
-			filter: alpha(opacity =         1) !important; /*IE */
-			opacity: 0.95 !important; /* non-IE */
-			border-top-right-radius: 10px;
-			border-bottom-right-radius: 10px;
-			border-top-left-radius: 10px;
-			border-bottom-left-radius: 10px;
-			border: 3px solid;
-			padding: 10px;
-			color: #fff;
+		width: 300px;
+		background-color: #333;
+		position: absolute;
+		/* Override glass panel to 10% opacity (GLEICH 90% transparency) */
+		filter: alpha(opacity = 1) !important; /*IE */
+		opacity: 0.95 !important; /* non-IE */
+		border-top-right-radius: 10px;
+		border-bottom-right-radius: 10px;
+		border-top-left-radius: 10px;
+		border-bottom-left-radius: 10px;
+		border: 3px solid;
+		padding: 10px;
+		color: #fff;
 		}
-		
+
 		.title_label {
-			color: #FFF;
-			text-align: center;
-			font-weight: bold;
-			font-size: large;
-			padding-bottom: 15px;
-			white-space: nowrap;
-			width: auto;
-			border-top-right-radius: 10px;
-			border-top-left-radius: 10px;
+		color: #FFF;
+		text-align: center;
+		font-weight: bold;
+		font-size: large;
+		padding-bottom: 15px;
+		white-space: nowrap;
+		width: auto;
+		border-top-right-radius: 10px;
+		border-top-left-radius: 10px;
 		}
-		
+
 		.divider {
-			font-weight: bold;
+		font-weight: bold;
 		}
-		
+
 		.description_label {
-			margin-top: 10px;
-			margin-bottom: 10px;
-			padding-right: 10px;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		padding-right: 10px;
 		}
-		
+
 		.meta_label_bold {
-			font-weight: bold;
-			padding-bottom: 3px;
+		font-weight: bold;
+		padding-bottom: 3px;
 		}
-		
+
 		.meta_label {
-			padding-bottom: 3px;
-			margin-left: 10px;
-			text-align: right;
-			margin-right: 15px;
+		padding-bottom: 3px;
+		margin-left: 10px;
+		text-align: right;
+		margin-right: 15px;
 		}
-		
+
 		.closeButton {
-			position: absolute;
-			top: 0px;
-			right: 0px;
-			cursor: pointer;
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		cursor: pointer;
 		}
-		
+
 		.rateButton {
-			padding-right: 10px;
-			cursor: pointer;
+		padding-right: 10px;
+		cursor: pointer;
 		}
-		
+
 		.countRatingLabel {
-			padding-left: 13px;
+		padding-left: 13px;
 		}
-		
+
 		.footer {
-			margin-top: 5px;
+		margin-top: 5px;
 		}
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
 		<g:Label ui:field="title" styleName="{style.title_label}"></g:Label>
-		<g:Image resource="{resources.close}" ui:field="close"
-			styleName="{style.closeButton}"></g:Image>
+		<g:Image resource="{resources.close}" ui:field="close" styleName="{style.closeButton}"></g:Image>
 		<g:HorizontalPanel>
 			<g:VerticalPanel width="300px">
 				<g:HorizontalPanel width="100%">
@@ -115,8 +114,7 @@
 						<g:Label styleName="{style.meta_label_bold}" text="Relevanz:"></g:Label>
 					</g:cell>
 					<g:cell HorizontalAlignment="ALIGN_RIGHT">
-						<g:Label styleName="{style.meta_label}" text="+3"
-							ui:field="rating"></g:Label>
+						<g:Label styleName="{style.meta_label}" text="+3" ui:field="rating"></g:Label>
 					</g:cell>
 				</g:HorizontalPanel>
 				<g:HorizontalPanel width="100%">
@@ -125,45 +123,46 @@
 					</g:cell>
 					<g:cell HorizontalAlignment="ALIGN_RIGHT">
 						<g:VerticalPanel>
-							<g:Image resource="{resources.go_up}" styleName="{style.rateButton}"
-								ui:field="rate_up" />
+							<g:Image resource="{resources.go_up}" styleName="{style.rateButton}" ui:field="rate_up" />
 							<g:Label ui:field="up_count" styleName="{style.countRatingLabel}" />
 						</g:VerticalPanel>
 					</g:cell>
 					<g:cell HorizontalAlignment="ALIGN_RIGHT">
 						<g:VerticalPanel>
-							<g:Image resource="{resources.go_down}" styleName="{style.rateButton}"
-								ui:field="rate_down" />
+							<g:Image resource="{resources.go_down}" styleName="{style.rateButton}" ui:field="rate_down" />
 							<g:Label ui:field="down_count" styleName="{style.countRatingLabel}" />
 						</g:VerticalPanel>
 					</g:cell>
 				</g:HorizontalPanel>
 			</g:VerticalPanel>
-			<g:VerticalPanel>
-				<g:Image ui:field="picture" height="200px"></g:Image>
-				<!-- <g:Button ui:field="fotoupload" text="Foto hinzufügen"></g:Button> -->
+			<g:Label ui:field="photosHeader" styleName="{style.meta_label_bold}">Fotos:</g:Label>
+			<g:VerticalPanel ui:field="picturesPanel" >
+			
 			</g:VerticalPanel>
 		</g:HorizontalPanel>
 		<g:Label ui:field="description" styleName="{style.description_label}"></g:Label>
 		<g:Label ui:field="commentsHeader" styleName="{style.meta_label_bold}">Kommentare:</g:Label>
 		<g:VerticalPanel ui:field="commentsPanel">
 		</g:VerticalPanel>
-		<g:Label styleName="{style.meta_label_bold}">Kommentar
-			abgeben:</g:Label>
-	<g:HorizontalPanel width="100%">
-		<g:cell width="80%">
-		<g:TextBox width="90%" ui:field="commentTextBox"></g:TextBox>
-		</g:cell>
-		<g:cell width="20%" >
-			<g:Button ui:field="commentButton">Kommentieren</g:Button>
-		</g:cell>
-	</g:HorizontalPanel>
+		<g:Label styleName="{style.meta_label_bold}">Kommentar abgeben:</g:Label>
+		<g:HorizontalPanel width="100%">
+			<g:cell width="80%">
+				<g:TextBox width="90%" ui:field="commentTextBox"></g:TextBox>
+			</g:cell>
+			<g:cell width="20%">
+				<g:Button ui:field="commentButton">Kommentieren</g:Button>
+			</g:cell>
+		</g:HorizontalPanel>
 
-
+		<g:FormPanel ui:field="form" width="90%">
+			<g:FileUpload ui:field="fileupload"></g:FileUpload>
+		</g:FormPanel>
+	
+		<g:Button ui:field="uploadButton">Hochladen</g:Button>
+		
 		<g:HorizontalPanel styleName="{style.footer}">
-				<g:Image resource="{resources.edit}" ui:field="edit"></g:Image>
-				<g:Image resource="{resources.delete}" ui:field="delete"></g:Image>
-
+			<g:Image resource="{resources.edit}" ui:field="edit"></g:Image>
+			<g:Image resource="{resources.delete}" ui:field="delete"></g:Image>
 		</g:HorizontalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

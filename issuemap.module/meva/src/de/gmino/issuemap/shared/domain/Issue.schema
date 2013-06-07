@@ -66,11 +66,17 @@
 		{
 			"type" : "String",
 			"name" : "phone"
-		}
+		},
 		{
 			"type" : "relation",
 			"name" : "comments",
 			"reltype" : "Comment",
+			"relname" : "issue"
+		},
+		{
+			"type" : "relation",
+			"name" : "photos",
+			"reltype" : "Photo",
 			"relname" : "issue"
 		}
 	]

@@ -3,12 +3,12 @@ package de.gmino.issuemap.client;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
+import de.gmino.issuemap.client.domain.Comment;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
-import de.gmino.issuemap.client.domain.Comment;
 import de.gmino.issuemap.client.domain.MapHasMarkertype;
 import de.gmino.issuemap.client.domain.Markertype;
+import de.gmino.issuemap.client.domain.Photo;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactoryInterface;
 
@@ -37,6 +37,8 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 			return new MapHasMarkertype(id);
 		if (typeName.equals("Comment"))
 			return new Comment(id);
+		if (typeName.equals("Photo"))
+			return new Photo(id);
 		throw new RuntimeException("Unsupported Entity type: " + typeName);
 	}
 

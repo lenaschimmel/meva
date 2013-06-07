@@ -8,6 +8,7 @@ import de.gmino.issuemap.server.domain.Issue;
 import de.gmino.issuemap.server.domain.Map;
 import de.gmino.issuemap.server.domain.MapHasMarkertype;
 import de.gmino.issuemap.server.domain.Markertype;
+import de.gmino.issuemap.server.domain.Photo;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactoryInterface;
 
@@ -36,6 +37,8 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 			return new MapHasMarkertype(id);
 		if (typeName.equals("Comment"))
 			return new Comment(id);
+		if (typeName.equals("Photo"))
+			return new Photo(id);
 		throw new RuntimeException("Unsupported Entity type: " + typeName);
 	}
 

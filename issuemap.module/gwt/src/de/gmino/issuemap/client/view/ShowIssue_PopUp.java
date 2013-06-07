@@ -16,12 +16,18 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
+import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.ImageUrl;
@@ -30,13 +36,14 @@ import de.gmino.issuemap.client.Marker_Wrapper;
 import de.gmino.issuemap.client.domain.Comment;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
+import de.gmino.issuemap.client.domain.Photo;
 import de.gmino.issuemap.client.resources.ImageResources;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
 public class ShowIssue_PopUp extends Composite {
 
-	static DateTimeFormat dtf = DateTimeFormat.getFormat("dd.MM.yyyy");
+	static DateTimeFormat dtf = DateTimeFormat.getFormat("dd.MM.yyyy hh:mm");
 	ImageResources imageRes;
 
 	private static Detail_PopUpUiBinder uiBinder = GWT
@@ -60,15 +67,6 @@ public class ShowIssue_PopUp extends Composite {
 		this.mWrapper = marker_Wrapper;
 		setBoarderColor(map.getColor());
 
-		if (mIssue.getPrimary_picture().getUrl() == null 
-				|| mIssue.getPrimary_picture().getUrl().equals("")
-				|| mIssue.getPrimary_picture().getUrl().equals("Bild URL")) { //TODO funktioniert nur halb?!
-			picture.setVisible(false);
-			picture.setHeight("0px");
-		} else {
-			ImageUrl img = mIssue.getPrimary_picture();
-			picture.setUrl(img.getUrl()+"&h=200");
-		}
 		date.setText(dtf.format(mIssue.getCreationTimestamp().toDate()));
 		type.setText(mIssue.getMarkertype().getMarkerName());
 		resolved.setValue(mIssue.isResolved());
@@ -81,13 +79,20 @@ public class ShowIssue_PopUp extends Composite {
 		//mIssue.vote=0;
 		updateButtonColorsAndLabels();
 		
-		final int commentCount = issue.getComments().size();
+		loadAndShowComments();
+		loadAndShowPhotos();
+		setupForm();
+	}
+
+	@SuppressWarnings("unchecked")
+	private void loadAndShowComments() {
+		final int commentCount = mIssue.getComments().size();
 		if(commentCount == 0)
 			commentsHeader.setText("Bisher keine Kommentare.");
 		else
 		{
 			commentsHeader.setText(commentCount + " Kommentare (lade...)");
-			Requests.loadEntities(issue.getComments(), new RequestListener<Comment>() {
+			Requests.loadEntities(mIssue.getComments(), new RequestListener<Comment>() {
 				@Override
 				public void onFinished(Collection<Comment> comments) {
 					commentsHeader.setText(commentCount + " Kommentare:");
@@ -100,6 +105,30 @@ public class ShowIssue_PopUp extends Composite {
 				@Override
 				public void onError(String message, Throwable e) {
 					commentsHeader.setText("Fehler beim Laden der Kommentare.");
+				}
+			});
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void loadAndShowPhotos() {
+		final int photoCount = mIssue.getPhotos().size();
+		if(photoCount == 0)
+			photosHeader.setText("Bisher keine Fotos.");
+		else
+		{
+			photosHeader.setText(photoCount + " Fotos (lade...)");
+			Requests.loadEntities(mIssue.getPhotos(), new RequestListener<Photo>() {
+				@Override
+				public void onFinished(Collection<Photo> photos) {
+					photosHeader.setText(photoCount + " Fotos:");
+					for(Photo photo : photos)
+						showPhoto(photo);
+				}
+
+				@Override
+				public void onError(String message, Throwable e) {
+					photosHeader.setText("Fehler beim Laden der Fotos.");
 				}
 			});
 		}
@@ -134,16 +163,66 @@ public class ShowIssue_PopUp extends Composite {
 	@UiField
 	VerticalPanel parent;
 	@UiField
-	Image picture;
+	VerticalPanel picturesPanel;
 	@UiField
 	VerticalPanel commentsPanel;
 	@UiField
 	Label commentsHeader;
+	@UiField
+	Label photosHeader;
 	@UiField 
 	TextBox commentTextBox;
 	@UiField
 	Button commentButton;
+	@UiField
+	FileUpload fileupload;
+	@UiField
+	FormPanel form;
+	
+	public void setupForm()
+	{
+		form.setAction("/Upload/uploader");
+		form.setEncoding(FormPanel.ENCODING_MULTIPART);
+		form.setMethod(FormPanel.METHOD_POST);
+		fileupload.setName("img");
+		// Add an event handler to the form.
 
+		form.addSubmitHandler(new SubmitHandler() {
+			
+			@Override
+			public void onSubmit(SubmitEvent event) {
+				System.out.println("Submitted form.");
+			}
+		});
+		
+		form.addSubmitCompleteHandler(new SubmitCompleteHandler() {
+
+			@Override
+			public void onSubmitComplete(SubmitCompleteEvent event) {
+				System.out.println("Submit complete.");
+				
+				final String url = event.getResults().replace("<pre>", "").replace("</pre>", "").trim();
+				
+				Requests.getNewEntity(Photo.type, new RequestListener<Photo>() {
+					@Override
+					public void onNewResult(Photo photo) {
+						photo.setUser("anonym");
+						photo.setTimestamp(Timestamp.now());
+						photo.setImage(new ImageUrl(url));
+						mIssue.getPhotos().add(photo);
+						Requests.saveEntity(photo, null);
+						Requests.saveEntity(mIssue, null);
+						showPhoto(photo);
+						smartLayer.updatePoi(mIssue);
+					}
+				});
+				
+				Requests.saveEntity(mIssue, null);
+			//	ShowIssue_PopUp.this.removeFromParent();
+			}
+		});
+	}
+	
 	@UiHandler("close")
 	void onClose(ClickEvent e) {
 		this.removeFromParent();
@@ -182,6 +261,15 @@ public class ShowIssue_PopUp extends Composite {
 		
 		Requests.saveEntity(mIssue, null);
 		updateButtonColorsAndLabels();
+	}
+	
+	@UiHandler("uploadButton")
+	void onUpload(ClickEvent e) {
+		if(fileupload.getFilename() != null && fileupload.getFilename().length() > 0)
+		{
+			System.out.println("Image File Name: " + fileupload.getFilename());
+			form.submit();
+		}
 	}
 	
 	@UiHandler("commentButton")
@@ -241,7 +329,7 @@ public class ShowIssue_PopUp extends Composite {
 	public void setBoarderColor(String color) {
 		parent.getElement().getStyle().setBorderColor(color);
 	}
-	
+
 	private void showComment(Comment comment) {
 		VerticalPanel vp = new VerticalPanel();
 		vp.getElement().getStyle().setPaddingBottom(5, Unit.PX);
@@ -254,5 +342,22 @@ public class ShowIssue_PopUp extends Composite {
 		commenttext.getElement().getStyle().setFontStyle(FontStyle.ITALIC);
 		vp.add(commenttext);
 		commentsPanel.add(vp);
+	}
+	
+	private void showPhoto(Photo photo) {
+		Image image = new Image(photo.getImage().getUrl()+"&h=100");
+		picturesPanel.add(image);
+		photosHeader.setText(mIssue.getPhotos().size() + " Fotos:");
+//		VerticalPanel vp = new VerticalPanel();
+//		vp.getElement().getStyle().setPaddingBottom(5, Unit.PX);
+//		Label commentheader = new Label("Am " + dtf.format(comment.getTimestamp().toDate()) + " von " + comment.getUser() + ":");
+//		commentheader.getElement().getStyle().setFontSize(10, Unit.PX);
+//		commentheader.getElement().getStyle().setMarginBottom(-1, Unit.PX);
+//		vp.add(commentheader);
+//		Label commenttext = new Label(comment.getText());
+//		commenttext.getElement().getStyle().setLineHeight(16, Unit.PX);
+//		commenttext.getElement().getStyle().setFontStyle(FontStyle.ITALIC);
+//		vp.add(commenttext);
+//		commentsPanel.add(vp);
 	}
 }

@@ -944,15 +944,15 @@ public class ClassDefinition {
 		pw.println("	");
 		pw.println("	public void serializeSql(Connection dbCon) throws SQLException");
 		pw.println("	{");
-		pw.println("		if(replaceStatement == null)");
-		pw.println("		{");
+		//pw.println("		if(replaceStatement == null)");
+		//pw.println("		{");
 		pw.print  ("			String replaceString = \"REPLACE INTO `" + baseClassName + "` (");
 		printAttributeList("", pw);
 		pw.print(") VALUES (");
 		printValueList(pw);
 		pw.println(");\";");
 		pw.println("			replaceStatement = dbCon.prepareStatement(replaceString);");
-		pw.println("		}");
+		//pw.println("		}");
 		printValueSettings("", pw,1);
 		pw.println("		replaceStatement.executeUpdate();");
 		pw.println("	}");
