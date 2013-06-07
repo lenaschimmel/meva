@@ -155,14 +155,19 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 	public void addPoi(Poi o) {
 		if(pois.put(o.getId(), o) == null)
 		{
-			Entity oAsEntity = (Entity)o;
-			GwtIconRenderer<? super Poi> renderer = rendererMap.get(oAsEntity.getType());
-			if(renderer == null)
-				throw new RuntimeException("No IconRenderer defined for " + oAsEntity.getType());
+			GwtIconRenderer<? super Poi> renderer = getRendererForPoi(o);
 			String iconUrl = renderer.getIconUrl(o);
 			JavaScriptObject jso = nAddMarker(iconUrl, o.getLocation().getLatitude(), o.getLocation().getLongitude(), mapView.getMapJso(), o.getId(), renderer.getWidth(o), renderer.getHeight(o));
 			poiJsos.put(o, jso);
 		}
+	}
+
+	public GwtIconRenderer<? super Poi> getRendererForPoi(Poi o) {
+		Entity oAsEntity = (Entity)o;
+		GwtIconRenderer<? super Poi> renderer = rendererMap.get(oAsEntity.getType());
+		if(renderer == null)
+			throw new RuntimeException("No IconRenderer defined for " + oAsEntity.getType());
+		return renderer;
 	}
 
 	@UnsafeNativeLong

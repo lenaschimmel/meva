@@ -1,12 +1,9 @@
 package de.gmino.issuemap.client.view;
 
-import java.awt.Font;
 import java.util.Collection;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.FontStyle;
-import com.google.gwt.dom.client.Style.FontWeight;
-import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -16,21 +13,26 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
+import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 
+import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.ImageUrl;
+import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.client.Marker_Wrapper;
 import de.gmino.issuemap.client.domain.Comment;
@@ -70,10 +72,8 @@ public class ShowIssue_PopUp extends Composite {
 		date.setText(dtf.format(mIssue.getCreationTimestamp().toDate()));
 		type.setText(mIssue.getMarkertype().getMarkerName());
 		resolved.setValue(mIssue.isResolved());
-		rating.setText("" + mIssue.getRating());
-		up_count.setText("" +(mIssue.getNumber_of_rating()+mIssue.getRating())/2);
-		down_count.setText("" + (mIssue.getNumber_of_rating()-mIssue.getRating())/2);
-		title.setText(mIssue.getTitle());
+		setRatingText();
+		labelTitle.setText(mIssue.getTitle());
 		description.setText(mIssue.getDescription());
 		
 		//mIssue.vote=0;
@@ -82,6 +82,11 @@ public class ShowIssue_PopUp extends Composite {
 		loadAndShowComments();
 		loadAndShowPhotos();
 		setupForm();
+		deckPanel.showWidget(0);
+		
+		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mIssue);
+		String iconUrl = renderer.getIconUrl(mIssue);
+		imageMarkerIcon.setUrl(iconUrl);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -135,15 +140,11 @@ public class ShowIssue_PopUp extends Composite {
 	}
 
 	@UiField
-	Label title;
+	Label labelTitle;
 	@UiField
 	CheckBox resolved;
 	@UiField
 	Label rating;
-	@UiField
-	Label up_count;
-	@UiField
-	Label down_count;
 	@UiField
 	Image rate_up;
 	@UiField
@@ -163,7 +164,7 @@ public class ShowIssue_PopUp extends Composite {
 	@UiField
 	VerticalPanel parent;
 	@UiField
-	VerticalPanel picturesPanel;
+	FlowPanel picturesPanel;
 	@UiField
 	VerticalPanel commentsPanel;
 	@UiField
@@ -178,6 +179,40 @@ public class ShowIssue_PopUp extends Composite {
 	FileUpload fileupload;
 	@UiField
 	FormPanel form;
+	@UiField
+	HorizontalPanel panelRating;
+	
+	@UiField
+	DeckPanel deckPanel;
+	@UiField
+	ScrollPanel tabDescription;
+	@UiField
+	ScrollPanel tabPhotos;
+	@UiField
+	ScrollPanel tabComments;
+	
+	@UiField
+	Label labelPhotoCount;
+	@UiField
+	Label labelCommentCount;
+	
+	@UiField
+	Image imageMarkerIcon;
+	
+	@UiHandler("tabButtonDescription")
+	void onTabButtonDescriptionClick(ClickEvent e) {
+		deckPanel.showWidget(0);
+	}
+	
+	@UiHandler("tabButtonPhotos")
+	void onTabButtonPhotosClick(ClickEvent e) {
+		deckPanel.showWidget(1);
+	}
+	
+	@UiHandler("tabButtonComments")
+	void onTabButtonCommentsClick(ClickEvent e) {
+		deckPanel.showWidget(2);
+	}
 	
 	public void setupForm()
 	{
@@ -314,16 +349,19 @@ public class ShowIssue_PopUp extends Composite {
 			rate_down.setResource(imageRes.go_down());
 		if (mIssue.vote <= 0)
 			rate_up.setResource(imageRes.go_up_grey());
+		setRatingText();
+	}
+
+	private void setRatingText() {
 		rating.setText("" + (mIssue.getRating()));
-		up_count.setText(""
-				+ (mIssue.getNumber_of_rating() + mIssue.getRating()) / 2);
-		down_count.setText(""
-				+ (mIssue.getNumber_of_rating() - mIssue.getRating()) / 2);
+		int upVotes = (mIssue.getNumber_of_rating() + mIssue.getRating()) / 2;
+		int downVotes = (mIssue.getNumber_of_rating() - mIssue.getRating()) / 2;
+		panelRating.setTitle(upVotes + " positive Bewertungen, " + downVotes + " negative.");
 	}
 
 	public void setText(String titleString, String descriptionString) {
 		description.setText(descriptionString);
-		title.setText(titleString);
+		labelTitle.setText(titleString);
 	}
 
 	public void setBoarderColor(String color) {
@@ -342,12 +380,14 @@ public class ShowIssue_PopUp extends Composite {
 		commenttext.getElement().getStyle().setFontStyle(FontStyle.ITALIC);
 		vp.add(commenttext);
 		commentsPanel.add(vp);
+		labelCommentCount.setText(mIssue.getComments().size()+"");
 	}
 	
 	private void showPhoto(Photo photo) {
 		Image image = new Image(photo.getImage().getUrl()+"&h=100");
 		picturesPanel.add(image);
 		photosHeader.setText(mIssue.getPhotos().size() + " Fotos:");
+		labelPhotoCount.setText(mIssue.getPhotos().size()+"");
 //		VerticalPanel vp = new VerticalPanel();
 //		vp.getElement().getStyle().setPaddingBottom(5, Unit.PX);
 //		Label commentheader = new Label("Am " + dtf.format(comment.getTimestamp().toDate()) + " von " + comment.getUser() + ":");

@@ -119,6 +119,18 @@ public interface ImageResources extends ClientBundle {
 	@Source("img/go_up.png")
 	ImageResource go_up();
 
+	@Source("img/bubble.png")
+	ImageResource bubble();
+
+	@Source("img/resolved.png")
+	ImageResource resolved();
+
+	@Source("img/resolved_green.png")
+	ImageResource resolved_green();
+
+	@Source("img/camera.png")
+	ImageResource camera();
+
 
 
 }
