@@ -88,7 +88,7 @@ public class IssuemapGwt implements EntryPoint {
 			@Override
 			public void onEvent(LatLon location, Event event) {
 				DivElement div = ((OpenLayersMapView) mapView).createPopup(
-						location, "centerPopup", 100, 100);
+						location, "centerPopup", 1, 1);
 				div.getStyle().setOverflow(Overflow.VISIBLE);
 				div.getStyle().setBackgroundColor("transparent");
 				div.getParentElement().getStyle().setOverflow(Overflow.VISIBLE);

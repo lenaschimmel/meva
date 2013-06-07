@@ -61,7 +61,7 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 		Entity oAsEntity = (Entity)poi;
 		GwtPopupCreator<Poi> creator = popupCreatorMap.get(oAsEntity.getType());
 		Widget widget = creator.createTooltip(poi);
-		DivElement div = mapView.createPopup(poi.getLocation(), poi.getId()+"", 100, 100);
+		DivElement div = mapView.createPopup(poi.getLocation(), poi.getId()+"", 1, 1);
 		poiTooltipDivs.put(poi, div);
 		HTMLPanel.wrap(div).add(widget);
 	}
