@@ -109,6 +109,8 @@ public class IssuemapGwt implements EntryPoint {
 		// fetch map-Objekt
 		String[] domainSplit = Location.getHostName().split("\\.");
 		String subdomain = domainSplit[0];
+		if(subdomain.equalsIgnoreCase("www"))
+			subdomain = domainSplit[1];
 		mapRequest(subdomain);
 
 	}

@@ -3,9 +3,12 @@ package de.gmino.issuemap.client.view;
 import java.util.Collection;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Cursor;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.FontStyle;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -14,6 +17,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DeckPanel;
+import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -34,6 +38,7 @@ import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.geobase.shared.domain.Timestamp;
+import de.gmino.issuemap.client.ImageUrlLoader;
 import de.gmino.issuemap.client.Marker_Wrapper;
 import de.gmino.issuemap.client.domain.Comment;
 import de.gmino.issuemap.client.domain.Issue;
@@ -50,6 +55,40 @@ public class ShowIssue_PopUp extends Composite {
 
 	private static Detail_PopUpUiBinder uiBinder = GWT
 			.create(Detail_PopUpUiBinder.class);
+
+	private static final class ShowPhotoThingy extends RequestListener<Void> implements ClickHandler {
+		private final String photoBaseUrl;
+		private ImageUrlLoader loader;
+		private String scaledUrl;
+
+		private ShowPhotoThingy(String photoBaseUrl) {
+			this.photoBaseUrl = photoBaseUrl;
+		}
+
+		@Override
+		public void onClick(ClickEvent event) {
+			loader = ImageUrlLoader.getInstance();
+			scaledUrl = photoBaseUrl+"&h=500";
+			loader.addUrl(scaledUrl);
+			loader.setOnLoadListener(this);
+			
+			
+		}
+		
+		@Override
+		public void onFinished(Collection<Void> results) {
+			Image popupImage = loader.getImageByUrl(scaledUrl);
+			popupImage.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
+			
+			DecoratedPopupPanel popup = new DecoratedPopupPanel(true, true);
+			popup.setGlassEnabled(true);
+			
+			popupImage.setHeight("500px");
+			popup.add(popupImage);
+			popup.show();
+			popup.center();
+		}
+	}
 
 	interface Detail_PopUpUiBinder extends UiBinder<Widget, ShowIssue_PopUp> {
 	}
@@ -384,20 +423,13 @@ public class ShowIssue_PopUp extends Composite {
 	}
 	
 	private void showPhoto(Photo photo) {
-		Image image = new Image(photo.getImage().getUrl()+"&h=100");
+		final String photoBaseUrl = photo.getImage().getUrl();
+		Image image = new Image(photoBaseUrl+"&h=100");
+		image.getElement().getStyle().setCursor(Cursor.POINTER);
 		picturesPanel.add(image);
 		photosHeader.setText(mIssue.getPhotos().size() + " Fotos:");
 		labelPhotoCount.setText(mIssue.getPhotos().size()+"");
-//		VerticalPanel vp = new VerticalPanel();
-//		vp.getElement().getStyle().setPaddingBottom(5, Unit.PX);
-//		Label commentheader = new Label("Am " + dtf.format(comment.getTimestamp().toDate()) + " von " + comment.getUser() + ":");
-//		commentheader.getElement().getStyle().setFontSize(10, Unit.PX);
-//		commentheader.getElement().getStyle().setMarginBottom(-1, Unit.PX);
-//		vp.add(commentheader);
-//		Label commenttext = new Label(comment.getText());
-//		commenttext.getElement().getStyle().setLineHeight(16, Unit.PX);
-//		commenttext.getElement().getStyle().setFontStyle(FontStyle.ITALIC);
-//		vp.add(commenttext);
-//		commentsPanel.add(vp);
+		image.addClickHandler(new ShowPhotoThingy(photoBaseUrl));
 	}
+	
 }
