@@ -6,7 +6,7 @@ public class Hasher {
 	
 	public void hashInt(int i)
 	{
-		hash = (hash + i) * 506952113;
+		hash = ((hash + i) * 67867967) % 961748927;
 	}
 	
 	public void hashLong(long l)
