@@ -60,6 +60,7 @@ public class ShowIssue_PopUp extends Composite {
 		private final String photoBaseUrl;
 		private ImageUrlLoader loader;
 		private String scaledUrl;
+		private boolean loaded;
 
 		private ShowPhotoThingy(String photoBaseUrl) {
 			this.photoBaseUrl = photoBaseUrl;
@@ -67,16 +68,24 @@ public class ShowIssue_PopUp extends Composite {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			loader = ImageUrlLoader.getInstance();
-			scaledUrl = photoBaseUrl+"&h=500";
-			loader.addUrl(scaledUrl);
-			loader.setOnLoadListener(this);
-			
-			
+			if(loaded)
+				showPopup();
+			else
+			{
+				loader = ImageUrlLoader.getInstance();
+				scaledUrl = photoBaseUrl+"&h=500";
+				loader.addUrl(scaledUrl);
+				loader.setOnLoadListener(this);
+			}
 		}
 		
 		@Override
 		public void onFinished(Collection<Void> results) {
+			loaded = true;
+			showPopup();
+		}
+
+		private void showPopup() {
 			Image popupImage = loader.getImageByUrl(scaledUrl);
 			popupImage.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
 			
