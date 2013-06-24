@@ -45,6 +45,8 @@ public class ClassDefinition {
 			createJavaServerGen(new File(fullGenDir + "/" + className + ".java"));
 		else if (target.equals("client"))
 			createJavaClientGen(new File(fullGenDir + "/" + className + ".java"));
+		else if (target.equals("ios"))
+			createJavaClientGen(new File(fullGenDir + "/" + className + ".java"));
 		else
 			createJavaSharedGen(new File(fullGenDir + "/" + className + ".java"));
 		className = baseClassName;
