@@ -50,4 +50,9 @@ public class LatLonRect extends LatLonRectGen {
 	}
 	
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
+	
+	public LatLonRect(double south, double west, double north, double east) {
+		this.min = new LatLon(south, west);
+		this.max = new LatLon(north, east);
+	}
 }

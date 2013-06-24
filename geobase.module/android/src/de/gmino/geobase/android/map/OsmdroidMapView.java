@@ -20,6 +20,7 @@ import de.gmino.geobase.shared.map.Event;
 import de.gmino.geobase.shared.map.MapLayer;
 import de.gmino.geobase.shared.map.MapProvider;
 import de.gmino.geobase.shared.map.MarkerLayer;
+import de.gmino.geobase.shared.map.SmartLayer;
 
 public class OsmdroidMapView extends AbstractMapView implements MapListener {
 
@@ -135,5 +136,11 @@ public class OsmdroidMapView extends AbstractMapView implements MapListener {
 	public boolean onZoom(ZoomEvent arg0) {
 		handleEvent(0, 0, Event.zoom);
 		return true;
+	}
+
+	@Override
+	public SmartLayer newSmartLayer(String name) {
+		// FIXME FEHLT!
+		return null;
 	}
 }
