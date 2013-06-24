@@ -4,6 +4,7 @@
 package de.gmino.geobase.server.request;
 
 // gmino stuff
+import de.gmino.meva.server.EntitySql;
 import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.EntityQuery;
 import de.gmino.meva.shared.ValueQuery;
@@ -33,7 +34,6 @@ import java.sql.SQLException;
 // imports for serialization interfaces
 import de.gmino.meva.shared.EntityBinary;
 import de.gmino.meva.shared.ValueBinary;
-import de.gmino.meva.shared.EntitySql;
 
 // imports for field types
 import de.gmino.geobase.server.domain.LatLonRect;

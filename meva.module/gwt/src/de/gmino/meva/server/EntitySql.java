@@ -1,10 +1,11 @@
-package de.gmino.meva.shared;
+package de.gmino.meva.server;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Collection;
+
+import de.gmino.meva.shared.Entity;
 
 public interface EntitySql {
 

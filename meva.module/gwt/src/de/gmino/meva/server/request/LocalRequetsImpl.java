@@ -7,11 +7,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import de.gmino.meva.server.EntitySql;
 import de.gmino.meva.server.SqlHelper;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.EntityQuery;
-import de.gmino.meva.shared.EntitySql;
 import de.gmino.meva.shared.EntityTypeName;
 import de.gmino.meva.shared.Query;
 
