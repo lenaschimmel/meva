@@ -1,0 +1,2 @@
+The hamcrest and junit jars are in this directory to get rid of an annoying
+warning that they won't be available on the server, not for any other reason. 
