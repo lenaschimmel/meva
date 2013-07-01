@@ -77,6 +77,7 @@ public class IssuemapGwt implements EntryPoint {
 		markerLayer.addMarkerIconRenderer(Issue.type, new IssueIconRenderer());
 		mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);
 
+	
 		// Add Header to RootPanel
 		RootPanel.get("bar_top").add(header);
 
@@ -112,7 +113,19 @@ public class IssuemapGwt implements EntryPoint {
 		if(subdomain.equalsIgnoreCase("www"))
 			subdomain = domainSplit[1];
 		mapRequest(subdomain);
-
+		
+		if(subdomain.equals("zgb"))
+		{
+			markerLayer.showGpx("/gpx/burgenschloesser.gpx",		"#FFFF00");
+			markerLayer.showGpx("/gpx/droemling.gpx",				"#00FFFF");
+			markerLayer.showGpx("/gpx/fachwerk.gpx",				"#00FFFF");
+			markerLayer.showGpx("/gpx/gifhorn.gpx",					"#FFFF00");
+			markerLayer.showGpx("/gpx/grenzenlos.gpx",				"#FF0000");
+			markerLayer.showGpx("/gpx/industriestadt.gpx",			"#FF0000");
+			markerLayer.showGpx("/gpx/rundumpeine.gpx",				"#00FF00");
+			markerLayer.showGpx("/gpx/tilleulenspiegel.gpx",		"#00FF00");
+			markerLayer.showGpx("/gpx/zgb_aussengrenze_2000.gpx",	"#FFFFFF");
+		}
 	}
 
 	void mapRequest(String subdomain) {
@@ -133,7 +146,9 @@ public class IssuemapGwt implements EntryPoint {
 						header.setDesign(mapObject.getLogo().getUrl(),
 								mapObject.getTitle(), mapObject.getColor());
 						footer.setDesign(mapObject.getColor());
-
+						
+						
+						
 						map.loadMarkertypes(new RequestListener<Markertype>() {
 							@Override
 							public void onFinished(

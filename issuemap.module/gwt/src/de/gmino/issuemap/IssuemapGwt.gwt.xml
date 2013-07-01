@@ -13,6 +13,7 @@
   <inherits name='de.gmino.meva.GminoMeva'/>
   <inherits name='de.gmino.geobase.GminoGeobase'/>
   <inherits name="org.itemscript.Itemscript" />
+  <inherits name="com.google.gwt.xml.XML" />
 
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->

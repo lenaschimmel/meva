@@ -55,4 +55,8 @@ public class LatLonRect extends LatLonRectGen {
 		this.min = new LatLon(south, west);
 		this.max = new LatLon(north, east);
 	}
+
+	public LatLon getRandomWithin() {
+        return new LatLon(min.getLatitude() + Math.random() * (max.getLatitude() - min.getLatitude()), min.getLongitude() + Math.random() * (max.getLongitude() - min.getLongitude()));
+	}
 }

@@ -47,6 +47,11 @@ public class Issue extends IssueGen implements Poi {
 		vote = newVote;
 	}
 	
+	public String getDescriptionWithHtmlLineBreaks()
+	{
+		return description.replace("\n", "<br/>");
+	}
+	
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public Issue(long id)
 	{

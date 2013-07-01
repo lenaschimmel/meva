@@ -31,7 +31,7 @@ import java.sql.SQLException;
 // imports for serialization interfaces
 import de.gmino.meva.shared.EntityBinary;
 import de.gmino.meva.shared.ValueBinary;
-import de.gmino.meva.shared.EntitySql;
+import de.gmino.meva.server.EntitySql;
 
 
 import de.gmino.issuemap.server.domain.gen.MarkertypeGen;

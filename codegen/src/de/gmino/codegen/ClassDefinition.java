@@ -478,7 +478,7 @@ public class ClassDefinition {
 			pw.println("import de.gmino.meva.shared.EntityBinary;");
 			pw.println("import de.gmino.meva.shared.ValueBinary;");
 			if (target.equals("server"))
-				pw.println("import de.gmino.meva.shared.EntitySql;");
+				pw.println("import de.gmino.meva.server.EntitySql;");
 			pw.println();
 		}
 

@@ -33,7 +33,7 @@ import java.util.TreeSet;
 // imports for serialization interfaces
 import de.gmino.meva.shared.EntityBinary;
 import de.gmino.meva.shared.ValueBinary;
-import de.gmino.meva.shared.EntitySql;
+import de.gmino.meva.server.EntitySql;
 
 // imports for field types
 import de.gmino.geobase.server.domain.ImageUrl;

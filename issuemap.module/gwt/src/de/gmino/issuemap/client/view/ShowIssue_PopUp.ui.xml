@@ -142,7 +142,7 @@
 	       <g:DeckPanel ui:field="deckPanel">
 	           <g:ScrollPanel ui:field="tabDescription" width="550px" height="300px"><!-- Description -->
 	               <g:VerticalPanel>
-	                   <g:Label ui:field="description" styleName="{style.description_label}"></g:Label>
+	                   <g:HTML ui:field="description" styleName="{style.description_label}"></g:HTML>
 						<g:HorizontalPanel styleName="{style.footer}">
 							<g:Image resource="{resources.edit}" ui:field="edit"></g:Image>
 							<g:Image resource="{resources.delete}" ui:field="delete"></g:Image>

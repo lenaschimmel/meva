@@ -10,6 +10,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -25,6 +26,7 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -122,7 +124,7 @@ public class ShowIssue_PopUp extends Composite {
 		resolved.setValue(mIssue.isResolved());
 		setRatingText();
 		labelTitle.setText(mIssue.getTitle());
-		description.setText(mIssue.getDescription());
+		description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mIssue.getDescription()).toSafeHtml());
 		
 		//mIssue.vote=0;
 		updateButtonColorsAndLabels();
@@ -202,7 +204,7 @@ public class ShowIssue_PopUp extends Composite {
 	@UiField
 	Label type;
 	@UiField
-	Label description;
+	HTML description;
 	@UiField
 	Image close;
 	@UiField

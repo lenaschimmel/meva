@@ -21,6 +21,14 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		//hash.hashObject(issue.getDescription());
 		hash.hashInt(issue.getComments().size());
 	}
+	
+	private boolean isIn(String needle, String[] haystack)
+	{
+		for(String pot : haystack)
+			if(needle.equals(pot))
+				return true;
+		return false;
+	}
 
 	@Override
 	public void renderIcon(Canvas can, Issue issue) {
@@ -31,17 +39,45 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		String imageName = issue.getMarkertype().getImageName();
 		Image img = loader.getImageByUrl("/mapicon/" + imageName + ".png");
 		
-		if (issue.getMarkertype().getMarkerName().equals("Disco"))
+		String markerName = issue.getMarkertype().getMarkerName();
+		long markerId = issue.getMarkertypeId();
+		if (markerName.equals("Disco"))
 			con.setFillStyle("#33BB00");
-		else if (issue.getMarkertype().getMarkerName().equals("Theater"))
+		else if (markerName.equals("Theater"))
 			con.setFillStyle("#ef4122");
-		else if (issue.getMarkertype().getMarkerName().equals("Party"))
+		else if (markerName.equals("Party"))
 			con.setFillStyle("#FF8800");
-		else if (issue.getMarkertype().getMarkerName().equals("Sport"))
+		else if (markerName.equals("Sport"))
 			con.setFillStyle("#3852AE");
-		else if (issue.getMarkertype().getMarkerName().equals("Konzert"))
+		else if (markerName.equals("Konzert"))
 			con.setFillStyle("#B200FF");
-
+		else if (markerId >= 80 && markerId <= 94)
+			{
+			switch((int)markerId)
+			{
+				case 82:
+				case 87:
+				case 88:
+				case 89:
+				case 91:
+				case 92:
+				case 94:
+					con.setFillStyle("#FF0000"); // Kultur
+					break;
+				case 80:
+				case 81:
+				case 85:
+				case 90:
+					con.setFillStyle("#009900"); // Freizeit
+					break;
+				case 84:
+				case 86:
+				case 93:
+				case 83:
+					con.setFillStyle("#0000FF"); // Infrastruktur
+					break;
+			}
+		}
 		else {
 
 			if (issue.isResolved())
@@ -50,23 +86,26 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 				con.setFillStyle(issue.getMap_instance().getColor());
 		}
 		
-		double x = 0.11*issue.getMarkertype().getImageWidth();
-		double y = 0.1081*issue.getMarkertype().getImageHeight();
-		double w = 0.77*issue.getMarkertype().getImageWidth();
-		double h = 0.66*issue.getMarkertype().getImageHeight();
+		int imageWidth = issue.getMarkertype().getImageWidth();
+		int imageHeight = issue.getMarkertype().getImageHeight();
+
+		double x = 0.11		* imageWidth;
+		double y = 0.1081	* imageHeight;
+		double w = 0.77		* imageWidth;
+		double h = 0.66		* imageHeight;
 		con.fillRect(x, y, w, h);
 		con.beginPath();
-		con.moveTo(0.5*issue.getMarkertype().getImageWidth(), 0.92*issue.getMarkertype().getImageHeight());
-		con.lineTo(0.7*issue.getMarkertype().getImageWidth(), 0.75*issue.getMarkertype().getImageHeight());
-		con.lineTo(0.3*issue.getMarkertype().getImageWidth(), 0.75*issue.getMarkertype().getImageHeight());
-		con.lineTo(0.5*issue.getMarkertype().getImageWidth(), 0.92*issue.getMarkertype().getImageHeight());
+		con.moveTo(0.5 * imageWidth, 0.92 * imageHeight);
+		con.lineTo(0.7 * imageWidth, 0.75 * imageHeight);
+		con.lineTo(0.3 * imageWidth, 0.75 * imageHeight);
+		con.lineTo(0.5 * imageWidth, 0.92 * imageHeight);
 		con.fill();
 		con.setFillStyle("#000000");
 		//con.fillText(issue.getTitle(), 32,12);
 		//con.fillText(issue.getDescription(), 32,24);
 		
 		final ImageElement face = ImageElement.as(img.getElement());
-		con.drawImage(face, 0, 0);
+		con.drawImage(face, 0, 0, imageWidth, imageHeight);
 		
 		int commentCount = issue.getComments().size();
 		if(commentCount > 0)
