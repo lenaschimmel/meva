@@ -1,0 +1,43 @@
+{
+	"package" : "de.gmino.issuemap.TARGET.domain",
+	"concept" : "entity",
+	"name" : "BicycleShop",
+	"attributes" : [
+		{
+			"type" : "LatLon",
+			"name" : "location"
+		},
+		{
+			"type" : "String",
+			"name" : "title"
+		},	
+		{
+			"type" : "String",
+			"name" : "description"
+		},
+		{
+			"type" : "String",
+			"name" : "email"
+		},
+		{
+			"type" : "String",
+			"name" : "phone"
+		},
+		{
+			"type" : "String",
+			"name" : "website"
+		},
+		{
+			"type" : "Address",
+			"name" : "address"
+		},
+		{
+			"type" : "String",
+			"name" : "openingHours"
+		},
+		{
+			"type" : "boolean",
+			"name" : "repairService"
+		}
+	]
+}

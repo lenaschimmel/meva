@@ -26,12 +26,10 @@ public class Hover_PopUp extends Composite implements HasText {
 	interface ShowPoi_PopUpUiBinder extends UiBinder<Widget, Hover_PopUp> {
 	}
 
-	public Hover_PopUp(Issue poi) {
+	public Hover_PopUp(int height) {
 		initWidget(uiBinder.createAndBindUi(this));
 		expanded_marker.setVisible(true);
-		expanded_marker.getElement().getStyle().setHeight(0.66*poi.getMarkertype().getImageHeight(), Unit.PX);
-		
-		
+		expanded_marker.getElement().getStyle().setHeight(height, Unit.PX);
 	}
 
 	@UiField

@@ -16,8 +16,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 import de.gmino.geobase.client.map.OpenLayersMapView;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.LatLon;
+import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.geobase.shared.map.Event;
 import de.gmino.geobase.shared.map.MapListener;
+import de.gmino.issuemap.client.domain.BicycleShop;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Markertype;
@@ -75,6 +77,7 @@ public class IssuemapGwt implements EntryPoint {
 		mapView = new OpenLayersMapView("map", "mapquest");
 		markerLayer = mapView.newSmartLayer("Issues");
 		markerLayer.addMarkerIconRenderer(Issue.type, new IssueIconRenderer());
+		markerLayer.addMarkerIconRenderer(BicycleShop.type, new BicycleShopIconRenderer());
 		mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);
 
 	
@@ -114,27 +117,18 @@ public class IssuemapGwt implements EntryPoint {
 			subdomain = domainSplit[1];
 		mapRequest(subdomain);
 		
-		if(subdomain.equals("zgb"))
-		{
-			markerLayer.showGpx("/gpx/burgenschloesser.gpx",		"#FFFF00");
-			markerLayer.showGpx("/gpx/droemling.gpx",				"#00FFFF");
-			markerLayer.showGpx("/gpx/fachwerk.gpx",				"#00FFFF");
-			markerLayer.showGpx("/gpx/gifhorn.gpx",					"#FFFF00");
-			markerLayer.showGpx("/gpx/grenzenlos.gpx",				"#FF0000");
-			markerLayer.showGpx("/gpx/industriestadt.gpx",			"#FF0000");
-			markerLayer.showGpx("/gpx/rundumpeine.gpx",				"#00FF00");
-			markerLayer.showGpx("/gpx/tilleulenspiegel.gpx",		"#00FF00");
-			markerLayer.showGpx("/gpx/zgb_aussengrenze_2000.gpx",	"#FFFFFF");
-		}
+		
 	}
 
-	void mapRequest(String subdomain) {
+	
+
+	void mapRequest(final String subdomain) {
 		EntityQuery q = new QueryMapBySubdomain(subdomain);
 		Requests.getLoadedEntitiesByQuery(Map.type, q,
 				new RequestListener<Map>() {
 
 					@SuppressWarnings("unchecked")
-					public void onNewResult(Map map) {
+					public void onNewResult(final Map map) {
 						mapObject = map;
 						markerLayer.addMarkerPopupCreator(Issue.type,
 								new IssuePopupCreator(map, markerLayer));
@@ -159,6 +153,17 @@ public class IssuemapGwt implements EntryPoint {
 											@Override
 											public void onFinished(
 													Collection<Void> results) {
+												
+												if(subdomain.equals("zgb"))
+												{
+													markerLayer.addMarkerPopupCreator(BicycleShop.type,
+															new BicycleShopPopupCreator(map, markerLayer));
+
+													ZgbTools zgb = new ZgbTools(markerLayer);
+													zgb.showRoutes();
+													zgb.showBicycleShops();
+												}
+												
 												Collection<Issue> issues = mapObject
 														.getIssues();
 												Requests.loadEntities(
@@ -197,8 +202,8 @@ public class IssuemapGwt implements EntryPoint {
 		mapView.setCenter(position, true);
 	}
 
-	public void addMarker(Issue nIssue) {
-		markerLayer.addPoi(nIssue);
+	public void addMarker(Poi poi) {
+		markerLayer.addPoi(poi);
 
 	}
 
