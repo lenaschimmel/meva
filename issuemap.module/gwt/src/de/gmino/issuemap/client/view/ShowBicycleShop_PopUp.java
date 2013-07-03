@@ -111,7 +111,8 @@ public class ShowBicycleShop_PopUp extends Composite {
 	Marker_Wrapper mWrapper;
 
 	@SuppressWarnings("unchecked")
-	public ShowBicycleShop_PopUp(Map map, BicycleShop shop, Marker_Wrapper marker_Wrapper, OpenLayersSmartLayer smartLayer) {
+	public ShowBicycleShop_PopUp(Map map, BicycleShop shop,
+			Marker_Wrapper marker_Wrapper, OpenLayersSmartLayer smartLayer) {
 		imageRes = GWT.create(ImageResources.class);
 		initWidget(uiBinder.createAndBindUi(this));
 		this.mapObject = map;
@@ -120,30 +121,71 @@ public class ShowBicycleShop_PopUp extends Composite {
 		this.mWrapper = marker_Wrapper;
 		setBoarderColor(map.getColor());
 
-		type.setText("Fahrradreparaturmöglichkeit");
-		
-		labelTitle.setText(mShop.getTitle());
-		description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mShop.getDescription()).toSafeHtml());
-		
+		type.setText("Fahrradwerkstatt");
+		if (mShop.getAddress().getStreet().equals(""))
+			adressPanel.getElement().removeFromParent();
+		else
+			adress.setText(mShop.getAddress().getStreet() + " "
+					+ mShop.getAddress().getHouseNumber() + ", "
+					+ mShop.getAddress().getZip() + " "
+					+ mShop.getAddress().getCity());
+		if (mShop.getPhone().equals(""))
+			phonePanel.getElement().removeFromParent();
+		else
+			phone.setText(mShop.getPhone());
+		if (mShop.getEmail().equals(""))
+			emailPanel.getElement().removeFromParent();
+		else
+			email.setText(mShop.getEmail());
+		if (mShop.getWebsite().equals(""))
+			websitePanel.getElement().removeFromParent();
+		else
+			website.setText(mShop.getWebsite());
+		if (mShop.getOpeningHours().equals(""))
+			openinghoursPanel.getElement().removeFromParent();
+		else
+			openinghours.setText(mShop.getOpeningHours());
+
+		if (mShop.getTitle().equals("")) {
+			labelTitle.setText("Fahradwerkstatt (Name unbekannt)");
+		} else {
+			labelTitle.setText(mShop.getTitle());
+		}
+		description.setHTML(new SafeHtmlBuilder().appendEscapedLines(
+				mShop.getDescription()).toSafeHtml());
+
 		deckPanel.showWidget(0);
-		
-		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mShop);
+
+		GwtIconRenderer<? super Poi> renderer = smartLayer
+				.getRendererForPoi(mShop);
 		String iconUrl = renderer.getIconUrl(mShop);
 		imageMarkerIcon.setUrl(iconUrl);
 	}
-
+	
+	@UiField
+	HorizontalPanel adressPanel;
+	@UiField
+	HorizontalPanel phonePanel;
+	@UiField
+	HorizontalPanel emailPanel;
+	@UiField
+	HorizontalPanel websitePanel;
+	@UiField
+	HorizontalPanel openinghoursPanel;
+	
+	
+	@UiField
+	Label adress;
+	@UiField
+	Label phone;
+	@UiField
+	Label email;
+	@UiField
+	Label website;
+	@UiField
+	Label openinghours;
 	@UiField
 	Label labelTitle;
-	@UiField
-	CheckBox resolved;
-	@UiField
-	Label rating;
-	@UiField
-	Image rate_up;
-	@UiField
-	Image rate_down;
-	@UiField
-	Label date;
 	@UiField
 	Label type;
 	@UiField
@@ -151,38 +193,12 @@ public class ShowBicycleShop_PopUp extends Composite {
 	@UiField
 	Image close;
 	@UiField
-	Image delete;
-	@UiField
-	Image edit;
-	@UiField
 	VerticalPanel parent;
-	@UiField
-	FlowPanel picturesPanel;
-	@UiField
-	VerticalPanel commentsPanel;
-	@UiField
-	Label commentsHeader;
-	@UiField
-	Label photosHeader;
-	@UiField 
-	TextBox commentTextBox;
-	@UiField
-	Button commentButton;
-	@UiField
-	FileUpload fileupload;
-	@UiField
-	FormPanel form;
-	@UiField
-	HorizontalPanel panelRating;
-	
 	@UiField
 	DeckPanel deckPanel;
 	@UiField
 	ScrollPanel tabDescription;
-	@UiField
-	ScrollPanel tabPhotos;
-	@UiField
-	ScrollPanel tabComments;
+
 	
 	@UiField
 	Label labelPhotoCount;
@@ -192,20 +208,7 @@ public class ShowBicycleShop_PopUp extends Composite {
 	@UiField
 	Image imageMarkerIcon;
 	
-	@UiHandler("tabButtonDescription")
-	void onTabButtonDescriptionClick(ClickEvent e) {
-		deckPanel.showWidget(0);
-	}
-	
-	@UiHandler("tabButtonPhotos")
-	void onTabButtonPhotosClick(ClickEvent e) {
-		deckPanel.showWidget(1);
-	}
-	
-	@UiHandler("tabButtonComments")
-	void onTabButtonCommentsClick(ClickEvent e) {
-		deckPanel.showWidget(2);
-	}
+
 	
 
 	@UiHandler("close")
