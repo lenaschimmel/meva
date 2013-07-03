@@ -187,6 +187,7 @@ public class ZgbTools {
 			
   			
 			BicycleShop shop = new BicycleShop(Math.abs(id));
+			shop.preventNulls();
 			shop.setLocation(new LatLon(latitude, longitude));
 			
 		    NodeList tagList = shopNode.getChildNodes();

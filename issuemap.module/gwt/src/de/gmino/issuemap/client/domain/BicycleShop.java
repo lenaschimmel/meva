@@ -63,6 +63,20 @@ public class BicycleShop extends BicycleShopGen {
 		);
 		this.ready = true;
 	}
+
 	
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
+	
+
+	public void preventNulls() {
+		location = new de.gmino.geobase.shared.domain.LatLon(0,0);
+		title = "";
+		description = "";
+		email = "";
+		phone = "";
+		website = "";
+		openingHours = "";
+		repairService = false;
+		address = new Address();
+	}
 }
