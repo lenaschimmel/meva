@@ -59,4 +59,8 @@ public class Timestamp extends TimestampGen {
 	public Duration timeUntil(Timestamp then) {
 		return new Duration(then.getMillisSinceEpoch() - millisSinceEpoch);
 	}
+
+	public Duration relativeToNow() {
+		return new Duration(millisSinceEpoch - System.currentTimeMillis());
+	}
 }

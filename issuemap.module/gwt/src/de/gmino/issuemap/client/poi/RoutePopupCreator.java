@@ -33,12 +33,12 @@ public class RoutePopupCreator implements GwtPopupCreator<Route> {
 
 	@Override
 	public Widget createTooltip(Route poi) {
-		int height = 30;
+		int height = 40;
 		Hover_PopUp hoverPopUp = new Hover_PopUp(height);
 		hoverPopUp.setText(poi.getTitle(), poi.getDescription());
 		hoverPopUp.getElement().getStyle().setPosition(Position.ABSOLUTE);
-		hoverPopUp.getElement().getStyle().setTop(-0.85   * 30, Unit.PX);
-		hoverPopUp.getElement().getStyle().setLeft(0.3825 * 30, Unit.PX);
+		hoverPopUp.getElement().getStyle().setTop(-0.85   * 58, Unit.PX);
+		hoverPopUp.getElement().getStyle().setLeft(0.3825 * 50, Unit.PX);
 		return hoverPopUp;
 	}
 

@@ -127,11 +127,11 @@ public class ShowRoute_PopUp extends Composite {
 		if (mRoute.getLength().toString().equals(""))
 			lengthPanel.getElement().removeFromParent();
 		else
-			length.setText(mRoute.getLength().getMeters()/1000 + "km");
+			length.setText(mRoute.getLength().toMetricString());
 		if (mRoute.getRideTime().toString().equals(""))
 			durationPanel.getElement().removeFromParent();
 		else
-			ridetime.setText(mRoute.getRideTime().getMilliseconds()/3600000 + " Stunden");
+			ridetime.setText(mRoute.getRideTime().toRelativeString());
 		
 		setRatingText();
 	}

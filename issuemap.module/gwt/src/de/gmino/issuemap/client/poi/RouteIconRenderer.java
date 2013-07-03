@@ -24,30 +24,41 @@ public class RouteIconRenderer extends GwtIconRenderer<Route> {
 	
 	@Override
 	public void renderIcon(Canvas can, Route route) {
-		can.setCoordinateSpaceWidth(WIDTH);
-		can.setCoordinateSpaceHeight(HEIGHT);
+		can.setCoordinateSpaceWidth(getWidth(route));
+		can.setCoordinateSpaceHeight(getHeight(route));
 		Context2d con = can.getContext2d();
 		
-		//Image img = loader.getImageByUrl("/mapicon/route.png");
+		Image img = loader.getImageByUrl("/mapicon/cycleway.png");
+		
+		
+			con.setFillStyle(route.getColor());
+		
+		
+		int imageWidth = getWidth(route);
+		int imageHeight = getHeight(route);
 
-		con.setFont("bold 14px sans-serif");
-		TextMetrics measureText = con.measureText(route.getTitle());
-		double textWidth = measureText.getWidth();
-		con.setFillStyle(route.getColor());
-		con.fillRect(0, 0, textWidth + 10, HEIGHT);
+		double x = 0.11		* imageWidth;
+		double y = 0.1081	* imageHeight;
+		double w = 0.77		* imageWidth;
+		double h = 0.66		* imageHeight;
+		con.fillRect(x, y, w, h);
+		
 		con.setFillStyle("#000000");
-		con.fillText(route.getTitle(), 5, HEIGHT - 5, WIDTH - 10);
+			
+		final ImageElement face = ImageElement.as(img.getElement());
+		con.drawImage(face, 0, 0, imageWidth, imageHeight);
 	}
 
 	@Override
-	public int getWidth(Route issue) {
-		return WIDTH;
+	public int getWidth(Route route) {
+		return 50;
 	}
 
 	@Override
-	public int getHeight(Route issue) {
-		return HEIGHT;
+	public int getHeight(Route route) {
+		return 58;
 	}
+	
 	
 	
 }

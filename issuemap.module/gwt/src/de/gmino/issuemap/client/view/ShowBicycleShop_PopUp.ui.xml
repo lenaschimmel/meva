@@ -102,22 +102,6 @@
 	                    </g:HorizontalPanel>
 	                </g:VerticalPanel>
 	            </g:cell>
-	     		<g:cell width="40px">
-	                <g:VerticalPanel>
-	                    <g:FocusPanel ui:field="topCellPhotos" title="Fotos anzeigen" styleName="{style.topCell}">
-		                    <g:HorizontalPanel>
-		                        <g:Label ui:field="labelPhotoCount" styleName="{style.meta_label}">0</g:Label>
-		                        <g:Image resource="{resources.camera}"/>
-		                    </g:HorizontalPanel>
-		                </g:FocusPanel>	
-		                <g:FocusPanel ui:field="topCellComments" title="Diskussion anzeigen" styleName="{style.topCell}">
-		                    <g:HorizontalPanel>
-		                    	<g:Label ui:field="labelCommentCount" styleName="{style.meta_label}">0</g:Label>
-		                        <g:Image resource="{resources.bubble}"/>
-		                    </g:HorizontalPanel>
-	                    </g:FocusPanel>
-	                </g:VerticalPanel>
-	            </g:cell>
 	        </g:HorizontalPanel>
 	    </g:Cell>
 	    <g:Cell><!-- Mittelteile mit Tabinhalten -->

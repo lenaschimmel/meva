@@ -140,10 +140,10 @@
 	       <g:DeckPanel ui:field="deckPanel">
 	           <g:ScrollPanel ui:field="tabDescription" width="550px" height="300px"><!-- Description -->
 	               <g:VerticalPanel>
-	                   <g:HTML ui:field="description" styleName="{style.description_label}"></g:HTML>
 	               <g:HorizontalPanel ui:field="characteristicPanel"><g:Label width="120px"  styleName="{style.meta_label_bold}">Charakteristik: </g:Label><g:Label ui:field="characteristic"></g:Label></g:HorizontalPanel>
 	               <g:HorizontalPanel ui:field="lengthPanel"><g:Label width="120px"  styleName="{style.meta_label_bold}">Länge: </g:Label><g:Label ui:field="length"></g:Label></g:HorizontalPanel>
 	               <g:HorizontalPanel ui:field="durationPanel"><g:Label width="120px"  styleName="{style.meta_label_bold}">Fahrzeit: </g:Label><g:Label ui:field="ridetime"></g:Label></g:HorizontalPanel>
+	               <g:HTML ui:field="description" styleName="{style.description_label}"></g:HTML>
 	               </g:VerticalPanel>
 	           </g:ScrollPanel>
 	           <g:ScrollPanel ui:field="tabPhotos" width="550px" height="300px"><!-- Photos -->

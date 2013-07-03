@@ -201,11 +201,6 @@ public class ShowBicycleShop_PopUp extends Composite {
 
 	
 	@UiField
-	Label labelPhotoCount;
-	@UiField
-	Label labelCommentCount;
-	
-	@UiField
 	Image imageMarkerIcon;
 	
 

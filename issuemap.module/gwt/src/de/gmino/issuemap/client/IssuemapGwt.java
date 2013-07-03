@@ -92,8 +92,11 @@ public class IssuemapGwt implements EntryPoint {
 		markerLayer.addMarkerIconRenderer(Issue.type, new IssueIconRenderer());
 		markerLayer.addMarkerIconRenderer(BicycleShop.type, new BicycleShopIconRenderer());
 		if(subdomain.equals("zgb"))
+		{
+			String url = "/mapicon/cycleway.png";
+			ImageUrlLoader.getInstance().addUrl(url);
 			markerLayer.addMarkerIconRenderer(Route.type, new RouteIconRenderer());
-
+		}
 	
 		// Add Header to RootPanel
 		RootPanel.get("bar_top").add(header);

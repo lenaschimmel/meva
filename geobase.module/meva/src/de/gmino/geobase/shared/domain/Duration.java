@@ -54,8 +54,8 @@ public class Duration extends DurationGen {
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	
 	public String toRelativeString() {
-		long now = System.currentTimeMillis();
-		long diff = milliseconds - now;
+		//long now = System.currentTimeMillis();
+		long diff = milliseconds; // - now;
 		if (diff == 0)
 			return "jetzt";
 		String ret = (diff > 0) ? "in " : "vor ";
