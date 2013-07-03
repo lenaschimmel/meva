@@ -3,10 +3,7 @@ package de.gmino.issuemap.client.view;
 import java.util.Collection;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.Display;
-import com.google.gwt.dom.client.Style.FontStyle;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -22,10 +19,6 @@ import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -37,21 +30,16 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
-import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.Poi;
-import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.client.ImageUrlLoader;
 import de.gmino.issuemap.client.domain.BicycleShop;
-import de.gmino.issuemap.client.domain.Comment;
-import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
-import de.gmino.issuemap.client.domain.Photo;
+import de.gmino.issuemap.client.domain.Route;
 import de.gmino.issuemap.client.poi.Marker_Wrapper;
 import de.gmino.issuemap.client.resources.ImageResources;
 import de.gmino.meva.shared.request.RequestListener;
-import de.gmino.meva.shared.request.Requests;
 
-public class ShowBicycleShop_PopUp extends Composite {
+public class ShowRoute_PopUp extends Composite {
 
 	static DateTimeFormat dtf = DateTimeFormat.getFormat("dd.MM.yyyy hh:mm");
 	ImageResources imageRes;
@@ -102,33 +90,33 @@ public class ShowBicycleShop_PopUp extends Composite {
 		}
 	}
 
-	interface Detail_PopUpUiBinder extends UiBinder<Widget, ShowBicycleShop_PopUp> {
+	interface Detail_PopUpUiBinder extends UiBinder<Widget, ShowRoute_PopUp> {
 	}
 
 	Map mapObject;
 	OpenLayersSmartLayer smartLayer;
-	BicycleShop mShop;
+	Route mRoute;
 	Marker_Wrapper mWrapper;
 
 	@SuppressWarnings("unchecked")
-	public ShowBicycleShop_PopUp(Map map, BicycleShop shop, Marker_Wrapper marker_Wrapper, OpenLayersSmartLayer smartLayer) {
+	public ShowRoute_PopUp(Map map, Route route, Marker_Wrapper marker_Wrapper, OpenLayersSmartLayer smartLayer) {
 		imageRes = GWT.create(ImageResources.class);
 		initWidget(uiBinder.createAndBindUi(this));
 		this.mapObject = map;
 		this.smartLayer = smartLayer;
-		this.mShop = shop;
+		this.mRoute = route;
 		this.mWrapper = marker_Wrapper;
 		setBoarderColor(map.getColor());
 
 		type.setText("Fahrradreparaturmöglichkeit");
 		
-		labelTitle.setText(mShop.getTitle());
-		description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mShop.getDescription()).toSafeHtml());
+		labelTitle.setText(mRoute.getTitle());
+		description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mRoute.getDescription()).toSafeHtml());
 		
 		deckPanel.showWidget(0);
 		
-		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mShop);
-		String iconUrl = renderer.getIconUrl(mShop);
+		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mRoute);
+		String iconUrl = renderer.getIconUrl(mRoute);
 		imageMarkerIcon.setUrl(iconUrl);
 	}
 

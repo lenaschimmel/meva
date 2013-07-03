@@ -23,6 +23,13 @@ import de.gmino.issuemap.client.domain.BicycleShop;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Markertype;
+import de.gmino.issuemap.client.domain.Route;
+import de.gmino.issuemap.client.poi.BicycleShopIconRenderer;
+import de.gmino.issuemap.client.poi.BicycleShopPopupCreator;
+import de.gmino.issuemap.client.poi.IssueIconRenderer;
+import de.gmino.issuemap.client.poi.IssuePopupCreator;
+import de.gmino.issuemap.client.poi.RouteIconRenderer;
+import de.gmino.issuemap.client.poi.RoutePopupCreator;
 import de.gmino.issuemap.client.request.QueryMapBySubdomain;
 import de.gmino.issuemap.client.view.CreateEvent_PopUp;
 import de.gmino.issuemap.client.view.CreateIssue_PopUp;
@@ -72,13 +79,20 @@ public class IssuemapGwt implements EntryPoint {
 
 		Requests.setImplementation(new NetworkRequestsImplAsyncJson("http://"
 				+ Location.getHost() + "/"));
+		
+		String[] domainSplit = Location.getHostName().split("\\.");
+		String subdomain = domainSplit[0];
+		if(subdomain.equalsIgnoreCase("www"))
+			subdomain = domainSplit[1];
 
 		// Create the map
 		mapView = new OpenLayersMapView("map", "mapquest");
 		markerLayer = mapView.newSmartLayer("Issues");
+		mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);
 		markerLayer.addMarkerIconRenderer(Issue.type, new IssueIconRenderer());
 		markerLayer.addMarkerIconRenderer(BicycleShop.type, new BicycleShopIconRenderer());
-		mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);
+		if(subdomain.equals("zgb"))
+			markerLayer.addMarkerIconRenderer(Route.type, new RouteIconRenderer());
 
 	
 		// Add Header to RootPanel
@@ -86,6 +100,14 @@ public class IssuemapGwt implements EntryPoint {
 
 		RootPanel.get("bar_bottom").add(footer);
 
+		mapView.addEventListener(Event.click, new MapListener() {
+
+			@Override
+			public void onEvent(LatLon location, Event event) {
+				footer.setText(location.toString());
+			}
+		});
+		
 		// Add create-PopUp by Double-Click
 		mapView.addEventListener(Event.dblclick, new MapListener() {
 
@@ -110,14 +132,7 @@ public class IssuemapGwt implements EntryPoint {
 			}
 		});
 
-		// fetch map-Objekt
-		String[] domainSplit = Location.getHostName().split("\\.");
-		String subdomain = domainSplit[0];
-		if(subdomain.equalsIgnoreCase("www"))
-			subdomain = domainSplit[1];
 		mapRequest(subdomain);
-		
-		
 	}
 
 	
@@ -158,6 +173,8 @@ public class IssuemapGwt implements EntryPoint {
 												{
 													markerLayer.addMarkerPopupCreator(BicycleShop.type,
 															new BicycleShopPopupCreator(map, markerLayer));
+													markerLayer.addMarkerPopupCreator(Route.type,
+															new RoutePopupCreator(map, markerLayer));
 
 													ZgbTools zgb = new ZgbTools(markerLayer);
 													zgb.showRoutes();

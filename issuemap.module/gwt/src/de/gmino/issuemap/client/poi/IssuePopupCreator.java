@@ -1,4 +1,4 @@
-package de.gmino.issuemap.client;
+package de.gmino.issuemap.client.poi;
 
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;

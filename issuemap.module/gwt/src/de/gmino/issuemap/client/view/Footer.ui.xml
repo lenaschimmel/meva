@@ -49,6 +49,10 @@
 			</g:PushButton>
 		</g:cell>  
 		
+		<g:cell horizontalAlignment="ALIGN_LEFT">
+	 		<g:Label ui:field="text"/>  
+		</g:cell>	
+			
 		<g:cell horizontalAlignment="ALIGN_RIGHT">
 	 		<g:Image styleName="{style.gmino_logo}" url="logo_gmino.png" ui:field="gmino_logo"/>  
 		</g:cell>

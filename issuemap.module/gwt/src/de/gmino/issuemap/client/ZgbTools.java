@@ -1,5 +1,8 @@
 package de.gmino.issuemap.client;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -16,6 +19,9 @@ import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.Address;
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.issuemap.client.domain.BicycleShop;
+import de.gmino.issuemap.shared.domain.Route;
+import de.gmino.meva.shared.request.RequestListener;
+import de.gmino.meva.shared.request.Requests;
 
 public class ZgbTools {
 	
@@ -32,14 +38,19 @@ public class ZgbTools {
 
 	
 	public void showRoutes() {
-		showGpx("/gpx/burgenschloesser.gpx",		"#FFFF00", false);
-		showGpx("/gpx/droemling.gpx",				"#00FFFF", false);
-		showGpx("/gpx/fachwerk.gpx",				"#00FFFF", false);
-		showGpx("/gpx/gifhorn.gpx",					"#FFFF00", false);
-		showGpx("/gpx/grenzenlos.gpx",				"#FF0000", false);
-		showGpx("/gpx/industriestadt.gpx",			"#FF0000", false);
-		showGpx("/gpx/rundumpeine.gpx",				"#00FF00", false);
-		showGpx("/gpx/tilleulenspiegel.gpx",		"#00FF00", false);
+		
+		Collection<Long> ids = new ArrayList<Long>();
+		for(long i = 1; i <= 1; i++)
+			ids.add(i);
+		Requests.getLoadedEntitiesById(Route.type, ids , new RequestListener<Route>() {
+			@Override
+			public void onNewResult(Route route) {
+				showGpx(route.getGpxUrl(), route.getColor(), false);
+				
+				smartLayer.addPoi(route);
+			}
+		});
+
 		showGpx("/gpx/zgb_aussengrenze_2000.gpx",	"#000066", true);
 	}
 
