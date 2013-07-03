@@ -23,7 +23,12 @@
 		}
 		.gmino_logo{
 				cursor: pointer;
-	
+		}
+
+		.footText
+		{
+ 			color: #FFFFFF;
+    		margin-top: 16px;
 		}
 	</ui:style>
 	<g:HorizontalPanel styleName="{style.footer}" width="100%" ui:field="footer">
@@ -50,7 +55,7 @@
 		</g:cell>  
 		
 		<g:cell horizontalAlignment="ALIGN_LEFT">
-	 		<g:Label ui:field="text"/>  
+	 		<g:Label styleName="{style.footText}" ui:field="text"/>  
 		</g:cell>	
 			
 		<g:cell horizontalAlignment="ALIGN_RIGHT">
