@@ -63,7 +63,6 @@ public class BicycleShop extends BicycleShopGen {
 		);
 		this.ready = true;
 	}
-
 	
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	
