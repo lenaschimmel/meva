@@ -40,7 +40,7 @@ public class ZgbTools {
 	public void showRoutes() {
 		
 		Collection<Long> ids = new ArrayList<Long>();
-		for(long l = 1; l < 8; l++)
+		for(long l = 1; l <= 8; l++)
 		{
 			Requests.getLoadedEntityById(Route.type, l , new RequestListener<Route>() {
 				@Override
@@ -48,6 +48,10 @@ public class ZgbTools {
 					showGpx(route.getGpxUrl(), route.getColor(), false);
 					
 					smartLayer.addPoi(route);
+				}
+				
+				@Override
+				public void onError(String message, Throwable e) {
 				}
 			});
 		}

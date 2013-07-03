@@ -38,6 +38,7 @@ import de.gmino.issuemap.client.domain.Route;
 import de.gmino.issuemap.client.poi.Marker_Wrapper;
 import de.gmino.issuemap.client.resources.ImageResources;
 import de.gmino.meva.shared.request.RequestListener;
+import de.gmino.meva.shared.request.Requests;
 
 public class ShowRoute_PopUp extends Composite {
 
@@ -108,7 +109,7 @@ public class ShowRoute_PopUp extends Composite {
 		this.mWrapper = marker_Wrapper;
 		setBoarderColor(map.getColor());
 
-		type.setText("Fahrradreparaturmöglichkeit");
+		type.setText("Radtour");
 		
 		labelTitle.setText(mRoute.getTitle());
 		description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mRoute.getDescription()).toSafeHtml());
@@ -118,8 +119,37 @@ public class ShowRoute_PopUp extends Composite {
 		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mRoute);
 		String iconUrl = renderer.getIconUrl(mRoute);
 		imageMarkerIcon.setUrl(iconUrl);
+		
+		if (mRoute.getCharacteristics().equals(""))
+			characteristicPanel.getElement().removeFromParent();
+		else
+			characteristic.setText(mRoute.getCharacteristics());
+		if (mRoute.getLength().toString().equals(""))
+			lengthPanel.getElement().removeFromParent();
+		else
+			length.setText(mRoute.getLength().getMeters()/1000 + "km");
+		if (mRoute.getRideTime().toString().equals(""))
+			durationPanel.getElement().removeFromParent();
+		else
+			ridetime.setText(mRoute.getRideTime().getMilliseconds()/3600000 + " Stunden");
+		
+		setRatingText();
 	}
 
+	@UiField
+	HorizontalPanel characteristicPanel;
+	@UiField
+	HorizontalPanel lengthPanel;
+	@UiField
+	HorizontalPanel durationPanel;
+	@UiField
+	Label characteristic;
+	@UiField
+	Label length;
+	@UiField
+	Label ridetime;
+	
+	
 	@UiField
 	Label labelTitle;
 	@UiField
@@ -131,17 +161,11 @@ public class ShowRoute_PopUp extends Composite {
 	@UiField
 	Image rate_down;
 	@UiField
-	Label date;
-	@UiField
 	Label type;
 	@UiField
 	HTML description;
 	@UiField
 	Image close;
-	@UiField
-	Image delete;
-	@UiField
-	Image edit;
 	@UiField
 	VerticalPanel parent;
 	@UiField
@@ -208,5 +232,46 @@ public class ShowRoute_PopUp extends Composite {
 
 	public void setBoarderColor(String color) {
 		parent.getElement().getStyle().setBorderColor(color);
+	}
+	
+	@UiHandler("rate_down")
+	void onRateDown(ClickEvent e) {
+		if(mRoute.vote == -1)
+			mRoute.changeRating(0);
+		else
+			mRoute.changeRating(-1);
+		
+		Requests.saveEntity(mRoute, null);
+		updateButtonColorsAndLabels();
+	}
+	
+	@UiHandler("rate_up")
+	void onRateUp(ClickEvent e) {
+		if(mRoute.vote == 1)
+			mRoute.changeRating(0);
+		else
+			mRoute.changeRating(1);
+		
+		Requests.saveEntity(mRoute, null);
+		updateButtonColorsAndLabels();
+	}
+	
+	private void updateButtonColorsAndLabels() {
+		if (mRoute.vote >= 1)
+			rate_up.setResource(imageRes.go_up());
+		if (mRoute.vote >= 0)
+			rate_down.setResource(imageRes.go_down_grey());
+		if (mRoute.vote <= -1)
+			rate_down.setResource(imageRes.go_down());
+		if (mRoute.vote <= 0)
+			rate_up.setResource(imageRes.go_up_grey());
+		setRatingText();
+	}
+
+	private void setRatingText() {
+		rating.setText("" + (mRoute.getRating()));
+		int upVotes = (mRoute.getNumber_of_rating() + mRoute.getRating()) / 2;
+		int downVotes = (mRoute.getNumber_of_rating() - mRoute.getRating()) / 2;
+		panelRating.setTitle(upVotes + " positive Bewertungen, " + downVotes + " negative.");
 	}
 }
