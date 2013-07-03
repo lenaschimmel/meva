@@ -131,7 +131,7 @@ public class ShowRoute_PopUp extends Composite {
 		if (mRoute.getRideTime().toString().equals(""))
 			durationPanel.getElement().removeFromParent();
 		else
-			ridetime.setText(mRoute.getRideTime().toRelativeString());
+			ridetime.setText(mRoute.getRideTime().toReadableString(false));
 		
 		setRatingText();
 	}
