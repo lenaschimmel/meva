@@ -26,9 +26,9 @@ public class BicycleShopIconRenderer extends GwtIconRenderer<BicycleShop> {
 		Image img = loader.getImageByUrl("/mapicon/workshop.png");
 		
 		if (shop.isRepairService())
-			con.setFillStyle("#33BB00");
+			con.setFillStyle("#3852AE");
 		else 
-			con.setFillStyle("#ef4122");
+			con.setFillStyle("#3852AE");
 		
 		
 		int imageWidth = getWidth(shop);
@@ -53,12 +53,12 @@ public class BicycleShopIconRenderer extends GwtIconRenderer<BicycleShop> {
 
 	@Override
 	public int getWidth(BicycleShop issue) {
-		return 41;
+		return 38;
 	}
 
 	@Override
 	public int getHeight(BicycleShop issue) {
-		return 41;
+		return 44;
 	}
 	
 	

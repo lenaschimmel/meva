@@ -37,12 +37,13 @@ public class BicycleShopPopupCreator implements GwtPopupCreator<BicycleShop> {
 
 	@Override
 	public Widget createTooltip(BicycleShop poi) {
-		int height = 30;
-		Hover_PopUp hoverPopUp = new Hover_PopUp(height);
+		int height = 44;
+		int width = 38;
+		Hover_PopUp hoverPopUp = new Hover_PopUp((int) (0.66*height));
 		hoverPopUp.setText(poi.getTitle(), poi.getDescription());
 		hoverPopUp.getElement().getStyle().setPosition(Position.ABSOLUTE);
-		hoverPopUp.getElement().getStyle().setTop(-0.85   * 30, Unit.PX);
-		hoverPopUp.getElement().getStyle().setLeft(0.3825 * 30, Unit.PX);
+		hoverPopUp.getElement().getStyle().setTop(-0.85   * height, Unit.PX);
+		hoverPopUp.getElement().getStyle().setLeft(0.3825 * width, Unit.PX);
 		return hoverPopUp;
 	}
 
