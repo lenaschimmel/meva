@@ -1,0 +1,39 @@
+{
+	"package" : "de.gmino.issuemap.TARGET.domain",
+	"concept" : "entity",
+	"name" : "Route",
+	"attributes" : [
+		{
+			"type" : "LatLon",
+			"name" : "location"
+		},
+		{
+			"type" : "String",
+			"name" : "title"
+		},	
+		{
+			"type" : "String",
+			"name" : "description"
+		},
+		{
+			"type" : "String",
+			"name" : "gpxUrl"
+		},
+		{
+			"type" : "String",
+			"name" : "color"
+		},
+		{
+			"type" : "String",
+			"name" : "characteristics"
+		},
+		{
+			"type" : "Distance",
+			"name" : "length"
+		},
+		{
+			"type" : "Duration",
+			"name" : "rideTime"
+		}
+	]
+}

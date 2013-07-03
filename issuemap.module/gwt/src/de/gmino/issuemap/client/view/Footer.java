@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -52,6 +53,9 @@ public class Footer extends Composite implements HasText {
 	@UiField
 	Image gmino_logo;
 	
+	@UiField
+	Label text;
+	
 	
 	public Footer(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -81,8 +85,7 @@ public class Footer extends Composite implements HasText {
 
 	@Override
 	public void setText(String text) {
-		// TODO Auto-generated method stub
-		
+		this.text.setText(text);
 	}
 
 
