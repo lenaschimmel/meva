@@ -53,12 +53,16 @@ public class Duration extends DurationGen {
 	
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	
-	public String toRelativeString() {
+	public String toReadableString(boolean relative) {
 		//long now = System.currentTimeMillis();
 		long diff = milliseconds; // - now;
 		if (diff == 0)
-			return "jetzt";
-		String ret = (diff > 0) ? "in " : "vor ";
+			return relative ? "jetzt" : "sofort";
+		String ret;
+		if(relative)
+			ret = (diff > 0) ? "in " : "vor ";
+		else
+			ret = (diff > 0) ? "" : "minus ";
 		LinkedList<String> parts = new LinkedList<String>();
 
 		if (diff < 0)
@@ -67,12 +71,12 @@ public class Duration extends DurationGen {
 		long years = diff / YEAR;
 		diff -= years * YEAR;
 		if (years > 0)
-			parts.add(years + ((years == 1) ? " Jahr" : " Jahren"));
+			parts.add(years + ((years == 1) ? " Jahr" : (relative ? " Jahren" : " Jahre")));
 
 		long months = diff / MONTH;
 		diff -= months * MONTH;
 		if (months > 0)
-			parts.add(months + ((months == 1) ? " Monat" : " Monaten"));
+			parts.add(months + ((months == 1) ? " Monat" : (relative ? " Monaten" : " Monate")));
 
 		if (parts.size() > 1)
 			return ret + concatParts(parts);
@@ -88,7 +92,7 @@ public class Duration extends DurationGen {
 		long days = diff / DAY;
 		diff -= days * DAY;
 		if (days > 0)
-			parts.add(days + ((days == 1) ? " Tag" : " Tagen"));
+			parts.add(days + ((days == 1) ? " Tag" : (relative ? " Tagen" : " Tage")));
 
 		if (parts.size() > 1)
 			return ret + concatParts(parts);
