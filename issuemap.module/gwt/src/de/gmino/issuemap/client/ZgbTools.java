@@ -40,16 +40,26 @@ public class ZgbTools {
 	public void showRoutes() {
 		
 		Collection<Long> ids = new ArrayList<Long>();
-		for(long i = 1; i <= 1; i++)
-			ids.add(i);
-		Requests.getLoadedEntitiesById(Route.type, ids , new RequestListener<Route>() {
-			@Override
-			public void onNewResult(Route route) {
-				showGpx(route.getGpxUrl(), route.getColor(), false);
-				
-				smartLayer.addPoi(route);
-			}
-		});
+		for(long l = 1; l < 8; l++)
+		{
+			Requests.getLoadedEntityById(Route.type, l , new RequestListener<Route>() {
+				@Override
+				public void onNewResult(Route route) {
+					showGpx(route.getGpxUrl(), route.getColor(), false);
+					
+					smartLayer.addPoi(route);
+				}
+			});
+		}
+
+        showGpx("/gpx/burgenschloesser.gpx",                "#FFFF00", true);
+        showGpx("/gpx/droemling.gpx",                                "#00FFFF", true);
+        showGpx("/gpx/fachwerk.gpx",                                "#00FFFF", true);
+        showGpx("/gpx/gifhorn.gpx",                                        "#FFFF00", true);
+        showGpx("/gpx/grenzenlos.gpx",                                "#FF0000", true);
+        showGpx("/gpx/industriestadt.gpx",                        "#FF0000", true);
+        showGpx("/gpx/rundumpeine.gpx",                                "#00FF00", true);
+        showGpx("/gpx/tilleulenspiegel.gpx",                "#00FF00", true);
 
 		showGpx("/gpx/zgb_aussengrenze_2000.gpx",	"#000066", true);
 	}
