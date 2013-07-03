@@ -2,7 +2,6 @@ package de.gmino.issuemap.client;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.FillStrokeStyle;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.ui.Image;
 
@@ -17,19 +16,9 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 	{
 		hash.hashBoolean(issue.isResolved());
 		hash.hashLong(issue.getMarkertype().getId());
-		//hash.hashObject(issue.getTitle());
-		//hash.hashObject(issue.getDescription());
 		hash.hashInt(issue.getComments().size());
 	}
 	
-	private boolean isIn(String needle, String[] haystack)
-	{
-		for(String pot : haystack)
-			if(needle.equals(pot))
-				return true;
-		return false;
-	}
-
 	@Override
 	public void renderIcon(Canvas can, Issue issue) {
 		can.setCoordinateSpaceWidth(getWidth(issue));

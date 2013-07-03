@@ -1,0 +1,828 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' upload='true' generator='JOSM'>
+  <bounds minlat='51.63792' minlon='9.99558' maxlat='52.83416' maxlon='11.08604' origin='0.43.1' />
+  <bounds minlat='51.579' minlon='9.934' maxlat='52.99' maxlon='11.365' origin='0.43.1' />
+  <node id='-77979' action='modify' visible='true' lat='52.25451134808504' lon='10.535481710073734'>
+    <tag k='addr:city' v='Braunschweig' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='11' />
+    <tag k='addr:postcode' v='38102' />
+    <tag k='addr:street' v='Kurt-Schumacher-Straße' />
+    <tag k='building' v='yes' />
+    <tag k='name' v='radstudio' />
+    <tag k='opening_hours' v='Mo-Fr 10:00-19:00;Sa 10:00-14:00' />
+    <tag k='phone' v='+49 531 - 123 118 10' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='-77978' action='modify' visible='true' lat='52.42035032525138' lon='10.714453389576818'>
+    <tag k='building' v='yes' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='no' />
+  </node>
+  <node id='-77977' action='modify' visible='true' lat='52.291873256101894' lon='10.560803165313455'>
+    <tag k='addr:city' v='Braunschweig' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:postcode' v='38108' />
+    <tag k='addr:street' v='Bevenroder Straße' />
+    <tag k='building' v='yes' />
+    <tag k='name' v='Zweirad Schulz' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='-77976' action='modify' visible='true' lat='52.254820003837985' lon='10.535215197222673'>
+    <tag k='addr:city' v='Braunschweig' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='13' />
+    <tag k='addr:postcode' v='38102' />
+    <tag k='addr:street' v='Kurt-Schumacher-Straße' />
+    <tag k='building' v='yes' />
+    <tag k='name' v='radhaus' />
+    <tag k='opening_hours' v='Mo-Fr 10:00-19:00;Sa 10:00-14:00' />
+    <tag k='phone' v='+49 531 - 123 118 20' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='-77975' action='modify' visible='true' lat='52.52635357207669' lon='10.363796660989737'>
+    <tag k='addr:city' v='Müden (Aller)' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='5' />
+    <tag k='addr:postcode' v='38539' />
+    <tag k='addr:street' v='Bahnhofstraße' />
+    <tag k='building' v='yes' />
+    <tag k='name' v='H. Bokelberg' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='-77974' action='modify' visible='true' lat='52.386795482876806' lon='10.534111456712084'>
+    <tag k='addr:city' v='Meine' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='7' />
+    <tag k='addr:postcode' v='38527' />
+    <tag k='addr:street' v='An der Feuerwehr' />
+    <tag k='building' v='commercial' />
+    <tag k='contact:email' v='zweirad-kretke@t-online.de' />
+    <tag k='contact:fax' v='+49 5304 931660' />
+    <tag k='contact:phone' v='+49 5304 901806' />
+    <tag k='contact:website' v='http://www.zweirad-kretke.de' />
+    <tag k='name' v='Zweirad Kretke' />
+    <tag k='opening_hours' v='Mo-Fr 09:00-13:00,14:30-18:30; Sa 09:00-13:00' />
+    <tag k='service:bicycle:repair' v='yes' />
+    <tag k='service:bicycle:retail' v='yes' />
+    <tag k='service:bicycle:second_hand' v='yes' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='yes' />
+  </node>
+  <node id='-77973' action='modify' visible='true' lat='52.42190848307801' lon='10.72209042336971'>
+    <tag k='addr:city' v='Wolfsburg' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='4' />
+    <tag k='addr:locality' v='Fallersleben' />
+    <tag k='addr:postcode' v='38442' />
+    <tag k='addr:street' v='Wolfsburger Landstraße' />
+    <tag k='building' v='yes' />
+    <tag k='contact:phone' v='+49 5362 501971' />
+    <tag k='name' v='Radmarkt DAHL' />
+    <tag k='operator' v='Jens-Uwe Dahl' />
+    <tag k='roof:shape' v='flat' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='-77972' action='modify' visible='true' lat='52.254813389808675' lon='10.535605962686727'>
+    <tag k='addr:city' v='Braunschweig' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='14' />
+    <tag k='addr:postcode' v='38102' />
+    <tag k='addr:street' v='Kurt-Schumacher-Straße' />
+    <tag k='building' v='yes' />
+    <tag k='name' v='radkids' />
+    <tag k='opening_hours' v='Mo-Fr 10:00-19:00;Sa 10:00-14:00' />
+    <tag k='phone' v='+49 531 - 123 118 40' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='-77971' action='modify' visible='true' lat='52.27009319271357' lon='10.51122263200637'>
+    <tag k='building' v='yes' />
+    <tag k='name' v='FahrradSelbsthilfeWerkstatt' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='-77970' action='modify' visible='true' lat='52.31411920598491' lon='10.235380162852872'>
+    <tag k='building' v='yes' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='-77969' action='modify' visible='true' lat='52.254670085597674' lon='10.535834659525138'>
+    <tag k='addr:city' v='Braunschweig' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='10' />
+    <tag k='addr:postcode' v='38102' />
+    <tag k='addr:street' v='Kurt-Schumacher-Straße' />
+    <tag k='building' v='yes' />
+    <tag k='name' v='raddress' />
+    <tag k='opening_hours' v='Mo-Fr 10:00-19:00;Sa 10:00-14:00' />
+    <tag k='phone' v='+49 531 - 123 118 50' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='59942642' timestamp='2012-02-02T19:40:05Z' uid='18106' user='geltmar' visible='true' version='6' changeset='10570584' lat='52.2733093' lon='10.5245149'>
+    <tag k='level' v='0' />
+    <tag k='name' v='Atelier Vélo' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='no' />
+  </node>
+  <node id='249298652' timestamp='2011-10-06T18:47:03Z' uid='290680' user='wheelmap_visitor' visible='true' version='5' changeset='9482892' lat='52.2615821' lon='10.5101943'>
+    <tag k='addr:housenumber' v='4' />
+    <tag k='addr:street' v='Am Hohen Tore' />
+    <tag k='created_by' v='JOSM' />
+    <tag k='name' v='Zweirad Asche' />
+    <tag k='shop' v='bicycle' />
+    <tag k='website' v='http://www.zweirad-asche.de' />
+    <tag k='wheelchair' v='no' />
+  </node>
+  <node id='253006817' timestamp='2008-05-29T20:13:53Z' uid='14078' user='fröstel' visible='true' version='2' changeset='547006' lat='52.3123577' lon='10.5101929'>
+    <tag k='name' v='Olly&apos;s Bike Shop' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='253006824' timestamp='2012-11-24T01:49:37Z' uid='38515' user='soeren_gasch' visible='true' version='5' changeset='14007556' lat='52.2607723' lon='10.541434'>
+    <tag k='contact:website' v='http://www.teo-bikes.de' />
+    <tag k='name' v='Teo-Die Fahrrad GmbH' />
+    <tag k='opening_hours' v='Tu-Fr 10:00-18:00; Sa 10:00-13:00' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='253006902' timestamp='2013-05-29T22:03:40Z' uid='290680' user='wheelmap_visitor' visible='true' version='5' changeset='16333438' lat='52.2684427' lon='10.5119245'>
+    <tag k='name' v='Paeschke' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='no' />
+  </node>
+  <node id='261660920' timestamp='2012-01-01T14:46:41Z' uid='89932' user='matchman' visible='true' version='8' changeset='10261882' lat='52.2258776' lon='11.0137661'>
+    <tag k='name' v='Fahrradhandel Linke' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='267887102' timestamp='2011-10-11T19:19:50Z' uid='290680' user='wheelmap_visitor' visible='true' version='8' changeset='9527581' lat='52.2719005' lon='10.5442525'>
+    <tag k='addr:city' v='Braunschweig' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='25' />
+    <tag k='addr:postcode' v='38106' />
+    <tag k='addr:street' v='Heinrichstraße' />
+    <tag k='name' v='Radhaus GmbH' />
+    <tag k='opening_hours' v='Mo-Fr 10:00-19:00; Sa 10:00-14:00' />
+    <tag k='phone' v='+49531 339650' />
+    <tag k='service:bicycle:repair' v='yes' />
+    <tag k='service:bicycle:retail' v='no' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='no' />
+  </node>
+  <node id='281222078' timestamp='2011-12-01T17:44:51Z' uid='290680' user='wheelmap_visitor' visible='true' version='4' changeset='10005937' lat='52.2607731' lon='10.5183762'>
+    <tag k='created_by' v='Potlatch 0.10' />
+    <tag k='name' v='Zweirad Profis' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='yes' />
+  </node>
+  <node id='281222218' timestamp='2012-04-25T18:36:14Z' uid='290680' user='wheelmap_visitor' visible='true' version='13' changeset='11412272' lat='52.2662843' lon='10.5203987'>
+    <tag k='amenity' v='bicycle_rental' />
+    <tag k='name' v='Fahrrad-Hahne' />
+    <tag k='opening_hours' v='Mo-Fr 09:30-19:00; Sa 09:30-18:00' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='limited' />
+    <tag k='wheelchair:description' v='Sehr freundlicher Service, wenn mal die Luft raus ist' />
+  </node>
+  <node id='285917693' timestamp='2008-11-03T16:49:14Z' uid='55696' user='MatzeM' visible='true' version='2' changeset='670220' lat='52.3865001' lon='10.2660293'>
+    <tag k='created_by' v='Potlatch 0.10f' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='286811020' action='delete' timestamp='2013-03-19T09:24:08Z' uid='333167' user='biker@gf' visible='true' version='3' changeset='15417408' lat='52.421838' lon='10.7217445' />
+  <node id='286811022' action='delete' timestamp='2013-03-19T09:24:08Z' uid='333167' user='biker@gf' visible='true' version='3' changeset='15417408' lat='52.4220358' lon='10.721741' />
+  <node id='286811024' action='delete' timestamp='2013-03-19T09:24:08Z' uid='333167' user='biker@gf' visible='true' version='3' changeset='15417408' lat='52.4220402' lon='10.7224094' />
+  <node id='286811026' action='delete' timestamp='2013-03-19T09:24:08Z' uid='333167' user='biker@gf' visible='true' version='3' changeset='15417408' lat='52.4218424' lon='10.7224129' />
+  <node id='293387120' timestamp='2011-10-22T00:59:41Z' uid='290680' user='wheelmap_visitor' visible='true' version='3' changeset='9620880' lat='52.265597' lon='10.5149133'>
+    <tag k='created_by' v='Potlatch 0.10b' />
+    <tag k='name' v='Fahrrad Ambulanz' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='yes' />
+  </node>
+  <node id='293619320' action='delete' timestamp='2012-11-24T13:00:01Z' uid='51324' user='OPerivar' visible='true' version='5' changeset='14012030' lat='52.9694994' lon='11.1680124' />
+  <node id='299510675' action='delete' timestamp='2012-01-27T20:13:23Z' uid='333167' user='biker@gf' visible='true' version='3' changeset='10515917' lat='52.4582171' lon='10.5401973' />
+  <node id='299510676' action='delete' timestamp='2012-01-27T20:13:23Z' uid='333167' user='biker@gf' visible='true' version='3' changeset='10515917' lat='52.4582225' lon='10.5403641' />
+  <node id='299510677' action='delete' timestamp='2012-01-27T20:13:23Z' uid='333167' user='biker@gf' visible='true' version='3' changeset='10515917' lat='52.4583639' lon='10.5403519' />
+  <node id='299510679' action='delete' timestamp='2012-01-27T20:13:23Z' uid='333167' user='biker@gf' visible='true' version='3' changeset='10515917' lat='52.4582309' lon='10.5406062' />
+  <node id='299511071' action='delete' timestamp='2012-01-27T20:13:23Z' uid='333167' user='biker@gf' visible='true' version='3' changeset='10515917' lat='52.4583716' lon='10.5405941' />
+  <node id='299511072' action='delete' timestamp='2012-01-27T20:13:23Z' uid='333167' user='biker@gf' visible='true' version='3' changeset='10515917' lat='52.4582365' lon='10.5407812' />
+  <node id='299511073' action='delete' timestamp='2012-01-27T20:13:24Z' uid='333167' user='biker@gf' visible='true' version='3' changeset='10515917' lat='52.4584993' lon='10.5407586' />
+  <node id='299511074' action='delete' timestamp='2012-01-27T20:13:24Z' uid='333167' user='biker@gf' visible='true' version='3' changeset='10515917' lat='52.4584807' lon='10.5401747' />
+  <node id='300104257' timestamp='2011-06-12T17:20:35Z' uid='58058' user='olf' visible='true' version='9' changeset='8417399' lat='52.2608229' lon='10.3743231'>
+    <tag k='addr:city' v='Vechelde' />
+    <tag k='addr:housenumber' v='14' />
+    <tag k='addr:postcode' v='38159' />
+    <tag k='addr:street' v='Hildesheimer Straße' />
+    <tag k='name' v='Fenske' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='303074321' action='delete' timestamp='2009-02-19T10:50:27Z' uid='8638' user='fishor' visible='true' version='2' changeset='559071' lat='52.8350803' lon='10.0898985' />
+  <node id='303074322' action='delete' timestamp='2009-02-19T10:50:26Z' uid='8638' user='fishor' visible='true' version='2' changeset='559071' lat='52.8349792' lon='10.0899201' />
+  <node id='303074323' action='delete' timestamp='2009-02-19T10:50:27Z' uid='8638' user='fishor' visible='true' version='2' changeset='559071' lat='52.8349941' lon='10.0901107' />
+  <node id='303074324' action='delete' timestamp='2009-02-19T10:50:27Z' uid='8638' user='fishor' visible='true' version='2' changeset='559071' lat='52.8350951' lon='10.0900891' />
+  <node id='304576244' timestamp='2011-10-10T19:11:49Z' uid='290680' user='wheelmap_visitor' visible='true' version='2' changeset='9518514' lat='52.1576987' lon='10.5576355'>
+    <tag k='created_by' v='Potlatch 0.10e' />
+    <tag k='name' v='Henze GmbH' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='limited' />
+  </node>
+  <node id='310383134' timestamp='2008-11-07T12:12:32Z' uid='72628' user='Radsau' visible='true' version='1' changeset='702725' lat='52.4380082' lon='10.8388403'>
+    <tag k='created_by' v='Potlatch 0.10f' />
+    <tag k='name' v='Bike&amp;Niess' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='335776834' timestamp='2011-09-04T04:57:58Z' uid='28783' user='mey2008' visible='true' version='2' changeset='9205429' lat='52.2633921' lon='10.0750862'>
+    <tag k='name' v='Sieverling - KFZ' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='365937215' action='delete' timestamp='2009-07-19T20:56:17Z' uid='23307' user='kanualien' visible='true' version='5' changeset='1878108' lat='52.2700183' lon='10.5111479' />
+  <node id='365937216' action='delete' timestamp='2009-07-19T20:56:17Z' uid='23307' user='kanualien' visible='true' version='6' changeset='1878108' lat='52.2701398' lon='10.5111146' />
+  <node id='390926543' timestamp='2012-01-30T15:56:24Z' uid='87429' user='k4r573n' visible='true' version='3' changeset='10540979' lat='52.2688137' lon='10.5289053'>
+    <tag k='addr:housenumber' v='38' />
+    <tag k='addr:street' v='Fallersleber Straße' />
+    <tag k='name' v='Fahradpraxis Welle' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='410199537' timestamp='2013-01-27T21:27:48Z' uid='81983' user='Ogmios' visible='true' version='5' changeset='14814402' lat='51.8129589' lon='10.3378273'>
+    <tag k='addr:city' v='Clausthal-Zellerfeld' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='75' />
+    <tag k='addr:postcode' v='38678' />
+    <tag k='addr:street' v='Zellbach' />
+    <tag k='name' v='Zweirad Langer' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='limited' />
+  </node>
+  <node id='431676559' timestamp='2009-07-01T20:21:05Z' uid='52916' user='OK_SZ' visible='true' version='2' changeset='1703959' lat='52.0488094' lon='10.3712991'>
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='441408573' timestamp='2009-07-13T23:07:19Z' uid='128303' user='bigmaec' visible='true' version='1' changeset='1822273' lat='52.3907891' lon='10.2633334'>
+    <tag k='name' v='Radfix' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='441937658' timestamp='2013-06-14T20:17:10Z' uid='1063163' user='bejan' visible='true' version='3' changeset='16555509' lat='52.1665005' lon='10.3344892'>
+    <tag k='name' v='Zweiradhaus Wieland' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='441937702' timestamp='2011-01-04T10:38:07Z' uid='65196' user='stephan25' visible='true' version='2' changeset='6859046' lat='52.1631214' lon='10.3352405'>
+    <tag k='name' v='Bergers Fahrrad-Laden' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='443197330' timestamp='2011-12-10T08:01:39Z' uid='393959' user='erge50' visible='true' version='4' changeset='10078930' lat='52.248693' lon='10.48776'>
+    <tag k='name' v='Ecki&apos;s Fahrrad-Welt' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='yes' />
+  </node>
+  <node id='443933669' action='delete' timestamp='2009-07-19T20:56:04Z' uid='23307' user='kanualien' visible='true' version='1' changeset='1878108' lat='52.2700373' lon='10.5113332' />
+  <node id='443933671' action='delete' timestamp='2009-07-19T20:56:04Z' uid='23307' user='kanualien' visible='true' version='1' changeset='1878108' lat='52.2701557' lon='10.5112699' />
+  <node id='471806398' timestamp='2013-05-11T11:41:05Z' uid='290680' user='wheelmap_visitor' visible='true' version='3' changeset='16078630' lat='52.2665833' lon='10.5140655'>
+    <tag k='name' v='Rad Spezial' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='limited' />
+  </node>
+  <node id='495667659' timestamp='2009-09-13T22:28:39Z' uid='148305' user='Cyclejakob' visible='true' version='1' changeset='2476116' lat='51.7313028' lon='10.6119601'>
+    <tag k='name' v='Zweirad Busche' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='531728874' action='delete' timestamp='2013-05-24T17:04:52Z' uid='710590' user='LordOfMaps' visible='true' version='2' changeset='16268584' lat='52.3868476' lon='10.5338208' />
+  <node id='531728878' action='delete' timestamp='2013-05-24T17:04:53Z' uid='710590' user='LordOfMaps' visible='true' version='2' changeset='16268584' lat='52.3867373' lon='10.5342238' />
+  <node id='531728880' action='delete' timestamp='2013-05-24T17:04:53Z' uid='710590' user='LordOfMaps' visible='true' version='2' changeset='16268584' lat='52.3867004' lon='10.5338609' />
+  <node id='599351360' action='delete' timestamp='2012-02-17T21:51:40Z' uid='96752' user='alicula' visible='true' version='3' changeset='10715560' lat='52.420405' lon='10.7143852' />
+  <node id='599351361' action='delete' timestamp='2012-08-02T08:21:52Z' uid='96752' user='alicula' visible='true' version='4' changeset='12582724' lat='52.4204147' lon='10.7144923' />
+  <node id='599351362' action='delete' timestamp='2012-08-02T08:21:52Z' uid='96752' user='alicula' visible='true' version='4' changeset='12582724' lat='52.4202451' lon='10.7145313' />
+  <node id='599351364' action='delete' timestamp='2012-08-02T08:21:52Z' uid='96752' user='alicula' visible='true' version='4' changeset='12582724' lat='52.4203086' lon='10.7144036' />
+  <node id='673484801' timestamp='2011-03-08T15:52:18Z' uid='34411' user='gormo' visible='true' version='2' changeset='7495015' lat='51.9190588' lon='10.4166819'>
+    <tag k='name' v='Hans Speed' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='673484809' timestamp='2013-02-03T15:47:49Z' uid='1217344' user='Vivi1988' visible='true' version='2' changeset='14897886' lat='51.9186053' lon='10.4210139'>
+    <tag k='name' v='Ansorge' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='yes' />
+  </node>
+  <node id='675032130' timestamp='2010-03-26T19:47:38Z' uid='65196' user='stephan25' visible='true' version='1' changeset='4241261' lat='52.253679' lon='10.2765365'>
+    <tag k='addr:city' v='Lahstedt' />
+    <tag k='addr:housenumber' v='24' />
+    <tag k='addr:postcode' v='31246' />
+    <tag k='addr:street' v='Wikbildstraße' />
+    <tag k='name' v='FAHMO' />
+    <tag k='opening_hours' v='Mo-Fr 09:00-12:00, 14:00-18:00; Sa 09:00-14:00' />
+    <tag k='phone' v='+49-5172-4962' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='688507572' timestamp='2012-06-07T07:54:16Z' uid='96752' user='alicula' visible='true' version='6' changeset='11822540' lat='52.4249834' lon='10.787408'>
+    <tag k='addr:city' v='Wolfsburg' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='5' />
+    <tag k='addr:street' v='Kleiststraße' />
+    <tag k='name' v='Zweirad Schael' />
+    <tag k='shop' v='bicycle' />
+    <tag k='website' v='http://www.zweirad-schael.de/' />
+    <tag k='wheelchair' v='yes' />
+  </node>
+  <node id='700914555' timestamp='2011-10-05T13:49:56Z' uid='290680' user='wheelmap_visitor' visible='true' version='3' changeset='9474855' lat='52.2718535' lon='10.5077601'>
+    <tag k='name' v='FahrradRaum' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='no' />
+  </node>
+  <node id='702675239' action='delete' timestamp='2010-04-20T16:52:56Z' uid='16995' user='zut' visible='true' version='1' changeset='4479083' lat='52.5261684' lon='10.3637831' />
+  <node id='702675243' action='delete' timestamp='2010-04-20T16:52:56Z' uid='16995' user='zut' visible='true' version='1' changeset='4479083' lat='52.526227' lon='10.3639431' />
+  <node id='702675247' action='delete' timestamp='2010-04-20T16:52:56Z' uid='16995' user='zut' visible='true' version='1' changeset='4479083' lat='52.5263629' lon='10.3635907' />
+  <node id='702675248' action='delete' timestamp='2010-04-20T16:52:56Z' uid='16995' user='zut' visible='true' version='1' changeset='4479083' lat='52.526493' lon='10.3639462' />
+  <node id='702675250' action='delete' timestamp='2010-04-20T16:52:56Z' uid='16995' user='zut' visible='true' version='1' changeset='4479083' lat='52.5263343' lon='10.3638369' />
+  <node id='702675251' action='delete' timestamp='2010-04-20T16:52:56Z' uid='16995' user='zut' visible='true' version='1' changeset='4479083' lat='52.5264059' lon='10.3640323' />
+  <node id='704475654' timestamp='2010-04-23T15:11:04Z' uid='18106' user='geltmar' visible='true' version='1' changeset='4504338' lat='52.2736618' lon='10.5386499'>
+    <tag k='addr:housenumber' v='24' />
+    <tag k='addr:street' v='Gliesmaroder Straße' />
+    <tag k='name' v='Fahrrad Fricke' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='761583392' action='delete' timestamp='2012-05-17T06:38:44Z' uid='393959' user='erge50' visible='true' version='3' changeset='11620506' lat='52.254764' lon='10.5356098' />
+  <node id='761583402' action='delete' timestamp='2012-05-17T06:38:44Z' uid='393959' user='erge50' visible='true' version='3' changeset='11620506' lat='52.2546844' lon='10.5352564' />
+  <node id='761583404' action='delete' timestamp='2012-05-17T06:38:44Z' uid='393959' user='erge50' visible='true' version='3' changeset='11620506' lat='52.2546539' lon='10.5359238' />
+  <node id='761583407' action='delete' timestamp='2012-05-17T06:38:44Z' uid='393959' user='erge50' visible='true' version='2' changeset='11620506' lat='52.2546819' lon='10.5354277' />
+  <node id='761583413' action='delete' timestamp='2012-05-17T06:38:44Z' uid='393959' user='erge50' visible='true' version='3' changeset='11620506' lat='52.2546068' lon='10.5358358' />
+  <node id='761583423' action='delete' timestamp='2012-05-17T06:38:44Z' uid='393959' user='erge50' visible='true' version='3' changeset='11620506' lat='52.25472' lon='10.5356741' />
+  <node id='761583597' action='delete' timestamp='2012-05-17T06:38:44Z' uid='393959' user='erge50' visible='true' version='3' changeset='11620506' lat='52.2549376' lon='10.5349083' />
+  <node id='761583598' action='delete' timestamp='2012-05-17T06:38:44Z' uid='393959' user='erge50' visible='true' version='3' changeset='11620506' lat='52.2549311' lon='10.535538' />
+  <node id='761583606' action='delete' timestamp='2012-05-17T06:38:45Z' uid='393959' user='erge50' visible='true' version='3' changeset='11620506' lat='52.2549377' lon='10.5353722' />
+  <node id='761583607' action='delete' timestamp='2012-05-17T06:38:45Z' uid='393959' user='erge50' visible='true' version='2' changeset='11620506' lat='52.2545195' lon='10.5356568' />
+  <node id='761583616' action='delete' timestamp='2012-05-17T06:38:45Z' uid='393959' user='erge50' visible='true' version='2' changeset='11620506' lat='52.254419' lon='10.5354787' />
+  <node id='761583618' action='delete' timestamp='2012-05-17T06:38:45Z' uid='393959' user='erge50' visible='true' version='3' changeset='11620506' lat='52.2550775' lon='10.5351799' />
+  <node id='761583619' action='delete' timestamp='2012-05-17T06:38:45Z' uid='393959' user='erge50' visible='true' version='3' changeset='11620506' lat='52.2548134' lon='10.5357036' />
+  <node id='761583624' action='delete' timestamp='2012-05-17T06:38:45Z' uid='393959' user='erge50' visible='true' version='3' changeset='11620506' lat='52.2547779' lon='10.535438' />
+  <node id='761583626' action='delete' timestamp='2012-05-17T06:38:45Z' uid='393959' user='erge50' visible='true' version='3' changeset='11620506' lat='52.2547671' lon='10.5357621' />
+  <node id='761583636' action='delete' timestamp='2012-05-17T06:38:46Z' uid='393959' user='erge50' visible='true' version='2' changeset='11620506' lat='52.2545841' lon='10.5352411' />
+  <node id='761583637' action='delete' timestamp='2012-05-17T06:38:46Z' uid='393959' user='erge50' visible='true' version='3' changeset='11620506' lat='52.2548913' lon='10.5352821' />
+  <node id='761583638' action='delete' timestamp='2012-05-17T06:38:46Z' uid='393959' user='erge50' visible='true' version='3' changeset='11620506' lat='52.2548817' lon='10.5354442' />
+  <node id='767439013' timestamp='2012-03-20T21:36:50Z' uid='31231' user='Andre68' visible='true' version='2' changeset='11046057' lat='52.4198109' lon='10.7570476'>
+    <tag k='name' v='Bicycles Bonkowski' />
+    <tag k='opening_hours' v='Mo-Fr 14:00-18:00; Sa 09:00-12:00' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='775304585' timestamp='2013-01-09T12:12:32Z' uid='290680' user='wheelmap_visitor' visible='true' version='5' changeset='14583898' lat='52.1617104' lon='10.5334217'>
+    <tag k='addr:city' v='Wolfenbüttel' />
+    <tag k='addr:housenumber' v='8' />
+    <tag k='addr:postcode' v='38300' />
+    <tag k='addr:street' v='Großer Zimmerhof' />
+    <tag k='name' v='fahrradladen im zimmerhof' />
+    <tag k='phone' v='05331/903770' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='yes' />
+  </node>
+  <node id='806655544' timestamp='2010-07-10T12:29:01Z' uid='70696' user='xybot' visible='true' version='2' changeset='5182068' lat='52.163438' lon='10.5288855'>
+    <tag k='addr:city' v='Wolfenbüttel' />
+    <tag k='addr:housenumber' v='2' />
+    <tag k='addr:postcode' v='38304' />
+    <tag k='addr:street' v='Dr.-Heinrich-Jasper-Straße' />
+    <tag k='name' v='Zweirad-Center Marnowski' />
+    <tag k='phone' v='+49 5331 1368' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='863887691' timestamp='2010-08-16T20:27:47Z' uid='303497' user='Croudy' visible='true' version='1' changeset='5512646' lat='51.9375504' lon='10.3336711'>
+    <tag k='name' v='B.Seifert' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='939336021' timestamp='2011-05-10T20:31:34Z' uid='336460' user='robgeb' visible='true' version='2' changeset='8106440' lat='51.9107935' lon='10.4817987'>
+    <tag k='name' v='Wolfgangs Fahrrad Treff' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='1230161371' action='delete' timestamp='2011-04-03T04:39:35Z' uid='393959' user='erge50' visible='true' version='1' changeset='7750181' lat='52.2918926' lon='10.5607394' />
+  <node id='1230162430' action='delete' timestamp='2011-04-03T04:39:48Z' uid='393959' user='erge50' visible='true' version='1' changeset='7750181' lat='52.2918942' lon='10.5608609' />
+  <node id='1230165018' action='delete' timestamp='2011-04-03T04:40:19Z' uid='393959' user='erge50' visible='true' version='1' changeset='7750181' lat='52.2918486' lon='10.5607409' />
+  <node id='1230166627' action='delete' timestamp='2011-04-03T04:40:43Z' uid='393959' user='erge50' visible='true' version='1' changeset='7750181' lat='52.2918502' lon='10.5608625' />
+  <node id='1264091428' action='delete' timestamp='2013-03-05T10:39:52Z' uid='456355' user='findichgut' visible='true' version='2' changeset='15256861' lat='52.9895797' lon='10.1062046' />
+  <node id='1264091448' action='delete' timestamp='2013-03-05T10:39:52Z' uid='456355' user='findichgut' visible='true' version='2' changeset='15256861' lat='52.9894122' lon='10.1057892' />
+  <node id='1264091454' action='delete' timestamp='2013-03-05T10:39:52Z' uid='456355' user='findichgut' visible='true' version='2' changeset='15256861' lat='52.9894501' lon='10.1058697' />
+  <node id='1264091456' action='delete' timestamp='2013-03-05T10:39:52Z' uid='456355' user='findichgut' visible='true' version='2' changeset='15256861' lat='52.9892575' lon='10.1059579' />
+  <node id='1264091457' action='delete' timestamp='2013-03-05T10:39:52Z' uid='456355' user='findichgut' visible='true' version='2' changeset='15256861' lat='52.989245' lon='10.1060512' />
+  <node id='1264091467' action='delete' timestamp='2013-03-05T10:39:53Z' uid='456355' user='findichgut' visible='true' version='2' changeset='15256861' lat='52.9892724' lon='10.1057103' />
+  <node id='1264091474' action='delete' timestamp='2013-03-05T10:39:53Z' uid='456355' user='findichgut' visible='true' version='2' changeset='15256861' lat='52.9894259' lon='10.1060071' />
+  <node id='1264091476' action='delete' timestamp='2013-03-05T10:39:53Z' uid='456355' user='findichgut' visible='true' version='2' changeset='15256861' lat='52.9893482' lon='10.1056935' />
+  <node id='1264091478' action='delete' timestamp='2013-03-05T10:39:53Z' uid='456355' user='findichgut' visible='true' version='2' changeset='15256861' lat='52.9894465' lon='10.1057892' />
+  <node id='1264091483' action='delete' timestamp='2013-03-05T10:39:53Z' uid='456355' user='findichgut' visible='true' version='2' changeset='15256861' lat='52.9895657' lon='10.1059883' />
+  <node id='1264091484' action='delete' timestamp='2013-03-05T10:39:53Z' uid='456355' user='findichgut' visible='true' version='2' changeset='15256861' lat='52.9892352' lon='10.1059417' />
+  <node id='1264091486' action='delete' timestamp='2013-03-05T10:39:53Z' uid='456355' user='findichgut' visible='true' version='2' changeset='15256861' lat='52.9894174' lon='10.105874' />
+  <node id='1264091495' action='delete' timestamp='2013-03-05T10:39:53Z' uid='456355' user='findichgut' visible='true' version='2' changeset='15256861' lat='52.9892683' lon='10.1062968' />
+  <node id='1264091496' action='delete' timestamp='2013-03-05T10:39:53Z' uid='456355' user='findichgut' visible='true' version='2' changeset='15256861' lat='52.9892295' lon='10.1058125' />
+  <node id='1264091501' action='delete' timestamp='2013-03-05T10:39:53Z' uid='456355' user='findichgut' visible='true' version='2' changeset='15256861' lat='52.9894215' lon='10.1059314' />
+  <node id='1264091503' action='delete' timestamp='2013-03-05T10:39:53Z' uid='456355' user='findichgut' visible='true' version='2' changeset='15256861' lat='52.9892627' lon='10.1060469' />
+  <node id='1368553439' timestamp='2012-09-12T13:54:16Z' uid='31231' user='Andre68' visible='true' version='4' changeset='13082930' lat='52.1793915' lon='10.5589515'>
+    <tag k='comment' v='Only repairing' />
+    <tag k='disused' v='yes' />
+    <tag k='entrance' v='yes' />
+    <tag k='name' v='Fahrradwerkstatt' />
+    <tag k='operator' v='Diakonie gGmbH' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='yes' />
+  </node>
+  <node id='1395180932' timestamp='2011-10-29T20:39:57Z' uid='290680' user='wheelmap_visitor' visible='true' version='2' changeset='9681686' lat='52.7304159' lon='10.6020916'>
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='no' />
+  </node>
+  <node id='1402258945' action='delete' timestamp='2011-08-17T13:31:36Z' uid='387237' user='SammysHP' visible='true' version='1' changeset='9048066' lat='52.6240959' lon='10.0863912' />
+  <node id='1402258989' action='delete' timestamp='2011-08-17T13:31:37Z' uid='387237' user='SammysHP' visible='true' version='1' changeset='9048066' lat='52.6241662' lon='10.0862799' />
+  <node id='1402259000' action='delete' timestamp='2011-08-17T13:31:38Z' uid='387237' user='SammysHP' visible='true' version='1' changeset='9048066' lat='52.624183' lon='10.0865285' />
+  <node id='1402259023' action='delete' timestamp='2011-08-17T13:31:38Z' uid='387237' user='SammysHP' visible='true' version='1' changeset='9048066' lat='52.6242181' lon='10.0864944' />
+  <node id='1402259039' action='delete' timestamp='2011-08-17T13:31:39Z' uid='387237' user='SammysHP' visible='true' version='1' changeset='9048066' lat='52.6242505' lon='10.0864272' />
+  <node id='1491890626' timestamp='2012-03-01T09:46:32Z' uid='89932' user='matchman' visible='true' version='3' changeset='10835875' lat='52.1409729' lon='10.9716225'>
+    <tag k='name' v='Schliesser Bike' />
+    <tag k='note' v='Telefonnummern im Namen?' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='1507225450' timestamp='2012-04-25T18:36:13Z' uid='290680' user='wheelmap_visitor' visible='true' version='2' changeset='11412272' lat='52.2661716' lon='10.5205323'>
+    <tag k='name' v='Hahne' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='yes' />
+  </node>
+  <node id='1557107592' timestamp='2013-04-03T21:45:28Z' uid='290680' user='wheelmap_visitor' visible='true' version='3' changeset='15589387' lat='52.2310777' lon='11.0061541'>
+    <tag k='name' v='Karsten Vetter' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='no' />
+  </node>
+  <node id='1585275925' timestamp='2012-01-11T03:03:33Z' uid='393959' user='erge50' visible='true' version='1' changeset='10357409' lat='52.2509989' lon='10.5354852'>
+    <tag k='name' v='Fahrradwelt' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='1585913294' timestamp='2012-01-11T17:57:29Z' uid='89932' user='matchman' visible='true' version='1' changeset='10362630' lat='52.2279182' lon='11.0112871'>
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='1600666619' action='delete' timestamp='2012-01-22T01:31:34Z' uid='336745' user='harzguide' visible='true' version='1' changeset='10461380' lat='51.7529595' lon='11.0438916' />
+  <node id='1600666848' action='delete' timestamp='2012-01-22T01:31:47Z' uid='336745' user='harzguide' visible='true' version='1' changeset='10461380' lat='51.7531423' lon='11.0438313' />
+  <node id='1600667272' action='delete' timestamp='2012-01-22T01:32:02Z' uid='336745' user='harzguide' visible='true' version='1' changeset='10461380' lat='51.7529851' lon='11.0440943' />
+  <node id='1600667549' action='delete' timestamp='2012-01-22T01:32:09Z' uid='336745' user='harzguide' visible='true' version='1' changeset='10461380' lat='51.7531679' lon='11.044034' />
+  <node id='1631268697' timestamp='2013-05-26T13:50:01Z' uid='181135' user='Manu1400' visible='true' version='4' changeset='16293849' lat='52.2634499' lon='10.5474969'>
+    <tag k='addr:city' v='Braunschweig' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='54' />
+    <tag k='addr:postcode' v='38104' />
+    <tag k='addr:street' v='Kastanienallee' />
+    <tag k='name' v='steinkamp' />
+    <tag k='shop' v='bicycle' />
+    <tag k='source' v='knowledge' />
+    <tag k='website' v='www.raeder-nach-mass.de' />
+    <tag k='wheelchair' v='limited' />
+  </node>
+  <node id='1648451928' action='modify' timestamp='2012-10-01T19:30:09Z' uid='31231' user='Andre68' visible='true' version='2' changeset='13326371' lat='52.4584873' lon='10.5403829'>
+    <tag k='addr:city' v='Gifhorn' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='1' />
+    <tag k='addr:postcode' v='38518' />
+    <tag k='addr:street' v='Gerhard-Fieseler-Straße' />
+    <tag k='brand' v='ZEG' />
+    <tag k='building' v='yes' />
+    <tag k='contact:phone' v='+49 5371 58275' />
+    <tag k='contact:website' v='http://www.bike-arena-brendler.de' />
+    <tag k='entrance' v='yes' />
+    <tag k='level' v='1' />
+    <tag k='name' v='Bike Arena Brendler' />
+    <tag k='opening_hours' v='Mo-Fr 09:00-18:30; Sa 09:00-14:00' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='yes' />
+  </node>
+  <node id='1702700965' action='delete' timestamp='2012-04-05T13:55:54Z' uid='580469' user='Hundehalter' visible='true' version='1' changeset='11189673' lat='52.6195495' lon='10.0532009' />
+  <node id='1702700967' action='delete' timestamp='2012-04-05T13:55:54Z' uid='580469' user='Hundehalter' visible='true' version='1' changeset='11189673' lat='52.619563' lon='10.0533533' />
+  <node id='1702700985' action='delete' timestamp='2012-04-05T13:55:55Z' uid='580469' user='Hundehalter' visible='true' version='1' changeset='11189673' lat='52.6195993' lon='10.0531811' />
+  <node id='1702700986' action='delete' timestamp='2012-04-05T13:55:55Z' uid='580469' user='Hundehalter' visible='true' version='1' changeset='11189673' lat='52.6195998' lon='10.0531887' />
+  <node id='1702700992' action='delete' timestamp='2012-04-05T13:55:55Z' uid='580469' user='Hundehalter' visible='true' version='1' changeset='11189673' lat='52.6196108' lon='10.0533418' />
+  <node id='1702700993' action='delete' timestamp='2012-04-05T13:55:55Z' uid='580469' user='Hundehalter' visible='true' version='1' changeset='11189673' lat='52.6196118' lon='10.0533562' />
+  <node id='1702701037' action='delete' timestamp='2012-04-05T13:55:57Z' uid='580469' user='Hundehalter' visible='true' version='1' changeset='11189673' lat='52.6196911' lon='10.0533407' />
+  <node id='1702701042' action='delete' timestamp='2012-04-05T13:55:57Z' uid='580469' user='Hundehalter' visible='true' version='1' changeset='11189673' lat='52.6196966' lon='10.0534186' />
+  <node id='1702701049' action='delete' timestamp='2012-04-05T13:55:58Z' uid='580469' user='Hundehalter' visible='true' version='1' changeset='11189673' lat='52.6197101' lon='10.0529947' />
+  <node id='1702701074' action='delete' timestamp='2012-04-05T13:55:59Z' uid='580469' user='Hundehalter' visible='true' version='1' changeset='11189673' lat='52.6197239' lon='10.0531569' />
+  <node id='1702701098' action='delete' timestamp='2012-04-05T13:55:59Z' uid='580469' user='Hundehalter' visible='true' version='1' changeset='11189673' lat='52.6197475' lon='10.0533798' />
+  <node id='1702701101' action='delete' timestamp='2012-04-05T13:55:59Z' uid='580469' user='Hundehalter' visible='true' version='1' changeset='11189673' lat='52.6197492' lon='10.0533982' />
+  <node id='1702701206' action='delete' timestamp='2012-04-05T13:56:02Z' uid='580469' user='Hundehalter' visible='true' version='1' changeset='11189673' lat='52.6198146' lon='10.0529707' />
+  <node id='1702701219' action='delete' timestamp='2012-04-05T13:56:03Z' uid='580469' user='Hundehalter' visible='true' version='1' changeset='11189673' lat='52.6198296' lon='10.0532042' />
+  <node id='1702701237' action='delete' timestamp='2012-04-05T13:56:03Z' uid='580469' user='Hundehalter' visible='true' version='1' changeset='11189673' lat='52.6198344' lon='10.0532031' />
+  <node id='1702701284' action='delete' timestamp='2012-04-05T13:56:06Z' uid='580469' user='Hundehalter' visible='true' version='1' changeset='11189673' lat='52.6198815' lon='10.0533234' />
+  <node id='1702701285' action='delete' timestamp='2012-04-05T13:56:06Z' uid='580469' user='Hundehalter' visible='true' version='1' changeset='11189673' lat='52.6198853' lon='10.0533706' />
+  <node id='1775790170' action='delete' timestamp='2012-06-04T06:57:17Z' uid='393959' user='erge50' visible='true' version='1' changeset='11793415' lat='52.3139953' lon='10.2355676' />
+  <node id='1775790173' action='delete' timestamp='2012-06-04T06:57:17Z' uid='393959' user='erge50' visible='true' version='1' changeset='11793415' lat='52.3140323' lon='10.2351979' />
+  <node id='1775790185' action='delete' timestamp='2012-06-04T06:57:18Z' uid='393959' user='erge50' visible='true' version='1' changeset='11793415' lat='52.314129' lon='10.2351889' />
+  <node id='1775790186' action='delete' timestamp='2012-06-04T06:57:18Z' uid='393959' user='erge50' visible='true' version='1' changeset='11793415' lat='52.3141308' lon='10.235239' />
+  <node id='1775790191' action='delete' timestamp='2012-06-04T06:57:18Z' uid='393959' user='erge50' visible='true' version='1' changeset='11793415' lat='52.3141816' lon='10.235234' />
+  <node id='1775790193' action='delete' timestamp='2012-06-04T06:57:18Z' uid='393959' user='erge50' visible='true' version='1' changeset='11793415' lat='52.3141828' lon='10.2352655' />
+  <node id='1775790194' action='delete' timestamp='2012-06-04T06:57:18Z' uid='393959' user='erge50' visible='true' version='1' changeset='11793415' lat='52.3141892' lon='10.235439' />
+  <node id='1775790196' action='delete' timestamp='2012-06-04T06:57:18Z' uid='393959' user='erge50' visible='true' version='1' changeset='11793415' lat='52.3141932' lon='10.235548' />
+  <node id='1775790201' action='delete' timestamp='2012-06-04T06:57:18Z' uid='393959' user='erge50' visible='true' version='1' changeset='11793415' lat='52.3142418' lon='10.2352597' />
+  <node id='1775790205' action='delete' timestamp='2012-06-04T06:57:18Z' uid='393959' user='erge50' visible='true' version='1' changeset='11793415' lat='52.3142586' lon='10.2354331' />
+  <node id='1780135222' timestamp='2012-09-26T04:06:56Z' uid='28783' user='mey2008' visible='true' version='3' changeset='13254680' lat='52.4331804' lon='10.5835548'>
+    <tag k='addr:postcode' v='38550' />
+    <tag k='addr:street' v='Sandstraße' />
+    <tag k='name' v='Lackmanns Fahrradkeller' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='1831796766' timestamp='2012-12-26T10:35:11Z' uid='940022' user='RRJK' visible='true' version='2' changeset='14410359' lat='52.7276176' lon='10.7382746'>
+    <tag k='service:bicycle:repair' v='yes' />
+    <tag k='service:bicycle:retail' v='yes' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='1849503853' timestamp='2013-06-08T10:45:49Z' uid='713117' user='UweGif' visible='true' version='2' changeset='16467292' lat='52.4813118' lon='10.5647559'>
+    <tag k='addr:housename' v='Fleischers Fahrrad Oase' />
+    <tag k='name' v='Fleischers Fahrrad Oase' />
+    <tag k='shop' v='bicycle' />
+    <tag k='website' v='www.fleischersfahrradoase.de' />
+  </node>
+  <node id='1869791774' timestamp='2012-08-17T08:29:36Z' uid='144382' user='SHuehne' visible='true' version='1' changeset='12759476' lat='52.2874726' lon='10.5331394'>
+    <tag k='addr:city' v='Braunschweig' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='110' />
+    <tag k='addr:postcode' v='38106' />
+    <tag k='addr:street' v='Siegfriedstraße' />
+    <tag k='name' v='bikepool' />
+    <tag k='opening_hours' v='Mo-Fr 10:00-19:00' />
+    <tag k='phone' v='+49 531 70210981' />
+    <tag k='shop' v='bicycle' />
+    <tag k='website' v='http://www.bikepool-bs.de/' />
+  </node>
+  <node id='1908447413' timestamp='2012-09-10T14:33:21Z' uid='71226' user='Verirrt im Wald' visible='true' version='1' changeset='13057745' lat='52.2506756' lon='10.8182246'>
+    <tag k='service:bicycle:repair' v='yes' />
+    <tag k='service:bicycle:retail' v='yes' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='1956093789' timestamp='2012-10-10T05:32:55Z' uid='544002' user='brinkmann' visible='true' version='1' changeset='13436226' lat='52.1688586' lon='10.5700071'>
+    <tag k='addr:housenumber' v='96' />
+    <tag k='addr:postcode' v='38302' />
+    <tag k='addr:street' v='Ahlumer Straße' />
+    <tag k='name' v='Henze Zweiradhandel' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='1964064711' timestamp='2012-10-14T07:25:58Z' uid='144382' user='SHuehne' visible='true' version='1' changeset='13488219' lat='52.2876077' lon='10.5185811'>
+    <tag k='addr:city' v='Braunschweig' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='74' />
+    <tag k='addr:postcode' v='38112' />
+    <tag k='addr:street' v='Hamburger Straße' />
+    <tag k='fax' v='+49 531 70127475' />
+    <tag k='name' v='Zweirad Antonius' />
+    <tag k='opening_hours' v='Mo-Fr 09:00-19:00;Sa 09:00-16:00' />
+    <tag k='phone' v='+49 531 70127474' />
+    <tag k='service:bicycle:repair' v='yes' />
+    <tag k='service:bicycle:retail' v='yes' />
+    <tag k='shop' v='bicycle' />
+    <tag k='website' v='http://zweirad-antonius.de' />
+  </node>
+  <node id='1964552534' action='delete' timestamp='2012-10-14T12:55:18Z' uid='463879' user='tumsi' visible='true' version='1' changeset='13492254' lat='51.8418101' lon='10.7804275' />
+  <node id='1964552542' action='delete' timestamp='2012-10-14T12:55:18Z' uid='463879' user='tumsi' visible='true' version='1' changeset='13492254' lat='51.8418453' lon='10.7801149' />
+  <node id='1964552544' action='delete' timestamp='2012-10-14T12:55:18Z' uid='463879' user='tumsi' visible='true' version='1' changeset='13492254' lat='51.8418614' lon='10.7804426' />
+  <node id='1964552546' action='delete' timestamp='2012-10-14T12:55:18Z' uid='463879' user='tumsi' visible='true' version='1' changeset='13492254' lat='51.8418831' lon='10.7802501' />
+  <node id='1964552547' action='delete' timestamp='2012-10-14T12:55:18Z' uid='463879' user='tumsi' visible='true' version='1' changeset='13492254' lat='51.8418932' lon='10.7801601' />
+  <node id='1964552549' action='delete' timestamp='2012-10-14T12:55:19Z' uid='463879' user='tumsi' visible='true' version='1' changeset='13492254' lat='51.8418966' lon='10.78013' />
+  <node id='1964552550' action='delete' timestamp='2012-10-14T12:55:19Z' uid='463879' user='tumsi' visible='true' version='1' changeset='13492254' lat='51.8419061' lon='10.7802569' />
+  <node id='1964552552' action='delete' timestamp='2012-10-14T12:55:19Z' uid='463879' user='tumsi' visible='true' version='1' changeset='13492254' lat='51.8419162' lon='10.7801668' />
+  <node id='2029920526' action='delete' timestamp='2012-11-24T12:59:55Z' uid='51324' user='OPerivar' visible='true' version='1' changeset='14012030' lat='52.9694875' lon='11.1678306' />
+  <node id='2029920529' action='delete' timestamp='2012-11-24T12:59:55Z' uid='51324' user='OPerivar' visible='true' version='1' changeset='14012030' lat='52.9694903' lon='11.1678736' />
+  <node id='2029920532' action='delete' timestamp='2012-11-24T12:59:55Z' uid='51324' user='OPerivar' visible='true' version='1' changeset='14012030' lat='52.9694912' lon='11.1678871'>
+    <tag k='entrance' v='yes' />
+  </node>
+  <node id='2029920537' action='delete' timestamp='2012-11-24T12:59:55Z' uid='51324' user='OPerivar' visible='true' version='1' changeset='14012030' lat='52.9695032' lon='11.167755' />
+  <node id='2029920539' action='delete' timestamp='2012-11-24T12:59:55Z' uid='51324' user='OPerivar' visible='true' version='1' changeset='14012030' lat='52.9695079' lon='11.1678269' />
+  <node id='2029920546' action='delete' timestamp='2012-11-24T12:59:55Z' uid='51324' user='OPerivar' visible='true' version='1' changeset='14012030' lat='52.9695756' lon='11.1677419' />
+  <node id='2029920548' action='delete' timestamp='2012-11-24T12:59:55Z' uid='51324' user='OPerivar' visible='true' version='1' changeset='14012030' lat='52.9695923' lon='11.1679955' />
+  <node id='2107213018' timestamp='2013-04-05T10:34:42Z' uid='1109397' user='Wall·E' visible='true' version='2' changeset='15618065' lat='52.2690234' lon='10.524174'>
+    <tag k='addr:housenumber' v='58' />
+    <tag k='addr:postcode' v='38100' />
+    <tag k='addr:street' v='Wendenstraße' />
+    <tag k='name' v='Fahrradwelt' />
+    <tag k='shop' v='bicycle' />
+    <tag k='telephone' v='+49 531 7018677' />
+    <tag k='website' v='http://www.fahrradwelt-braunschweig.de/' />
+  </node>
+  <node id='2162841663' timestamp='2013-02-19T16:04:12Z' uid='333167' user='biker@gf' visible='true' version='1' changeset='15091529' lat='52.4256294' lon='10.7696289'>
+    <tag k='addr:city' v='Wolfsburg' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='19' />
+    <tag k='addr:postcode' v='38440' />
+    <tag k='addr:street' v='Heinrich Nordhoff Straße' />
+    <tag k='contact:email' v='info@wolfsburg.ebikestore.de' />
+    <tag k='contact:phone' v='+49 5361 2041476' />
+    <tag k='contact:website' v='http://www.wolfsburg.ebikestore.de' />
+    <tag k='name' v='eBikestore Wolfsburg' />
+    <tag k='service:bicycle:retail' v='yes' />
+    <tag k='service:bicycle:second_hand' v='yes' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='2178769657' timestamp='2013-05-26T13:50:01Z' uid='181135' user='Manu1400' visible='true' version='2' changeset='16293849' lat='52.2632289' lon='10.5475231'>
+    <tag k='name' v='steinkamp' />
+    <tag k='service:bicycle:repair' v='yes' />
+    <tag k='shop' v='bicycle' />
+    <tag k='website' v='www.raeder-nach-mass.de' />
+  </node>
+  <node id='2178769658' timestamp='2013-05-26T13:50:01Z' uid='181135' user='Manu1400' visible='true' version='2' changeset='16293849' lat='52.2633193' lon='10.5466108'>
+    <tag k='name' v='steinkamp' />
+    <tag k='service:bicycle:retail' v='yes' />
+    <tag k='shop' v='bicycle' />
+    <tag k='website' v='www.raeder-nach-mass.de' />
+  </node>
+  <node id='2186973307' action='delete' timestamp='2013-03-05T10:39:48Z' uid='456355' user='findichgut' visible='true' version='1' changeset='15256861' lat='52.989411' lon='10.1057718' />
+  <node id='2186973310' action='delete' timestamp='2013-03-05T10:39:48Z' uid='456355' user='findichgut' visible='true' version='1' changeset='15256861' lat='52.9894656' lon='10.1062211' />
+  <node id='2186973313' action='delete' timestamp='2013-03-05T10:39:48Z' uid='456355' user='findichgut' visible='true' version='1' changeset='15256861' lat='52.9894682' lon='10.1062496' />
+  <node id='2197248409' timestamp='2013-03-13T15:24:47Z' uid='1109397' user='Wall·E' visible='true' version='3' changeset='15352960' lat='52.2595491' lon='10.5289706'>
+    <tag k='addr:city' v='Braunschweig' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housename' v='ADFC Braunschweig' />
+    <tag k='addr:housenumber' v='19-21' />
+    <tag k='addr:postcode' v='38100' />
+    <tag k='addr:street' v='Klint' />
+    <tag k='name' v='ADFC Braunschweig' />
+    <tag k='shop' v='bicycle' />
+  </node>
+  <node id='2209595925' action='delete' timestamp='2013-03-19T09:24:06Z' uid='333167' user='biker@gf' visible='true' version='1' changeset='15417408' lat='52.4218402' lon='10.7220799' />
+  <node id='2209595927' action='delete' timestamp='2013-03-19T09:24:06Z' uid='333167' user='biker@gf' visible='true' version='1' changeset='15417408' lat='52.4218871' lon='10.7224121' />
+  <node id='2238275529' timestamp='2013-03-30T15:28:15Z' uid='1246256' user='buecherwurm3' visible='true' version='1' changeset='15552260' lat='51.8911994' lon='10.1762148'>
+    <tag k='name' v='Kohlstedt' />
+    <tag k='shop' v='bicycle' />
+    <tag k='website' v='http://www.zweiradshop-kohlstedt.de' />
+  </node>
+  <node id='2318592811' action='delete' timestamp='2013-05-24T17:04:38Z' uid='710590' user='LordOfMaps' visible='true' version='1' changeset='16268584' lat='52.3867668' lon='10.5342158' />
+  <node id='2318592814' action='delete' timestamp='2013-05-24T17:04:38Z' uid='710590' user='LordOfMaps' visible='true' version='1' changeset='16268584' lat='52.3867813' lon='10.5343587' />
+  <node id='2318592816' action='delete' timestamp='2013-05-24T17:04:38Z' uid='710590' user='LordOfMaps' visible='true' version='1' changeset='16268584' lat='52.3868635' lon='10.5341809' />
+  <node id='2318592818' action='delete' timestamp='2013-05-24T17:04:38Z' uid='710590' user='LordOfMaps' visible='true' version='1' changeset='16268584' lat='52.3868836' lon='10.5341755' />
+  <node id='2318592820' action='delete' timestamp='2013-05-24T17:04:38Z' uid='710590' user='LordOfMaps' visible='true' version='1' changeset='16268584' lat='52.3868789' lon='10.534332' />
+  <way id='26192678' action='delete' timestamp='2013-03-19T09:24:07Z' uid='333167' user='biker@gf' visible='true' version='5' changeset='15417408'>
+    <tag k='addr:city' v='Wolfsburg' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='4' />
+    <tag k='addr:locality' v='Fallersleben' />
+    <tag k='addr:postcode' v='38442' />
+    <tag k='addr:street' v='Wolfsburger Landstraße' />
+    <tag k='building' v='yes' />
+    <tag k='contact:phone' v='+49 5362 501971' />
+    <tag k='name' v='Radmarkt DAHL' />
+    <tag k='operator' v='Jens-Uwe Dahl' />
+    <tag k='roof:shape' v='flat' />
+    <tag k='shop' v='bicycle' />
+  </way>
+  <way id='27284910' action='delete' timestamp='2012-02-26T12:14:23Z' uid='333167' user='biker@gf' visible='true' version='7' changeset='10797299'>
+    <tag k='addr:city' v='Gifhorn' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='1' />
+    <tag k='addr:postcode' v='38518' />
+    <tag k='addr:street' v='Gerhard-Fieseler-Straße' />
+    <tag k='brand' v='ZEG' />
+    <tag k='building' v='yes' />
+    <tag k='contact:phone' v='+49 5371 58275' />
+    <tag k='contact:website' v='http://www.bike-arena-brendler.de' />
+    <tag k='level' v='1' />
+    <tag k='name' v='Bike Arena Brendler' />
+    <tag k='opening_hours' v='Mo-Fr 09:00-18:30; Sa 09:00-14:00' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='yes' />
+  </way>
+  <way id='27600748' action='delete' timestamp='2009-08-10T05:49:21Z' uid='8638' user='fishor' visible='true' version='4' changeset='2092833'>
+    <tag k='building' v='yes' />
+    <tag k='note' v='Fahrhat' />
+    <tag k='shop' v='bicycle' />
+  </way>
+  <way id='32539510' action='delete' timestamp='2013-03-12T09:43:48Z' uid='64866' user='JoergN' visible='true' version='7' changeset='15337588'>
+    <tag k='building' v='yes' />
+    <tag k='name' v='FahrradSelbsthilfeWerkstatt' />
+    <tag k='shop' v='bicycle' />
+  </way>
+  <way id='42564713' action='delete' timestamp='2013-05-28T15:19:38Z' uid='333167' user='biker@gf' visible='true' version='4' changeset='16325303'>
+    <tag k='addr:city' v='Meine' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='7' />
+    <tag k='addr:postcode' v='38527' />
+    <tag k='addr:street' v='An der Feuerwehr' />
+    <tag k='building' v='commercial' />
+    <tag k='contact:email' v='zweirad-kretke@t-online.de' />
+    <tag k='contact:fax' v='+49 5304 931660' />
+    <tag k='contact:phone' v='+49 5304 901806' />
+    <tag k='contact:website' v='http://www.zweirad-kretke.de' />
+    <tag k='name' v='Zweirad Kretke' />
+    <tag k='opening_hours' v='Mo-Fr 09:00-13:00,14:30-18:30; Sa 09:00-13:00' />
+    <tag k='service:bicycle:repair' v='yes' />
+    <tag k='service:bicycle:retail' v='yes' />
+    <tag k='service:bicycle:second_hand' v='yes' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='yes' />
+  </way>
+  <way id='46968555' action='delete' timestamp='2012-03-21T19:56:16Z' uid='290680' user='wheelmap_visitor' visible='true' version='3' changeset='11053837'>
+    <tag k='building' v='yes' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='no' />
+  </way>
+  <way id='55977098' action='delete' timestamp='2010-05-24T18:08:56Z' uid='70696' user='xybot' visible='true' version='3' changeset='4796569'>
+    <tag k='addr:city' v='Müden (Aller)' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='5' />
+    <tag k='addr:postcode' v='38539' />
+    <tag k='addr:street' v='Bahnhofstraße' />
+    <tag k='building' v='yes' />
+    <tag k='name' v='H. Bokelberg' />
+    <tag k='shop' v='bicycle' />
+  </way>
+  <way id='60840035' action='delete' timestamp='2012-12-31T04:46:08Z' uid='393959' user='erge50' visible='true' version='3' changeset='14473267'>
+    <tag k='addr:city' v='Braunschweig' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='11' />
+    <tag k='addr:postcode' v='38102' />
+    <tag k='addr:street' v='Kurt-Schumacher-Straße' />
+    <tag k='building' v='yes' />
+    <tag k='name' v='radstudio' />
+    <tag k='opening_hours' v='Mo-Fr 10:00-19:00;Sa 10:00-14:00' />
+    <tag k='phone' v='+49 531 - 123 118 10' />
+    <tag k='shop' v='bicycle' />
+  </way>
+  <way id='60840036' action='delete' timestamp='2012-12-31T04:46:08Z' uid='393959' user='erge50' visible='true' version='3' changeset='14473267'>
+    <tag k='addr:city' v='Braunschweig' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='13' />
+    <tag k='addr:postcode' v='38102' />
+    <tag k='addr:street' v='Kurt-Schumacher-Straße' />
+    <tag k='building' v='yes' />
+    <tag k='name' v='radhaus' />
+    <tag k='opening_hours' v='Mo-Fr 10:00-19:00;Sa 10:00-14:00' />
+    <tag k='phone' v='+49 531 - 123 118 20' />
+    <tag k='shop' v='bicycle' />
+  </way>
+  <way id='60840037' action='delete' timestamp='2012-12-31T04:46:07Z' uid='393959' user='erge50' visible='true' version='3' changeset='14473267'>
+    <tag k='addr:city' v='Braunschweig' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='10' />
+    <tag k='addr:postcode' v='38102' />
+    <tag k='addr:street' v='Kurt-Schumacher-Straße' />
+    <tag k='building' v='yes' />
+    <tag k='name' v='raddress' />
+    <tag k='opening_hours' v='Mo-Fr 10:00-19:00;Sa 10:00-14:00' />
+    <tag k='phone' v='+49 531 - 123 118 50' />
+    <tag k='shop' v='bicycle' />
+  </way>
+  <way id='60840042' action='delete' timestamp='2012-12-31T04:46:08Z' uid='393959' user='erge50' visible='true' version='3' changeset='14473267'>
+    <tag k='addr:city' v='Braunschweig' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='14' />
+    <tag k='addr:postcode' v='38102' />
+    <tag k='addr:street' v='Kurt-Schumacher-Straße' />
+    <tag k='building' v='yes' />
+    <tag k='name' v='radkids' />
+    <tag k='opening_hours' v='Mo-Fr 10:00-19:00;Sa 10:00-14:00' />
+    <tag k='phone' v='+49 531 - 123 118 40' />
+    <tag k='shop' v='bicycle' />
+  </way>
+  <way id='106987028' action='delete' timestamp='2013-01-18T00:18:01Z' uid='393959' user='erge50' visible='true' version='5' changeset='14691320'>
+    <tag k='addr:city' v='Braunschweig' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:postcode' v='38108' />
+    <tag k='addr:street' v='Bevenroder Straße' />
+    <tag k='building' v='yes' />
+    <tag k='name' v='Zweirad Schulz' />
+    <tag k='shop' v='bicycle' />
+  </way>
+  <way id='110774815' action='delete' timestamp='2013-03-05T10:39:52Z' uid='456355' user='findichgut' visible='true' version='4' changeset='15256861'>
+    <tag k='building' v='yes' />
+    <tag k='name' v='Sandau' />
+    <tag k='operator' v='Sandau' />
+    <tag k='shop' v='bicycle' />
+    <tag k='wheelchair' v='yes' />
+  </way>
+  <way id='126508491' action='delete' timestamp='2012-02-10T19:27:53Z' uid='601836' user='sam_1201' visible='true' version='2' changeset='10646513'>
+    <tag k='building' v='yes' />
+    <tag k='service:bicycle:cleaning' v='yes' />
+    <tag k='service:bicycle:repair' v='yes' />
+    <tag k='service:bicycle:retail' v='yes' />
+    <tag k='service:bicycle:second_hand' v='yes' />
+    <tag k='shop' v='bicycle' />
+  </way>
+  <way id='146835372' action='delete' timestamp='2013-05-02T14:58:13Z' uid='490470' user='59rbc' visible='true' version='4' changeset='15947360'>
+    <tag k='addr:city' v='Thale' />
+    <tag k='addr:housenumber' v='4' />
+    <tag k='addr:postcode' v='06502' />
+    <tag k='addr:street' v='Bodestieg' />
+    <tag k='building' v='yes' />
+    <tag k='name' v='Fahrradhaus Wagner' />
+    <tag k='shop' v='bicycle' />
+    <tag k='source' v='Bing' />
+  </way>
+  <way id='158031518' action='delete' timestamp='2013-03-26T19:03:27Z' uid='290680' user='wheelmap_visitor' visible='true' version='2' changeset='15501422'>
+    <tag k='addr:city' v='Celle' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='42a' />
+    <tag k='addr:postcode' v='29225' />
+    <tag k='addr:street' v='Neustadt' />
+    <tag k='building' v='yes' />
+    <tag k='name' v='2 Rad Meier' />
+    <tag k='shop' v='bicycle' />
+    <tag k='website' v='www.zweirad-meier.zeg.de' />
+    <tag k='wheelchair' v='limited' />
+  </way>
+  <way id='166094986' action='delete' timestamp='2012-06-04T06:57:27Z' uid='393959' user='erge50' visible='true' version='1' changeset='11793415'>
+    <tag k='building' v='yes' />
+    <tag k='shop' v='bicycle' />
+  </way>
+  <way id='185773561' action='delete' timestamp='2013-01-24T18:58:09Z' uid='1200834' user='rexunil' visible='true' version='2' changeset='14772905'>
+    <tag k='building' v='commercial' />
+    <tag k='roof:colour' v='red' />
+    <tag k='roof:material' v='roof_tiles' />
+    <tag k='roof:orientation' v='along' />
+    <tag k='roof:shape' v='gabled' />
+    <tag k='shop' v='bicycle' />
+  </way>
+  <way id='192435540' action='delete' timestamp='2012-11-24T12:59:55Z' uid='51324' user='OPerivar' visible='true' version='1' changeset='14012030'>
+    <tag k='addr:city' v='Lüchow' />
+    <tag k='addr:country' v='DE' />
+    <tag k='addr:housenumber' v='3' />
+    <tag k='addr:postcode' v='29439' />
+    <tag k='addr:street' v='Bergstraße' />
+    <tag k='building' v='yes' />
+    <tag k='name' v='BikeShop-Lüchow' />
+    <tag k='phone' v='+49 5841 3350' />
+    <tag k='shop' v='bicycle' />
+    <tag k='website' v='http://www.bikeshop-luechow.de/' />
+  </way>
+</osm>

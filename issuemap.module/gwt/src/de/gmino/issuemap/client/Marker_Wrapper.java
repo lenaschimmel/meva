@@ -9,6 +9,7 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
+import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.view.Hover_PopUp;
@@ -17,10 +18,10 @@ import de.gmino.issuemap.client.view.ShowIssue_PopUp;
 
 public class Marker_Wrapper extends AbsolutePanel { // implements MouseOverHandler, MouseOutHandler, ClickHandler { // Composite implements HasText {
 	ShowIssue_PopUp detail;
-	Issue mIssue;
+	Poi mIssue;
 	Map mMapObject;
 
-	public Marker_Wrapper(Issue issue, Map mapObject) {
+	public Marker_Wrapper(Poi issue, Map mapObject) {
 		this.setSize("20px", "20px");
 		this.getElement().getStyle().setOverflow(Overflow.VISIBLE);
 		this.mIssue=issue ;

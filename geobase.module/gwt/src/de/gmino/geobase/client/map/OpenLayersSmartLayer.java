@@ -69,6 +69,8 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 		}
 		Entity oAsEntity = (Entity) poi;
 		GwtPopupCreator<Poi> creator = popupCreatorMap.get(oAsEntity.getType());
+		if(creator == null)
+			throw new RuntimeException("No PopupCreator for tyoe " + oAsEntity.getType().toString());
 		Widget widget = creator.createTooltip(poi);
 		DivElement div = mapView.createPopup(poi.getLocation(), poi.getId()
 				+ "", 1, 1);
@@ -76,136 +78,6 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 		HTMLPanel.wrap(div).add(widget);
 	}
 	
-	public void showGpx(String[] urls) {
-		for(String url : urls)
-			showGpx(url, "#660000");
-	}
-
-	public void showGpx(String url, String color) {
-		try {
-			showGpxFromUrl(url, color);
-		} catch (RequestException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void showGpxFromUrl(final String url, final String color) throws RequestException {
-		RequestBuilder rb = new RequestBuilder(RequestBuilder.GET, url);
-
-		rb.sendRequest("", new RequestCallback() {
-
-			@Override
-			public void onResponseReceived(Request request, Response response) {
-				String gpxString = response.getText();
-				
-				Document gxpDom = XMLParser.parse(gpxString);
-			
-				JavaScriptObject mapJso = mapView.getMapJso();
-				
-				
-				NodeList routeListe = gxpDom.getElementsByTagName("rte");
-			  	if(routeListe.getLength() >= 1)
-			  	{
-			  		for(int n = 0; n < routeListe.getLength(); n++)
-			  		{
-			  			JavaScriptObject pointList = nCreatePointList();
-				  		Node route = routeListe.item(n);
-					    NodeList routeChildNodes = route.getChildNodes();
-						for(int i = 0; i < routeChildNodes.getLength(); i++)
-					    {
-							Node childNode = routeChildNodes.item(i);
-							if (childNode instanceof Element) {
-								Element childElement = (Element) childNode;
-								if(childElement.getTagName().equals("rtept"))
-								{
-									double latitude  = Double.parseDouble(childElement.getAttribute("lat"));
-									double longitude = Double.parseDouble(childElement.getAttribute("lon"));
-									nAddPoint(pointList, latitude, longitude, mapJso);
-								}
-							}
-					    }
-						nCreateLineString(pointList, mapJso, "#000000", 5);
-						nCreateLineString(pointList, mapJso, color, 3);
-			  		}
-			  	}
-			  	else
-			  	{
-			  		routeListe = gxpDom.getElementsByTagName("trk");
-			  		for(int n = 0; n < routeListe.getLength(); n++)
-			  		{
-			  			JavaScriptObject pointList = nCreatePointList();
-				  		Node route = routeListe.item(n);
-					    NodeList routeChildNodes = route.getChildNodes();
-						for(int i = 0; i < routeChildNodes.getLength(); i++)
-					    {
-							Node childNode = routeChildNodes.item(i);
-							if (childNode instanceof Element) {
-								Element childElement = (Element) childNode;
-								if(childElement.getTagName().equals("trkpt"))
-								{
-									double latitude  = Double.parseDouble(childElement.getAttribute("lat"));
-									double longitude = Double.parseDouble(childElement.getAttribute("lon"));
-									nAddPoint(pointList, latitude, longitude, mapJso);
-								}
-							}
-					    }
-						nCreateLineString(pointList, mapJso, "#000000", 5);
-						nCreateLineString(pointList, mapJso, color, 3);
-			  		}
-			  		
-			  	}
-			   
-				
-			}
-
-			@Override
-			public void onError(Request request, Throwable exception) {
-				throw new RuntimeException("Error while fetching " + url + ": "
-						+ exception.getMessage(), exception);
-			}
-		});
-
-	}
-
-	private native JavaScriptObject nCreatePointList()
-	/*-{
-		return [];
-	}-*/;
-
-	private native void nAddPoint(JavaScriptObject pointList, double latitude,
-			double longitude, JavaScriptObject mapJso)
-	/*-{
-		var newPoint = new $wnd.OpenLayers.Geometry.Point(longitude, latitude);
-		newPoint = newPoint.transform(mapJso.pro1, mapJso.pro2);
-		pointList.push(newPoint);
-	}-*/;
-
-	private native void nCreateLineString(JavaScriptObject pointList,
-			JavaScriptObject mapJso, String color, int width)
-	/*-{
-		var layer = this.@de.gmino.geobase.client.map.OpenLayersSmartLayer::vectorLayerJso;
-
-		var layer_style = $wnd.OpenLayers.Util.extend({},
-				$wnd.OpenLayers.Feature.Vector.style['default']);
-		layer_style.fillOpacity = 0.5;
-		layer_style.graphicOpacity = 1;
-
-		var style = $wnd.OpenLayers.Util.extend({}, layer_style);
-		style.strokeColor = color;
-		style.fillColor = "blue";
-		style.graphicName = "star";
-		style.pointRadius = 10;
-		style.strokeWidth = width;
-		style.rotation = 45;
-		style.strokeLinecap = "round";
-		style.strokeOpacity = 1;
-
-		var lineStringBlack = new $wnd.OpenLayers.Geometry.LineString(pointList);
-		var lineFeatureBlack = new $wnd.OpenLayers.Feature.Vector(
-				lineStringBlack, null, style);
-		layer.addFeatures([ lineFeatureBlack ]);
-
-	}-*/;
 
 	public void deselectedPoi(long poiId) {
 		Poi poi = pois.get(poiId);
@@ -222,6 +94,8 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 		Poi poi = pois.get(poiId);
 		Entity oAsEntity = (Entity) poi;
 		GwtPopupCreator<Poi> creator = popupCreatorMap.get(oAsEntity.getType());
+		if(creator == null)
+			throw new RuntimeException("No PopupCreator for tyoe " + oAsEntity.getType().toString());
 		Widget widget = creator.createPopup(poi);
 
 		if (currentPopup != null) {
@@ -368,4 +242,14 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 		var layer = this.@de.gmino.geobase.client.map.OpenLayersSmartLayer::vectorLayerJso;
 		layer.removeFeatures([ featureJso ]);
 	}-*/;
+	
+
+	public OpenLayersMapView getMapView() {
+		return mapView;
+	}
+	
+
+	public JavaScriptObject getLayerJso() {
+		return vectorLayerJso;
+	}
 }
