@@ -26,7 +26,9 @@ public class Route extends RouteGen implements Poi {
 			String color,
 			String characteristics,
 			Distance length,
-			Duration rideTime)
+			Duration rideTime,
+			int rating,
+			int number_of_rating)
 	{
 		super(
 			id,
@@ -38,7 +40,9 @@ public class Route extends RouteGen implements Poi {
 			color,
 			characteristics,
 			(de.gmino.geobase.shared.domain.Distance)length,
-			(de.gmino.geobase.shared.domain.Duration)rideTime
+			(de.gmino.geobase.shared.domain.Duration)rideTime,
+			rating,
+			number_of_rating
 		);
 		this.ready = true;
 	}

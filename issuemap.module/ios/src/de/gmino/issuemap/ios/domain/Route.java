@@ -44,7 +44,9 @@ public class Route extends RouteGen {
 			String color,
 			String characteristics,
 			Distance length,
-			Duration rideTime)
+			Duration rideTime,
+			int rating,
+			int number_of_rating)
 	{
 		super(
 			id,
@@ -56,7 +58,9 @@ public class Route extends RouteGen {
 			color,
 			characteristics,
 			(de.gmino.geobase.ios.domain.Distance)length,
-			(de.gmino.geobase.ios.domain.Duration)rideTime
+			(de.gmino.geobase.ios.domain.Duration)rideTime,
+			rating,
+			number_of_rating
 		);
 		this.ready = true;
 	}

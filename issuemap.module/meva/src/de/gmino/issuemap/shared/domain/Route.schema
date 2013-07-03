@@ -34,6 +34,14 @@
 		{
 			"type" : "Duration",
 			"name" : "rideTime"
+		},
+		{
+			"type" : "int",
+			"name" : "rating"
+		},
+		{
+			"type" : "int",
+			"name" : "number_of_rating"
 		}
 	]
 }

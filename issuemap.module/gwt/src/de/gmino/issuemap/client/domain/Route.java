@@ -46,7 +46,9 @@ public class Route extends RouteGen {
 			String color,
 			String characteristics,
 			Distance length,
-			Duration rideTime)
+			Duration rideTime,
+			int rating,
+			int number_of_rating)
 	{
 		super(
 			id,
@@ -58,10 +60,25 @@ public class Route extends RouteGen {
 			color,
 			characteristics,
 			(de.gmino.geobase.client.domain.Distance)length,
-			(de.gmino.geobase.client.domain.Duration)rideTime
+			(de.gmino.geobase.client.domain.Duration)rideTime,
+			rating,
+			number_of_rating
 		);
 		this.ready = true;
 	}
 	
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
+	
+
+	public int vote;
+	
+	public void changeRating(int newVote)
+	{
+		rating += newVote - vote;
+		if(vote == 0 && newVote != 0)
+			number_of_rating++;
+		if(vote != 0 && newVote == 0)
+			number_of_rating--;
+		vote = newVote;
+	}
 }
