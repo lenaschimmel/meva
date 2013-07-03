@@ -110,12 +110,6 @@
 							<g:Label styleName="{style.meta_label}" text="+3" ui:field="rating"></g:Label>
 							<g:Image resource="{resources.go_down}" styleName="{style.rateButton}" ui:field="rate_down" />
 						</g:HorizontalPanel>
-						<g:FocusPanel ui:field="topCellRateDown" title="Als erledigt markieren" styleName="{style.topCell}">
-							<g:HorizontalPanel>
-							    <g:CheckBox ui:field="resolved"></g:CheckBox>
-								<g:Image resource="{resources.resolved}"/>
-							</g:HorizontalPanel>
-						</g:FocusPanel>
 	                </g:VerticalPanel>
 	            </g:cell>
 	     		<g:cell width="40px">

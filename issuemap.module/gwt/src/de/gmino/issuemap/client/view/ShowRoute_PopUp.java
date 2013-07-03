@@ -153,8 +153,6 @@ public class ShowRoute_PopUp extends Composite {
 	@UiField
 	Label labelTitle;
 	@UiField
-	CheckBox resolved;
-	@UiField
 	Label rating;
 	@UiField
 	Image rate_up;
