@@ -68,13 +68,13 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 				case 81:
 				case 85:
 				case 90:
-					con.setFillStyle("#009900"); // Freizeit
+					con.setFillStyle("#33BB00"); // Freizeit
 					break;
 				case 84:
 				case 86:
 				case 93:
 				case 83:
-					con.setFillStyle("#0000FF"); // Infrastruktur
+					con.setFillStyle("#FF8700"); // Infrastruktur
 					break;
 			}
 		}
