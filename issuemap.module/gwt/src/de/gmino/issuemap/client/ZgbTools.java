@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.UnsafeNativeLong;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -45,23 +46,23 @@ public class ZgbTools {
 			Requests.getLoadedEntityById(Route.type, l , new RequestListener<Route>() {
 				@Override
 				public void onNewResult(Route route) {
-					showGpx(route.getGpxUrl(), route.getColor(), false);
+					showGpx(route.getGpxUrl(), route.getColor(), false, route.getId());
 					
 					smartLayer.addPoi(route);
 				}
 			});
 		}
 
-        showGpx("/gpx/burgenschloesser.gpx",                "#FFFF00", true);
-        showGpx("/gpx/droemling.gpx",                                "#00FFFF", true);
-        showGpx("/gpx/fachwerk.gpx",                                "#00FFFF", true);
-        showGpx("/gpx/gifhorn.gpx",                                        "#FFFF00", true);
-        showGpx("/gpx/grenzenlos.gpx",                                "#FF0000", true);
-        showGpx("/gpx/industriestadt.gpx",                        "#FF0000", true);
-        showGpx("/gpx/rundumpeine.gpx",                                "#00FF00", true);
-        showGpx("/gpx/tilleulenspiegel.gpx",                "#00FF00", true);
+        showGpx("/gpx/burgenschloesser.gpx",                "#FFFF00", true, 1000);
+        showGpx("/gpx/droemling.gpx",                                "#00FFFF", true, 1001);
+        showGpx("/gpx/fachwerk.gpx",                                "#00FFFF", true, 1002);
+        showGpx("/gpx/gifhorn.gpx",                                        "#FFFF00", true, 1003);
+        showGpx("/gpx/grenzenlos.gpx",                                "#FF0000", true, 1004);
+        showGpx("/gpx/industriestadt.gpx",                        "#FF0000", true, 1005);
+        showGpx("/gpx/rundumpeine.gpx",                                "#00FF00", true, 1006);
+        showGpx("/gpx/tilleulenspiegel.gpx",                "#00FF00", true, 1007);
 
-		showGpx("/gpx/zgb_aussengrenze_2000.gpx",	"#000066", true);
+		showGpx("/gpx/zgb_aussengrenze_2000.gpx",	"#000066", true, 999);
 	}
 
 	public void showBicycleShops() {
@@ -88,18 +89,18 @@ public class ZgbTools {
 	}
 	public void showGpx(String[] urls) {
 		for(String url : urls)
-			showGpx(url, "#660000", false);
+			showGpx(url, "#660000", false, 0);
 	}
 
-	public void showGpx(String url, String color, boolean dash) {
+	public void showGpx(String url, String color, boolean dash, long poiId) {
 		try {
-			showGpxFromUrl(url, color, dash);
+			showGpxFromUrl(url, color, dash, poiId);
 		} catch (RequestException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void showGpxFromUrl(final String url, final String color, final boolean dash) throws RequestException {
+	private void showGpxFromUrl(final String url, final String color, final boolean dash, final long poiId) throws RequestException {
 		RequestBuilder rb = new RequestBuilder(RequestBuilder.GET, url);
 
 		rb.sendRequest("", new RequestCallback() {
@@ -107,7 +108,7 @@ public class ZgbTools {
 			@Override
 			public void onResponseReceived(Request request, Response response) {
 				String gpxString = response.getText();
-				parseAndShowGpx(color, dash, gpxString);
+				parseAndShowGpx(color, dash, gpxString, poiId);
 			}
 
 			@Override
@@ -119,7 +120,7 @@ public class ZgbTools {
 	}
 
 	private void parseAndShowGpx(final String color,
-			final boolean dash, String gpxString) {
+			final boolean dash, String gpxString, long poiId) {
 		Document gxpDom = XMLParser.parse(gpxString);
 		
 		NodeList routeListe = gxpDom.getElementsByTagName("rte");
@@ -144,8 +145,8 @@ public class ZgbTools {
 					}
 			    }
 				if(!dash)
-					nCreateLineString(pointList, mapJso, layerJso, "#000000", 5, dash);
-				nCreateLineString(pointList, mapJso, layerJso, color, 3, dash);
+					nCreateLineString(pointList, mapJso, layerJso, "#000000", 5, dash, poiId);
+				nCreateLineString(pointList, mapJso, layerJso, color, 3, dash, poiId);
 	  		}
 	  	}
 	  	else
@@ -170,8 +171,8 @@ public class ZgbTools {
 					}
 			    }
 				if(!dash)
-					nCreateLineString(pointList, mapJso, layerJso, "#000000", 5, dash);
-				nCreateLineString(pointList, mapJso, layerJso, color, 3, dash);
+					nCreateLineString(pointList, mapJso, layerJso, "#000000", 5, dash, poiId);
+				nCreateLineString(pointList, mapJso, layerJso, color, 3, dash, poiId);
 	  		}
 	  		
 	  	}
@@ -256,8 +257,9 @@ public class ZgbTools {
 		pointList.push(newPoint);
 	}-*/;
 
+	@UnsafeNativeLong
 	private native void nCreateLineString(JavaScriptObject pointList,
-			JavaScriptObject mapJso, JavaScriptObject layer, String color, int width, boolean dash)
+			JavaScriptObject mapJso, JavaScriptObject layer, String color, int width, boolean dash, long poiId)
 	/*-{
 		var layer_style = $wnd.OpenLayers.Util.extend({},
 				$wnd.OpenLayers.Feature.Vector.style['default']);
@@ -279,6 +281,7 @@ public class ZgbTools {
 		var lineStringBlack = new $wnd.OpenLayers.Geometry.LineString(pointList);
 		var lineFeatureBlack = new $wnd.OpenLayers.Feature.Vector(
 				lineStringBlack, null, style);
+		lineFeatureBlack.poiId = poiId;
 		layer.addFeatures([ lineFeatureBlack ]);
 
 	}-*/;
