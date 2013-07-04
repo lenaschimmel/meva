@@ -94,6 +94,8 @@ public abstract class ZgbTools {
 					parseAndShowGpx(route.getColor(), false, gpxString, route.getId());
 					smartLayer.addPoi(route);
 					routesToShow--;
+					System.out.println("Shown route " + route.getTitle() + ", " + routesToShow + " routes left.");
+
 					if(routesToShow == 0)
 						onAllRoutesShown();
 				}
@@ -119,6 +121,7 @@ public abstract class ZgbTools {
 				String gpxString = response.getText();
 				parseAndShowGpx(color, dash, gpxString, poiId);
 				routesToShow--;
+				System.out.println("Shown route " + url + ", " + routesToShow + " routes left.");
 				if(routesToShow == 0)
 					onAllRoutesShown();
 			}

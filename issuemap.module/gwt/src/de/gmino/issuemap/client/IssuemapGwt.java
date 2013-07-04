@@ -181,6 +181,8 @@ public class IssuemapGwt implements EntryPoint {
 													ZgbTools zgb = new ZgbTools(markerLayer) {
 														@Override
 														public void onAllRoutesShown() {
+															System.out
+																	.println("All routes shown, now loading bicycle shops and Issues.");
 															showBicycleShops();
 															loadAndShowIssues();
 														}
