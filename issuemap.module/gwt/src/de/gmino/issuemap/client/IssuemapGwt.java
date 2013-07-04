@@ -93,8 +93,7 @@ public class IssuemapGwt implements EntryPoint {
 		markerLayer.addMarkerIconRenderer(BicycleShop.type, new BicycleShopIconRenderer());
 		if(subdomain.equals("zgb"))
 		{
-			String url = "/mapicon/cycleway.png";
-			ImageUrlLoader.getInstance().addUrl(url);
+			ImageUrlLoader.getInstance().addUrl("/mapicon/cycleway.png");
 			markerLayer.addMarkerIconRenderer(Route.type, new RouteIconRenderer());
 		}
 	
@@ -103,13 +102,13 @@ public class IssuemapGwt implements EntryPoint {
 
 		RootPanel.get("bar_bottom").add(footer);
 
-		mapView.addEventListener(Event.click, new MapListener() {
-
-			@Override
-			public void onEvent(LatLon location, Event event) {
-				footer.setText(location.toString());
-			}
-		});
+//		mapView.addEventListener(Event.click, new MapListener() {
+//
+//			@Override
+//			public void onEvent(LatLon location, Event event) {
+//				footer.setText(location.toString());
+//			}
+//		});
 		
 		// Add create-PopUp by Double-Click
 		mapView.addEventListener(Event.dblclick, new MapListener() {
@@ -179,31 +178,17 @@ public class IssuemapGwt implements EntryPoint {
 													markerLayer.addMarkerPopupCreator(Route.type,
 															new RoutePopupCreator(map, markerLayer));
 
-													ZgbTools zgb = new ZgbTools(markerLayer);
+													ZgbTools zgb = new ZgbTools(markerLayer) {
+														@Override
+														public void onAllRoutesShown() {
+															showBicycleShops();
+															loadAndShowIssues();
+														}
+													};
 													zgb.showRoutes();
-													zgb.showBicycleShops();
 												}
-												
-												Collection<Issue> issues = mapObject
-														.getIssues();
-												Requests.loadEntities(
-														issues,
-														new RequestListener<Issue>() {
-															@Override
-															public void onFinished(
-																	Collection<Issue> results) {
-																Comparator<Issue> compare = new IssueLatitudeComparator();
-																TreeSet<Issue> sortedIssues = new TreeSet<Issue>(
-																		compare);
-																sortedIssues
-																		.addAll(results);
-																for (Issue i : sortedIssues) {
-																	if (i.isDeleted())
-																		continue;
-																	addMarker(i);
-																}
-															}
-														});
+												else
+													loadAndShowIssues();
 											}
 										});
 							}
@@ -230,6 +215,31 @@ public class IssuemapGwt implements EntryPoint {
 	public void deleteMarker(Issue nIssue) {
 		markerLayer.removePoi(nIssue);
 
+	}
+
+
+
+	private void loadAndShowIssues() {
+		Collection<Issue> issues = mapObject
+				.getIssues();
+		Requests.loadEntities(
+				issues,
+				new RequestListener<Issue>() {
+					@Override
+					public void onFinished(
+							Collection<Issue> results) {
+						Comparator<Issue> compare = new IssueLatitudeComparator();
+						TreeSet<Issue> sortedIssues = new TreeSet<Issue>(
+								compare);
+						sortedIssues
+								.addAll(results);
+						for (Issue i : sortedIssues) {
+							if (i.isDeleted())
+								continue;
+							addMarker(i);
+						}
+					}
+				});
 	}
 
 }

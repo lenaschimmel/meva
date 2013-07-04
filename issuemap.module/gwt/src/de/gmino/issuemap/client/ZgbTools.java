@@ -24,11 +24,12 @@ import de.gmino.issuemap.shared.domain.Route;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
-public class ZgbTools {
+public abstract class ZgbTools {
 	
 	private OpenLayersSmartLayer smartLayer;
 	private JavaScriptObject mapJso;
 	private JavaScriptObject layerJso;
+	private int routesToShow;
 
 	public ZgbTools(OpenLayersSmartLayer smartLayer) {
 		super();
@@ -36,37 +37,25 @@ public class ZgbTools {
 		this.mapJso = smartLayer.getMapView().getMapJso();
 		this.layerJso = smartLayer.getLayerJso();
 	}
-
 	
 	public void showRoutes() {
 		
 		Collection<Long> ids = new ArrayList<Long>();
 		for(long l = 1; l <= 8; l++)
-		{
-			Requests.getLoadedEntityById(Route.type, l , new RequestListener<Route>() {
-				@Override
-				public void onNewResult(Route route) {
-					showGpx(route.getGpxUrl(), route.getColor(), false, route.getId());
-					
-					smartLayer.addPoi(route);
-				}
-				
-				@Override
-				public void onError(String message, Throwable e) {
-				}
-			});
+			ids.add(l);
+		
+		Requests.getLoadedEntitiesById(Route.type, ids , new RequestListener<Route>() {
+			@Override
+			public void onNewResult(Route route) {
+				showRoute(route);
+			}
+		});
+		
+		try {
+			showGpxFromUrl("/gpx/zgb_aussengrenze_2000.gpx",	"#000066", true, 999);
+		} catch (RequestException e1) {
+			e1.printStackTrace();
 		}
-
-        showGpx("/gpx/burgenschloesser.gpx",                "#FFFF00", true, 1000);
-        showGpx("/gpx/droemling.gpx",                                "#00FFFF", true, 1001);
-        showGpx("/gpx/fachwerk.gpx",                                "#00FFFF", true, 1002);
-        showGpx("/gpx/gifhorn.gpx",                                        "#FFFF00", true, 1003);
-        showGpx("/gpx/grenzenlos.gpx",                                "#FF0000", true, 1004);
-        showGpx("/gpx/industriestadt.gpx",                        "#FF0000", true, 1005);
-        showGpx("/gpx/rundumpeine.gpx",                                "#00FF00", true, 1006);
-        showGpx("/gpx/tilleulenspiegel.gpx",                "#00FF00", true, 1007);
-
-		showGpx("/gpx/zgb_aussengrenze_2000.gpx",	"#000066", true, 999);
 	}
 
 	public void showBicycleShops() {
@@ -91,28 +80,47 @@ public class ZgbTools {
 			e.printStackTrace();
 		}
 	}
-	public void showGpx(String[] urls) {
-		for(String url : urls)
-			showGpx(url, "#660000", false, 0);
-	}
-
-	public void showGpx(String url, String color, boolean dash, long poiId) {
+	
+	private void showRoute(final Route route) { // String url, final String color, final boolean dash, final long poiId) throws RequestException {
+		RequestBuilder rb = new RequestBuilder(RequestBuilder.GET, route.getGpxUrl());
+		routesToShow++;
+		
 		try {
-			showGpxFromUrl(url, color, dash, poiId);
+			rb.sendRequest("", new RequestCallback() {
+
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					String gpxString = response.getText();
+					parseAndShowGpx(route.getColor(), false, gpxString, route.getId());
+					smartLayer.addPoi(route);
+					routesToShow--;
+					if(routesToShow == 0)
+						onAllRoutesShown();
+				}
+
+				@Override
+				public void onError(Request request, Throwable exception) {
+					throw new RuntimeException("Error while fetching " + route.getGpxUrl() + ": "
+							+ exception.getMessage(), exception);
+				}
+			});
 		} catch (RequestException e) {
 			e.printStackTrace();
 		}
 	}
-
+	
 	private void showGpxFromUrl(final String url, final String color, final boolean dash, final long poiId) throws RequestException {
 		RequestBuilder rb = new RequestBuilder(RequestBuilder.GET, url);
-
+		routesToShow++;
 		rb.sendRequest("", new RequestCallback() {
 
 			@Override
 			public void onResponseReceived(Request request, Response response) {
 				String gpxString = response.getText();
 				parseAndShowGpx(color, dash, gpxString, poiId);
+				routesToShow--;
+				if(routesToShow == 0)
+					onAllRoutesShown();
 			}
 
 			@Override
@@ -290,4 +298,5 @@ public class ZgbTools {
 
 	}-*/;
 
+	public abstract void onAllRoutesShown();
 }

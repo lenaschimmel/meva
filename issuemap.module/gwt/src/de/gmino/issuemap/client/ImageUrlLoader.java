@@ -49,7 +49,7 @@ public class ImageUrlLoader implements LoadHandler, ErrorHandler {
 	@Override
     public void onLoad(LoadEvent event) {
 		imagesToLoad--;
-		if(imagesToLoad == 0)
+		if(imagesToLoad == 0 && listener != null)
 			listener.onFinished(null);
     }
 	
