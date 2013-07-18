@@ -50,7 +50,7 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 		this.smartLayer = smartLayer;
 		initWidget(uiBinder.createAndBindUi(this));
 		this.mapObject = map;
-		setBoarderColor(map.getColor());
+	//	setBoarderColor(map.getColor());
 
 		for (Markertype mt : map.getMarkertypes())
 			typebox.addItem(mt.getMarkerName(), mt.getId() + "");

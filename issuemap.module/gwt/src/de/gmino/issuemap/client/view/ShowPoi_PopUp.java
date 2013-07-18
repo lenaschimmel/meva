@@ -119,12 +119,20 @@ public class ShowPoi_PopUp extends Composite {
 		this.mWrapper = marker_Wrapper;
 		setBoarderColor(map.getColor());
 
-		date.setText(dtf.format(mIssue.getCreationTimestamp().toDate()));
 		type.setText(mIssue.getMarkertype().getMarkerName());
-		resolved.setValue(mIssue.isResolved());
 		setRatingText();
 		labelTitle.setText(mIssue.getTitle());
-		description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mIssue.getDescription()).toSafeHtml());
+		if(issue.getPhotos().isEmpty())
+			description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mIssue.getDescription()).toSafeHtml());
+		else {
+			Photo firstPhoto = (Photo) mIssue.getPhotos().iterator().next();
+			Requests.loadEntity(firstPhoto, new RequestListener<Photo>() {
+				public void onNewResult(Photo photo) {
+					description.setHTML( new SafeHtmlBuilder().appendHtmlConstant("<p><img src='" + photo.getImage().getUrl() + "&amp;h=200' style='float:right;' />"+ mIssue.getDescription() +"</p>").toSafeHtml());
+							
+				};
+			});
+		}
 		
 		//mIssue.vote=0;
 		updateButtonColorsAndLabels();
@@ -192,15 +200,12 @@ public class ShowPoi_PopUp extends Composite {
 	@UiField
 	Label labelTitle;
 	@UiField
-	CheckBox resolved;
-	@UiField
+
 	Label rating;
 	@UiField
 	Image rate_up;
 	@UiField
 	Image rate_down;
-	@UiField
-	Label date;
 	@UiField
 	Label type;
 	@UiField
@@ -330,12 +335,7 @@ public class ShowPoi_PopUp extends Composite {
 		smartLayer.removePoi(mIssue);
 	}
 
-	@UiHandler("resolved")
-	void onCheckbox(ClickEvent e) {
-		mIssue.setResolved(resolved.getValue());
-		Requests.saveEntity(mIssue, null);
-		smartLayer.updatePoi(mIssue);
-	}
+	
 
 	@UiHandler("rate_up")
 	void onRateUp(ClickEvent e) {

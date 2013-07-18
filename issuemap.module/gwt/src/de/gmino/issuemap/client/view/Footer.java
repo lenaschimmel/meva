@@ -68,7 +68,7 @@ public class Footer extends Composite implements HasText {
 	}
 	
 	public void setDesign(String color) {
-		footer.getElement().getStyle().setBorderColor(color);
+//		footer.getElement().getStyle().setBorderColor(color);
 		chart_button.getElement().getStyle().setBackgroundColor(color);
 		list_button.getElement().getStyle().setBackgroundColor(color);
 		preferences_button.getElement().getStyle().setBackgroundColor(color);

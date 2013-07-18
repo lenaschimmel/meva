@@ -13,29 +13,31 @@
 			top: 0;
 			left: 0;
 			right: 0;
-			border-bottom: 3px solid #4DADDE;
-			background: #333;
+			background:  rgba(0, 0, 0, 0.75);
+			z-index: 5;
 			z-index: 5;
 			min-height: 35px;
 			padding-left: 10px;
 			padding-top: 5px;
+			min-width: 730px;
 		}
 		
 		.title {
 			font-size: 1.7em;
-			margin-top: 5px;
 			text-align: center;
+			color: #FFF;
+			font-weight: bolder;
+			margin-top: 7px;
+			margin-bottom: 7px;
 		}
 		
-		.searchButton {
-			margin-top: 10px;
+		.infoButton {
+			margin-top: 9px;
 			margin-left: 3px;
+			margin-right:5px;
 			display: block;
 			font-size: 16pt;
-			border-left: 1px solid #4C4C4C;
-			border-right: 1px solid #000000;
-			border-top: 1px solid #4C4C4C;
-			border-bottom: 1px solid #000000;
+
 		}
 		
 		.button {
@@ -46,12 +48,26 @@
 			border: 0px;
 			padding-left: 20px;
 			padding-bottom: 12px;
-			background: #333;
+			background: #000;
 			cursor: pointer;
 		}
 		
+		.image{
+
+		}
+		
 		.searchField {
-			margin-top: 15px;
+			margin-top: 10px;
+			margin-right: 15px;
+			background:#ffffff url('search.png') no-repeat left;
+    		border: 1px solid #111111;
+    		border-radius: 5px 5px 5px 5px;
+   			box-shadow: 0 1px 0 0 #242424, 0 1px 0 0 #B1B1B1 inset;
+    		display: block;
+    		height: 28px;
+    		padding: 0 22px 0 28px;
+    
+
 		}
 	</ui:style>
 
@@ -59,31 +75,23 @@
 		ui:field="header">
 
 		<g:cell width="25%" verticalAlignment="ALIGN_MIDDLE">
-			<g:Image ui:field="logo" url="loading.gif" height="45px" />
+			<g:Image ui:field="logo" url="loading.gif" height="45px" styleName="{style.image}"/>
 		</g:cell>
 
 		<g:cell width="50%" horizontalAlignment="ALIGN_CENTER">
 			<g:HorizontalPanel>
-				<g:Label styleName="{style.title}" ui:field="title" />
-				<g:PushButton styleName="{style.searchButton}"
-					ui:field="info_button" height="30px">
+				<g:Label styleName="{style.title}" ui:field="title">... Daten werden geladen</g:Label>
+				<g:PushButton styleName="{style.infoButton}"
+					ui:field="info_button" height="30px" title="Infos zu der Karte">
 					<g:upFace image='{resources.info}' />
 					<g:upHoveringFace image='{resources.info_hover}' />
 				</g:PushButton>
 			</g:HorizontalPanel>
 		</g:cell>
 
-		<g:cell width="20%" horizontalAlignment="ALIGN_RIGHT">
+		<g:cell width="25%" horizontalAlignment="ALIGN_RIGHT">
 			<g:TextBox styleName="{style.searchField}" text=""
-				ui:field="search_field" />
-		</g:cell>
-
-		<g:cell width="30px">
-			<g:PushButton styleName="{style.searchButton}" ui:field="search_button"
-				height="30px">
-				<g:upFace image='{resources.search}' />
-				<g:upHoveringFace image='{resources.search_hover}' />
-			</g:PushButton>
+				ui:field="search_field"></g:TextBox>
 		</g:cell>
 		<g:cell>
 			<g:Label></g:Label>

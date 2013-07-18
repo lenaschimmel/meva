@@ -16,40 +16,14 @@ body {
 
 #map {
 	position:absolute;
-	top:57px;
+	top:0px;
 	left:0px;
 	right:0px;
-	bottom:40px;
+	bottom:0px;
 	overflow: hidden;
 }
 
-.header
-{
-	font-size: 90%;
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	border-bottom: 3px solid #4DADDE;
-	background: #333;
-	z-index: 5;
-	min-height: 35px;
-	padding: 10px;
-}
 
-
-.footer
-{
-	font-size: 90%;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	border-top: 2px solid #4DADDE;
-	background: #333;
-	z-index: 5;
-	min-height: 15px;
-}
 
 #textbox
 {
