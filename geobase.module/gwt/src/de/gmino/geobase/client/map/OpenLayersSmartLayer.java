@@ -34,6 +34,7 @@ import de.gmino.meva.shared.EntityTypeName;
 
 public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 
+	private static final int ZOOM_TRESHOLD = 12;
 	private String name;
 	private JavaScriptObject vectorLayerJso;
 	private JavaScriptObject popupLayerJso;
@@ -45,6 +46,7 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 	private TreeMap<Poi, JavaScriptObject> poiJsos;
 	private TreeMap<Poi, DivElement> poiTooltipDivs;
 	private Widget currentPopup;
+	private int currentZoomLevel;
 
 	public OpenLayersSmartLayer(String name, OpenLayersMapView mapView) {
 		this.name = name;
@@ -171,13 +173,24 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 	@Override
 	public void addPoi(Poi o) {
 		if (pois.put(o.getId(), o) == null) {
-			GwtIconRenderer<? super Poi> renderer = getRendererForPoi(o);
-			String iconUrl = renderer.getIconUrl(o);
-			JavaScriptObject jso = nAddMarker(iconUrl, o.getLocation()
-					.getLatitude(), o.getLocation().getLongitude(),
-					mapView.getMapJso(), o.getId(), renderer.getWidth(o),
-					renderer.getHeight(o));
-			poiJsos.put(o, jso);
+			if(currentZoomLevel > ZOOM_TRESHOLD)
+			{
+				GwtIconRenderer<? super Poi> renderer = getRendererForPoi(o);
+				String iconUrl = renderer.getIconUrl(o);
+				JavaScriptObject jso = nAddMarker(iconUrl, o.getLocation()
+						.getLatitude(), o.getLocation().getLongitude(),
+						mapView.getMapJso(), o.getId(), renderer.getWidth(o),
+						renderer.getHeight(o));
+				poiJsos.put(o, jso);
+			}
+			else
+			{
+				String iconUrl = "/mapicon/dot.png";
+				JavaScriptObject jso = nAddMarker(iconUrl, o.getLocation()
+						.getLatitude(), o.getLocation().getLongitude(),
+						mapView.getMapJso(), o.getId(), 8, 8);
+				poiJsos.put(o, jso);
+			}
 		}
 	}
 
@@ -251,5 +264,14 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 
 	public JavaScriptObject getLayerJso() {
 		return vectorLayerJso;
+	}
+	
+	public void setZoomLevel(int newZoomLevel)
+	{
+		int previousZoomLevel = currentZoomLevel;
+		currentZoomLevel = newZoomLevel;
+		if((previousZoomLevel <= ZOOM_TRESHOLD && newZoomLevel > ZOOM_TRESHOLD) || ( newZoomLevel <= ZOOM_TRESHOLD && previousZoomLevel > ZOOM_TRESHOLD))
+			for(Poi poi : pois.values())
+				updatePoi(poi);
 	}
 }
