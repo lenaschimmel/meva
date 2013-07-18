@@ -35,7 +35,6 @@ public class Header extends Composite implements HasText {
 	public Header() {
 		initWidget(uiBinder.createAndBindUi(this));
 		info_button.setVisible(false);
-		search_button.setVisible(false);
 		search_field.setVisible(false);
 		search_field.getElement().setAttribute("placeholder", "Straßensuche");
 		logo.setHeight("30px");
@@ -48,8 +47,6 @@ public class Header extends Composite implements HasText {
 	Image logo;
 	@UiField
 	Label title;
-	@UiField
-	PushButton search_button;
 	@UiField
 	TextBox search_field;
 	@UiField
@@ -67,12 +64,12 @@ public class Header extends Composite implements HasText {
 		infoPopUp.setPopupPosition(Window.getClientWidth()/2, Window.getClientHeight()/3);
 	}
 	
-	@UiHandler("search_button")
-	void onSearchClick(ClickEvent e) {
-		performSearch();
-	}
+//	@UiHandler("search_field")
+//	void onSearchClick(ClickEvent e) {
+//		performSearch();
+//	}
 
-	@UiHandler("search_button")
+	@UiHandler("search_field")
 	void onKeyUp(KeyUpEvent event) {
 		if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 			performSearch();
@@ -92,6 +89,7 @@ public class Header extends Composite implements HasText {
 			@Override
 			public void onLocationFound(LatLon location) {
 				IssuemapGwt.mapView.setCenter(location, true);
+				IssuemapGwt.mapView.setZoom(17);
 			}
 			
 			@Override
@@ -105,11 +103,10 @@ public class Header extends Composite implements HasText {
 		logo.setUrl(imgUrl);
 		title.setText(titleString);
 		title.getElement().getStyle().setColor(color);
-		header.getElement().getStyle().setBorderColor(color);
-		search_button.getElement().getStyle().setBackgroundColor(color);
-		info_button.getElement().getStyle().setBackgroundColor(color);
+//		header.getElement().getStyle().setBorderColor(color);
+//		info_button.getElement().getStyle().setBackgroundColor(color);
 		info_button.setVisible(true);
-		search_button.setVisible(true);
+
 		search_field.setVisible(true);
 		logo.setHeight("45px");
 	}

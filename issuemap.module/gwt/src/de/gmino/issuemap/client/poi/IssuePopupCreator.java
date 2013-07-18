@@ -42,9 +42,9 @@ public class IssuePopupCreator implements GwtPopupCreator<Issue> {
 			//wrapper.setHeight(showEvent_PopUp.getOffsetHeight()+"px");
 			//Window.alert("Size: " + showEvent_PopUp.getOffsetWidth() + " x " + showEvent_PopUp.getOffsetHeight());
 		} else if(markerId >= 80 && markerId <= 94){
-			popup = new ShowIssue_PopUp(map, poi, wrapper, smartLayer);
-		} else {
 			popup = new ShowPoi_PopUp(map, poi, wrapper, smartLayer);
+		} else {
+			popup = new ShowIssue_PopUp(map, poi, wrapper, smartLayer);
 		}
 		wrapper.add(popup);
 		return wrapper;

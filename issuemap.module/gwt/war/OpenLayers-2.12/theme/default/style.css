@@ -31,7 +31,7 @@ div.olLayerDiv {
 .olControlAttribution {
     font-size: smaller;
     right: 3px;
-    bottom: 1.0em;
+    bottom: 60px;
     position: absolute;
     display: block;
 }
@@ -431,7 +431,7 @@ span.olGoogleAttribution.hybrid a, span.olGoogleAttribution.satellite a {
 
 div.olControlZoom {
     position: absolute;
-    top: 8px;
+    top: 80px;
     left: 8px;
     background: rgba(255,255,255,0.4);
     border-radius: 4px;
@@ -440,9 +440,9 @@ div.olControlZoom {
 div.olControlZoom a {
     display: block;
     margin: 1px;
-    padding: 0;
+    padding: 2px;
     color: white;
-    font-size: 18px;
+    font-size: 20px;
     font-family: 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
     font-weight: bold;
     text-decoration: none;
@@ -451,7 +451,7 @@ div.olControlZoom a {
     width:22px;
     line-height: 19px;
     background: #130085; /* fallback for IE - IE6 requires background shorthand*/
-    background: rgba(0, 60, 136, 0.5);
+    background: rgba(0, 0, 0, 0.7);
     filter: alpha(opacity=80);
 }
 div.olControlZoom a:hover {
@@ -465,10 +465,10 @@ div.olControlZoom a:hover {
     }
 }
 a.olControlZoomIn {
-    border-radius: 4px 4px 0 0;
+    border-radius: 2px 2px 0 0;
 }
 a.olControlZoomOut {
-    border-radius: 0 0 4px 4px;
+    border-radius: 0 0 2px 2px;
 }
 
 

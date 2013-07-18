@@ -117,9 +117,9 @@ public class ShowIssue_PopUp extends Composite {
 		this.smartLayer = smartLayer;
 		this.mIssue = issue;
 		this.mWrapper = marker_Wrapper;
-		setBoarderColor(map.getColor());
+//		setBoarderColor(map.getColor());
 
-		date.setText(dtf.format(mIssue.getCreationTimestamp().toDate()));
+		date.setText(", vom " + dtf.format(mIssue.getCreationTimestamp().toDate()));
 		type.setText(mIssue.getMarkertype().getMarkerName());
 		resolved.setValue(mIssue.isResolved());
 		setRatingText();
