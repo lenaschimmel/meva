@@ -1,5 +1,7 @@
 package de.gmino.geobase.client.map;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -8,21 +10,9 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.UnsafeNativeLong;
 import com.google.gwt.dom.client.DivElement;
-import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.RequestBuilder;
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.RequestException;
-import com.google.gwt.http.client.Response;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.xml.client.Document;
-import com.google.gwt.xml.client.Element;
-import com.google.gwt.xml.client.Node;
-import com.google.gwt.xml.client.NodeList;
-import com.google.gwt.xml.client.Text;
-import com.google.gwt.xml.client.XMLParser;
 
 import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.geobase.shared.map.IconRenderer;
@@ -32,7 +22,7 @@ import de.gmino.geobase.shared.map.SmartLayer;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityTypeName;
 
-public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
+public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLayersLayer {
 
 	private static final int ZOOM_TRESHOLD = 12;
 	private String name;
@@ -61,6 +51,7 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 		popupLayerJso = nCreatePopupLayer(name);
 		mapView.addLayerJso(vectorLayerJso);
 		mapView.addLayerJso(popupLayerJso);
+		mapView.addLayer(this);
 	}
 
 	public void selectedPoi(long poiId) {
@@ -173,24 +164,26 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 	@Override
 	public void addPoi(Poi o) {
 		if (pois.put(o.getId(), o) == null) {
+			GwtIconRenderer<? super Poi> renderer = getRendererForPoi(o);
+			String iconUrl;
+			int width, height;
 			if(currentZoomLevel > ZOOM_TRESHOLD)
 			{
-				GwtIconRenderer<? super Poi> renderer = getRendererForPoi(o);
-				String iconUrl = renderer.getIconUrl(o);
-				JavaScriptObject jso = nAddMarker(iconUrl, o.getLocation()
-						.getLatitude(), o.getLocation().getLongitude(),
-						mapView.getMapJso(), o.getId(), renderer.getWidth(o),
-						renderer.getHeight(o));
-				poiJsos.put(o, jso);
+				iconUrl = renderer.getIconUrl(o);
+				width = renderer.getWidth(o);
+				height = renderer.getHeight(o);
 			}
 			else
 			{
-				String iconUrl = "/mapicon/dot.png";
-				JavaScriptObject jso = nAddMarker(iconUrl, o.getLocation()
-						.getLatitude(), o.getLocation().getLongitude(),
-						mapView.getMapJso(), o.getId(), 8, 8);
-				poiJsos.put(o, jso);
+				iconUrl = renderer.getSmallIconUrl(o);
+				width = 8;
+				height = 8;
 			}
+			JavaScriptObject jso = nAddMarker(iconUrl, o.getLocation()
+					.getLatitude(), o.getLocation().getLongitude(),
+					mapView.getMapJso(), o.getId(), width,
+					height);
+			poiJsos.put(o, jso);
 		}
 	}
 
@@ -271,7 +264,47 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget> {
 		int previousZoomLevel = currentZoomLevel;
 		currentZoomLevel = newZoomLevel;
 		if((previousZoomLevel <= ZOOM_TRESHOLD && newZoomLevel > ZOOM_TRESHOLD) || ( newZoomLevel <= ZOOM_TRESHOLD && previousZoomLevel > ZOOM_TRESHOLD))
-			for(Poi poi : pois.values())
+		{
+			Collection<Poi> poisCopy = new ArrayList<Poi>(pois.values());
+			for(Poi poi : poisCopy)
 				updatePoi(poi);
+		}
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public double getMinZoom() {
+		return 0;
+	}
+
+	@Override
+	public double getMaxZoom() {
+		return 100;
+	}
+
+	@Override
+	public String getLicenseText() {
+		return "No License Text";
+	}
+
+	@Override
+	public void setVisibility(boolean visible) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setOpacity(double opacity) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public JavaScriptObject getJso() {
+		return vectorLayerJso;
 	}
 }

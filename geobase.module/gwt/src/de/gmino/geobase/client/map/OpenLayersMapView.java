@@ -1,5 +1,7 @@
 package de.gmino.geobase.client.map;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Style.Overflow;
@@ -12,18 +14,20 @@ import de.gmino.geobase.shared.map.MapLayer;
 import de.gmino.geobase.shared.map.MapListener;
 import de.gmino.geobase.shared.map.MapProvider;
 import de.gmino.geobase.shared.map.MarkerLayer;
-import de.gmino.geobase.shared.map.SmartLayer;
 
 public class OpenLayersMapView extends AbstractMapView {
 
 	JavaScriptObject map;
 	boolean clickListenerEnabled = false;
-
+	ArrayList<OpenLayersLayer> layers;
+	
 	public OpenLayersMapView(String elementName, String layerName) {
 		map = nCreateMap(elementName, layerName);
+		layers = new ArrayList<OpenLayersLayer>(); 
 	}
 
 	private native JavaScriptObject nCreateMap(String elementName, String layerName) /*-{
+		var that = this;
 		var map = new $wnd.OpenLayers.Map(elementName);
 		var layer = new $wnd.OpenLayers.Layer.OSM("Simple OSM Map", 
 				[
@@ -46,6 +50,13 @@ public class OpenLayersMapView extends AbstractMapView {
 		map.undoTransform = function(lonlat) {
 			return lonlat.transform(map.pro2, map.pro1);
 		}
+			
+		var zoomChanged = function()
+		{
+			that.@de.gmino.geobase.client.map.OpenLayersMapView::handleZoom(I)(map.getZoom());
+		}
+		map.events.register("zoomend", map, zoomChanged);
+		
 		return map;
 	}-*/;
 
@@ -149,10 +160,23 @@ public class OpenLayersMapView extends AbstractMapView {
 	}-*/;
 	
 	@Override
-	public native void setZoom(double zoom) /*-{
-											var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
-											map.zoomTo(zoom);
-											}-*/;
+	public void setZoom(double zoom) {
+		nSetZoom(zoom);
+		handleZoom((int)zoom);
+	}
+
+	private void handleZoom(int zoom) {
+		for(OpenLayersLayer layer : layers)
+			if (layer instanceof OpenLayersSmartLayer) {
+				OpenLayersSmartLayer smartLayer = (OpenLayersSmartLayer) layer;
+				smartLayer.setZoomLevel((int)zoom);
+			}
+	}
+
+	public native void nSetZoom(double zoom) /*-{
+		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
+		map.zoomTo(zoom);
+	}-*/;
 
 	public DivElement createPopup(LatLon position, String id, int width, int height) {
 		DivElement inner = nCreatePopup(position.getLatitude(), position.getLongitude(), id, width, height);
@@ -209,6 +233,7 @@ public class OpenLayersMapView extends AbstractMapView {
 		if (layer instanceof OpenLayersLayer) {
 			OpenLayersLayer oll = (OpenLayersLayer) layer;
 			addLayerJso((oll).getJso());
+			layers.add(oll);
 		} else
 			throw new RuntimeException("Layer is not supported by OpenLayers.");
 	}
@@ -250,6 +275,11 @@ public class OpenLayersMapView extends AbstractMapView {
 		}
 	}
 
+	private native int nGetZoom() /*-{
+		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
+		return map.getZoom(); 
+	}-*/;
+	
 	private native void nEnableClickListener() /*-{
 												var that = this;
 												var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
@@ -277,7 +307,8 @@ public class OpenLayersMapView extends AbstractMapView {
 												'click' : this.trigger,
 												'rightclick' : this.trigger,
 												'dblclick' : this.trigger,
-												'dblrightclick' : this.trigger
+												'dblrightclick' : this.trigger,
+												'zoomed' : this.trigger
 												}, this.handlerOptions);
 												},
 

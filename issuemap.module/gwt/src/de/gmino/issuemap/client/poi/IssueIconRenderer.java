@@ -6,7 +6,9 @@ import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.ui.Image;
 
 import de.gmino.geobase.client.map.GwtIconRenderer;
+import de.gmino.geobase.shared.map.Hasher;
 import de.gmino.issuemap.client.ImageUrlLoader;
+import de.gmino.issuemap.client.domain.BicycleShop;
 import de.gmino.issuemap.client.domain.Issue;
 
 public class IssueIconRenderer extends GwtIconRenderer<Issue> {
@@ -31,50 +33,7 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		
 		String markerName = issue.getMarkertype().getMarkerName();
 		long markerId = issue.getMarkertypeId();
-		if (markerName.equals("Disco"))
-			con.setFillStyle("#33BB00");
-		else if (markerName.equals("Theater"))
-			con.setFillStyle("#ef4122");
-		else if (markerName.equals("Party"))
-			con.setFillStyle("#FF8800");
-		else if (markerName.equals("Sport"))
-			con.setFillStyle("#3852AE");
-		else if (markerName.equals("Konzert"))
-			con.setFillStyle("#B200FF");
-		else if (markerId >= 80 && markerId <= 94)
-			{
-			switch((int)markerId)
-			{
-				case 82:
-				case 87:
-				case 88:
-				case 89:
-				case 91:
-				case 92:
-				case 94:
-					con.setFillStyle("#FF0000"); // Kultur
-					break;
-				case 80:
-				case 81:
-				case 85:
-				case 90:
-					con.setFillStyle("#33BB00"); // Freizeit
-					break;
-				case 84:
-				case 86:
-				case 93:
-				case 83:
-					con.setFillStyle("#FF8700"); // Infrastruktur
-					break;
-			}
-		}
-		else {
-
-			if (issue.isResolved())
-				con.setFillStyle("#33BB00");
-			else
-				con.setFillStyle(issue.getMap_instance().getColor());
-		}
+		con.setFillStyle(getColor(issue, markerName, markerId));
 		
 		int imageWidth = issue.getMarkertype().getImageWidth();
 		int imageHeight = issue.getMarkertype().getImageHeight();
@@ -116,6 +75,51 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		}
 	}
 
+	private String getColor(Issue issue, String markerName, long markerId) {
+		if (markerName.equals("Disco"))
+			return("#33BB00");
+		else if (markerName.equals("Theater"))
+			return("#ef4122");
+		else if (markerName.equals("Party"))
+			return("#FF8800");
+		else if (markerName.equals("Sport"))
+			return("#3852AE");
+		else if (markerName.equals("Konzert"))
+			return("#B200FF");
+		else if (markerId >= 80 && markerId <= 94)
+			{
+			switch((int)markerId)
+			{
+				case 82:
+				case 87:
+				case 88:
+				case 89:
+				case 91:
+				case 92:
+				case 94:
+					return("#FF0000"); // Kultur
+				case 80:
+				case 81:
+				case 85:
+				case 90:
+					return("#33BB00"); // Freizeit
+				case 84:
+				case 86:
+				case 93:
+				case 83:
+					return("#FF8700"); // Infrastruktur
+			}
+		}
+		else {
+
+			if (issue.isResolved())
+				return("#33BB00");
+			else
+				return(issue.getMap_instance().getColor());
+		}
+		return "#FFFFFF";
+	}
+
 	@Override
 	public int getWidth(Issue issue) {
 		return issue.getMarkertype().getImageWidth();
@@ -124,6 +128,23 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 	@Override
 	public int getHeight(Issue issue) {
 		return issue.getMarkertype().getImageHeight();
+	}
+	
+
+	@Override
+	public void renderSmallIcon(Canvas canvas, Issue issue) {
+		String markerName = issue.getMarkertype().getMarkerName();
+		long markerId = issue.getMarkertypeId();
+		String color = getColor(issue, markerName, markerId);
+		drawDefaultCircle(canvas, color);
+	}
+
+	@Override
+	public void getSmallIconHash(Hasher hash, Issue issue) {
+		String markerName = issue.getMarkertype().getMarkerName();
+		long markerId = issue.getMarkertypeId();
+		String color = getColor(issue, markerName, markerId);
+		hash.hashObject(color);
 	}
 	
 	

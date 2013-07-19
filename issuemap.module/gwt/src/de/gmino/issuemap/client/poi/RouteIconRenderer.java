@@ -7,8 +7,10 @@ import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.ui.Image;
 
 import de.gmino.geobase.client.map.GwtIconRenderer;
+import de.gmino.geobase.shared.map.Hasher;
 import de.gmino.issuemap.client.ImageUrlLoader;
 import de.gmino.issuemap.client.domain.BicycleShop;
+import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Route;
 
 public class RouteIconRenderer extends GwtIconRenderer<Route> {
@@ -59,6 +61,15 @@ public class RouteIconRenderer extends GwtIconRenderer<Route> {
 		return 58;
 	}
 	
-	
+
+	@Override
+	public void renderSmallIcon(Canvas canvas, Route route) {
+		drawDefaultCircle(canvas, route.getColor());
+	}
+
+	@Override
+	public void getSmallIconHash(Hasher hash, Route route) {
+		hash.hashObject(route.getColor());
+	}
 	
 }

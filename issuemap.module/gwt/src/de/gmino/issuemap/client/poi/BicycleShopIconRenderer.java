@@ -6,11 +6,14 @@ import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.ui.Image;
 
 import de.gmino.geobase.client.map.GwtIconRenderer;
+import de.gmino.geobase.shared.map.Hasher;
 import de.gmino.issuemap.client.ImageUrlLoader;
 import de.gmino.issuemap.client.domain.BicycleShop;
 
 public class BicycleShopIconRenderer extends GwtIconRenderer<BicycleShop> {
 	
+	private static final String COLOR_REPAIR = "#3852AE";
+	private static final String COLOR_NO_REPAIR = "#3852AE";
 	ImageUrlLoader loader = ImageUrlLoader.getInstance();
 	
 	public void getIconHash(de.gmino.geobase.shared.map.Hasher hash, BicycleShop shop) 
@@ -27,9 +30,9 @@ public class BicycleShopIconRenderer extends GwtIconRenderer<BicycleShop> {
 		Image img = loader.getImageByUrl("/mapicon/workshop.png");
 		
 		if (shop.isRepairService())
-			con.setFillStyle("#3852AE");
+			con.setFillStyle(COLOR_REPAIR);
 		else 
-			con.setFillStyle("#3852AE");
+			con.setFillStyle(COLOR_NO_REPAIR);
 		
 		
 		int imageWidth = getWidth(shop);
@@ -60,6 +63,19 @@ public class BicycleShopIconRenderer extends GwtIconRenderer<BicycleShop> {
 	@Override
 	public int getHeight(BicycleShop issue) {
 		return 44;
+	}
+
+	@Override
+	public void renderSmallIcon(Canvas canvas, BicycleShop shop) {
+		if (shop.isRepairService())
+			drawDefaultCircle(canvas, COLOR_REPAIR);
+		else 
+			drawDefaultCircle(canvas, COLOR_REPAIR);
+	}
+
+	@Override
+	public void getSmallIconHash(Hasher hash, BicycleShop shop) {
+		hash.hashBoolean(shop.isRepairService());
 	}
 	
 	
