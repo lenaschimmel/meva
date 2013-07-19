@@ -75,6 +75,7 @@ public class BicycleShopIconRenderer extends GwtIconRenderer<BicycleShop> {
 
 	@Override
 	public void getSmallIconHash(Hasher hash, BicycleShop shop) {
+		hash.hashInt(12345); // to differentiate from full bicycle icons
 		hash.hashBoolean(shop.isRepairService());
 	}
 	
