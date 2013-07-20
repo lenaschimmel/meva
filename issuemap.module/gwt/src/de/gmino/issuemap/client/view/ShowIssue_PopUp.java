@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -41,6 +42,7 @@ import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.client.ImageUrlLoader;
+import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Comment;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
@@ -208,9 +210,9 @@ public class ShowIssue_PopUp extends Composite {
 	@UiField
 	Image close;
 	@UiField
-	Image delete;
+	PushButton delete;
 	@UiField
-	Image edit;
+	PushButton edit;
 	@UiField
 	VerticalPanel parent;
 	@UiField
@@ -317,7 +319,7 @@ public class ShowIssue_PopUp extends Composite {
 	void onEdit(ClickEvent e) {
 		this.removeFromParent();
 		CreateIssue_PopUp cip = new CreateIssue_PopUp(mapObject, mIssue, smartLayer);
-		cip.setBoarderColor(mapObject.getColor());
+		cip.setBoarderColor(mapObject.getPrimary_color());
 		mWrapper.add(cip);
 
 	}
@@ -327,7 +329,9 @@ public class ShowIssue_PopUp extends Composite {
 		mIssue.setDeleted(true);
 		Requests.saveEntity(mIssue, null);
 		this.removeFromParent();
-		smartLayer.removePoi(mIssue);
+		IssuemapGwt.getInstance().deleteMarker(mIssue);
+		IssuemapGwt.getInstance().setCounter();
+
 	}
 
 	@UiHandler("resolved")

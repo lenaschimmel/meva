@@ -124,8 +124,10 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 		Requests.saveEntity(mIssue, null);
 		smartLayer.updatePoi(mIssue); // works even if the poi is a new one
 		mapObject.getIssues().add(mIssue); // works even if the poi is already present
-
-		this.removeFromParent();
+		
+		// Add marker to map
+		IssuemapGwt.getInstance().addMarker(mIssue);
+		IssuemapGwt.getInstance().setCounter();
 	}
 	
 	@UiHandler("typebox")

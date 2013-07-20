@@ -54,7 +54,11 @@
 		</g:cell>  
 		
 		<g:cell horizontalAlignment="ALIGN_LEFT">
-	 		<g:Label styleName="{style.footText}" ui:field="text"/>  
+	 		<g:Label styleName="{style.footText}" ui:field="counter"></g:Label>  
+		</g:cell>	
+		
+		<g:cell horizontalAlignment="ALIGN_LEFT">
+	 		<g:Label styleName="{style.footText}" ui:field="text">Mit einem Doppelklick in die Karte, können Sie einen neuen Eintrag erstellen</g:Label>  
 		</g:cell>	
 			
 		<g:cell horizontalAlignment="ALIGN_RIGHT">

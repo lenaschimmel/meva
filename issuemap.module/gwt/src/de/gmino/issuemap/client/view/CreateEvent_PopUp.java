@@ -43,7 +43,7 @@ public class CreateEvent_PopUp extends Composite implements HasText {
 		this.smartLayer = smartLayer;
 		initWidget(uiBinder.createAndBindUi(this));
 		this.mapObject = map;
-		setBoarderColor(map.getColor());
+		setBoarderColor(map.getPrimary_color());
 		for(Markertype mt : map.getMarkertypes())
 			typebox.addItem(mt.getMarkerName(), mt.getId()+"");
 	}
