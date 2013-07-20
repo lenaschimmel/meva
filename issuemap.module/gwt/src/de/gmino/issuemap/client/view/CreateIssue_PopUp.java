@@ -127,8 +127,8 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 					Requests.saveEntity(mapObject, null);
 
 					// Add marker to map
-					smartLayer.addPoi(issue);
-					// FIXME IssuemapGwt.addMarker(issue);
+					IssuemapGwt.getInstance().addMarker(issue);
+					IssuemapGwt.getInstance().setCounter();
 
 				}
 			});

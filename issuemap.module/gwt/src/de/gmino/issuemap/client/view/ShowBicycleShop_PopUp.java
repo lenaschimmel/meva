@@ -119,7 +119,7 @@ public class ShowBicycleShop_PopUp extends Composite {
 		this.smartLayer = smartLayer;
 		this.mShop = shop;
 		this.mWrapper = marker_Wrapper;
-		setBoarderColor(map.getColor());
+		setBoarderColor(map.getPrimary_color());
 
 		type.setText("Fahrradwerkstatt");
 		if (mShop.getAddress().getStreet().equals(""))

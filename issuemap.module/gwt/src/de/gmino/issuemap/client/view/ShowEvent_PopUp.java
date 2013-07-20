@@ -42,7 +42,7 @@ public class ShowEvent_PopUp extends Composite {
 		this.smartLayer = smartLayer;
 		this.mIssue = issue;
 		this.mWrapper = marker_Wrapper;
-		setBoarderColor(map.getColor());
+		setBoarderColor(map.getPrimary_color());
 
 		if (mIssue.getPrimary_picture().getUrl().equals("")
 				|| mIssue.getPrimary_picture().getUrl().equals("Bild URL")) { 
@@ -97,7 +97,7 @@ public class ShowEvent_PopUp extends Composite {
 	void onEdit(ClickEvent e) {
 		this.removeFromParent();
 		CreateEvent_PopUp cip = new CreateEvent_PopUp(mapObject, mIssue, smartLayer);
-		cip.setBoarderColor(mapObject.getColor());
+		cip.setBoarderColor(mapObject.getPrimary_color());
 		mWrapper.add(cip);
 
 	}

@@ -76,18 +76,16 @@ public class IssuemapGwt implements EntryPoint {
 	int counter = 0;
 
 	private static IssuemapGwt instance;
-	
+
 	public IssuemapGwt() {
-		if(instance != null)
+		if (instance != null)
 			throw new RuntimeException("Can't create multiple instances!");
 		instance = this;
 	}
-	
-	public static IssuemapGwt getInstance()
-	{
+
+	public static IssuemapGwt getInstance() {
 		return instance;
 	}
-
 
 	public void onModuleLoad() {
 		EntityFactory.setImplementations(new EntityFactoryImpl());
@@ -95,10 +93,10 @@ public class IssuemapGwt implements EntryPoint {
 
 		Requests.setImplementation(new NetworkRequestsImplAsyncJson("http://"
 				+ Location.getHost() + "/"));
-		
+
 		String[] domainSplit = Location.getHostName().split("\\.");
 		String subdomain = domainSplit[0];
-		if(subdomain.equalsIgnoreCase("www"))
+		if (subdomain.equalsIgnoreCase("www"))
 			subdomain = domainSplit[1];
 
 		// Create the map
@@ -106,26 +104,27 @@ public class IssuemapGwt implements EntryPoint {
 		markerLayer = mapView.newSmartLayer("Issues");
 		mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);
 		markerLayer.addMarkerIconRenderer(Issue.type, new IssueIconRenderer());
-		markerLayer.addMarkerIconRenderer(BicycleShop.type, new BicycleShopIconRenderer());
-		if(subdomain.equals("zgb"))
-		{
+		markerLayer.addMarkerIconRenderer(BicycleShop.type,
+				new BicycleShopIconRenderer());
+		if (subdomain.equals("zgb")) {
 			ImageUrlLoader.getInstance().addUrl("/mapicon/cycleway.png");
-			markerLayer.addMarkerIconRenderer(Route.type, new RouteIconRenderer());
+			markerLayer.addMarkerIconRenderer(Route.type,
+					new RouteIconRenderer());
 		}
-	
+
 		// Add Header to RootPanel
 		RootPanel.get("bar_top").add(header);
 
 		RootPanel.get("bar_bottom").add(footer);
 
-//		mapView.addEventListener(Event.click, new MapListener() {
-//
-//			@Override
-//			public void onEvent(LatLon location, Event event) {
-//				footer.setText(location.toString());
-//			}
-//		});
-		
+		// mapView.addEventListener(Event.click, new MapListener() {
+		//
+		// @Override
+		// public void onEvent(LatLon location, Event event) {
+		// footer.setText(location.toString());
+		// }
+		// });
+
 		// Add create-PopUp by Double-Click
 		mapView.addEventListener(Event.dblclick, new MapListener() {
 
@@ -136,14 +135,19 @@ public class IssuemapGwt implements EntryPoint {
 				div.getStyle().setOverflow(Overflow.VISIBLE);
 				div.getStyle().setBackgroundColor("transparent");
 				div.getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
-				div.getParentElement().getStyle().setBackgroundColor("transparent");
-				div.getParentElement().getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
-				div.getParentElement().getParentElement().getStyle().setBackgroundColor("transparent");
+				div.getParentElement().getStyle()
+						.setBackgroundColor("transparent");
+				div.getParentElement().getParentElement().getStyle()
+						.setOverflow(Overflow.VISIBLE);
+				div.getParentElement().getParentElement().getStyle()
+						.setBackgroundColor("transparent");
 				if (mapObject.getMapTyp().equals("Issue")) {
-					CreateIssue_PopUp popUp = new CreateIssue_PopUp(mapObject, location, markerLayer);
+					CreateIssue_PopUp popUp = new CreateIssue_PopUp(mapObject,
+							location, markerLayer);
 					HTMLPanel.wrap(div).add(popUp);
 				} else {
-					CreateEvent_PopUp popUp = new CreateEvent_PopUp(mapObject, location, markerLayer);
+					CreateEvent_PopUp popUp = new CreateEvent_PopUp(mapObject,
+							location, markerLayer);
 					HTMLPanel.wrap(div).add(popUp);
 				}
 
@@ -152,8 +156,6 @@ public class IssuemapGwt implements EntryPoint {
 
 		mapRequest(subdomain);
 	}
-
-	
 
 	void mapRequest(final String subdomain) {
 		EntityQuery q = new QueryMapBySubdomain(subdomain);
@@ -172,11 +174,9 @@ public class IssuemapGwt implements EntryPoint {
 						mapView.setCenterAndZoom(mapObject.getInitLocation(),
 								mapObject.getInitZoomlevel(), false);
 						header.setDesign(mapObject.getLogo().getUrl(),
-								mapObject.getTitle(), mapObject.getColor());
-						footer.setDesign(mapObject.getColor());
-						
-						
-						
+								mapObject.getTitle(), mapObject.getPrimary_color());
+						footer.setDesign(mapObject.getPrimary_color());
+
 						map.loadMarkertypes(new RequestListener<Markertype>() {
 							@Override
 							public void onFinished(
@@ -187,15 +187,23 @@ public class IssuemapGwt implements EntryPoint {
 											@Override
 											public void onFinished(
 													Collection<Void> results) {
-												
-												if(subdomain.equals("zgb"))
-												{
-													markerLayer.addMarkerPopupCreator(BicycleShop.type,
-															new BicycleShopPopupCreator(map, markerLayer));
-													markerLayer.addMarkerPopupCreator(Route.type,
-															new RoutePopupCreator(map, markerLayer));
 
-													ZgbTools zgb = new ZgbTools(markerLayer) {
+												if (subdomain.equals("zgb")) {
+													markerLayer
+															.addMarkerPopupCreator(
+																	BicycleShop.type,
+																	new BicycleShopPopupCreator(
+																			map,
+																			markerLayer));
+													markerLayer
+															.addMarkerPopupCreator(
+																	Route.type,
+																	new RoutePopupCreator(
+																			map,
+																			markerLayer));
+
+													ZgbTools zgb = new ZgbTools(
+															markerLayer) {
 														@Override
 														public void onAllRoutesShown() {
 															System.out
@@ -205,8 +213,7 @@ public class IssuemapGwt implements EntryPoint {
 														}
 													};
 													zgb.showRoutes();
-												}
-												else
+												} else
 													loadAndShowIssues();
 											}
 										});
@@ -236,25 +243,27 @@ public class IssuemapGwt implements EntryPoint {
 		counter--;
 	}
 
-
-
 	private void loadAndShowIssues() {
 		Collection<Issue> issues = mapObject.getIssues();
-		Requests.loadEntities(issues,
-				new RequestListener<Issue>() {
-					@Override
-					public void onFinished(Collection<Issue> results) {
-						Comparator<Issue> compare = new IssueLatitudeComparator();
-						TreeSet<Issue> sortedIssues = new TreeSet<Issue>(compare);
-						sortedIssues.addAll(results);
-						for (Issue i : sortedIssues) {
-							if (i.isDeleted())
-								continue;
-							addMarker(i);
-						}
-						footer.setCounter(counter);
-					}
-				});
+		Requests.loadEntities(issues, new RequestListener<Issue>() {
+			@Override
+			public void onFinished(Collection<Issue> results) {
+				Comparator<Issue> compare = new IssueLatitudeComparator();
+				TreeSet<Issue> sortedIssues = new TreeSet<Issue>(compare);
+				sortedIssues.addAll(results);
+				for (Issue i : sortedIssues) {
+					if (i.isDeleted())
+						continue;
+					addMarker(i);
+				}
+				setCounter();
+			}
+
+		});
+	}
+
+	public void setCounter() {
+		footer.setCounter(counter);
 	}
 
 }

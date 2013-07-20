@@ -40,6 +40,7 @@ public class Footer extends Composite implements HasText {
 		chart_button.setVisible(false);
 		list_button.setVisible(false);
 		preferences_button.setVisible(false);
+		text.setVisible(false);
 		footer.setHeight("50px");
 	}
 
@@ -77,6 +78,7 @@ public class Footer extends Composite implements HasText {
 		chart_button.getElement().getStyle().setBackgroundColor(color);
 		list_button.getElement().getStyle().setBackgroundColor(color);
 		preferences_button.getElement().getStyle().setBackgroundColor(color);
+		text.setVisible(true);
 //		chart_button.setVisible(true);
 //		list_button.setVisible(true);
 //		preferences_button.setVisible(true);
@@ -99,7 +101,7 @@ public class Footer extends Composite implements HasText {
 	}
 
 	public void setCounter(int count) {
-		counter.setText(count+"");
+		counter.setText("Bisherige Einträge: " + count+"");
 		
 	}
 

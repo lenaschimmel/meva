@@ -17,7 +17,19 @@
 		},		
 		{
 			"type" : "String",
-			"name" : "color"
+			"name" : "primary_color"
+		},		
+		{
+			"type" : "String",
+			"name" : "secondary_color"
+		},		
+		{
+			"type" : "String",
+			"name" : "background_color"
+		},		
+		{
+			"type" : "String",
+			"name" : "resolved_color"
 		},
 		{
 			"type" : "String",

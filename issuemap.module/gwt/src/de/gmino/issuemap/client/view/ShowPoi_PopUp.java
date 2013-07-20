@@ -117,7 +117,7 @@ public class ShowPoi_PopUp extends Composite {
 		this.smartLayer = smartLayer;
 		this.mIssue = issue;
 		this.mWrapper = marker_Wrapper;
-		setBoarderColor(map.getColor());
+		setBoarderColor(map.getPrimary_color());
 
 		type.setText(mIssue.getMarkertype().getMarkerName());
 		setRatingText();
@@ -322,7 +322,7 @@ public class ShowPoi_PopUp extends Composite {
 	void onEdit(ClickEvent e) {
 		this.removeFromParent();
 		CreateIssue_PopUp cip = new CreateIssue_PopUp(mapObject, mIssue, smartLayer);
-		cip.setBoarderColor(mapObject.getColor());
+		cip.setBoarderColor(mapObject.getPrimary_color());
 		mWrapper.add(cip);
 
 	}
