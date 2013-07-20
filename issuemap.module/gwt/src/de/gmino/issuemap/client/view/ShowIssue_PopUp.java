@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -208,9 +209,9 @@ public class ShowIssue_PopUp extends Composite {
 	@UiField
 	Image close;
 	@UiField
-	Image delete;
+	PushButton delete;
 	@UiField
-	Image edit;
+	PushButton edit;
 	@UiField
 	VerticalPanel parent;
 	@UiField

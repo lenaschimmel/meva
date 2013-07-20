@@ -37,6 +37,7 @@
 			margin-right:5px;
 			display: block;
 			font-size: 16pt;
+			cursor: pointer;
 
 		}
 		

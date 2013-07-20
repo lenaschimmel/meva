@@ -69,6 +69,7 @@
 		
 		.deleteButton {
 			cursor: pointer;
+			margin-left: 3px;
 		}
 		
 		.editButton {
@@ -106,7 +107,7 @@
 							<g:Label ui:field="type"></g:Label>
 							<g:Label ui:field="date"></g:Label>
 							<g:Image resource="{resources.close}" ui:field="close"
-								styleName="{style.closeButton}"></g:Image>
+								styleName="{style.closeButton}" title="Schließen"></g:Image>
 						</g:HorizontalPanel>
 					</g:VerticalPanel>
 				</g:cell>
@@ -157,8 +158,16 @@
 					<g:VerticalPanel>
 						<g:HTML ui:field="description" styleName="{style.description_label}"></g:HTML>
 						<g:HorizontalPanel styleName="{style.footer}">
-							<g:Image resource="{resources.edit}" ui:field="edit" styleName="{style.editButton}" title="Bearbeiten"></g:Image>
-							<g:Image resource="{resources.delete}" ui:field="delete" styleName="{style.deleteButton}" title="Löschen"></g:Image>
+							<g:PushButton styleName="{style.editButton}"
+								ui:field="edit" height="30px" title="Bearbeiten">
+								<g:upFace image='{resources.edit}' />
+								<g:upHoveringFace image='{resources.edit_hover}' />
+							</g:PushButton>
+							<g:PushButton styleName="{style.deleteButton}"
+								ui:field="delete" height="30px" title="Löschen">
+								<g:upFace image='{resources.delete}' />
+								<g:upHoveringFace image='{resources.delete_hover}' />
+							</g:PushButton>
 						</g:HorizontalPanel>
 					</g:VerticalPanel>
 				</g:ScrollPanel>

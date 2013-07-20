@@ -29,6 +29,7 @@ public class Info_PopUp extends Composite implements HasText {
 	public Info_PopUp(Map mapObject, DecoratedPopupPanel infoPopUp) {
 		initWidget(uiBinder.createAndBindUi(this));
 		title.setText(mapObject.getTitle());
+		title.getElement().getStyle().setColor(mapObject.getColor());
 		infotext.setText(mapObject.getInfoText());
 		this.infoPopUp = infoPopUp;
 		
