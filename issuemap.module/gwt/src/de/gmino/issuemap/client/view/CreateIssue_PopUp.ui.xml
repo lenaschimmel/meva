@@ -52,8 +52,15 @@
 		<g:Label styleName="{style.title_label}" ui:field="headLable">Marker bearbeiten</g:Label>
 		<g:Image resource="{resources.close}" ui:field="close" styleName="{style.closeButton}"></g:Image>
 		<g:VerticalPanel styleName="{style.content}">
-			<g:cell>
-				<g:TextBox text="Titel" width="90%" ui:field="title"></g:TextBox>
+		    <g:cell>
+		        <g:HorizontalPanel width="100%">
+		    		<g:cell width="40px">
+						<g:Image ui:field="imageMarkerIcon"/>
+					</g:cell>
+					<g:cell>
+						<g:TextBox text="Titel" width="90%" ui:field="title"></g:TextBox>
+					</g:cell>
+				</g:HorizontalPanel>
 			</g:cell>
 			<g:cell>
 				<g:TextArea text="Beschreibung..." width="90%" ui:field="description" styleName="{style.description}"></g:TextArea>

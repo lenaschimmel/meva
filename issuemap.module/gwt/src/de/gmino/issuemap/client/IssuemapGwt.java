@@ -149,8 +149,6 @@ public class IssuemapGwt implements EntryPoint {
 		mapRequest(subdomain);
 	}
 
-	
-
 	void mapRequest(final String subdomain) {
 		EntityQuery q = new QueryMapBySubdomain(subdomain);
 		Requests.getLoadedEntitiesByQuery(Map.type, q,

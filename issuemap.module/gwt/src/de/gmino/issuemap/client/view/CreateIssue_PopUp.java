@@ -1,6 +1,7 @@
 package de.gmino.issuemap.client.view;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -25,8 +26,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.domain.ImageUrl;
+import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.LatLon;
+import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Issue;
@@ -61,6 +64,15 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 	public CreateIssue_PopUp(Map map, LatLon location, OpenLayersSmartLayer smartLayer) {
 		this(map,smartLayer);
 		this.mLocation = location;
+		
+        Requests.getNewEntity(Issue.type, new RequestListener<Issue>() {
+                public void onNewResult(Issue issue) {
+                        mIssue = issue; // needed for upload handler
+                        issue.setLocation(mLocation);
+                }
+        });
+
+		
 		headLable.setText("Neuen Marker erstellen");
 	}
 
@@ -92,6 +104,8 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 	Image close;
 	@UiField
 	Label headLable;
+	@UiField
+	Image imageMarkerIcon;
 
 
 	public CreateIssue_PopUp(String firstName) {
@@ -106,40 +120,22 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 	
 	@UiHandler("button")
 	void onClick(ClickEvent e) {
+		setIssueValuesFromMask(mIssue);
+		Requests.saveEntity(mIssue, null);
+		smartLayer.updatePoi(mIssue); // works even if the poi is a new one
+		mapObject.getIssues().add(mIssue); // works even if the poi is already present
 
-		// Save changes
-		if (mIssue != null) {
-			setIssueValuesFromMask(mIssue);
-			Requests.saveEntity(mIssue, null);
-			smartLayer.updatePoi(mIssue);
-		}
-
-		// Add new content to Database
-		else {
-			Requests.getNewEntity(Issue.type, new RequestListener<Issue>() {
-				public void onNewResult(Issue issue) {
-					mIssue = issue; // needed for upload handler
-					setIssueValuesFromMask(issue);
-					issue.setCreationTimestamp(Timestamp.now());
-					issue.setLocation(mLocation);
-					mapObject.getIssues().add(issue);
-					Requests.saveEntity(issue, null);
-					Requests.saveEntity(mapObject, null);
-
-					// Add marker to map
-					smartLayer.addPoi(issue);
-					// FIXME IssuemapGwt.addMarker(issue);
-
-				}
-			});
-
-		}
-		
-			this.removeFromParent();
+		this.removeFromParent();
 	}
-
-
-
+	
+	@UiHandler("typebox")
+	void onChange(ChangeEvent e)
+	{
+		setIssueValuesFromMask(mIssue);
+		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mIssue);
+		String iconUrl = renderer.getIconUrl(mIssue);
+		imageMarkerIcon.setUrl(iconUrl);
+	}
 	
 	public void setText(String text) {
 		button.setText(text);
