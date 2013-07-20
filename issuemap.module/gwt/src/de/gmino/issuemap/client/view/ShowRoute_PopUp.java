@@ -42,7 +42,7 @@ import de.gmino.meva.shared.request.Requests;
 
 public class ShowRoute_PopUp extends Composite {
 
-	static DateTimeFormat dtf = DateTimeFormat.getFormat("dd.MM.yyyy hh:mm");
+	static DateTimeFormat dtf = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm");
 	ImageResources imageRes;
 
 	private static Detail_PopUpUiBinder uiBinder = GWT
