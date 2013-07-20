@@ -43,8 +43,8 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 	private static PopUpUiBinder uiBinder = GWT.create(PopUpUiBinder.class);
 	private Map mapObject;
 	OpenLayersSmartLayer smartLayer;
-	private LatLon mLocation;
 	private Issue mIssue = null;
+	private boolean newIssue;
 
 	interface PopUpUiBinder extends UiBinder<Widget, CreateIssue_PopUp> {
 	}
@@ -61,18 +61,17 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 		
 	}
 	
-	public CreateIssue_PopUp(Map map, LatLon location, OpenLayersSmartLayer smartLayer) {
+	public CreateIssue_PopUp(Map map, final LatLon location, OpenLayersSmartLayer smartLayer) {
 		this(map,smartLayer);
-		this.mLocation = location;
 		
         Requests.getNewEntity(Issue.type, new RequestListener<Issue>() {
                 public void onNewResult(Issue issue) {
                         mIssue = issue; // needed for upload handler
-                        issue.setLocation(mLocation);
+                        issue.setLocation(location);
                 }
         });
-
 		
+        newIssue = true;
 		headLable.setText("Neuen Marker erstellen");
 	}
 
@@ -88,6 +87,8 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 				typebox.setSelectedIndex(i);
 				break;
 			}
+		
+		newIssue = false;
 	}
 	
 	@UiField
@@ -125,9 +126,14 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 		smartLayer.updatePoi(mIssue); // works even if the poi is a new one
 		mapObject.getIssues().add(mIssue); // works even if the poi is already present
 		
-		// Add marker to map
-		IssuemapGwt.getInstance().addMarker(mIssue);
-		IssuemapGwt.getInstance().setCounter();
+		if(newIssue)
+		{
+			// Add marker to map
+			IssuemapGwt.getInstance().addMarker(mIssue);
+			IssuemapGwt.getInstance().setCounter();
+		}
+		
+		this.removeFromParent();
 	}
 	
 	@UiHandler("typebox")
