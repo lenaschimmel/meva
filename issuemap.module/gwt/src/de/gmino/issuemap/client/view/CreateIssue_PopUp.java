@@ -61,13 +61,14 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 		
 	}
 	
-	public CreateIssue_PopUp(Map map, final LatLon location, OpenLayersSmartLayer smartLayer) {
+	public CreateIssue_PopUp(final Map map, final LatLon location, OpenLayersSmartLayer smartLayer) {
 		this(map,smartLayer);
 		
         Requests.getNewEntity(Issue.type, new RequestListener<Issue>() {
                 public void onNewResult(Issue issue) {
                         mIssue = issue; // needed for upload handler
                         issue.setLocation(location);
+                        issue.setMap_instance(map);
                 }
         });
 		
@@ -122,9 +123,10 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 	@UiHandler("button")
 	void onClick(ClickEvent e) {
 		setIssueValuesFromMask(mIssue);
-		Requests.saveEntity(mIssue, null);
 		smartLayer.updatePoi(mIssue); // works even if the poi is a new one
 		mapObject.getIssues().add(mIssue); // works even if the poi is already present
+		Requests.saveEntity(mIssue, null);
+		Requests.saveEntity(mapObject, null);
 		
 		if(newIssue)
 		{
