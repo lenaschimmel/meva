@@ -334,6 +334,9 @@ public class ShowIssue_PopUp extends Composite {
 	@UiHandler("resolved")
 	void onCheckbox(ClickEvent e) {
 		mIssue.setResolved(resolved.getValue());
+		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mIssue);
+		String iconUrl = renderer.getIconUrl(mIssue);
+		imageMarkerIcon.setUrl(iconUrl);
 		Requests.saveEntity(mIssue, null);
 		smartLayer.updatePoi(mIssue);
 	}

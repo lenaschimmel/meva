@@ -55,6 +55,8 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 	}
 
 	public void selectedPoi(long poiId) {
+		if(currentZoomLevel <= ZOOM_TRESHOLD)
+			return;
 		Poi poi = pois.get(poiId);
 		if (poiTooltipDivs.containsKey(poi)) {
 			System.out.println("Tooltip already there");
