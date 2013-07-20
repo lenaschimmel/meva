@@ -29,6 +29,8 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		Context2d con = can.getContext2d();
 		
 		String imageName = issue.getMarkertype().getImageName();
+		if("null".equals(imageName+""))
+			System.out.println("Marker with no icon name: " + issue);
 		Image img = loader.getImageByUrl("/mapicon/" + imageName + ".png");
 		
 		String markerName = issue.getMarkertype().getMarkerName();

@@ -72,6 +72,18 @@ public class IssuemapGwt implements EntryPoint {
 	private OpenLayersSmartLayer markerLayer;
 	private Footer footer = new Footer();
 	private Header header = new Header();
+	private static IssuemapGwt instance;
+	
+	public IssuemapGwt() {
+		if(instance != null)
+			throw new RuntimeException("Can't create multiple instances!");
+		instance = this;
+	}
+	
+	public static IssuemapGwt getInstance()
+	{
+		return instance;
+	}
 
 	public void onModuleLoad() {
 		EntityFactory.setImplementations(new EntityFactoryImpl());
