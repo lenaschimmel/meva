@@ -1,12 +1,7 @@
 package de.gmino.issuemap.client.view;
 
-import java.util.Collection;
-
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.Display;
-import com.google.gwt.dom.client.Style.FontStyle;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -14,42 +9,26 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
-import com.google.gwt.user.client.ui.FileUpload;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
-import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.Poi;
-import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.client.ImageUrlLoader;
+import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
 import de.gmino.issuemap.client.domain.BicycleShop;
-import de.gmino.issuemap.client.domain.Comment;
-import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
-import de.gmino.issuemap.client.domain.Photo;
 import de.gmino.issuemap.client.poi.Marker_Wrapper;
 import de.gmino.issuemap.client.resources.ImageResources;
-import de.gmino.meva.shared.request.RequestListener;
-import de.gmino.meva.shared.request.Requests;
 
 public class ShowBicycleShop_PopUp extends Composite {
 
@@ -59,7 +38,7 @@ public class ShowBicycleShop_PopUp extends Composite {
 	private static Detail_PopUpUiBinder uiBinder = GWT
 			.create(Detail_PopUpUiBinder.class);
 
-	private static final class ShowPhotoThingy extends RequestListener<Void> implements ClickHandler {
+	private static final class ShowPhotoThingy implements ClickHandler {
 		private final String photoBaseUrl;
 		private ImageUrlLoader loader;
 		private String scaledUrl;
@@ -77,17 +56,16 @@ public class ShowBicycleShop_PopUp extends Composite {
 			{
 				loader = ImageUrlLoader.getInstance();
 				scaledUrl = photoBaseUrl+"&h=500";
-				loader.addUrl(scaledUrl);
-				loader.setOnLoadListener(this);
+				loader.loadImage(scaledUrl, new ImageLoadListener() {
+					@Override
+					public void onLoaded() {
+						loaded = true;
+						showPopup();
+					}
+				});
 			}
 		}
 		
-		@Override
-		public void onFinished(Collection<Void> results) {
-			loaded = true;
-			showPopup();
-		}
-
 		private void showPopup() {
 			Image popupImage = loader.getImageByUrl(scaledUrl);
 			popupImage.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
