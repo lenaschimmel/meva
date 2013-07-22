@@ -69,12 +69,12 @@ public class ImageUrlLoader {
 		{
 			if(urlsToLoad.remove(url) && urlsToLoad.isEmpty())
 			{
-				System.out.println("All images for this listener have been loaded, calling client code.");
+				debugPrint("All images for this listener have been loaded, calling client code.");
 				onLoaded();
 				return true;
 			}
 			else
-				System.out.println("Loaded one image for this loader, " + urlsToLoad.size() + " more to go.");
+				debugPrint("Loaded one image for this loader, " + urlsToLoad.size() + " more to go.");
 			return false;
 		}
 
@@ -118,10 +118,10 @@ public class ImageUrlLoader {
 	
 	public void loadImages(Collection<String> urls, ImageLoadListener listener)
 	{
-		System.out.println("Load request for " + urls.size() + " images.");
+		debugPrint("Load request for " + urls.size() + " images.");
 		if(loadedUrls.containsAll(urls))
 		{
-			System.out.println("All images already loaded, calling listener now.");
+			debugPrint("All images already loaded, calling listener now.");
 			if(listener != null)
 				listener.onLoaded();
 			return;
@@ -141,10 +141,10 @@ public class ImageUrlLoader {
 				img.addLoadHandler(singleListener);
 				img.addErrorHandler(singleListener);
 				imagesByUrl.put(url, img);
-				System.out.println("Now loading image: " + url);
+				debugPrint("Now loading image: " + url);
 			}
 			else
-				System.out.println("Single image already loaded or loading: " + url);
+				debugPrint("Single image already loaded or loading: " + url);
 	}
 	
 	public Image getImageByUrl(String url) {
@@ -157,6 +157,11 @@ public class ImageUrlLoader {
 	
 	// private:
 	
+	private void debugPrint(String message)
+	{
+		// System.out.println("ImageUrlLoader Debug: " + message);
+	}
+	
 	private ImageUrlLoader() {
 		imagesByUrl = new TreeMap<String, Image>();
 		listeners = new HashSet<ImageLoadListener>();
@@ -164,7 +169,7 @@ public class ImageUrlLoader {
 	}
 	
 	private void onImageError(String url) {
-		System.out.println("Error while loading " + url + ", now notifying all listeners.");
+		debugPrint("Error while loading " + url + ", now notifying all listeners.");
 		for(Iterator<ImageLoadListener> it = listeners.iterator(); it.hasNext(); )
 		{
 			if(it.next().imageError(url))
@@ -173,7 +178,7 @@ public class ImageUrlLoader {
 	}
 
 	private void onImageLoaded(String url) {
-		System.out.println("Finished loading " + url + ", now notifying all listeners.");
+		debugPrint("Finished loading " + url + ", now notifying all listeners.");
 		loadedUrls.add(url);
 		for(Iterator<ImageLoadListener> it = listeners.iterator(); it.hasNext(); )
 		{
