@@ -157,7 +157,7 @@ public class ImageUrlLoader {
 	
 	// private:
 	
-	private void debugPrint(String message)
+	private static void debugPrint(String message)
 	{
 		// System.out.println("ImageUrlLoader Debug: " + message);
 	}
