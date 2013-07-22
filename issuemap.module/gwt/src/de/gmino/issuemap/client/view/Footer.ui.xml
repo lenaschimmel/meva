@@ -1,69 +1,84 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-		
-		 <ui:with field="resources" type="de.gmino.issuemap.client.resources.ImageResources" />
-	
+
+	<ui:with field="resources"
+		type="de.gmino.issuemap.client.resources.ImageResources" />
+
 	<ui:style>
-		
 		.button {
-				border-left: 1px solid #4C4C4C;
-    			border-right: 1px solid #000000;
-				cursor: pointer;
+			border-left: 1px solid #4C4C4C;
+			border-right: 1px solid #000000;
+			cursor: pointer;
 		}
-
-		.footer{
-				position: absolute;
-				bottom: 0;
-				left: 0;
-				right: 0;
-				z-index: 5;
-				background:  rgba(0, 0, 0, 0.75);
+		
+		.info_box {
+			border-left: 1px solid #4C4C4C;
+			border-right: 1px solid #000000;
 		}
-		.gmino_logo{
-				cursor: pointer;
+		
+		.footer {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			z-index: 5;
+			background: rgba(0, 0, 0, 0.75);
 		}
-
-		.footText
-		{
- 			color: #FFFFFF;
-    		margin-top: 16px;
+		
+		.gmino_logo {
+			cursor: pointer;
+			margin-top: 5px;
+		}
+		
+		.counter_icon {
+			margin-top: 8px;
+			margin-left: 10px;
+		}
+		
+		.footText {
+			color: #FFFFFF;
+			margin-top: 7px;
+			margin-left: 5px;
 		}
 	</ui:style>
-	<g:HorizontalPanel styleName="{style.footer}" width="100%" ui:field="footer">
-	
-		<g:cell width="52px" horizontalAlignment="ALIGN_RIGHT">
-			<g:PushButton styleName="{style.button}"  ui:field="chart_button" width="50px" title="Karten-Statistik anzeigen">
-   				<g:upFace image='{resources.chart}'/>
-  				<g:upHoveringFace image='{resources.chart_hover}'/>
-			</g:PushButton>
+	<g:HorizontalPanel styleName="{style.footer}" width="100%"
+		ui:field="footer">
+
+		<!-- <g:cell width="52px" horizontalAlignment="ALIGN_RIGHT"> <g:PushButton 
+			styleName="{style.button}" ui:field="chart_button" width="50px" title="Karten-Statistik 
+			anzeigen"> <g:upFace image='{resources.chart}'/> <g:upHoveringFace image='{resources.chart_hover}'/> 
+			</g:PushButton> </g:cell> <g:cell width="52px" horizontalAlignment="ALIGN_RIGHT"> 
+			<g:PushButton styleName="{style.button}" ui:field="list_button" width="50px" 
+			title="Karten-Objekte als Liste anzeigen"> <g:upFace image='{resources.list}'/> 
+			<g:upHoveringFace image='{resources.list_hover}'/> </g:PushButton> </g:cell> 
+			<g:cell width="52px" horizontalAlignment="ALIGN_LEFT"> <g:PushButton styleName="{style.button}" 
+			ui:field="preferences_button" width="50px" title="Einstellungen"> <g:upFace 
+			image='{resources.preferences}'/> <g:upHoveringFace image='{resources.preferences_hover}'/> 
+			</g:PushButton> </g:cell> -->
+
+		<g:cell horizontalAlignment="ALIGN_LEFT" width="175px">
+			<g:HorizontalPanel styleName="{style.info_box}">
+				<g:Image styleName="{style.counter_icon}" ui:field="counter_icon"
+					url="mapicon/empty_white.png" visible="false" />
+				<g:Label styleName="{style.footText}" ui:field="counter"></g:Label>
+			</g:HorizontalPanel>
+
 		</g:cell>
-		
-		<g:cell width="52px"  horizontalAlignment="ALIGN_RIGHT">
-			<g:PushButton styleName="{style.button}" ui:field="list_button" width="50px" title="Karten-Objekte als Liste anzeigen">
-   				<g:upFace image='{resources.list}'/>
-  				<g:upHoveringFace image='{resources.list_hover}'/>
-			</g:PushButton> 
+
+		<g:cell horizontalAlignment="ALIGN_LEFT" width="305px">
+			<g:HorizontalPanel styleName="{style.info_box}">
+				<g:Image styleName="{style.counter_icon}" ui:field="cursor"
+					url="cursor.png" visible="false" />
+				<g:Label styleName="{style.footText}" ui:field="text">Mit einem
+					Doppelklick in die Karte, können Sie einen neuen Eintrag erstellen</g:Label>
+			</g:HorizontalPanel>
 		</g:cell>
-		
-		<g:cell width="52px" horizontalAlignment="ALIGN_LEFT">   
-			<g:PushButton styleName="{style.button}" ui:field="preferences_button" width="50px"  title="Einstellungen">
-   				<g:upFace image='{resources.preferences}'/>
-  				<g:upHoveringFace image='{resources.preferences_hover}'/>
-			</g:PushButton>
-		</g:cell>  
-		
-		<g:cell horizontalAlignment="ALIGN_LEFT">
-	 		<g:Label styleName="{style.footText}" ui:field="counter"></g:Label>  
-		</g:cell>	
-		
-		<g:cell horizontalAlignment="ALIGN_LEFT">
-	 		<g:Label styleName="{style.footText}" ui:field="text">Mit einem Doppelklick in die Karte, können Sie einen neuen Eintrag erstellen</g:Label>  
-		</g:cell>	
-			
+
 		<g:cell horizontalAlignment="ALIGN_RIGHT">
-	 		<g:Image styleName="{style.gmino_logo}" url="logo_gmino.png" ui:field="gmino_logo"/>  
+			<g:Image styleName="{style.gmino_logo}" url="logo_gmino.png"
+				ui:field="gmino_logo" />
 		</g:cell>
-		
+
 	</g:HorizontalPanel>
 </ui:UiBinder> 

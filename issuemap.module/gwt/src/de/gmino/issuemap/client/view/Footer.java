@@ -37,9 +37,9 @@ public class Footer extends Composite implements HasText {
 
 	public Footer() {
 		initWidget(uiBinder.createAndBindUi(this));
-		chart_button.setVisible(false);
-		list_button.setVisible(false);
-		preferences_button.setVisible(false);
+//		chart_button.setVisible(false);
+//		list_button.setVisible(false);
+//		preferences_button.setVisible(false);
 		text.setVisible(false);
 		footer.setHeight("50px");
 	}
@@ -48,14 +48,18 @@ public class Footer extends Composite implements HasText {
 
 	@UiField
 	HorizontalPanel footer;
-	@UiField
-	PushButton chart_button;
-	@UiField
-	PushButton list_button;
-	@UiField
-	PushButton preferences_button;
+//	@UiField
+//	PushButton chart_button;
+//	@UiField
+//	PushButton list_button;
+//	@UiField
+//	PushButton preferences_button;
 	@UiField
 	Image gmino_logo;
+	@UiField
+	Image counter_icon;
+	@UiField
+	Image cursor;
 	
 	@UiField
 	Label text;
@@ -75,10 +79,14 @@ public class Footer extends Composite implements HasText {
 	}
 	
 	public void setDesign(String color) {
-		chart_button.getElement().getStyle().setBackgroundColor(color);
-		list_button.getElement().getStyle().setBackgroundColor(color);
-		preferences_button.getElement().getStyle().setBackgroundColor(color);
+//		chart_button.getElement().getStyle().setBackgroundColor(color);
+//		list_button.getElement().getStyle().setBackgroundColor(color);
+//		preferences_button.getElement().getStyle().setBackgroundColor(color);
+		text.getElement().getStyle().setColor(mapObject.getSecondary_color());
+		counter.getElement().getStyle().setColor(mapObject.getSecondary_color());
 		text.setVisible(true);
+		cursor.setVisible(true);
+		footer.getElement().getStyle().setBackgroundColor(mapObject.getBackground_color());
 //		chart_button.setVisible(true);
 //		list_button.setVisible(true);
 //		preferences_button.setVisible(true);
@@ -101,7 +109,8 @@ public class Footer extends Composite implements HasText {
 	}
 
 	public void setCounter(int count) {
-		counter.setText("Bisherige Einträge: " + count+"");
+		counter.setText("Bisher wurden " + count+" Stellen markiert");
+		counter_icon.setVisible(true);
 		
 	}
 

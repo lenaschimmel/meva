@@ -261,8 +261,18 @@ public class ShowIssue_PopUp extends Composite {
 		deckPanel.showWidget(1);
 	}
 	
+	@UiHandler("topCellPhotos")
+	void onTopCellPhotosClick(ClickEvent e) {
+		deckPanel.showWidget(1);
+	}
+	
 	@UiHandler("tabButtonComments")
 	void onTabButtonCommentsClick(ClickEvent e) {
+		deckPanel.showWidget(2);
+	}
+	
+	@UiHandler("topCellComments")
+	void onTopCellCommentsClick(ClickEvent e) {
 		deckPanel.showWidget(2);
 	}
 	

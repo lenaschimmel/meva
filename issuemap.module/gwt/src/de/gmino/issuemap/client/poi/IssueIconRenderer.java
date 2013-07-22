@@ -115,7 +115,7 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		else {
 
 			if (issue.isResolved())
-				return("#33BB00");
+				return(issue.getMap_instance().getResolved_color());
 			else
 				return(issue.getMap_instance().getPrimary_color());
 		}

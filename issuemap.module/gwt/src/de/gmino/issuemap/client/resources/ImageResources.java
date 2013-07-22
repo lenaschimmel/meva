@@ -137,6 +137,11 @@ public interface ImageResources extends ClientBundle {
 	@Source("img/camera.png")
 	ImageResource camera();
 
+	@Source("img/feedback.png")
+	ImageResource feedback();
+
+	@Source("img/feedback_hover.png")
+	ImageResource feedback_hover();
 
 
 }

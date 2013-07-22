@@ -11,6 +11,7 @@ import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import de.gmino.geobase.client.map.OpenLayersMapView;
@@ -33,6 +34,7 @@ import de.gmino.issuemap.client.poi.RoutePopupCreator;
 import de.gmino.issuemap.client.request.QueryMapBySubdomain;
 import de.gmino.issuemap.client.view.CreateEvent_PopUp;
 import de.gmino.issuemap.client.view.CreateIssue_PopUp;
+import de.gmino.issuemap.client.view.Feedback_Button;
 import de.gmino.issuemap.client.view.Footer;
 import de.gmino.issuemap.client.view.Header;
 import de.gmino.meva.client.UtilClient;
@@ -72,6 +74,7 @@ public class IssuemapGwt implements EntryPoint {
 	private OpenLayersSmartLayer markerLayer;
 	private Footer footer = new Footer();
 	private Header header = new Header();
+	private Feedback_Button feedback = new Feedback_Button();
 
 	int counter = 0;
 
@@ -111,11 +114,16 @@ public class IssuemapGwt implements EntryPoint {
 			markerLayer.addMarkerIconRenderer(Route.type,
 					new RouteIconRenderer());
 		}
+		
+		
+		// Add feedback Button
+		RootPanel.get("feedback").add(feedback);
 
 		// Add Header to RootPanel
 		RootPanel.get("bar_top").add(header);
 
 		RootPanel.get("bar_bottom").add(footer);
+		
 
 		// mapView.addEventListener(Event.click, new MapListener() {
 		//

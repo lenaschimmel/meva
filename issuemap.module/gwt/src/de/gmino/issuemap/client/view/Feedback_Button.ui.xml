@@ -1,0 +1,27 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	
+    <ui:with field="resources"
+		type="de.gmino.issuemap.client.resources.ImageResources" />
+    
+    
+	<ui:style>
+		.button {
+		position: absolute;
+		left: 0px;
+		top: 250px;
+		cursor: pointer;
+		}
+
+	</ui:style>
+	<g:HTMLPanel>
+		Hello,
+		<g:PushButton styleName="{style.button}" ui:field="feedback_button"
+			width="50px" title="Karten-Statistik 
+			anzeigen">
+			<g:upFace image='{resources.feedback}' />
+			<g:upHoveringFace image='{resources.feedback_hover}' />
+		</g:PushButton>
+	</g:HTMLPanel>
+</ui:UiBinder> 
