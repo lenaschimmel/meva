@@ -32,6 +32,7 @@ import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.issuemap.client.ImageUrlLoader;
+import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
 import de.gmino.issuemap.client.domain.BicycleShop;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Route;
@@ -48,7 +49,7 @@ public class ShowRoute_PopUp extends Composite {
 	private static Detail_PopUpUiBinder uiBinder = GWT
 			.create(Detail_PopUpUiBinder.class);
 
-	private static final class ShowPhotoThingy extends RequestListener<Void> implements ClickHandler {
+	private static final class ShowPhotoThingy implements ClickHandler {
 		private final String photoBaseUrl;
 		private ImageUrlLoader loader;
 		private String scaledUrl;
@@ -66,17 +67,16 @@ public class ShowRoute_PopUp extends Composite {
 			{
 				loader = ImageUrlLoader.getInstance();
 				scaledUrl = photoBaseUrl+"&h=500";
-				loader.addUrl(scaledUrl);
-				loader.setOnLoadListener(this);
+				loader.loadImage(scaledUrl, new ImageLoadListener() {
+					@Override
+					public void onLoaded() {
+						loaded = true;
+						showPopup();
+					}
+				});
 			}
 		}
-		
-		@Override
-		public void onFinished(Collection<Void> results) {
-			loaded = true;
-			showPopup();
-		}
-
+	
 		private void showPopup() {
 			Image popupImage = loader.getImageByUrl(scaledUrl);
 			popupImage.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);

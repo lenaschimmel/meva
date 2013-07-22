@@ -6,6 +6,7 @@ package de.gmino.issuemap.client.domain;
 // gmino stuff
 import java.util.Collection;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import de.gmino.geobase.client.domain.ImageUrl;
 import de.gmino.geobase.client.domain.LatLon;
@@ -81,16 +82,22 @@ public class Map extends MapGen {
 				}
 				Requests.loadEntities(markertypesById.values(), new RequestListener<Markertype>() {
 					@Override
-					public void onFinished(Collection<Markertype> results) {
-						ImageUrlLoader loader = ImageUrlLoader.getInstance();
+					public void onFinished(final Collection<Markertype> results) {
+						Collection<String> imagesToLoad = new TreeSet<String>();
+					
 						for(Markertype mt : results)
 						{
 							String imageName =mt.getImageName();
 							String url = "/mapicon/" + imageName + ".png";
-							loader.addUrl(url);
+							imagesToLoad.add(url);
 						}
 
-						listener.onFinished(results);
+						ImageUrlLoader.getInstance().loadImages(imagesToLoad, new ImageUrlLoader.ImageLoadListener() {
+							@Override
+							public void onLoaded() {
+								listener.onFinished(results);
+							}
+						});
 					}
 				});
 			}

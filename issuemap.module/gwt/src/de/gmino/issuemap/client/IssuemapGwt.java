@@ -104,10 +104,12 @@ public class IssuemapGwt implements EntryPoint {
 		markerLayer = mapView.newSmartLayer("Issues");
 		mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);
 		markerLayer.addMarkerIconRenderer(Issue.type, new IssueIconRenderer());
-		markerLayer.addMarkerIconRenderer(BicycleShop.type,
-				new BicycleShopIconRenderer());
+
 		if (subdomain.equals("zgb")) {
-			ImageUrlLoader.getInstance().addUrl("/mapicon/cycleway.png");
+			// TODO improves performance to load it first, but listener is not yet adjusted to wait for it.
+			ImageUrlLoader.getInstance().loadImage("/mapicon/cycleway.png", null);
+			markerLayer.addMarkerIconRenderer(BicycleShop.type,
+					new BicycleShopIconRenderer());
 			markerLayer.addMarkerIconRenderer(Route.type,
 					new RouteIconRenderer());
 		}
@@ -182,41 +184,33 @@ public class IssuemapGwt implements EntryPoint {
 							public void onFinished(
 									Collection<Markertype> results) {
 
-								ImageUrlLoader.getInstance().setOnLoadListener(
-										new RequestListener<Void>() {
-											@Override
-											public void onFinished(
-													Collection<Void> results) {
+								if (subdomain.equals("zgb")) {
+									markerLayer
+											.addMarkerPopupCreator(
+													BicycleShop.type,
+													new BicycleShopPopupCreator(
+															map,
+															markerLayer));
+									markerLayer
+											.addMarkerPopupCreator(
+													Route.type,
+													new RoutePopupCreator(
+															map,
+															markerLayer));
 
-												if (subdomain.equals("zgb")) {
-													markerLayer
-															.addMarkerPopupCreator(
-																	BicycleShop.type,
-																	new BicycleShopPopupCreator(
-																			map,
-																			markerLayer));
-													markerLayer
-															.addMarkerPopupCreator(
-																	Route.type,
-																	new RoutePopupCreator(
-																			map,
-																			markerLayer));
-
-													ZgbTools zgb = new ZgbTools(
-															markerLayer) {
-														@Override
-														public void onAllRoutesShown() {
-															System.out
-																	.println("All routes shown, now loading bicycle shops and Issues.");
-															showBicycleShops();
-															loadAndShowIssues();
-														}
-													};
-													zgb.showRoutes();
-												} else
-													loadAndShowIssues();
-											}
-										});
+									ZgbTools zgb = new ZgbTools(
+											markerLayer) {
+										@Override
+										public void onAllRoutesShown() {
+											System.out
+													.println("All routes shown, now loading bicycle shops and Issues.");
+											showBicycleShops();
+											loadAndShowIssues();
+										}
+									};
+									zgb.showRoutes();
+								} else
+									loadAndShowIssues();
 							}
 						});
 					};
