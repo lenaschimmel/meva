@@ -21,6 +21,7 @@ import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.shared.domain.Poi;
+import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
@@ -59,6 +60,7 @@ public class CreateIssue_PopUp extends Composite implements HasText {
                         mIssue = issue; // needed for upload handler
                         issue.setLocation(location);
                         issue.setMap_instance(map);
+                        issue.setCreationTimestamp(Timestamp.now());
                 }
         });
 		
