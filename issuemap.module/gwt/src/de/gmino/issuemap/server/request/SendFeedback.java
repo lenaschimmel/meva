@@ -49,6 +49,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 
+import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.server.request.gen.SendFeedbackGen;
 public class SendFeedback extends SendFeedbackGen {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
@@ -90,7 +91,10 @@ public class SendFeedback extends SendFeedbackGen {
 
         try {
             Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress("greenmobileinnovations@googlemail.com", "Greenmobile Geoengine"));
+
+            IssuemapGwt.logger.info("Trying to send mail, content: " + message);
+
+            msg.setFrom(new InternetAddress("greenmobileinnovations@gmail.com ", "Greenmobile Geoengine"));
             if(toDevelopers)
             	msg.addRecipient(Message.RecipientType.TO,
                         new InternetAddress("info@gmino.de", "Geoengine-Zuständiger"));
@@ -103,10 +107,12 @@ public class SendFeedback extends SendFeedbackGen {
             msg.setText(message);
             Transport.send(msg);
             
-            System.out.println("Mail has been sent, content: " + message);
+            IssuemapGwt.logger.info("Mail has been sent, content: " + message);
     
         } catch (Exception e) {
             e.printStackTrace();
+            IssuemapGwt.logger.warning("Error sending mail: " + e.getMessage());
+
         }
 		
 		return new LinkedList<de.gmino.meva.shared.domain.Void>();
