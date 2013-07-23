@@ -48,30 +48,36 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 					String status = answer.getString("status");
 					if (status.equals("ERROR")) {
 						String message = answer.getString("content");
-						listener.onError("The server reported an error: " + message, null);
+						if(listener != null)
+							listener.onError("The server reported an error: " + message, null);
 					} else {
 						try {
 							JsonArray idValues = answer.getArray("content");
 							for (JsonValue json : idValues) {
 								ValueClass val = (ValueClass) query.valueFromJson(json.asObject());
 								values.add(val);
-								listener.onNewResult(val);
+								if(listener != null)
+									listener.onNewResult(val);
 							}
-							listener.onFinished((Collection<ValueClass>) values);
+							if(listener != null)
+								listener.onFinished((Collection<ValueClass>) values);
 						} catch (IOException e) {
 							e.printStackTrace();
-							listener.onError("Error while parsing Json reply to ValueQuery", e);
+							if(listener != null)
+								listener.onError("Error while parsing Json reply to ValueQuery", e);
 						}
 					}
 				}
 
 				@Override
 				public void onError(Request request, Throwable exception) {
-					listener.onError("Json request generated an exception (via method).", exception);
+					if(listener != null)
+						listener.onError("Json request generated an exception (via method).", exception);
 				}
 			});
 		} catch (Exception exception) {
-			listener.onError("Json request generated an exception (thrown).", exception);
+			if(listener != null)
+				listener.onError("Json request generated an exception (thrown).", exception);
 		}
 	}
 
@@ -92,25 +98,30 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 					String status = answer.getString("status");
 					if (status.equals("ERROR")) {
 						String message = answer.getString("content");
-						listener.onError("The server reported an error: " + message, null);
+						if(listener != null)
+							listener.onError("The server reported an error: " + message, null);
 					} else {
 						JsonArray idValues = answer.getArray("content");
 						for (JsonValue idValue : idValues) {
 							Long id = Long.parseLong(idValue.asString().stringValue());
 							ids.add(id);
-							listener.onNewResult(id);
+							if(listener != null)
+								listener.onNewResult(id);
 						}
-						listener.onFinished(ids);
+						if(listener != null)
+							listener.onFinished(ids);
 					}
 				}
 
 				@Override
 				public void onError(Request request, Throwable exception) {
-					listener.onError("Json request generated an exception (via method).", exception);
+					if(listener != null)
+						listener.onError("Json request generated an exception (via method).", exception);
 				}
 			});
 		} catch (Exception exception) {
-			listener.onError("Json request generated an exception (thrown).", exception);
+			if(listener != null)
+				listener.onError("Json request generated an exception (thrown).", exception);
 		}
 	}
 

@@ -1160,8 +1160,11 @@ public class ClassDefinition {
 				if (attribute.attributeName.equals("id"))
 					pw.println("		this(id);");
 				else
-
+				{
 					pw.println("		this." + attribute.attributeName + " = " + attribute.attributeName + ";");
+					if(attribute.isEntity())
+						pw.println("		this." + attribute.attributeName + "_id = " + attribute.attributeName + ".getId();");
+				}
 			}
 		if (entity)
 			pw.println("		this.ready = true;");
