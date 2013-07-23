@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.sun.java.swing.plaf.windows.resources.windows;
 
 import de.gmino.geobase.client.domain.LatLon;
 import de.gmino.geobase.client.request.Geocoder;
@@ -75,6 +76,11 @@ public class Header extends Composite implements HasText {
 		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 			performSearch();
 		}
+	}
+	
+	@UiHandler("logo")
+	void onClick(ClickEvent event) {
+		Window.open(mapObject.getWebsite(), "Partei-Website", "");
 	}
 
 	private void performSearch() {

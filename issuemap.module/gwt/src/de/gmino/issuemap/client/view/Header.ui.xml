@@ -54,7 +54,7 @@
 		}
 		
 		.image{
-
+			cursor: pointer;
 		}
 		
 		.searchField {

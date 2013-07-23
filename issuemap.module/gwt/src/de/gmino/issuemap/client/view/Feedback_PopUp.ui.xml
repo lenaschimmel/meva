@@ -7,7 +7,7 @@
 
 	<ui:style>
 		.parent {
-			width: 300px;
+			width: 320px;
 			height: 355px;
 			background: rgba(20, 20, 20, 0.8);
 			position: absolute;
