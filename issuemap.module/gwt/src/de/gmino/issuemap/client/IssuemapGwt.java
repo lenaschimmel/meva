@@ -165,8 +165,7 @@ public class IssuemapGwt implements EntryPoint {
 
 		mapRequest(subdomain);
 		
-		// Add feedback Button
-		addFeedback_Button();
+
 	}
 
 	void mapRequest(final String subdomain) {
@@ -221,7 +220,11 @@ public class IssuemapGwt implements EntryPoint {
 									zgb.showRoutes();
 								} else
 									loadAndShowIssues();
+								addFeedback_Button();
+
+									
 							}
+														
 						});
 					};
 

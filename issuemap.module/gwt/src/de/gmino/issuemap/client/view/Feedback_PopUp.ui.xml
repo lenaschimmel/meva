@@ -8,7 +8,7 @@
 	<ui:style>
 		.parent {
 			width: 300px;
-			height: 400px;
+			height: 355px;
 			background: rgba(20, 20, 20, 0.8);
 			position: absolute;
 			top: 200px;
@@ -36,10 +36,10 @@
 			text-align: center;
 		}
 		
-		.text_box {
+		.text_area {
 			width: 90%;
-			height: 250px;
-			margin: 5px;
+			height: 205px;
+			margin-left: 5px;
 		}
 		
 		.sendButton {
@@ -49,6 +49,7 @@
 
 		.listbox {
 			margin-left: 5px;
+			margin-bottom: 5px;
 			width: 90%;
 		}
 				
@@ -71,7 +72,8 @@
 				Feedback an die Partei
 			</g:item>
 		</g:ListBox>
-		<g:TextArea styleName="{style.text_box}"></g:TextArea>
+		<g:TextArea styleName="{style.text_area}"></g:TextArea>
+		<g:TextBox styleName="{style.listbox}"></g:TextBox>
 		<g:Button ui:field="sendButton" styleName="{style.sendButton}">Senden</g:Button>
 	</g:VerticalPanel>
 </ui:UiBinder> 
