@@ -22,6 +22,7 @@ import java.util.Collection;
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
+import de.gmino.geobase.shared.domain.Address;
 // imports for field types
 import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.LatLon;
@@ -54,7 +55,10 @@ public class Map extends MapGen {
 			String headerText,
 			ImageUrl logo,
 			String infoText,
-			String mapTyp)
+			String mapTyp,
+			String website,
+			String email,
+			Address postal_address)
 	{
 		super(
 			id,
@@ -73,7 +77,10 @@ public class Map extends MapGen {
 			headerText,
 			(de.gmino.geobase.shared.domain.ImageUrl)logo,
 			infoText,
-			mapTyp
+			mapTyp,
+			website,
+			email,
+			(de.gmino.geobase.shared.domain.Address)postal_address
 		);
 		this.ready = true;
 	}

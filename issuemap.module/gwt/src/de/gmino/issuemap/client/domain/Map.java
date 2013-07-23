@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import de.gmino.geobase.client.domain.Address;
 import de.gmino.geobase.client.domain.ImageUrl;
 import de.gmino.geobase.client.domain.LatLon;
 import de.gmino.issuemap.client.ImageUrlLoader;
@@ -44,7 +45,10 @@ public class Map extends MapGen {
 			String headerText,
 			ImageUrl logo,
 			String infoText,
-			String mapTyp)
+			String mapTyp,
+			String website,
+			String email,
+			Address postal_address)
 	{
 		super(
 			id,
@@ -63,7 +67,10 @@ public class Map extends MapGen {
 			headerText,
 			(de.gmino.geobase.client.domain.ImageUrl)logo,
 			infoText,
-			mapTyp
+			mapTyp,
+			website,
+			email,
+			(de.gmino.geobase.client.domain.Address)postal_address
 		);
 		this.ready = true;
 	}
