@@ -12,6 +12,8 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.gmino.issuemap.client.IssuemapGwt;
+
 public class Feedback_Button extends Composite implements HasText {
 
 	private static Feedback_ButtonUiBinder uiBinder = GWT
@@ -34,6 +36,8 @@ public class Feedback_Button extends Composite implements HasText {
 
 	@UiHandler("feedback_button")
 	void onClick(ClickEvent e) {
+		feedback_button.removeFromParent();
+		IssuemapGwt.getInstance().addFeedback_Popup();
 	}
 
 	public void setText(String text) {

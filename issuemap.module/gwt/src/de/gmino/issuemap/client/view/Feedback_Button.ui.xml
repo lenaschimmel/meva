@@ -16,10 +16,8 @@
 
 	</ui:style>
 	<g:HTMLPanel>
-		Hello,
 		<g:PushButton styleName="{style.button}" ui:field="feedback_button"
-			width="50px" title="Karten-Statistik 
-			anzeigen">
+			width="50px" title="Wir freuen uns über Ihr Feedback">
 			<g:upFace image='{resources.feedback}' />
 			<g:upHoveringFace image='{resources.feedback_hover}' />
 		</g:PushButton>

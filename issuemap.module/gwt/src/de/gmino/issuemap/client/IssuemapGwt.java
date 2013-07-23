@@ -35,6 +35,7 @@ import de.gmino.issuemap.client.request.QueryMapBySubdomain;
 import de.gmino.issuemap.client.view.CreateEvent_PopUp;
 import de.gmino.issuemap.client.view.CreateIssue_PopUp;
 import de.gmino.issuemap.client.view.Feedback_Button;
+import de.gmino.issuemap.client.view.Feedback_PopUp;
 import de.gmino.issuemap.client.view.Footer;
 import de.gmino.issuemap.client.view.Header;
 import de.gmino.meva.client.UtilClient;
@@ -74,7 +75,7 @@ public class IssuemapGwt implements EntryPoint {
 	private OpenLayersSmartLayer markerLayer;
 	private Footer footer = new Footer();
 	private Header header = new Header();
-	private Feedback_Button feedback = new Feedback_Button();
+
 
 	int counter = 0;
 
@@ -118,12 +119,10 @@ public class IssuemapGwt implements EntryPoint {
 		}
 		
 		
-		// Add feedback Button
-		RootPanel.get("feedback").add(feedback);
 
+		
 		// Add Header to RootPanel
 		RootPanel.get("bar_top").add(header);
-
 		RootPanel.get("bar_bottom").add(footer);
 		
 
@@ -165,6 +164,9 @@ public class IssuemapGwt implements EntryPoint {
 		});
 
 		mapRequest(subdomain);
+		
+		// Add feedback Button
+		addFeedback_Button();
 	}
 
 	void mapRequest(final String subdomain) {
@@ -266,6 +268,17 @@ public class IssuemapGwt implements EntryPoint {
 
 	public void setCounter() {
 		footer.setCounter(counter);
+	}
+	
+	public void addFeedback_Popup(){
+		Feedback_PopUp feedbackPopup = new Feedback_PopUp(mapObject);
+		RootPanel.get("feedback").add(feedbackPopup);
+	}
+	
+	public void addFeedback_Button(){
+		Feedback_Button feedback = new Feedback_Button();
+		RootPanel.get("feedback").add(feedback);
+		
 	}
 
 }

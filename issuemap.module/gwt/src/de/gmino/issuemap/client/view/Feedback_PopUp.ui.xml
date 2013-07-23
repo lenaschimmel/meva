@@ -1,0 +1,77 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+	<ui:with field="resources"
+		type="de.gmino.issuemap.client.resources.ImageResources" />
+
+	<ui:style>
+		.parent {
+			width: 300px;
+			height: 400px;
+			background: rgba(20, 20, 20, 0.8);
+			position: absolute;
+			top: 200px;
+			left: -0px;
+		}
+		
+		.content {
+			padding: 10px;
+		}
+		
+		.title_label {
+			color: #FFF;
+			text-align: center;
+			font-weight: bold;
+			font-size: larger;
+			padding: 10px;
+			white-space: nowrap;
+			width: auto;
+			border-top-right-radius: 10px;
+			border-top-left-radius: 10px;
+		}
+		
+		.divider {
+			color: #FFF;
+			text-align: center;
+		}
+		
+		.text_box {
+			width: 90%;
+			height: 250px;
+			margin: 5px;
+		}
+		
+		.sendButton {
+			margin-left: 5px;
+			margin-bottom: 5px;
+		}
+
+		.listbox {
+			margin-left: 5px;
+			width: 90%;
+		}
+				
+		.closeButton {
+			position: absolute;
+			top: -10px;
+			right: -10px;
+			cursor: pointer;
+		}
+	</ui:style>
+	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
+		<g:Label ui:field="title" styleName="{style.title_label}">Geben Sie uns Feedback</g:Label>
+		<g:Image resource="{resources.close}" ui:field="close"
+			styleName="{style.closeButton}"></g:Image>
+		<g:ListBox styleName="{style.listbox}" ui:field="typebox">
+			<g:item value='0'>
+				Feedback an die Entwickler (Fehler, etc.)
+			</g:item>
+			<g:item value='1'>
+				Feedback an die Partei
+			</g:item>
+		</g:ListBox>
+		<g:TextArea styleName="{style.text_box}"></g:TextArea>
+		<g:Button ui:field="sendButton" styleName="{style.sendButton}">Senden</g:Button>
+	</g:VerticalPanel>
+</ui:UiBinder> 

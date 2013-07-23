@@ -77,7 +77,7 @@
 
 		<g:cell horizontalAlignment="ALIGN_RIGHT">
 			<g:Image styleName="{style.gmino_logo}" url="logo_gmino.png"
-				ui:field="gmino_logo" />
+				ui:field="gmino_logo" title="powerd by greenmobile Innovations"/>
 		</g:cell>
 
 	</g:HorizontalPanel>
