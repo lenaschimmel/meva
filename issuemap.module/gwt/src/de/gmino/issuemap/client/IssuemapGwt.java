@@ -289,4 +289,8 @@ public class IssuemapGwt implements EntryPoint {
 		
 	}
 
+	public Map getMap()
+	{
+		return mapObject;
+	}
 }

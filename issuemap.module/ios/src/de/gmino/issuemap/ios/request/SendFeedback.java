@@ -39,12 +39,14 @@ public class SendFeedback extends SendFeedbackGen {
 	public SendFeedback(
 			boolean toDevelopers,
 			String message,
-			String emailAddress)
+			String emailAddress,
+			Map map)
 	{
 		super(
 			toDevelopers,
 			message,
-			emailAddress
+			emailAddress,
+			(de.gmino.issuemap.ios.domain.Map)map
 		);
 	}
 	

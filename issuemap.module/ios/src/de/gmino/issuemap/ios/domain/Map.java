@@ -54,7 +54,10 @@ public class Map extends MapGen {
 			String headerText,
 			ImageUrl logo,
 			String infoText,
-			String mapTyp)
+			String mapTyp,
+			String website,
+			String email,
+			Address postal_address)
 	{
 		super(
 			id,
@@ -73,7 +76,10 @@ public class Map extends MapGen {
 			headerText,
 			(de.gmino.geobase.ios.domain.ImageUrl)logo,
 			infoText,
-			mapTyp
+			mapTyp,
+			website,
+			email,
+			(de.gmino.geobase.ios.domain.Address)postal_address
 		);
 		this.ready = true;
 	}
