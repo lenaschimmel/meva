@@ -1,0 +1,7 @@
+{
+	"package" : "de.gmino.meva.TARGET.domain",
+	"concept" : "value",
+	"name" : "Void",
+	"attributes" : [
+	]
+}

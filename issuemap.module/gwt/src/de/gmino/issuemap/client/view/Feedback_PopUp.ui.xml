@@ -72,8 +72,8 @@
 				Feedback an die Partei
 			</g:item>
 		</g:ListBox>
-		<g:TextArea styleName="{style.text_area}"></g:TextArea>
-		<g:TextBox styleName="{style.listbox}"></g:TextBox>
+		<g:TextArea styleName="{style.text_area}" ui:field="message"></g:TextArea>
+		<g:TextBox styleName="{style.listbox}" ui:field="email"></g:TextBox>
 		<g:Button ui:field="sendButton" styleName="{style.sendButton}">Senden</g:Button>
 	</g:VerticalPanel>
 </ui:UiBinder> 

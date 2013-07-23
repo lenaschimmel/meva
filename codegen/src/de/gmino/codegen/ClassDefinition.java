@@ -273,7 +273,7 @@ public class ClassDefinition {
 			pw.println();
 			pw.println("	@Override");
 			if (isValueQuery())
-				pw.println("	public Collection<Value> evaluate() {");
+				pw.println("	public Collection<? extends Value> evaluate() {");
 			else if (isEntityQuery())
 				pw.println("	public Collection<Long> evaluate() {");
 			pw.println("		throw new RuntimeException(\"No, this method does not exist here.\");");
@@ -345,7 +345,8 @@ public class ClassDefinition {
 			generateJsonDeserializerConstructor(pw, superConstructor);
 		}
 
-		generateAttributeConstructor(pw, superConstructor);
+		if(!attributes.isEmpty())
+			generateAttributeConstructor(pw, superConstructor);
 		pw.println(END_OF_CONSTRUCTOR_BLOCK);
 	}
 

@@ -64,12 +64,12 @@
 			<g:cell>
 
 
-				<g:TextBox text="Titel" width="90%" ui:field="title"></g:TextBox>
+				<g:TextBox width="90%" ui:field="title"></g:TextBox>
 
 
 			</g:cell>
 			<g:cell>
-				<g:TextArea text="Beschreibung..." width="90%" ui:field="description"
+				<g:TextArea width="90%" ui:field="description"
 					styleName="{style.description}"></g:TextArea>
 			</g:cell>
 
