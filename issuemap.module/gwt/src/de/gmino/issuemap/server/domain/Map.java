@@ -33,6 +33,7 @@ import de.gmino.meva.shared.EntityBinary;
 import de.gmino.meva.shared.ValueBinary;
 import de.gmino.meva.server.EntitySql;
 
+import de.gmino.geobase.server.domain.Address;
 // imports for field types
 import de.gmino.geobase.server.domain.ImageUrl;
 import de.gmino.geobase.server.domain.LatLon;
@@ -65,7 +66,10 @@ public class Map extends MapGen {
 			String headerText,
 			ImageUrl logo,
 			String infoText,
-			String mapTyp)
+			String mapTyp,
+			String website,
+			String email,
+			Address postal_address)
 	{
 		super(
 			id,
@@ -84,7 +88,10 @@ public class Map extends MapGen {
 			headerText,
 			(de.gmino.geobase.server.domain.ImageUrl)logo,
 			infoText,
-			mapTyp
+			mapTyp,
+			website,
+			email,
+			(de.gmino.geobase.server.domain.Address)postal_address
 		);
 		this.ready = true;
 	}

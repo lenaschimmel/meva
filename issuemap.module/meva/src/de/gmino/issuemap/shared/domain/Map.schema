@@ -63,6 +63,18 @@
 		{
 			"type" : "String",
 			"name" : "mapTyp"
+		},	
+		{
+			"type" : "String",
+			"name" : "website"
+		},	
+		{
+			"type" : "String",
+			"name" : "email"
+		},	
+		{
+			"type" : "Address",
+			"name" : "postal_address"
 		},
 		{
 			"type" : "relation",
