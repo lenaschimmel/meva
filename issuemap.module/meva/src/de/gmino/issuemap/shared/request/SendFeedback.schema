@@ -15,6 +15,10 @@
 		{
 			"type" : "String",
 			"name" : "emailAddress"
-		}	
+		},
+		{
+			"type" : "Map",
+			"name" : "map"
+		}
 	]
 }

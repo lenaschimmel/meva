@@ -25,6 +25,7 @@ import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
 
+import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.request.gen.SendFeedbackGen;
 public class SendFeedback extends SendFeedbackGen {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
@@ -39,12 +40,14 @@ public class SendFeedback extends SendFeedbackGen {
 	public SendFeedback(
 			boolean toDevelopers,
 			String message,
-			String emailAddress)
+			String emailAddress,
+			Map map)
 	{
 		super(
 			toDevelopers,
 			message,
-			emailAddress
+			emailAddress,
+			(de.gmino.issuemap.client.domain.Map)map
 		);
 	}
 	

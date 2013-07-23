@@ -67,7 +67,7 @@ public class Feedback_PopUp extends Composite implements HasText {
 		String messageString = message.getText();
 		String emailAddressString = email.getText();
 		
-		SendFeedback sendFeedback = new SendFeedback(toDevelopers, messageString, emailAddressString);
+		SendFeedback sendFeedback = new SendFeedback(toDevelopers, messageString, emailAddressString, IssuemapGwt.getInstance().getMap());
 		Requests.getValuesByQuery(sendFeedback, null);
 		
 		this.removeFromParent();

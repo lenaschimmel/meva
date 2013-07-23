@@ -36,6 +36,8 @@ import java.util.TreeSet;
 // imports for serialization interfaces
 import de.gmino.meva.shared.EntityBinary;
 import de.gmino.meva.shared.ValueBinary;
+import de.gmino.meva.shared.request.RequestListener;
+import de.gmino.meva.shared.request.Requests;
 import de.gmino.meva.server.EntitySql;
 
 // imports for mail
@@ -49,6 +51,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 
+import de.gmino.issuemap.client.IssuemapGwt;
+import de.gmino.issuemap.server.domain.Map;
 import de.gmino.issuemap.server.request.gen.SendFeedbackGen;
 public class SendFeedback extends SendFeedbackGen {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
@@ -72,12 +76,14 @@ public class SendFeedback extends SendFeedbackGen {
 	public SendFeedback(
 			boolean toDevelopers,
 			String message,
-			String emailAddress)
+			String emailAddress,
+			Map map)
 	{
 		super(
 			toDevelopers,
 			message,
-			emailAddress
+			emailAddress,
+			(de.gmino.issuemap.server.domain.Map)map
 		);
 	}
 	
@@ -86,28 +92,45 @@ public class SendFeedback extends SendFeedbackGen {
 	@Override
 	public Collection<? extends Value> evaluate() {
 		Properties props = new Properties();
-        Session session = Session.getDefaultInstance(props, null);
+        final Session session = Session.getDefaultInstance(props, null);
 
-        try {
-            Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress("greenmobileinnovations@googlemail.com", "Greenmobile Geoengine"));
-            if(toDevelopers)
-            	msg.addRecipient(Message.RecipientType.TO,
-                        new InternetAddress("info@gmino.de", "Geoengine-Zuständiger"));
-            else
-            	msg.addRecipient(Message.RecipientType.TO,
-                    new InternetAddress("info@gmino.de", "Partei-Zuständiger"));
+        Requests.loadEntity(map, new RequestListener<de.gmino.issuemap.shared.domain.Map>() {
+        	@Override
+        	public void onNewResult(de.gmino.issuemap.shared.domain.Map result) {
+        		 try {
+        	            Message msg = new MimeMessage(session);
 
-            msg.setSubject("Feedback zur Geoengine");
-     
-            msg.setText(message);
-            Transport.send(msg);
-            
-            System.out.println("Mail has been sent, content: " + message);
-    
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        	            IssuemapGwt.logger.info("Trying to send mail, content: " + message);
+
+        	            msg.setFrom(new InternetAddress("greenmobileinnovations@gmail.com ", "greenmobile Innovations Geoengine - Karte " + map.getTitle()));
+        	            if(toDevelopers)
+        	            	msg.addRecipient(Message.RecipientType.TO,
+        	                        new InternetAddress("info@gmino.de", "Geoengine-Zuständiger"));
+        	            else
+        	            	msg.addRecipient(Message.RecipientType.TO,
+        	                    new InternetAddress(map.getEmail(), map.getPostal_address().getRecipientName()));
+
+        	            msg.setSubject("Feedback zur Geoengine-Karte " + map.getTitle());
+        	     
+        	            String user = (emailAddress != null && emailAddress.length() > 3) ? "Ein Nutzer mit der (nicht verifizierten) Adresse " + emailAddress : "Ein annonymer Nutzer";
+        	            String addressat = toDevelopers ? "Hallo Gminos" : "Sehr gehrte " + map.getPostal_address().getRecipientName();
+        	            	
+        	            String fullMessage = addressat + ",\n" + user + " hat auf der Geoengine-Seite " + map.getSubdomain() + ".geoengine.de den folgenden Kommentar für sie verfasst:\n\n" + message;
+        	            
+        	            msg.setText(fullMessage);
+        	            Transport.send(msg);
+        	            
+        	            IssuemapGwt.logger.info("Mail has been sent, content: " + fullMessage);
+        	    
+        	        } catch (Exception e) {
+        	            e.printStackTrace();
+        	            IssuemapGwt.logger.warning("Error sending mail: " + e.getMessage());
+
+        	        }
+        	}
+		});
+        
+       
 		
 		return new LinkedList<de.gmino.meva.shared.domain.Void>();
 	}
