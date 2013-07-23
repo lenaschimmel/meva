@@ -1,0 +1,20 @@
+{
+	"concept" : "value",
+	"package" : "de.gmino.issuemap.TARGET.request",
+	"name" : "SendFeedback",
+	"query" : "Void",
+	"attributes" : [
+		{
+			"type" : "boolean",
+			"name" : "toDevelopers"
+		},	
+		{
+			"type" : "String",
+			"name" : "message"
+		},	
+		{
+			"type" : "String",
+			"name" : "emailAddress"
+		}	
+	]
+}

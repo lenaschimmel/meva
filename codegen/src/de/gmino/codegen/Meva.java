@@ -280,7 +280,7 @@ public class Meva {
 	public static ClassDefinition getClassDefinition(String type, boolean throwIfNotFound) {
 		ClassDefinition typeDef = Meva.definitions.get(type);
 		if (throwIfNotFound && typeDef == null)
-			throw new RuntimeException("Type " + type + " in unknown.");
+			throw new RuntimeException("Type " + type + " is unknown.");
 		return typeDef;
 	}
 }
