@@ -181,10 +181,12 @@ public class IssuemapGwt implements EntryPoint {
 					@SuppressWarnings("unchecked")
 					public void onNewResult(final Map map) {
 						mapObject = map;
+						addFeedback_Button();
 						markerLayer.addMarkerPopupCreator(Issue.type,
 								new IssuePopupCreator(map, markerLayer));
 
-						header.setMap(map);
+						header.setMap(map);	
+
 						footer.setMap(map);
 						Window.setTitle(map.getTitle());
 						mapView.setCenterAndZoom(mapObject.getInitLocation(),
@@ -225,9 +227,6 @@ public class IssuemapGwt implements EntryPoint {
 									zgb.showRoutes();
 								} else
 									loadAndShowIssues();
-//								addFeedback_Button();
-
-									
 							}
 														
 						});
