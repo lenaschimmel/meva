@@ -225,7 +225,7 @@ public class IssuemapGwt implements EntryPoint {
 									zgb.showRoutes();
 								} else
 									loadAndShowIssues();
-//								addFeedback_Button();
+								addFeedback_Button();
 
 									
 							}
