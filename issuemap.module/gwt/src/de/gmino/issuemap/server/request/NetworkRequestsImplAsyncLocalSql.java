@@ -22,28 +22,41 @@ public class NetworkRequestsImplAsyncLocalSql implements NetworkRequests {
 
 	@Override
 	public void getIdsByQuery(EntityQuery query, RequestListener<Long> listener) {
-		listener.onFinished(query.evaluate());
+		Collection<Long> results = query.evaluate();
+		for(Long result : results)
+			listener.onNewResult(result);
+		listener.onFinished(results);
 	}
 
 	@Override
 	public <ValueClass extends Value> void getValuesByQuery(ValueQuery query, RequestListener<ValueClass> listener) {
-		listener.onFinished(query.evaluate());
+		Collection<ValueClass> results = query.evaluate();
+		for(ValueClass result : results)
+			listener.onNewResult(result);
+		listener.onFinished(results);
 	}
 
 	@Override
 	public void getNewIds(EntityTypeName type, int count, RequestListener<Long> listener) {
-		listener.onFinished(LocalRequetsImpl.getNewIds(type, count));
+		Collection<Long> results = LocalRequetsImpl.getNewIds(type, count);
+		for(Long result : results)
+			listener.onNewResult(result);
+		listener.onFinished(results);
 	}
 
 	@Override
 	public <EntityClass extends Entity> void loadEntities(Collection<EntityClass> entities, RequestListener<EntityClass> listener) {
 		LocalRequetsImpl.loadEntities(entities);
+		for(EntityClass entity : entities)
+			listener.onNewResult(entity);
 		listener.onFinished(entities);
 	}
 
 	@Override
 	public <EntityClass extends Entity> void saveEntities(Collection<EntityClass> entities, RequestListener<EntityClass> listener) {
 		LocalRequetsImpl.saveEntities(entities);
+		for(EntityClass entity : entities)
+			listener.onNewResult(entity);
 		listener.onFinished(entities);
 	}
 
