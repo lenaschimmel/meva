@@ -329,7 +329,6 @@ public class ShowIssue_PopUp extends Composite {
 	void onEdit(ClickEvent e) {
 		this.removeFromParent();
 		CreateIssue_PopUp cip = new CreateIssue_PopUp(mapObject, mIssue, smartLayer);
-		cip.setBoarderColor(mapObject.getPrimary_color());
 		mWrapper.add(cip);
 
 	}

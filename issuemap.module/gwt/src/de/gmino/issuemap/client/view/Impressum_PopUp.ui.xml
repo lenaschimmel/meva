@@ -58,7 +58,6 @@
 		.impressum{
 		cursor: pointer;
 		margin-top: 10px;
-		margin-bottom: 10px;
 		color: #FFF;
 		text-decoration: underline;
 		width: 95%;
@@ -67,12 +66,15 @@
 		
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
-		<g:Label ui:field="title" styleName="{style.title_label}"></g:Label>
+		<g:Label ui:field="title" styleName="{style.title_label}">Impressum</g:Label>
 		<g:Image resource="{resources.close}" ui:field="close"
 			styleName="{style.closeButton}"></g:Image>
 		<g:VerticalPanel styleName="{style.content}">
-			<g:HTML ui:field="infotext" styleName="{style.info_label}"/>
+			<g:Label>Anschrift</g:Label>
+			<g:Label ui:field="full_name"></g:Label>
+			<g:Label ui:field="street"></g:Label>
+			<g:Label ui:field="town"></g:Label>
+			<g:Label ui:field="email"></g:Label>
 		</g:VerticalPanel>
-			<g:Label styleName="{style.impressum}">Impressum</g:Label>
 	</g:VerticalPanel>
 </ui:UiBinder> 

@@ -19,21 +19,19 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.issuemap.client.domain.Map;
 
-public class Info_PopUp extends Composite implements HasText {
+public class Impressum_PopUp extends Composite implements HasText {
 
 	private static Info_PopUpUiBinder uiBinder = GWT
 			.create(Info_PopUpUiBinder.class);
 
 	private DecoratedPopupPanel infoPopUp;
 	
-	interface Info_PopUpUiBinder extends UiBinder<Widget, Info_PopUp> {
+	interface Info_PopUpUiBinder extends UiBinder<Widget, Impressum_PopUp> {
 	}
 
-	public Info_PopUp(Map mapObject, DecoratedPopupPanel infoPopUp) {
+	public Impressum_PopUp(Map mapObject, DecoratedPopupPanel infoPopUp) {
 		initWidget(uiBinder.createAndBindUi(this));
-		title.setText(mapObject.getTitle());
 		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
-		infotext.setHTML(new SafeHtmlBuilder().appendEscapedLines(mapObject.getInfoText()).toSafeHtml());
 		this.infoPopUp = infoPopUp;
 		
 	}
@@ -43,12 +41,13 @@ public class Info_PopUp extends Composite implements HasText {
 	@UiField
 	Label title;
 	@UiField
-	HTML infotext;
-
-	public Info_PopUp(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-
-	}
+	Label full_name;
+	@UiField
+	Label street;
+	@UiField
+	Label town;
+	@UiField
+	Label email;
 
 	@UiHandler("close")
 	void onClick(ClickEvent e) {

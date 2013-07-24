@@ -27,6 +27,8 @@
 		
 		.description {
 			height: 200px;
+			font-family: inherit;
+			font-size: inherit;
 		}
 		
 		.title_label {

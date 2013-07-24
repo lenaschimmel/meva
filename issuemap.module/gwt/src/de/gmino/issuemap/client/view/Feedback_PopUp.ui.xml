@@ -7,12 +7,14 @@
 
 	<ui:style>
 		.parent {
-			width: 320px;
+			width: 322px;
 			height: 355px;
 			background: rgba(20, 20, 20, 0.8);
 			position: absolute;
 			top: 200px;
 			left: -0px;
+			border-top-right-radius: 4px;
+			border-bottom-right-radius: 4px;
 		}
 		
 		.content {
@@ -27,8 +29,6 @@
 			padding: 10px;
 			white-space: nowrap;
 			width: auto;
-			border-top-right-radius: 10px;
-			border-top-left-radius: 10px;
 		}
 		
 		.divider {
@@ -37,22 +37,44 @@
 		}
 		
 		.text_area {
-			width: 90%;
+			width: 290px;
 			height: 205px;
-			margin-left: 5px;
+			margin-left: 8px;
+			margin-bottom: 5px;
+			border: 1px solid #111111;
+			border-radius: 2px 3px 3px 2px;
+			box-shadow: 0 1px 0 0 #242424, 0 1px 0 0 #B1B1B1 inset;
+			display: block;
+			resize: none;
+			padding: 5px;
+			font-family: inherit;
+			font-size: inherit;
 		}
 		
 		.sendButton {
-			margin-left: 5px;
-			margin-bottom: 5px;
+			margin-left: 241px;
+			margin-bottom: 10px;
+			height: 30px;
 		}
-
+		
 		.listbox {
-			margin-left: 5px;
+			margin-left: 8px;
 			margin-bottom: 5px;
-			width: 90%;
+			width: 300px;
 		}
-				
+		
+		.mail_field {
+			margin-left: 8px;
+			margin-bottom: 5px;
+			width: 295px;
+			border: 1px solid #111111;
+			border-radius: 2px 3px 3px 2px;
+			box-shadow: 0 1px 0 0 #242424, 0 1px 0 0 #B1B1B1 inset;
+			display: block;
+			height: 25px;
+			padding-left: 5px;
+		}
+		
 		.closeButton {
 			position: absolute;
 			top: -10px;
@@ -73,7 +95,7 @@
 			</g:item>
 		</g:ListBox>
 		<g:TextArea styleName="{style.text_area}" ui:field="message"></g:TextArea>
-		<g:TextBox styleName="{style.listbox}" ui:field="email"></g:TextBox>
+		<g:TextBox styleName="{style.mail_field}" ui:field="email"></g:TextBox>
 		<g:Button ui:field="sendButton" styleName="{style.sendButton}">Senden</g:Button>
 	</g:VerticalPanel>
 </ui:UiBinder> 
