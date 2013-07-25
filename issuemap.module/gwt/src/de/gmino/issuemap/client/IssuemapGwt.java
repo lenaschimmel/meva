@@ -1,18 +1,20 @@
 package de.gmino.issuemap.client;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.logging.Logger;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.DivElement;
-import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import de.gmino.geobase.client.map.OpenLayersMapView;
@@ -49,10 +51,28 @@ import de.gmino.meva.shared.request.Requests;
 
 public class IssuemapGwt implements EntryPoint {
 	
-	public static final Logger logger = Logger.getLogger("Main logger");
+		public class AddIssuesCommand implements RepeatingCommand {
 
-	
-	private final class IssueLatitudeComparator implements Comparator<Issue> {
+			private ArrayList<Issue> issues;
+			private int i = 0;
+
+			public AddIssuesCommand(ArrayList<Issue> issues) {
+				this.issues = issues;
+			}
+			
+		@Override
+		public boolean execute() {
+			if(i >= issues.size())
+				return false;
+			
+			addMarker(issues.get(i++));
+			
+			return true;
+		}
+
+	}
+
+		private final class IssueLatitudeComparator implements Comparator<Issue> {
 		@Override
 		public int compare(Issue i1, Issue i2) {
 			int latitudeComparision = -Double.compare(i1.getLocation()
@@ -143,28 +163,41 @@ public class IssuemapGwt implements EntryPoint {
 		mapView.addEventListener(Event.dblclick, new MapListener() {
 
 			@Override
-			public void onEvent(LatLon location, Event event) {
+			public void onEvent(final LatLon location, Event event) {
 				DivElement div = ((OpenLayersMapView) mapView).createPopup(
 						location, "centerPopup", 1, 1);
-				div.getStyle().setOverflow(Overflow.VISIBLE);
-				div.getStyle().setBackgroundColor("transparent");
-				div.getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
-				div.getParentElement().getStyle()
-						.setBackgroundColor("transparent");
-				div.getParentElement().getParentElement().getStyle()
-						.setOverflow(Overflow.VISIBLE);
-				div.getParentElement().getParentElement().getStyle()
-						.setBackgroundColor("transparent");
-				if (mapObject.getMapTyp().equals("Issue")) {
-					CreateIssue_PopUp popUp = new CreateIssue_PopUp(mapObject,
-							location, markerLayer);
-					HTMLPanel.wrap(div).add(popUp);
-				} else {
-					CreateEvent_PopUp popUp = new CreateEvent_PopUp(mapObject,
-							location, markerLayer);
-					HTMLPanel.wrap(div).add(popUp);
-				}
+				final Composite popUp = getPopupByMapObject(location);
+				HTMLPanel.wrap(div).add(popUp);
+				
+				
+				// the popup width is not always computeted correctly the first time and simple deferring doesn't help. Therefore, we ask for the width until it seems about right before using ist.
+				Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+					@Override
+					public boolean execute() {
+						int offsetWidth = popUp.getOffsetWidth();
+						int offsetHeight = popUp.getOffsetHeight();
+						
+						if(offsetWidth < 160)
+							return true;
+						
+						mapView.panRectIntoMap(location, offsetWidth,
+								offsetHeight, 30, true);
+						
+						return false;
+					}
+				}, 100);
+			}
 
+			private Composite getPopupByMapObject(final LatLon location) {
+				Composite popUp;
+				if (mapObject.getMapTyp().equals("Issue")) {
+					popUp = new CreateIssue_PopUp(mapObject,
+							location, markerLayer);
+				} else {
+					popUp = new CreateEvent_PopUp(mapObject,
+							location, markerLayer);
+				}
+				return popUp;
 			}
 		});
 
@@ -259,15 +292,22 @@ public class IssuemapGwt implements EntryPoint {
 		Requests.loadEntities(issues, new RequestListener<Issue>() {
 			@Override
 			public void onFinished(Collection<Issue> results) {
+				Scheduler scheduler = Scheduler.get();
+				
 				Comparator<Issue> compare = new IssueLatitudeComparator();
 				TreeSet<Issue> sortedIssues = new TreeSet<Issue>(compare);
 				sortedIssues.addAll(results);
-				for (Issue i : sortedIssues) {
-					if (i.isDeleted())
-						continue;
-					addMarker(i);
+				
+				final ArrayList<Issue> filteredIssues = new ArrayList<Issue>();
+				for (final Issue i : sortedIssues) {
+					if (!i.isDeleted())
+						filteredIssues.add(i);					
 				}
+				scheduler.scheduleIncremental(new AddIssuesCommand(filteredIssues));
+				
+				counter = filteredIssues.size();
 				setCounter();
+				counter = 0; // will be incremented by the deferred command and we dont want to count everything twice.
 			}
 
 		});
@@ -289,4 +329,6 @@ public class IssuemapGwt implements EntryPoint {
 	{
 		return mapObject;
 	}
+
+
 }

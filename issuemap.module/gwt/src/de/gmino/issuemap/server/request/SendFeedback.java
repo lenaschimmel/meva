@@ -42,6 +42,9 @@ import de.gmino.meva.server.EntitySql;
 
 // imports for mail
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -51,10 +54,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 
-import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.server.domain.Map;
 import de.gmino.issuemap.server.request.gen.SendFeedbackGen;
 public class SendFeedback extends SendFeedbackGen {
+	
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public SendFeedback()
 	{
@@ -91,16 +94,21 @@ public class SendFeedback extends SendFeedbackGen {
 	
 	@Override
 	public Collection<? extends Value> evaluate() {
+		
+		
 		Properties props = new Properties();
         final Session session = Session.getDefaultInstance(props, null);
 
         Requests.loadEntity(map, new RequestListener<de.gmino.issuemap.shared.domain.Map>() {
         	@Override
         	public void onNewResult(de.gmino.issuemap.shared.domain.Map result) {
+        		Logger logger = Logger.getLogger("SendFeedback");
+        		logger.setLevel(Level.ALL);
         		 try {
+        			 
         	            Message msg = new MimeMessage(session);
 
-        	            IssuemapGwt.logger.info("Trying to send mail, content: " + message);
+        	            logger.info("Trying to send mail, content: " + message);
 
         	            msg.setFrom(new InternetAddress("greenmobileinnovations@gmail.com ", "greenmobile Innovations Geoengine - Karte " + map.getTitle()));
         	            if(toDevelopers)
@@ -120,11 +128,11 @@ public class SendFeedback extends SendFeedbackGen {
         	            msg.setText(fullMessage);
         	            Transport.send(msg);
         	            
-        	            IssuemapGwt.logger.info("Mail has been sent, content: " + fullMessage);
+        	            logger.info("Mail has been sent, content: " + fullMessage);
         	    
         	        } catch (Exception e) {
         	            e.printStackTrace();
-        	            IssuemapGwt.logger.warning("Error sending mail: " + e.getMessage());
+        	            logger.log(Level.SEVERE, "Error sending mail.", e);
 
         	        }
         	}

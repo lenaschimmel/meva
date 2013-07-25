@@ -23,11 +23,13 @@ import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 import org.itemscript.standard.StandardConfig;
 
+import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.server.request.LocalRequetsImpl;
 import de.gmino.issuemap.server.request.NetworkRequestsImplAsyncLocalSql;
 import de.gmino.issuemap.server.request.QueryMapBySubdomain;
 import de.gmino.issuemap.server.request.SendFeedback;
 import de.gmino.issuemap.server.EntityFactoryImpl;
+import de.gmino.issuemap.shared.Log;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.EntityQuery;
@@ -50,7 +52,7 @@ public class JsonServer extends HttpServlet {
 			EntityFactory.setImplementations(new EntityFactoryImpl());
 			Requests.setImplementation(new NetworkRequestsImplAsyncLocalSql());
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.exception("Error initializing Servlet..", e);
 			throw new ServletException(e);
 		}
 	}
@@ -73,8 +75,7 @@ public class JsonServer extends HttpServlet {
 			}
 		} catch (Exception e) {
 			resp.setContentType("text/json");
-			System.err.println("Error while answering a POST-JSON-request. Error will be reportet to the client as short, JSON-Encoded answer. Full stack trace below:");
-			e.printStackTrace();
+			Log.exception("Error while answering a POST-JSON-request. Error will be reportet to the client as short, JSON-Encoded answer. Full stack trace below:", e);
 			writeAnswer(resp.getOutputStream(), "ERROR", "\"An Exception occured while processing the request: " + Util.escapeForJson(e.toString())
 					+ " A more detailed cause has been written to stderr on the server.\"");
 		}
