@@ -166,7 +166,30 @@ public class IssuemapGwt implements EntryPoint {
 			public void onEvent(final LatLon location, Event event) {
 				DivElement div = ((OpenLayersMapView) mapView).createPopup(
 						location, "centerPopup", 1, 1);
-				Composite popUp = null;
+				final Composite popUp = getPopupByMapObject(location);
+				HTMLPanel.wrap(div).add(popUp);
+				
+				
+				// the popup width is not always computeted correctly the first time and simple deferring doesn't help. Therefore, we ask for the width until it seems about right before using ist.
+				Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+					@Override
+					public boolean execute() {
+						int offsetWidth = popUp.getOffsetWidth();
+						int offsetHeight = popUp.getOffsetHeight();
+						
+						if(offsetWidth < 160)
+							return true;
+						
+						mapView.panRectIntoMap(location, offsetWidth,
+								offsetHeight, 30, true);
+						
+						return false;
+					}
+				}, 100);
+			}
+
+			private Composite getPopupByMapObject(final LatLon location) {
+				Composite popUp;
 				if (mapObject.getMapTyp().equals("Issue")) {
 					popUp = new CreateIssue_PopUp(mapObject,
 							location, markerLayer);
@@ -174,18 +197,7 @@ public class IssuemapGwt implements EntryPoint {
 					popUp = new CreateEvent_PopUp(mapObject,
 							location, markerLayer);
 				}
-				HTMLPanel.wrap(div).add(popUp);
-				
-				final int offsetWidth = popUp.getOffsetWidth();
-				final int offsetHeight = popUp.getOffsetHeight();
-				
-				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-					@Override
-					public void execute() {
-						mapView.panRectIntoMap(location, offsetWidth,
-								offsetHeight, 30, true);
-					}
-				});
+				return popUp;
 			}
 		});
 
