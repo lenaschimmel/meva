@@ -2,6 +2,9 @@ package de.gmino.issuemap.server;
 
 import com.google.appengine.api.rdbms.AppEngineDriver;
 
+import de.gmino.issuemap.client.IssuemapGwt;
+import de.gmino.issuemap.shared.Log;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -14,7 +17,7 @@ public class SqlHelper {
 		try {
 			DriverManager.registerDriver(new AppEngineDriver());
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.exception("Error registering DB driver.",e);
 		}
 	}
 
@@ -41,7 +44,7 @@ public class SqlHelper {
 			    
 			   con.createStatement().execute("set names 'utf8';");
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.exception("Error creating DB connection.",e);
 			}
 //		}
 		return con;

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -49,10 +50,7 @@ import de.gmino.meva.shared.request.Requests;
 
 public class IssuemapGwt implements EntryPoint {
 	
-	public static final Logger logger = Logger.getLogger("Main logger");
-
-	
-	private final class IssueLatitudeComparator implements Comparator<Issue> {
+		private final class IssueLatitudeComparator implements Comparator<Issue> {
 		@Override
 		public int compare(Issue i1, Issue i2) {
 			int latitudeComparision = -Double.compare(i1.getLocation()
@@ -292,4 +290,6 @@ public class IssuemapGwt implements EntryPoint {
 	{
 		return mapObject;
 	}
+
+
 }

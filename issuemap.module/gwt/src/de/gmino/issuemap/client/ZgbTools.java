@@ -20,6 +20,7 @@ import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.Address;
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.issuemap.client.domain.BicycleShop;
+import de.gmino.issuemap.shared.Log;
 import de.gmino.issuemap.shared.domain.Route;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
@@ -54,7 +55,7 @@ public abstract class ZgbTools {
 		try {
 			showGpxFromUrl("/gpx/zgb_aussengrenze_2000.gpx",	"#000066", true, 999);
 		} catch (RequestException e1) {
-			e1.printStackTrace();
+			Log.exception("Error showing GPX from URL.", e1);
 		}
 	}
 
@@ -77,7 +78,7 @@ public abstract class ZgbTools {
 				}
 			});
 		} catch (RequestException e) {
-			e.printStackTrace();
+			Log.exception("Error showing Bycicle shops.", e);
 		}
 	}
 	
@@ -107,7 +108,7 @@ public abstract class ZgbTools {
 				}
 			});
 		} catch (RequestException e) {
-			e.printStackTrace();
+			Log.exception("Error showing routes.", e);
 		}
 	}
 	
