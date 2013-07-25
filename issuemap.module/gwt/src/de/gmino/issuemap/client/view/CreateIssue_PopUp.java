@@ -54,12 +54,17 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 	public CreateIssue_PopUp(final Map map, final LatLon location, OpenLayersSmartLayer smartLayer) {
 		this(map,smartLayer);
 		
+		// this is a dummy instance, just needed to provide an early icon. As soon as the real issue object is present, it will be used instead.
+		mIssue = new Issue(-1);
+		updateIcon();
+		
         Requests.getNewEntity(Issue.type, new RequestListener<Issue>() {
                 public void onNewResult(Issue issue) {
                         mIssue = issue; // needed for upload handler
                         issue.setLocation(location);
                         issue.setMap_instance(map);
                         issue.setCreationTimestamp(Timestamp.now());
+                        updateIcon();
                 }
         });
 		
@@ -138,6 +143,10 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 	@UiHandler("typebox")
 	void onChange(ChangeEvent e)
 	{
+		updateIcon();
+	}
+
+	private void updateIcon() {
 		setIssueValuesFromMask(mIssue);
 		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mIssue);
 		String iconUrl = renderer.getIconUrl(mIssue);

@@ -346,6 +346,10 @@ public class ShowIssue_PopUp extends Composite {
 	@UiHandler("resolved")
 	void onCheckbox(ClickEvent e) {
 		mIssue.setResolved(resolved.getValue());
+		updateIcon();
+	}
+
+	private void updateIcon() {
 		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mIssue);
 		String iconUrl = renderer.getIconUrl(mIssue);
 		imageMarkerIcon.setUrl(iconUrl);
@@ -362,6 +366,7 @@ public class ShowIssue_PopUp extends Composite {
 		
 		Requests.saveEntity(mIssue, null);
 		updateButtonColorsAndLabels();
+		updateIcon();
 	}
 	
 	@UiHandler("uploadButton")
@@ -404,6 +409,7 @@ public class ShowIssue_PopUp extends Composite {
 		
 		Requests.saveEntity(mIssue, null);
 		updateButtonColorsAndLabels();
+		updateIcon();
 	}
 
 	private void updateButtonColorsAndLabels() {
