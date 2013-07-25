@@ -277,13 +277,10 @@ public class IssuemapGwt implements EntryPoint {
 		footer.setCounter(counter);
 	}
 	
-	public void addFeedback_Popup(){
-		Feedback_PopUp feedbackPopup = new Feedback_PopUp(mapObject);
-		RootPanel.get("feedback").add(feedbackPopup);
-	}
+
 	
 	public void addFeedback_Button(){
-		Feedback_Button feedback = new Feedback_Button();
+		Feedback_Button feedback = new Feedback_Button(mapObject);
 		RootPanel.get("feedback").add(feedback);
 		
 	}
