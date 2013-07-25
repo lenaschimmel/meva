@@ -24,15 +24,20 @@ public class Impressum_PopUp extends Composite implements HasText {
 	private static Info_PopUpUiBinder uiBinder = GWT
 			.create(Info_PopUpUiBinder.class);
 
-	private DecoratedPopupPanel infoPopUp;
+	private DecoratedPopupPanel decorated_panel;
 	
 	interface Info_PopUpUiBinder extends UiBinder<Widget, Impressum_PopUp> {
 	}
 
-	public Impressum_PopUp(Map mapObject, DecoratedPopupPanel infoPopUp) {
+	public Impressum_PopUp(Map mapObject, DecoratedPopupPanel decorated_panel) {
 		initWidget(uiBinder.createAndBindUi(this));
 		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
-		this.infoPopUp = infoPopUp;
+		this.decorated_panel = decorated_panel;
+		full_name.setText(mapObject.getPostal_address().getRecipientName());
+		street.setText(mapObject.getPostal_address().getStreet()+" "+mapObject.getPostal_address().getHouseNumber());
+		town.setText(mapObject.getPostal_address().getZip()+ " "+ mapObject.getPostal_address().getCity());
+		email.setText(mapObject.getEmail());
+		
 		
 	}
 
@@ -51,7 +56,7 @@ public class Impressum_PopUp extends Composite implements HasText {
 
 	@UiHandler("close")
 	void onClick(ClickEvent e) {
-		infoPopUp.hide();
+		decorated_panel.hide();
 	}
 
 	public void setText(String text) {

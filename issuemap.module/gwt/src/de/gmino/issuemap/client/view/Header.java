@@ -1,6 +1,7 @@
 package de.gmino.issuemap.client.view;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -29,6 +30,7 @@ public class Header extends Composite implements HasText {
 
 	private static HeaderUiBinder uiBinder = GWT.create(HeaderUiBinder.class);
 	private Map mapObject;
+	final DecoratedPopupPanel decorated_panel = new DecoratedPopupPanel();
 
 	interface HeaderUiBinder extends UiBinder<Widget, Header> {
 	}
@@ -40,6 +42,7 @@ public class Header extends Composite implements HasText {
 		search_field.getElement().setAttribute("placeholder", "Straßensuche");
 		logo.setHeight("30px");
 		header.setHeight("57px");
+
 	}
 
 	@UiField
@@ -53,23 +56,15 @@ public class Header extends Composite implements HasText {
 	@UiField
 	PushButton info_button;
 
-	public Header(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-	}
-
 	@UiHandler("info_button")
 	void onInfoClick(ClickEvent e) {
-		final DecoratedPopupPanel infoPopUp = new DecoratedPopupPanel();
-		infoPopUp.add(new Info_PopUp(mapObject, infoPopUp));
-		infoPopUp.show();
-		infoPopUp.setPopupPosition(Window.getClientWidth() / 2,
-				Window.getClientHeight() / 3);
+		if (decorated_panel.isShowing()) {
+			decorated_panel.hide();
+		} else {
+			decorated_panel.setPopupPosition(Window.getClientWidth() / 2, Window.getClientHeight() / 3);
+			decorated_panel.show();
+		}
 	}
-
-	// @UiHandler("search_field")
-	// void onSearchClick(ClickEvent e) {
-	// performSearch();
-	// }
 
 	@UiHandler("search_field")
 	void onKeyUp(KeyUpEvent event) {
@@ -77,7 +72,7 @@ public class Header extends Composite implements HasText {
 			performSearch();
 		}
 	}
-	
+
 	@UiHandler("logo")
 	void onClick(ClickEvent event) {
 		Window.open(mapObject.getWebsite(), "Partei-Website", "");
@@ -112,7 +107,7 @@ public class Header extends Composite implements HasText {
 		logo.setUrl(imgUrl);
 		title.setText(titleString);
 
-			title.getElement().getStyle().setColor(mapObject.getSecondary_color());
+		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
 		// header.getElement().getStyle().setBorderColor(color);
 		// info_button.getElement().getStyle().setBackgroundColor(color);
 		info_button.setVisible(true);
@@ -120,6 +115,9 @@ public class Header extends Composite implements HasText {
 				.setBackgroundColor(mapObject.getBackground_color());
 		search_field.setVisible(true);
 		logo.setHeight("45px");
+		info_button.setVisible(true);
+		decorated_panel.add(new Info_PopUp(mapObject, decorated_panel));
+
 	}
 
 	@Override

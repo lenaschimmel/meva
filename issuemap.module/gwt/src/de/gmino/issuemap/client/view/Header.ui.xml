@@ -83,7 +83,7 @@
 			<g:HorizontalPanel>
 				<g:Label styleName="{style.title}" ui:field="title">... Daten werden geladen</g:Label>
 				<g:PushButton styleName="{style.infoButton}"
-					ui:field="info_button" height="30px" title="Infos zu der Karte">
+					ui:field="info_button" height="30px" title="Infos zu der Karte und Impressum" visible="false">
 					<g:upFace image='{resources.info}' />
 					<g:upHoveringFace image='{resources.info_hover}' />
 				</g:PushButton>

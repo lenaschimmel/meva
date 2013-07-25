@@ -47,6 +47,7 @@ public class Map extends MapGen {
 			String infoText,
 			String mapTyp,
 			String website,
+			String impressum_url,
 			String email,
 			Address postal_address)
 	{
@@ -69,6 +70,7 @@ public class Map extends MapGen {
 			infoText,
 			mapTyp,
 			website,
+			impressum_url,
 			email,
 			(de.gmino.geobase.client.domain.Address)postal_address
 		);

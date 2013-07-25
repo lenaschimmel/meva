@@ -24,17 +24,19 @@ public class Info_PopUp extends Composite implements HasText {
 	private static Info_PopUpUiBinder uiBinder = GWT
 			.create(Info_PopUpUiBinder.class);
 
-	private DecoratedPopupPanel infoPopUp;
+	private DecoratedPopupPanel decorated_panel;
+	private Map mapObject;
 	
 	interface Info_PopUpUiBinder extends UiBinder<Widget, Info_PopUp> {
 	}
 
-	public Info_PopUp(Map mapObject, DecoratedPopupPanel infoPopUp) {
+	public Info_PopUp(Map mapObject, DecoratedPopupPanel decorated_panel) {
 		initWidget(uiBinder.createAndBindUi(this));
 		title.setText(mapObject.getTitle());
 		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
 		infotext.setHTML(new SafeHtmlBuilder().appendEscapedLines(mapObject.getInfoText()).toSafeHtml());
-		this.infoPopUp = infoPopUp;
+		this.decorated_panel = decorated_panel;
+		this.mapObject=mapObject;
 		
 	}
 
@@ -44,6 +46,8 @@ public class Info_PopUp extends Composite implements HasText {
 	Label title;
 	@UiField
 	HTML infotext;
+	@UiField
+	Label impressum;
 
 	public Info_PopUp(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -52,7 +56,16 @@ public class Info_PopUp extends Composite implements HasText {
 
 	@UiHandler("close")
 	void onClick(ClickEvent e) {
-		infoPopUp.hide();
+		decorated_panel.hide();
+	}
+	
+	@UiHandler("impressum")
+	void onImpressumClick(ClickEvent e){
+		Window.open(mapObject.getImpressum_url(), "Impressum", "");
+		decorated_panel.hide();
+
+
+		
 	}
 
 	public void setText(String text) {

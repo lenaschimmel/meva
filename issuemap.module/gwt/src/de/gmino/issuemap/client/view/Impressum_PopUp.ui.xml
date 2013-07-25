@@ -7,74 +7,84 @@
 
 	<ui:style>
 		.parent {
-		width: 400px;
-		background-color: #333;
-		position: absolute;
-		top: -50%;
-		left: -200px;
-		/* Override glass panel to 10% opacity (= 90% transparency) */
-		filter: alpha(opacity = 1) !important; /* IE */
-		opacity: 0.9 !important; /* non-IE */
-		border-top-right-radius: 10px;
-		border-bottom-right-radius: 10px;
-		border-top-left-radius: 10px;
-		border-bottom-left-radius: 10px;
+			width: 600px;
+			background-color: #333;
+			position: absolute;
+			top: -50px;
+			left: -300px;
+			/* Override glass panel to 10% opacity (= 90% transparency) */
+			filter: alpha(opacity =     1) !important; /* IE */
+			opacity: 0.9 !important; /* non-IE */
+			border-top-right-radius: 10px;
+			border-bottom-right-radius: 10px;
+			border-top-left-radius: 10px;
+			border-bottom-left-radius: 10px;
+			padding: 15px;
 		}
-
-		.content {
-		padding: 10px;
-		}
-
+		
+		
 		.title_label {
-		color: #FFF;
-		text-align: center;
-		font-weight: bold;
-		font-size: larger;
-		padding: 10px;
-		white-space: nowrap;
-		width: auto;
-		border-top-right-radius: 10px;
-		border-top-left-radius: 10px;
+			color: #FFF;
+			text-align: center;
+			font-weight: bold;
+			font-size: larger;
+			white-space: nowrap;
+			width: auto;
+			border-top-right-radius: 10px;
+			border-top-left-radius: 10px;
 		}
-
+		
 		.divider {
-		color: #FFF;
-		text-align: center;
+			color: #FFF;
+			text-align: center;
 		}
-
-		.info_label {
-		color: #FFF;
-		margin-bottom: 10px;
-		padding-right: 10px;
+		
+		.heading {
+			color: #FFF;
+			margin-top: 5px;
+			padding-right: 5px;
+			font-weight: bold;
 		}
-
+		
 		.closeButton {
-		position: absolute;
-		top: -10px;
-		right: -10px;
-		cursor: pointer;
+			position: absolute;
+			top: -10px;
+			right: -10px;
+			cursor: pointer;
 		}
 		
-		.impressum{
-		cursor: pointer;
-		margin-top: 10px;
-		color: #FFF;
-		text-decoration: underline;
-		width: 95%;
-		text-align: right;
+		.text {
+			color: #FFF;
 		}
-		
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
 		<g:Label ui:field="title" styleName="{style.title_label}">Impressum</g:Label>
 		<g:Image resource="{resources.close}" ui:field="close"
 			styleName="{style.closeButton}"></g:Image>
-		<g:VerticalPanel styleName="{style.content}">
-			<g:Label>Anschrift</g:Label>
-			<g:Label ui:field="full_name"></g:Label>
-			<g:Label ui:field="street"></g:Label>
-			<g:Label ui:field="town"></g:Label>
-			<g:Label ui:field="email"></g:Label>
-		</g:VerticalPanel>
+		<g:HorizontalPanel>
+			<g:cell width="50%">
+				<g:VerticalPanel>
+					<g:Label styleName="{style.heading}">Verantwortlich:</g:Label>
+					<g:Label styleName="{style.text}" ui:field="full_name"></g:Label>
+					<g:Label styleName="{style.text}" ui:field="street"></g:Label>
+					<g:Label styleName="{style.text}" ui:field="town"></g:Label>
+					<g:Label styleName="{style.heading}">Kontakt</g:Label>
+					<g:Label styleName="{style.text}" ui:field="email"></g:Label>
+				</g:VerticalPanel>
+			</g:cell>
+			<g:cell width="50%">
+				<g:VerticalPanel>
+					<g:Label styleName="{style.heading}">Haftungshinweis: </g:Label>
+					<g:Label styleName="{style.text}">Im Rahmen unseres Dienstes werden ggf.
+						Links zu Internetinhalten anderer Anbieter bereitgestellt. Auf den
+						Inhalt dieser Seiten haben wir keinen Einfluss; für den Inhalt ist
+						ausschließlich der Betreiber der anderen Website verantwortlich.
+						Trotz der Überprüfung der Inhalte im gesetzlich gebotenen Rahmen
+						müssen wir daher jede Verantwortung für den Inhalt dieser Links
+						bzw. der verlinkten Seite ablehnen.</g:Label>
+				</g:VerticalPanel>
+			</g:cell>
+			<g:cell><g:HTML></g:HTML></g:cell>
+		</g:HorizontalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

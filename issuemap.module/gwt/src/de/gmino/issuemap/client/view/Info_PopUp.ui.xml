@@ -7,11 +7,11 @@
 
 	<ui:style>
 		.parent {
-		width: 400px;
+		width: 600px;
 		background-color: #333;
 		position: absolute;
-		top: -50%;
-		left: -200px;
+		top: -50px;
+		left: -300px;
 		/* Override glass panel to 10% opacity (= 90% transparency) */
 		filter: alpha(opacity = 1) !important; /* IE */
 		opacity: 0.9 !important; /* non-IE */
@@ -19,30 +19,28 @@
 		border-bottom-right-radius: 10px;
 		border-top-left-radius: 10px;
 		border-bottom-left-radius: 10px;
+		padding: 15px;
 		}
 
-		.content {
-		padding: 10px;
-		}
+	
+		
+		
 
 		.title_label {
 		color: #FFF;
 		text-align: center;
 		font-weight: bold;
 		font-size: larger;
-		padding: 10px;
 		white-space: nowrap;
 		width: auto;
 		border-top-right-radius: 10px;
 		border-top-left-radius: 10px;
 		}
 
-		.divider {
-		color: #FFF;
-		text-align: center;
-		}
+
 
 		.info_label {
+		margin-top: 5px;
 		color: #FFF;
 		margin-bottom: 10px;
 		padding-right: 10px;
@@ -58,7 +56,6 @@
 		.impressum{
 		cursor: pointer;
 		margin-top: 10px;
-		margin-bottom: 10px;
 		color: #FFF;
 		text-decoration: underline;
 		width: 95%;
@@ -70,9 +67,9 @@
 		<g:Label ui:field="title" styleName="{style.title_label}"></g:Label>
 		<g:Image resource="{resources.close}" ui:field="close"
 			styleName="{style.closeButton}"></g:Image>
-		<g:VerticalPanel styleName="{style.content}">
+		
 			<g:HTML ui:field="infotext" styleName="{style.info_label}"/>
-		</g:VerticalPanel>
-			<g:Label styleName="{style.impressum}">Impressum</g:Label>
+		
+			<g:Label ui:field="impressum" styleName="{style.impressum}">Impressum</g:Label>
 	</g:VerticalPanel>
 </ui:UiBinder> 

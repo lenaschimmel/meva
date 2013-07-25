@@ -70,6 +70,10 @@
 		},	
 		{
 			"type" : "String",
+			"name" : "impressum_url"
+		},	
+		{
+			"type" : "String",
 			"name" : "email"
 		},	
 		{
