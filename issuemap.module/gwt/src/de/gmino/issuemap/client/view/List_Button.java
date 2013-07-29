@@ -16,42 +16,39 @@ import com.google.gwt.user.client.ui.Widget;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Map;
 
-public class Feedback_Button extends Composite implements HasText {
+public class List_Button extends Composite implements HasText {
 
-	private static Feedback_ButtonUiBinder uiBinder = GWT
-			.create(Feedback_ButtonUiBinder.class);
+	private static List_ButtonUiBinder uiBinder = GWT
+			.create(List_ButtonUiBinder.class);
 	
-	private Map mapObject;
 	public Feedback_PopUp feedbackPopup;
+	private IssueList_PopUp issueList_PopUp;
 
-	interface Feedback_ButtonUiBinder extends UiBinder<Widget, Feedback_Button> {
+	interface List_ButtonUiBinder extends UiBinder<Widget, List_Button> {
 	}
 
-	public Feedback_Button(Map mapObject) {
+	public List_Button(IssueList_PopUp issueList_PopUp) {
 		initWidget(uiBinder.createAndBindUi(this));
-		this.mapObject=mapObject;
-		feedbackPopup = new Feedback_PopUp(mapObject, this);
-		RootPanel.get("feedback").add(feedbackPopup);
-		feedbackPopup.setVisible(false);
+		this.issueList_PopUp=issueList_PopUp;
 	}
 
 	@UiField
-	PushButton feedback_button;
+	PushButton list_button;
 
 
-	@UiHandler("feedback_button")
+	@UiHandler("list_button")
 	void onClick(ClickEvent e) {
 		this.setVisible(false);
-		feedbackPopup.setVisible(true);
+		issueList_PopUp.setVisible(true);
 		
 	}
 
 	public void setText(String text) {
-		feedback_button.setText(text);
+		list_button.setText(text);
 	}
 
 	public String getText() {
-		return feedback_button.getText();
+		return list_button.getText();
 	}
 
 

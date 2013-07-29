@@ -204,7 +204,7 @@
 		</g:Cell>
 		<g:Cell><!-- Tabknöpfe -->
 			<g:HorizontalPanel>
-				<g:Button ui:field="tabButtonDescription">Beschreibung</g:Button>
+				<g:Button ui:field="tabButtonDescription">Übersicht</g:Button>
 				<g:Button ui:field="tabButtonPhotos">Bilder</g:Button>
 				<g:Button ui:field="tabButtonComments">Diskussion</g:Button>
 			</g:HorizontalPanel>

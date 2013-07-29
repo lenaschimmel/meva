@@ -59,6 +59,7 @@ public class Feedback_PopUp extends Composite implements HasText {
 	void onClick(ClickEvent e) {
 		this.setVisible(false);
 		feedback_Button.setVisible(true);
+
 	}
 	
 	@UiHandler("sendButton")

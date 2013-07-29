@@ -9,19 +9,19 @@
 	<ui:style>
 		.button {
 		position: absolute;
-		left: 0px;
+		right: 0px;
 		top: 310px;
 		cursor: pointer;
 		}
 
 	</ui:style>
 	<g:HTMLPanel>
-		<g:PushButton styleName="{style.button}" ui:field="feedback_button"
-			width="50px" title="Wir freuen uns über Ihr Feedback">
-			<g:upFace image='{resources.feedback}' />
-			<g:downFace image='{resources.feedback}' />
-			<g:upHoveringFace image='{resources.feedback_hover}' />
-			<g:downHoveringFace image='{resources.feedback}' />
+		<g:PushButton styleName="{style.button}" ui:field="list_button"
+			width="40px" title="Wir freuen uns über Ihr Feedback">
+			<g:upFace image='{resources.list1}' />
+			<g:downFace image='{resources.list1}' />
+			<g:upHoveringFace image='{resources.list1}' />
+			<g:downHoveringFace image='{resources.list1}' />
 		</g:PushButton>
 	</g:HTMLPanel>
 </ui:UiBinder> 

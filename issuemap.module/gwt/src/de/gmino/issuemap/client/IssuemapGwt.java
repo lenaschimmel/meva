@@ -41,6 +41,7 @@ import de.gmino.issuemap.client.view.Feedback_Button;
 import de.gmino.issuemap.client.view.Feedback_PopUp;
 import de.gmino.issuemap.client.view.Footer;
 import de.gmino.issuemap.client.view.Header;
+import de.gmino.issuemap.client.view.IssueList_PopUp;
 import de.gmino.meva.client.UtilClient;
 import de.gmino.meva.client.request.NetworkRequestsImplAsyncJson;
 import de.gmino.meva.shared.EntityFactory;
@@ -71,20 +72,34 @@ public class IssuemapGwt implements EntryPoint {
 		}
 
 	}
+		
+		public static int compareLong(long l1, long l2)
+		{
+			return (l1 < l2) ? -1 : ((l1 == l2) ? 0 : 1);
+		}
 
 		private final class IssueLatitudeComparator implements Comparator<Issue> {
-		@Override
-		public int compare(Issue i1, Issue i2) {
-			int latitudeComparision = -Double.compare(i1.getLocation()
-					.getLatitude(), i2.getLocation().getLatitude());
-			if (latitudeComparision != 0)
-				return latitudeComparision;
-			else
-				return (i1.getId() < i2.getId()) ? -1 : ((i1.getId() == i2
-						.getId()) ? 0 : 1); // Long.compare(i1.getId(),
-											// i2.getId());
+			@Override
+			public int compare(Issue i1, Issue i2) {
+				int latitudeComparision = -Double.compare(i1.getLocation()
+						.getLatitude(), i2.getLocation().getLatitude());
+				if (latitudeComparision != 0)
+					return latitudeComparision;
+				else
+					return compareLong(i1.getId(), i2.getId());
+			}
 		}
-	}
+
+		private final class IssueRatingComparator implements Comparator<Issue> {
+			@Override
+			public int compare(Issue i1, Issue i2) {
+				int ratingComparision = -compareLong(i1.getRating(), i2.getRating());
+				if (ratingComparision != 0)
+					return ratingComparision;
+				else
+					return compareLong(i1.getId(), i2.getId());
+			}
+		}
 
 	/**
 	 * The message displayed to the user when the server cannot be reached or
@@ -105,6 +120,8 @@ public class IssuemapGwt implements EntryPoint {
 	int counter = 0;
 
 	private static IssuemapGwt instance;
+
+	private IssueIconRenderer issueRenderer;
 
 	public IssuemapGwt() {
 		if (instance != null)
@@ -132,7 +149,8 @@ public class IssuemapGwt implements EntryPoint {
 		mapView = new OpenLayersMapView("map", "mapquest");
 		markerLayer = mapView.newSmartLayer("Issues");
 		mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);
-		markerLayer.addMarkerIconRenderer(Issue.type, new IssueIconRenderer());
+		issueRenderer = new IssueIconRenderer();
+		markerLayer.addMarkerIconRenderer(Issue.type, issueRenderer);
 
 		if (subdomain.equals("zgb")) {
 			// TODO improves performance to load it first, but listener is not yet adjusted to wait for it.
@@ -294,20 +312,36 @@ public class IssuemapGwt implements EntryPoint {
 			public void onFinished(Collection<Issue> results) {
 				Scheduler scheduler = Scheduler.get();
 				
-				Comparator<Issue> compare = new IssueLatitudeComparator();
-				TreeSet<Issue> sortedIssues = new TreeSet<Issue>(compare);
-				sortedIssues.addAll(results);
+				Comparator<Issue> latitudeCompare = new IssueLatitudeComparator();
+				TreeSet<Issue> latitudeSortedIssues = new TreeSet<Issue>(latitudeCompare);
+				latitudeSortedIssues.addAll(results);
 				
-				final ArrayList<Issue> filteredIssues = new ArrayList<Issue>();
-				for (final Issue i : sortedIssues) {
+				Comparator<Issue> ratingCompare = new IssueRatingComparator();
+				TreeSet<Issue> ratingSortedIssues = new TreeSet<Issue>(ratingCompare);
+				ratingSortedIssues.addAll(results);
+				
+				final ArrayList<Issue> filteredLatitudeIssues = new ArrayList<Issue>();
+				for (final Issue i : latitudeSortedIssues) {
 					if (!i.isDeleted())
-						filteredIssues.add(i);					
+						filteredLatitudeIssues.add(i);					
 				}
-				scheduler.scheduleIncremental(new AddIssuesCommand(filteredIssues));
+				scheduler.scheduleIncremental(new AddIssuesCommand(filteredLatitudeIssues));
 				
-				counter = filteredIssues.size();
+				int count = 0;
+				final ArrayList<Issue> filteredRatingIssues = new ArrayList<Issue>();
+				for (final Issue i : ratingSortedIssues) {
+					if (!i.isDeleted())
+						filteredRatingIssues.add(i);
+					if(count++ > 30)
+						break;
+				}
+				
+				
+				counter = filteredLatitudeIssues.size();
 				setCounter();
 				counter = 0; // will be incremented by the deferred command and we dont want to count everything twice.
+				
+				addList(filteredRatingIssues);
 			}
 
 		});
@@ -324,6 +358,13 @@ public class IssuemapGwt implements EntryPoint {
 		RootPanel.get("feedback").add(feedback);
 		
 	}
+	
+	public void addList(ArrayList<Issue> data){
+		IssueList_PopUp list = new IssueList_PopUp(mapObject, data, issueRenderer);
+		RootPanel.get("feedback").add(list);
+		
+	}
+	
 
 	public Map getMap()
 	{

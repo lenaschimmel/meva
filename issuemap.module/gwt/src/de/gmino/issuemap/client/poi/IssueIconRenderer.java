@@ -59,23 +59,24 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		final ImageElement face = ImageElement.as(img.getElement());
 		con.drawImage(face, 0, 0, imageWidth, imageHeight);
 		
-		int rating = issue.getRating();
-		//int commentCount = issue.getComments().size();
-		if(rating != 0)
+		//int rating = issue.getRating();
+		int commentCount = issue.getComments().size();
+		if(commentCount != 0)
 		{
 			con.setLineWidth(1.5);
 			con.setStrokeStyle("#000");
-			if(rating > 0)
-				con.setFillStyle("#0F0");
-			else
-				con.setFillStyle("#F00");
+//			if(rating > 0)
+//				con.setFillStyle("#0F0");
+//			else
+//				con.setFillStyle("#F00");
+			con.setFillStyle("#FF0");
 			con.beginPath();
 			con.arc(x+w*0.85,y+w*0.15,w*0.25,0,Math.PI*2);
 			con.fill();
 			con.stroke();
 			con.setFillStyle("#000");
-			String countText = ""+rating;
-			if(rating > 9)
+			String countText = ""+commentCount;
+			if(commentCount > 9)
 				countText = "+";
 			con.setFont("9px sans-serif");
 			con.fillText(countText, x+w*0.725, y+w*0.3);
