@@ -25,6 +25,12 @@
 			 white-space: nowrap;
 			 width: 16em;
 		}
+		
+		.rating{
+			font-size: large;
+			margin: 8px;
+			font-weight: bolder;
+}
 	</ui:style>
 	<g:FocusPanel ui:field="focusPanel">
 		<g:HorizontalPanel styleName="{style.parent}">
@@ -42,6 +48,7 @@
 					</g:HorizontalPanel>
 				</g:VerticalPanel>
 			</g:cell>
+			<g:cell><g:Label ui:field="rating" styleName="{style.rating}"></g:Label></g:cell>
 		</g:HorizontalPanel>
 	</g:FocusPanel>
 </ui:UiBinder> 

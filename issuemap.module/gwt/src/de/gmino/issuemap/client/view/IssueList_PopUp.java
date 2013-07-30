@@ -7,6 +7,7 @@ import org.mortbay.log.Log;
 
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -49,32 +50,33 @@ public class IssueList_PopUp extends Composite implements HasText {
 	public IssueList_PopUp(Map mapObject, ArrayList<Issue> data, IssueIconRenderer issueRenderer, OpenLayersSmartLayer layer) {
 		initWidget(uiBinder.createAndBindUi(this));
 		listButton = new List_Button(this);
-		RootPanel.get("feedback").add(listButton);
+		RootPanel.get("list").add(listButton);
 		listButton.setVisible(false);
 		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
 	
 	    
-	    for (Issue i : data)	    parent.add(new IssueList_Item(i, issueRenderer, layer));
+	    for (Issue i : data)	    IssueItemsPanel.add(new IssueList_Item(i, issueRenderer, layer));
+
 
 
 	}
 
-	@UiField
-	Image close;
+//	@UiField
+//	Image close;
 	@UiField
 	Label title;
 	@UiField
-	VerticalPanel parent;
+	VerticalPanel IssueItemsPanel;
 	
 
 
 
 
-	@UiHandler("close")
-	void onClick(ClickEvent e) {
-		this.setVisible(false);
-		listButton.setVisible(true);
-	}
+//	@UiHandler("close")
+//	void onClick(ClickEvent e) {
+//		this.setVisible(false);
+//		listButton.setVisible(true);
+//	}
 
 
 	public void setText(String text) {

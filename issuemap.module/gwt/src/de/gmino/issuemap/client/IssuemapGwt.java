@@ -365,7 +365,8 @@ public class IssuemapGwt implements EntryPoint {
 	
 	public void addList(ArrayList<Issue> data){
 		IssueList_PopUp list = new IssueList_PopUp(mapObject, data, issueRenderer, markerLayer);
-		RootPanel.get("feedback").add(list);
+		RootPanel.get("list").add(list);
+
 		
 	}
 	
