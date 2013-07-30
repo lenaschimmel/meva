@@ -12,9 +12,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
-import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.poi.IssueIconRenderer;
 
@@ -23,7 +21,7 @@ public class IssueList_Item extends Composite {
 	private static IssueList_ItemUiBinder uiBinder = GWT
 			.create(IssueList_ItemUiBinder.class);
 	
-	static DateTimeFormat dtf = DateTimeFormat.getFormat("dd.MM.yyyy hh:mm");
+	static DateTimeFormat dtf = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm");
 
 	interface IssueList_ItemUiBinder extends UiBinder<Widget, IssueList_Item> {
 	}
@@ -44,8 +42,6 @@ public class IssueList_Item extends Composite {
 		
 		String iconUrl = renderer.getIconUrl(issue);
 		imageMarkerIcon.setUrl(iconUrl);
-		
-		
 	}
 
 	@UiField

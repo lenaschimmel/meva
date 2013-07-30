@@ -27,13 +27,12 @@
 		
 		.lbTitle {
 			color: #FFF;
-			font-size: 130%;
 			font-weight: bold;
+			font-size: medium;
+			overflow: hidden;
+			text-overflow: ellipsis;
 			white-space: nowrap;
-			width: auto;
-    		height: 100%;	
-    		line-height: 33px;
-    		padding-left: 10px;
+			width: 305px;
 		}
 		
 		.divider {
@@ -101,7 +100,7 @@
 			cursor: pointer;
 			background-color: #000;
 			height: 100%;
-			width: 30px;
+			width: 40px;
 		}
 
 		.topButton:hover {
@@ -165,34 +164,51 @@
 		}
 
 		.lbRating {
-			line-height: 33px;
+			line-height: 47px;
 			width: 100%;
 			text-align: center;
 			font-size: 130%;
 		}
+
+		.dualTextPanel {
+			margin-left: 2px;
+    		margin-top: 7px;
+		}
+
+		.imageMarkerIcon {
+			margin: 5px;
+		}
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
 		<g:Cell><!-- Kopfbereich a.k.a. Mouseover -->
-			<g:HorizontalPanel width="100%" height="33px" styleName="{style.upperBar}">
-				<g:cell width="40px" height="100%">
-					<g:Image ui:field="imageMarkerIcon" height="30px"></g:Image>
+		     <g:HorizontalPanel width="100%" height="33px" styleName="{style.upperBar}">
+				<g:cell width="40px">
+					<g:Image ui:field="imageMarkerIcon" styleName="{style.imageMarkerIcon}>
+		
+					</g:Image>
 				</g:cell>
-				<g:cell width="100%" height="100%">
-					<g:Label ui:field="labelTitle" styleName="{style.lbTitle}"></g:Label>
+				<g:cell width="100%">
+					<g:VerticalPanel styleName="{style.dualTextPanel}" >
+						<g:Label ui:field="lbTitle" styleName="{style.lbTitle}"></g:Label>
+						<g:HorizontalPanel>
+							<g:Label ui:field="type"></g:Label>
+							<g:Label ui:field="date"></g:Label>
+						</g:HorizontalPanel>
+					</g:VerticalPanel>
 				</g:cell>
-				<g:cell height="100%">
+				<g:cell height="100%" width="40px">
 					<g:FocusPanel styleName="{style.topButton}" ui:field="tbRating" title="Rating vergeben"><g:Label ui:field="lbRating" styleName="{style.lbRating}">?</g:Label></g:FocusPanel>
 				</g:cell>
-				<g:cell height="100%">
+				<g:cell height="100%" width="40px">
 					<g:FocusPanel styleName="{style.topButton} {style.tbResolved}" ui:field="tbResolved" title="Als erledigt markieren"></g:FocusPanel>
 				</g:cell>
-				<g:cell height="100%">
+				<g:cell height="100%" width="40px">
 					<g:FocusPanel styleName="{style.topButton} {style.tbEdit}" ui:field="tbEdit" title="Informationen bearbeiten"></g:FocusPanel>
 				</g:cell>
-				<g:cell height="100%">
+				<g:cell height="100%" width="40px">
 					<g:FocusPanel styleName="{style.topButton} {style.tbOpen}" ui:field="tbOpen" title="Popup öffnen"></g:FocusPanel>
 				</g:cell>
-				<g:cell height="100%">
+				<g:cell height="100%" width="40px">
 					<g:FocusPanel styleName="{style.topButton} {style.tbClose}" ui:field="tbClose" title="Popup schließen"></g:FocusPanel>
 				</g:cell>
 			</g:HorizontalPanel>
@@ -213,8 +229,6 @@
 					height="300px"><!-- Description -->
 					<g:VerticalPanel>
 						<g:HTML ui:field="description" styleName="{style.description_label}"></g:HTML>
-						<g:Label ui:field="type"></g:Label>
-						<g:Label ui:field="date"></g:Label>
 						<g:cell width="40px">
 						<g:VerticalPanel>
 							<g:HorizontalPanel ui:field="panelRating"

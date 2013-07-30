@@ -122,11 +122,14 @@ public class ShowIssue_PopUp extends Composite {
 		this.mWrapper = marker_Wrapper;
 //		setBoarderColor(map.getColor());
 
-		date.setText(", vom " + dtf.format(mIssue.getCreationTimestamp().toDate()));
+		date.setText(", " + issue.getCreationTimestamp().relativeToNow().toReadableString(true,1));
+		date.setTitle(dtf.format(issue.getCreationTimestamp().toDate()));
+		
 		type.setText(mIssue.getMarkertype().getMarkerName());
 // TODO		resolved.setValue(mIssue.isResolved());
 		setRatingText();
-		labelTitle.setText(mIssue.getTitle());
+		lbTitle.setText(mIssue.getTitle());
+		lbTitle.setTitle(mIssue.getTitle());
 		description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mIssue.getDescription()).toSafeHtml());
 		
 		//mIssue.vote=0;
@@ -193,7 +196,7 @@ public class ShowIssue_PopUp extends Composite {
 	}
 
 	@UiField
-	Label labelTitle;
+	Label lbTitle;
 	
 	@UiField
 	FocusPanel tbResolved;
@@ -454,7 +457,7 @@ public class ShowIssue_PopUp extends Composite {
 
 	public void setText(String titleString, String descriptionString) {
 		description.setText(descriptionString);
-		labelTitle.setText(titleString);
+		lbTitle.setText(titleString);
 	}
 
 	public void setBoarderColor(String color) {
