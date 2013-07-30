@@ -5,7 +5,7 @@
 	<ui:with field="resources"
 		type="de.gmino.issuemap.client.resources.ImageResources" />
 
-	<ui:style>
+	<ui:style type="de.gmino.issuemap.client.view.ShowIssue_PopUp.Style">
 		.important {
 			font-weight: bold;
 		}
@@ -96,14 +96,25 @@
 
 		.topButton {
 			color: #FFF;
-			/*border-left: 1px solid #CCC;*/
 			cursor: pointer;
 			background-color: #000;
 			height: 100%;
 			width: 40px;
 		}
 
+		.wideTopButton {
+			color: #FFF;
+			cursor: pointer;
+			background-color: #000;
+			height: 100%;
+			width: 60px;
+		}
+
 		.topButton:hover {
+			background-color: #333;
+		}
+
+		.wideTopButton:hover {
 			background-color: #333;
 		}
 
@@ -187,6 +198,14 @@
     		height: 21px;
 			width: 1px;
 		}
+
+		.mainArea {
+			padding: 5px;
+		}
+
+		.underline {
+			border-bottom: 4px solid #4DADDE;
+		}
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
 		<g:Cell><!-- Kopfbereich a.k.a. Mouseover -->
@@ -205,6 +224,23 @@
 						</g:HorizontalPanel>
 					</g:VerticalPanel>
 				</g:cell>
+				<g:cell height="100%" width="60px">
+					<g:FocusPanel styleName="{style.wideTopButton}" ui:field="tbRatingUp" title="Rating um 1 erhöhen">
+					    <g:HorizontalPanel>
+					    	<g:Image resource="{resources.go_up}" styleName="{style.rateButton}" ui:field="rate_up" />
+					    	<g:Label ui:field="lbRatingUpCount" styleName="{style.lbRating}">x ?</g:Label>
+					    </g:HorizontalPanel>
+					</g:FocusPanel>
+				</g:cell>
+				<g:cell height="100%" width="60px">
+					<g:FocusPanel styleName="{style.wideTopButton}" ui:field="tbRatingDown" title="Rating um 1 senken">
+					    <g:HorizontalPanel>
+					    	<g:Image resource="{resources.go_down}" styleName="{style.rateButton}" ui:field="rate_down" />
+					    	<g:Label ui:field="lbRatingDownCount" styleName="{style.lbRating}">x ?</g:Label>
+					    </g:HorizontalPanel>
+					</g:FocusPanel>
+				</g:cell>
+				
 				<g:cell height="100%" width="40px">
 					<g:FocusPanel styleName="{style.topButton}" ui:field="tbRating" title="Rating vergeben"><g:Label ui:field="lbRating" styleName="{style.lbRating}">?</g:Label></g:FocusPanel>
 				</g:cell>
@@ -236,24 +272,11 @@
 			</g:HorizontalPanel>
 		</g:Cell>
 		<g:Cell><!-- Haubtbereich mit Tabinhalten -->
-			<g:DeckPanel ui:field="deckPanel">
+			<g:DeckPanel ui:field="deckPanel" styleName="{style.mainArea}">
 				<g:ScrollPanel ui:field="tabDescription" width="550px"
 					height="300px"><!-- Description -->
 					<g:VerticalPanel>
 						<g:HTML ui:field="description" styleName="{style.description_label}"></g:HTML>
-						<g:cell width="40px">
-						<g:VerticalPanel>
-							<g:HorizontalPanel ui:field="panelRating"
-								title="3 positive Bewertungen, 2 negative.">
-								<g:Image resource="{resources.go_up}" styleName="{style.rateButton}"
-									ui:field="rate_up" />
-								<g:Label styleName="{style.meta_label}" text="+3"
-									ui:field="rating"></g:Label>
-								<g:Image resource="{resources.go_down}" styleName="{style.rateButton}"
-									ui:field="rate_down" />
-							</g:HorizontalPanel>
-						</g:VerticalPanel>
-					</g:cell>
 					</g:VerticalPanel>
 				</g:ScrollPanel>
 				<g:ScrollPanel ui:field="tabPhotos" width="550px"

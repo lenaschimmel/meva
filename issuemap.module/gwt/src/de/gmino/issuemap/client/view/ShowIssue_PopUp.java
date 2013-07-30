@@ -10,6 +10,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -106,6 +107,13 @@ public class ShowIssue_PopUp extends Composite {
 
 	interface Detail_PopUpUiBinder extends UiBinder<Widget, ShowIssue_PopUp> {
 	}
+	
+	interface Style extends CssResource {
+		String underline();
+	}
+	
+	@UiField
+	Style style;
 
 	Map mapObject;
 	OpenLayersSmartLayer smartLayer;
@@ -126,7 +134,7 @@ public class ShowIssue_PopUp extends Composite {
 		date.setTitle(dtf.format(issue.getCreationTimestamp().toDate()));
 		
 		type.setText(mIssue.getMarkertype().getMarkerName());
-// TODO		resolved.setValue(mIssue.isResolved());
+		tbResolved.setStyleName(style.underline(), mIssue.isResolved());
 		setRatingText();
 		lbTitle.setText(mIssue.getTitle());
 		lbTitle.setTitle(mIssue.getTitle());
@@ -204,14 +212,16 @@ public class ShowIssue_PopUp extends Composite {
 	FocusPanel tbClose;
 	@UiField
 	FocusPanel tbEdit;
-//	@UiField
-//	FocusPanel tbOpen;
+	@UiField
+	FocusPanel tbRatingDown;
+	@UiField
+	FocusPanel tbRatingUp;
 	@UiField 
 	Label lbRating;
 	
 	
-	@UiField
-	Label rating;
+//	@UiField
+//	Label rating;
 	@UiField
 	Image rate_up;
 	@UiField
@@ -242,8 +252,8 @@ public class ShowIssue_PopUp extends Composite {
 	FileUpload fileupload;
 	@UiField
 	FormPanel form;
-	@UiField
-	HorizontalPanel panelRating;
+//	@UiField
+//	HorizontalPanel panelRating;
 	
 	@UiField
 	DeckPanel deckPanel;
@@ -261,11 +271,11 @@ public class ShowIssue_PopUp extends Composite {
 	@UiField 
 	Button tabButtonComments;
 	
-//	@UiField
-//	Label labelPhotoCount;
-//	@UiField
-//	Label labelCommentCount;
-//	
+	@UiField
+	Label lbRatingUpCount;
+	@UiField
+	Label lbRatingDownCount;
+	
 	@UiField
 	Image imageMarkerIcon;
 	
@@ -362,11 +372,12 @@ public class ShowIssue_PopUp extends Composite {
 //
 //	}
 
-//	@UiHandler("resolved")
-//	void onCheckbox(ClickEvent e) {
-//// TODO		mIssue.setResolved(resolved.getValue());
-//		updateIcon();
-//	}
+	@UiHandler("tbResolved")
+	void onCheckbox(ClickEvent e) {
+		mIssue.setResolved(!mIssue.isResolved());
+		tbResolved.setStyleName(style.underline(), mIssue.isResolved());
+		updateIcon();
+	}
 
 	private void updateIcon() {
 		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mIssue);
@@ -376,18 +387,6 @@ public class ShowIssue_PopUp extends Composite {
 		smartLayer.updatePoi(mIssue);
 	}
 
-	@UiHandler("rate_up")
-	void onRateUp(ClickEvent e) {
-		if(mIssue.vote == 1)
-			mIssue.changeRating(0);
-		else
-			mIssue.changeRating(1);
-		
-		Requests.saveEntity(mIssue, null);
-		updateButtonColorsAndLabels();
-		updateIcon();
-	}
-	
 	@UiHandler("uploadButton")
 	void onUpload(ClickEvent e) {
 		if(fileupload.getFilename() != null && fileupload.getFilename().length() > 0)
@@ -420,7 +419,21 @@ public class ShowIssue_PopUp extends Composite {
 		});
 	}
 	
-	@UiHandler("rate_down")
+
+	@UiHandler("tbRatingUp")
+	void onRateUp(ClickEvent e) {
+		if(mIssue.vote == 1)
+			mIssue.changeRating(0);
+		else
+			mIssue.changeRating(1);
+		
+		Requests.saveEntity(mIssue, null);
+		updateButtonColorsAndLabels();
+		updateIcon();
+	}
+	
+	
+	@UiHandler("tbRatingDown")
 	void onRateDown(ClickEvent e) {
 		if(mIssue.vote == -1)
 			mIssue.changeRating(0);
@@ -434,13 +447,22 @@ public class ShowIssue_PopUp extends Composite {
 
 	private void updateButtonColorsAndLabels() {
 		if (mIssue.vote >= 1)
-			rate_up.setResource(imageRes.go_up());
+			tbRatingUp.setStyleName(style.underline(), true);
 		if (mIssue.vote >= 0)
-			rate_down.setResource(imageRes.go_down_grey());
+			tbRatingDown.setStyleName(style.underline(), false);
 		if (mIssue.vote <= -1)
-			rate_down.setResource(imageRes.go_down());
+			tbRatingDown.setStyleName(style.underline(), true);
 		if (mIssue.vote <= 0)
-			rate_up.setResource(imageRes.go_up_grey());
+			tbRatingUp.setStyleName(style.underline(), false);
+		
+//		if (mIssue.vote >= 1)
+//				rate_up.setResource(imageRes.go_up());
+//		if (mIssue.vote >= 0)
+//			rate_down.setResource(imageRes.go_down_grey());
+//		if (mIssue.vote <= -1)
+//			rate_down.setResource(imageRes.go_down());
+//		if (mIssue.vote <= 0)
+//			rate_up.setResource(imageRes.go_up_grey());
 		setRatingText();
 	}
 
@@ -448,11 +470,11 @@ public class ShowIssue_PopUp extends Composite {
 		String ratingText = "" + (mIssue.getRating());
 		if(mIssue.getRating() > 0)
 			ratingText = "+" + ratingText;
-		rating.setText(ratingText);
 		lbRating.setText(ratingText);
 		int upVotes = (mIssue.getNumber_of_rating() + mIssue.getRating()) / 2;
 		int downVotes = (mIssue.getNumber_of_rating() - mIssue.getRating()) / 2;
-		panelRating.setTitle(upVotes + " positive Bewertungen, " + downVotes + " negative.");
+		lbRatingUpCount.setText("x" + upVotes);
+		lbRatingDownCount.setText("x" + downVotes);
 	}
 
 	public void setText(String titleString, String descriptionString) {

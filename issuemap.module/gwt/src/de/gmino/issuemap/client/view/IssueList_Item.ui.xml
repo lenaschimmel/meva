@@ -30,7 +30,7 @@
 			font-size: large;
 			margin: 8px;
 			font-weight: bolder;
-}
+		}
 	</ui:style>
 	<g:FocusPanel ui:field="focusPanel">
 		<g:HorizontalPanel styleName="{style.parent}">
