@@ -146,5 +146,12 @@ public interface ImageResources extends ClientBundle {
 	@Source("img/feedback_hover.png")
 	ImageResource feedback_hover();
 
-
+	@Source("img/feedback_close.png")
+	ImageResource feedback_close();
+	
+	@Source("img/list.png")
+	ImageResource list1();
+	
+	@Source("img/list_close.png")
+	ImageResource list_close();
 }

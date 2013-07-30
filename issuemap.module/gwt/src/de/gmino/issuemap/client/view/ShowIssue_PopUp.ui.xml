@@ -204,7 +204,7 @@
 				<g:cell width="25%"><g:Button styleName="{style.tabButton}" ui:field="tabButtonComments">Kommentare</g:Button></g:cell>
 				<g:cell width="25%" height="100%">
 					<g:Label></g:Label>
-				</g:cell>
+				</g:cell> 
 			</g:HorizontalPanel>
 		</g:Cell>
 		<g:Cell><!-- Haubtbereich mit Tabinhalten -->

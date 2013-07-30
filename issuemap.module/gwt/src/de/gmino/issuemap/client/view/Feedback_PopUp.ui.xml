@@ -9,9 +9,9 @@
 		.parent {
 			width: 322px;
 			height: 355px;
-			background: rgba(20, 20, 20, 0.8);
+			background: rgba(0, 0, 0, 0.8);
 			position: absolute;
-			top: 200px;
+			top: 160px;
 			left: -0px;
 			border-top-right-radius: 4px;
 			border-bottom-right-radius: 4px;
@@ -77,14 +77,14 @@
 		
 		.closeButton {
 			position: absolute;
-			top: -10px;
-			right: -10px;
+			top: 150px;
+			right: -13px;
 			cursor: pointer;
 		}
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
 		<g:Label ui:field="title" styleName="{style.title_label}">Geben Sie uns Feedback</g:Label>
-		<g:Image resource="{resources.close}" ui:field="close"
+		<g:Image resource="{resources.feedback_close}" ui:field="close"
 			styleName="{style.closeButton}"></g:Image>
 		<g:ListBox styleName="{style.listbox}" ui:field="typebox">
 			<g:item value='0'>

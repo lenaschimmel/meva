@@ -22,19 +22,20 @@ import de.gmino.meva.shared.request.Requests;
 
 public class Feedback_PopUp extends Composite implements HasText {
 
-	private static Info_PopUpUiBinder uiBinder = GWT
-			.create(Info_PopUpUiBinder.class);
-
+	private static Feedback_PopUpUiBinder uiBinder = GWT
+			.create(Feedback_PopUpUiBinder.class);
+	public Feedback_Button feedback_Button;
 	
-	interface Info_PopUpUiBinder extends UiBinder<Widget, Feedback_PopUp> {
+	interface Feedback_PopUpUiBinder extends UiBinder<Widget, Feedback_PopUp> {
 	}
 
-	public Feedback_PopUp(Map mapObject) {
+	public Feedback_PopUp(Map mapObject, Feedback_Button feedback_Button) {
 		initWidget(uiBinder.createAndBindUi(this));
 		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
 		message.getElement().setAttribute("placeholder", "Geben Sie hier Ihre Nachricht ein");
 		email.getElement().setAttribute("placeholder", "Ihre Email-Adresse (optional)");
 		typebox.setItemText(1, 	"Feedback an: " + mapObject.getPostal_address().getRecipientName());
+		this.feedback_Button=feedback_Button;
 	}
 
 	@UiField
@@ -56,8 +57,9 @@ public class Feedback_PopUp extends Composite implements HasText {
 
 	@UiHandler("close")
 	void onClick(ClickEvent e) {
-		this.removeFromParent();
-		IssuemapGwt.getInstance().addFeedback_Button();
+		this.setVisible(false);
+		feedback_Button.setVisible(true);
+
 	}
 	
 	@UiHandler("sendButton")

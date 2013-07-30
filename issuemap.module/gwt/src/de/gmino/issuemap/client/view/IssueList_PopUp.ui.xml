@@ -1,0 +1,53 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+	<ui:with field="resources"
+		type="de.gmino.issuemap.client.resources.ImageResources" />
+
+	<ui:style>
+		.parent {
+			width: 300px;
+			background: rgba(0, 0, 0, 0.8);
+			position: absolute;
+			top: 90px;
+			right: 0px;
+			bottom: 90px;
+			border-top-left-radius: 4px;
+			border-bottom-left-radius: 4px;
+		}
+		
+		.content {
+			padding: 10px;
+		}
+		
+		.title_label {
+			color: #FFF;
+			text-align: center;
+			font-weight: bold;
+			font-size: larger;
+			padding: 10px;
+			white-space: nowrap;
+			width: auto;
+		}
+		
+		.divider {
+			color: #FFF;
+			text-align: center;
+		}
+
+		
+		.closeButton {
+			position: absolute;
+			top: 150px;
+			left: -13px;
+			cursor: pointer;
+		}
+	</ui:style>
+	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
+		<g:Label ui:field="title" styleName="{style.title_label}">Die wichtigsten Punkte</g:Label>
+		<g:Image resource="{resources.list_close}" ui:field="close"
+			styleName="{style.closeButton}"></g:Image>
+		
+	</g:VerticalPanel>
+</ui:UiBinder> 

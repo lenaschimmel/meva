@@ -61,14 +61,45 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		
 		con.drawImage(mapiconImg, 0, 0, imageWidth, imageHeight);
 		
-		//int rating = issue.getRating();
-		
-		if(issue.getComments().size() > 0)
-			con.drawImage(bubbleImg, imageWidth * 0.0, 0, imageWidth * 0.4, imageHeight * 0.4);
-		if(issue.getPhotos().size() > 0)
-			con.drawImage(cameraImg, imageWidth * 0.6, 0, imageWidth * 0.4, imageHeight * 0.4);
-		
-		
+		int rating = issue.getRating();
+		//int commentCount = issue.getComments().size();
+		if(rating != 0)
+		{
+			con.setLineWidth(1.5);
+			con.setStrokeStyle("#000");
+			if(rating > 0)
+				con.setFillStyle("#0F0");
+			else
+				con.setFillStyle("#F00");
+			con.beginPath();
+			con.arc(x+w*0.85,y+w*0.15,w*0.25,0,Math.PI*2);
+			con.fill();
+			con.stroke();
+			con.setFillStyle("#000");
+			String countText = ""+rating;
+			if(rating > 9)
+				countText = "+";
+			con.setFont("9px sans-serif");
+			con.fillText(countText, x+w*0.725, y+w*0.3);
+		}
+
+//		int commentCount = issue.getComments().size();
+//		if(commentCount != 0)
+//		{
+//			con.setLineWidth(1.5);
+//			con.setStrokeStyle("#000");
+//			con.setFillStyle("#FF0");
+//			con.beginPath();
+//			con.arc(x+w*0.85,y+w*0.15,w*0.25,0,Math.PI*2);
+//			con.fill();
+//			con.stroke();
+//			con.setFillStyle("#000");
+//			String countText = ""+commentCount;
+//			if(commentCount > 9)
+//				countText = "+";
+//			con.setFont("9px sans-serif");
+//			con.fillText(countText, x+w*0.725, y+w*0.3);
+//		}
 	}
 
 	private String getColor(Issue issue, String markerName, long markerId) {

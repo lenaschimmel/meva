@@ -1,0 +1,47 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	
+	<ui:with field="resources"
+		type="de.gmino.issuemap.client.resources.ImageResources" />
+
+
+	<ui:style>
+	
+			.parent {
+			margin-left: 10px;
+			margin-bottom: 10px;
+			margin-right: 5px;
+			color: #fff;
+			cursor: pointer;
+		}
+		
+		.title_label {
+			color: #FFF;
+			font-weight: bold;
+			font-size: medium;
+			 overflow: hidden;
+			 text-overflow: ellipsis;
+			 white-space: nowrap;
+			 width: 16em;
+		}
+	</ui:style>
+	<g:FocusPanel ui:field="focusPanel">
+		<g:HorizontalPanel styleName="{style.parent}">
+			<g:cell width="40px">
+				<g:Image ui:field="imageMarkerIcon">
+	
+				</g:Image>
+			</g:cell>
+			<g:cell>
+				<g:VerticalPanel>
+					<g:Label ui:field="labelTitle" styleName="{style.title_label}"></g:Label>
+					<g:HorizontalPanel>
+						<g:Label ui:field="type"></g:Label>
+						<g:Label ui:field="date"></g:Label>
+					</g:HorizontalPanel>
+				</g:VerticalPanel>
+			</g:cell>
+		</g:HorizontalPanel>
+	</g:FocusPanel>
+</ui:UiBinder> 
