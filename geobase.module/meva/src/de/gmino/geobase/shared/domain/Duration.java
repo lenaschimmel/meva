@@ -53,7 +53,8 @@ public class Duration extends DurationGen {
 	
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	
-	public String toReadableString(boolean relative) {
+	public String toReadableString(boolean relative, int maxParts) 
+	{
 		//long now = System.currentTimeMillis();
 		long diff = milliseconds; // - now;
 		if (diff == 0)
@@ -78,54 +79,63 @@ public class Duration extends DurationGen {
 		if (months > 0)
 			parts.add(months + ((months == 1) ? " Monat" : (relative ? " Monaten" : " Monate")));
 
-		if (parts.size() > 1)
-			return ret + concatParts(parts);
+		if (parts.size() > maxParts)
+			return ret + concatParts(parts, maxParts);
 
 		long weeks = diff / WEEK;
 		diff -= weeks * WEEK;
 		if (weeks > 0)
 			parts.add(weeks + ((weeks == 1) ? " Woche" : " Wochen"));
 
-		if (parts.size() > 1)
-			return ret + concatParts(parts);
+		if (parts.size() > maxParts)
+			return ret + concatParts(parts, maxParts);
 
 		long days = diff / DAY;
 		diff -= days * DAY;
 		if (days > 0)
 			parts.add(days + ((days == 1) ? " Tag" : (relative ? " Tagen" : " Tage")));
 
-		if (parts.size() > 1)
-			return ret + concatParts(parts);
+		if (parts.size() > maxParts)
+			return ret + concatParts(parts, maxParts);
 
 		long hours = diff / HOUR;
 		diff -= hours * HOUR;
 		if (hours > 0)
 			parts.add(hours + ((hours == 1) ? " Stunde" : " Stunden"));
 
-		if (parts.size() > 1)
-			return ret + concatParts(parts);
+		if (parts.size() > maxParts)
+			return ret + concatParts(parts, maxParts);
 
 		long minutes = diff / MINUTE;
 		diff -= minutes * MINUTE;
 		if (minutes > 0)
 			parts.add(minutes + ((minutes == 1) ? " Minute" : " Minuten"));
 
-		if (parts.size() > 1)
-			return ret + concatParts(parts);
+		if (parts.size() > maxParts)
+			return ret + concatParts(parts, maxParts);
 
 		long seconds = diff / SECOND;
 		diff -= seconds * SECOND;
 		if (seconds > 0)
 			parts.add(seconds + ((seconds == 1) ? " Sekunde" : " Sekunden"));
 
-		return ret + concatParts(parts);
+		return ret + concatParts(parts, maxParts);
 	}
 	
-	private String concatParts(LinkedList<String> parts) {
-		if (parts.size() == 1)
-			return parts.getFirst();
-		else
-			return parts.getFirst() + " und " + parts.getLast();
-
+	private String concatParts(LinkedList<String> parts, int maxParts) {
+		String ret = "";
+		int until = Math.min(maxParts, parts.size());
+		for(int i = 0; i < until; i++)
+		{
+			if(i > 0)
+			{
+				if(i == until - 1)
+					ret += " und ";
+				else
+					ret += ", ";
+			}
+			ret += parts.get(i);
+		}
+		return ret;
 	}
 }
