@@ -107,7 +107,7 @@
 			cursor: pointer;
 			background-color: #000;
 			height: 100%;
-			width: 60px;
+			width: 40px;
 		}
 
 		.topButton:hover {
@@ -181,6 +181,12 @@
 			font-size: 130%;
 		}
 
+		.lbRatingSmall {
+			color: #CCC:
+			text-align: center;
+			font-size: 70%;
+		}
+
 		.dualTextPanel {
 			margin-left: 2px;
     		margin-top: 5px;
@@ -226,18 +232,18 @@
 				</g:cell>
 				<g:cell height="100%" width="60px">
 					<g:FocusPanel styleName="{style.wideTopButton}" ui:field="tbRatingUp" title="Rating um 1 erhöhen">
-					    <g:HorizontalPanel>
+					    <g:VerticalPanel>
 					    	<g:Image resource="{resources.go_up}" styleName="{style.rateButton}" ui:field="rate_up" />
-					    	<g:Label ui:field="lbRatingUpCount" styleName="{style.lbRating}">x ?</g:Label>
-					    </g:HorizontalPanel>
+					    	<g:Label ui:field="lbRatingUpCount" styleName="{style.lbRatingSmall}">x?</g:Label>
+					    </g:VerticalPanel>
 					</g:FocusPanel>
 				</g:cell>
 				<g:cell height="100%" width="60px">
 					<g:FocusPanel styleName="{style.wideTopButton}" ui:field="tbRatingDown" title="Rating um 1 senken">
-					    <g:HorizontalPanel>
+					    <g:VerticalPanel>
 					    	<g:Image resource="{resources.go_down}" styleName="{style.rateButton}" ui:field="rate_down" />
-					    	<g:Label ui:field="lbRatingDownCount" styleName="{style.lbRating}">x ?</g:Label>
-					    </g:HorizontalPanel>
+					    	<g:Label ui:field="lbRatingDownCount" styleName="{style.lbRatingSmall}">x?</g:Label>
+					    </g:VerticalPanel>
 					</g:FocusPanel>
 				</g:cell>
 				

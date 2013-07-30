@@ -16,7 +16,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
@@ -29,10 +28,8 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -44,7 +41,6 @@ import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.client.ImageUrlLoader;
-import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
 import de.gmino.issuemap.client.domain.Comment;
 import de.gmino.issuemap.client.domain.Issue;
@@ -130,6 +126,9 @@ public class ShowIssue_PopUp extends Composite {
 		this.mWrapper = marker_Wrapper;
 //		setBoarderColor(map.getColor());
 
+		tbRatingUp.setVisible(false);
+		tbRatingDown.setVisible(false);
+		
 		date.setText(", " + issue.getCreationTimestamp().relativeToNow().toReadableString(true,1));
 		date.setTitle(dtf.format(issue.getCreationTimestamp().toDate()));
 		
@@ -288,22 +287,19 @@ public class ShowIssue_PopUp extends Composite {
 	void onTabButtonPhotosClick(ClickEvent e) {
 		deckPanel.showWidget(1);
 	}
-	
-//	@UiHandler("topCellPhotos")
-//	void onTopCellPhotosClick(ClickEvent e) {
-//		deckPanel.showWidget(1);
-//	}
-	
+		
 	@UiHandler("tabButtonComments")
 	void onTabButtonCommentsClick(ClickEvent e) {
 		deckPanel.showWidget(2);
 	}
-	
-//	@UiHandler("topCellComments")
-//	void onTopCellCommentsClick(ClickEvent e) {
-//		deckPanel.showWidget(2);
-//	}
-	
+		
+	@UiHandler("tbRating")
+	void onTbRatingClick(ClickEvent e) {
+		boolean visible = !tbRatingUp.isVisible();
+		tbRatingUp.setVisible(visible);
+		tbRatingDown.setVisible(visible);
+	}
+		
 	public void setupForm()
 	{
 		form.setAction("/Upload/uploader");
@@ -344,7 +340,6 @@ public class ShowIssue_PopUp extends Composite {
 				});
 				
 				Requests.saveEntity(mIssue, null);
-			//	ShowIssue_PopUp.this.removeFromParent();
 			}
 		});
 	}
@@ -419,7 +414,6 @@ public class ShowIssue_PopUp extends Composite {
 		});
 	}
 	
-
 	@UiHandler("tbRatingUp")
 	void onRateUp(ClickEvent e) {
 		if(mIssue.vote == 1)
@@ -499,7 +493,6 @@ public class ShowIssue_PopUp extends Composite {
 		vp.add(commenttext);
 		commentsPanel.add(vp);
 		tabButtonComments.setText("Kommentare (" + mIssue.getComments().size() + ")");
-//		labelCommentCount.setText(mIssue.getComments().size()+"");
 	}
 	
 	private void showPhoto(Photo photo) {
@@ -509,7 +502,6 @@ public class ShowIssue_PopUp extends Composite {
 		picturesPanel.add(image);
 		photosHeader.setText(mIssue.getPhotos().size() + " Fotos:");
 		tabButtonPhotos.setText("Fotos (" + mIssue.getPhotos().size() + ")");
-//		labelPhotoCount.setText(mIssue.getPhotos().size()+"");
 		image.addClickHandler(new ShowPhotoThingy(photoBaseUrl));
 	}
 	

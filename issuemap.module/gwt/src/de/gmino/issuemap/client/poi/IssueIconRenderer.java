@@ -159,12 +159,13 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 	
 
 	private float getRelevanceFactor(Issue issue) {
-		float rel = issue.getRating();
-		if(rel < -5)
-			rel = -5;
-		if(rel > 5)
-			rel = 5;
-		return 1.0f + rel * 0.1f;
+		return 1.0f;
+//		float rel = issue.getRating();
+//		if(rel < -5)
+//			rel = -5;
+//		if(rel > 5)
+//			rel = 5;
+//		return 1.0f + rel * 0.1f;
 	}
 
 	@Override
