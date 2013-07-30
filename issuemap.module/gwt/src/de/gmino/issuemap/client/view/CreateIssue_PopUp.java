@@ -56,6 +56,7 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 		
 		// this is a dummy instance, just needed to provide an early icon. As soon as the real issue object is present, it will be used instead.
 		mIssue = new Issue(-1);
+		mIssue.setMap_instance(map);
 		updateIcon();
 		
         Requests.getNewEntity(Issue.type, new RequestListener<Issue>() {

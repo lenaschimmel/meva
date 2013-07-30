@@ -26,20 +26,22 @@
 			 width: 16em;
 		}
 	</ui:style>
-	<g:HorizontalPanel styleName="{style.parent}">
-		<g:cell width="40px">
-			<g:Image ui:field="imageMarkerIcon">
-
-			</g:Image>
-		</g:cell>
-		<g:cell>
-			<g:VerticalPanel>
-				<g:Label ui:field="labelTitle" styleName="{style.title_label}"></g:Label>
-				<g:HorizontalPanel>
-					<g:Label ui:field="type"></g:Label>
-					<g:Label ui:field="date"></g:Label>
-				</g:HorizontalPanel>
-			</g:VerticalPanel>
-		</g:cell>
-	</g:HorizontalPanel>
+	<g:FocusPanel ui:field="focusPanel">
+		<g:HorizontalPanel styleName="{style.parent}">
+			<g:cell width="40px">
+				<g:Image ui:field="imageMarkerIcon">
+	
+				</g:Image>
+			</g:cell>
+			<g:cell>
+				<g:VerticalPanel>
+					<g:Label ui:field="labelTitle" styleName="{style.title_label}"></g:Label>
+					<g:HorizontalPanel>
+						<g:Label ui:field="type"></g:Label>
+						<g:Label ui:field="date"></g:Label>
+					</g:HorizontalPanel>
+				</g:VerticalPanel>
+			</g:cell>
+		</g:HorizontalPanel>
+	</g:FocusPanel>
 </ui:UiBinder> 

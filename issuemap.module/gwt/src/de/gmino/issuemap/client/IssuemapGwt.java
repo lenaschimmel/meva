@@ -152,9 +152,13 @@ public class IssuemapGwt implements EntryPoint {
 		issueRenderer = new IssueIconRenderer();
 		markerLayer.addMarkerIconRenderer(Issue.type, issueRenderer);
 
+		final ImageUrlLoader loader = ImageUrlLoader.getInstance();
+		loader.loadImage("/camera.png", null);
+		loader.loadImage("/bubble.png", null);
+		
 		if (subdomain.equals("zgb")) {
 			// TODO improves performance to load it first, but listener is not yet adjusted to wait for it.
-			ImageUrlLoader.getInstance().loadImage("/mapicon/cycleway.png", null);
+			loader.loadImage("/mapicon/cycleway.png", null);
 			markerLayer.addMarkerIconRenderer(BicycleShop.type,
 					new BicycleShopIconRenderer());
 			markerLayer.addMarkerIconRenderer(Route.type,
@@ -360,8 +364,9 @@ public class IssuemapGwt implements EntryPoint {
 	}
 	
 	public void addList(ArrayList<Issue> data){
-		IssueList_PopUp list = new IssueList_PopUp(mapObject, data, issueRenderer);
+		IssueList_PopUp list = new IssueList_PopUp(mapObject, data, issueRenderer, markerLayer);
 		RootPanel.get("list").add(list);
+
 		
 	}
 	

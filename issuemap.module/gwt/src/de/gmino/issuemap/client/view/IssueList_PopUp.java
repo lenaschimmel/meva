@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 
+import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
@@ -45,7 +46,7 @@ public class IssueList_PopUp extends Composite implements HasText {
 	
 	private List_Button listButton;
 
-	public IssueList_PopUp(Map mapObject, ArrayList<Issue> data, IssueIconRenderer issueRenderer) {
+	public IssueList_PopUp(Map mapObject, ArrayList<Issue> data, IssueIconRenderer issueRenderer, OpenLayersSmartLayer layer) {
 		initWidget(uiBinder.createAndBindUi(this));
 		listButton = new List_Button(this);
 		RootPanel.get("list").add(listButton);
@@ -53,7 +54,11 @@ public class IssueList_PopUp extends Composite implements HasText {
 		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
 	
 	    
+<<<<<<< HEAD
 	    for (Issue i : data)	    IssueItemsPanel.add(new IssueList_Item(i, issueRenderer));
+=======
+	    for (Issue i : data)	    parent.add(new IssueList_Item(i, issueRenderer, layer));
+>>>>>>> 0f91e66ef588b02d996d39943a36473d526fde98
 
 
 	}

@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
@@ -123,7 +124,7 @@ public class ShowIssue_PopUp extends Composite {
 
 		date.setText(", vom " + dtf.format(mIssue.getCreationTimestamp().toDate()));
 		type.setText(mIssue.getMarkertype().getMarkerName());
-		resolved.setValue(mIssue.isResolved());
+// TODO		resolved.setValue(mIssue.isResolved());
 		setRatingText();
 		labelTitle.setText(mIssue.getTitle());
 		description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mIssue.getDescription()).toSafeHtml());
@@ -193,8 +194,19 @@ public class ShowIssue_PopUp extends Composite {
 
 	@UiField
 	Label labelTitle;
+	
 	@UiField
-	CheckBox resolved;
+	FocusPanel tbResolved;
+	@UiField
+	FocusPanel tbClose;
+	@UiField
+	FocusPanel tbEdit;
+	@UiField
+	FocusPanel tbOpen;
+	@UiField 
+	Label lbRating;
+	
+	
 	@UiField
 	Label rating;
 	@UiField
@@ -207,12 +219,8 @@ public class ShowIssue_PopUp extends Composite {
 	Label type;
 	@UiField
 	HTML description;
-	@UiField
-	Image close;
-	@UiField
-	PushButton delete;
-	@UiField
-	PushButton edit;
+
+	
 	@UiField
 	VerticalPanel parent;
 	@UiField
@@ -243,11 +251,18 @@ public class ShowIssue_PopUp extends Composite {
 	@UiField
 	ScrollPanel tabComments;
 	
-	@UiField
-	Label labelPhotoCount;
-	@UiField
-	Label labelCommentCount;
+	@UiField 
+	Button tabButtonDescription;
+	@UiField 
+	Button tabButtonPhotos;
+	@UiField 
+	Button tabButtonComments;
 	
+//	@UiField
+//	Label labelPhotoCount;
+//	@UiField
+//	Label labelCommentCount;
+//	
 	@UiField
 	Image imageMarkerIcon;
 	
@@ -261,20 +276,20 @@ public class ShowIssue_PopUp extends Composite {
 		deckPanel.showWidget(1);
 	}
 	
-	@UiHandler("topCellPhotos")
-	void onTopCellPhotosClick(ClickEvent e) {
-		deckPanel.showWidget(1);
-	}
+//	@UiHandler("topCellPhotos")
+//	void onTopCellPhotosClick(ClickEvent e) {
+//		deckPanel.showWidget(1);
+//	}
 	
 	@UiHandler("tabButtonComments")
 	void onTabButtonCommentsClick(ClickEvent e) {
 		deckPanel.showWidget(2);
 	}
 	
-	@UiHandler("topCellComments")
-	void onTopCellCommentsClick(ClickEvent e) {
-		deckPanel.showWidget(2);
-	}
+//	@UiHandler("topCellComments")
+//	void onTopCellCommentsClick(ClickEvent e) {
+//		deckPanel.showWidget(2);
+//	}
 	
 	public void setupForm()
 	{
@@ -311,6 +326,7 @@ public class ShowIssue_PopUp extends Composite {
 						Requests.saveEntity(mIssue, null);
 						showPhoto(photo);
 						smartLayer.updatePoi(mIssue);
+						updateIcon();
 					}
 				});
 				
@@ -320,34 +336,34 @@ public class ShowIssue_PopUp extends Composite {
 		});
 	}
 	
-	@UiHandler("close")
-	void onClose(ClickEvent e) {
+	@UiHandler("tbClose")
+	void onTbClose(ClickEvent e) {
 		this.removeFromParent();
 	}
 
-	@UiHandler("edit")
-	void onEdit(ClickEvent e) {
+	@UiHandler("tbEdit")
+	void onTbEdit(ClickEvent e) {
 		this.removeFromParent();
 		CreateIssue_PopUp cip = new CreateIssue_PopUp(mapObject, mIssue, smartLayer);
 		mWrapper.add(cip);
 
 	}
 
-	@UiHandler("delete")
-	void onDelete(ClickEvent e) {
-		mIssue.setDeleted(true);
-		Requests.saveEntity(mIssue, null);
-		this.removeFromParent();
-		IssuemapGwt.getInstance().deleteMarker(mIssue);
-		IssuemapGwt.getInstance().setCounter();
+//	@UiHandler("delete")
+//	void onDelete(ClickEvent e) {
+//		mIssue.setDeleted(true);
+//		Requests.saveEntity(mIssue, null);
+//		this.removeFromParent();
+//		IssuemapGwt.getInstance().deleteMarker(mIssue);
+//		IssuemapGwt.getInstance().setCounter();
+//
+//	}
 
-	}
-
-	@UiHandler("resolved")
-	void onCheckbox(ClickEvent e) {
-		mIssue.setResolved(resolved.getValue());
-		updateIcon();
-	}
+//	@UiHandler("resolved")
+//	void onCheckbox(ClickEvent e) {
+//// TODO		mIssue.setResolved(resolved.getValue());
+//		updateIcon();
+//	}
 
 	private void updateIcon() {
 		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mIssue);
@@ -396,6 +412,7 @@ public class ShowIssue_PopUp extends Composite {
 				smartLayer.updatePoi(mIssue);
 				int commentCount = mIssue.getComments().size();
 				commentsHeader.setText(commentCount  + " Kommentare:");
+				updateIcon();
 			}
 		});
 	}
@@ -425,7 +442,11 @@ public class ShowIssue_PopUp extends Composite {
 	}
 
 	private void setRatingText() {
-		rating.setText("" + (mIssue.getRating()));
+		String ratingText = "" + (mIssue.getRating());
+		if(mIssue.getRating() > 0)
+			ratingText = "+" + ratingText;
+		rating.setText(ratingText);
+		lbRating.setText(ratingText);
 		int upVotes = (mIssue.getNumber_of_rating() + mIssue.getRating()) / 2;
 		int downVotes = (mIssue.getNumber_of_rating() - mIssue.getRating()) / 2;
 		panelRating.setTitle(upVotes + " positive Bewertungen, " + downVotes + " negative.");
@@ -452,7 +473,8 @@ public class ShowIssue_PopUp extends Composite {
 		commenttext.getElement().getStyle().setFontStyle(FontStyle.ITALIC);
 		vp.add(commenttext);
 		commentsPanel.add(vp);
-		labelCommentCount.setText(mIssue.getComments().size()+"");
+		tabButtonComments.setText("Kommentare (" + mIssue.getComments().size() + ")");
+//		labelCommentCount.setText(mIssue.getComments().size()+"");
 	}
 	
 	private void showPhoto(Photo photo) {
@@ -461,7 +483,8 @@ public class ShowIssue_PopUp extends Composite {
 		image.getElement().getStyle().setCursor(Cursor.POINTER);
 		picturesPanel.add(image);
 		photosHeader.setText(mIssue.getPhotos().size() + " Fotos:");
-		labelPhotoCount.setText(mIssue.getPhotos().size()+"");
+		tabButtonPhotos.setText("Fotos (" + mIssue.getPhotos().size() + ")");
+//		labelPhotoCount.setText(mIssue.getPhotos().size()+"");
 		image.addClickHandler(new ShowPhotoThingy(photoBaseUrl));
 	}
 	
