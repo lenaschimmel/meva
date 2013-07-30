@@ -204,8 +204,8 @@ public class ShowIssue_PopUp extends Composite {
 	FocusPanel tbClose;
 	@UiField
 	FocusPanel tbEdit;
-	@UiField
-	FocusPanel tbOpen;
+//	@UiField
+//	FocusPanel tbOpen;
 	@UiField 
 	Label lbRating;
 	

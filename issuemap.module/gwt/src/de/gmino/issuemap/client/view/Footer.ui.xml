@@ -72,7 +72,7 @@
 				<g:Image styleName="{style.counter_icon}" ui:field="cursor"
 					url="cursor_white.png" visible="false" />
 				<g:Label styleName="{style.footText}" ui:field="text">Mit einem
-					Doppelklick in die Karte, können Sie einen neuen Eintrag erstellen</g:Label>
+					Doppelklick in die Karte können Sie einen neuen Eintrag erstellen</g:Label>
 			</g:HorizontalPanel>
 		</g:cell>
 

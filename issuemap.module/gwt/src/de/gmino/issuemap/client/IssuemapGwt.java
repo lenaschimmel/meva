@@ -97,7 +97,13 @@ public class IssuemapGwt implements EntryPoint {
 				if (ratingComparision != 0)
 					return ratingComparision;
 				else
-					return compareLong(i1.getId(), i2.getId());
+				{
+					int timestampComparision = -compareLong(i1.getCreationTimestamp().getMillisSinceEpoch(), i2.getCreationTimestamp().getMillisSinceEpoch());
+					if (timestampComparision != 0)
+						return timestampComparision;
+					else
+						return compareLong(i1.getId(), i2.getId());
+				}
 			}
 		}
 
