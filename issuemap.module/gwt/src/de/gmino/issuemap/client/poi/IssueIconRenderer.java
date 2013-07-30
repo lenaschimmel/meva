@@ -20,6 +20,7 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		hash.hashBoolean(issue.isResolved());
 		hash.hashLong(issue.getMarkertype().getId());
 		hash.hashInt(issue.getComments().size());
+		hash.hashInt(issue.getPhotos().size());
 		hash.hashInt(issue.getRating());
 	}
 	
@@ -32,14 +33,16 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		String imageName = issue.getMarkertype().getImageName();
 		if("null".equals(imageName+""))
 			System.out.println("Marker with no icon name: " + issue);
-		Image img = loader.getImageByUrl("/mapicon/" + imageName + ".png");
+		ImageElement mapiconImg = loader.getImageElementByUrl("/mapicon/" + imageName + ".png");
+		ImageElement cameraImg = loader.getImageElementByUrl("/camera.png");
+		ImageElement bubbleImg = loader.getImageElementByUrl("/bubble.png");
 		
 		String markerName = issue.getMarkertype().getMarkerName();
 		long markerId = issue.getMarkertypeId();
 		con.setFillStyle(getColor(issue, markerName, markerId));
 		
-		int imageWidth = issue.getMarkertype().getImageWidth();
-		int imageHeight = issue.getMarkertype().getImageHeight();
+		int imageWidth = getWidth(issue);// issue.getMarkertype().getImageWidth();
+		int imageHeight = getHeight(issue); //issue.getMarkertype().getImageHeight();
 
 		double x = 0.11		* imageWidth;
 		double y = 0.1081	* imageHeight;
@@ -56,30 +59,16 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		//con.fillText(issue.getTitle(), 32,12);
 		//con.fillText(issue.getDescription(), 32,24);
 		
-		final ImageElement face = ImageElement.as(img.getElement());
-		con.drawImage(face, 0, 0, imageWidth, imageHeight);
+		con.drawImage(mapiconImg, 0, 0, imageWidth, imageHeight);
 		
-		int rating = issue.getRating();
-		//int commentCount = issue.getComments().size();
-		if(rating != 0)
-		{
-			con.setLineWidth(1.5);
-			con.setStrokeStyle("#000");
-			if(rating > 0)
-				con.setFillStyle("#0F0");
-			else
-				con.setFillStyle("#F00");
-			con.beginPath();
-			con.arc(x+w*0.85,y+w*0.15,w*0.25,0,Math.PI*2);
-			con.fill();
-			con.stroke();
-			con.setFillStyle("#000");
-			String countText = ""+rating;
-			if(rating > 9)
-				countText = "+";
-			con.setFont("9px sans-serif");
-			con.fillText(countText, x+w*0.725, y+w*0.3);
-		}
+		//int rating = issue.getRating();
+		
+		if(issue.getComments().size() > 0)
+			con.drawImage(bubbleImg, imageWidth * 0.0, 0, imageWidth * 0.4, imageHeight * 0.4);
+		if(issue.getPhotos().size() > 0)
+			con.drawImage(cameraImg, imageWidth * 0.6, 0, imageWidth * 0.4, imageHeight * 0.4);
+		
+		
 	}
 
 	private String getColor(Issue issue, String markerName, long markerId) {
@@ -129,14 +118,23 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 
 	@Override
 	public int getWidth(Issue issue) {
-		return issue.getMarkertype().getImageWidth();
+		return (int)(issue.getMarkertype().getImageWidth() * getRelevanceFactor(issue));
 	}
 
 	@Override
 	public int getHeight(Issue issue) {
-		return issue.getMarkertype().getImageHeight();
+		return (int)(issue.getMarkertype().getImageHeight() * getRelevanceFactor(issue));
 	}
 	
+
+	private float getRelevanceFactor(Issue issue) {
+		float rel = issue.getRating();
+		if(rel < -5)
+			rel = -5;
+		if(rel > 5)
+			rel = 5;
+		return 1.0f + rel * 0.1f;
+	}
 
 	@Override
 	public void renderSmallIcon(Canvas canvas, Issue issue) {

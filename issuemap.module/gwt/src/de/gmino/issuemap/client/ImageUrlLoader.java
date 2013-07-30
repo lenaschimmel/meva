@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.event.dom.client.ErrorEvent;
 import com.google.gwt.event.dom.client.ErrorHandler;
@@ -153,6 +154,10 @@ public class ImageUrlLoader {
 		else if(!loadedUrls.contains(url))
 			throw new RuntimeException("Image loading not finished, still waiting for " + url + " to load.");
 		return imagesByUrl.get(url);
+	}
+	
+	public ImageElement getImageElementByUrl(String url) {
+		return ImageElement.as(getImageByUrl(url).getElement());
 	}
 	
 	// private:

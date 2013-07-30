@@ -21,16 +21,19 @@
 			border-top-left-radius: 4px;
 			border-bottom-left-radius: 4px;
 			border: 1px solid #ccc;
-			padding: 10px;
+			padding: 0;
 			color: #fff;
 		}
 		
-		.title_label {
+		.lbTitle {
 			color: #FFF;
+			font-size: 130%;
 			font-weight: bold;
-			font-size: large;
 			white-space: nowrap;
 			width: auto;
+    		height: 100%;	
+    		line-height: 33px;
+    		padding-left: 10px;
 		}
 		
 		.divider {
@@ -91,84 +94,140 @@
 		.topCell:hover {
 			background: #444;
 		}
+
+		.topButton {
+			color: #FFF;
+			/*border-left: 1px solid #CCC;*/
+			cursor: pointer;
+			background-color: #000;
+			height: 100%;
+			width: 30px;
+		}
+
+		.topButton:hover {
+			background-color: #333;
+		}
+
+		.tabButton {
+			height: 100%;
+			width: 100%;
+
+			color: #CCC;
+			background-color: #333;
+			border-top: none;
+			border-left: none;
+			border-bottom: 4px solid transparent;
+			border-right: 1px solid #999;
+
+			cursor: pointer;
+
+			white-space: nowrap;
+			font-size: 80%;
+			text-align: center;
+			text-transform:uppercase;
+			font-weight: bold;
+		}
+
+		.tabButton:hover {
+			background-color: #666;
+			border-bottom: 4px solid #4DADDE;
+			color: #FFF;
+		}
+
+		.upperBar {
+			background-color: #000;
+			border-bottom: 1px solid #666;
+		}
+
+		.lowerBar {
+			background-color: #333;
+			border-bottom: 1px solid #666;
+		}
+
+		.tbClose {
+			background: url(img/close.png) no-repeat center;
+		}
+
+		.tbDelete {
+			background: url(img/delete.png) no-repeat center;
+		}
+
+		.tbEdit {
+			background: url(img/edit.png) no-repeat center;
+		}
+
+		.tbOpen {
+			background: url(img/open.png) no-repeat center;
+		}
+
+		.tbResolved {
+			background: url(img/resolved.png) no-repeat center;
+		}
+
+		.lbRating {
+			line-height: 33px;
+			width: 100%;
+			text-align: center;
+			font-size: 130%;
+		}
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
 		<g:Cell><!-- Kopfbereich a.k.a. Mouseover -->
-			<g:HorizontalPanel width="100%">
-				<g:cell width="40px">
-					<g:Image ui:field="imageMarkerIcon">
-
-					</g:Image>
+			<g:HorizontalPanel width="100%" height="33px" styleName="{style.upperBar}">
+				<g:cell width="40px" height="100%">
+					<g:Image ui:field="imageMarkerIcon" height="30px"></g:Image>
 				</g:cell>
-				<g:cell>
-					<g:VerticalPanel>
-						<g:Label ui:field="labelTitle" styleName="{style.title_label}"></g:Label>
-						<g:HorizontalPanel>
-							<g:Label ui:field="type"></g:Label>
-							<g:Label ui:field="date"></g:Label>
-							<g:Image resource="{resources.close}" ui:field="close"
-								styleName="{style.closeButton}" title="Schließen"></g:Image>
-						</g:HorizontalPanel>
-					</g:VerticalPanel>
+				<g:cell width="100%" height="100%">
+					<g:Label ui:field="labelTitle" styleName="{style.lbTitle}"></g:Label>
 				</g:cell>
-				<g:cell width="40px">
-					<g:VerticalPanel>
-						<g:HorizontalPanel ui:field="panelRating"
-							title="3 positive Bewertungen, 2 negative.">
-							<g:Image resource="{resources.go_up}" styleName="{style.rateButton}"
-								ui:field="rate_up" />
-							<g:Label styleName="{style.meta_label}" text="+3"
-								ui:field="rating"></g:Label>
-							<g:Image resource="{resources.go_down}" styleName="{style.rateButton}"
-								ui:field="rate_down" />
-						</g:HorizontalPanel>
-						<g:FocusPanel ui:field="topCellRateDown" title="Als erledigt markieren"
-							styleName="{style.topCell}">
-							<g:HorizontalPanel>
-								<g:CheckBox ui:field="resolved"></g:CheckBox>
-								<g:Image resource="{resources.resolved}" />
-							</g:HorizontalPanel>
-						</g:FocusPanel>
-					</g:VerticalPanel>
+				<g:cell height="100%">
+					<g:FocusPanel styleName="{style.topButton}" ui:field="tbRating" title="Rating vergeben"><g:Label ui:field="lbRating" styleName="{style.lbRating}">?</g:Label></g:FocusPanel>
 				</g:cell>
-				<g:cell width="40px">
-					<g:VerticalPanel>
-						<g:FocusPanel ui:field="topCellPhotos" title="Fotos anzeigen"
-							styleName="{style.topCell}">
-							<g:HorizontalPanel>
-								<g:Label ui:field="labelPhotoCount" styleName="{style.meta_label}">0</g:Label>
-								<g:Image resource="{resources.camera}" />
-							</g:HorizontalPanel>
-						</g:FocusPanel>
-						<g:FocusPanel ui:field="topCellComments" title="Diskussion anzeigen"
-							styleName="{style.topCell}">
-							<g:HorizontalPanel>
-								<g:Label ui:field="labelCommentCount" styleName="{style.meta_label}">0</g:Label>
-								<g:Image resource="{resources.bubble}" />
-							</g:HorizontalPanel>
-						</g:FocusPanel>
-					</g:VerticalPanel>
+				<g:cell height="100%">
+					<g:FocusPanel styleName="{style.topButton} {style.tbResolved}" ui:field="tbResolved" title="Als erledigt markieren"></g:FocusPanel>
+				</g:cell>
+				<g:cell height="100%">
+					<g:FocusPanel styleName="{style.topButton} {style.tbEdit}" ui:field="tbEdit" title="Informationen bearbeiten"></g:FocusPanel>
+				</g:cell>
+				<g:cell height="100%">
+					<g:FocusPanel styleName="{style.topButton} {style.tbOpen}" ui:field="tbOpen" title="Popup öffnen"></g:FocusPanel>
+				</g:cell>
+				<g:cell height="100%">
+					<g:FocusPanel styleName="{style.topButton} {style.tbClose}" ui:field="tbClose" title="Popup schließen"></g:FocusPanel>
 				</g:cell>
 			</g:HorizontalPanel>
 		</g:Cell>
-		<g:Cell><!-- Mittelteile mit Tabinhalten -->
+		<g:Cell><!-- Tabknöpfe -->
+			<g:HorizontalPanel styleName="{style.lowerBar}" width="100%" height="33px" >
+				<g:cell width="25%"><g:Button styleName="{style.tabButton}" ui:field="tabButtonDescription">Allgemein</g:Button></g:cell>
+				<g:cell width="25%"><g:Button styleName="{style.tabButton}" ui:field="tabButtonPhotos">Bilder</g:Button></g:cell>
+				<g:cell width="25%"><g:Button styleName="{style.tabButton}" ui:field="tabButtonComments">Kommentare</g:Button></g:cell>
+				<g:cell width="25%" height="100%">
+					<g:Label></g:Label>
+				</g:cell>
+			</g:HorizontalPanel>
+		</g:Cell>
+		<g:Cell><!-- Haubtbereich mit Tabinhalten -->
 			<g:DeckPanel ui:field="deckPanel">
 				<g:ScrollPanel ui:field="tabDescription" width="550px"
 					height="300px"><!-- Description -->
 					<g:VerticalPanel>
 						<g:HTML ui:field="description" styleName="{style.description_label}"></g:HTML>
-						<g:HorizontalPanel styleName="{style.footer}">
-							<g:PushButton styleName="{style.editButton}"
-								ui:field="edit" height="30px" title="Bearbeiten">
-								<g:upFace image='{resources.edit}' />
-								<g:upHoveringFace image='{resources.edit_hover}' />
-							</g:PushButton>
-							<g:PushButton styleName="{style.deleteButton}"
-								ui:field="delete" height="30px" title="Löschen">
-								<g:upFace image='{resources.delete}' />
-								<g:upHoveringFace image='{resources.delete_hover}' />
-							</g:PushButton>
-						</g:HorizontalPanel>
+						<g:Label ui:field="type"></g:Label>
+						<g:Label ui:field="date"></g:Label>
+						<g:cell width="40px">
+						<g:VerticalPanel>
+							<g:HorizontalPanel ui:field="panelRating"
+								title="3 positive Bewertungen, 2 negative.">
+								<g:Image resource="{resources.go_up}" styleName="{style.rateButton}"
+									ui:field="rate_up" />
+								<g:Label styleName="{style.meta_label}" text="+3"
+									ui:field="rating"></g:Label>
+								<g:Image resource="{resources.go_down}" styleName="{style.rateButton}"
+									ui:field="rate_down" />
+							</g:HorizontalPanel>
+						</g:VerticalPanel>
+					</g:cell>
 					</g:VerticalPanel>
 				</g:ScrollPanel>
 				<g:ScrollPanel ui:field="tabPhotos" width="550px"
@@ -201,13 +260,6 @@
 					</g:VerticalPanel>
 				</g:ScrollPanel>
 			</g:DeckPanel>
-		</g:Cell>
-		<g:Cell><!-- Tabknöpfe -->
-			<g:HorizontalPanel>
-				<g:Button ui:field="tabButtonDescription">Beschreibung</g:Button>
-				<g:Button ui:field="tabButtonPhotos">Bilder</g:Button>
-				<g:Button ui:field="tabButtonComments">Diskussion</g:Button>
-			</g:HorizontalPanel>
 		</g:Cell>
 	</g:VerticalPanel>
 </ui:UiBinder> 

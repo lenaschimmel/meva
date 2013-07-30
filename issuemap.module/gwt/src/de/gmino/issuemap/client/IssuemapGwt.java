@@ -134,9 +134,13 @@ public class IssuemapGwt implements EntryPoint {
 		mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);
 		markerLayer.addMarkerIconRenderer(Issue.type, new IssueIconRenderer());
 
+		final ImageUrlLoader loader = ImageUrlLoader.getInstance();
+		loader.loadImage("/camera.png", null);
+		loader.loadImage("/bubble.png", null);
+		
 		if (subdomain.equals("zgb")) {
 			// TODO improves performance to load it first, but listener is not yet adjusted to wait for it.
-			ImageUrlLoader.getInstance().loadImage("/mapicon/cycleway.png", null);
+			loader.loadImage("/mapicon/cycleway.png", null);
 			markerLayer.addMarkerIconRenderer(BicycleShop.type,
 					new BicycleShopIconRenderer());
 			markerLayer.addMarkerIconRenderer(Route.type,
