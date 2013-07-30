@@ -12,7 +12,7 @@ public class Log {
 	}
 	
 	public static void exception(String msg, Exception e) {
-		logger.log(Level.SEVERE, msg, e);
+		getLogger().log(Level.SEVERE, msg, e);
 	}
 	
 	public static Logger getLogger()
