@@ -7,11 +7,13 @@
 
 	<ui:style>
 		.parent {
-			width: 100%;
-			height: 100%;
-			background: rgba(0, 0, 0, 0.8);
+			background: rgba(0, 0, 0, 0.75);
 			border-top-left-radius: 4px;
 			border-bottom-left-radius: 4px;
+			position: absolute;
+			right: 0px;
+			
+			
 		}
 		
 		.content {
@@ -40,12 +42,28 @@
 			left: -13px;
 			cursor: pointer;
 		}
+		
+		.scrollPanel{
+			position: absolute;
+			height: 100%;
+			border-top-left-radius: 4px;
+			border-bottom-left-radius: 4px;
+}
+		
 	</ui:style>
+	<g:ScrollPanel styleName="{style.scrollPanel}">
+	<!--  	<g:Image resource="{resources.list_close}" ui:field="close"
+			styleName="{style.closeButton}"></g:Image> -->
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
-		<g:Label ui:field="title" styleName="{style.title_label}">Die wichtigsten Punkte</g:Label>
-		<g:Image resource="{resources.list_close}" ui:field="close"
-			styleName="{style.closeButton}"></g:Image>
-		<g:ScrollPanel>
-		<g:VerticalPanel ui:field="IssueItemsPanel"></g:VerticalPanel> </g:ScrollPanel>
+		<g:cell>
+			<g:Label ui:field="title" styleName="{style.title_label}">Relevanz-Liste</g:Label>
+		</g:cell>
+		<g:cell height="100%">
+			
+				<g:VerticalPanel ui:field="IssueItemsPanel"></g:VerticalPanel>
+			
+		</g:cell>
+
 	</g:VerticalPanel>
+	</g:ScrollPanel>
 </ui:UiBinder> 

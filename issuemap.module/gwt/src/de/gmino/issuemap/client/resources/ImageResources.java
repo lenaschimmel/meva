@@ -50,9 +50,7 @@ public interface ImageResources extends ClientBundle {
 	@Source("img/close.png")
 	ImageResource close();
 	
-	@Source("img/open.png")
-	ImageResource open();
-	
+
 	@Source("img/mapicon/accesdenied.png")
 	ImageResource accesdenied();
 	

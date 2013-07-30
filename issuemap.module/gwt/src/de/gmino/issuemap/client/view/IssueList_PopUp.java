@@ -7,6 +7,7 @@ import org.mortbay.log.Log;
 
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -54,17 +55,14 @@ public class IssueList_PopUp extends Composite implements HasText {
 		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
 	
 	    
-<<<<<<< HEAD
-	    for (Issue i : data)	    IssueItemsPanel.add(new IssueList_Item(i, issueRenderer));
-=======
-	    for (Issue i : data)	    parent.add(new IssueList_Item(i, issueRenderer, layer));
->>>>>>> 0f91e66ef588b02d996d39943a36473d526fde98
+	    for (Issue i : data)	    IssueItemsPanel.add(new IssueList_Item(i, issueRenderer, layer));
+
 
 
 	}
 
-	@UiField
-	Image close;
+//	@UiField
+//	Image close;
 	@UiField
 	Label title;
 	@UiField
@@ -74,11 +72,11 @@ public class IssueList_PopUp extends Composite implements HasText {
 
 
 
-	@UiHandler("close")
-	void onClick(ClickEvent e) {
-		this.setVisible(false);
-		listButton.setVisible(true);
-	}
+//	@UiHandler("close")
+//	void onClick(ClickEvent e) {
+//		this.setVisible(false);
+//		listButton.setVisible(true);
+//	}
 
 
 	public void setText(String text) {
