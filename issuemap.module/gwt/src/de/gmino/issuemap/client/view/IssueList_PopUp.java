@@ -48,12 +48,12 @@ public class IssueList_PopUp extends Composite implements HasText {
 	public IssueList_PopUp(Map mapObject, ArrayList<Issue> data, IssueIconRenderer issueRenderer) {
 		initWidget(uiBinder.createAndBindUi(this));
 		listButton = new List_Button(this);
-		RootPanel.get("feedback").add(listButton);
+		RootPanel.get("list").add(listButton);
 		listButton.setVisible(false);
 		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
 	
 	    
-	    for (Issue i : data)	    parent.add(new IssueList_Item(i, issueRenderer));
+	    for (Issue i : data)	    IssueItemsPanel.add(new IssueList_Item(i, issueRenderer));
 
 
 	}
@@ -63,7 +63,7 @@ public class IssueList_PopUp extends Composite implements HasText {
 	@UiField
 	Label title;
 	@UiField
-	VerticalPanel parent;
+	VerticalPanel IssueItemsPanel;
 	
 
 

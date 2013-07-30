@@ -25,17 +25,14 @@ body {
 
 
 
-#textbox
-{
-	text-align:center;
-	font-variant:small-caps;
-	color: #4DADDE;
-	min-height: 15px;
-	top:-5px;
-	padding-right:10px;
-	padding-left:50%;
-	padding-bottom:10px;
-	float:left;
+
+#list{
+			position: absolute;
+			top: 90px;
+			right: 0px;
+			bottom: 90px;
+			z-index: 100;
+			width: 330px;
 }
 
 .button
