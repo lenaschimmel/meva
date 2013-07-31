@@ -9,11 +9,18 @@
 	<ui:style>
 	
 			.parent {
-			margin-left: 10px;
-			margin-bottom: 10px;
-			margin-right: 5px;
+			padding-left: 10px;
+			padding-bottom: 5px;
+			padding-top: 5px;
+			padding-right: 5px;
 			color: #fff;
 			cursor: pointer;
+		}
+		
+					.focusPanel:hover {
+
+			background: #444;
+
 		}
 		
 		.title_label {
@@ -23,16 +30,17 @@
 			 overflow: hidden;
 			 text-overflow: ellipsis;
 			 white-space: nowrap;
-			 width: 16em;
+			 width: 15em;
 		}
 		
 		.rating{
 			font-size: large;
 			margin: 8px;
 			font-weight: bolder;
+			text-align: right;
 		}
 	</ui:style>
-	<g:FocusPanel ui:field="focusPanel">
+	<g:FocusPanel ui:field="focusPanel" styleName="{style.focusPanel}">
 		<g:HorizontalPanel styleName="{style.parent}">
 			<g:cell width="40px">
 				<g:Image ui:field="imageMarkerIcon">
@@ -48,7 +56,7 @@
 					</g:HorizontalPanel>
 				</g:VerticalPanel>
 			</g:cell>
-			<g:cell><g:Label ui:field="rating" styleName="{style.rating}"></g:Label></g:cell>
+			<g:cell width="100%"><g:Label ui:field="rating" styleName="{style.rating}"></g:Label></g:cell>
 		</g:HorizontalPanel>
 	</g:FocusPanel>
 </ui:UiBinder> 

@@ -32,7 +32,8 @@ body {
 			right: 0px;
 			bottom: 80px;
 			z-index: 100;
-			width: 350px;
+			width: 355px;
+			overflow: visible;
 }
 
 .button

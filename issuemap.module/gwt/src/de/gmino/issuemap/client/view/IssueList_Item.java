@@ -37,7 +37,8 @@ public class IssueList_Item extends Composite {
 		
 		labelTitle.setText(issue.getTitle());
 		type.setText(issue.getMarkertype().getMarkerName());
-		rating.setText(""+issue.getRating());
+		if(issue.getRating()>0) rating.setText("+"+issue.getRating());
+		else rating.setText(""+issue.getRating());
 		rating.getElement().getStyle().setColor(issue.getMap_instance().getSecondary_color());
 		date.setText(", " + issue.getCreationTimestamp().relativeToNow().toReadableString(true,1));
 		date.setTitle(dtf.format(issue.getCreationTimestamp().toDate()));
@@ -61,6 +62,12 @@ public class IssueList_Item extends Composite {
 	
 	@UiHandler("focusPanel")
 	public void onClick(ClickEvent e) {
+	
+		layer.clickedPoi(issue.getId());
+	}
+	
+	@UiHandler("focusPanel")
+	public void onHover(ClickEvent e) {
 	
 		layer.clickedPoi(issue.getId());
 	}

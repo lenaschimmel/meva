@@ -72,11 +72,12 @@ public class IssueList_PopUp extends Composite implements HasText {
 
 
 
-//	@UiHandler("close")
-//	void onClick(ClickEvent e) {
-//		this.setVisible(false);
-//		listButton.setVisible(true);
-//	}
+	@UiHandler("close")
+	void onClick(ClickEvent e) {
+		this.setVisible(false);
+		listButton.setVisible(true);
+
+	}
 
 
 	public void setText(String text) {
