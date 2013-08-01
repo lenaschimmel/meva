@@ -52,14 +52,14 @@ import de.gmino.meva.shared.request.Requests;
 
 public class IssuemapGwt implements EntryPoint {
 	
-		public class AddIssuesCommand implements RepeatingCommand {
+	public class AddIssuesCommand implements RepeatingCommand {
 
-			private ArrayList<Issue> issues;
-			private int i = 0;
+		private ArrayList<Issue> issues;
+		private int i = 0;
 
-			public AddIssuesCommand(ArrayList<Issue> issues) {
-				this.issues = issues;
-			}
+		public AddIssuesCommand(ArrayList<Issue> issues) {
+			this.issues = issues;
+		}
 			
 		@Override
 		public boolean execute() {
@@ -73,39 +73,39 @@ public class IssuemapGwt implements EntryPoint {
 
 	}
 		
-		public static int compareLong(long l1, long l2)
-		{
-			return (l1 < l2) ? -1 : ((l1 == l2) ? 0 : 1);
-		}
+	public static int compareLong(long l1, long l2)
+	{
+		return (l1 < l2) ? -1 : ((l1 == l2) ? 0 : 1);
+	}
 
-		private final class IssueLatitudeComparator implements Comparator<Issue> {
-			@Override
-			public int compare(Issue i1, Issue i2) {
-				int latitudeComparision = -Double.compare(i1.getLocation()
-						.getLatitude(), i2.getLocation().getLatitude());
-				if (latitudeComparision != 0)
-					return latitudeComparision;
+	private final class IssueLatitudeComparator implements Comparator<Issue> {
+		@Override
+		public int compare(Issue i1, Issue i2) {
+			int latitudeComparision = -Double.compare(i1.getLocation()
+					.getLatitude(), i2.getLocation().getLatitude());
+			if (latitudeComparision != 0)
+				return latitudeComparision;
+			else
+				return compareLong(i1.getId(), i2.getId());
+		}
+	}
+
+	private final class IssueRatingComparator implements Comparator<Issue> {
+		@Override
+		public int compare(Issue i1, Issue i2) {
+			int ratingComparision = -compareLong(i1.getRating(), i2.getRating());
+			if (ratingComparision != 0)
+				return ratingComparision;
+			else
+			{
+				int timestampComparision = -compareLong(i1.getCreationTimestamp().getMillisSinceEpoch(), i2.getCreationTimestamp().getMillisSinceEpoch());
+				if (timestampComparision != 0)
+					return timestampComparision;
 				else
 					return compareLong(i1.getId(), i2.getId());
 			}
 		}
-
-		private final class IssueRatingComparator implements Comparator<Issue> {
-			@Override
-			public int compare(Issue i1, Issue i2) {
-				int ratingComparision = -compareLong(i1.getRating(), i2.getRating());
-				if (ratingComparision != 0)
-					return ratingComparision;
-				else
-				{
-					int timestampComparision = -compareLong(i1.getCreationTimestamp().getMillisSinceEpoch(), i2.getCreationTimestamp().getMillisSinceEpoch());
-					if (timestampComparision != 0)
-						return timestampComparision;
-					else
-						return compareLong(i1.getId(), i2.getId());
-				}
-			}
-		}
+	}
 
 	/**
 	 * The message displayed to the user when the server cannot be reached or
@@ -128,6 +128,8 @@ public class IssuemapGwt implements EntryPoint {
 	private static IssuemapGwt instance;
 
 	private IssueIconRenderer issueRenderer;
+
+	private static final int GENERAL_POPUP_MARGIN = 20;
 
 	public IssuemapGwt() {
 		if (instance != null)
@@ -153,6 +155,8 @@ public class IssuemapGwt implements EntryPoint {
 
 		// Create the map
 		mapView = new OpenLayersMapView("map", "mapquest");
+		
+		mapView.setBorders(30 + GENERAL_POPUP_MARGIN, 58 + GENERAL_POPUP_MARGIN, 357 + GENERAL_POPUP_MARGIN, 53 +GENERAL_POPUP_MARGIN);
 		markerLayer = mapView.newSmartLayer("Issues");
 		mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);
 		issueRenderer = new IssueIconRenderer();
@@ -209,7 +213,7 @@ public class IssuemapGwt implements EntryPoint {
 							return true;
 						
 						mapView.panRectIntoMap(location, offsetWidth,
-								offsetHeight, 30, true);
+								offsetHeight, true);
 						
 						return false;
 					}
@@ -360,9 +364,7 @@ public class IssuemapGwt implements EntryPoint {
 	public void setCounter() {
 		footer.setCounter(counter);
 	}
-	
-
-	
+		
 	public void addFeedback_Button(){
 		Feedback_Button feedback = new Feedback_Button(mapObject);
 		RootPanel.get("feedback").add(feedback);
@@ -372,15 +374,17 @@ public class IssuemapGwt implements EntryPoint {
 	public void addList(ArrayList<Issue> data){
 		IssueList_PopUp list = new IssueList_PopUp(mapObject, data, issueRenderer, markerLayer);
 		RootPanel.get("list").add(list);
-
-		
 	}
-	
 
 	public Map getMap()
 	{
 		return mapObject;
 	}
 
-
+	public void setListVisible(boolean visible) {
+		if(visible)
+			mapView.setBorderRight(357 + GENERAL_POPUP_MARGIN);
+		else
+			mapView.setBorderRight(40 + GENERAL_POPUP_MARGIN);
+	}
 }

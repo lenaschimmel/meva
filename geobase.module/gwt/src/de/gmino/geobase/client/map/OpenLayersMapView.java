@@ -20,6 +20,7 @@ public class OpenLayersMapView extends AbstractMapView {
 	JavaScriptObject map;
 	boolean clickListenerEnabled = false;
 	ArrayList<OpenLayersLayer> layers;
+	int borderLeft, borderTop, borderRight, borderBottom;
 	
 	public OpenLayersMapView(String elementName, String layerName) {
 		map = nCreateMap(elementName, layerName);
@@ -66,6 +67,14 @@ public class OpenLayersMapView extends AbstractMapView {
 		double lon = nGetCenterLon();
 		return new LatLon(lat, lon);
 	}
+	
+	public void setBorders(int borderLeft, int borderTop, int borderRight, int borderBottom)
+	{
+		this.borderLeft = borderLeft;
+		this.borderTop = borderTop;
+		this.borderRight = borderRight;
+		this.borderBottom = borderBottom;
+	}
 
 	private native double nGetCenterLat() /*-{
 											var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
@@ -95,8 +104,8 @@ public class OpenLayersMapView extends AbstractMapView {
 		nPanLatLonToPoint(latlon.getLatitude(), latlon.getLongitude(), x, y, animate);
 	}
 	
-	public void panRectIntoMap(LatLon latlon,  int w, int h, int border, boolean animate) {
-		nPanRectIntoMap(latlon.getLatitude(), latlon.getLongitude(), w, h, border, animate);
+	public void panRectIntoMap(LatLon latlon,  int w, int h, boolean animate) {
+		nPanRectIntoMap(latlon.getLatitude(), latlon.getLongitude(), w, h, borderLeft, borderTop, borderRight, borderBottom, animate);
 	}
 	
 	private native void nSetCenter(double lat, double lon) /*-{
@@ -138,19 +147,19 @@ public class OpenLayersMapView extends AbstractMapView {
 		return map.size.h;
 	}-*/;
 
-	public native void nPanRectIntoMap(double lat, double lon, int w, int h, int border, boolean animate) /*-{
+	public native void nPanRectIntoMap(double lat, double lon, int w, int h, int borderLeft, int borderTop, int borderRight, int borderBottom, boolean animate) /*-{
 		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
 		var lonlatPixel = map.getPixelFromLonLat(new $wnd.OpenLayers.LonLat(lon, lat).transform(map.pro1,map.pro2));
 		var newLonLatX = lonlatPixel.x;
 		var newLonLatY = lonlatPixel.y;
-		if(newLonLatX < border)
-			newLonLatX = border;
-		if(newLonLatY < border)
-			newLonLatY = border;
-		if(newLonLatX + w > map.size.w - border)
-			newLonLatX = map.size.w - border - w;
-		if(newLonLatY + h > map.size.h - border)
-			newLonLatY = map.size.h - border - h;
+		if(newLonLatX < borderLeft)
+			newLonLatX = borderLeft;
+		if(newLonLatY < borderTop)
+			newLonLatY = borderTop;
+		if(newLonLatX + w > map.size.w - borderRight)
+			newLonLatX = map.size.w - borderRight - w;
+		if(newLonLatY + h > map.size.h - borderBottom)
+			newLonLatY = map.size.h - borderBottom - h;
 	
 		var centerPixel = new $wnd.OpenLayers.Pixel(map.size.w / 2, map.size.h / 2);
 		centerPixel.x -= newLonLatX - lonlatPixel.x;
@@ -344,5 +353,21 @@ public class OpenLayersMapView extends AbstractMapView {
 
 	public JavaScriptObject getMapJso() {
 		return map;
+	}
+
+	public void setBorderLeft(int borderLeft) {
+		this.borderLeft = borderLeft;
+	}
+
+	public void setBorderTop(int borderTop) {
+		this.borderTop = borderTop;
+	}
+
+	public void setBorderRight(int borderRight) {
+		this.borderRight = borderRight;
+	}
+
+	public void setBorderBottom(int borderBottom) {
+		this.borderBottom = borderBottom;
 	}
 }

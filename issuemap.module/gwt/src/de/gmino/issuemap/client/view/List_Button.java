@@ -40,7 +40,7 @@ public class List_Button extends Composite implements HasText {
 	void onClick(ClickEvent e) {
 		this.setVisible(false);
 		issueList_PopUp.setVisible(true);
-		
+		IssuemapGwt.getInstance().setListVisible(true);
 	}
 
 	public void setText(String text) {
@@ -50,7 +50,4 @@ public class List_Button extends Composite implements HasText {
 	public String getText() {
 		return list_button.getText();
 	}
-
-
-
 }

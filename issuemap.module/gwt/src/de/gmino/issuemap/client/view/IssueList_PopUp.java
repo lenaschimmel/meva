@@ -37,7 +37,7 @@ import de.gmino.issuemap.client.poi.IssueIconRenderer;
 import de.gmino.issuemap.shared.request.SendFeedback;
 import de.gmino.meva.shared.request.Requests;
 
-public class IssueList_PopUp extends Composite implements HasText {
+public class IssueList_PopUp extends Composite {
 
 	private static IssueList_PopUpUiBinder uiBinder = GWT
 			.create(IssueList_PopUpUiBinder.class);
@@ -53,12 +53,9 @@ public class IssueList_PopUp extends Composite implements HasText {
 		RootPanel.get("list").add(listButton);
 		listButton.setVisible(false);
 		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
-	
 	    
-	    for (Issue i : data)	    IssueItemsPanel.add(new IssueList_Item(i, issueRenderer, layer));
-
-
-
+	    for (Issue i : data)
+	    	IssueItemsPanel.add(new IssueList_Item(i, issueRenderer, layer));
 	}
 
 //	@UiField
@@ -67,26 +64,11 @@ public class IssueList_PopUp extends Composite implements HasText {
 	Label title;
 	@UiField
 	VerticalPanel IssueItemsPanel;
-	
-
-
-
 
 	@UiHandler("close")
 	void onClick(ClickEvent e) {
 		this.setVisible(false);
 		listButton.setVisible(true);
-
+		IssuemapGwt.getInstance().setListVisible(false);
 	}
-
-
-	public void setText(String text) {
-
-	}
-
-	public String getText() {
-		return null;
-	}
-	
-
 }
