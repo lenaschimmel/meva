@@ -8,7 +8,9 @@ import java.util.TreeSet;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.UnsafeNativeLong;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -86,7 +88,7 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 	}
 
 	public void clickedPoi(long poiId) {
-		Poi poi = pois.get(poiId);
+		final Poi poi = pois.get(poiId);
 		Entity oAsEntity = (Entity) poi;
 		GwtPopupCreator<Poi> creator = popupCreatorMap.get(oAsEntity.getType());
 		if(creator == null)
@@ -103,11 +105,26 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 		DivElement div = mapView.createPopup(poi.getLocation(), poi.getId()
 				+ "", 1, 1);
 		HTMLPanel.wrap(div).add(widget);
-		Widget inner = ((AbsolutePanel) widget).getWidget(0);
-		mapView.panRectIntoMap(poi.getLocation(), inner.getOffsetWidth(),
-				inner.getOffsetHeight(), 22, 38, true);
-
+		final Widget inner = ((AbsolutePanel) widget).getWidget(0);
+	
 		currentPopup = widget;
+		
+		// the popup width is not always computeted correctly the first time and simple deferring doesn't help. Therefore, we ask for the width until it seems about right before using ist.
+		Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+			@Override
+			public boolean execute() {
+				int offsetWidth = inner.getOffsetWidth();
+				int offsetHeight = inner.getOffsetHeight();
+				
+				if(offsetWidth < 160)
+					return true;
+				
+				mapView.panRectIntoMap(poi.getLocation(), offsetWidth,
+						offsetHeight,  22, 38, true);
+					
+				return false;
+			}
+		}, 100);
 	}
 
 	// TODO: This is a marker layer, not a vector layer

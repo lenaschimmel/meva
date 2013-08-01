@@ -220,7 +220,7 @@
 		}
 
 		.mainArea {
-			padding: 5px;
+			padding: 12px;
 		}
 
 		.underline {
@@ -230,6 +230,20 @@
 		.imageWrapper {
 			height: 31px;
 			overflow: hidden;
+		}
+
+		.lbBodyHeader {
+			white-space: nowrap;
+			font-size: 100%;
+			text-transform:uppercase;
+			font-weight: bold;
+			border-bottom: 1px solid #FFF;
+			width: 100%;
+			padding-bottom: 3px;
+		}
+
+		.subContent	{
+			margin-bottom: 15px;
 		}
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
@@ -285,7 +299,7 @@
 			<g:HorizontalPanel styleName="{style.lowerBar}" width="100%" height="33px" >
 				<g:cell width="25%"><g:Button styleName="{style.tabButton}" ui:field="tabButtonDescription">Allgemein</g:Button></g:cell>
 				<g:cell width="1px" height="100%"><g:Label styleName="{style.tabDivider}">&nbsp;</g:Label></g:cell>
-				<g:cell width="25%"><g:Button styleName="{style.tabButton}" ui:field="tabButtonPhotos">Bilder</g:Button></g:cell>
+				<g:cell width="25%"><g:Button styleName="{style.tabButton}" ui:field="tabButtonPhotos">Fotos</g:Button></g:cell>
 				<g:cell width="1px" height="100%"><g:Label styleName="{style.tabDivider}">&nbsp;</g:Label></g:cell>
 				<g:cell width="25%"><g:Button styleName="{style.tabButton}" ui:field="tabButtonComments">Kommentare</g:Button></g:cell>
 				<g:cell width="1px" height="100%"><g:Label styleName="{style.tabDivider}">&nbsp;</g:Label></g:cell>
@@ -296,12 +310,43 @@
 		</g:Cell>
 		<g:Cell><!-- Haubtbereich mit Tabinhalten -->
 			<g:DeckPanel ui:field="deckPanel" styleName="{style.mainArea}">
-				<g:ScrollPanel ui:field="tabDescription" width="550px"
-					height="300px"><!-- Description -->
-					<g:VerticalPanel>
-						<g:HTML ui:field="description" styleName="{style.description_label}"></g:HTML>
-					</g:VerticalPanel>
-				</g:ScrollPanel>
+			    <g:HorizontalPanel ui:field="tabDescription"  width="550px" height="300px"> <!-- Description -->
+			        <g:cell width="66%">
+				        <g:VerticalPanel width="100%" height="100%">
+				            <g:Label styleName="{style.lbBodyHeader}">Beschreibung</g:Label>
+				            <g:cell height="50%">
+								<g:ScrollPanel width="100%" height="135px" styleName="{style.subContent}">
+									<g:HTML ui:field="description" styleName="{style.description_label}"></g:HTML>
+								</g:ScrollPanel>
+							</g:cell>   
+							<g:Label styleName="{style.lbBodyHeader}">Antwort</g:Label>
+				            <g:cell height="50%">
+								<g:ScrollPanel width="100%" height="100%">
+									<g:HTML ui:field="answer" styleName="{style.description_label}"><i>(Bisher keine Antwort)</i></g:HTML>
+								</g:ScrollPanel>
+							</g:cell>
+				        </g:VerticalPanel>
+				    </g:cell>
+				    <g:cell width="12px">
+				    	<g:SimplePanel width="12px"></g:SimplePanel>
+				    </g:cell>
+				    <g:cell width="34%">
+				      		<g:VerticalPanel width="100%" height="100%">
+				            <g:Label styleName="{style.lbBodyHeader}">Foto(s)</g:Label>
+				            <g:cell height="60%">
+								<g:ScrollPanel width="100%" height="100%">
+									<g:HTML ui:field="photos" styleName="{style.description_label}"><i>(Bisher keine Fotos)</i></g:HTML>
+								</g:ScrollPanel>
+							</g:cell>   
+							<g:Label styleName="{style.lbBodyHeader}">Relevanz</g:Label>
+				            <g:cell height="40%">
+								<g:ScrollPanel width="100%" height="100%">
+									<g:HTML ui:field="relevance" styleName="{style.description_label}"></g:HTML>
+								</g:ScrollPanel>
+							</g:cell>
+				        </g:VerticalPanel>
+				    </g:cell>
+				</g:HorizontalPanel>
 				<g:ScrollPanel ui:field="tabPhotos" width="550px"
 					height="300px"><!-- Photos -->
 					<g:VerticalPanel>

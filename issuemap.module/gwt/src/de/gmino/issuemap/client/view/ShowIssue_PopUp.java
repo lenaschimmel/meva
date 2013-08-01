@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -257,7 +258,7 @@ public class ShowIssue_PopUp extends Composite {
 	@UiField
 	DeckPanel deckPanel;
 	@UiField
-	ScrollPanel tabDescription;
+	Panel tabDescription;
 	@UiField
 	ScrollPanel tabPhotos;
 	@UiField
