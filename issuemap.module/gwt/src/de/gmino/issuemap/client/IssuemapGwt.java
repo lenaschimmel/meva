@@ -9,7 +9,6 @@ import java.util.TreeSet;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
@@ -38,7 +37,6 @@ import de.gmino.issuemap.client.request.QueryMapBySubdomain;
 import de.gmino.issuemap.client.view.CreateEvent_PopUp;
 import de.gmino.issuemap.client.view.CreateIssue_PopUp;
 import de.gmino.issuemap.client.view.Feedback_Button;
-import de.gmino.issuemap.client.view.Feedback_PopUp;
 import de.gmino.issuemap.client.view.Footer;
 import de.gmino.issuemap.client.view.Header;
 import de.gmino.issuemap.client.view.IssueList_PopUp;
@@ -70,7 +68,6 @@ public class IssuemapGwt implements EntryPoint {
 			
 			return true;
 		}
-
 	}
 		
 	public static int compareLong(long l1, long l2)
@@ -121,7 +118,6 @@ public class IssuemapGwt implements EntryPoint {
 	private OpenLayersSmartLayer markerLayer;
 	private Footer footer = new Footer();
 	private Header header = new Header();
-
 
 	int counter = 0;
 
@@ -175,14 +171,10 @@ public class IssuemapGwt implements EntryPoint {
 					new RouteIconRenderer());
 		}
 		
-		
-
-		
 		// Add Header to RootPanel
 		RootPanel.get("bar_top").add(header);
 		RootPanel.get("bar_bottom").add(footer);
 		
-
 		// mapView.addEventListener(Event.click, new MapListener() {
 		//
 		// @Override
@@ -234,8 +226,6 @@ public class IssuemapGwt implements EntryPoint {
 		});
 
 		mapRequest(subdomain);
-		
-
 	}
 
 	void mapRequest(final String subdomain) {
@@ -293,7 +283,6 @@ public class IssuemapGwt implements EntryPoint {
 								} else
 									loadAndShowIssues();
 							}
-														
 						});
 					};
 
@@ -350,14 +339,12 @@ public class IssuemapGwt implements EntryPoint {
 						break;
 				}
 				
-				
 				counter = filteredLatitudeIssues.size();
 				setCounter();
 				counter = 0; // will be incremented by the deferred command and we dont want to count everything twice.
 				
 				addList(filteredRatingIssues);
 			}
-
 		});
 	}
 

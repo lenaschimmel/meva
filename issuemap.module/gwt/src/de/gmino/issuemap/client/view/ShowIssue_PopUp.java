@@ -53,7 +53,7 @@ import de.gmino.meva.shared.request.Requests;
 
 public class ShowIssue_PopUp extends Composite {
 
-	static DateTimeFormat dtf = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm");
+	static DateTimeFormat dtf = DateTimeFormat.getFormat("dd.MM.yyyy, 'um' HH:mm");
 	ImageResources imageRes;
 
 	private static Detail_PopUpUiBinder uiBinder = GWT
@@ -129,10 +129,9 @@ public class ShowIssue_PopUp extends Composite {
 		tbRatingUp.setVisible(false);
 		tbRatingDown.setVisible(false);
 		
-		date.setText(", " + issue.getCreationTimestamp().relativeToNow().toReadableString(true,1));
-		date.setTitle(dtf.format(issue.getCreationTimestamp().toDate()));
-		
-		type.setText(mIssue.getMarkertype().getMarkerName());
+		lbTypeAndDate.setText(mIssue.getMarkertype().getMarkerName() + ", " + issue.getCreationTimestamp().relativeToNow().toReadableString(true,1));
+		lbTypeAndDate.setTitle("Eintrag vom " + dtf.format(issue.getCreationTimestamp().toDate()));
+
 		tbResolved.setStyleName(style.underline(), mIssue.isResolved());
 		setRatingText();
 		lbTitle.setText(mIssue.getTitle());
@@ -226,9 +225,7 @@ public class ShowIssue_PopUp extends Composite {
 	@UiField
 	Image rate_down;
 	@UiField
-	Label date;
-	@UiField
-	Label type;
+	Label lbTypeAndDate;
 	@UiField
 	HTML description;
 
@@ -467,8 +464,8 @@ public class ShowIssue_PopUp extends Composite {
 		lbRating.setText(ratingText);
 		int upVotes = (mIssue.getNumber_of_rating() + mIssue.getRating()) / 2;
 		int downVotes = (mIssue.getNumber_of_rating() - mIssue.getRating()) / 2;
-		lbRatingUpCount.setText("x" + upVotes);
-		lbRatingDownCount.setText("x" + downVotes);
+		lbRatingUpCount.setText("" + upVotes);
+		lbRatingDownCount.setText("" + downVotes);
 	}
 
 	public void setText(String titleString, String descriptionString) {

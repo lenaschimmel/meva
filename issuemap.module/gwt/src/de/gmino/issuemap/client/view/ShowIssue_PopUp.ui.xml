@@ -14,8 +14,8 @@
 			width: 300px;
 			background: rgba(20, 20, 20, 0.8);
 			position: absolute;
-			left: -27px;
-			top: -45px;
+			left: -22px;
+			top: -38px;
 			border-top-right-radius: 4px;
 			border-bottom-right-radius: 4px;
 			border-top-left-radius: 4px;
@@ -28,11 +28,15 @@
 		.lbTitle {
 			color: #FFF;
 			font-weight: bold;
-			font-size: medium;
+			font-size: 115%;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			width: 305px;
+		}
+
+		.lbTypeAndDate {
+			font-size: 90%;
 		}
 		
 		.divider {
@@ -65,8 +69,6 @@
 		}
 		
 		.rateButton {
-			padding-right: 10px;
-			cursor: pointer;
 		}
 		
 		.deleteButton {
@@ -108,6 +110,7 @@
 			background-color: #000;
 			height: 100%;
 			width: 40px;
+			position: relative;
 		}
 
 		.topButton:hover {
@@ -147,6 +150,7 @@
 		.upperBar {
 			background-color: #000;
 			border-bottom: 1px solid #666;
+			height: 40px;
 		}
 
 		.lowerBar {
@@ -175,21 +179,30 @@
 		}
 
 		.lbRating {
-			line-height: 47px;
+			line-height: 39px;
 			width: 100%;
 			text-align: center;
 			font-size: 130%;
 		}
 
 		.lbRatingSmall {
-			color: #CCC:
-			text-align: center;
-			font-size: 70%;
+ 			font-size: 130%;
+    		left: 18px;
+    		position: absolute;
+    		right: 0;
+		    text-align: center;
+ 			top: 10px;
+		}
+
+		.rateButton {
+			position: absolute;
+  			left: 7px;
+    		top: 17px;
 		}
 
 		.dualTextPanel {
 			margin-left: 2px;
-    		margin-top: 5px;
+    		margin-top: 3px;
 		}
 
 		.imageMarkerIcon {
@@ -212,38 +225,41 @@
 		.underline {
 			border-bottom: 4px solid #4DADDE;
 		}
+
+		.imageWrapper {
+			height: 31px;
+			overflow: hidden;
+		}
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
 		<g:Cell><!-- Kopfbereich a.k.a. Mouseover -->
-		     <g:HorizontalPanel width="100%" height="33px" styleName="{style.upperBar}">
+		     <g:HorizontalPanel width="100%" styleName="{style.upperBar}">
 				<g:cell width="40px">
-					<g:Image ui:field="imageMarkerIcon" styleName="{style.imageMarkerIcon}">
-		
-					</g:Image>
+				    <g:SimplePanel styleName="{style.imageWrapper}" >
+						<g:Image ui:field="imageMarkerIcon" styleName="{style.imageMarkerIcon}">
+						</g:Image>
+					</g:SimplePanel>
 				</g:cell>
-				<g:cell width="100%">
+				<g:cell>
 					<g:VerticalPanel styleName="{style.dualTextPanel}" >
 						<g:Label ui:field="lbTitle" styleName="{style.lbTitle}"></g:Label>
-						<g:HorizontalPanel>
-							<g:Label ui:field="type"></g:Label>
-							<g:Label ui:field="date"></g:Label>
-						</g:HorizontalPanel>
+						<g:Label ui:field="lbTypeAndDate" styleName="{style.lbTypeAndDate}"></g:Label>
 					</g:VerticalPanel>
 				</g:cell>
 				<g:cell height="100%" width="60px">
 					<g:FocusPanel styleName="{style.wideTopButton}" ui:field="tbRatingUp" title="Rating um 1 erhöhen">
-					    <g:VerticalPanel>
+					    <g:FlowPanel>
 					    	<g:Image resource="{resources.go_up}" styleName="{style.rateButton}" ui:field="rate_up" />
-					    	<g:Label ui:field="lbRatingUpCount" styleName="{style.lbRatingSmall}">x?</g:Label>
-					    </g:VerticalPanel>
+					    	<g:Label ui:field="lbRatingUpCount" styleName="{style.lbRatingSmall}">?</g:Label>
+					    </g:FlowPanel>
 					</g:FocusPanel>
 				</g:cell>
 				<g:cell height="100%" width="60px">
 					<g:FocusPanel styleName="{style.wideTopButton}" ui:field="tbRatingDown" title="Rating um 1 senken">
-					    <g:VerticalPanel>
+					    <g:FlowPanel>
 					    	<g:Image resource="{resources.go_down}" styleName="{style.rateButton}" ui:field="rate_down" />
-					    	<g:Label ui:field="lbRatingDownCount" styleName="{style.lbRatingSmall}">x?</g:Label>
-					    </g:VerticalPanel>
+					    	<g:Label ui:field="lbRatingDownCount" styleName="{style.lbRatingSmall}">?</g:Label>
+					    </g:FlowPanel>
 					</g:FocusPanel>
 				</g:cell>
 				
