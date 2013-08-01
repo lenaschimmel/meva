@@ -149,6 +149,7 @@ public class ShowIssue_PopUp extends Composite {
 		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mIssue);
 		String iconUrl = renderer.getIconUrl(mIssue);
 		imageMarkerIcon.setUrl(iconUrl);
+		activateTab(0);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -277,19 +278,26 @@ public class ShowIssue_PopUp extends Composite {
 	
 	@UiHandler("tabButtonDescription")
 	void onTabButtonDescriptionClick(ClickEvent e) {
-		deckPanel.showWidget(0);
+		activateTab(0);
 	}
-	
+
 	@UiHandler("tabButtonPhotos")
 	void onTabButtonPhotosClick(ClickEvent e) {
-		deckPanel.showWidget(1);
+		activateTab(1);
 	}
 		
 	@UiHandler("tabButtonComments")
 	void onTabButtonCommentsClick(ClickEvent e) {
-		deckPanel.showWidget(2);
+		activateTab(2);
 	}
 		
+	private void activateTab(int i) {
+		deckPanel.showWidget(i);
+		tabButtonDescription.setStyleName(style.underline(), i == 0);
+		tabButtonPhotos		.setStyleName(style.underline(), i == 1);
+		tabButtonComments	.setStyleName(style.underline(), i == 2);
+	}
+	
 	@UiHandler("tbRating")
 	void onTbRatingClick(ClickEvent e) {
 		boolean visible = !tbRatingUp.isVisible();
