@@ -105,11 +105,11 @@ public class OpenLayersMapView extends AbstractMapView {
 	}
 	
 	public void panRectIntoMap(LatLon latlon,  int w, int h, boolean animate) {
-		nPanRectIntoMap(latlon.getLatitude(), latlon.getLongitude(), w, h, borderLeft, borderTop, borderRight, borderBottom, 0, 0, animate);
+		nPanRectIntoMap(latlon.getLatitude(), latlon.getLongitude(), w, h, borderLeft, borderTop, borderRight, borderBottom, animate);
 	}
 	
 	public void panRectIntoMap(LatLon latlon,  int w, int h, int offsetX, int offsetY, boolean animate) {
-		nPanRectIntoMap(latlon.getLatitude(), latlon.getLongitude(), w, h, borderLeft, borderTop, borderRight, borderBottom, offsetX, offsetY, animate);
+		nPanRectIntoMap(latlon.getLatitude(), latlon.getLongitude(), w, h, borderLeft + offsetX, borderTop + offsetY, borderRight - offsetX, borderBottom - offsetY, animate);
 	}
 	
 	private native void nSetCenter(double lat, double lon) /*-{
@@ -151,7 +151,7 @@ public class OpenLayersMapView extends AbstractMapView {
 		return map.size.h;
 	}-*/;
 
-	public native void nPanRectIntoMap(double lat, double lon, int w, int h, int borderLeft, int borderTop, int borderRight, int borderBottom, int offsetX, int offsetY , boolean animate) /*-{
+	public native void nPanRectIntoMap(double lat, double lon, int w, int h, int borderLeft, int borderTop, int borderRight, int borderBottom, boolean animate) /*-{
 		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
 		var lonlatPixel = map.getPixelFromLonLat(new $wnd.OpenLayers.LonLat(lon, lat).transform(map.pro1,map.pro2));
 		var newLonLatX = lonlatPixel.x;
@@ -166,8 +166,8 @@ public class OpenLayersMapView extends AbstractMapView {
 			newLonLatY = map.size.h - borderBottom - h;
 	
 		var centerPixel = new $wnd.OpenLayers.Pixel(map.size.w / 2, map.size.h / 2);
-		centerPixel.x -= newLonLatX - lonlatPixel.x + offsetX;
-		centerPixel.y -= newLonLatY - lonlatPixel.y + offsetY;
+		centerPixel.x -= newLonLatX - lonlatPixel.x;
+		centerPixel.y -= newLonLatY - lonlatPixel.y;
 		var newLonLat = map.getLonLatFromPixel(centerPixel);
 		map.panTo(newLonLat);
 	}-*/;
