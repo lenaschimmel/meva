@@ -15,6 +15,7 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DeckPanel;
@@ -48,6 +49,7 @@ import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Photo;
 import de.gmino.issuemap.client.poi.Marker_Wrapper;
 import de.gmino.issuemap.client.resources.ImageResources;
+import de.gmino.issuemap.shared.Log;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
@@ -329,22 +331,29 @@ public class ShowIssue_PopUp extends Composite {
 				
 				final String url = event.getResults().replace("<pre>", "").replace("</pre>", "").trim();
 				
-				Requests.getNewEntity(Photo.type, new RequestListener<Photo>() {
-					@Override
-					public void onNewResult(Photo photo) {
-						photo.setUser("anonym");
-						photo.setTimestamp(Timestamp.now());
-						photo.setImage(new ImageUrl(url));
-						mIssue.getPhotos().add(photo);
-						Requests.saveEntity(photo, null);
-						Requests.saveEntity(mIssue, null);
-						showPhoto(photo);
-						smartLayer.updatePoi(mIssue);
-						updateIcon();
-					}
-				});
+				if(url.startsWith("http://"))
+				{
 				
-				Requests.saveEntity(mIssue, null);
+					Requests.getNewEntity(Photo.type, new RequestListener<Photo>() {
+						@Override
+						public void onNewResult(Photo photo) {
+							photo.setUser("anonym");
+							photo.setTimestamp(Timestamp.now());
+							photo.setImage(new ImageUrl(url));
+							mIssue.getPhotos().add(photo);
+							Requests.saveEntity(photo, null);
+							Requests.saveEntity(mIssue, null);
+							showPhoto(photo);
+							smartLayer.updatePoi(mIssue);
+							updateIcon();
+						}
+					});
+					
+					Requests.saveEntity(mIssue, null);
+				}
+				else
+					Window.alert("Beim Upload ist ein Fehler aufgetreten. Bitt versuchen Sie es erneut.");
+					Log.log("Photo upload error. Instead of an url, we got this: " + url);
 			}
 		});
 	}
