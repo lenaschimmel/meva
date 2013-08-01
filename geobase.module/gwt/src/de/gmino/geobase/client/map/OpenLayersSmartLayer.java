@@ -105,7 +105,7 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 		HTMLPanel.wrap(div).add(widget);
 		Widget inner = ((AbsolutePanel) widget).getWidget(0);
 		mapView.panRectIntoMap(poi.getLocation(), inner.getOffsetWidth(),
-				inner.getOffsetHeight(), true);
+				inner.getOffsetHeight(), 22, 38, true);
 
 		currentPopup = widget;
 	}
