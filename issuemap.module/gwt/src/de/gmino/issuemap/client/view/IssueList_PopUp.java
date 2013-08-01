@@ -7,6 +7,7 @@ import org.mortbay.log.Log;
 
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -17,6 +18,7 @@ import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSe
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -50,7 +52,7 @@ public class IssueList_PopUp extends Composite implements HasText {
 	public IssueList_PopUp(Map mapObject, ArrayList<Issue> data, IssueIconRenderer issueRenderer, OpenLayersSmartLayer layer) {
 		initWidget(uiBinder.createAndBindUi(this));
 		listButton = new List_Button(this);
-		RootPanel.get("list").add(listButton);
+		RootPanel.get("feedback").add(listButton);
 		listButton.setVisible(false);
 		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
 	
@@ -61,12 +63,15 @@ public class IssueList_PopUp extends Composite implements HasText {
 
 	}
 
-//	@UiField
-//	Image close;
+	@UiField
+	Image close;
 	@UiField
 	Label title;
 	@UiField
 	VerticalPanel IssueItemsPanel;
+	
+	@UiField
+	FlowPanel flowPanel;
 	
 
 
@@ -74,7 +79,7 @@ public class IssueList_PopUp extends Composite implements HasText {
 
 	@UiHandler("close")
 	void onClick(ClickEvent e) {
-		this.setVisible(false);
+		RootPanel.get("list").getElement().getStyle().setDisplay(Display.NONE); // setZIndex(-1000);
 		listButton.setVisible(true);
 
 	}
@@ -88,5 +93,9 @@ public class IssueList_PopUp extends Composite implements HasText {
 		return null;
 	}
 	
+	public void setParentVisible(){
+		RootPanel.get("list").getElement().getStyle().setDisplay(Display.BLOCK);
+
+	}
 
 }
