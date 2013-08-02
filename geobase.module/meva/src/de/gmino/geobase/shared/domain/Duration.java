@@ -57,7 +57,7 @@ public class Duration extends DurationGen {
 	{
 		//long now = System.currentTimeMillis();
 		long diff = milliseconds; // - now;
-		if (diff == 0)
+		if (Math.abs(diff) < SECOND)
 			return relative ? "jetzt" : "sofort";
 		String ret;
 		if(relative)

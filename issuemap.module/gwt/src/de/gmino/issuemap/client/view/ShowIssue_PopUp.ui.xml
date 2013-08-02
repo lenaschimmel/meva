@@ -380,7 +380,7 @@
 		            <g:cell height="34%">
 						    <g:HorizontalPanel width="100%">
 						        <g:cell width="95%">
-									<g:TextBox width="100%" ui:field="commentTextBox"></g:TextBox>
+									<g:TextBox width="92%" ui:field="commentTextBox"></g:TextBox>
 								</g:cell>
 								<g:cell>
 									<g:Button ui:field="commentButton">Kommentieren</g:Button>
