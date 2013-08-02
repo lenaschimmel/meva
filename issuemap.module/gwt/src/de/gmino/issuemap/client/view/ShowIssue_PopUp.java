@@ -9,6 +9,8 @@ import com.google.gwt.dom.client.Style.FontStyle;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
@@ -118,6 +120,7 @@ public class ShowIssue_PopUp extends Composite {
 	OpenLayersSmartLayer smartLayer;
 	Issue mIssue;
 	Marker_Wrapper mWrapper;
+	boolean mainPhotoShown;
 
 	@SuppressWarnings("unchecked")
 	public ShowIssue_PopUp(Map map, Issue issue, Marker_Wrapper marker_Wrapper, OpenLayersSmartLayer smartLayer) {
@@ -260,9 +263,9 @@ public class ShowIssue_PopUp extends Composite {
 	@UiField
 	Panel tabDescription;
 	@UiField
-	ScrollPanel tabPhotos;
+	Panel tabPhotos;
 	@UiField
-	ScrollPanel tabComments;
+	Panel tabComments;
 	
 	@UiField 
 	Button tabButtonDescription;
@@ -278,6 +281,18 @@ public class ShowIssue_PopUp extends Composite {
 	
 	@UiField
 	Image imageMarkerIcon;
+	@UiField
+	Label lbNoPhotos;
+	@UiField
+	Label lbNoPhotosMain;
+	@UiField
+	Panel pnPhotoMain;
+	@UiField
+	Label lbPhotoMainHeader;
+	@UiField
+	Label lbNoComments;
+	@UiField
+	ScrollPanel spComments;
 	
 	@UiHandler("tabButtonDescription")
 	void onTabButtonDescriptionClick(ClickEvent e) {
@@ -406,8 +421,19 @@ public class ShowIssue_PopUp extends Composite {
 		}
 	}
 	
+	@UiHandler("commentTextBox")
+	void onKeyUp(KeyUpEvent event) {
+		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+			sendComment();
+		}
+	}
+	
 	@UiHandler("commentButton")
 	void onCommentButtonClick(ClickEvent e) {
+		sendComment();
+	}
+
+	private void sendComment() {
 		commentTextBox.setEnabled(false);
 		Requests.getNewEntity(Comment.type, new RequestListener<Comment>() {
 			@Override
@@ -498,26 +524,55 @@ public class ShowIssue_PopUp extends Composite {
 	private void showComment(Comment comment) {
 		VerticalPanel vp = new VerticalPanel();
 		vp.getElement().getStyle().setPaddingBottom(5, Unit.PX);
-		Label commentheader = new Label("Am " + dtf.format(comment.getTimestamp().toDate()) + " von " + comment.getUser() + ":");
+		Label commentheader = new Label(comment.getTimestamp().relativeToNow().toReadableString(true, 2) + " von " + comment.getUser() + ".");
+		commentheader.setTitle("Eingetragen am " + dtf.format(comment.getTimestamp().toDate()));
 		commentheader.getElement().getStyle().setFontSize(10, Unit.PX);
-		commentheader.getElement().getStyle().setMarginBottom(-1, Unit.PX);
-		vp.add(commentheader);
+		commentheader.getElement().getStyle().setMarginTop(3, Unit.PX);
+		commentheader.getElement().getStyle().setMarginBottom(8, Unit.PX);
+		commentheader.getElement().getStyle().setMarginLeft(8, Unit.PX);
+		commentheader.getElement().getStyle().setFontStyle(FontStyle.ITALIC);
 		Label commenttext = new Label(comment.getText());
 		commenttext.getElement().getStyle().setLineHeight(16, Unit.PX);
-		commenttext.getElement().getStyle().setFontStyle(FontStyle.ITALIC);
+
 		vp.add(commenttext);
+		vp.add(commentheader);
 		commentsPanel.add(vp);
 		tabButtonComments.setText("Kommentare (" + mIssue.getComments().size() + ")");
+		lbNoComments.setVisible(false);
+		spComments.scrollToBottom();
+		
 	}
 	
 	private void showPhoto(Photo photo) {
+		lbNoPhotos.setVisible(false);
 		final String photoBaseUrl = photo.getImage().getUrl();
 		Image image = new Image(photoBaseUrl+"&h=100");
 		image.getElement().getStyle().setCursor(Cursor.POINTER);
 		picturesPanel.add(image);
-		photosHeader.setText(mIssue.getPhotos().size() + " Fotos:");
-		tabButtonPhotos.setText("Fotos (" + mIssue.getPhotos().size() + ")");
+		final int photoCount = mIssue.getPhotos().size();
+		photosHeader.setText(photoCount + " Fotos:");
+		tabButtonPhotos.setText("Fotos (" + photoCount + ")");
+		if(photoCount == 1)
+			lbPhotoMainHeader.setText("Foto");
+		else
+			lbPhotoMainHeader.setText("Foto ("+(photoCount - 1)+" weitere)");
 		image.addClickHandler(new ShowPhotoThingy(photoBaseUrl));
+		if(!mainPhotoShown)
+		{
+			mainPhotoShown = true;
+			lbNoPhotosMain.setVisible(false);
+			pnPhotoMain.clear();
+			Image mainImage = new Image(photoBaseUrl+"&h=160");
+			mainImage.getElement().getStyle().setCursor(Cursor.POINTER);
+			pnPhotoMain.add(mainImage);
+			mainImage.addClickHandler(new ClickHandler() {
+				
+				@Override
+				public void onClick(ClickEvent event) {
+					activateTab(1);
+				}
+			});
+		}	
 	}
 	
 }

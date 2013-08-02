@@ -116,7 +116,7 @@ public class Duration extends DurationGen {
 
 		long seconds = diff / SECOND;
 		diff -= seconds * SECOND;
-		if (seconds > 0)
+		if (seconds > 0 || parts.isEmpty())
 			parts.add(seconds + ((seconds == 1) ? " Sekunde" : " Sekunden"));
 
 		return ret + concatParts(parts, maxParts);

@@ -240,6 +240,7 @@
 			border-bottom: 1px solid #FFF;
 			width: 100%;
 			padding-bottom: 3px;
+			margin-bottom: 8px;
 		}
 
 		.subContent	{
@@ -331,13 +332,13 @@
 				    	<g:SimplePanel width="12px"></g:SimplePanel>
 				    </g:cell>
 				    <g:cell width="34%">
-				      		<g:VerticalPanel width="100%" height="100%">
-				            <g:Label styleName="{style.lbBodyHeader}">Foto(s)</g:Label>
+				      	<g:VerticalPanel width="100%" height="100%">
+				            <g:Label styleName="{style.lbBodyHeader}" ui:field="lbPhotoMainHeader">Foto(s)</g:Label>
 				            <g:cell height="60%">
-								<g:ScrollPanel width="100%" height="100%">
-									<g:HTML ui:field="photos" styleName="{style.description_label}"><i>(Bisher keine Fotos)</i></g:HTML>
-								</g:ScrollPanel>
-							</g:cell>   
+								<g:VerticalPanel width="100%" height="100%" ui:field="pnPhotoMain">
+									<g:HTML ui:field="lbNoPhotosMain" styleName="{style.description_label}"><i>(Bisher keine Fotos)</i></g:HTML>
+								</g:VerticalPanel>
+							</g:cell>
 							<g:Label styleName="{style.lbBodyHeader}">Relevanz</g:Label>
 				            <g:cell height="40%">
 								<g:ScrollPanel width="100%" height="100%">
@@ -347,36 +348,47 @@
 				        </g:VerticalPanel>
 				    </g:cell>
 				</g:HorizontalPanel>
-				<g:ScrollPanel ui:field="tabPhotos" width="550px"
-					height="300px"><!-- Photos -->
-					<g:VerticalPanel>
-						<g:Label ui:field="photosHeader" styleName="{style.meta_label_bold}">Fotos:</g:Label>
-						<g:FlowPanel ui:field="picturesPanel">
-						</g:FlowPanel>
+				<g:VerticalPanel width="100%" height="100%"  ui:field="tabPhotos" >
+		            <g:Label styleName="{style.lbBodyHeader}" ui:field="photosHeader">Fotos</g:Label>
+		            <g:cell height="66%">
+						<g:ScrollPanel width="100%" height="135px" styleName="{style.subContent}">
+							<g:FlowPanel ui:field="picturesPanel">
+							    <g:Label ui:field="lbNoPhotos">Bisher wurden keine Fotos zu diesem Eintrag hochgeladen.</g:Label>
+							</g:FlowPanel>
+						</g:ScrollPanel>
+					</g:cell>   
+					<g:Label styleName="{style.lbBodyHeader}">Eigenes Foto hochladen</g:Label>
+		            <g:cell height="34%">
 						<g:FormPanel ui:field="form" width="90%">
-							<g:FileUpload ui:field="fileupload"></g:FileUpload>
+						    <g:HorizontalPanel>
+								<g:FileUpload ui:field="fileupload"></g:FileUpload>
+								<g:Button ui:field="uploadButton">Hochladen</g:Button>
+							</g:HorizontalPanel>
 						</g:FormPanel>
-						<g:Button ui:field="uploadButton">Hochladen</g:Button>
-					</g:VerticalPanel>
-				</g:ScrollPanel>
-				<g:ScrollPanel ui:field="tabComments" width="550px"
-					height="300px"><!-- Comments -->
-					<g:VerticalPanel>
-						<g:Label ui:field="commentsHeader" styleName="{style.meta_label_bold}">Kommentare:</g:Label>
-						<g:VerticalPanel ui:field="commentsPanel">
-						</g:VerticalPanel>
-						<g:Label styleName="{style.meta_label_bold}">Kommentar abgeben:</g:Label>
-						<g:HorizontalPanel width="100%">
-							<g:cell width="80%">
-								<g:TextBox width="90%" ui:field="commentTextBox"></g:TextBox>
-							</g:cell>
-							<g:cell width="20%">
-								<g:Button ui:field="commentButton">Kommentieren</g:Button>
-							</g:cell>
-						</g:HorizontalPanel>
-					</g:VerticalPanel>
-				</g:ScrollPanel>
+					</g:cell>
+		        </g:VerticalPanel>
+		        <g:VerticalPanel width="100%" height="100%"  ui:field="tabComments" >
+		            <g:Label styleName="{style.lbBodyHeader}" ui:field="commentsHeader">Kommentare</g:Label>
+		            <g:cell height="66%">
+						<g:ScrollPanel width="100%" height="135px" styleName="{style.subContent}" ui:field="spComments">
+							<g:VerticalPanel ui:field="commentsPanel">
+							    <g:Label ui:field="lbNoComments">Bisher wurden keine Kommentare zu diesem Eintrag geschrieben.</g:Label>
+							</g:VerticalPanel>
+						</g:ScrollPanel>
+					</g:cell>   
+					<g:Label styleName="{style.lbBodyHeader}">Eintrag kommentieren</g:Label>
+		            <g:cell height="34%">
+						    <g:HorizontalPanel width="100%">
+						        <g:cell width="95%">
+									<g:TextBox width="100%" ui:field="commentTextBox"></g:TextBox>
+								</g:cell>
+								<g:cell>
+									<g:Button ui:field="commentButton">Kommentieren</g:Button>
+								</g:cell>
+							</g:HorizontalPanel>
+					</g:cell>
+		        </g:VerticalPanel>
 			</g:DeckPanel>
 		</g:Cell>
 	</g:VerticalPanel>
-</ui:UiBinder> 
+</ui:UiBinder>
