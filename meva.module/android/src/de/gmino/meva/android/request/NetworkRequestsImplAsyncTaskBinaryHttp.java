@@ -388,4 +388,63 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 			};
 		}.execute(entities);
 	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public void getIdsByType(final EntityTypeName type, final RequestListener<Long> listener) {
+
+		new AsyncTask<Void, Long, Collection<Long>>() {
+			private Throwable storedException;
+
+			@Override
+			protected Collection<Long> doInBackground(Void... nothing) {
+				Collection<Long> ids = new ArrayList<Long>();
+				try {
+					HttpClient client = new DefaultHttpClient();
+					HttpPost request = new HttpPost();
+					request.setURI(new URI(baseUrl + "Binary/allEntities"));
+
+					ByteArrayOutputStream baos = new ByteArrayOutputStream();
+					DataOutputStream dos = new DataOutputStream(baos);
+					dos.writeUTF(type.toString());
+					
+					HttpEntity postBody = new ByteArrayEntity(baos.toByteArray());
+					request.setEntity(postBody);
+
+					HttpResponse response = client.execute(request);
+					DataInputStream dis = new DataInputStream(response.getEntity().getContent());
+
+					long id = dis.readLong();
+					while (id != 0) {
+						ids.add(id);
+						publishProgress(id);
+						id = dis.readLong();
+					}
+				} catch (Exception e) {
+					this.cancel(false);
+					storedException = e;
+					return null;
+				}
+				return ids;
+			};
+
+			@Override
+			protected void onPostExecute(java.util.Collection<Long> result) {
+				listener.onFinished(result);
+			};
+
+			@Override
+			protected void onProgressUpdate(Long... ids) {
+				for (long id : ids)
+					listener.onNewResult(id);
+			};
+
+			@Override
+			protected void onCancelled(java.util.Collection<Long> result) {
+				listener.onError("Request was cancelled due to an exception.", storedException);
+			};
+		}.execute();
+	}
+
+
 }

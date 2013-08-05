@@ -8,7 +8,17 @@
   <!-- Servlets -->
   <servlet>
     <servlet-name>JsonServer</servlet-name>
-    <servlet-class>de.gmino.issuemap.server.JsonServer</servlet-class>
+    <servlet-class>de.gmino.meva.server.JsonServer</servlet-class>
+    
+    <init-param>
+      <param-name>sqlConnectionUrl</param-name>
+      <param-value>jdbc:google:rdbms://gmino-de-cloud-sql:gmino-socialgis-sql/gminosocialmap?useUnicode=yes&amp;characterEncoding=UTF-8</param-value>
+    </init-param>    
+    
+    <init-param>
+      <param-name>entityFactoryClass</param-name>
+      <param-value>de.gmino.issuemap.server.EntityFactoryImpl</param-value>
+    </init-param>
   </servlet>  
   
   <servlet-mapping>

@@ -50,16 +50,12 @@ public class Requests {
 	}
 
 	public static void getIdsByQuery(EntityQuery q, RequestListener<Long> listener) {
-
 		ensureImplementation();
-
 		networkImpl.getIdsByQuery(q, listener);
 	}
 
 	public static void getValuesByQuery(ValueQuery query, RequestListener<? extends Value> listener) {
-
 		ensureImplementation();
-
 		networkImpl.getValuesByQuery(query, listener);
 	}
 
@@ -70,15 +66,37 @@ public class Requests {
 	}
 
 	public static <EntityClass extends Entity> void getLoadedEntitiesById(EntityTypeName type, Collection<Long> ids, RequestListener<EntityClass> listener) {
-
 		ensureImplementation();
-
+		
 		Collection<EntityClass> entities = EntityFactory.getUnloadedEntitiesById(type, ids);
 		loadEntities(entities, listener);
 	}
+	
+	public static <EntityClass extends Entity> void getLoadedEntitiesByType(EntityTypeName type, final RequestListener<EntityClass> listener) {
+		ensureImplementation();
+
+		getUnloadedEntitiesByType(type, new RequestListener<EntityClass>() {
+			@Override
+			public void onFinished(Collection<EntityClass> entities) {
+				loadEntities(entities, listener);
+			}
+		});
+	}	
+	
+	public static <EntityClass extends Entity> void getUnloadedEntitiesByType(final EntityTypeName type, final RequestListener<EntityClass> listener) {
+		ensureImplementation();
+
+		networkImpl.getIdsByType(type, new RequestListener<Long>() {
+			@Override
+			public void onFinished(Collection<Long> ids) {
+				Collection<EntityClass> ret = EntityFactory.getUnloadedEntitiesById(type, ids);
+				listener.onFinished(ret);
+			}
+		});
+		
+	}
 
 	public static <EntityClass extends Entity> void getLoadedEntitiesByQuery(final EntityTypeName type, EntityQuery q, final RequestListener<EntityClass> listener) {
-
 		ensureImplementation();
 
 		getIdsByQuery(q, new RequestListener<Long>() {
@@ -98,12 +116,10 @@ public class Requests {
 	}
 
 	public static <EntityClass extends Entity> void getNewEntity(final EntityTypeName type, final RequestListener<EntityClass> listener) {
-
 		getNewEntities(type, 1, listener);
 	}
 
 	public static <EntityClass extends Entity> void getNewEntities(final EntityTypeName type, final int count, final RequestListener<EntityClass> listener) {
-
 		ensureImplementation();
 
 		getNewIds(type, count, new RequestListener<Long>() {

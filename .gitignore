@@ -55,3 +55,6 @@ www-test
 build
 private
 *.gwt-log
+issuemap.module/gwt/war/masterBackend/
+*.orig
+*.cache.*

@@ -1,4 +1,4 @@
-package de.gmino.issuemap.shared;
+package de.gmino.meva.shared;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

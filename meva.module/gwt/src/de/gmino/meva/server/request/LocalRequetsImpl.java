@@ -54,18 +54,25 @@ public class LocalRequetsImpl {
 	}
 
 	public static void loadEntities(Collection<? extends Entity> entities) {
-		Connection dbCon = SqlHelper.getConnection();
+		Collection<Entity> entitiesToLoad = new ArrayList<Entity>();
+		
 		for (Entity e : entities) {
-			if (e.isReady()) {
-				System.out.println("Already present: " + e.toShortString());
-				continue;
-			}
-			System.out.println("Reading " + e.toShortString() + " from SQL.");
-			try {
-				((EntitySql) e).deserializeSql(dbCon);
-			} catch (SQLException e1) {
-				throw new RuntimeException(e1);
-			}
+			if (!e.isReady())
+				entitiesToLoad.add(e);
+		}
+		
+		if(entitiesToLoad.isEmpty())
+		{
+			System.out.println("Nothing to load, all present.");
+			return;
+		}
+		Connection dbCon = SqlHelper.getConnection();
+		
+		try {
+			EntitySql e = (EntitySql)entitiesToLoad.iterator().next();
+			e.deserializeSql(dbCon, entitiesToLoad);
+		} catch (SQLException e1) {
+			throw new RuntimeException(e1);
 		}
 	}
 
@@ -110,6 +117,24 @@ public class LocalRequetsImpl {
 
 		Collection<EntityClass> entities = EntityFactory.getUnloadedEntitiesById(type, ids);
 		return entities;
+	}
+
+	public static Collection<Long> getIdsByType(EntityTypeName type) {
+		Connection dbCon = SqlHelper.getConnection();
+		Collection<Long> ret = new ArrayList<Long>();
+		try {
+			Statement stat = dbCon.createStatement();
+			ResultSet rs = stat.executeQuery("SELECT id FROM " + type.toString() + ";");
+			while(rs.next())
+			{
+				Long id = rs.getLong(1);
+				ret.add(id);
+			}
+			
+			return ret;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

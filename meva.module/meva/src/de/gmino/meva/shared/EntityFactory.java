@@ -1,16 +1,19 @@
 package de.gmino.meva.shared;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.itemscript.core.values.JsonObject;
+
 /**
  * Platform independent class that manages local in-memory caching of entities
  * and delegates to platform-dependent implementation if needed.
  * 
- * As you wull see, this class provides synchronous methods (they may either
+ * As you will see, this class provides synchronous methods (they may either
  * block or fail) and works on a relatively low level (Ids are explicitly
  * mentioned).
  * 
@@ -41,9 +44,6 @@ public class EntityFactory {
 		registerType(type.toString());
 		Map<Long, Entity> mapForThisType = entityMaps.get(type.toString());
 
-		// if (mapForThisType == null)
-		// throw new RuntimeException("Type '"+typeName+"' not supported.");
-
 		Collection<EntityClass> ret = new ArrayList<EntityClass>(ids.size());
 
 		for (Long id : ids) {
@@ -71,5 +71,11 @@ public class EntityFactory {
 
 	public static void setImplementations(EntityFactoryInterface factory) {
 		factoryImplementation = factory;
+	}
+	
+
+	public static Object createQueryObject(String lastPart,
+			JsonObject request) throws IOException {
+		return factoryImplementation.createQueryObject(lastPart, request);
 	}
 }

@@ -1,7 +1,10 @@
 package de.gmino.issuemap.client;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import org.itemscript.core.values.JsonObject;
 
 import de.gmino.issuemap.client.domain.Comment;
 import de.gmino.issuemap.client.domain.Issue;
@@ -10,6 +13,8 @@ import de.gmino.issuemap.client.domain.MapHasMarkertype;
 import de.gmino.issuemap.client.domain.Markertype;
 import de.gmino.issuemap.client.domain.Photo;
 import de.gmino.issuemap.client.domain.Route;
+import de.gmino.issuemap.client.request.QueryMapBySubdomain;
+import de.gmino.issuemap.client.request.SendFeedback;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactoryInterface;
 
@@ -44,5 +49,14 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 			return new Route(id);
 		throw new RuntimeException("Unsupported Entity type: " + typeName);
 	}
-
+	
+	@Override
+	public Object createQueryObject(String typeName, JsonObject request) throws IOException {
+		if (typeName.equals("QueryMapBySubdomain"))
+			return new QueryMapBySubdomain(request);
+		else if (typeName.equals("SendFeedback"))
+			return new SendFeedback(request);
+		else
+			throw new RuntimeException("Unrecognized query type: " + typeName);
+	}
 }

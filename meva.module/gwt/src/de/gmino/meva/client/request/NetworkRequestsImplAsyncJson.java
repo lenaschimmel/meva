@@ -292,4 +292,43 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 		}
 	}
 
+	@Override
+	public void getIdsByType(EntityTypeName type, final RequestListener<Long> listener) {
+		final String typeName = type.toString();
+
+		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, baseUrl + "Json/allEntities");
+		rb.setHeader("Content-Type", "application/json");
+		try {
+			rb.sendRequest("{\"typeName\":\"" + typeName + "\"}", new RequestCallback() {
+
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					Collection<Long> ids = new LinkedList<Long>();
+					JsonSystem system = GwtSystem.SYSTEM;
+					String jsonString = response.getText();
+					JsonObject answer = system.parse(jsonString).asObject();
+					String status = answer.getString("status");
+					if (status.equals("ERROR")) {
+						String message = answer.getString("content");
+						listener.onError("The server reported an error: " + message, null);
+					} else {
+						JsonArray idValues = answer.getArray("content");
+						for (JsonValue idValue : idValues) {
+							Long id = Long.parseLong(idValue.asString().stringValue());
+							ids.add(id);
+							listener.onNewResult(id);
+						}
+						listener.onFinished(ids);
+					}
+				}
+
+				@Override
+				public void onError(Request request, Throwable exception) {
+					listener.onError("Json request generated an exception (via method).", exception);
+				}
+			});
+		} catch (Exception exception) {
+			listener.onError("Json request generated an exception (thrown).", exception);
+		}
+	}
 }
