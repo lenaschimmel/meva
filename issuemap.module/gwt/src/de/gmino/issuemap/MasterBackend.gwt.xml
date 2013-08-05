@@ -5,15 +5,13 @@
 -->
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.5.1//EN"
   "http://google-web-toolkit.googlecode.com/svn/tags/2.5.1/distro-source/core/src/gwt-module.dtd">
-<module rename-to='issuemapgwt'>
+<module rename-to='masterBackend'>
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
   
     <!-- Other module inherits                                      -->
   <inherits name='de.gmino.meva.GminoMeva'/>
   <inherits name='de.gmino.geobase.GminoGeobase'/>
-  <inherits name="org.itemscript.Itemscript" />
-  <inherits name="com.google.gwt.xml.XML" />
 
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
@@ -26,7 +24,7 @@
   <!-- Other module inherits                                      -->
 
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='de.gmino.issuemap.client.IssuemapGwt'/>
+  <entry-point class='de.gmino.issuemap.client.MasterBackend'/>
 
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
