@@ -58,3 +58,6 @@ private
 issuemap.module/gwt/war/masterBackend/
 *.orig
 *.cache.*
+issuemap.module/gwt/war/masterBackend/gwt/clean/
+issuemap.module/gwt/.settings/com.google.appengine.eclipse.core.prefs
+
