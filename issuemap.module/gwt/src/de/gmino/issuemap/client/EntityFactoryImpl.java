@@ -1,5 +1,6 @@
 package de.gmino.issuemap.client;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,7 +50,7 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 			return new Route(id);
 		throw new RuntimeException("Unsupported Entity type: " + typeName);
 	}
-	
+
 	@Override
 	public Object createQueryObject(String typeName, JsonObject request) throws IOException {
 		if (typeName.equals("QueryMapBySubdomain"))
@@ -58,5 +59,10 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 			return new SendFeedback(request);
 		else
 			throw new RuntimeException("Unrecognized query type: " + typeName);
+	}
+	
+	@Override
+	public Object createQueryObject(String typeName, DataInputStream request) throws IOException {
+		throw new RuntimeException("Can't deserialize DIS on the client.");
 	}
 }

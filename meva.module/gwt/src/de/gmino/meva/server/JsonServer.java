@@ -82,9 +82,6 @@ public class JsonServer extends HttpServlet {
 	}
 
 	private void otherRequest(HttpServletRequest req, HttpServletResponse resp, String lastPart) throws IOException {
-
-
-
 		JsonSystem system = StandardConfig.createSystem();
 
 		String input = convertStreamToString(req.getInputStream());

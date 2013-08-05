@@ -67,22 +67,19 @@ public class BinaryServer extends HttpServlet {
 	}
 
 	private void otherRequest(HttpServletRequest req, HttpServletResponse resp, String lastPart) throws IOException {
-		EntityQuery entityQuery = null;
-		ValueQuery valueQuery = null;
-		// if (lastPart.equals("QueryNearbyShops"))
-		// entityQuery = new QueryNearbyShops(new
-		// DataInputStream(req.getInputStream()));
-		// else
-		// throw new RuntimeException("Unrecognized query type: " + lastPart);
 
+		Object query = EntityFactory.createQueryObject(lastPart, new DataInputStream(req.getInputStream()));
+		
 		DataOutputStream dos = new DataOutputStream(resp.getOutputStream());
-		if (entityQuery != null) {
+		if (query instanceof EntityQuery) {
+			EntityQuery entityQuery = (EntityQuery)query;
 			System.out.println("Evaluating " + entityQuery);
 			Collection<Long> ids = entityQuery.evaluate();
 			for (long id : ids)
 				dos.writeLong(id);
 			dos.writeLong(0);
 		} else {
+			ValueQuery valueQuery = (ValueQuery)query;
 			System.out.println("Evaluating " + valueQuery);
 			Collection<Value> values = valueQuery.evaluate();
 			dos.writeInt(values.size());
