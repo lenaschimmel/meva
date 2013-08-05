@@ -1,7 +1,8 @@
 /** Add css rules here for your application. */
 
 body {
-	overflow: hidden;
+				background: rgba(20, 20, 20, 0.8);
+	
 }
 
 /** Example rules used by the template application (remove for your app) */
@@ -16,8 +17,8 @@ body {
 
 #left {
 	position:absolute;
-	top:0px;
-	left:0px;
+	top:10px;
+	left:10px;
 	right: 51%;
 }
 
@@ -25,9 +26,9 @@ body {
 
 #right{
 			position: absolute;
-			top: 0px;
+			top: 10px;
 			left: 51%;
-			right: 0px;
+			right: 10px;
 
 }
 

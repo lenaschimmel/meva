@@ -23,13 +23,15 @@ public class Map_List_Item extends Composite implements HasText {
 	public Map_List_Item(long mapId, String mapSubdomain, String mapTitle) {
 		initWidget(uiBinder.createAndBindUi(this));
 		id.setText("" + mapId);
-		subdomain.setText("" + mapSubdomain);
-		title.setText("" + mapTitle);
+		subdomain.setText(mapSubdomain);
+		title.setText(mapTitle);
 	}
 
 	@UiField
 	Label id;
+	@UiField
 	Label subdomain;
+	@UiField
 	Label title;
 
 	public Map_List_Item(String firstName) {

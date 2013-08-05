@@ -27,6 +27,7 @@
 			border: 1px solid #ccc;
 			width: 100%;
 			overflow: hidden;
+			
 		}
 		
 		.heading{
