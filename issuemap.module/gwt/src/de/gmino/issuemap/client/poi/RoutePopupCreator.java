@@ -9,7 +9,6 @@ import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Route;
 import de.gmino.issuemap.client.view.Hover_PopUp;
-import de.gmino.issuemap.client.view.ShowBicycleShop_PopUp;
 import de.gmino.issuemap.client.view.ShowRoute_PopUp;
 
 public class RoutePopupCreator implements GwtPopupCreator<Route> {

@@ -18,8 +18,6 @@ import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 
-import de.gmino.meva.shared.request.RequestListener;
-
 public class ImageUrlLoader {
 
 	private static ImageUrlLoader instance;

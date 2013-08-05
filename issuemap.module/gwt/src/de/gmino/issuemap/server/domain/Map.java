@@ -4,44 +4,15 @@
 package de.gmino.issuemap.server.domain;
 
 // gmino stuff
-import de.gmino.meva.shared.Entity;
-import de.gmino.meva.shared.EntityFactory;
-import de.gmino.meva.shared.RelationCollection;
-import de.gmino.meva.shared.EntityTypeName;
-import de.gmino.meva.shared.Util;
-
-// default imports
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Collection;
-
-// imports for JSON
-import org.itemscript.core.values.JsonObject;
-import org.itemscript.core.values.JsonValue;
-
-// imports for SQL stuff
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.sql.SQLException;
-
-// imports for serialization interfaces
-import de.gmino.meva.shared.EntityBinary;
-import de.gmino.meva.shared.ValueBinary;
-import de.gmino.meva.server.EntitySql;
-
 import de.gmino.geobase.server.domain.Address;
-// imports for field types
 import de.gmino.geobase.server.domain.ImageUrl;
 import de.gmino.geobase.server.domain.LatLon;
-import de.gmino.issuemap.server.domain.Issue;
-import de.gmino.issuemap.server.domain.MapHasMarkertype;
-
-
 import de.gmino.issuemap.server.domain.gen.MapGen;
+// default imports
+// imports for JSON
+// imports for SQL stuff
+// imports for serialization interfaces
+// imports for field types
 public class Map extends MapGen {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public Map(long id)

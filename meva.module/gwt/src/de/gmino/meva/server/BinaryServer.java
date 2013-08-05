@@ -165,8 +165,7 @@ public class BinaryServer extends HttpServlet {
 		DataInputStream dis = new DataInputStream(req.getInputStream());
 		String typeName = dis.readUTF();
 		EntityTypeName type = EntityTypeName.getByString(typeName);
-		int count = dis.readInt();
-
+		
 		Collection<Long> ids = LocalRequetsImpl.getIdsByType(type);
 
 		DataOutputStream dos = new DataOutputStream(resp.getOutputStream());

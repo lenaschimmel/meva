@@ -3,12 +3,10 @@ package de.gmino.issuemap.client.poi;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.user.client.ui.Image;
 
 import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.geobase.shared.map.Hasher;
 import de.gmino.issuemap.client.ImageUrlLoader;
-import de.gmino.issuemap.client.domain.BicycleShop;
 import de.gmino.issuemap.client.domain.Issue;
 
 public class IssueIconRenderer extends GwtIconRenderer<Issue> {

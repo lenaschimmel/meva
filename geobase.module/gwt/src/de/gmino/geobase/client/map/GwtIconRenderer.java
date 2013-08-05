@@ -5,8 +5,6 @@ import java.util.TreeMap;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.user.client.ui.Image;
 
 import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.geobase.shared.map.Hasher;

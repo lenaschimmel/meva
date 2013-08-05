@@ -17,7 +17,6 @@ import de.gmino.issuemap.server.request.QueryMapBySubdomain;
 import de.gmino.issuemap.server.request.SendFeedback;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactoryInterface;
-import de.gmino.meva.shared.EntityQuery;
 
 public class EntityFactoryImpl implements EntityFactoryInterface {
 
