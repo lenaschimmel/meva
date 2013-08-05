@@ -2,31 +2,36 @@ package de.gmino.meva.server;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.google.appengine.api.rdbms.AppEngineDriver;
+
+import de.gmino.meva.shared.Log;
+
 public class SqlHelper {
-	static Connection con;
+	private static String connectionUrl;
+
+	static
+	{
+		try {
+			DriverManager.registerDriver(new AppEngineDriver());
+		} catch (SQLException e) {
+			Log.exception("Error registering DB driver.",e);
+		}
+	}
 
 	public static Connection getConnection() {
-		if (con != null) {
+			Connection con = null;
 			try {
-				java.sql.Statement stmt = con.createStatement();
-				ResultSet rset = stmt.executeQuery("SELECT NOW() FROM DUAL");
-			} catch (SQLException e) {
-				System.err.println("Detected db error, trying to reconnect.");
-				con = null;
-			}
-		}
-		if (con == null) {
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				final String db_string = "jdbc:mysql://85.214.33.79:3306/checkin";
-				con = DriverManager.getConnection(db_string, "checkin", "kw9fn39dfn");
+				con = DriverManager.getConnection(connectionUrl);
+			    con.createStatement().execute("set names 'utf8';");
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.exception("Error creating DB connection.",e);
 			}
-		}
 		return con;
+	}
+
+	public static void setConnectionUrl(String connectionUrl) {
+		SqlHelper.connectionUrl = connectionUrl;
 	}
 }

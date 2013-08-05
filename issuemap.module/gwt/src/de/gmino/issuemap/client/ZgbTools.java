@@ -20,8 +20,8 @@ import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.Address;
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.issuemap.client.domain.BicycleShop;
-import de.gmino.issuemap.shared.Log;
 import de.gmino.issuemap.shared.domain.Route;
+import de.gmino.meva.shared.Log;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 

@@ -315,17 +315,19 @@
 			        <g:cell width="66%">
 				        <g:VerticalPanel width="100%" height="100%">
 				            <g:Label styleName="{style.lbBodyHeader}">Beschreibung</g:Label>
-				            <g:cell height="50%">
-								<g:ScrollPanel width="100%" height="135px" styleName="{style.subContent}">
+				            <g:cell height="100%">
+								<g:ScrollPanel width="100%" height="205px" styleName="{style.subContent}">
 									<g:HTML ui:field="description" styleName="{style.description_label}"></g:HTML>
 								</g:ScrollPanel>
 							</g:cell>   
+							<!-- 
 							<g:Label styleName="{style.lbBodyHeader}">Antwort</g:Label>
 				            <g:cell height="50%">
 								<g:ScrollPanel width="100%" height="100%">
 									<g:HTML ui:field="answer" styleName="{style.description_label}"><i>(Bisher keine Antwort)</i></g:HTML>
 								</g:ScrollPanel>
 							</g:cell>
+							 -->
 				        </g:VerticalPanel>
 				    </g:cell>
 				    <g:cell width="12px">
@@ -341,9 +343,11 @@
 							</g:cell>
 							<g:Label styleName="{style.lbBodyHeader}">Relevanz</g:Label>
 				            <g:cell height="40%">
-								<g:ScrollPanel width="100%" height="100%">
-									<g:HTML ui:field="relevance" styleName="{style.description_label}"></g:HTML>
-								</g:ScrollPanel>
+								<g:VerticalPanel width="100%" height="100%">
+									<g:cell width="100%"><g:FlowPanel><g:InlineLabel>Positive Bewertungen:</g:InlineLabel><g:InlineLabel>?</g:InlineLabel></g:FlowPanel></g:cell>
+									<g:cell><g:FlowPanel><g:Label>Negative Bewertungen:</g:Label><g:Label>?</g:Label></g:FlowPanel></g:cell>
+									<g:cell><g:FlowPanel><g:Label>Gesamtwertung: </g:Label><g:Label>?</g:Label></g:FlowPanel></g:cell>
+								</g:VerticalPanel>
 							</g:cell>
 				        </g:VerticalPanel>
 				    </g:cell>
@@ -378,14 +382,14 @@
 					</g:cell>   
 					<g:Label styleName="{style.lbBodyHeader}">Eintrag kommentieren</g:Label>
 		            <g:cell height="34%">
-						    <g:HorizontalPanel width="100%">
-						        <g:cell width="95%">
-									<g:TextBox width="92%" ui:field="commentTextBox"></g:TextBox>
-								</g:cell>
-								<g:cell>
-									<g:Button ui:field="commentButton">Kommentieren</g:Button>
-								</g:cell>
-							</g:HorizontalPanel>
+					    <g:HorizontalPanel width="100%">
+					        <g:cell width="95%">
+								<g:TextBox width="92%" ui:field="commentTextBox"></g:TextBox>
+							</g:cell>
+							<g:cell>
+								<g:Button ui:field="commentButton">Kommentieren</g:Button>
+							</g:cell>
+						</g:HorizontalPanel>
 					</g:cell>
 		        </g:VerticalPanel>
 			</g:DeckPanel>

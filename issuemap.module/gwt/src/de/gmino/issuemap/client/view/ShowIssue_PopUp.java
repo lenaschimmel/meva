@@ -52,7 +52,7 @@ import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Photo;
 import de.gmino.issuemap.client.poi.Marker_Wrapper;
 import de.gmino.issuemap.client.resources.ImageResources;
-import de.gmino.issuemap.shared.Log;
+import de.gmino.meva.shared.Log;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
@@ -562,7 +562,7 @@ public class ShowIssue_PopUp extends Composite {
 			mainPhotoShown = true;
 			lbNoPhotosMain.setVisible(false);
 			pnPhotoMain.clear();
-			Image mainImage = new Image(photoBaseUrl+"&h=160");
+			Image mainImage = new Image(photoBaseUrl+"&h=120&w=160");
 			mainImage.getElement().getStyle().setCursor(Cursor.POINTER);
 			pnPhotoMain.add(mainImage);
 			mainImage.addClickHandler(new ClickHandler() {

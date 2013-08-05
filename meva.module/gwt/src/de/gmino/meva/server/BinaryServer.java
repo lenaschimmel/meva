@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import de.gmino.meva.server.request.NetworkRequestsImplAsyncLocalSql;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityBinary;
 import de.gmino.meva.shared.EntityFactory;
+import de.gmino.meva.shared.EntityFactoryInterface;
 import de.gmino.meva.shared.EntityQuery;
 import de.gmino.meva.shared.EntityTypeName;
 import de.gmino.meva.shared.Query;
@@ -29,13 +31,16 @@ import de.gmino.meva.shared.request.Requests;
 public class BinaryServer extends HttpServlet {
 
 	private static final long serialVersionUID = -3067797075737374489L;
-
+	
 	@Override
-	public void init() throws ServletException {
-		super.init();
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
 		try {
-			EntityFactory.setImplementations(new EntityFactoryImpl());
+			String entityFactoryClass = config.getInitParameter("entityFactoryClass");
+			EntityFactoryInterface factory = (EntityFactoryInterface)Class.forName(entityFactoryClass).newInstance();
 			Requests.setImplementation(new NetworkRequestsImplAsyncLocalSql());
+			String sqlConnectionUrl = config.getInitParameter("sqlConnectionUrl");
+			SqlHelper.setConnectionUrl(sqlConnectionUrl);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ServletException(e);
@@ -52,6 +57,8 @@ public class BinaryServer extends HttpServlet {
 			getEntities(req, resp);
 		} else if (lastPart.equals("newEntities")) {
 			newEntities(req, resp);
+		} else if (lastPart.equals("allEntities")) {
+			allEntities(req, resp);
 		} else if (lastPart.equals("saveEntities")) {
 			saveEntities(req, resp);
 		} else {
@@ -149,6 +156,24 @@ public class BinaryServer extends HttpServlet {
 		for (Entity e : entities) {
 			dos.writeLong(e.getId());
 		}
+		dos.flush();
+		dos.close();
+	}
+
+
+	private void allEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		DataInputStream dis = new DataInputStream(req.getInputStream());
+		String typeName = dis.readUTF();
+		EntityTypeName type = EntityTypeName.getByString(typeName);
+		int count = dis.readInt();
+
+		Collection<Long> ids = LocalRequetsImpl.getIdsByType(type);
+
+		DataOutputStream dos = new DataOutputStream(resp.getOutputStream());
+		for (Long id : ids) {
+			dos.writeLong(id);
+		}
+		dos.writeLong(0);
 		dos.flush();
 		dos.close();
 	}

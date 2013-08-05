@@ -19,4 +19,5 @@ public interface NetworkRequests {
 
 	public <EntityClass extends Entity> void saveEntities(Collection<EntityClass> entities, RequestListener<EntityClass> listener);
 
+	public void getIdsByType(EntityTypeName type, RequestListener<Long> requestListener);
 }

@@ -31,7 +31,7 @@ public class MasterBackend  implements EntryPoint {
 		RootPanel.get("left").add(createMapField);
 		
 		EntityQuery query = new QueryMapBySubdomain("gmino");
-		Requests.getLoadedEntitiesByQuery(Map.type, query, new RequestListener<Map>() {
+		Requests.getLoadedEntitiesByType(Map.type, new RequestListener<Map>() {
 			@Override
 			public void onNewResult(Map result) {
 			//	panel.add(new Label("Test result: " + result.getTitle()));

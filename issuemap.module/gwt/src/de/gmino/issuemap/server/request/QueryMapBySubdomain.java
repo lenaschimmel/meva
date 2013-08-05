@@ -15,8 +15,8 @@ import java.util.LinkedList;
 
 import org.itemscript.core.values.JsonObject;
 
-import de.gmino.issuemap.server.SqlHelper;
 import de.gmino.issuemap.server.request.gen.QueryMapBySubdomainGen;
+import de.gmino.meva.server.SqlHelper;
 // default imports
 // imports for JSON
 // imports for SQL stuff
