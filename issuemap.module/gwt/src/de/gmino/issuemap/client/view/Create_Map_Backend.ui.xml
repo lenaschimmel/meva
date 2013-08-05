@@ -13,7 +13,7 @@
 			font-weight: bold;
 		}
 		.textBox{
-			width: 60%;
+			width: 70%;
 }
 		
 		.parent{
@@ -25,7 +25,6 @@
 			border-top-left-radius: 4px;
 			border-bottom-left-radius: 4px;
 			border: 1px solid #ccc;
-			width: 100%;
 			overflow: hidden;
 			
 		}
@@ -38,7 +37,7 @@
 		
 	</ui:style>
 	<g:HTMLPanel styleName="{style.parent}">
-		<g:Label styleName="{style.heading}">Neue Map erstellen</g:Label>
+		<g:Label styleName="{style.heading}" ui:field="heading">Neue Map erstellen</g:Label>
 		<g:FlowPanel><g:InlineLabel text="Titel:" styleName="{style.label}"/><g:TextBox styleName="{style.textBox}" ui:field="title"/></g:FlowPanel>
 		<g:FlowPanel><g:InlineLabel text="Subdomain:" styleName="{style.label}"/><g:TextBox styleName="{style.textBox}" ui:field="subdomain"/></g:FlowPanel>
 		<g:FlowPanel><g:InlineLabel text="Info-Text:" styleName="{style.label}"/><g:TextBox styleName="{style.textBox}" ui:field="infoText"/></g:FlowPanel>
@@ -54,6 +53,6 @@
 		<g:FlowPanel><g:InlineLabel text="Website:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="website"/></g:FlowPanel>
 		<g:FlowPanel><g:InlineLabel text="E-Mail:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="email"/></g:FlowPanel>
 		
-		<g:Button styleName="{style.important}" ui:field="button" text="Eintragen"/>
+		<g:Button styleName="{style.important}" ui:field="button" text="Speichern"/>
 	</g:HTMLPanel>
 </ui:UiBinder> 

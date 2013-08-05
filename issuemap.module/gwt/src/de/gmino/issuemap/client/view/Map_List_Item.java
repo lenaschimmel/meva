@@ -12,7 +12,9 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class Map_List_Item extends Composite implements HasText {
+import de.gmino.issuemap.client.MasterBackend;
+
+public class Map_List_Item extends Composite {
 
 	private static Map_List_ItemUiBinder uiBinder = GWT
 			.create(Map_List_ItemUiBinder.class);
@@ -21,12 +23,15 @@ public class Map_List_Item extends Composite implements HasText {
 	}
 
 	public Map_List_Item(long mapId, String mapSubdomain, String mapTitle) {
+		this.mapId = mapId;
 		initWidget(uiBinder.createAndBindUi(this));
 		id.setText("" + mapId);
 		subdomain.setText(mapSubdomain);
 		title.setText(mapTitle);
 	}
 
+	long mapId;
+	
 	@UiField
 	Label id;
 	@UiField
@@ -34,16 +39,21 @@ public class Map_List_Item extends Composite implements HasText {
 	@UiField
 	Label title;
 
-	public Map_List_Item(String firstName) {
+	public Map_List_Item() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
 
-	public void setText(String text) {
-	}
 
-	public String getText() {
-		return null;
+	@UiHandler("edit")
+	public void onEditClicked(ClickEvent e)
+	{
+		MasterBackend.getInstance().editMap(mapId);
 	}
-
+	
+	@UiHandler("copy")
+	public void onCopyClicked(ClickEvent e)
+	{
+		MasterBackend.getInstance().copyMap(mapId);
+	}
 }

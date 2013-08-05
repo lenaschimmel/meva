@@ -5,12 +5,16 @@
 		.important {
 			font-weight: bold;
 		}
+		.parent{
+		}
 	</ui:style>
 	<g:HTMLPanel>
-		<g:HorizontalPanel>
+		<g:HorizontalPanel styleName="{style.parent}">
 			<g:Label width="50px" ui:field="id"></g:Label>
 			<g:Label width="200px" ui:field="subdomain"></g:Label>
-			<g:Label ui:field="title"></g:Label>
+			<g:Label width="300px" ui:field="title"></g:Label>
+			<g:Button ui:field="edit">Bearbeiten</g:Button>
+			<g:Button ui:field="copy">Kopieren</g:Button>
 		</g:HorizontalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

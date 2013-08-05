@@ -29,7 +29,7 @@ import de.gmino.issuemap.client.domain.Markertype;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
-public class CreateIssue_PopUp extends Composite implements HasText {
+public class CreateIssue_PopUp extends Composite {
 
 	private static PopUpUiBinder uiBinder = GWT.create(PopUpUiBinder.class);
 	private Map mapObject;
@@ -98,8 +98,6 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 	@UiField
 	VerticalPanel parent;
 	@UiField
-	Button button;
-	@UiField
 	TextBox title;
 	@UiField
 	TextArea description;
@@ -113,9 +111,8 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 	Image imageMarkerIcon;
 
 
-	public CreateIssue_PopUp(String firstName) {
+	public CreateIssue_PopUp() {
 		initWidget(uiBinder.createAndBindUi(this));
-		button.setText(firstName);
 	}
 
 	@UiHandler("close")
@@ -152,14 +149,6 @@ public class CreateIssue_PopUp extends Composite implements HasText {
 		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mIssue);
 		String iconUrl = renderer.getIconUrl(mIssue);
 		imageMarkerIcon.setUrl(iconUrl);
-	}
-	
-	public void setText(String text) {
-		button.setText(text);
-	}
-
-	public String getText() {
-		return button.getText();
 	}
 
 	private void setIssueValuesFromMask(Issue issue){

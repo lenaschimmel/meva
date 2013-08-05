@@ -28,6 +28,7 @@
 			<g:Label styleName="{style.heading}">Map Liste</g:Label>
 	
 		<g:VerticalPanel ui:field="verticalPanel"></g:VerticalPanel>
-		<g:Button styleName="{style.important}" ui:field="button" text="Aktualisieren" />
+		<g:Button styleName="{style.important}" ui:field="buttonRefresh" text="Aktualisieren" />
+		<g:Button styleName="{style.important}" ui:field="buttonNew" text="Neue Karte erzeugen" />
 	</g:HTMLPanel>
 </ui:UiBinder> 
