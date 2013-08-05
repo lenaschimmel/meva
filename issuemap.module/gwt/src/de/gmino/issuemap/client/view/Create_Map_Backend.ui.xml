@@ -1,0 +1,58 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+		
+		.label{
+			display: block;
+			float: left;
+			width: 200px;
+			font-weight: bold;
+		}
+		.textBox{
+			width: 60%;
+}
+		
+		.parent{
+			background: rgba(20, 20, 20, 0.8);
+			color: #FFF;
+			padding: 10px;
+			border-top-right-radius: 4px;
+			border-bottom-right-radius: 4px;
+			border-top-left-radius: 4px;
+			border-bottom-left-radius: 4px;
+			border: 1px solid #ccc;
+			width: 100%;
+			overflow: hidden;
+		}
+		
+		.heading{
+			font-size: x-large;
+			text-align: center;
+			margin-bottom: 20px;
+}
+		
+	</ui:style>
+	<g:HTMLPanel styleName="{style.parent}">
+		<g:Label styleName="{style.heading}">Neue Map erstellen</g:Label>
+		<g:FlowPanel><g:InlineLabel text="Titel:" styleName="{style.label}"/><g:TextBox styleName="{style.textBox}" ui:field="title"/></g:FlowPanel>
+		<g:FlowPanel><g:InlineLabel text="Subdomain:" styleName="{style.label}"/><g:TextBox styleName="{style.textBox}" ui:field="subdomain"/></g:FlowPanel>
+		<g:FlowPanel><g:InlineLabel text="Info-Text:" styleName="{style.label}"/><g:TextBox styleName="{style.textBox}" ui:field="infoText"/></g:FlowPanel>
+		<g:FlowPanel><g:InlineLabel text="Marker-Farbe:" styleName="{style.label}"/><g:TextBox styleName="{style.textBox}" ui:field="primary_color"/></g:FlowPanel>
+		<g:FlowPanel><g:InlineLabel text="Text-Farbe:" styleName="{style.label}"/><g:TextBox styleName="{style.textBox}" ui:field="secondary_color"/></g:FlowPanel>
+		<g:FlowPanel><g:InlineLabel text="Hintergrund-Farbe:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="background_color"/></g:FlowPanel>
+		<g:FlowPanel><g:InlineLabel text="Erledigt-Farbe:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="resolved_color"/></g:FlowPanel>
+		<g:FlowPanel><g:InlineLabel text="Stadt:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="city"/></g:FlowPanel>
+		<g:FlowPanel><g:InlineLabel text="Initiale Latitude:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="initLocation_latitude"/></g:FlowPanel>
+		<g:FlowPanel><g:InlineLabel text="Initiale Longitude:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="initLocation_longitude"/></g:FlowPanel>
+		<g:FlowPanel><g:InlineLabel text="Initialer Zoom:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="initZoomlevel"/></g:FlowPanel>
+		<g:FlowPanel><g:InlineLabel text="URL zum Logo" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="logo_url"/></g:FlowPanel>
+		<g:FlowPanel><g:InlineLabel text="Website:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="website"/></g:FlowPanel>
+		<g:FlowPanel><g:InlineLabel text="E-Mail:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="email"/></g:FlowPanel>
+		
+		<g:Button styleName="{style.important}" ui:field="button" text="Eintragen"/>
+	</g:HTMLPanel>
+</ui:UiBinder> 

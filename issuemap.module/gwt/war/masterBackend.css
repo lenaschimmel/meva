@@ -1,0 +1,33 @@
+/** Add css rules here for your application. */
+
+body {
+	overflow: hidden;
+}
+
+/** Example rules used by the template application (remove for your app) */
+.title {
+  font-size: 1.7em;
+  font-weight: bold;
+  margin-top:5px;
+  text-align: center;
+  font-variant:small-caps;
+}
+
+
+#left {
+	position:absolute;
+	top:0px;
+	left:0px;
+	right: 51%;
+}
+
+
+
+#right{
+			position: absolute;
+			top: 0px;
+			left: 51%;
+			right: 0px;
+
+}
+
