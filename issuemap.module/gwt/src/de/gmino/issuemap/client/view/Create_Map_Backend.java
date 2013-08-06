@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.gmino.geobase.shared.domain.Address;
 import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.issuemap.client.domain.Map;
@@ -88,6 +89,16 @@ public class Create_Map_Backend extends Composite {
 	@UiField
 	ListBox mapType;
 	@UiField
+	TextBox recipient_name;
+	@UiField
+	TextBox street;
+	@UiField
+	TextBox houseNumber;
+	@UiField
+	TextBox zip;
+	@UiField
+	TextBox additionalAddressLine;
+	@UiField
 	FlowPanel markerPanel;
 	
 	Map map;
@@ -108,6 +119,7 @@ public class Create_Map_Backend extends Composite {
 		map.setWebsite(website.getText());
 		map.setEmail(email.getText());
 		map.setImpressum_url(url_impressum.getText());
+		map.setPostal_address(new Address(recipient_name.getText(),street.getText(),houseNumber.getText(),zip.getText(),city.getText(),additionalAddressLine.getText()));
 		if(mapType.getSelectedIndex()==0) map.setMapTyp("Issue");
 		if(mapType.getSelectedIndex()==1) map.setMapTyp("Event");
 		
@@ -135,6 +147,11 @@ public class Create_Map_Backend extends Composite {
 		email.setText("");
 		url_impressum.setText("");
 		mapType.setSelectedIndex(0);
+		recipient_name.setText("");
+		street.setText("");
+		houseNumber.setText("");
+		zip.setText("");
+		additionalAddressLine.setText("");
 		
 		for(Marker_List_Item i : markerListItems.values()){
 			i.setUncheckBox();
@@ -178,6 +195,12 @@ public class Create_Map_Backend extends Composite {
 		website.setText(map.getWebsite());
 		email.setText(map.getEmail());
 		url_impressum.setText(map.getImpressum_url());
+		recipient_name.setText(map.getPostal_address().getRecipientName());
+		street.setText(map.getPostal_address().getStreet());
+		houseNumber.setText(map.getPostal_address().getHouseNumber());
+		zip.setText(map.getPostal_address().getZip());
+		additionalAddressLine.setText(map.getPostal_address().getAdditionalAddressLine());
+		
 		if(map.getMapTyp().equals("Issue")) mapType.setSelectedIndex(0);
 		if(map.getMapTyp().equals("Event")) mapType.setSelectedIndex(1);
 		

@@ -5,8 +5,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -36,6 +38,12 @@ public class Map_List_Item extends Composite {
 	Label subdomain;
 	@UiField
 	Label title;
+
+	
+	@UiHandler("subdomain")
+	void onClick(ClickEvent e) {
+		Window.open("http://"+ subdomain.getText() + ".geoengine.de", "geoengine" + subdomain.getText(), "");
+	}
 
 	public Map_List_Item() {
 		initWidget(uiBinder.createAndBindUi(this));
