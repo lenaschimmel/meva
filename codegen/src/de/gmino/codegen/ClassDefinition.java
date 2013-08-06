@@ -869,7 +869,7 @@ public class ClassDefinition {
 				String multiple = def.reltype;
 				pw.println();
 				pw.println("		// Read the related " + defName);
-				pw.println("		String "+defName+"SelectString = \"SELECT "+single+".id as "+single+"_id, "+multiple+".id as "+multiple+"_id FROM `"+single+"`, `"+multiple+"` WHERE "+single+".id = "+multiple+"." + def.relname + "_id;\";");
+				pw.println("		String "+defName+"SelectString = \"SELECT "+single+".id as "+single+"_id, "+multiple+".id as "+multiple+"_id FROM `"+single+"`, `"+multiple+"` WHERE "+single+".id = "+multiple+"." + def.relname + "_id AND "+single+".id IN(\"+idList+\");\";");
 				pw.println("		System.out.println("+defName+"SelectString);");
 				pw.println("		ResultSet "+defName+"Rs = stat.executeQuery("+defName+"SelectString);");
 				pw.println("		while("+defName+"Rs.next())");
