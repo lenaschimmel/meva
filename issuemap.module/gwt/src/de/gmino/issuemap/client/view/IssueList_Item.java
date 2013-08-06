@@ -28,13 +28,19 @@ public class IssueList_Item extends Composite {
 
 	private Issue issue;
 	private OpenLayersSmartLayer layer;
+
+	private IssueIconRenderer renderer;
 	
 	public IssueList_Item(Issue issue, IssueIconRenderer renderer, OpenLayersSmartLayer layer) {
 		initWidget(uiBinder.createAndBindUi(this));
-		
-		this.issue = issue;
+		this.renderer = renderer;
 		this.layer = layer;
-		
+		setIssue(issue);
+	}
+	
+	public void setIssue(Issue issue)
+	{
+		this.issue = issue;
 		labelTitle.setText(issue.getTitle());
 		type.setText(issue.getMarkertype().getMarkerName());
 		if(issue.getRating()>0) rating.setText("+"+issue.getRating());

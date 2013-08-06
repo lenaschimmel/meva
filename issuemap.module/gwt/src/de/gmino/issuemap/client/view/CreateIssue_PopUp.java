@@ -131,8 +131,10 @@ public class CreateIssue_PopUp extends Composite {
 		if(newIssue)
 		{
 			// Add marker to map
-			IssuemapGwt.getInstance().addMarker(mIssue);
-			IssuemapGwt.getInstance().setCounter();
+			final IssuemapGwt issueMap = IssuemapGwt.getInstance();
+			issueMap.addMarker(mIssue);
+			issueMap.setCounter();
+			issueMap.loadIssuesToList();
 		}
 		
 		this.removeFromParent();

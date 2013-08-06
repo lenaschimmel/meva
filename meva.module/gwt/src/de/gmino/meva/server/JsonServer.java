@@ -122,6 +122,7 @@ public class JsonServer extends HttpServlet {
 
 		sb.append("]");
 		resp.setContentType("text/json");
+		resp.setCharacterEncoding("utf-8");
 		writeAnswer(resp.getOutputStream(), "OK", sb.toString());
 	}
 
@@ -151,7 +152,7 @@ public class JsonServer extends HttpServlet {
 	private void saveEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		JsonSystem system = StandardConfig.createSystem();
 		ServletInputStream inputStream = req.getInputStream();
-		String requestString = new java.util.Scanner(inputStream).useDelimiter("\\A").next();
+		String requestString = new java.util.Scanner(inputStream, "UTF-8").useDelimiter("\\A").next();
 		JsonValue requestValue = system.parse(requestString);
 		JsonObject requestObject = requestValue.asObject();
 
@@ -170,13 +171,14 @@ public class JsonServer extends HttpServlet {
 		LocalRequetsImpl.saveEntities(entitiesToSave);
 
 		resp.setContentType("text/json");
+		resp.setCharacterEncoding("utf-8");
 		writeAnswer(resp.getOutputStream(), "OK", "\"All entities saved to the database.\"");
 	}
 
 	private void getEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		JsonSystem system = StandardConfig.createSystem();
 		ServletInputStream inputStream = req.getInputStream();
-		String requestString = new java.util.Scanner(inputStream).useDelimiter("\\A").next();
+		String requestString = new java.util.Scanner(inputStream, "UTF-8").useDelimiter("\\A").next();
 		JsonValue requestValue = system.parse(requestString);
 		JsonObject requestObject = requestValue.asObject();
 
@@ -205,6 +207,7 @@ public class JsonServer extends HttpServlet {
 		sb.append("]");
 
 		resp.setContentType("text/json");
+		resp.setCharacterEncoding("utf-8");
 		writeAnswer(resp.getOutputStream(), "OK", sb.toString());
 	}
 
@@ -212,7 +215,7 @@ public class JsonServer extends HttpServlet {
 
 		JsonSystem system = StandardConfig.createSystem();
 		ServletInputStream inputStream = req.getInputStream();
-		String requestString = new java.util.Scanner(inputStream).useDelimiter("\\A").next();
+		String requestString = new java.util.Scanner(inputStream, "UTF-8").useDelimiter("\\A").next();
 		JsonValue requestValue = system.parse(requestString);
 		JsonObject requestObject = requestValue.asObject();
 
@@ -235,6 +238,7 @@ public class JsonServer extends HttpServlet {
 		}
 		sb.append("]");
 		resp.setContentType("text/json");
+		resp.setCharacterEncoding("utf-8");
 		writeAnswer(resp.getOutputStream(), "OK", sb.toString());
 	}
 
@@ -243,7 +247,7 @@ public class JsonServer extends HttpServlet {
 
 		JsonSystem system = StandardConfig.createSystem();
 		ServletInputStream inputStream = req.getInputStream();
-		String requestString = new java.util.Scanner(inputStream).useDelimiter("\\A").next();
+		String requestString = new java.util.Scanner(inputStream, "UTF-8").useDelimiter("\\A").next();
 		JsonValue requestValue = system.parse(requestString);
 		JsonObject requestObject = requestValue.asObject();
 
@@ -265,6 +269,7 @@ public class JsonServer extends HttpServlet {
 		}
 		sb.append("]");
 		resp.setContentType("text/json");
+		resp.setCharacterEncoding("utf-8");
 		writeAnswer(resp.getOutputStream(), "OK", sb.toString());
 	}
 

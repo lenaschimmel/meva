@@ -76,12 +76,7 @@ public class EntityFactory {
 	
 
 	public static Object createQueryObject(String lastPart,
-			JsonObject request) throws IOException {
-		return factoryImplementation.createQueryObject(lastPart, request);
-	}
-	
-	public static Object createQueryObject(String lastPart,
-			DataInputStream request) throws IOException {
-		return factoryImplementation.createQueryObject(lastPart, request);
+			Object requestSource) throws IOException {
+		return factoryImplementation.createQueryObject(lastPart, requestSource);
 	}
 }

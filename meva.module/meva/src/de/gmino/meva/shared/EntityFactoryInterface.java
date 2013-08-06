@@ -17,8 +17,14 @@ public interface EntityFactoryInterface {
 	public Collection<Entity> createEntityObjects(String typeName, Collection<Long> ids);
 
 	public Entity createEntityObject(String typeName, long id);
-	
-	public Object createQueryObject(String typeName, JsonObject request) throws IOException;
 
-	public Object createQueryObject(String typeName, DataInputStream request) throws IOException;
+	/**
+	 * 
+	 * @param typeName
+	 * @param requestSource May be an instance of JsonObject or DataInputStream, but not every implementation supports DataInputStream.
+	 * @return
+	 * @throws IOException
+	 */
+	public Object createQueryObject(String typeName, Object requestSource) throws IOException;
+
 }

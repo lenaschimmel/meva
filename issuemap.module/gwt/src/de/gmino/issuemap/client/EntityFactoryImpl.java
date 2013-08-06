@@ -52,17 +52,15 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 	}
 
 	@Override
-	public Object createQueryObject(String typeName, JsonObject request) throws IOException {
+	public Object createQueryObject(String typeName, Object request) throws IOException {
+		if(!(request instanceof JsonObject))
+			throw new RuntimeException("On the client side, requestObject must be of type JsonObject.");
+		
 		if (typeName.equals("QueryMapBySubdomain"))
-			return new QueryMapBySubdomain(request);
+			return new QueryMapBySubdomain((JsonObject)request);
 		else if (typeName.equals("SendFeedback"))
-			return new SendFeedback(request);
+			return new SendFeedback((JsonObject)request);
 		else
 			throw new RuntimeException("Unrecognized query type: " + typeName);
-	}
-	
-	@Override
-	public Object createQueryObject(String typeName, DataInputStream request) throws IOException {
-		throw new RuntimeException("Can't deserialize DIS on the client.");
 	}
 }
