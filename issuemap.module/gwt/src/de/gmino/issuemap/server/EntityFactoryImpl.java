@@ -10,7 +10,6 @@ import org.itemscript.core.values.JsonObject;
 import de.gmino.issuemap.server.domain.Comment;
 import de.gmino.issuemap.server.domain.Issue;
 import de.gmino.issuemap.server.domain.Map;
-import de.gmino.issuemap.server.domain.MapHasMarkertype;
 import de.gmino.issuemap.server.domain.Markertype;
 import de.gmino.issuemap.server.domain.Photo;
 import de.gmino.issuemap.server.domain.Route;
@@ -40,8 +39,6 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 			return new Map(id);
 		if (typeName.equals("Markertype"))
 			return new Markertype(id);
-		if (typeName.equals("MapHasMarkertype"))
-			return new MapHasMarkertype(id);
 		if (typeName.equals("Comment"))
 			return new Comment(id);
 		if (typeName.equals("Photo"))

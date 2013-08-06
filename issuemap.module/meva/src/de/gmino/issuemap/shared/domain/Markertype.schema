@@ -18,6 +18,13 @@
 		{
 			"type" : "int",
 			"name" : "imageHeight"
+		},
+		{
+			"type" : "relation",
+			"name" : "isUsedByMap",
+			"reltype" : "Map",
+			"relname" : "hasMarkertypes",
+			"multiplerelation" : "true"
 		}
 	]
 }

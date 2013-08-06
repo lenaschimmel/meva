@@ -47,11 +47,13 @@ public class AttributeDefiniton {
 		return true;
 	}
 
+	String containingType;
 	String attributeName;
 	String typeName;
 	public int maxLen = 1000;
 	public String relname;
 	public String reltype;
+	public boolean multipleRelation;
 
 	public AttributeDefiniton(String typeName, String attributeName) {
 		super();
@@ -84,7 +86,7 @@ public class AttributeDefiniton {
 
 	public String getUsableType() {
 		if (isRelation())
-			return "RelationCollection<? extends " + reltype + ">";
+			return "RelationCollection<" + reltype + ">";
 		else
 			return typeName;
 	}
@@ -106,5 +108,32 @@ public class AttributeDefiniton {
 		if (isDomainType())
 			attributeIsValue = !Meva.getClassDefinition(typeName, true).entity;
 		return attributeIsValue;
+	}
+
+	public boolean isSingleRelation() {
+		return isRelation() && !multipleRelation;
+	}
+
+	public boolean isMultipleRelation() {
+		return isRelation() && multipleRelation;
+	}
+
+	public boolean isPrimaryTypeInMultipleRelation() {
+		return containingType.compareTo(reltype) < 0;
+	}
+
+	public String getMultipleRelationTableName() {
+		if(isPrimaryTypeInMultipleRelation())
+			return containingType + "_" + attributeName;
+		else
+			return reltype + "_" + relname;
+	}
+
+	public String getOwnCoulumnName() {
+		return containingType+"Which"+ClassDefinition.capitalizeFirst(attributeName)+"_id";
+	}
+
+	public String getOtherColumnName() {
+		return  reltype+"Which"+ClassDefinition.capitalizeFirst(relname)+"_id";
 	}
 }

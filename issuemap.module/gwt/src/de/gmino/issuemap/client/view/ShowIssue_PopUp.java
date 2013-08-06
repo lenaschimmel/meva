@@ -50,6 +50,7 @@ import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
 import de.gmino.issuemap.client.domain.Comment;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
+import de.gmino.issuemap.client.domain.Markertype;
 import de.gmino.issuemap.client.domain.Photo;
 import de.gmino.issuemap.client.poi.Marker_Wrapper;
 import de.gmino.issuemap.client.resources.ImageResources;
@@ -167,12 +168,12 @@ public class ShowIssue_PopUp extends Composite {
 		else
 		{
 			commentsHeader.setText(commentCount + " Kommentare (lade...)");
-			Requests.loadEntities(mIssue.getComments(), new RequestListener<Comment>() {
+			Requests.loadEntities(mIssue.getComments(), new RequestListener<de.gmino.issuemap.shared.domain.Comment>() {
 				@Override
-				public void onFinished(Collection<Comment> comments) {
+				public void onFinished(Collection<de.gmino.issuemap.shared.domain.Comment> comments) {
 					commentsHeader.setText(commentCount + " Kommentare:");
-					for(Comment comment : comments)
-						showComment(comment);
+					for(de.gmino.issuemap.shared.domain.Comment comment : comments)
+						showComment((Comment)comment);
 				}
 
 				
@@ -193,7 +194,7 @@ public class ShowIssue_PopUp extends Composite {
 		else
 		{
 			photosHeader.setText(photoCount + " Fotos (lade...)");
-			Requests.loadEntities(mIssue.getPhotos(), new RequestListener<Photo>() {
+			Requests.loadEntities(IssuemapGwt.<Photo, de.gmino.issuemap.shared.domain.Photo>convertCollection(mIssue.getPhotos()), new RequestListener<Photo>() {
 				@Override
 				public void onFinished(Collection<Photo> photos) {
 					photosHeader.setText(photoCount + " Fotos:");

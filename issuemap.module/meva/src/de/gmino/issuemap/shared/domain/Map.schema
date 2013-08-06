@@ -89,8 +89,9 @@
 		{
 			"type" : "relation",
 			"name" : "hasMarkertypes",
-			"reltype" : "MapHasMarkertype",
-			"relname" : "map"
+			"reltype" : "Markertype",
+			"relname" : "isUsedByMap",
+			"multiplerelation" : "true"
 		}
 	]
 }

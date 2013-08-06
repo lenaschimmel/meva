@@ -324,8 +324,7 @@ public class IssuemapGwt implements EntryPoint {
 	}
 
 	public void loadIssuesToMap() {
-		Collection<Issue> issues = mapObject.getIssues();
-		Requests.loadEntities(issues, new RequestListener<Issue>() {
+		Requests.loadEntities(IssuemapGwt.<Issue, de.gmino.issuemap.shared.domain.Issue>convertCollection(mapObject.getIssues()), new RequestListener<Issue>() {
 			@Override
 			public void onFinished(Collection<Issue> results) {
 				Scheduler scheduler = Scheduler.get();
@@ -349,13 +348,13 @@ public class IssuemapGwt implements EntryPoint {
 	}
 	
 	public void loadIssuesToList() {
-		Collection<Issue> issues = mapObject.getIssues();
-		Requests.loadEntities(issues, new RequestListener<Issue>() {
+		Collection<de.gmino.issuemap.shared.domain.Issue> issues = mapObject.getIssues();
+		Requests.loadEntities(issues, new RequestListener<de.gmino.issuemap.shared.domain.Issue>() {
 			@Override
-			public void onFinished(Collection<Issue> results) {
+			public void onFinished(Collection<de.gmino.issuemap.shared.domain.Issue> results) {
 				Comparator<Issue> ratingCompare = new IssueRatingComparator();
 				TreeSet<Issue> ratingSortedIssues = new TreeSet<Issue>(ratingCompare);
-				ratingSortedIssues.addAll(results);
+				ratingSortedIssues.addAll(IssuemapGwt.<Issue, de.gmino.issuemap.shared.domain.Issue>convertCollection(results));
 				
 				int count = 0;
 				final ArrayList<Issue> filteredRatingIssues = new ArrayList<Issue>();
@@ -391,5 +390,13 @@ public class IssuemapGwt implements EntryPoint {
 			mapView.setBorderRight(357 + GENERAL_POPUP_MARGIN);
 		else
 			mapView.setBorderRight(40 + GENERAL_POPUP_MARGIN);
+	}
+	
+	public static <NewType, OldType> Collection<NewType> convertCollection(Collection<OldType> collection)
+	{
+		Collection<NewType> ret = new ArrayList<NewType>(collection.size());
+		for(OldType old : collection)
+			ret.add((NewType)old);
+		return ret;
 	}
 }

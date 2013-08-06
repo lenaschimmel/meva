@@ -4,7 +4,7 @@ import java.util.AbstractCollection;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-public class RelationCollection<Item extends Entity> extends AbstractCollection {
+public class RelationCollection<Item extends Entity> extends AbstractCollection<Item> {
 
 	Entity container;
 	String relname;
@@ -32,19 +32,23 @@ public class RelationCollection<Item extends Entity> extends AbstractCollection 
 		return items.contains(o);
 	}
 
+
 	@Override
-	public boolean add(Object e) {
-		((Entity) e).reassignRelation(relname, container);
-		return items.add((Item) e);
+	public boolean add(Item e) {
+		final boolean result = items.add((Item) e);
+		if(result)
+			((Entity) e).addToRelation(relname, container);
+		return result;
 	};
 
 	@Override
 	public boolean remove(Object o) {
-		if (o instanceof Entity) {
+		final boolean result = items.remove(o);
+		if (result && o instanceof Entity) {
 			Entity e = (Entity) o;
-			e.reassignRelation(relname, null);
+			e.removeFromRelation(relname, container);
 		}
-		return super.remove(o);
+		return result;
 	}
 
 	class RemoveSensitiveIterator implements Iterator<Item> {
@@ -67,7 +71,7 @@ public class RelationCollection<Item extends Entity> extends AbstractCollection 
 
 		public void remove() {
 			base.remove();
-			lastReturned.reassignRelation(relname, null);
+			lastReturned.removeFromRelation(relname, container);
 		}
 	}
 }

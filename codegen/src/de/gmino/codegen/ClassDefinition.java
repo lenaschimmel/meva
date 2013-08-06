@@ -6,12 +6,15 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+
+import sun.util.calendar.BaseCalendar;
 
 // Für später auf iOS: siehe Klasse http://redmine.h1898116.stratoserver.net/projects/ira/repository/revisions/master/entry/ios-reiseapp/ReiseMapViewController.m
 
@@ -316,8 +319,9 @@ public class ClassDefinition {
 
 	private void generateReassignRelation(PrintWriter pw) {
 		pw.println("	@Override");
-		pw.println("	public void reassignRelation(String relname, Entity e) {");
+		pw.println("	public void addToRelation(String relname, Entity e) {");
 		for (AttributeDefiniton def : attributes)
+		{
 			if (def.isEntity()) {
 				pw.println("		if(relname.equals(\"" + def.attributeName + "\"))");
 				pw.println("		{");
@@ -325,6 +329,36 @@ public class ClassDefinition {
 				pw.println("			return;");
 				pw.println("		}");
 			}
+			if (def.isRelation()) {
+				pw.println("		if(relname.equals(\"" + def.attributeName + "\"))");
+				pw.println("		{");
+				pw.println("			this." + def.attributeName + ".add((" + def.reltype + ")e);");
+				pw.println("			return;");
+				pw.println("		}");
+			}
+		}
+		pw.println("		throw new RuntimeException(\"Unknown relname: \" + relname);");
+		pw.println("	}");
+		
+		pw.println("	@Override");
+		pw.println("	public void removeFromRelation(String relname, Entity e) {");
+		for (AttributeDefiniton def : attributes)
+		{
+			if (def.isEntity()) {
+				pw.println("		if(relname.equals(\"" + def.attributeName + "\"))");
+				pw.println("		{");
+				pw.println("			this.set" + capitalizeFirst(def.attributeName) + "(null);");
+				pw.println("			return;");
+				pw.println("		}");
+			}
+			if (def.isRelation()) {
+				pw.println("		if(relname.equals(\"" + def.attributeName + "\"))");
+				pw.println("		{");
+				pw.println("			this." + def.attributeName + ".remove((" + def.reltype + ")e);");
+				pw.println("			return;");
+				pw.println("		}");
+			}
+		}
 		pw.println("		throw new RuntimeException(\"Unknown relname: \" + relname);");
 		pw.println("	}");
 	}
@@ -388,6 +422,28 @@ public class ClassDefinition {
 		generateTableCommentAttributeList("", pw);
 		pw.println("\tPRIMARY KEY (`id`)");
 		pw.println(") ENGINE=MyISAM DEFAULT CHARSET=utf8;");
+		pw.println();
+		
+		for(AttributeDefiniton attDef : attributes)
+			if(attDef.isMultipleRelation())
+			{
+				if(attDef.isPrimaryTypeInMultipleRelation())
+				{
+					pw.println();
+					pw.println("CREATE TABLE IF NOT EXISTS `" + attDef.getMultipleRelationTableName() + "` (");
+					pw.println("`" + attDef.getOwnCoulumnName()  + "` BIGINT NOT NULL,");
+					pw.println("`" + attDef.getOtherColumnName() + "` BIGINT NOT NULL,");
+					pw.println("\tPRIMARY KEY (`" + attDef.getOwnCoulumnName() + "`,`" + attDef.getOtherColumnName() + "`)");
+					pw.println(") ENGINE=MyISAM DEFAULT CHARSET=utf8;");
+					pw.println();
+				}
+				else
+				{
+					pw.println();
+					pw.println("There is no table `" + baseClassName + "_" + attDef.attributeName + "`, see `" + attDef.reltype + "_" + attDef.relname + "` in type " + attDef.reltype + " instead.");
+					pw.println();
+				}
+			}
 		pw.println();
 		pw.println("*/");
 		pw.println();
@@ -862,7 +918,8 @@ public class ClassDefinition {
 		pw.println("			throw new RuntimeException(\"Could not load all entities. Possible some id's are just not in the DB.\");");
 		pw.println("		}");
 		for (AttributeDefiniton def : attributes)
-			if (def.isRelation())
+		{
+			if (def.isSingleRelation())
 			{
 				String defName = def.attributeName;
 				String single = baseClassName;
@@ -876,9 +933,27 @@ public class ClassDefinition {
 				pw.println("		{");
 				pw.println("			long "+uncapitalizeFirst(single)+"Id = "+defName+"Rs.getLong(1);");
 				pw.println("			long "+uncapitalizeFirst(multiple)+"Id = "+defName+"Rs.getLong(2);");
-				pw.println("			((" + baseClassName + "Gen) EntityFactory.getUnloadedEntityById(type, "+uncapitalizeFirst(single)+"Id)).get"+capitalizeFirst(defName)+"().add(EntityFactory.getUnloadedEntityById("+def.reltype+".type, "+uncapitalizeFirst(multiple)+"Id));");
+				pw.println("			((" + baseClassName + "Gen) EntityFactory.getUnloadedEntityById(type, "+uncapitalizeFirst(single)+"Id)).get"+capitalizeFirst(defName)+"().add(("+def.reltype+")EntityFactory.getUnloadedEntityById("+def.reltype+".type, "+uncapitalizeFirst(multiple)+"Id));");
 				pw.println("		}");
 			}
+			if (def.isMultipleRelation())
+			{
+				String defName = def.attributeName;
+				String single = baseClassName;
+				String multiple = def.reltype;
+				pw.println();
+				pw.println("		// Read the related " + defName);
+				pw.println("		String "+defName+"SelectString = \"SELECT `"+def.getOwnCoulumnName()+"`,`"+def.getOtherColumnName()+"` FROM `"+def.getMultipleRelationTableName()+"` WHERE "+def.getOwnCoulumnName()+" IN(\"+idList+\");\";");
+				pw.println("		System.out.println("+defName+"SelectString);");
+				pw.println("		ResultSet "+defName+"Rs = stat.executeQuery("+defName+"SelectString);");
+				pw.println("		while("+defName+"Rs.next())");
+				pw.println("		{");
+				pw.println("			long "+uncapitalizeFirst(single)+"Id = "+defName+"Rs.getLong(1);");
+				pw.println("			long "+uncapitalizeFirst(multiple)+"Id = "+defName+"Rs.getLong(2);");
+				pw.println("			((" + baseClassName + "Gen) EntityFactory.getUnloadedEntityById(type, "+uncapitalizeFirst(single)+"Id)).get"+capitalizeFirst(defName)+"().add(("+def.reltype+")EntityFactory.getUnloadedEntityById("+def.reltype+".type, "+uncapitalizeFirst(multiple)+"Id));");
+				pw.println("		}");
+			}
+		}
 		pw.println("		long now = System.currentTimeMillis();");
 		pw.println("		System.out.println(\"Finished loading \" + toLoad.size() + \" entities in \" + (now - then) + \" ms.\");");
 		pw.println("	}");
@@ -910,15 +985,15 @@ public class ClassDefinition {
 		pw.println("	}");
 	}
 
-	private void generateSqlRelationDeserializer(PrintWriter pw, AttributeDefiniton def) {
-		pw.println("		// Read the related " + def.attributeName);
-		pw.println("		selectString = \"SELECT id FROM `" + Meva.getClassDefinition(def.reltype, true).baseClassName + "` WHERE " + def.relname + "_id = '\"+id+\"';\";");
-		pw.println("		stat.executeQuery(selectString);");
-		pw.println("		System.out.println(selectString);");
-		pw.println("		rs = stat.executeQuery(selectString);");
-		pw.println("		while(rs.next())");
-		pw.println("			" + def.attributeName + ".add((" + def.reltype + ")EntityFactory.getUnloadedEntityById(" + def.reltype + ".type, rs.getLong(1)));");
-	}
+//	private void generateSqlRelationDeserializer(PrintWriter pw, AttributeDefiniton def) {
+//		pw.println("		// Read the related " + def.attributeName);
+//		pw.println("		selectString = \"SELECT id FROM `" + Meva.getClassDefinition(def.reltype, true).baseClassName + "` WHERE " + def.relname + "_id = '\"+id+\"';\";");
+//		pw.println("		stat.executeQuery(selectString);");
+//		pw.println("		System.out.println(selectString);");
+//		pw.println("		rs = stat.executeQuery(selectString);");
+//		pw.println("		while(rs.next())");
+//		pw.println("			" + def.attributeName + ".add((" + def.reltype + ")EntityFactory.getUnloadedEntityById(" + def.reltype + ".type, rs.getLong(1)));");
+//	}
 
 	/**
 	 * For Values only
@@ -952,17 +1027,32 @@ public class ClassDefinition {
 		pw.println("	");
 		pw.println("	public void serializeSql(Connection dbCon) throws SQLException");
 		pw.println("	{");
-		//pw.println("		if(replaceStatement == null)");
-		//pw.println("		{");
-		pw.print  ("			String replaceString = \"REPLACE INTO `" + baseClassName + "` (");
+		pw.print  ("		String replaceString = \"REPLACE INTO `" + baseClassName + "` (");
 		printAttributeList("", pw);
 		pw.print(") VALUES (");
 		printValueList(pw);
 		pw.println(");\";");
-		pw.println("			replaceStatement = dbCon.prepareStatement(replaceString);");
-		//pw.println("		}");
+		pw.println("		replaceStatement = dbCon.prepareStatement(replaceString);");
 		printValueSettings("", pw,1);
 		pw.println("		replaceStatement.executeUpdate();");
+		pw.println();
+
+		for(AttributeDefiniton attDef : attributes)
+		{
+			if(attDef.isMultipleRelation())
+			{
+				pw.println("		// serialize the " + attDef.attributeName);
+				pw.println("		Statement "+attDef.attributeName+"Stat = dbCon.createStatement();");
+				pw.println("		"+attDef.attributeName+"Stat.executeUpdate(\"DELETE FROM `"+attDef.getMultipleRelationTableName()+"` WHERE `"+attDef.getOwnCoulumnName()+"`='\"+getId()+\"'\");");
+				pw.println("		for(Object "+attDef.attributeName+"Elem : "+attDef.attributeName+")");
+				pw.println("		{");
+				pw.println("			long id = (("+attDef.reltype+")"+attDef.attributeName+"Elem).getId();");
+				pw.println("			"+attDef.attributeName+"Stat.executeUpdate(\"INSERT INTO `"+attDef.getMultipleRelationTableName()+"` SET `"+attDef.getOwnCoulumnName()+"` = '\"+getId()+\"', `"+attDef.getOtherColumnName()+"`='\"+id+\"';\");");
+				pw.println("		}");
+				pw.println();
+
+			}
+		}
 		pw.println("	}");
 	}
 
@@ -1238,7 +1328,7 @@ public class ClassDefinition {
 		}
 	}
 
-	private static String capitalizeFirst(String str) {
+	static String capitalizeFirst(String str) {
 		return str.substring(0, 1).toUpperCase() + str.substring(1);
 	}
 
@@ -1271,10 +1361,13 @@ public class ClassDefinition {
 			String typeName = (String) att.get("type");
 			String attributeName = (String) att.get("name");
 			AttributeDefiniton attributeDefiniton = new AttributeDefiniton(typeName, attributeName);
+			attributeDefiniton.containingType = ret.baseClassName;
 			ret.attributes.add(attributeDefiniton);
 			if (typeName.equals("relation")) {
 				attributeDefiniton.relname = (String) att.get("relname");
 				attributeDefiniton.reltype = (String) att.get("reltype");
+				if(att.get("multiplerelation") != null && att.get("multiplerelation").equals("true"))
+					attributeDefiniton.multipleRelation = true;
 			}
 		}
 

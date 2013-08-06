@@ -45,7 +45,7 @@ public class CreateIssue_PopUp extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.mapObject = map;
 
-		for (Markertype mt : map.getMarkertypes())
+		for (de.gmino.issuemap.shared.domain.Markertype mt : map.getHasMarkertypes())
 			typebox.addItem(mt.getMarkerName(), mt.getId() + "");
 
 		
@@ -155,7 +155,7 @@ public class CreateIssue_PopUp extends Composite {
 
 	private void setIssueValuesFromMask(Issue issue){
 		long markertypeId = Long.parseLong(typebox.getValue(typebox.getSelectedIndex()));
-		Markertype markertype = mapObject.getMarkertypeById(markertypeId);
+		Markertype markertype = (Markertype) Markertype.getById(markertypeId);
 		issue.setTitle(title.getText());
 		issue.setMarkertype(markertype);
 		issue.setDescription(description.getText());

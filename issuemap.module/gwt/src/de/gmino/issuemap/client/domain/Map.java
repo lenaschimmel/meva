@@ -12,8 +12,9 @@ import de.gmino.geobase.client.domain.Address;
 import de.gmino.geobase.client.domain.ImageUrl;
 import de.gmino.geobase.client.domain.LatLon;
 import de.gmino.issuemap.client.ImageUrlLoader;
+import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.gen.MapGen;
-import de.gmino.issuemap.shared.domain.MapHasMarkertype;
+import de.gmino.issuemap.client.domain.Markertype;
 import de.gmino.meva.shared.RelationCollection;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
@@ -21,7 +22,6 @@ import de.gmino.meva.shared.request.Requests;
 // imports for JSON
 // imports for field types
 public class Map extends MapGen {
-	final TreeMap<Long, Markertype> markertypesById = new TreeMap<Long, Markertype>();
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public Map(long id)
 	{
@@ -79,56 +79,27 @@ public class Map extends MapGen {
 	
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	@SuppressWarnings("unchecked")
-	public void loadMarkertypes(final RequestListener<Markertype> listener)
-	{
-		RelationCollection<? extends MapHasMarkertype> hasMarkertype = getHasMarkertypes();
-		Requests.loadEntities(hasMarkertype, new RequestListener<MapHasMarkertype>() {
+	public void loadMarkertypes(final RequestListener<Markertype> listener) {
+		Requests.loadEntities(IssuemapGwt.<Markertype, de.gmino.issuemap.shared.domain.Markertype>convertCollection(getHasMarkertypes()), new RequestListener<Markertype>() {
 			@Override
-			public void onFinished(Collection<MapHasMarkertype> results) {
-				for(MapHasMarkertype mhm : results)
-				{
-					markertypesById.put(mhm.getMarkertypeId(), (Markertype) mhm.getMarkertype());
+			public void onFinished(final Collection<Markertype> results) {
+				Collection<String> imagesToLoad = new TreeSet<String>();
+				for (Markertype mt : results) {
+					String imageName = mt.getImageName();
+					String url = "/mapicon/" + imageName + ".png";
+					imagesToLoad.add(url);
 				}
-				Requests.loadEntities(markertypesById.values(), new RequestListener<Markertype>() {
-					@Override
-					public void onFinished(final Collection<Markertype> results) {
-						Collection<String> imagesToLoad = new TreeSet<String>();
-					
-						for(Markertype mt : results)
-						{
-							String imageName =mt.getImageName();
-							String url = "/mapicon/" + imageName + ".png";
-							imagesToLoad.add(url);
-						}
 
-						ImageUrlLoader.getInstance().loadImages(imagesToLoad, new ImageUrlLoader.ImageLoadListener() {
-							@Override
-							public void onLoaded() {
-								listener.onFinished(results);
-								for(Markertype r : results)
-									listener.onNewResult(r);
-							}
-						});
+				ImageUrlLoader.getInstance().loadImages(imagesToLoad, new ImageUrlLoader.ImageLoadListener() {
+					@Override
+					public void onLoaded() {
+						listener.onFinished(results);
+						for (Markertype r : results)
+							listener.onNewResult(r);
 					}
 				});
+
 			}
 		});
 	}
-	
-	public Markertype getMarkertypeById(long id)
-	{
-		return markertypesById.get(id);
-	}
-	
-	public Collection<Markertype> getMarkertypes()
-	{
-		return markertypesById.values();
-	}
-	
-	public TreeMap<Long,Markertype> getMarkertypeMap()
-	{
-		return markertypesById;
-	}
-	
-	
 }

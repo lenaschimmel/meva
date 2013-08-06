@@ -31,7 +31,9 @@ public interface Entity extends Comparable {
 
 	public boolean isReady();
 
-	public void reassignRelation(String relname, Entity e);
+	public void addToRelation(String relname, Entity e);
+
+	public void removeFromRelation(String relname, Entity e);
 
 	public String toShortString();
 
