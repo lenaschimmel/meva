@@ -122,6 +122,7 @@ public class JsonServer extends HttpServlet {
 
 		sb.append("]");
 		resp.setContentType("text/json");
+		resp.setCharacterEncoding("utf-8");
 		writeAnswer(resp.getOutputStream(), "OK", sb.toString());
 	}
 
@@ -170,6 +171,7 @@ public class JsonServer extends HttpServlet {
 		LocalRequetsImpl.saveEntities(entitiesToSave);
 
 		resp.setContentType("text/json");
+		resp.setCharacterEncoding("utf-8");
 		writeAnswer(resp.getOutputStream(), "OK", "\"All entities saved to the database.\"");
 	}
 
@@ -205,6 +207,7 @@ public class JsonServer extends HttpServlet {
 		sb.append("]");
 
 		resp.setContentType("text/json");
+		resp.setCharacterEncoding("utf-8");
 		writeAnswer(resp.getOutputStream(), "OK", sb.toString());
 	}
 
@@ -235,6 +238,7 @@ public class JsonServer extends HttpServlet {
 		}
 		sb.append("]");
 		resp.setContentType("text/json");
+		resp.setCharacterEncoding("utf-8");
 		writeAnswer(resp.getOutputStream(), "OK", sb.toString());
 	}
 
@@ -265,6 +269,7 @@ public class JsonServer extends HttpServlet {
 		}
 		sb.append("]");
 		resp.setContentType("text/json");
+		resp.setCharacterEncoding("utf-8");
 		writeAnswer(resp.getOutputStream(), "OK", sb.toString());
 	}
 
