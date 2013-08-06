@@ -52,7 +52,15 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 	}
 
 	@Override
-	public Object createQueryObject(String typeName, JsonObject request) throws IOException {
+	public Object createQueryObject(String typeName, Object request) throws IOException {
+		if (request instanceof JsonObject)
+			return createQueryObjectFromJson(typeName, (JsonObject)request);
+		else if (request instanceof DataInputStream)
+			return createQueryObjectFromStream(typeName, (DataInputStream)request);
+		else throw new RuntimeException("requestObject must either be an instace of JsonObject or an instance of DataInputStream.");
+	}
+	
+	private Object createQueryObjectFromJson(String typeName, JsonObject request) throws IOException {
 		if (typeName.equals("QueryMapBySubdomain"))
 			return new QueryMapBySubdomain(request);
 		else if (typeName.equals("SendFeedback"))
@@ -61,8 +69,7 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 			throw new RuntimeException("Unrecognized query type: " + typeName);
 	}
 
-	@Override
-	public Object createQueryObject(String typeName, DataInputStream request) throws IOException {
+	private Object createQueryObjectFromStream(String typeName, DataInputStream request) throws IOException {
 		if (typeName.equals("QueryMapBySubdomain"))
 			return new QueryMapBySubdomain(request);
 		else if (typeName.equals("SendFeedback"))
