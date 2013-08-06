@@ -45,6 +45,7 @@ import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.client.ImageUrlLoader;
+import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
 import de.gmino.issuemap.client.domain.Comment;
 import de.gmino.issuemap.client.domain.Issue;
@@ -410,6 +411,7 @@ public class ShowIssue_PopUp extends Composite {
 		imageMarkerIcon.setUrl(iconUrl);
 		Requests.saveEntity(mIssue, null);
 		smartLayer.updatePoi(mIssue);
+		IssuemapGwt.getInstance().loadIssuesToList();
 	}
 
 	@UiHandler("uploadButton")

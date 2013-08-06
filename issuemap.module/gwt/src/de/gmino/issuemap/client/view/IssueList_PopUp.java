@@ -1,6 +1,7 @@
 package de.gmino.issuemap.client.view;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Display;
@@ -31,16 +32,49 @@ public class IssueList_PopUp extends Composite {
 	}
 	
 	private List_Button listButton;
+	private ArrayList<IssueList_Item> items;
+	private OpenLayersSmartLayer layer;
+	private IssueIconRenderer renderer;
 
-	public IssueList_PopUp(Map mapObject, ArrayList<Issue> data, IssueIconRenderer issueRenderer, OpenLayersSmartLayer layer) {
+	public IssueList_PopUp(Map mapObject, IssueIconRenderer issueRenderer, OpenLayersSmartLayer layer) {
 		initWidget(uiBinder.createAndBindUi(this));
+		this.renderer = issueRenderer;
+		this.layer = layer;
 		listButton = new List_Button(this);
 		RootPanel.get("feedback").add(listButton);
 		listButton.setVisible(false);
 		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
 	    
-	    for (Issue i : data)
-	    	IssueItemsPanel.add(new IssueList_Item(i, issueRenderer, layer));
+		items = new ArrayList<IssueList_Item>();
+	}
+	
+	public void updateData(ArrayList<Issue> data)
+	{
+		ArrayList<IssueList_Item> newItems = new ArrayList<IssueList_Item>();
+		Iterator<IssueList_Item> it = items.iterator();
+		for(Issue i : data)
+		{
+			if(it.hasNext())
+			{
+				IssueList_Item item = it.next();
+				item.setIssue(i);
+				newItems.add(item);	
+			}
+			else
+			{
+				final IssueList_Item item = new IssueList_Item(i, renderer, layer);
+				newItems.add(item);		    	
+				IssueItemsPanel.add(item);
+			}
+		}
+		
+		while(it.hasNext())
+		{
+			IssueItemsPanel.remove(it.next());
+			it.remove();
+		}
+		
+		items = newItems;
 	}
 
 	@UiField

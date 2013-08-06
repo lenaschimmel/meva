@@ -127,6 +127,8 @@ public class IssuemapGwt implements EntryPoint {
 
 	private static final int GENERAL_POPUP_MARGIN = 20;
 
+	private IssueList_PopUp list;
+
 	public IssuemapGwt() {
 		if (instance != null)
 			throw new RuntimeException("Can't create multiple instances!");
@@ -224,7 +226,9 @@ public class IssuemapGwt implements EntryPoint {
 				return popUp;
 			}
 		});
+		
 
+		
 		mapRequest(subdomain);
 	}
 
@@ -236,6 +240,10 @@ public class IssuemapGwt implements EntryPoint {
 					@SuppressWarnings("unchecked")
 					public void onNewResult(final Map map) {
 						mapObject = map;
+						
+						list = new IssueList_PopUp(mapObject, issueRenderer, markerLayer);
+						RootPanel.get("list").add(list);
+						
 						addFeedback_Button();
 						markerLayer.addMarkerPopupCreator(Issue.type,
 								new IssuePopupCreator(map, markerLayer));
@@ -276,12 +284,14 @@ public class IssuemapGwt implements EntryPoint {
 											System.out
 													.println("All routes shown, now loading bicycle shops and Issues.");
 											showBicycleShops();
-											loadAndShowIssues();
+											loadIssuesToList();
+											loadIssuesToMap();
 										}
 									};
 									zgb.showRoutes();
 								} else
-									loadAndShowIssues();
+									loadIssuesToList();
+									loadIssuesToMap();
 							}
 						});
 					};
@@ -308,7 +318,7 @@ public class IssuemapGwt implements EntryPoint {
 		counter--;
 	}
 
-	private void loadAndShowIssues() {
+	public void loadIssuesToMap() {
 		Collection<Issue> issues = mapObject.getIssues();
 		Requests.loadEntities(issues, new RequestListener<Issue>() {
 			@Override
@@ -318,17 +328,29 @@ public class IssuemapGwt implements EntryPoint {
 				Comparator<Issue> latitudeCompare = new IssueLatitudeComparator();
 				TreeSet<Issue> latitudeSortedIssues = new TreeSet<Issue>(latitudeCompare);
 				latitudeSortedIssues.addAll(results);
-				
-				Comparator<Issue> ratingCompare = new IssueRatingComparator();
-				TreeSet<Issue> ratingSortedIssues = new TreeSet<Issue>(ratingCompare);
-				ratingSortedIssues.addAll(results);
-				
 				final ArrayList<Issue> filteredLatitudeIssues = new ArrayList<Issue>();
 				for (final Issue i : latitudeSortedIssues) {
 					if (!i.isDeleted())
 						filteredLatitudeIssues.add(i);					
 				}
 				scheduler.scheduleIncremental(new AddIssuesCommand(filteredLatitudeIssues));
+				
+				counter = filteredLatitudeIssues.size();
+				setCounter();
+				counter = 0; // will be incremented by the deferred command and we don't want to count everything twice.
+				
+			}
+		});
+	}
+	
+	public void loadIssuesToList() {
+		Collection<Issue> issues = mapObject.getIssues();
+		Requests.loadEntities(issues, new RequestListener<Issue>() {
+			@Override
+			public void onFinished(Collection<Issue> results) {
+				Comparator<Issue> ratingCompare = new IssueRatingComparator();
+				TreeSet<Issue> ratingSortedIssues = new TreeSet<Issue>(ratingCompare);
+				ratingSortedIssues.addAll(results);
 				
 				int count = 0;
 				final ArrayList<Issue> filteredRatingIssues = new ArrayList<Issue>();
@@ -339,11 +361,7 @@ public class IssuemapGwt implements EntryPoint {
 						break;
 				}
 				
-				counter = filteredLatitudeIssues.size();
-				setCounter();
-				counter = 0; // will be incremented by the deferred command and we dont want to count everything twice.
-				
-				addList(filteredRatingIssues);
+				list.updateData(filteredRatingIssues);
 			}
 		});
 	}
@@ -356,11 +374,6 @@ public class IssuemapGwt implements EntryPoint {
 		Feedback_Button feedback = new Feedback_Button(mapObject);
 		RootPanel.get("feedback").add(feedback);
 		
-	}
-	
-	public void addList(ArrayList<Issue> data){
-		IssueList_PopUp list = new IssueList_PopUp(mapObject, data, issueRenderer, markerLayer);
-		RootPanel.get("list").add(list);
 	}
 
 	public Map getMap()
