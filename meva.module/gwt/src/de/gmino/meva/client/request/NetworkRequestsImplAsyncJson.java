@@ -1,6 +1,7 @@
 package de.gmino.meva.client.request;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -179,12 +180,29 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 			listener.onFinished(entities);
 			return;
 		}
+
+		final Collection<EntityClass> entitiesToLoad = new ArrayList<EntityClass>();
+		
+		for (EntityClass e : entities) {
+			if (!e.isReady())
+				entitiesToLoad.add(e);
+			else
+				listener.onNewResult(e);
+		}
+		
+		if(entitiesToLoad.isEmpty())
+		{
+			System.out.println("Nothing to load, all present.");
+			listener.onFinished(entities);
+			return;
+		}
+		
 		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, baseUrl + "Json/getEntities");
 		rb.setHeader("Content-Type", "application/json");
 		try {
-			String typeName = entities.iterator().next().getTypeName();
+			String typeName = entitiesToLoad.iterator().next().getTypeName();
 			StringBuilder sbIdArrayString = new StringBuilder();
-			for (EntityClass e : entities) {
+			for (EntityClass e : entitiesToLoad) {
 				if (sbIdArrayString.length() > 0)
 					sbIdArrayString.append(",");
 				sbIdArrayString.append('"');
@@ -205,7 +223,7 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 						listener.onError("The server reported an error: " + message, null);
 					} else {
 						JsonArray entityValues = answer.getArray("content");
-						Iterator<EntityClass> it = entities.iterator();
+						Iterator<EntityClass> it = entitiesToLoad.iterator();
 						for (JsonValue entityValue : entityValues) {
 							EntityClass toRead = it.next();
 							try {

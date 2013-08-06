@@ -241,8 +241,6 @@ public class IssuemapGwt implements EntryPoint {
 					public void onNewResult(final Map map) {
 						mapObject = map;
 						
-						list = new IssueList_PopUp(mapObject, issueRenderer, markerLayer);
-						RootPanel.get("list").add(list);
 						
 						addFeedback_Button();
 						markerLayer.addMarkerPopupCreator(Issue.type,
@@ -284,14 +282,21 @@ public class IssuemapGwt implements EntryPoint {
 											System.out
 													.println("All routes shown, now loading bicycle shops and Issues.");
 											showBicycleShops();
+											list = new IssueList_PopUp(mapObject, issueRenderer, markerLayer);
+											RootPanel.get("list").add(list);
 											loadIssuesToList();
 											loadIssuesToMap();
 										}
 									};
 									zgb.showRoutes();
-								} else
+								} 
+								else {
+									list = new IssueList_PopUp(mapObject, issueRenderer, markerLayer);
+									RootPanel.get("list").add(list);
+									
 									loadIssuesToList();
 									loadIssuesToMap();
+								}
 							}
 						});
 					};
