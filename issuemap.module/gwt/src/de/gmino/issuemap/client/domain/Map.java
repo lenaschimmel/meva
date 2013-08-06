@@ -105,6 +105,8 @@ public class Map extends MapGen {
 							@Override
 							public void onLoaded() {
 								listener.onFinished(results);
+								for(Markertype r : results)
+									listener.onNewResult(r);
 							}
 						});
 					}

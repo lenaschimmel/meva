@@ -1,6 +1,7 @@
 package de.gmino.issuemap.client.view;
 
 import java.util.Collection;
+import java.util.TreeMap;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -9,14 +10,15 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.issuemap.client.domain.Map;
-import de.gmino.issuemap.client.domain.MapHasMarkertype;
 import de.gmino.issuemap.client.domain.Markertype;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
@@ -32,8 +34,21 @@ public class Create_Map_Backend extends Composite {
 
 	public Create_Map_Backend() {
 		initWidget(uiBinder.createAndBindUi(this));
+		//Alle Markertypes
+		Requests.getLoadedEntitiesByType(Markertype.type, new RequestListener<Markertype>() {
+
+			@Override
+			public void onNewResult(Markertype markertype) {
+				Marker_List_Item item = new Marker_List_Item(markertype.getImageName(), markertype.getMarkerName());
+				markerPanel.add(item);
+				markerListItems.put(markertype, item);
+				super.onNewResult(markertype);
+			}
+		});
 		getNewMapObject();
 	}
+	
+	TreeMap<Markertype, Marker_List_Item> markerListItems = new TreeMap<Markertype, Marker_List_Item>(); 
 
 	@UiField
 	Label heading;
@@ -68,6 +83,12 @@ public class Create_Map_Backend extends Composite {
 	TextBox website;
 	@UiField
 	TextBox email;
+	@UiField
+	TextBox url_impressum;
+	@UiField
+	ListBox mapType;
+	@UiField
+	FlowPanel markerPanel;
 	
 	Map map;
 
@@ -86,6 +107,14 @@ public class Create_Map_Backend extends Composite {
 		map.setLogo(new ImageUrl(logo_url.getText()));
 		map.setWebsite(website.getText());
 		map.setEmail(email.getText());
+		map.setImpressum_url(url_impressum.getText());
+		if(mapType.getSelectedIndex()==0) map.setMapTyp("Issue");
+		if(mapType.getSelectedIndex()==1) map.setMapTyp("Event");
+		
+		for(Marker_List_Item i : markerListItems.values()){
+			if(i.selected){}
+		}
+		
 		Requests.saveEntity(map, null);
 	}
 
@@ -104,7 +133,12 @@ public class Create_Map_Backend extends Composite {
 		logo_url.setText("");
 		website.setText("");
 		email.setText("");
+		url_impressum.setText("");
+		mapType.setSelectedIndex(0);
 		
+		for(Marker_List_Item i : markerListItems.values()){
+			i.setUncheckBox();
+		}
 		
 	}
 	
@@ -126,6 +160,8 @@ public class Create_Map_Backend extends Composite {
 	
 	public void showExistingMap(Map map, boolean getNewId)
 	{
+		clear_form();
+
 		this.map = map;
 		title.setText(map.getTitle());
 		subdomain.setText(map.getSubdomain());
@@ -141,20 +177,19 @@ public class Create_Map_Backend extends Composite {
 		logo_url.setText(map.getLogo().getUrl());
 		website.setText(map.getWebsite());
 		email.setText(map.getEmail());
+		url_impressum.setText(map.getImpressum_url());
+		if(map.getMapTyp().equals("Issue")) mapType.setSelectedIndex(0);
+		if(map.getMapTyp().equals("Event")) mapType.setSelectedIndex(1);
 		
-		//Alle Markertypes
-		Requests.getLoadedEntitiesByType(Markertype.type, new RequestListener<Markertype>() {
-			@Override
-			public void onFinished(Collection<Markertype> results) {
-				
-			}
-		});
+
 		//Alle Markertypes der Map
 		map.loadMarkertypes(new RequestListener<Markertype>() {
 			@Override
-			public void onFinished(Collection<Markertype> results) {
-				
+			public void onNewResult(Markertype result) {
+					markerListItems.get(result).setCheckBox();
+				super.onNewResult(result);
 			}
+			
 		});
 		
 		if(getNewId)
