@@ -5,16 +5,26 @@
 		.important {
 			font-weight: bold;
 		}
-		.parent{
+		
+		.parent {
+		border-bottom: 2px solid #ddd;
+
+			
+		}
+		
+		.labelSubdomain {
+			cursor: pointer;
+			text-decoration: underline;
 		}
 	</ui:style>
 	<g:HTMLPanel>
-		<g:HorizontalPanel styleName="{style.parent}">
-			<g:Label width="50px" ui:field="id"></g:Label>
-			<g:Label width="200px" ui:field="subdomain"></g:Label>
-			<g:Label width="200px" ui:field="title"></g:Label>
-			<g:Button ui:field="edit">Bearbeiten</g:Button>
-			<g:Button ui:field="copy">Kopieren</g:Button>
+		<g:HorizontalPanel styleName="{style.parent}"
+			ui:field="parent" >
+			<g:cell verticalAlignment="ALIGN_MIDDLE"><g:Label width="40px" ui:field="id"></g:Label></g:cell>
+			<g:cell verticalAlignment="ALIGN_MIDDLE"><g:Label width="150px" ui:field="subdomain" styleName="{style.labelSubdomain}"></g:Label></g:cell>
+			<g:cell verticalAlignment="ALIGN_MIDDLE"><g:Label width="210px" ui:field="title"></g:Label></g:cell>
+			<g:cell verticalAlignment="ALIGN_MIDDLE"><g:Button ui:field="edit">Bearbeiten</g:Button></g:cell>
+			<g:cell verticalAlignment="ALIGN_MIDDLE"><g:Button ui:field="copy">Kopieren</g:Button></g:cell>
 		</g:HorizontalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

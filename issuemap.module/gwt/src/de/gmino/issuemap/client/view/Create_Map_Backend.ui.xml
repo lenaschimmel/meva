@@ -56,7 +56,12 @@
 		<g:FlowPanel><g:InlineLabel text="Website:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="website"/></g:FlowPanel>
 		<g:FlowPanel><g:InlineLabel text="E-Mail:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="email"/></g:FlowPanel>
 		<g:FlowPanel><g:InlineLabel text="Impressums URL:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="url_impressum"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="Map-Typ" styleName="{style.label}" />
+		<g:FlowPanel><g:InlineLabel text="Name des Betreibers:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="recipient_name"/></g:FlowPanel>
+		<g:FlowPanel><g:InlineLabel text="Adresszusatz:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="additionalAddressLine"/></g:FlowPanel>
+		<g:FlowPanel><g:InlineLabel text="Straße:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="street"/></g:FlowPanel>
+		<g:FlowPanel><g:InlineLabel text="Hausnummer:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="houseNumber"/></g:FlowPanel>
+		<g:FlowPanel><g:InlineLabel text="PLZ:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="zip"/></g:FlowPanel>
+		<g:FlowPanel><g:InlineLabel text="Map-Typ:" styleName="{style.label}" />
 			<g:ListBox styleName="{style.textBox}" ui:field="mapType">
 				<g:item value='0'>Issue-Map</g:item>
 				<g:item value='1'>Event-Map</g:item>
