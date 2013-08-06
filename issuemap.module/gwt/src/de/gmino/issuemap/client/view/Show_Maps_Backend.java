@@ -28,12 +28,7 @@ public class Show_Maps_Backend extends Composite  {
 
 	public Show_Maps_Backend() {
 		initWidget(uiBinder.createAndBindUi(this));
-		Requests.getLoadedEntitiesByType(Map.type, new RequestListener<Map>() {
-			@Override
-			public void onNewResult(Map result) {
-				addMapElement(result);
-			}
-		});
+		executeRequest();
 	}
 
 	@UiField
@@ -46,6 +41,7 @@ public class Show_Maps_Backend extends Composite  {
 	@UiHandler("buttonRefresh")
 	void onClickRefresh(ClickEvent e) {
 		verticalPanel.clear();
+		executeRequest();
 	}
 	
 	@UiHandler("buttonNew")
@@ -58,4 +54,13 @@ public class Show_Maps_Backend extends Composite  {
 		verticalPanel.add(mapListItem);
 	}
 
+	
+	private void executeRequest(){
+		Requests.getLoadedEntitiesByType(Map.type, new RequestListener<Map>() {
+			@Override
+			public void onNewResult(Map result) {
+				addMapElement(result);
+			}
+		});
+	}
 }

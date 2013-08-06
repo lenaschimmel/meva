@@ -1,5 +1,6 @@
 package de.gmino.issuemap.server;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,7 +18,6 @@ import de.gmino.issuemap.server.request.QueryMapBySubdomain;
 import de.gmino.issuemap.server.request.SendFeedback;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactoryInterface;
-import de.gmino.meva.shared.EntityQuery;
 
 public class EntityFactoryImpl implements EntityFactoryInterface {
 
@@ -53,6 +53,16 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 
 	@Override
 	public Object createQueryObject(String typeName, JsonObject request) throws IOException {
+		if (typeName.equals("QueryMapBySubdomain"))
+			return new QueryMapBySubdomain(request);
+		else if (typeName.equals("SendFeedback"))
+			return new SendFeedback(request);
+		else
+			throw new RuntimeException("Unrecognized query type: " + typeName);
+	}
+
+	@Override
+	public Object createQueryObject(String typeName, DataInputStream request) throws IOException {
 		if (typeName.equals("QueryMapBySubdomain"))
 			return new QueryMapBySubdomain(request);
 		else if (typeName.equals("SendFeedback"))

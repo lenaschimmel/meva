@@ -1,5 +1,6 @@
 package de.gmino.meva.shared;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -76,6 +77,11 @@ public class EntityFactory {
 
 	public static Object createQueryObject(String lastPart,
 			JsonObject request) throws IOException {
+		return factoryImplementation.createQueryObject(lastPart, request);
+	}
+	
+	public static Object createQueryObject(String lastPart,
+			DataInputStream request) throws IOException {
 		return factoryImplementation.createQueryObject(lastPart, request);
 	}
 }

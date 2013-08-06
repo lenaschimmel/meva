@@ -1,5 +1,6 @@
 package de.gmino.meva.shared;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Collection;
 
@@ -18,4 +19,6 @@ public interface EntityFactoryInterface {
 	public Entity createEntityObject(String typeName, long id);
 	
 	public Object createQueryObject(String typeName, JsonObject request) throws IOException;
+
+	public Object createQueryObject(String typeName, DataInputStream request) throws IOException;
 }

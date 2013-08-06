@@ -71,6 +71,7 @@ public class ClassDefinition {
 			pw.println();
 			pw.println("import " + getFullyQualifiedName(target, true) + ";");
 	
+			pw.println("@SuppressWarnings(\"unused\")");
 			pw.println("public class " + className + " extends " + className + "Gen {");
 			generateConstructors(pw, true, target.equals("shared"));
 	
@@ -134,6 +135,7 @@ public class ClassDefinition {
 		pw.println();
 
 		String modifier = isQuery() ? "abstract " : " ";
+		pw.println("@SuppressWarnings(\"unused\")");
 		pw.println("public " + modifier + "class " + className + " extends " + getFullPackage("shared", false) + "." + baseClassName
 				+ (entity ? " implements EntityBinary" : " implements ValueBinary") + " {");
 
@@ -166,6 +168,7 @@ public class ClassDefinition {
 		pw.println();
 
 		String modifier = isQuery() ? "abstract " : " ";
+		pw.println("@SuppressWarnings(\"unused\")");
 		pw.println("public " + modifier + "class " + className + " extends " + getFullPackage("shared", false) + "." + baseClassName
 				+ (entity ? " implements EntityBinary, EntitySql" : " implements ValueBinary") + " {");
 
@@ -201,6 +204,7 @@ public class ClassDefinition {
 		pw.println();
 
 		String modifier = isQuery() ? "abstract " : " ";
+		pw.println("@SuppressWarnings(\"unused\")");
 		pw.println("public " + modifier + "class " + className + " extends " + getFullPackage("shared", false) + "." + baseClassName + " {");
 		generateConstructors(pw, true, true);
 		if (entity)
@@ -225,6 +229,7 @@ public class ClassDefinition {
 		String modifier = isQuery() ? "abstract " : " ";
 
 		//																		  (entity ? ("Entity<" + className + ">") : "Value")
+		pw.println("@SuppressWarnings(\"unused\")");
 		pw.println("public " + modifier + "class " + className + " implements " + (entity ? ("Entity") : "Value") + (isEntityQuery() ? ", EntityQuery" : "")
 				+ (isValueQuery() ? ", ValueQuery" : "") + " {");
 

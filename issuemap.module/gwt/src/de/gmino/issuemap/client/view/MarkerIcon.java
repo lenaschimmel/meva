@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.issuemap.client.domain.Issue;
-import de.gmino.issuemap.client.resources.ImageResources;
 
 public class MarkerIcon extends Composite implements HasText {
 

@@ -54,5 +54,6 @@
 		<g:FlowPanel><g:InlineLabel text="E-Mail:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="email"/></g:FlowPanel>
 		
 		<g:Button styleName="{style.important}" ui:field="button" text="Speichern"/>
+		<g:FlowPanel ui:field="markerPanel"></g:FlowPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 
