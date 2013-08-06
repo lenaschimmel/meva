@@ -1045,12 +1045,19 @@ public class ClassDefinition {
 				pw.println("		// serialize the " + attDef.attributeName);
 				pw.println("		Statement "+attDef.attributeName+"Stat = dbCon.createStatement();");
 				pw.println("		"+attDef.attributeName+"Stat.executeUpdate(\"DELETE FROM `"+attDef.getMultipleRelationTableName()+"` WHERE `"+attDef.getOwnCoulumnName()+"`='\"+getId()+\"'\");");
-				//pw.println("		String "+attDef.attributeName+"Sql = \"Insert Into \";");
+				pw.println("		String "+attDef.attributeName+"Sql = \"INSERT INTO `"+attDef.getMultipleRelationTableName()+"` (`"+attDef.getOwnCoulumnName()+"`, `"+attDef.getOtherColumnName()+"`) VALUES \";");
+				pw.println("		boolean first"+attDef.attributeName+" = true;");
 				pw.println("		for(Object "+attDef.attributeName+"Elem : "+attDef.attributeName+")");
 				pw.println("		{");
+				pw.println("			if(!first"+attDef.attributeName+")");
+				pw.println("				"+attDef.attributeName+"Sql += \", \";");
 				pw.println("			long id = (("+attDef.reltype+")"+attDef.attributeName+"Elem).getId();");
-				pw.println("			"+attDef.attributeName+"Stat.executeUpdate(\"INSERT INTO `"+attDef.getMultipleRelationTableName()+"` SET `"+attDef.getOwnCoulumnName()+"` = '\"+getId()+\"', `"+attDef.getOtherColumnName()+"`='\"+id+\"';\");");
+				pw.println("			"+attDef.attributeName+"Sql += \"('\"+getId()+\"', '\"+id+\"')\";");
+				pw.println("			first"+attDef.attributeName+" = false;");
 				pw.println("		}");
+				pw.println("		"+attDef.attributeName+"Sql += \";\";");
+				pw.println("		System.out.println("+attDef.attributeName+"Sql);");
+				pw.println("		"+attDef.attributeName+"Stat.executeUpdate("+attDef.attributeName+"Sql);");
 				pw.println();
 
 			}
