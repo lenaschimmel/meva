@@ -749,6 +749,7 @@ public class ClassDefinition {
 				pw.println("		if(!val.isNull())");
 				pw.println("			" + attribute.attributeName + " = val.asString().stringValue();");
 			} else if (type.equals("relation")) {
+				pw.println("		"+attribute.attributeName+".clear();");
 				pw.println("		for(JsonValue subVal : val.asArray())");
 				pw.println("		{");
 				pw.println("			long " + attribute.attributeName + "Id = Long.parseLong(subVal.asString().stringValue());");
@@ -1044,6 +1045,7 @@ public class ClassDefinition {
 				pw.println("		// serialize the " + attDef.attributeName);
 				pw.println("		Statement "+attDef.attributeName+"Stat = dbCon.createStatement();");
 				pw.println("		"+attDef.attributeName+"Stat.executeUpdate(\"DELETE FROM `"+attDef.getMultipleRelationTableName()+"` WHERE `"+attDef.getOwnCoulumnName()+"`='\"+getId()+\"'\");");
+				//pw.println("		String "+attDef.attributeName+"Sql = \"Insert Into \";");
 				pw.println("		for(Object "+attDef.attributeName+"Elem : "+attDef.attributeName+")");
 				pw.println("		{");
 				pw.println("			long id = (("+attDef.reltype+")"+attDef.attributeName+"Elem).getId();");
