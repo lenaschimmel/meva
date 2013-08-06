@@ -1,6 +1,6 @@
 package de.gmino.issuemap.client.view;
 
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 import com.google.gwt.core.client.GWT;
@@ -43,6 +43,7 @@ public class Create_Map_Backend extends Composite {
 				Marker_List_Item item = new Marker_List_Item(markertype.getImageName(), markertype.getMarkerName());
 				markerPanel.add(item);
 				markerListItems.put(markertype, item);
+				markertypes.put(item, markertype);
 				super.onNewResult(markertype);
 			}
 		});
@@ -50,6 +51,7 @@ public class Create_Map_Backend extends Composite {
 	}
 	
 	TreeMap<Markertype, Marker_List_Item> markerListItems = new TreeMap<Markertype, Marker_List_Item>(); 
+	HashMap<Marker_List_Item, Markertype> markertypes = new HashMap<Marker_List_Item, Markertype>(); 
 
 	@UiField
 	Label heading;
@@ -124,7 +126,11 @@ public class Create_Map_Backend extends Composite {
 		if(mapType.getSelectedIndex()==1) map.setMapTyp("Event");
 		
 		for(Marker_List_Item i : markerListItems.values()){
-			if(i.selected){}
+			if(i.selected)
+				map.getHasMarkertypes().add(markertypes.get(i));
+			else
+				map.getHasMarkertypes().remove(markertypes.get(i));
+
 		}
 		
 		Requests.saveEntity(map, null);
