@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -49,7 +50,12 @@ public class Show_Maps_Backend extends Composite  {
 		MasterBackend.getInstance().newMap();
 	}
 	
-	public void addMapElement(Map map) {
+	@UiHandler("buttonExport")
+	void onClickExport(ClickEvent e) {
+		Window.open("/CsvExport", "_blank", "");
+	}
+	
+		public void addMapElement(Map map) {
 		Map_List_Item mapListItem = new Map_List_Item(map.getId(), map.getSubdomain(), map.getTitle());
 		verticalPanel.add(mapListItem);
 	}
@@ -63,4 +69,5 @@ public class Show_Maps_Backend extends Composite  {
 			}
 		});
 	}
+	
 }

@@ -43,11 +43,11 @@ public class JsonServer extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		try {
-			String entityFactoryClass = config.getInitParameter("entityFactoryClass");
+			String entityFactoryClass = getServletContext().getInitParameter("entityFactoryClass");
 			EntityFactoryInterface factory = (EntityFactoryInterface)Class.forName(entityFactoryClass).newInstance();
 			EntityFactory.setImplementations(factory);
 			Requests.setImplementation(new NetworkRequestsImplAsyncLocalSql());
-			String sqlConnectionUrl = config.getInitParameter("sqlConnectionUrl");
+			String sqlConnectionUrl = getServletContext().getInitParameter("sqlConnectionUrl");
 			SqlHelper.setConnectionUrl(sqlConnectionUrl);
 		} catch (Exception e) {
 			e.printStackTrace();

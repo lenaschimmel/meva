@@ -30,5 +30,6 @@
 		<g:VerticalPanel ui:field="verticalPanel"></g:VerticalPanel>
 		<g:Button styleName="{style.important}" ui:field="buttonRefresh" text="Aktualisieren" />
 		<g:Button styleName="{style.important}" ui:field="buttonNew" text="Neue Karte erzeugen" />
-	</g:HTMLPanel>
+		<g:Button styleName="{style.important}" ui:field="buttonExport" text="CSV-Export" />
+			</g:HTMLPanel>
 </ui:UiBinder> 

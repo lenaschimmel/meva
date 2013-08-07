@@ -5,20 +5,20 @@
          version="2.5"
          xmlns="http://java.sun.com/xml/ns/javaee">
 
+      <context-param>
+      <param-name>sqlConnectionUrl</param-name>
+      <param-value>jdbc:google:rdbms://gmino-de-cloud-sql:gmino-socialgis-sql/gminosocialmap?useUnicode=yes&amp;characterEncoding=UTF-8</param-value>
+   </context-param>   
+    
+ <context-param>
+      <param-name>entityFactoryClass</param-name>
+      <param-value>de.gmino.issuemap.server.EntityFactoryImpl</param-value>
+    </context-param>
+    
   <!-- Servlets -->
   <servlet>
     <servlet-name>JsonServer</servlet-name>
     <servlet-class>de.gmino.meva.server.JsonServer</servlet-class>
-    
-    <init-param>
-      <param-name>sqlConnectionUrl</param-name>
-      <param-value>jdbc:google:rdbms://gmino-de-cloud-sql:gmino-socialgis-sql/gminosocialmap?useUnicode=yes&amp;characterEncoding=UTF-8</param-value>
-    </init-param>    
-    
-    <init-param>
-      <param-name>entityFactoryClass</param-name>
-      <param-value>de.gmino.issuemap.server.EntityFactoryImpl</param-value>
-    </init-param>
   </servlet>  
   
   <servlet-mapping>
@@ -34,6 +34,16 @@
   <servlet-mapping>
     <servlet-name>UploadServlet</servlet-name>
     <url-pattern>/Upload/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>CsvExportServlet</servlet-name>
+    <servlet-class>de.gmino.issuemap.server.CsvExportServlet</servlet-class>
+  </servlet>  
+  
+  <servlet-mapping>
+    <servlet-name>CsvExportServlet</servlet-name>
+    <url-pattern>/CsvExport</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
