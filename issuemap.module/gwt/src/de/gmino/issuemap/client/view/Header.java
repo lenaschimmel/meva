@@ -115,7 +115,8 @@ public class Header extends Composite implements HasText {
 		logo.setHeight("45px");
 		info_button.setVisible(true);
 		decorated_panel.add(new Info_PopUp(mapObject, decorated_panel));
-
+		decorated_panel.setGlassEnabled(true);
+		//decorated_panel.setAnimationEnabled(true);
 	}
 
 	@Override

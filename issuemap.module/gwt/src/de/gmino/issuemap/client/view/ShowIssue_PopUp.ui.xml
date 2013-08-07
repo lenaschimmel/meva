@@ -244,7 +244,39 @@
 		}
 
 		.subContent	{
-			margin-bottom: 15px;
+		/*	margin-bottom: 15px;*/
+		}
+
+		.lbWhatsThis {
+			font-size: 70%;
+   			font-style: italic;
+   			font-weight: normal;
+   			margin-top: 3px;
+			cursor: pointer;
+		}
+
+		.lbWhatsThis:hover {
+		    text-decoration: underline;
+		}
+
+		.btRelUp {
+			left: 80px;
+    		position: absolute;
+    		top: 0px;
+		}
+
+		.btRelDown {
+  			left: 80px;
+    		position: absolute;
+    		top: 30px;
+		}
+
+		.lbRelShow {
+    		font-size: 200%;
+    		font-weight: bold;
+    		left: 30px;
+    		position: absolute;
+    		top: 21px;
 		}
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
@@ -311,7 +343,7 @@
 		</g:Cell>
 		<g:Cell><!-- Haubtbereich mit Tabinhalten -->
 			<g:DeckPanel ui:field="deckPanel" styleName="{style.mainArea}">
-			    <g:HorizontalPanel ui:field="tabDescription"  width="550px" height="300px"> <!-- Description -->
+			    <g:HorizontalPanel ui:field="tabDescription" height="240px"> <!-- Description -->
 			        <g:cell width="66%">
 				        <g:VerticalPanel width="100%" height="100%">
 				            <g:Label styleName="{style.lbBodyHeader}">Beschreibung</g:Label>
@@ -335,24 +367,45 @@
 				    </g:cell>
 				    <g:cell width="34%">
 				      	<g:VerticalPanel width="100%" height="100%">
-				            <g:Label styleName="{style.lbBodyHeader}" ui:field="lbPhotoMainHeader">Foto(s)</g:Label>
-				            <g:cell height="60%">
+				      	    <g:HorizontalPanel styleName="{style.lbBodyHeader}">
+				      	        <g:cell width="100%">
+							    	<g:Label ui:field="lbPhotoMainHeader">Foto</g:Label>
+							    </g:cell>
+							    <g:Label ui:field="lbMorePhotos" styleName="{style.lbWhatsThis}"></g:Label>
+							</g:HorizontalPanel>
+				           
+				            <g:cell height="48%">
 								<g:VerticalPanel width="100%" height="100%" ui:field="pnPhotoMain">
 									<g:HTML ui:field="lbNoPhotosMain" styleName="{style.description_label}"><i>(Bisher keine Fotos)</i></g:HTML>
 								</g:VerticalPanel>
 							</g:cell>
-							<g:Label styleName="{style.lbBodyHeader}">Relevanz</g:Label>
-				            <g:cell height="40%">
-								<g:VerticalPanel width="100%" height="100%">
-									<g:cell width="100%"><g:FlowPanel><g:InlineLabel>Positive Bewertungen:</g:InlineLabel><g:InlineLabel>?</g:InlineLabel></g:FlowPanel></g:cell>
-									<g:cell><g:FlowPanel><g:Label>Negative Bewertungen:</g:Label><g:Label>?</g:Label></g:FlowPanel></g:cell>
-									<g:cell><g:FlowPanel><g:Label>Gesamtwertung: </g:Label><g:Label>?</g:Label></g:FlowPanel></g:cell>
-								</g:VerticalPanel>
+							<g:HorizontalPanel styleName="{style.lbBodyHeader}">
+				      	        <g:cell width="100%">
+							    	<g:Label>Relevanz</g:Label>
+							    </g:cell>
+							    <g:Label ui:field="lbWhatsThis" styleName="{style.lbWhatsThis}">(Was ist das?)</g:Label>
+							</g:HorizontalPanel>
+				            <g:cell height="45%">
+								<g:AbsolutePanel width="100%" height="100%">
+									<g:FocusPanel styleName="{style.btRelUp}" ui:field="tbRatingUp2" title="Rating um 1 erhöhen">
+									    <g:FlowPanel>
+									    	<g:Image resource="{resources.go_up}" styleName="{style.rateButton}" ui:field="rate_up2" />
+									    	<g:Label ui:field="lbRatingUpCount2" styleName="{style.lbRatingSmall}">?</g:Label>
+									    </g:FlowPanel>
+									</g:FocusPanel>
+									<g:FocusPanel styleName="{style.btRelDown}" ui:field="tbRatingDown2" title="Rating um 1 senken">
+									    <g:FlowPanel>
+									    	<g:Image resource="{resources.go_down}" styleName="{style.rateButton}" ui:field="rate_down2" />
+									    	<g:Label ui:field="lbRatingDownCount2" styleName="{style.lbRatingSmall}">?</g:Label>
+									    </g:FlowPanel>
+									</g:FocusPanel>
+									<g:Label ui:field="lbRating2" styleName="{style.lbRelShow}">?</g:Label>
+								</g:AbsolutePanel>
 							</g:cell>
 				        </g:VerticalPanel>
 				    </g:cell>
 				</g:HorizontalPanel>
-				<g:VerticalPanel width="100%" height="100%"  ui:field="tabPhotos" >
+				<g:VerticalPanel width="100%"  height="240px"  ui:field="tabPhotos" >
 		            <g:Label styleName="{style.lbBodyHeader}" ui:field="photosHeader">Fotos</g:Label>
 		            <g:cell height="66%">
 						<g:ScrollPanel width="100%" height="135px" styleName="{style.subContent}">
@@ -371,7 +424,7 @@
 						</g:FormPanel>
 					</g:cell>
 		        </g:VerticalPanel>
-		        <g:VerticalPanel width="100%" height="100%"  ui:field="tabComments" >
+		        <g:VerticalPanel width="100%"  height="240px"  ui:field="tabComments" >
 		            <g:Label styleName="{style.lbBodyHeader}" ui:field="commentsHeader">Kommentare</g:Label>
 		            <g:cell height="66%">
 						<g:ScrollPanel width="100%" height="135px" styleName="{style.subContent}" ui:field="spComments">

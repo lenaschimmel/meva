@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -45,12 +46,11 @@ import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.client.ImageUrlLoader;
-import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
+import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Comment;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
-import de.gmino.issuemap.client.domain.Markertype;
 import de.gmino.issuemap.client.domain.Photo;
 import de.gmino.issuemap.client.poi.Marker_Wrapper;
 import de.gmino.issuemap.client.resources.ImageResources;
@@ -226,6 +226,14 @@ public class ShowIssue_PopUp extends Composite {
 	@UiField 
 	Label lbRating;
 	
+
+	@UiField
+	FocusPanel tbRatingDown2;
+	@UiField
+	FocusPanel tbRatingUp2;
+	@UiField 
+	Label lbRating2;
+
 	
 //	@UiField
 //	Label rating;
@@ -279,7 +287,11 @@ public class ShowIssue_PopUp extends Composite {
 	@UiField
 	Label lbRatingUpCount;
 	@UiField
+	Label lbRatingUpCount2;
+	@UiField
 	Label lbRatingDownCount;
+	@UiField
+	Label lbRatingDownCount2;
 	
 	@UiField
 	Image imageMarkerIcon;
@@ -295,6 +307,8 @@ public class ShowIssue_PopUp extends Composite {
 	Label lbNoComments;
 	@UiField
 	ScrollPanel spComments;
+	@UiField
+	Label lbMorePhotos;
 	
 	@UiHandler("tabButtonDescription")
 	void onTabButtonDescriptionClick(ClickEvent e) {
@@ -458,7 +472,7 @@ public class ShowIssue_PopUp extends Composite {
 		});
 	}
 	
-	@UiHandler("tbRatingUp")
+	@UiHandler({"tbRatingUp", "tbRatingUp2"})
 	void onRateUp(ClickEvent e) {
 		if(mIssue.vote == 1)
 			mIssue.changeRating(0);
@@ -471,7 +485,7 @@ public class ShowIssue_PopUp extends Composite {
 	}
 	
 	
-	@UiHandler("tbRatingDown")
+	@UiHandler({"tbRatingDown", "tbRatingDown2"})
 	void onRateDown(ClickEvent e) {
 		if(mIssue.vote == -1)
 			mIssue.changeRating(0);
@@ -485,13 +499,25 @@ public class ShowIssue_PopUp extends Composite {
 
 	private void updateButtonColorsAndLabels() {
 		if (mIssue.vote >= 1)
+		{
 			tbRatingUp.setStyleName(style.underline(), true);
+			tbRatingUp2.setStyleName(style.underline(), true);
+		}
 		if (mIssue.vote >= 0)
+		{
 			tbRatingDown.setStyleName(style.underline(), false);
+			tbRatingDown2.setStyleName(style.underline(), false);
+		}
 		if (mIssue.vote <= -1)
+		{
 			tbRatingDown.setStyleName(style.underline(), true);
+			tbRatingDown2.setStyleName(style.underline(), true);
+		}
 		if (mIssue.vote <= 0)
+		{
 			tbRatingUp.setStyleName(style.underline(), false);
+			tbRatingUp2.setStyleName(style.underline(), false);
+		}
 		
 //		if (mIssue.vote >= 1)
 //				rate_up.setResource(imageRes.go_up());
@@ -509,10 +535,13 @@ public class ShowIssue_PopUp extends Composite {
 		if(mIssue.getRating() > 0)
 			ratingText = "+" + ratingText;
 		lbRating.setText(ratingText);
+		lbRating2.setText(ratingText);
 		int upVotes = (mIssue.getNumber_of_rating() + mIssue.getRating()) / 2;
 		int downVotes = (mIssue.getNumber_of_rating() - mIssue.getRating()) / 2;
 		lbRatingUpCount.setText("" + upVotes);
+		lbRatingUpCount2.setText("" + upVotes);
 		lbRatingDownCount.setText("" + downVotes);
+		lbRatingDownCount2.setText("" + downVotes);
 	}
 
 	public void setText(String titleString, String descriptionString) {
@@ -549,33 +578,56 @@ public class ShowIssue_PopUp extends Composite {
 	private void showPhoto(Photo photo) {
 		lbNoPhotos.setVisible(false);
 		final String photoBaseUrl = photo.getImage().getUrl();
-		Image image = new Image(photoBaseUrl+"&h=100");
+		Panel imagePanel = new SimplePanel();
+		imagePanel.setWidth("100px");
+		imagePanel.setHeight("100px");
+		imagePanel.getElement().getStyle().setMargin(3, Unit.PX);
+		imagePanel.getElement().getStyle().setFloat(com.google.gwt.dom.client.Style.Float.LEFT);
+		
+		Image image = new Image(photoBaseUrl+"&h=100&w=100");
 		image.getElement().getStyle().setCursor(Cursor.POINTER);
-		picturesPanel.add(image);
+		image.getElement().getStyle().setProperty("margin", "auto");
+		imagePanel.add(image);
+		picturesPanel.add(imagePanel);
 		final int photoCount = mIssue.getPhotos().size();
 		photosHeader.setText(photoCount + " Fotos:");
 		tabButtonPhotos.setText("Fotos (" + photoCount + ")");
 		if(photoCount == 1)
-			lbPhotoMainHeader.setText("Foto");
+			lbMorePhotos.setText("");
 		else
-			lbPhotoMainHeader.setText("Foto ("+(photoCount - 1)+" weitere)");
+			lbMorePhotos.setText("("+(photoCount - 1)+" weitere)");
 		image.addClickHandler(new ShowPhotoThingy(photoBaseUrl));
 		if(!mainPhotoShown)
 		{
 			mainPhotoShown = true;
 			lbNoPhotosMain.setVisible(false);
 			pnPhotoMain.clear();
-			Image mainImage = new Image(photoBaseUrl+"&h=120&w=160");
+			Image mainImage = new Image(photoBaseUrl+"&h=100&w=100");
 			mainImage.getElement().getStyle().setCursor(Cursor.POINTER);
 			pnPhotoMain.add(mainImage);
-			mainImage.addClickHandler(new ClickHandler() {
+			final ClickHandler photoClick = new ClickHandler() {
 				
 				@Override
 				public void onClick(ClickEvent event) {
 					activateTab(1);
 				}
-			});
+			};
+			mainImage.addClickHandler(photoClick);
+			lbMorePhotos.addClickHandler(photoClick);
 		}	
 	}
 	
+	@UiHandler("lbWhatsThis")
+	public void onWhatsThisClicked(ClickEvent e)
+	{
+		final DecoratedPopupPanel decorated_panel = new DecoratedPopupPanel(true, true);
+		final Label messageLabel = new Label("Sie können abstimmen, ob sie diese Meldung für besonders wichtig (+1) oder ausgesprochen unwichtig (-1) halten. Aus den abgebenen Stimmen berechnen wir eine Summe. Damit können andere schnell die wichtigsten Punkte finden. Meldungen, die in Summe bei -3 oder noch schlechter stehen, blenden wir komplett aus.");
+		messageLabel.setWordWrap(true);
+		messageLabel.setWidth("250px");
+		decorated_panel.add(messageLabel);
+		decorated_panel.setGlassEnabled(true);
+		decorated_panel.setAnimationEnabled(true);
+		decorated_panel.show();
+		decorated_panel.center();
+	}
 }
