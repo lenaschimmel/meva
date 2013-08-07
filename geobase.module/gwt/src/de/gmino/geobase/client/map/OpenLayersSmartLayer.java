@@ -26,7 +26,7 @@ import de.gmino.meva.shared.EntityTypeName;
 
 public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLayersLayer {
 
-	private static final int ZOOM_TRESHOLD = 12;
+	private static int zoomThreshold = 12;
 	private String name;
 	private JavaScriptObject vectorLayerJso;
 	private JavaScriptObject popupLayerJso;
@@ -40,7 +40,8 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 	private Widget currentPopup;
 	private int currentZoomLevel;
 
-	public OpenLayersSmartLayer(String name, OpenLayersMapView mapView) {
+	public OpenLayersSmartLayer(String name, OpenLayersMapView mapView, int zoomThreshold) {
+		this.zoomThreshold = zoomThreshold; 
 		this.name = name;
 		this.mapView = mapView;
 		this.rendererMap = new TreeMap<EntityTypeName, GwtIconRenderer>();
@@ -57,7 +58,7 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 	}
 
 	public void selectedPoi(long poiId) {
-		if(currentZoomLevel <= ZOOM_TRESHOLD)
+		if(currentZoomLevel <= zoomThreshold)
 			return;
 		Poi poi = pois.get(poiId);
 		if (poiTooltipDivs.containsKey(poi)) {
@@ -186,7 +187,7 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 			GwtIconRenderer<? super Poi> renderer = getRendererForPoi(o);
 			String iconUrl;
 			int width, height;
-			if(currentZoomLevel > ZOOM_TRESHOLD)
+			if(currentZoomLevel > zoomThreshold)
 			{
 				iconUrl = renderer.getIconUrl(o);
 				width = renderer.getWidth(o);
@@ -282,7 +283,7 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 	{
 		int previousZoomLevel = currentZoomLevel;
 		currentZoomLevel = newZoomLevel;
-		if((previousZoomLevel <= ZOOM_TRESHOLD && newZoomLevel > ZOOM_TRESHOLD) || ( newZoomLevel <= ZOOM_TRESHOLD && previousZoomLevel > ZOOM_TRESHOLD))
+		if((previousZoomLevel <= zoomThreshold && newZoomLevel > zoomThreshold) || ( newZoomLevel <= zoomThreshold && previousZoomLevel > zoomThreshold))
 		{
 			Collection<Poi> poisCopy = new ArrayList<Poi>(pois.values());
 			for(Poi poi : poisCopy)

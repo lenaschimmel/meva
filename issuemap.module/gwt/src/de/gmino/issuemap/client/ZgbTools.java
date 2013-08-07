@@ -123,8 +123,8 @@ public abstract class ZgbTools {
 				parseAndShowGpx(color, dash, gpxString, poiId);
 				routesToShow--;
 				System.out.println("Shown route " + url + ", " + routesToShow + " routes left.");
-				if(routesToShow == 0)
-					onAllRoutesShown();
+			//	if(routesToShow == 0)
+			//		onAllRoutesShown();
 			}
 
 			@Override

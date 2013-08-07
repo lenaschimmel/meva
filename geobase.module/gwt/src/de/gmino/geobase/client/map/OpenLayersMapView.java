@@ -345,8 +345,8 @@ public class OpenLayersMapView extends AbstractMapView {
 	}
 
 	@Override
-	public OpenLayersSmartLayer newSmartLayer(String name) {
-		return new OpenLayersSmartLayer(name, this);
+	public OpenLayersSmartLayer newSmartLayer(String name, int zoomThreshold) {
+		return new OpenLayersSmartLayer(name, this, zoomThreshold);
 	}
 
 	@Override

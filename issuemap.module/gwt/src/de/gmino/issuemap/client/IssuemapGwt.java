@@ -129,6 +129,8 @@ public class IssuemapGwt implements EntryPoint {
 
 	private IssueList_PopUp list;
 
+	private String subdomain;
+
 	public IssuemapGwt() {
 		if (instance != null)
 			throw new RuntimeException("Can't create multiple instances!");
@@ -147,7 +149,7 @@ public class IssuemapGwt implements EntryPoint {
 				+ Location.getHost() + "/"));
 
 		String[] domainSplit = Location.getHostName().split("\\.");
-		String subdomain = domainSplit[0];
+		subdomain = domainSplit[0];
 		if (subdomain.equalsIgnoreCase("www"))
 			subdomain = domainSplit[1];
 
@@ -155,7 +157,13 @@ public class IssuemapGwt implements EntryPoint {
 		mapView = new OpenLayersMapView("map", "mapquest");
 		
 		mapView.setBorders(30 + GENERAL_POPUP_MARGIN, 58 + GENERAL_POPUP_MARGIN, 357 + GENERAL_POPUP_MARGIN, 53 +GENERAL_POPUP_MARGIN);
-		markerLayer = mapView.newSmartLayer("Issues");
+		int zoomThreshold = 12;
+		if(subdomain.equals("zgb"))
+			zoomThreshold = 11;
+		if(subdomain.equals("piraten-braunschweig"))
+			zoomThreshold = 13;
+		
+		markerLayer = mapView.newSmartLayer("Issues", zoomThreshold);
 		mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);
 		issueRenderer = new IssueIconRenderer();
 		markerLayer.addMarkerIconRenderer(Issue.type, issueRenderer);
@@ -229,10 +237,14 @@ public class IssuemapGwt implements EntryPoint {
 		
 
 		
-		mapRequest(subdomain);
+		mapRequest();
 	}
 
-	void mapRequest(final String subdomain) {
+	public String getSubdomain() {
+		return subdomain;
+	}
+
+	void mapRequest() {
 		EntityQuery q = new QueryMapBySubdomain(subdomain);
 		Requests.getLoadedEntitiesByQuery(Map.type, q,
 				new RequestListener<Map>() {

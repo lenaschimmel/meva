@@ -32,5 +32,5 @@ public interface MapView {
 
 	public MapLayer newMapLayer(MapProvider provider);
 
-	public SmartLayer newSmartLayer(String name);
+	public SmartLayer newSmartLayer(String name, int zoomThreshold);
 }

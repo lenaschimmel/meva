@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
@@ -79,7 +80,7 @@ public class CreateIssue_PopUp extends Composite {
 		this(map,smartLayer);
 		this.mIssue = editIssue;
 		button.setText("Speichern");
-//		delete.setVisible(true);
+		delete.setVisible(true);
 		title.setText(editIssue.getTitle());
 		description.setText(editIssue.getDescription());
 		String markertypeId = editIssue.getMarkertypeId() + "";
@@ -126,15 +127,20 @@ public class CreateIssue_PopUp extends Composite {
 		this.removeFromParent();
 	}
 	
-//	@UiHandler("delete")
-//	void onDelete(ClickEvent e) {
-//		mIssue.setDeleted(true);
-//		button.setText("Löschen");
-//		final IssuemapGwt issueMap = IssuemapGwt.getInstance();
-//		issueMap.deleteMarker(mIssue);
-//		issueMap.setCounter();
-//
-//	}
+	@UiHandler("delete")
+	void onDelete(ClickEvent e) {
+		if(Window.confirm("Möchten sie diesen Marker wirklich löschen?"))
+		{
+			mIssue.setDeleted(true);
+			//button.setText("Löschen");
+			final IssuemapGwt issueMap = IssuemapGwt.getInstance();
+			issueMap.deleteMarker(mIssue);
+			issueMap.setCounter();
+			issueMap.loadIssuesToList();
+			Requests.saveEntity(mIssue, null);
+			this.removeFromParent();
+		}
+	}
 	
 	@UiHandler("button")
 	void onClick(ClickEvent e) {
