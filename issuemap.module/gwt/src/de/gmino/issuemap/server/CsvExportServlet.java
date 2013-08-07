@@ -45,21 +45,24 @@ public class CsvExportServlet extends HttpServlet {
 		
 		
 		resp.setContentType("text/comma-separated-values");
-		resp.setCharacterEncoding("UTF-8");
+		resp.setCharacterEncoding("ISO-8859-1");
 		resp.setHeader("Content-Disposition", "attachment; filename=\"geoengine-export.csv\"");
 		
-		final PrintWriter writer = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
-		writer.println("\"id\",\"Ansprache\",\"Name\",\"Adresszusatz\",\"Straße+Hausnummer\",\"PLZ\",\"Stadt\",\"Ansprechpartner\",\"email\",\"URL\",\"URL_Impressum\",\"Titel\",\"Imfotext\",\"Ansprechpartner_gmino\",\"url_website\"");
+		final PrintWriter writer = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "ISO-8859-1"));
+		writer.println("id;Ansprache;Name;Adresszusatz;Straße+Hausnummer;PLZ;Stadt;Ansprechpartner;email;URL;URL_Impressum;Titel;Imfotext;Ansprechpartner_gmino;url_website");
 
 		Requests.getLoadedEntitiesByType(Map.type, new RequestListener<Map>() {
 			@Override
 			public void onNewResult(Map map) {
 				final Address address = map.getPostal_address();
 				writeColumn(		map.getId()+""										, false);
-				writeColumn(		map.getTitle()										, true);
-				writeColumn(		map.getTitle()										, true);
+				writeColumn(		address.getRecipientName()							, true);
+				writeColumn(		address.getRecipientName()							, true);
 				writeColumn(		address.getAdditionalAddressLine()					, true);
-				writeColumn(		address.getStreet() + " " + address.getHouseNumber(), true);
+				if(address.getStreet() != null && address.getHouseNumber() != null)
+					writeColumn(		address.getStreet() + " " + address.getHouseNumber(), true);
+				else
+					writeColumn(""														, true);
 				writeColumn(		address.getZip()									, true);
 				writeColumn(		address.getCity()									, true);
 				writeColumn(		address.getRecipientName()							, true);
@@ -67,7 +70,7 @@ public class CsvExportServlet extends HttpServlet {
 				writeColumn(		map.getSubdomain()+".geoengine.de"					, true);
 				writeColumn(		map.getImpressum_url()								, true);
 				writeColumn(		map.getTitle()										, true);
-				writeColumn(		map.getInfoText()									, true);
+				writeColumn(		map.getInfoText().replaceAll("\n", " ")				, true);
 				writeColumn(		"Anton Tranelis"									, true);
 				writeColumn(		map.getWebsite()									, true);
 				writer.println();
@@ -75,10 +78,11 @@ public class CsvExportServlet extends HttpServlet {
 
 			private void writeColumn(String s, boolean b) {
 				if(b)
-					writer.write(", ");
+					writer.write("; ");
 				if(s == null)
 					s = "";
-				writer.write("\"" + s + "\"");
+				writer.write(s);
+			//	writer.write("\"" + s + "\"");
 			}
 		});
 		

@@ -17,7 +17,8 @@
 			cursor: pointer;
 		}
 		
-					.focusPanel:hover {
+					
+			.focusPanel:hover {
 
 			background: #444;
 
@@ -30,28 +31,41 @@
 			 overflow: hidden;
 			 text-overflow: ellipsis;
 			 white-space: nowrap;
-			 width: 15em;
+			 width: 14em;
+			 
 		}
 		
+		.type_label{
+			
+}
+		.markerIcon{
+			margin-top: 1px;
+			
+}
+		.labelsPanal{
+			position: absolute;
+			left: 60px;
+		}
 		.rating{
 			font-size: large;
 			margin: 8px;
 			font-weight: bolder;
 			text-align: right;
+			margin-left: 232px;
 		}
 	</ui:style>
 	<g:FocusPanel ui:field="focusPanel" styleName="{style.focusPanel}">
 		<g:HorizontalPanel styleName="{style.parent}">
-			<g:cell width="40px">
-				<g:Image ui:field="imageMarkerIcon">
+			<g:cell width="50px" >
+				<g:Image ui:field="imageMarkerIcon" styleName="{style.markerIcon}">
 	
 				</g:Image>
 			</g:cell>
 			<g:cell>
-				<g:VerticalPanel>
+				<g:VerticalPanel styleName="{style.labelsPanal}">
 					<g:Label ui:field="labelTitle" styleName="{style.title_label}"></g:Label>
 					<g:HorizontalPanel>
-						<g:Label ui:field="type"></g:Label>
+						<g:Label ui:field="type" styleName="{style.type_label}"></g:Label>
 						<g:Label ui:field="date"></g:Label>
 					</g:HorizontalPanel>
 				</g:VerticalPanel>

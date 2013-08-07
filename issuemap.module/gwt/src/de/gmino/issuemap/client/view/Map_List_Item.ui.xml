@@ -16,6 +16,8 @@
 			cursor: pointer;
 			text-decoration: underline;
 		}
+		
+		
 	</ui:style>
 	<g:HTMLPanel>
 		<g:HorizontalPanel styleName="{style.parent}"

@@ -7,6 +7,8 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -51,6 +53,18 @@ public class Marker_List_Item extends Composite {
 	
 	@UiHandler("markerCheckbox")
 	void onClick(ClickEvent e) {
+		if(selected==false)	setCheckBox();			
+		else if(selected==true) setUncheckBox();
+	}
+	
+	@UiHandler("markerImage")
+	void onMarkerClick(ClickEvent e) {
+		if(selected==false)	setCheckBox();			
+		else if(selected==true) setUncheckBox();
+	}
+	
+	@UiHandler("markerNameLabel")
+	void onLabelClick(ClickEvent e) {
 		if(selected==false)	setCheckBox();			
 		else if(selected==true) setUncheckBox();
 	}

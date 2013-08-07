@@ -42,7 +42,7 @@ public class Map_List_Item extends Composite {
 	
 	@UiHandler("subdomain")
 	void onClick(ClickEvent e) {
-		Window.open("http://"+ subdomain.getText() + ".geoengine.de", "geoengine" + subdomain.getText(), "");
+		Window.open("http://"+ subdomain.getText() + ".3.geoengine.de", "geoengine" + subdomain.getText(), "");
 	}
 
 	public Map_List_Item() {

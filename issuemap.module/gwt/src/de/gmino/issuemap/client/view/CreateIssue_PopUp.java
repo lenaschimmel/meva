@@ -78,6 +78,8 @@ public class CreateIssue_PopUp extends Composite {
 	public CreateIssue_PopUp(Map map, Issue editIssue, OpenLayersSmartLayer smartLayer) {
 		this(map,smartLayer);
 		this.mIssue = editIssue;
+		button.setText("Speichern");
+//		delete.setVisible(true);
 		title.setText(editIssue.getTitle());
 		description.setText(editIssue.getDescription());
 		String markertypeId = editIssue.getMarkertypeId() + "";
@@ -109,6 +111,10 @@ public class CreateIssue_PopUp extends Composite {
 	Label headLable;
 	@UiField
 	Image imageMarkerIcon;
+	@UiField
+	Image delete;
+	@UiField
+	Button button;
 
 
 	public CreateIssue_PopUp() {
@@ -119,6 +125,16 @@ public class CreateIssue_PopUp extends Composite {
 	void onClose(ClickEvent e) {
 		this.removeFromParent();
 	}
+	
+//	@UiHandler("delete")
+//	void onDelete(ClickEvent e) {
+//		mIssue.setDeleted(true);
+//		button.setText("Löschen");
+//		final IssuemapGwt issueMap = IssuemapGwt.getInstance();
+//		issueMap.deleteMarker(mIssue);
+//		issueMap.setCounter();
+//
+//	}
 	
 	@UiHandler("button")
 	void onClick(ClickEvent e) {

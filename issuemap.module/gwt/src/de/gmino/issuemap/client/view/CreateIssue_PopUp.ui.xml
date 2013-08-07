@@ -59,6 +59,9 @@
 				<g:Label styleName="{style.title_label}" ui:field="headLable">Marker
 					bearbeiten</g:Label>
 			</g:cell>
+			<g:cell>
+				<g:Image resource="{resources.delete}" ui:field="delete" visible="false"></g:Image>
+			</g:cell>
 		</g:HorizontalPanel>
 		<g:Image resource="{resources.close}" ui:field="close"
 			styleName="{style.closeButton}"></g:Image>
