@@ -32,7 +32,6 @@
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
-			width: 305px;
 		}
 
 		.lbTypeAndDate {
@@ -152,6 +151,7 @@
 			background-color: #000;
 			border-bottom: 1px solid #666;
 			height: 40px;
+			width: 465px;
 		}
 
 		.lowerBar {
@@ -281,20 +281,21 @@
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
 		<g:Cell><!-- Kopfbereich a.k.a. Mouseover -->
-		     <g:HorizontalPanel width="100%" styleName="{style.upperBar}">
+		     <g:HorizontalPanel styleName="{style.upperBar}">
 				<g:cell width="40px">
 				    <g:SimplePanel styleName="{style.imageWrapper}" >
 						<g:Image ui:field="imageMarkerIcon" styleName="{style.imageMarkerIcon}">
 						</g:Image>
 					</g:SimplePanel>
 				</g:cell>
-				<g:cell>
+				<g:cell width="285px">
 					<g:VerticalPanel styleName="{style.dualTextPanel}" >
 						<g:Label ui:field="lbTitle" styleName="{style.lbTitle}"></g:Label>
 						<g:Label ui:field="lbTypeAndDate" styleName="{style.lbTypeAndDate}"></g:Label>
 					</g:VerticalPanel>
 				</g:cell>
-				<g:cell height="100%" width="60px">
+				
+				<g:cell height="100%" width="40px">
 					<g:FocusPanel styleName="{style.wideTopButton}" ui:field="tbRatingUp" title="Rating um 1 erhöhen">
 					    <g:FlowPanel>
 					    	<g:Image resource="{resources.go_up}" styleName="{style.rateButton}" ui:field="rate_up" />
@@ -302,7 +303,7 @@
 					    </g:FlowPanel>
 					</g:FocusPanel>
 				</g:cell>
-				<g:cell height="100%" width="60px">
+				<g:cell height="100%" width="40px">
 					<g:FocusPanel styleName="{style.wideTopButton}" ui:field="tbRatingDown" title="Rating um 1 senken">
 					    <g:FlowPanel>
 					    	<g:Image resource="{resources.go_down}" styleName="{style.rateButton}" ui:field="rate_down" />
@@ -310,10 +311,10 @@
 					    </g:FlowPanel>
 					</g:FocusPanel>
 				</g:cell>
-				
 				<g:cell height="100%" width="40px">
 					<g:FocusPanel styleName="{style.topButton}" ui:field="tbRating" title="Rating vergeben"><g:Label ui:field="lbRating" styleName="{style.lbRating}">?</g:Label></g:FocusPanel>
 				</g:cell>
+				
 				<g:cell height="100%" width="40px">
 					<g:FocusPanel styleName="{style.topButton} {style.tbResolved}" ui:field="tbResolved" title="Als erledigt markieren"></g:FocusPanel>
 				</g:cell>
@@ -351,7 +352,7 @@
 								<g:ScrollPanel width="100%" height="205px" styleName="{style.subContent}">
 									<g:HTML ui:field="description" styleName="{style.description_label}"></g:HTML>
 								</g:ScrollPanel>
-							</g:cell>   
+							</g:cell>
 							<!-- 
 							<g:Label styleName="{style.lbBodyHeader}">Antwort</g:Label>
 				            <g:cell height="50%">

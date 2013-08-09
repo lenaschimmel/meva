@@ -24,7 +24,7 @@ import de.gmino.geobase.client.request.Geocoder.SearchLocationListener;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Map;
 
-public class Header extends Composite implements HasText {
+public class Header extends Composite  {
 
 	private static HeaderUiBinder uiBinder = GWT.create(HeaderUiBinder.class);
 	private Map mapObject;
@@ -40,7 +40,6 @@ public class Header extends Composite implements HasText {
 		search_field.getElement().setAttribute("placeholder", "Straßensuche");
 		logo.setHeight("30px");
 		header.setHeight("57px");
-
 	}
 
 	@UiField
@@ -119,20 +118,8 @@ public class Header extends Composite implements HasText {
 		//decorated_panel.setAnimationEnabled(true);
 	}
 
-	@Override
-	public String getText() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public void setMap(Map map) {
 		this.mapObject = map;
+		logo.setTitle("Klicken Sie, um die Website " + map.getWebsite() + " zu besuchen (öffnet in neuem Fenster / Tab).");
 	}
-
-	@Override
-	public void setText(String text) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

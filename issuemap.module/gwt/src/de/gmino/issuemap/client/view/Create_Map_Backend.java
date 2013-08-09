@@ -107,33 +107,39 @@ public class Create_Map_Backend extends Composite {
 
 	@UiHandler("button")
 	void onClick(ClickEvent e) {
-		map.setTitle(title.getText());
-		map.setSubdomain(subdomain.getText());
-		map.setInfoText(infoText.getText());
-		map.setPrimary_color(primary_color.getText());
-		map.setSecondary_color(secondary_color.getText());
-		map.setBackground_color(background_color.getText());
-		map.setResolved_color(resolved_color.getText());
-		map.setCity(city.getText());
-		map.setInitLocation(new LatLon(Double.parseDouble(initLocation_latitude.getText()) , Double.parseDouble(initLocation_longitude.getText())));
-		map.setInitZoomlevel(Integer.parseInt(initZoomlevel.getText()));
-		map.setLogo(new ImageUrl(logo_url.getText()));
-		map.setWebsite(website.getText());
-		map.setEmail(email.getText());
-		map.setImpressum_url(url_impressum.getText());
-		map.setPostal_address(new Address(recipient_name.getText(),street.getText(),houseNumber.getText(),zip.getText(),city.getText(),additionalAddressLine.getText()));
-		if(mapType.getSelectedIndex()==0) map.setMapTyp("Issue");
-		if(mapType.getSelectedIndex()==1) map.setMapTyp("Event");
-		
-		for(Marker_List_Item i : markerListItems.values()){
-			if(i.selected)
-				map.getHasMarkertypes().add(markertypes.get(i));
-			else
-				map.getHasMarkertypes().remove(markertypes.get(i));
+		Requests.loadEntity(map, new RequestListener<Map>() {
+			public void onFinished(java.util.Collection<Map> results) {
+				map.setTitle(title.getText());
+				map.setSubdomain(subdomain.getText());
+				map.setInfoText(infoText.getText());
+				map.setPrimary_color(primary_color.getText());
+				map.setSecondary_color(secondary_color.getText());
+				map.setBackground_color(background_color.getText());
+				map.setResolved_color(resolved_color.getText());
+				map.setCity(city.getText());
+				map.setInitLocation(new LatLon(Double.parseDouble(initLocation_latitude.getText()) , Double.parseDouble(initLocation_longitude.getText())));
+				map.setInitZoomlevel(Integer.parseInt(initZoomlevel.getText()));
+				map.setLogo(new ImageUrl(logo_url.getText()));
+				map.setWebsite(website.getText());
+				map.setEmail(email.getText());
+				map.setImpressum_url(url_impressum.getText());
+				map.setPostal_address(new Address(recipient_name.getText(),street.getText(),houseNumber.getText(),zip.getText(),city.getText(),additionalAddressLine.getText()));
+				if(mapType.getSelectedIndex()==0) map.setMapTyp("Issue");
+				if(mapType.getSelectedIndex()==1) map.setMapTyp("Event");
+				
+				for(Marker_List_Item i : markerListItems.values()){
+					if(i.selected)
+						map.getHasMarkertypes().add(markertypes.get(i));
+					else
+						map.getHasMarkertypes().remove(markertypes.get(i));
 
-		}
+				}
+				
+				Requests.saveEntity(map, null);
+			};
+		});
 		
-		Requests.saveEntity(map, null);
+		
 	}
 
 	public void clear_form(){

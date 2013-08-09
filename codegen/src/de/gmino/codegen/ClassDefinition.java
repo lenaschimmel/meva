@@ -209,6 +209,7 @@ public class ClassDefinition {
 		String modifier = isQuery() ? "abstract " : " ";
 		pw.println("@SuppressWarnings(\"unused\")");
 		pw.println("public " + modifier + "class " + className + " extends " + getFullPackage("shared", false) + "." + baseClassName + " {");
+	
 		generateConstructors(pw, true, true);
 		if (entity)
 			generateDeserialisers(pw);
@@ -250,7 +251,17 @@ public class ClassDefinition {
 		if (entity) {
 			pw.println("	// Factory- and entity-related");
 			generateGetById(pw);
+			
 			pw.println();
+			pw.println("	protected long jsonLoadTime;");
+			pw.println();
+			pw.println("	@Override");
+			pw.println("	public long getJsonLoadTime()");
+			pw.println("	{");
+			pw.println("		return jsonLoadTime;");
+			pw.println("	}");
+			pw.println();
+			
 		}
 
 		pw.println("	// Json");
@@ -768,6 +779,7 @@ public class ClassDefinition {
 			}
 		}
 		pw.println("		ready = true;");
+		pw.println("		jsonLoadTime = System.currentTimeMillis();");
 		pw.println("	}");
 		pw.println();
 	}

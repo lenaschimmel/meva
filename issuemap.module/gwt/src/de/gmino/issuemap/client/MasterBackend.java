@@ -1,5 +1,7 @@
 package de.gmino.issuemap.client;
 
+import java.util.Collection;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -11,6 +13,7 @@ import de.gmino.meva.client.UtilClient;
 import de.gmino.meva.client.request.NetworkRequestsImplAsyncJson;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.Util;
+import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
 public class MasterBackend  implements EntryPoint {
@@ -48,12 +51,17 @@ public class MasterBackend  implements EntryPoint {
 	public void newMap()
 	{
 		createMapField.showNewMap();
-		
 	}
 	
 	public void editMap(long id)
 	{
-		createMapField.showExistingMap((Map)Map.getById(id), false);
+		final Map map = (Map)Map.getById(id);
+		Requests.loadEntity(map, new RequestListener<Map>() {
+			@Override
+			public void onFinished(Collection<Map> results) {
+				createMapField.showExistingMap(map, false);
+			}
+		});
 	}	
 	
 	public void copyMap(long id)
