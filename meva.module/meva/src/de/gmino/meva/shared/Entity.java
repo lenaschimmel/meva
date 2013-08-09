@@ -38,4 +38,6 @@ public interface Entity extends Comparable {
 	public String toShortString();
 
 	public EntityTypeName getType();
+	
+	public long getJsonLoadTime();
 }
