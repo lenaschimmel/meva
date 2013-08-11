@@ -10,7 +10,7 @@
 		.button {
 		position: absolute;
 		left: 0px;
-		top: 45%;
+		top: -46px;
 		cursor: pointer;
 		}
 

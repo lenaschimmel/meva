@@ -7,36 +7,56 @@
 
 	<ui:style>
 		.parent {
-			width: 300px;
+			width: 467px;
 			background: rgba(20, 20, 20, 0.8);
 			position: absolute;
-			left: -27px;
-			top: -45px;
+			left: -22px;
+			top: -38px;
 			border-top-right-radius: 4px;
 			border-bottom-right-radius: 4px;
 			border-top-left-radius: 4px;
 			border-bottom-left-radius: 4px;
 			border: 1px solid #ccc;
-			padding: 10px;
+
 			color: #fff;
+			padding-bottom: 15px;
 		}
 		
 		.content {
-			width: 420px;
+			width: 438px;
+			margin-left: 10px; 
+			margin-right: 10px;
+			margin-top: 6px;
+		}
+		
+		.header{
+			padding-top: 0px;
+			padding-left: 5px;
+			border-bottom: 1px solid #666;
+			height: 40px;
+		}
+		.delete {
+			cursor: pointer;
+			margin-top: 5px;
 		}
 		
 		.description {
 			height: 200px;
 			font-family: inherit;
 			font-size: inherit;
+			margin-bottom: 5px
+			
 		}
 		
+		.marker{
+			margin-top: 3px;
+}
 		.title_label {
 			color: #FFF;
 			text-align: center;
 			font-weight: bold;
 			font-size: large;
-			padding-bottom: 15px;
+			margin-top: 7px;
 			white-space: nowrap;
 			width: auto;
 			border-top-right-radius: 10px;
@@ -45,46 +65,51 @@
 		
 		.closeButton {
 			position: absolute;
-			top: -10px;
-			right: -10px;
+			top: 15px;
+			right: 15px;
+
 			cursor: pointer;
+			background: url(img/close.png) no-repeat center;
+			
 		}
+		
+		.listbox{
+			margin-right: 218px;
+}
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
-		<g:HorizontalPanel width="100%">
+		<g:HorizontalPanel width="100%" styleName="{style.header}">
 			<g:cell width="40px">
-				<g:Image ui:field="imageMarkerIcon" />
+				<g:Image ui:field="imageMarkerIcon" styleName="{style.marker}"/>
 			</g:cell>
 			<g:cell>
 				<g:Label styleName="{style.title_label}" ui:field="headLable">Marker
 					bearbeiten</g:Label>
 			</g:cell>
 			<g:cell>
-				<g:Image resource="{resources.delete}" ui:field="delete" visible="false"></g:Image>
+				<g:Image resource="{resources.delete}" styleName="{style.delete}" ui:field="delete" visible="false" title="Marker löschen"></g:Image>
 			</g:cell>
 		</g:HorizontalPanel>
-		<g:Image resource="{resources.close}" ui:field="close"
+		<g:Image ui:field="close" url="img/close.png"
 			styleName="{style.closeButton}"></g:Image>
 		<g:VerticalPanel styleName="{style.content}">
 			<g:cell>
 
 
-				<g:TextBox width="90%" ui:field="title"></g:TextBox>
+				<g:TextBox width="432px" ui:field="title"></g:TextBox>
 
 
 			</g:cell>
 			<g:cell>
-				<g:TextArea width="90%" ui:field="description"
+				<g:TextArea width="436px" ui:field="description"
 					styleName="{style.description}"></g:TextArea>
 			</g:cell>
 
-
-			<g:cell>
-				<g:ListBox ui:field="typebox">
-				</g:ListBox>
-			</g:cell>
-			<g:cell horizontalAlignment="ALIGN_RIGHT">
-				<g:Button ui:field="button" text="Eintragen" />
+			<g:cell horizontalAlignment="ALIGN_LEFT">
+				<g:HorizontalPanel>
+				<g:ListBox ui:field="typebox" styleName="{style.listbox}">
+				</g:ListBox><g:Button ui:field="button" text="Eintragen" />
+				</g:HorizontalPanel>
 			</g:cell>
 		</g:VerticalPanel>
 	</g:VerticalPanel>

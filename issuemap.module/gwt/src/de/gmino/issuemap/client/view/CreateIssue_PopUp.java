@@ -73,7 +73,7 @@ public class CreateIssue_PopUp extends Composite {
         newIssue = true;
 		headLable.setText("Neuen Marker erstellen");
 		description.getElement().setAttribute("placeholder", "Beschreibung");
-		title.getElement().setAttribute("placeholder", "Titel");
+		title.getElement().setAttribute("placeholder", "Bitte geben Sie einen Titel ein");
 	}
 
 	public CreateIssue_PopUp(Map map, Issue editIssue, OpenLayersSmartLayer smartLayer) {
@@ -144,7 +144,8 @@ public class CreateIssue_PopUp extends Composite {
 	
 	@UiHandler("button")
 	void onClick(ClickEvent e) {
-		setIssueValuesFromMask(mIssue);
+		if(title.getText().equals("")) title.getElement().setAttribute("placeholder", "Bitte geben Sie erst einen Titel ein, bevor Sie den Eintrag speichern");
+		else {setIssueValuesFromMask(mIssue);
 		smartLayer.updatePoi(mIssue); // works even if the poi is a new one
 		mapObject.getIssues().add(mIssue); // works even if the poi is already present
 		Requests.saveEntity(mIssue, null);
@@ -160,7 +161,7 @@ public class CreateIssue_PopUp extends Composite {
 		}
 		
 		this.removeFromParent();
-	}
+	}}
 	
 	@UiHandler("typebox")
 	void onChange(ChangeEvent e)
