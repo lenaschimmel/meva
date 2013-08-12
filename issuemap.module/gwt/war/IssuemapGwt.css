@@ -2,6 +2,7 @@
 
 body {
 	overflow: hidden;
+	min-width: 700px;
 }
 
 /** Example rules used by the template application (remove for your app) */
@@ -35,6 +36,17 @@ body {
 			width: 355px;
 			overflow: visible;
 }
+
+#feedback{
+			top: 50%;
+			position: absolute;
+			left: 0px;
+			right: 0px;
+			bottom: 50%;
+}
+
+
+
 
 .button
 {

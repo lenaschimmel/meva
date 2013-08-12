@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
@@ -113,6 +114,7 @@ public class ShowIssue_PopUp extends Composite {
 	
 	interface Style extends CssResource {
 		String underline();
+		String active();
 	}
 	
 	@UiField
@@ -145,6 +147,7 @@ public class ShowIssue_PopUp extends Composite {
 		lbTitle.setText(mIssue.getTitle());
 		lbTitle.setTitle(mIssue.getTitle());
 		description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mIssue.getDescription()).toSafeHtml());
+		commentTextBox.getElement().setAttribute("placeholder", "Bitte geben Sie einen Kommentar ein");
 		
 		//mIssue.vote=0;
 		updateButtonColorsAndLabels();
@@ -447,8 +450,9 @@ public class ShowIssue_PopUp extends Composite {
 	
 	@UiHandler("commentButton")
 	void onCommentButtonClick(ClickEvent e) {
-		sendComment();
-	}
+		if(commentTextBox.getText().equals("")){}
+		else {sendComment();
+	}}
 
 	private void sendComment() {
 		commentTextBox.setEnabled(false);
@@ -497,26 +501,27 @@ public class ShowIssue_PopUp extends Composite {
 		updateIcon();
 	}
 
+	
 	private void updateButtonColorsAndLabels() {
 		if (mIssue.vote >= 1)
 		{
 			tbRatingUp.setStyleName(style.underline(), true);
-			tbRatingUp2.setStyleName(style.underline(), true);
+			tbRatingUp2.setStyleName(style.active(), true);
 		}
 		if (mIssue.vote >= 0)
 		{
 			tbRatingDown.setStyleName(style.underline(), false);
-			tbRatingDown2.setStyleName(style.underline(), false);
+			tbRatingDown2.setStyleName(style.active(), false);
 		}
 		if (mIssue.vote <= -1)
 		{
 			tbRatingDown.setStyleName(style.underline(), true);
-			tbRatingDown2.setStyleName(style.underline(), true);
+			tbRatingDown2.setStyleName(style.active(), true);
 		}
 		if (mIssue.vote <= 0)
 		{
 			tbRatingUp.setStyleName(style.underline(), false);
-			tbRatingUp2.setStyleName(style.underline(), false);
+			tbRatingUp2.setStyleName(style.active(), false);
 		}
 		
 //		if (mIssue.vote >= 1)
@@ -556,7 +561,9 @@ public class ShowIssue_PopUp extends Composite {
 	private void showComment(Comment comment) {
 		VerticalPanel vp = new VerticalPanel();
 		vp.getElement().getStyle().setPaddingBottom(5, Unit.PX);
-		Label commentheader = new Label(comment.getTimestamp().relativeToNow().toReadableString(true, 2) + " von " + comment.getUser() + ".");
+		Label commentheader;
+		if (comment.getUser().equals("anonym")) commentheader = new Label(comment.getTimestamp().relativeToNow().toReadableString(true, 2) + ".");
+		else commentheader = new Label(comment.getTimestamp().relativeToNow().toReadableString(true, 2) + " von " + comment.getUser() + ".");
 		commentheader.setTitle("Eingetragen am " + dtf.format(comment.getTimestamp().toDate()));
 		commentheader.getElement().getStyle().setFontSize(10, Unit.PX);
 		commentheader.getElement().getStyle().setMarginTop(3, Unit.PX);
@@ -602,7 +609,7 @@ public class ShowIssue_PopUp extends Composite {
 			mainPhotoShown = true;
 			lbNoPhotosMain.setVisible(false);
 			pnPhotoMain.clear();
-			Image mainImage = new Image(photoBaseUrl+"&h=100&w=100");
+			Image mainImage = new Image(photoBaseUrl+"&h=110&w=150");
 			mainImage.getElement().getStyle().setCursor(Cursor.POINTER);
 			pnPhotoMain.add(mainImage);
 			final ClickHandler photoClick = new ClickHandler() {
@@ -621,7 +628,7 @@ public class ShowIssue_PopUp extends Composite {
 	public void onWhatsThisClicked(ClickEvent e)
 	{
 		final DecoratedPopupPanel decorated_panel = new DecoratedPopupPanel(true, true);
-		final Label messageLabel = new Label("Sie können abstimmen, ob sie diese Meldung für besonders wichtig (+1) oder ausgesprochen unwichtig (-1) halten. Aus den abgebenen Stimmen berechnen wir eine Summe. Damit können andere schnell die wichtigsten Punkte finden. Meldungen, die in Summe bei -3 oder noch schlechter stehen, blenden wir komplett aus.");
+		final Label messageLabel = new Label("Sie können abstimmen, ob sie diese Meldung für wichtig (+1) oder unwichtig (-1) halten. Aus den abgebenen Stimmen berechnen wir eine Summe. Damit können andere schnell die wichtigsten Punkte finden. Meldungen, die überweigend als unwichtig bewertet werden, werden ausgeblendet um die Übersichtlichkeit der Karte beizubehalten");
 		messageLabel.setWordWrap(true);
 		messageLabel.setWidth("250px");
 		decorated_panel.add(messageLabel);

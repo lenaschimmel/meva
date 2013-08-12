@@ -10,14 +10,14 @@
 		.button {
 		position: absolute;
 		left: 0px;
-		top: 310px;
+		top: -46px;
 		cursor: pointer;
 		}
 
 	</ui:style>
 	<g:HTMLPanel>
 		<g:PushButton styleName="{style.button}" ui:field="feedback_button"
-			width="50px" title="Wir freuen uns über Ihr Feedback">
+			width="50px" height="126px" title="Wir freuen uns über Ihr Feedback">
 			<g:upFace image='{resources.feedback}' />
 			<g:downFace image='{resources.feedback}' />
 			<g:upHoveringFace image='{resources.feedback_hover}' />

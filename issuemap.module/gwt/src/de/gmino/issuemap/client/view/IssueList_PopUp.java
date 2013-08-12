@@ -41,7 +41,8 @@ public class IssueList_PopUp extends Composite {
 		this.layer = smartLayer;
 		listButton = new List_Button(this);
 		RootPanel.get("feedback").add(listButton);
-		listButton.setVisible(false);
+		RootPanel.get("list").getElement().getStyle().setDisplay(Display.NONE); // setZIndex(-1000);
+		IssuemapGwt.getInstance().setListVisible(false);
 		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
 		list = new  ListView<Issue>() {
 			
