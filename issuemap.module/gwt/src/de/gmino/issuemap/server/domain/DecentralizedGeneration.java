@@ -30,7 +30,7 @@ public class DecentralizedGeneration extends DecentralizedGenerationGen {
 			String voltage)
 	{
 		super(
-			id, // bla
+			id,
 			ready,
 			(de.gmino.geobase.server.domain.LatLon)location,
 			(de.gmino.geobase.server.domain.Address)address,

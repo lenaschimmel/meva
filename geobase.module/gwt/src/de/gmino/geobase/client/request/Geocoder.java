@@ -11,6 +11,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 
+import de.gmino.geobase.client.domain.Address;
 import de.gmino.geobase.client.domain.LatLon;
 
 public class Geocoder {
@@ -54,5 +55,12 @@ public class Geocoder {
 			exception.printStackTrace();
 			listener.onError("Exception while performing GeoQuery (outer): " + exception.getMessage());
 		}
+	}
+	
+
+	public void searchLocationByAddress(Address address,
+			SearchLocationListener searchLocationListener) {
+		// TODO Auto-generated method stub
+		
 	}
 }

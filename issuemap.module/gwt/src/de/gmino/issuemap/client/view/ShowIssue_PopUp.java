@@ -371,16 +371,21 @@ public class ShowIssue_PopUp extends Composite {
 				
 					Requests.getNewEntity(Photo.type, new RequestListener<Photo>() {
 						@Override
-						public void onNewResult(Photo photo) {
-							photo.setUser("anonym");
-							photo.setTimestamp(Timestamp.now());
-							photo.setImage(new ImageUrl(url));
-							mIssue.getPhotos().add(photo);
-							Requests.saveEntity(photo, null);
-							Requests.saveEntity(mIssue, null);
-							showPhoto(photo);
-							smartLayer.updatePoi(mIssue);
-							updateIcon();
+						public void onNewResult(final Photo photo) {
+							Requests.loadEntity(mIssue, new RequestListener<Issue>() {
+								@Override
+								public void onFinished(Collection<Issue> results) {
+									photo.setUser("anonym");
+									photo.setTimestamp(Timestamp.now());
+									photo.setImage(new ImageUrl(url));
+									mIssue.getPhotos().add(photo);
+									Requests.saveEntity(photo, null);
+									Requests.saveEntity(mIssue, null);
+									showPhoto(photo);
+									smartLayer.updatePoi(mIssue);
+									updateIcon();
+								}
+							});
 						}
 					});
 					
@@ -458,20 +463,27 @@ public class ShowIssue_PopUp extends Composite {
 		commentTextBox.setEnabled(false);
 		Requests.getNewEntity(Comment.type, new RequestListener<Comment>() {
 			@Override
-			public void onNewResult(Comment comment) {
-				comment.setText(commentTextBox.getText());
-				comment.setUser("anonym");
-				comment.setTimestamp(Timestamp.now());
-				mIssue.getComments().add(comment);
-				Requests.saveEntity(comment, null);
-				Requests.saveEntity(mIssue, null);
-				showComment(comment);
-				commentTextBox.setText("");
-				commentTextBox.setEnabled(true);
-				smartLayer.updatePoi(mIssue);
-				int commentCount = mIssue.getComments().size();
-				commentsHeader.setText(commentCount  + " Kommentare:");
-				updateIcon();
+			public void onNewResult(final Comment comment) {
+				Requests.loadEntity(mIssue, new RequestListener<Issue>() {
+					@Override
+					public void onFinished(Collection<Issue> results) {
+						comment.setText(commentTextBox.getText());
+						comment.setUser("anonym");
+						comment.setTimestamp(Timestamp.now());
+						mIssue.getComments().add(comment);
+						Requests.saveEntity(comment, null);
+						Requests.saveEntity(mIssue, null);
+						showComment(comment);
+						commentTextBox.setText("");
+						commentTextBox.setEnabled(true);
+						smartLayer.updatePoi(mIssue);
+						int commentCount = mIssue.getComments().size();
+						commentsHeader.setText(commentCount  + " Kommentare:");
+						updateIcon();	
+					}
+				});
+				
+				
 			}
 		});
 	}

@@ -1,5 +1,7 @@
 package de.gmino.issuemap.client.view;
 
+import java.util.Collection;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -144,24 +146,38 @@ public class CreateIssue_PopUp extends Composite {
 	
 	@UiHandler("button")
 	void onClick(ClickEvent e) {
-		if(title.getText().equals("")) title.getElement().setAttribute("placeholder", "Bitte geben Sie erst einen Titel ein, bevor Sie den Eintrag speichern");
-		else {setIssueValuesFromMask(mIssue);
-		smartLayer.updatePoi(mIssue); // works even if the poi is a new one
-		mapObject.getIssues().add(mIssue); // works even if the poi is already present
-		Requests.saveEntity(mIssue, null);
-		Requests.saveEntity(mapObject, null);
-		
-		if(newIssue)
-		{
-			// Add marker to map
-			final IssuemapGwt issueMap = IssuemapGwt.getInstance();
-			issueMap.addMarker(mIssue);
-			issueMap.setCounter();
-			issueMap.loadIssuesToList();
+		if(title.getText().equals("")) 
+			title.getElement().setAttribute("placeholder", "Bitte geben Sie erst einen Titel ein, bevor Sie den Eintrag speichern");
+		else {
+			Requests.loadEntity(mapObject, new RequestListener<Map>() {
+				@Override
+				public void onFinished(Collection<Map> results) {
+					setIssueValuesFromMask(mIssue);
+					smartLayer.updatePoi(mIssue); // works even if the poi is a new one
+					mapObject.getIssues().add(mIssue); // works even if the poi is already present
+					Requests.saveEntity(mIssue, new RequestListener<Issue>() {
+						public void onFinished(java.util.Collection<Issue> results) {
+							final IssuemapGwt issueMap = IssuemapGwt.getInstance();
+							issueMap.loadIssuesToList();
+						};
+					});
+					
+					Requests.saveEntity(mapObject, null);
+					
+					if(newIssue)
+					{
+						// Add marker to map
+						final IssuemapGwt issueMap = IssuemapGwt.getInstance();
+						issueMap.addMarker(mIssue);
+						issueMap.setCounter();
+					}
+					
+					removeFromParent();
+				}
+			});
+			
 		}
-		
-		this.removeFromParent();
-	}}
+	}
 	
 	@UiHandler("typebox")
 	void onChange(ChangeEvent e)

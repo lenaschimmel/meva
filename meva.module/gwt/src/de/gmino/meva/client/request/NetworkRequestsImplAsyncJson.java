@@ -183,12 +183,12 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 
 		final Collection<EntityClass> entitiesToLoad = new ArrayList<EntityClass>();
 		
-		long loadTreshold = System.currentTimeMillis() - 120 * 1000; // 2 Minutes
+		//long loadTreshold = System.currentTimeMillis() - 120 * 1000; // 2 Minutes
 		for (EntityClass e : entities) {
-			if (!e.isReady() || e.getJsonLoadTime() < loadTreshold)
+			//if (!e.isReady() || e.getJsonLoadTime() < loadTreshold)
 				entitiesToLoad.add(e);
-			else
-				listener.onNewResult(e);
+			//else
+			//	listener.onNewResult(e);
 		}
 		
 		if(entitiesToLoad.isEmpty())
