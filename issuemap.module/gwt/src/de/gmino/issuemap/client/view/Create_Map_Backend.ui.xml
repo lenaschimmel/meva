@@ -65,9 +65,11 @@
 			<g:ListBox styleName="{style.textBox}" ui:field="mapType">
 				<g:item value='0'>Issue-Map</g:item>
 				<g:item value='1'>Event-Map</g:item>
+				<g:item value='2'>EE-Map</g:item>
 			</g:ListBox>
 		</g:FlowPanel>
 		<g:Button styleName="{style.important}" ui:field="button" text="Speichern"/>
 		<g:FlowPanel width="100%" styleName="{style.markerPanel}" ui:field="markerPanel"></g:FlowPanel>
+		<g:FlowPanel width="100%" styleName="{style.markerPanel}" ui:field="eePanel"></g:FlowPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

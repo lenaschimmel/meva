@@ -8,6 +8,7 @@ import java.util.Collection;
 import org.itemscript.core.values.JsonObject;
 
 import de.gmino.issuemap.server.domain.Comment;
+import de.gmino.issuemap.server.domain.DecentralizedGeneration;
 import de.gmino.issuemap.server.domain.Issue;
 import de.gmino.issuemap.server.domain.Map;
 import de.gmino.issuemap.server.domain.Markertype;
@@ -45,6 +46,8 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 			return new Photo(id);
 		if (typeName.equals("Route"))
 			return new Route(id);
+		if (typeName.equals("DecentralizedGeneration"))
+			return new DecentralizedGeneration(id);
 		throw new RuntimeException("Unsupported Entity type: " + typeName);
 	}
 

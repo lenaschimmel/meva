@@ -48,6 +48,11 @@ public class Create_Map_Backend extends Composite {
 			}
 		});
 		getNewMapObject();
+		eeBackend = new EE_Backend();
+		eePanel.add(eeBackend);
+		eePanel.setVisible(false);
+		markerPanel.setVisible(false);
+		isNewMap = true;
 	}
 	
 	TreeMap<Markertype, Marker_List_Item> markerListItems = new TreeMap<Markertype, Marker_List_Item>(); 
@@ -102,46 +107,56 @@ public class Create_Map_Backend extends Composite {
 	TextBox additionalAddressLine;
 	@UiField
 	FlowPanel markerPanel;
+	@UiField
+	FlowPanel eePanel;
 	
 	Map map;
+	private boolean isNewMap;
+	private EE_Backend eeBackend;
 
 	@UiHandler("button")
 	void onClick(ClickEvent e) {
-		Requests.loadEntity(map, new RequestListener<Map>() {
-			public void onFinished(java.util.Collection<Map> results) {
-				map.setTitle(title.getText());
-				map.setSubdomain(subdomain.getText());
-				map.setInfoText(infoText.getText());
-				map.setPrimary_color(primary_color.getText());
-				map.setSecondary_color(secondary_color.getText());
-				map.setBackground_color(background_color.getText());
-				map.setResolved_color(resolved_color.getText());
-				map.setCity(city.getText());
-				map.setInitLocation(new LatLon(Double.parseDouble(initLocation_latitude.getText()) , Double.parseDouble(initLocation_longitude.getText())));
-				map.setInitZoomlevel(Integer.parseInt(initZoomlevel.getText()));
-				map.setLogo(new ImageUrl(logo_url.getText()));
-				map.setWebsite(website.getText());
-				map.setEmail(email.getText());
-				map.setImpressum_url(url_impressum.getText());
-				map.setPostal_address(new Address(recipient_name.getText(),street.getText(),houseNumber.getText(),zip.getText(),city.getText(),additionalAddressLine.getText()));
-				if(mapType.getSelectedIndex()==0) map.setMapTyp("Issue");
-				if(mapType.getSelectedIndex()==1) map.setMapTyp("Event");
-				
-				for(Marker_List_Item i : markerListItems.values()){
-					if(i.selected)
-						map.getHasMarkertypes().add(markertypes.get(i));
-					else
-						map.getHasMarkertypes().remove(markertypes.get(i));
-
+		if(isNewMap)
+			performSave();
+		else
+			Requests.loadEntity(map, new RequestListener<Map>() {
+				public void onFinished(java.util.Collection<Map> results) {
+					performSave();
 				}
-				
-				Requests.saveEntity(map, null);
-			};
 		});
-		
-		
 	}
 
+	private void performSave() {
+		map.setTitle(title.getText());
+		map.setSubdomain(subdomain.getText());
+		map.setInfoText(infoText.getText());
+		map.setPrimary_color(primary_color.getText());
+		map.setSecondary_color(secondary_color.getText());
+		map.setBackground_color(background_color.getText());
+		map.setResolved_color(resolved_color.getText());
+		map.setCity(city.getText());
+		map.setInitLocation(new LatLon(Double.parseDouble(initLocation_latitude.getText()) , Double.parseDouble(initLocation_longitude.getText())));
+		map.setInitZoomlevel(Integer.parseInt(initZoomlevel.getText()));
+		map.setLogo(new ImageUrl(logo_url.getText()));
+		map.setWebsite(website.getText());
+		map.setEmail(email.getText());
+		map.setImpressum_url(url_impressum.getText());
+		map.setPostal_address(new Address(recipient_name.getText(),street.getText(),houseNumber.getText(),zip.getText(),city.getText(),additionalAddressLine.getText()));
+		if(mapType.getSelectedIndex()==0) map.setMapTyp("Issue");
+		if(mapType.getSelectedIndex()==1) map.setMapTyp("Event");
+		if(mapType.getSelectedIndex()==2) map.setMapTyp("EE");
+		
+		for(Marker_List_Item i : markerListItems.values()){
+			if(i.selected)
+				map.getHasMarkertypes().add(markertypes.get(i));
+			else
+				map.getHasMarkertypes().remove(markertypes.get(i));
+
+		}
+		Requests.saveEntity(map, null);
+		isNewMap = false;
+	};
+	
 	public void clear_form(){
 		title.setText("");
 		subdomain.setText("");
@@ -164,6 +179,8 @@ public class Create_Map_Backend extends Composite {
 		houseNumber.setText("");
 		zip.setText("");
 		additionalAddressLine.setText("");
+		markerPanel.setVisible(false);
+		eePanel.setVisible(false);
 		
 		for(Marker_List_Item i : markerListItems.values()){
 			i.setUncheckBox();
@@ -176,6 +193,7 @@ public class Create_Map_Backend extends Composite {
 		clear_form();
 		getNewMapObject();
 		heading.setText("Neue Map erstellen");
+		isNewMap = true;
 	}
 
 	public void getNewMapObject() {
@@ -215,17 +233,28 @@ public class Create_Map_Backend extends Composite {
 		
 		if(map.getMapTyp().equals("Issue")) mapType.setSelectedIndex(0);
 		if(map.getMapTyp().equals("Event")) mapType.setSelectedIndex(1);
+		if(map.getMapTyp().equals("EE")) mapType.setSelectedIndex(2);
 		
-
-		//Alle Markertypes der Map
-		map.loadMarkertypes(new RequestListener<Markertype>() {
-			@Override
-			public void onNewResult(Markertype result) {
-					markerListItems.get(result).setCheckBox();
-				super.onNewResult(result);
-			}
-			
-		});
+		if(map.getMapTyp().equals("EE"))
+		{
+			eePanel.setVisible(true);
+			eeBackend.setMap(map);
+		}
+		else
+		{
+			markerPanel.setVisible(true);
+			//Alle Markertypes der Map
+			map.loadMarkertypes(new RequestListener<Markertype>() {
+				@Override
+				public void onNewResult(Markertype result) {
+						markerListItems.get(result).setCheckBox();
+					super.onNewResult(result);
+				}
+				
+			});
+		}
+		
+		isNewMap = getNewId;
 		
 		if(getNewId)
 		{

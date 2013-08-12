@@ -1,7 +1,6 @@
 package de.gmino.issuemap.client.view;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Display;
@@ -14,7 +13,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
@@ -32,49 +31,31 @@ public class IssueList_PopUp extends Composite {
 	}
 	
 	private List_Button listButton;
-	private ArrayList<IssueList_Item> items;
 	private OpenLayersSmartLayer layer;
 	private IssueIconRenderer renderer;
+	private ListView<Issue> list;
 
-	public IssueList_PopUp(Map mapObject, IssueIconRenderer issueRenderer, OpenLayersSmartLayer layer) {
+	public IssueList_PopUp(Map mapObject, IssueIconRenderer issueRenderer, OpenLayersSmartLayer smartLayer) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.renderer = issueRenderer;
-		this.layer = layer;
+		this.layer = smartLayer;
 		listButton = new List_Button(this);
 		RootPanel.get("feedback").add(listButton);
 		listButton.setVisible(false);
 		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
-	    
-		items = new ArrayList<IssueList_Item>();
+		list = new  ListView<Issue>() {
+			
+			@Override
+			ListViewItem<Issue> createListItem(Issue item) {
+				return new IssueList_Item(item, renderer,layer);
+			}
+		};
+		IssueItemsPanel.add(list);
 	}
 	
 	public void updateData(ArrayList<Issue> data)
 	{
-		ArrayList<IssueList_Item> newItems = new ArrayList<IssueList_Item>();
-		Iterator<IssueList_Item> it = items.iterator();
-		for(Issue i : data)
-		{
-			if(it.hasNext())
-			{
-				IssueList_Item item = it.next();
-				item.setIssue(i);
-				newItems.add(item);	
-			}
-			else
-			{
-				final IssueList_Item item = new IssueList_Item(i, renderer, layer);
-				newItems.add(item);		    	
-				IssueItemsPanel.add(item);
-			}
-		}
-		
-		while(it.hasNext())
-		{
-			IssueItemsPanel.remove(it.next());
-			it.remove();
-		}
-		
-		items = newItems;
+		list.updateData(data);
 	}
 
 	@UiField
@@ -82,7 +63,7 @@ public class IssueList_PopUp extends Composite {
 	@UiField
 	Label title;
 	@UiField
-	VerticalPanel IssueItemsPanel;
+	SimplePanel IssueItemsPanel;
 	@UiField
 	FlowPanel flowPanel;
 	

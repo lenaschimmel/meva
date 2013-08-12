@@ -1,0 +1,27 @@
+{
+	"package" : "de.gmino.issuemap.TARGET.domain",
+	"concept" : "entity",
+	"name" : "DecentralizedGeneration",
+	"attributes" : [
+		{
+			"type" : "LatLon",
+			"name" : "location"
+		},
+		{
+			"type" : "Address",
+			"name" : "address"
+		},
+		{
+			"type" : "String",
+			"name" : "unitType"
+		},
+		{
+			"type" : "float",
+			"name" : "power"
+		},
+		{
+			"type" : "String",
+			"name" : "voltage"
+		}
+	]
+}

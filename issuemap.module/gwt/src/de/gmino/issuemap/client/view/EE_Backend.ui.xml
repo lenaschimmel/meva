@@ -1,0 +1,33 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+		
+		.parent{
+			background: rgba(200,200,200, 1);
+			color: #000;
+			padding: 10px;
+			border-top-right-radius: 4px;
+			border-bottom-right-radius: 4px;
+			border-top-left-radius: 4px;
+			border-bottom-left-radius: 4px;
+			border: 1px solid #ccc;
+		}
+		
+		.heading{
+			font-size: x-large;
+			text-align: center;
+			margin-bottom: 20px;
+}
+
+	</ui:style>
+	<g:VerticalPanel styleName="{style.parent}">
+		<g:Label styleName="{style.heading}">EE-Liste</g:Label>
+		<g:SimplePanel ui:field="listPanel"></g:SimplePanel>
+		<g:TextArea ui:field="taCsvInput"></g:TextArea>
+		<g:Button styleName="{style.important}" ui:field="btCsvImport" text="CSV-Import" />
+	</g:VerticalPanel>
+</ui:UiBinder> 

@@ -15,8 +15,9 @@ import com.google.gwt.user.client.ui.Widget;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.poi.IssueIconRenderer;
+import de.gmino.issuemap.client.view.ListView.ListViewItem;
 
-public class IssueList_Item extends Composite {
+public class IssueList_Item extends Composite implements ListViewItem<Issue> {
 
 	private static IssueList_ItemUiBinder uiBinder = GWT
 			.create(IssueList_ItemUiBinder.class);
@@ -35,24 +36,9 @@ public class IssueList_Item extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.renderer = renderer;
 		this.layer = layer;
-		setIssue(issue);
+		setDataItem(issue);
 	}
 	
-	public void setIssue(Issue issue)
-	{
-		this.issue = issue;
-		labelTitle.setText(issue.getTitle());
-		type.setText(issue.getMarkertype().getMarkerName());
-		if(issue.getRating()>0) rating.setText("+"+issue.getRating());
-		else rating.setText(""+issue.getRating());
-		rating.getElement().getStyle().setColor(issue.getMap_instance().getSecondary_color());
-		date.setText(", " + issue.getCreationTimestamp().relativeToNow().toReadableString(true,1));
-		date.setTitle(dtf.format(issue.getCreationTimestamp().toDate()));
-		
-		String iconUrl = renderer.getIconUrl(issue);
-		imageMarkerIcon.setUrl(iconUrl);
-	}
-
 	@UiField
 	Label labelTitle;
 	@UiField
@@ -76,6 +62,21 @@ public class IssueList_Item extends Composite {
 	public void onHover(ClickEvent e) {
 	
 		layer.clickedPoi(issue.getId());
+	}
+
+	@Override
+	public void setDataItem(Issue issue) {
+		this.issue = issue;
+		labelTitle.setText(issue.getTitle());
+		type.setText(issue.getMarkertype().getMarkerName());
+		if(issue.getRating()>0) rating.setText("+"+issue.getRating());
+		else rating.setText(""+issue.getRating());
+		rating.getElement().getStyle().setColor(issue.getMap_instance().getSecondary_color());
+		date.setText(", " + issue.getCreationTimestamp().relativeToNow().toReadableString(true,1));
+		date.setTitle(dtf.format(issue.getCreationTimestamp().toDate()));
+		
+		String iconUrl = renderer.getIconUrl(issue);
+		imageMarkerIcon.setUrl(iconUrl);
 	}
 	
 }

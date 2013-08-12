@@ -64,7 +64,7 @@
 
 
 			
-				<g:VerticalPanel ui:field="IssueItemsPanel" height="100%"></g:VerticalPanel>
+				<g:SimplePanel ui:field="IssueItemsPanel" height="100%"></g:SimplePanel>
 			
 	</g:VerticalPanel>
 	</g:SimplePanel>
