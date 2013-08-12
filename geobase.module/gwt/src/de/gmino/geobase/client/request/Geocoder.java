@@ -11,8 +11,8 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 
-import de.gmino.geobase.client.domain.Address;
-import de.gmino.geobase.client.domain.LatLon;
+import de.gmino.geobase.shared.domain.Address;
+import de.gmino.geobase.shared.domain.LatLon;
 
 public class Geocoder {
 	public interface SearchLocationListener
@@ -25,10 +25,15 @@ public class Geocoder {
 	public void searchLocationByString(String query, final SearchLocationListener listener)
 	{
 		String url = "http://open.mapquestapi.com/nominatim/v1/search?format=json&q=" + URL.encodeQueryString(query) + "&addressdetails=1&limit=1";
-		
+		searchLocationByUrl(listener, url);
+	}
+
+	private void searchLocationByUrl(final SearchLocationListener listener,
+			String url) {
 		RequestBuilder rb = new RequestBuilder(RequestBuilder.GET, url);
+		rb.setHeader("User-Agent", "geoEngine/3 (gmino.de, semi-manual, semi-automatic one-time bulk request)");
 		try {
-			rb.sendRequest(query.toString(), new RequestCallback() {
+			rb.sendRequest("", new RequestCallback() {
 
 				@Override
 				public void onResponseReceived(Request request, Response response) {
@@ -60,7 +65,21 @@ public class Geocoder {
 
 	public void searchLocationByAddress(Address address,
 			SearchLocationListener searchLocationListener) {
-		// TODO Auto-generated method stub
-		
+		StringBuilder query = new StringBuilder();
+		addComponentIfNotEmpty(query, address.getCity(), "city");
+		addComponentIfNotEmpty(query, address.getHouseNumber() + " " + address.getStreet(), "street");
+		addComponentIfNotEmpty(query, address.getZip(), "postalcode");
+		String url = "http://open.mapquestapi.com/nominatim/v1/search?format=json&q=" + query.toString() + "&addressdetails=1&limit=1";
+		System.out.println("Geocoder Search URL: " + url);
+		searchLocationByUrl(searchLocationListener, url);
+	}
+	
+
+	private void addComponentIfNotEmpty(StringBuilder sb,
+			String value, String paramName) {
+		if(value == null || value.length() == 0)
+			return;
+		sb.append("&");
+		sb.append(paramName + "=" + URL.encodeQueryString(value));
 	}
 }

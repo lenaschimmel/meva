@@ -25,11 +25,12 @@ import org.itemscript.core.values.JsonValue;
 // imports for field types
 import de.gmino.geobase.shared.domain.Address;
 import de.gmino.geobase.shared.domain.LatLon;
+import de.gmino.geobase.shared.domain.Poi;
 
 
 import de.gmino.issuemap.shared.domain.gen.DecentralizedGenerationGen;
 @SuppressWarnings("unused")
-public class DecentralizedGeneration extends DecentralizedGenerationGen {
+public class DecentralizedGeneration extends DecentralizedGenerationGen implements Poi {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public DecentralizedGeneration(long id)
 	{
@@ -43,7 +44,8 @@ public class DecentralizedGeneration extends DecentralizedGenerationGen {
 			Address address,
 			String unitType,
 			float power,
-			String voltage)
+			String voltage,
+			Map map_instance)
 	{
 		super(
 			id,
@@ -52,10 +54,22 @@ public class DecentralizedGeneration extends DecentralizedGenerationGen {
 			(de.gmino.geobase.shared.domain.Address)address,
 			unitType,
 			power,
-			voltage
+			voltage,
+			(de.gmino.issuemap.shared.domain.Map)map_instance
 		);
 		this.ready = true;
 	}
 	
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
+
+	@Override
+	public String getTitle() {
+		return "Photovoltaikanlage in der " + address.getStreet();
+	}
+
+	@Override
+	public String getDescription() {
+		return "Photovoltaikanlage " + voltage;
+	}
+	
 }

@@ -1436,9 +1436,11 @@ public class ClassDefinition {
 	}
 
 	public String getFullyQualifiedName(String target, boolean gen) {
-		// sometimes, "Gen" is added temporaty to the class name. This has its
+		// sometimes, "Gen" is added temporary to the class name. This has its
 		// use, but is useless when we need the FQN.
-		String tmpClassName = className.replace("Gen", "");
+		
+		// UPDATE: This made it impossible to have a class with "Gen" in its name. Just leaving "Gen" in place seems to have no negative side effects.
+		String tmpClassName = className; //.replace("Gen", "");
 
 		return getFullPackage(target, gen) + "." + tmpClassName + (gen ? "Gen" : "");
 	}

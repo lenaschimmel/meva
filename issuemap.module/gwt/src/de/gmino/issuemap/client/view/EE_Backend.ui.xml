@@ -29,5 +29,6 @@
 		<g:SimplePanel ui:field="listPanel"></g:SimplePanel>
 		<g:TextArea ui:field="taCsvInput"></g:TextArea>
 		<g:Button styleName="{style.important}" ui:field="btCsvImport" text="CSV-Import" />
+		<g:Button styleName="{style.important}" ui:field="btGeocodeAll" text="Alle Geocoden" />
 	</g:VerticalPanel>
 </ui:UiBinder> 

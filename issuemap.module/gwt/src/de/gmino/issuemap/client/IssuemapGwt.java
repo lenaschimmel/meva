@@ -22,13 +22,17 @@ import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.geobase.shared.map.Event;
 import de.gmino.geobase.shared.map.MapListener;
+import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
 import de.gmino.issuemap.client.domain.BicycleShop;
+import de.gmino.issuemap.client.domain.DecentralizedGeneration;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Markertype;
 import de.gmino.issuemap.client.domain.Route;
 import de.gmino.issuemap.client.poi.BicycleShopIconRenderer;
 import de.gmino.issuemap.client.poi.BicycleShopPopupCreator;
+import de.gmino.issuemap.client.poi.DecentralizedGenerationIconRenderer;
+import de.gmino.issuemap.client.poi.DecentralizedGenerationPopupCreator;
 import de.gmino.issuemap.client.poi.IssueIconRenderer;
 import de.gmino.issuemap.client.poi.IssuePopupCreator;
 import de.gmino.issuemap.client.poi.RouteIconRenderer;
@@ -255,62 +259,28 @@ public class IssuemapGwt implements EntryPoint {
 						
 						
 						addFeedback_Button();
-						markerLayer.addMarkerPopupCreator(Issue.type,
-								new IssuePopupCreator(map, markerLayer));
+						markerLayer.addMarkerPopupCreator(Issue.type, new IssuePopupCreator(map, markerLayer));
 
 						header.setMap(map);	
 
 						footer.setMap(map);
 						Window.setTitle(map.getTitle());
-						mapView.setCenterAndZoom(mapObject.getInitLocation(),
-								mapObject.getInitZoomlevel(), false);
-						header.setDesign(mapObject.getLogo().getUrl(),
-								mapObject.getTitle(), mapObject.getPrimary_color());
+						mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);
+						header.setDesign(mapObject.getLogo().getUrl(), mapObject.getTitle(), mapObject.getPrimary_color());
 						footer.setDesign(mapObject.getPrimary_color());
 
-						map.loadMarkertypes(new RequestListener<Markertype>() {
-							@Override
-							public void onFinished(
-									Collection<Markertype> results) {
-
-								if (subdomain.equals("zgb")) {
-									markerLayer
-											.addMarkerPopupCreator(
-													BicycleShop.type,
-													new BicycleShopPopupCreator(
-															map,
-															markerLayer));
-									markerLayer
-											.addMarkerPopupCreator(
-													Route.type,
-													new RoutePopupCreator(
-															map,
-															markerLayer));
-
-									ZgbTools zgb = new ZgbTools(
-											markerLayer) {
-										@Override
-										public void onAllRoutesShown() {
-											System.out
-													.println("All routes shown, now loading bicycle shops and Issues.");
-											showBicycleShops();
-											list = new IssueList_PopUp(mapObject, issueRenderer, markerLayer);
-											RootPanel.get("list").add(list);
-											loadIssuesToList();
-											loadIssuesToMap();
-										}
-									};
-									zgb.showRoutes();
-								} 
-								else {
-									list = new IssueList_PopUp(mapObject, issueRenderer, markerLayer);
-									RootPanel.get("list").add(list);
-									
-									loadIssuesToList();
-									loadIssuesToMap();
+						if(map.getMapTyp().equals("EE"))
+							fillMapEE();
+						else
+							map.loadMarkertypes(new RequestListener<Markertype>() {
+								@Override
+								public void onFinished(Collection<Markertype> results) {
+									if (subdomain.equals("zgb")) 
+										fillMapZgb();
+									else 
+										fillMapIssues();
 								}
-							}
-						});
+							});
 					};
 
 					@Override
@@ -320,6 +290,60 @@ public class IssuemapGwt implements EntryPoint {
 				});
 	}
 
+	private void fillMapEE() {
+		ImageUrlLoader loader = ImageUrlLoader.getInstance();
+		loader.loadImage("/mapicon/generation.png", new ImageLoadListener() {
+			
+			@Override
+			public void onLoaded() {
+				markerLayer.addMarkerPopupCreator(DecentralizedGeneration.type, new DecentralizedGenerationPopupCreator(mapObject, markerLayer));
+				markerLayer.addMarkerIconRenderer(DecentralizedGeneration.type, new DecentralizedGenerationIconRenderer());
+				
+				Requests.loadEntities(IssuemapGwt.<DecentralizedGeneration, de.gmino.issuemap.shared.domain.DecentralizedGeneration>convertCollection(mapObject.getGenerations()), new RequestListener<DecentralizedGeneration>() {
+					@Override
+					public void onFinished(Collection<DecentralizedGeneration> results) {
+						for(DecentralizedGeneration gen : results)
+						markerLayer.addPoi(gen);
+					}
+				});
+			}
+		});
+	}
+	
+	private void fillMapIssues() {
+		list = new IssueList_PopUp(mapObject, issueRenderer, markerLayer);
+		RootPanel.get("list").add(list);
+		
+		loadIssuesToList();
+		loadIssuesToMap();
+	}
+
+	private void fillMapZgb() {
+		markerLayer
+				.addMarkerPopupCreator(
+						BicycleShop.type,
+						new BicycleShopPopupCreator(
+								mapObject,
+								markerLayer));
+		markerLayer
+				.addMarkerPopupCreator(
+						Route.type,
+						new RoutePopupCreator(
+								mapObject,
+								markerLayer));
+
+		ZgbTools zgb = new ZgbTools(
+				markerLayer) {
+			@Override
+			public void onAllRoutesShown() {
+				System.out.println("All routes shown, now loading bicycle shops and Issues.");
+				showBicycleShops();
+				fillMapIssues();
+			}
+		};
+		zgb.showRoutes();
+	}
+	
 	// update Map position
 	static void setMapPosition(LatLon position) {
 		mapView.setCenter(position, true);

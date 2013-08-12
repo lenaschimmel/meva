@@ -8,6 +8,8 @@ import java.io.IOException;
 
 import org.itemscript.core.values.JsonObject;
 
+import com.google.gwt.i18n.client.NumberFormat;
+
 import de.gmino.geobase.client.domain.gen.LatLonGen;
 // default imports
 // imports for JSON
@@ -32,4 +34,18 @@ public class LatLon extends LatLonGen {
 	}
 	
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
+
+	static NumberFormat format = NumberFormat.getFormat("###.000,000");
+	
+	@Override
+	public String toDecimalString()
+	{
+		
+		return format.format(latitude) + "°, " + format.format(longitude) + "°";
+	}
+	
+	public boolean isEmpty()
+	{
+		return latitude == 0 && longitude == 0;
+	}
 }

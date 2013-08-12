@@ -25,7 +25,8 @@ public class DecentralizedGeneration extends DecentralizedGenerationGen {
 			Address address,
 			String unitType,
 			float power,
-			String voltage)
+			String voltage,
+			Map map_instance)
 	{
 		super(
 			id,
@@ -34,7 +35,8 @@ public class DecentralizedGeneration extends DecentralizedGenerationGen {
 			(de.gmino.geobase.client.domain.Address)address,
 			unitType,
 			power,
-			voltage
+			voltage,
+			(de.gmino.issuemap.client.domain.Map)map_instance
 		);
 		this.ready = true;
 	}

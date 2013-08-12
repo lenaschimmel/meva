@@ -40,4 +40,24 @@ public class Address extends AddressGen {
 	}
 	
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
+	
+	public String toReadableString(boolean multiline)
+	{
+		String divider = multiline ? "\n" : ",";
+		StringBuilder ret = new StringBuilder();
+		addComponentIfNotEmpty(ret, recipientName, divider);
+		addComponentIfNotEmpty(ret, street + " " + houseNumber, divider);
+		addComponentIfNotEmpty(ret, additionalAddressLine, divider);
+		addComponentIfNotEmpty(ret, zip + " " +  city, divider);
+		return ret.toString();
+	}
+
+	private void addComponentIfNotEmpty(StringBuilder sb,
+			String componemt, String divider) {
+		if(componemt == null || componemt.length() == 0)
+			return;
+		if(sb.length() > 0)
+			sb.append(divider);
+		sb.append(componemt);
+	}
 }
