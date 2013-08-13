@@ -291,6 +291,7 @@ public class IssuemapGwt implements EntryPoint {
 	}
 
 	private void fillMapEE() {
+		RootPanel.get("list").setVisible(false);
 		ImageUrlLoader loader = ImageUrlLoader.getInstance();
 		loader.loadImage("/mapicon/generation.png", new ImageLoadListener() {
 			
