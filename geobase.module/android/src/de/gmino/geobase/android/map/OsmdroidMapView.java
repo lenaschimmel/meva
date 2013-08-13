@@ -139,7 +139,7 @@ public class OsmdroidMapView extends AbstractMapView implements MapListener {
 	}
 
 	@Override
-	public SmartLayer newSmartLayer(String name) {
+	public SmartLayer newSmartLayer(String name, int zoomThreshold) {
 		// FIXME FEHLT!
 		return null;
 	}
