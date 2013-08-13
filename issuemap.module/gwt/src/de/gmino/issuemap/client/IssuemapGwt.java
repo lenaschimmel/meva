@@ -270,7 +270,6 @@ public class IssuemapGwt implements EntryPoint {
 						footer.setMap(map);
 						Window.setTitle(map.getTitle());
 
-						final Element mapPanelElement = RootPanel.get("map").getElement();
 						mapView.setZoom(mapObject.getInitZoomlevel());
 						mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);
 						
@@ -279,13 +278,11 @@ public class IssuemapGwt implements EntryPoint {
 							
 							@Override
 							public boolean execute() {
-								//mapView.panRectIntoMap(mapObject.getInitLocation(), (int)(mapPanelElement.getClientWidth() * 0.8), (int)(mapPanelElement.getClientHeight() * 0.8), true);
-								mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);
+									mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);
 								return false;
 							}
 						}, 1000);
 						
-						//setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), true);
 						header.setDesign(mapObject.getLogo().getUrl(),	mapObject.getTitle(), mapObject.getPrimary_color());
 						footer.setDesign(mapObject.getPrimary_color());
 
