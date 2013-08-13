@@ -22,6 +22,10 @@
 		{
 			"type" : "String",
 			"name" : "voltage"
+		},
+		{
+			"type" : "Map",
+			"name" : "map_instance"
 		}
 	]
 }

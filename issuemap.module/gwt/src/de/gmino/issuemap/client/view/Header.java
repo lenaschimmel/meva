@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.gmino.geobase.client.domain.LatLon;
+import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.client.request.Geocoder;
 import de.gmino.geobase.client.request.Geocoder.SearchLocationListener;
 import de.gmino.issuemap.client.IssuemapGwt;

@@ -57,4 +57,13 @@ public class LatLon extends LatLonGen {
 		return Util.randomElementFrom(rects).getRandomWithin();
 	}
 
+	public String toDecimalString()
+	{
+		return latitude + "°, " + longitude + "°";
+	}
+
+	public boolean isEmpty()
+	{
+		return latitude == 0 && longitude == 0;
+	}
 }

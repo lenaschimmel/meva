@@ -88,6 +88,12 @@
 		},
 		{
 			"type" : "relation",
+			"name" : "generations",
+			"reltype" : "DecentralizedGeneration",
+			"relname" : "map_instance"
+		},
+		{
+			"type" : "relation",
 			"name" : "hasMarkertypes",
 			"reltype" : "Markertype",
 			"relname" : "isUsedByMap",
