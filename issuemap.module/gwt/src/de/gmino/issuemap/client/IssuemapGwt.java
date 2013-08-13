@@ -10,6 +10,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Composite;
@@ -62,7 +63,10 @@ public class IssuemapGwt implements EntryPoint {
 		@Override
 		public boolean execute() {
 			if(i >= issues.size())
+			{
+				mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);
 				return false;
+			}
 			
 			addMarker(issues.get(i++));
 			
@@ -262,10 +266,23 @@ public class IssuemapGwt implements EntryPoint {
 
 						footer.setMap(map);
 						Window.setTitle(map.getTitle());
-						mapView.setCenterAndZoom(mapObject.getInitLocation(),
-								mapObject.getInitZoomlevel(), false);
-						header.setDesign(mapObject.getLogo().getUrl(),
-								mapObject.getTitle(), mapObject.getPrimary_color());
+						final Element mapPanelElement = RootPanel.get("map").getElement();
+						mapView.setZoom(mapObject.getInitZoomlevel());
+						mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);
+						
+						Scheduler.get().scheduleFixedDelay(
+						new RepeatingCommand() {
+							
+							@Override
+							public boolean execute() {
+								//mapView.panRectIntoMap(mapObject.getInitLocation(), (int)(mapPanelElement.getClientWidth() * 0.8), (int)(mapPanelElement.getClientHeight() * 0.8), true);
+								mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);
+								return false;
+							}
+						}, 1000);
+						
+						//setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), true);
+						header.setDesign(mapObject.getLogo().getUrl(),	mapObject.getTitle(), mapObject.getPrimary_color());
 						footer.setDesign(mapObject.getPrimary_color());
 
 						map.loadMarkertypes(new RequestListener<Markertype>() {

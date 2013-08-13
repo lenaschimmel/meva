@@ -16,7 +16,7 @@ import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
-public class MasterBackend  implements EntryPoint {
+public class MasterBackend  implements EntryPoint  {
 
 	Create_Map_Backend createMapField;
 	Show_Maps_Backend mapList;
@@ -33,13 +33,22 @@ public class MasterBackend  implements EntryPoint {
 
 		Requests.setImplementation(new NetworkRequestsImplAsyncJson("http://"
 				+ Location.getHost() + "/"));
+		
+//		UserService userService = UserServiceFactory.getUserService();
+//		User user = userService.getCurrentUser();
+		
 
 		createMapField= new Create_Map_Backend();
 		mapList = new Show_Maps_Backend();
 		
-		RootPanel.get("right").add(createMapField);
-		RootPanel.get("left").add(mapList);
-		
+//		if(user==null){
+//			RootPanel.get("left").add(new Label("please login"));
+//		}
+//		
+//		else{
+			RootPanel.get("right").add(createMapField);
+			RootPanel.get("left").add(mapList);
+//		}
 
 	} 
 
@@ -68,4 +77,7 @@ public class MasterBackend  implements EntryPoint {
 	{
 		createMapField.showExistingMap((Map)Map.getById(id), true);
 	}
+
+	
+
 }

@@ -44,7 +44,8 @@
 			height: 200px;
 			font-family: inherit;
 			font-size: inherit;
-			margin-bottom: 5px
+			margin-bottom: 5px;
+	
 			
 		}
 		
@@ -74,7 +75,8 @@
 		}
 		
 		.listbox{
-			margin-right: 218px;
+			margin-right: 180px;
+			width: 216px;
 }
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
@@ -96,12 +98,12 @@
 			<g:cell>
 
 
-				<g:TextBox width="432px" ui:field="title"></g:TextBox>
+				<g:TextBox width="468px" ui:field="title"></g:TextBox>
 
 
 			</g:cell>
 			<g:cell>
-				<g:TextArea width="436px" ui:field="description"
+				<g:TextArea width="472px" ui:field="description"
 					styleName="{style.description}"></g:TextArea>
 			</g:cell>
 

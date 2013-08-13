@@ -71,7 +71,7 @@ public class Footer extends Composite implements HasText {
 
 	@UiHandler("gmino_logo")
 	void onClick(ClickEvent e) {
-		Window.open("http://www.gmino.de", "greenmobile Innovations", "");
+		Window.open("http://geoengine.de", "greenmobile geoengine", "");
 	}
 	
 	public void setDesign(String color) {
