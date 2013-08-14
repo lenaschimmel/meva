@@ -531,6 +531,7 @@ public class IssuemapGwt implements EntryPoint {
   			long id = Long.parseLong(stationNode.getAttribute("id"));
   			
   			String street = "", postcode = "", housenumber = "", city = "";
+  			String type = null;
 			
   			
 			ElectricalSubstation station = new ElectricalSubstation(Math.abs(id));
@@ -559,13 +560,16 @@ public class IssuemapGwt implements EntryPoint {
 							housenumber = value;
 						if(key.equals("addr:city"))
 							city = value;
+						if(key.equals("power"))
+							type=value;
+							
 					}
 				}
 		    }
 			
 			station.setAddress(new Address(station.getTitle(), street, housenumber, postcode, city, ""));
 			
-			markerLayer.addPoi(station);
+			if(type.equals("sub_station")) markerLayer.addPoi(station);
   		}
 	  	
 	}

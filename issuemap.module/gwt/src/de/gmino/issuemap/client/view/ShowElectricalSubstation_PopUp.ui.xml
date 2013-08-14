@@ -13,8 +13,8 @@
 		.parent {
 		background-color: rgba(20,20,20,0.75);
 		position: absolute;
-		left: -29px;
-		top: -47px;
+		left: -37px;
+		top: -66px;
 		border-top-right-radius: 10px;
 		border-bottom-right-radius: 10px;
 		border-top-left-radius: 10px;
@@ -56,8 +56,8 @@
 
 		.closeButton {
 		position: absolute;
-		bottom: 0px;
-		right: 0px;
+		top: -5px;
+		right: -5px;
 		cursor: pointer;
 		}
 

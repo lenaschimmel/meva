@@ -99,7 +99,7 @@ public class ShowDecentralizedGeneration_PopUp extends Composite {
 		this.mWrapper = marker_Wrapper;
 		setBoarderColor(map.getPrimary_color());
 
-		type.setText("Photovoltaik");
+		type.setText(mGen.getDescription());
 		if (mGen.getAddress().getStreet().equals(""))
 			adressPanel.getElement().removeFromParent();
 		else

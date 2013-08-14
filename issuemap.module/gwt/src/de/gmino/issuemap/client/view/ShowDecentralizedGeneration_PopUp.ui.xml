@@ -14,8 +14,8 @@
 		background-color:
 		rgba(20,20,20,0.75);
 		position: absolute;
-		left: -29px;
-		top: -47px;
+		left: -33px;
+		top: -55px;
 
 		border-top-right-radius: 10px;
 		border-bottom-right-radius: 10px;
@@ -60,8 +60,8 @@
 
 		.closeButton {
 		position: absolute;
-		bottom: 0px;
-		right: 0px;
+		top: -5px;
+		right: -5px;
 		cursor:
 		pointer;
 		}
