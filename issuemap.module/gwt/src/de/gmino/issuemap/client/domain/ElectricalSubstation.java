@@ -69,4 +69,10 @@ public class ElectricalSubstation extends ElectricalSubstationGen {
 	}
 	
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
+	
+	public void preventNulls() {
+		title = "";
+		operator = "";
+		unitType = "";
+	}
 }

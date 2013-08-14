@@ -533,6 +533,7 @@ public class IssuemapGwt implements EntryPoint {
 			
   			
 			ElectricalSubstation station = new ElectricalSubstation(Math.abs(id));
+			station.preventNulls();
 			station.setLocation(new LatLon(latitude, longitude));
 			
 		    NodeList tagList = stationNode.getChildNodes();
