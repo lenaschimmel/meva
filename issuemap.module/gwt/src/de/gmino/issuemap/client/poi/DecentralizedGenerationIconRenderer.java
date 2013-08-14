@@ -6,34 +6,53 @@ import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.ui.Image;
 
 import de.gmino.geobase.client.map.GwtIconRenderer;
+import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.geobase.shared.map.Hasher;
 import de.gmino.issuemap.client.ImageUrlLoader;
 import de.gmino.issuemap.client.domain.DecentralizedGeneration;
+import de.gmino.issuemap.client.domain.ElectricalSubstation;
 
-public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<DecentralizedGeneration> {
+public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 	
-	private static final String COLOR_REPAIR = "#3852AE";
-	private static final String COLOR_NO_REPAIR = "#3852AE";
+	private static final String COLOR_SUN = "#3852AE";
+	private static final String COLOR_TRAFO = "#3852AE";
 	ImageUrlLoader loader = ImageUrlLoader.getInstance();
 	
-	public void getIconHash(de.gmino.geobase.shared.map.Hasher hash, DecentralizedGeneration shop) 
+	public void getIconHash(de.gmino.geobase.shared.map.Hasher hash, Poi poi) 
 	{
-		hash.hashInt(4542);
+		if (poi instanceof DecentralizedGeneration) {
+			DecentralizedGeneration gen = (DecentralizedGeneration) poi;
+			hash.hashObject(gen.getType());
+			hash.hashFloat(gen.getPower());
+		}
+		else
+		{
+			ElectricalSubstation sub = (ElectricalSubstation) poi;
+			hash.hashFloat(sub.getLow_voltage());
+			hash.hashFloat(sub.getHigh_voltage());
+		}
 	}
 	
 	@Override
-	public void renderIcon(Canvas can, DecentralizedGeneration shop) {
-		can.setCoordinateSpaceWidth(getWidth(shop));
-		can.setCoordinateSpaceHeight(getHeight(shop));
+	public void renderIcon(Canvas can, Poi poi) {
+		can.setCoordinateSpaceWidth(getWidth(poi));
+		can.setCoordinateSpaceHeight(getHeight(poi));
 		Context2d con = can.getContext2d();
 		
-		Image img = loader.getImageByUrl("/mapicon/sun.png");
+		Image img;
+		if (poi instanceof DecentralizedGeneration)
+		{
+			img = loader.getImageByUrl("/mapicon/sun.png");
+			con.setFillStyle(COLOR_SUN);
+		}
+		else
+		{
+			img = loader.getImageByUrl("/mapicon/trafo.png");
+			con.setFillStyle(COLOR_TRAFO);
+		}
 		
-		con.setFillStyle(COLOR_NO_REPAIR);
-		
-		
-		int imageWidth = getWidth(shop);
-		int imageHeight = getHeight(shop);
+		int imageWidth = getWidth(poi);
+		int imageHeight = getHeight(poi);
 
 		double x = 0.11		* imageWidth;
 		double y = 0.1081	* imageHeight;
@@ -53,22 +72,31 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Decentr
 	}
 
 	@Override
-	public int getWidth(DecentralizedGeneration issue) {
-		return 38;
+	public int getWidth(Poi poi) {
+		if (poi instanceof DecentralizedGeneration)
+			return 38;
+		else
+			return 48;
 	}
 
 	@Override
-	public int getHeight(DecentralizedGeneration issue) {
-		return 44;
+	public int getHeight(Poi poi) {
+		if (poi instanceof DecentralizedGeneration)
+			return 44;
+		else
+			return 56;
 	}
 
 	@Override
-	public void renderSmallIcon(Canvas canvas, DecentralizedGeneration shop) {
-		drawDefaultCircle(canvas, COLOR_REPAIR);
+	public void renderSmallIcon(Canvas canvas, Poi poi) {
+		if (poi instanceof DecentralizedGeneration)
+			drawDefaultCircle(canvas, COLOR_SUN);
+		else
+			drawDefaultCircle(canvas, COLOR_TRAFO);
 	}
 
 	@Override
-	public void getSmallIconHash(Hasher hash, DecentralizedGeneration shop) {
+	public void getSmallIconHash(Hasher hash, Poi poi) {
 		hash.hashInt(12345); // to differentiate from full bicycle icons
 	}
 	

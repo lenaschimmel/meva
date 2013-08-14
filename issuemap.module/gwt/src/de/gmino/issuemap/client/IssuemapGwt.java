@@ -10,15 +10,25 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.DivElement;
-import com.google.gwt.user.client.Element;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.Node;
+import com.google.gwt.xml.client.NodeList;
+import com.google.gwt.xml.client.XMLParser;
 
 import de.gmino.geobase.client.map.OpenLayersMapView;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
+import de.gmino.geobase.shared.domain.Address;
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.geobase.shared.map.Event;
@@ -26,6 +36,7 @@ import de.gmino.geobase.shared.map.MapListener;
 import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
 import de.gmino.issuemap.client.domain.BicycleShop;
 import de.gmino.issuemap.client.domain.DecentralizedGeneration;
+import de.gmino.issuemap.client.domain.ElectricalSubstation;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Markertype;
@@ -49,6 +60,7 @@ import de.gmino.meva.client.UtilClient;
 import de.gmino.meva.client.request.NetworkRequestsImplAsyncJson;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.EntityQuery;
+import de.gmino.meva.shared.Log;
 import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
@@ -310,8 +322,11 @@ public class IssuemapGwt implements EntryPoint {
 	private void fillMapEE() {
 		RootPanel.get("list").setVisible(false);
 		ImageUrlLoader loader = ImageUrlLoader.getInstance();
-		loader.loadImage("/mapicon/sun.png", new ImageLoadListener() {
-			
+		markerLayer.addMarkerIconRenderer(ElectricalSubstation.type, new DecentralizedGenerationIconRenderer());
+		Collection<String> imgs = new ArrayList<String>();
+		imgs.add("/mapicon/sun.png");
+		imgs.add("/mapicon/trafo.png");
+		loader.loadImages(imgs , new ImageLoadListener() {
 			@Override
 			public void onLoaded() {
 				markerLayer.addMarkerPopupCreator(DecentralizedGeneration.type, new DecentralizedGenerationPopupCreator(mapObject, markerLayer));
@@ -324,6 +339,23 @@ public class IssuemapGwt implements EntryPoint {
 						markerLayer.addPoi(gen);
 					}
 				});
+				showEEEntries();
+				ZgbTools zgb = new ZgbTools(
+						markerLayer) {
+					@Override
+					public void onAllRoutesShown() {
+						System.out.println("All routes shown.");
+					}
+				};
+				try {
+					zgb.showGpxFromUrl("/gpx/20kv.gpx", "#00FF00", false, 0);
+					zgb.showGpxFromUrl("/gpx/110kv.gpx", "#FFFF00", false, 0);
+					zgb.showGpxFromUrl("/gpx/220kv.gpx", "#FF8800", false, 0);
+					zgb.showGpxFromUrl("/gpx/380kv.gpx", "#FF0000", false, 0);
+					zgb.showGpxFromUrl("/gpx/zgb_aussengrenze_2000.gpx",	"#000066", true, 0);
+					} catch (RequestException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}
@@ -452,5 +484,84 @@ public class IssuemapGwt implements EntryPoint {
 		for(OldType old : collection)
 			ret.add((NewType)old);
 		return ret;
+	}
+	
+	private void showEEEntries()
+	{
+		RequestBuilder rb = new RequestBuilder(RequestBuilder.GET, "/osm/powerNodesNoTowerZGB.osm");
+
+		try {
+			rb.sendRequest("", new RequestCallback() {
+
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					String osmString = response.getText();
+					parseAndShowEEOsm(osmString);
+				}
+
+				@Override
+				public void onError(Request request, Throwable exception) {
+					throw new RuntimeException("Error while fetching /werkstaetten.osm: "
+							+ exception.getMessage(), exception);
+				}
+			});
+		} catch (RequestException e) {
+			Log.exception("Error showing Bycicle shops.", e);
+		}
+	}
+	
+	private void parseAndShowEEOsm(String osmString) {
+		Document osmDom = XMLParser.parse(osmString);
+		
+		NodeList shopList = osmDom.getElementsByTagName("node");
+	  	for(int n = 0; n < shopList.getLength(); n++)
+  		{
+  			Element stationNode = (Element)shopList.item(n);
+  			
+  			boolean deleted  = "delete".equals(stationNode.getAttribute("action"));
+  			if(deleted)
+  				continue;
+  			
+  			double latitude  = Double.parseDouble(stationNode.getAttribute("lat"));
+  			double longitude = Double.parseDouble(stationNode.getAttribute("lon"));
+  			long id = Long.parseLong(stationNode.getAttribute("id"));
+  			
+  			String street = "", postcode = "", housenumber = "", city = "";
+			
+  			
+			ElectricalSubstation station = new ElectricalSubstation(Math.abs(id));
+			station.setLocation(new LatLon(latitude, longitude));
+			
+		    NodeList tagList = stationNode.getChildNodes();
+			for(int i = 0; i < tagList.getLength(); i++)
+		    {
+				
+				Node tagNode = tagList.item(i);
+				if (tagNode instanceof Element) {
+					Element tagElement = (Element) tagNode;
+					if(tagElement.getTagName().equals("tag"))
+					{
+			  			String key   = tagElement.getAttribute("k");
+						String value = tagElement.getAttribute("v");
+						if(key.equals("name"))
+							station.setTitle(value);
+						
+						if(key.equals("addr:street"))
+							street = value;
+						if(key.equals("addr:postcode"))
+							postcode = value;
+						if(key.equals("addr:housenumber"))
+							housenumber = value;
+						if(key.equals("addr:city"))
+							city = value;
+					}
+				}
+		    }
+			
+			station.setAddress(new Address(station.getTitle(), street, housenumber, postcode, city, ""));
+			
+			markerLayer.addPoi(station);
+  		}
+	  	
 	}
 }

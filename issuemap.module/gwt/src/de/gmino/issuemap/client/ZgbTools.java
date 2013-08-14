@@ -112,7 +112,7 @@ public abstract class ZgbTools {
 		}
 	}
 	
-	private void showGpxFromUrl(final String url, final String color, final boolean dash, final long poiId) throws RequestException {
+	public void showGpxFromUrl(final String url, final String color, final boolean dash, final long poiId) throws RequestException {
 		RequestBuilder rb = new RequestBuilder(RequestBuilder.GET, url);
 		routesToShow++;
 		rb.sendRequest("", new RequestCallback() {
