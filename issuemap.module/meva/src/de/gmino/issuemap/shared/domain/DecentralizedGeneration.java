@@ -64,7 +64,7 @@ public class DecentralizedGeneration extends DecentralizedGenerationGen implemen
 
 	@Override
 	public String getTitle() {
-		return "Photovoltaikanlage in der " + address.getStreet();
+		return "Photovoltaikanlage (" + address.getStreet()+")";
 	}
 
 	@Override

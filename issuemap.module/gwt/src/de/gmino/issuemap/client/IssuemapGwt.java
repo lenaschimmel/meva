@@ -45,6 +45,7 @@ import de.gmino.issuemap.client.poi.BicycleShopIconRenderer;
 import de.gmino.issuemap.client.poi.BicycleShopPopupCreator;
 import de.gmino.issuemap.client.poi.DecentralizedGenerationIconRenderer;
 import de.gmino.issuemap.client.poi.DecentralizedGenerationPopupCreator;
+import de.gmino.issuemap.client.poi.ElectricalSubstationPopupCreator;
 import de.gmino.issuemap.client.poi.IssueIconRenderer;
 import de.gmino.issuemap.client.poi.IssuePopupCreator;
 import de.gmino.issuemap.client.poi.RouteIconRenderer;
@@ -323,6 +324,8 @@ public class IssuemapGwt implements EntryPoint {
 		RootPanel.get("list").setVisible(false);
 		ImageUrlLoader loader = ImageUrlLoader.getInstance();
 		markerLayer.addMarkerIconRenderer(ElectricalSubstation.type, new DecentralizedGenerationIconRenderer());
+		markerLayer.addMarkerPopupCreator(ElectricalSubstation.type, new ElectricalSubstationPopupCreator(mapObject, markerLayer));
+
 		Collection<String> imgs = new ArrayList<String>();
 		imgs.add("/mapicon/sun.png");
 		imgs.add("/mapicon/trafo.png");
@@ -512,7 +515,7 @@ public class IssuemapGwt implements EntryPoint {
 	
 	private void parseAndShowEEOsm(String osmString) {
 		Document osmDom = XMLParser.parse(osmString);
-		
+
 		NodeList shopList = osmDom.getElementsByTagName("node");
 	  	for(int n = 0; n < shopList.getLength(); n++)
   		{

@@ -29,7 +29,7 @@ public class OpenLayersMapView extends AbstractMapView {
 
 	private native JavaScriptObject nCreateMap(String elementName, String layerName) /*-{
 		var that = this;
-		var map = new $wnd.OpenLayers.Map(elementName);
+		var map = new $wnd.OpenLayers.Map(elementName, {zoomMethod: null});
 		var layer = new $wnd.OpenLayers.Layer.OSM("Simple OSM Map", 
 				[
 					"http://a.gmino.de:8090/"+layerName+"/${z}/${x}/${y}.png",
