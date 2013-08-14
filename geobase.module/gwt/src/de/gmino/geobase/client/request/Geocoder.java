@@ -67,7 +67,7 @@ public class Geocoder {
 			SearchLocationListener searchLocationListener) {
 		StringBuilder query = new StringBuilder();
 		addComponentIfNotEmpty(query, address.getCity(), "city");
-		addComponentIfNotEmpty(query, removeTrailingLetters(address.getHouseNumber()) + " " + address.getStreet(), "street");
+		addComponentIfNotEmpty(query, /*removeTrailingLetters(*/address.getHouseNumber()/*)*/ + " " + address.getStreet(), "street");
 		addComponentIfNotEmpty(query, address.getZip(), "postalcode");
 		String url = "http://open.mapquestapi.com/nominatim/v1/search?format=json&q=" + query.toString() + "&addressdetails=1&limit=1";
 		System.out.println("Geocoder Search URL: " + url);

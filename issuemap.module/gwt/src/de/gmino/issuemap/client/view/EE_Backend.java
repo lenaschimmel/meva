@@ -161,8 +161,17 @@ public class EE_Backend extends Composite  {
 							numberIndex = i;
 						}
 					}
-					String street = joinStrings(streetAndNumberParts, 0, numberIndex - 1);
-					String houseNumber =  joinStrings(streetAndNumberParts, numberIndex, streetAndNumberParts.length - 1);
+					String street, houseNumber;
+					if(numberIndex > -1)
+					{
+						street = joinStrings(streetAndNumberParts, 0, numberIndex - 1);
+						houseNumber =  joinStrings(streetAndNumberParts, numberIndex, streetAndNumberParts.length - 1);
+					}
+					else
+					{
+						street = newParts[2];
+						houseNumber =  "";
+					}
 					
 					Address addr = new Address("",street, houseNumber, newParts[1], newParts[0], "");
 					

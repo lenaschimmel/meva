@@ -25,12 +25,13 @@ import org.itemscript.core.values.JsonValue;
 // imports for field types
 import de.gmino.geobase.shared.domain.Address;
 import de.gmino.geobase.shared.domain.LatLon;
+import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.issuemap.shared.domain.Map;
 
 
 import de.gmino.issuemap.shared.domain.gen.ElectricalSubstationGen;
 @SuppressWarnings("unused")
-public class ElectricalSubstation extends ElectricalSubstationGen {
+public class ElectricalSubstation extends ElectricalSubstationGen implements Poi {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public ElectricalSubstation(long id)
 	{
@@ -69,4 +70,10 @@ public class ElectricalSubstation extends ElectricalSubstationGen {
 	}
 	
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
+
+	@Override
+	public String getDescription() {
+		return "Substation. GetDescription not implemented.";
+	}
+	
 }
