@@ -183,6 +183,8 @@ public class IssuemapGwt implements EntryPoint {
 			zoomThreshold = 11;
 		if(subdomain.equals("piraten-braunschweig"))
 			zoomThreshold = 13;
+		if(subdomain.equals("ee"))
+			zoomThreshold = 14;
 		
 		markerLayer = mapView.newSmartLayer("Issues", zoomThreshold);
 		mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);
@@ -340,7 +342,7 @@ public class IssuemapGwt implements EntryPoint {
 					@Override
 					public void onFinished(Collection<DecentralizedGeneration> results) {
 						for(DecentralizedGeneration gen : results)
-						markerLayer.addPoi(gen);
+							markerLayer.addPoi(gen);
 					}
 				});
 				showEEEntries();
@@ -352,7 +354,6 @@ public class IssuemapGwt implements EntryPoint {
 					}
 				};
 				try {
-					//zgb.showGpxFromUrl("/gpx/20kv.gpx", "#00FF00", false, 0);
 					zgb.showGpxFromUrl("/gpx/110kv.gpx", "#FFFF00", false, 0);
 					zgb.showGpxFromUrl("/gpx/220kv.gpx", "#FF8800", false, 0);
 					zgb.showGpxFromUrl("/gpx/380kv.gpx", "#FF0000", false, 0);
