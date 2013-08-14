@@ -254,33 +254,42 @@ public class Meva {
 		BufferedWriter output = null;
 		
 		try {
-			//source = new FileInputStream(sourceFile).getChannel();
 			input = new BufferedReader(new FileReader(sourceFile));
 			output = new BufferedWriter(new FileWriter(destFile));
-			if (!destFile.getName().endsWith(".xml")) {
+			
+			if (destFile.getName().endsWith(".xml")) {
+				String line = input.readLine();
+				while(line != null)
+				{
+					output.write(line);
+					output.write("\n");
+					line = input.readLine();
+				}
+			}
+			else
+			{
 				String warning = "\n\n// DONTEDIT This file has been copied from " + sourceFile.getPath()
 						+ ".\n\n// This warning may apply even when the original file contained a message that explicitly allows editing.\n\n";
 				output.write(warning);
 				output.flush();
-			}
-			String line = input.readLine();
-			boolean disableComments = false;
-			while(line != null)
-			{
-				if(line.contains("/*"))
-					disableComments = true;
-				
-				if(!disableComments && !line.startsWith("/* copy */") && !line.trim().startsWith("*"))
-					output.write("/* copy */\t");
-				output.write(line);
-				output.write("\n");
-
-				if(line.contains("*/"))
-					disableComments = false;
-				
-				line = input.readLine();
-			}
-		
+				String line = input.readLine();
+				boolean disableComments = false;
+				while(line != null)
+				{
+					if(line.contains("/*"))
+						disableComments = true;
+					
+					if(!disableComments && !line.startsWith("/* copy */") && !line.trim().startsWith("*"))
+						output.write("/* copy */\t");
+					output.write(line);
+					output.write("\n");
+	
+					if(line.contains("*/"))
+						disableComments = false;
+					
+					line = input.readLine();
+				}
+			}		
 		} finally {
 			if (input != null) {
 				input.close();
