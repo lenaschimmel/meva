@@ -1,0 +1,47 @@
+{
+	"package" : "de.gmino.issuemap.TARGET.domain",
+	"concept" : "entity",
+	"name" : "ElectricalSubstation",
+	"attributes" : [
+		{
+			"type" : "LatLon",
+			"name" : "location"
+		},
+		{
+			"type" : "String",
+			"name" : "title"
+		},
+		{
+			"type" : "Address",
+			"name" : "address"
+		},
+		{
+			"type" : "String",
+			"name" : "unitType"
+		},
+		{
+			"type" : "String",
+			"name" : "operator"
+		},
+		{
+			"type" : "int",
+			"name" : "frequence"
+		},
+		{
+			"type" : "float",
+			"name" : "high_voltage"
+		},
+		{
+			"type" : "float",
+			"name" : "low_voltage"
+		},
+		{
+			"type" : "float",
+			"name" : "consumption"
+		},
+		{
+			"type" : "Map",
+			"name" : "map_instance"
+		}
+	]
+}

@@ -26,12 +26,12 @@ import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.issuemap.client.ImageUrlLoader;
 import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
 import de.gmino.issuemap.client.domain.BicycleShop;
-import de.gmino.issuemap.client.domain.DecentralizedGeneration;
+import de.gmino.issuemap.client.domain.ElectricalSubstation;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.poi.Marker_Wrapper;
 import de.gmino.issuemap.client.resources.ImageResources;
 
-public class ShowDecentralizedGeneration_PopUp extends Composite {
+public class ShowElectricalSubstation_PopUp extends Composite {
 
 	static DateTimeFormat dtf = DateTimeFormat.getFormat("dd.MM.yyyy hh:mm");
 	ImageResources imageRes;
@@ -81,45 +81,72 @@ public class ShowDecentralizedGeneration_PopUp extends Composite {
 		}
 	}
 
-	interface Detail_PopUpUiBinder extends UiBinder<Widget, ShowDecentralizedGeneration_PopUp> {
+	interface Detail_PopUpUiBinder extends UiBinder<Widget, ShowElectricalSubstation_PopUp> {
 	}
 
 	Map mapObject;
 	OpenLayersSmartLayer smartLayer;
-	DecentralizedGeneration mGen;
+	ElectricalSubstation mSubstation;
 	Marker_Wrapper mWrapper;
 
 	@SuppressWarnings("unchecked")
-	public ShowDecentralizedGeneration_PopUp(Map map, DecentralizedGeneration gen,
+	public ShowElectricalSubstation_PopUp(Map map, ElectricalSubstation substation,
 			Marker_Wrapper marker_Wrapper, OpenLayersSmartLayer smartLayer) {
 		imageRes = GWT.create(ImageResources.class);
 		initWidget(uiBinder.createAndBindUi(this));
 		this.mapObject = map;
 		this.smartLayer = smartLayer;
-		this.mGen = gen;
+		this.mSubstation = substation;
 		this.mWrapper = marker_Wrapper;
 		setBoarderColor(map.getPrimary_color());
-
-		type.setText("Photovoltaik");
-		if (mGen.getAddress().getStreet().equals(""))
+		
+		type.setText("Umspannwerk");
+		if (mSubstation.getAddress().getStreet().equals(""))
 			adressPanel.getElement().removeFromParent();
 		else
-			adress.setText(mGen.getAddress().toReadableString(true));
-		
-		if (mGen.getTitle().equals("")) {
+			adress.setText(mSubstation.getAddress().toReadableString(true));
+
+		if (mSubstation.getTitle().equals("")) {
 			labelTitle.setText("EE-Anlage (Name unbekannt)");
 		} else {
-			labelTitle.setText(mGen.getTitle());
+			labelTitle.setText(mSubstation.getTitle());
 		}
-		description.setHTML(new SafeHtmlBuilder().appendEscapedLines(
-				mGen.getDescription()).toSafeHtml());
-		power.setText(mGen.getPower()+"kW");
+		
+		if (mSubstation.getOperator().equals("")) {
+			operatorPanel.getElement().removeFromParent();
+		} else {
+			operator.setText(mSubstation.getOperator());
+		}
+		
+		if (mSubstation.getHigh_voltage()==0) {
+			highVoltagePanel.getElement().removeFromParent();
+		} else {
+			highvoltage.setText(mSubstation.getHigh_voltage()+"kV");
+		}
+		
+		if (mSubstation.getLow_voltage()==0) {
+			lowVoltagePanel.getElement().removeFromParent();
+		} else {
+			lowvoltage.setText(mSubstation.getHigh_voltage()+"kV");
+		}
+		
+		if (mSubstation.getFrequence()==0) {
+			frequenzPanel.getElement().removeFromParent();
+		} else {
+			frequenz.setText(mSubstation.getFrequence()+"Hz");
+		}
+		
+		if (mSubstation.getConsumption()==0) {
+			consumptionPanel.getElement().removeFromParent();
+		} else {
+			consumption.setText(mSubstation.getConsumption()+"KW");
+		}
+				
 
 		deckPanel.showWidget(0);
 
-		GwtIconRenderer<? super Poi> renderer = smartLayer
-				.getRendererForPoi(mGen);
-		String iconUrl = renderer.getIconUrl(mGen);
+		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mSubstation);
+		String iconUrl = renderer.getIconUrl(mSubstation);
 		imageMarkerIcon.setUrl(iconUrl);
 	}
 	
@@ -127,19 +154,35 @@ public class ShowDecentralizedGeneration_PopUp extends Composite {
 	
 	@UiField
 	HorizontalPanel adressPanel;
+	@UiField
+	HorizontalPanel operatorPanel;
+	@UiField
+	HorizontalPanel highVoltagePanel;
+	@UiField
+	HorizontalPanel lowVoltagePanel;
+	@UiField
+	HorizontalPanel frequenzPanel;
+	@UiField
+	HorizontalPanel consumptionPanel;
 
-	@UiField
-	HorizontalPanel powerPanel;
 
-	
-	@UiField
-	Label adress;
-	@UiField
-	Label power;
+	 
 	@UiField
 	Label labelTitle;
 	@UiField
 	Label type;
+	@UiField
+	Label adress;
+	@UiField
+	Label operator;
+	@UiField
+	Label lowvoltage;
+	@UiField
+	Label highvoltage;
+	@UiField
+	Label frequenz;
+	@UiField
+	Label consumption;
 	@UiField
 	HTML description;
 	@UiField

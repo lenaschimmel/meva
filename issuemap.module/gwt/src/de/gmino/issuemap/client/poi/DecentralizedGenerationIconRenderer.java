@@ -27,7 +27,7 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Decentr
 		can.setCoordinateSpaceHeight(getHeight(shop));
 		Context2d con = can.getContext2d();
 		
-		Image img = loader.getImageByUrl("/mapicon/generation.png");
+		Image img = loader.getImageByUrl("/mapicon/sun.png");
 		
 		con.setFillStyle(COLOR_NO_REPAIR);
 		
