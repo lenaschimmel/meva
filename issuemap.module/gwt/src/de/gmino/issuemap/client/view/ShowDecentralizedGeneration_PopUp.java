@@ -25,7 +25,6 @@ import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.issuemap.client.ImageUrlLoader;
 import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
-import de.gmino.issuemap.client.domain.BicycleShop;
 import de.gmino.issuemap.client.domain.DecentralizedGeneration;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.poi.Marker_Wrapper;
