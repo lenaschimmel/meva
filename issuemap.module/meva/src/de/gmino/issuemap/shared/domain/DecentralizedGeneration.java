@@ -64,12 +64,18 @@ public class DecentralizedGeneration extends DecentralizedGenerationGen implemen
 
 	@Override
 	public String getTitle() {
-		return "Photovoltaikanlage (" + address.getStreet()+")";
+		if(unitType.equals("pv"))
+			return "Photovoltaikanlage (" + address.getStreet()+")";
+		else
+			return "Windkraftanlage (" + address.getStreet()+")";
 	}
 
 	@Override
 	public String getDescription() {
-		return "Photovoltaikanlage " + voltage;
+		if(unitType.equals("pv"))
+			return "Photovoltaikanlage " + voltage;
+		else
+			return "Windkraftanlage " + voltage;
 	}
 	
 }
