@@ -1,9 +1,13 @@
 package de.gmino.codegen;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
@@ -242,35 +246,47 @@ public class Meva {
 	}
 
 	public static void copyFile(File sourceFile, File destFile) throws IOException {
-		// System.out.println("Copying File from " + sourceFile + " to "
-		// + destFile);
-
 		if (!destFile.exists()) {
 			destFile.createNewFile();
 		}
 
-		FileChannel source = null;
-		FileChannel destination = null;
-
+		BufferedReader input = null;
+		BufferedWriter output = null;
+		
 		try {
-			source = new FileInputStream(sourceFile).getChannel();
-			FileOutputStream fileOutputStream = new FileOutputStream(destFile);
-			int start = 0;
+			//source = new FileInputStream(sourceFile).getChannel();
+			input = new BufferedReader(new FileReader(sourceFile));
+			output = new BufferedWriter(new FileWriter(destFile));
 			if (!destFile.getName().endsWith(".xml")) {
 				String warning = "\n\n// DONTEDIT This file has been copied from " + sourceFile.getPath()
 						+ ".\n\n// This warning may apply even when the original file contained a message that explicitly allows editing.\n\n";
-				fileOutputStream.write(warning.getBytes());
-				fileOutputStream.flush();
-				start = warning.getBytes().length;
+				output.write(warning);
+				output.flush();
 			}
-			destination = fileOutputStream.getChannel();
-			destination.transferFrom(source, start, source.size());
+			String line = input.readLine();
+			boolean disableComments = false;
+			while(line != null)
+			{
+				if(line.contains("/*"))
+					disableComments = true;
+				
+				if(!disableComments && !line.startsWith("/* copy */") && !line.trim().startsWith("*"))
+					output.write("/* copy */\t");
+				output.write(line);
+				output.write("\n");
+
+				if(line.contains("*/"))
+					disableComments = false;
+				
+				line = input.readLine();
+			}
+		
 		} finally {
-			if (source != null) {
-				source.close();
+			if (input != null) {
+				input.close();
 			}
-			if (destination != null) {
-				destination.close();
+			if (output != null) {
+				output.close();
 			}
 		}
 	}
