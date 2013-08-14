@@ -46,7 +46,7 @@ public class Address extends AddressGen {
 		String divider = multiline ? "\n" : ",";
 		StringBuilder ret = new StringBuilder();
 		addComponentIfNotEmpty(ret, recipientName, divider);
-		addComponentIfNotEmpty(ret, street + " " + houseNumber, divider);
+		addComponentIfNotEmpty(ret, street + " #" + houseNumber, divider);
 		addComponentIfNotEmpty(ret, additionalAddressLine, divider);
 		addComponentIfNotEmpty(ret, zip + " " +  city, divider);
 		return ret.toString();

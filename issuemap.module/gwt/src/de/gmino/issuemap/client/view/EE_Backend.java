@@ -152,8 +152,17 @@ public class EE_Backend extends Composite  {
 						newParts[n++] = part.replace("\"", "");
 					}
 
-					String street = newParts[2].substring(0, newParts[2].lastIndexOf(' '));
-					String houseNumber = newParts[2].substring(newParts[2].lastIndexOf(' ')+1);
+					String[] streetAndNumberParts = newParts[2].split(" ");
+					int numberIndex = -1;
+					for(int i = 0; i < streetAndNumberParts.length; i++)
+					{
+						if(streetAndNumberParts[i].length() > 0 && Character.isDigit(streetAndNumberParts[i].charAt(0)))
+						{
+							numberIndex = i;
+						}
+					}
+					String street = joinStrings(streetAndNumberParts, 0, numberIndex - 1);
+					String houseNumber =  joinStrings(streetAndNumberParts, numberIndex, streetAndNumberParts.length - 1);
 					
 					Address addr = new Address("",street, houseNumber, newParts[1], newParts[0], "");
 					
@@ -169,6 +178,17 @@ public class EE_Backend extends Composite  {
 				Requests.saveEntities(results, null);
 				Requests.saveEntity(map, null);
 				list.updateData(data);
+			}
+
+			private String joinStrings(String[] parts, int start, int end) {
+				String ret = "";
+				for(int i = start; i <= end; i++)
+				{
+					if(i > 0)
+						ret += " ";
+					ret += parts[i];
+				}
+				return ret;
 			}
 		});	
 	}
