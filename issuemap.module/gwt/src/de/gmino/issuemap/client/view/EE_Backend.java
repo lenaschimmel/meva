@@ -127,17 +127,19 @@ public class EE_Backend extends Composite  {
 		Requests.getNewEntities(DecentralizedGeneration.type, lines.length, new RequestListener<DecentralizedGeneration>() {
 			@Override
 			public void onFinished(Collection<DecentralizedGeneration> results) {
-				String[] newParts = new String[5];
+				String[] newParts = new String[6];
 
 				Iterator<DecentralizedGeneration> gens = results.iterator();
 				
 				for(String line : lines)
 				{
-					if(line.startsWith("Ort"))
+					if(line.startsWith("Ort") || line.startsWith("\"Ort"))
 						continue;
 					if(line.length() < 10)
 						continue;
 					String[] parts = line.split(",");
+					if(parts.length == 1)
+						parts = line.split(";");
 					int len = parts.length;
 					int n = 0;
 
@@ -145,10 +147,11 @@ public class EE_Backend extends Composite  {
 					{
 						String part = parts[i];
 						if(part.startsWith("\""))
-							do {
+							while(!part.endsWith("\""))
+							{
 								i++;
 								part += "," + parts[i];
-							} while(!part.endsWith("\""));
+							};
 						newParts[n++] = part.replace("\"", "");
 					}
 
@@ -178,7 +181,10 @@ public class EE_Backend extends Composite  {
 					DecentralizedGeneration gen = gens.next();
 					gen.setAddress(addr);
 					gen.setPower(Float.parseFloat(newParts[3].replace(',', '.')));
-					gen.setUnitType("pv");
+					if(newParts.length >= 6 && newParts[5].equals("Windenergie"))
+						gen.setUnitType("wk");
+					else
+						gen.setUnitType("pv");
 					gen.setVoltage(newParts[4]);
 					gen.setMap_instance(map);
 					map.getGenerations().add(gen);

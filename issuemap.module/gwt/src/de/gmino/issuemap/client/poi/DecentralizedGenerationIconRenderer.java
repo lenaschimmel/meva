@@ -15,6 +15,7 @@ import de.gmino.issuemap.client.domain.ElectricalSubstation;
 public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 	
 	private static final String COLOR_SUN = "#AEAE43";
+	private static final String COLOR_WIND = "#43AE43";
 	private static final String COLOR_TRAFO = "#3852AE";
 	ImageUrlLoader loader = ImageUrlLoader.getInstance();
 	
@@ -22,7 +23,7 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 	{
 		if (poi instanceof DecentralizedGeneration) {
 			DecentralizedGeneration gen = (DecentralizedGeneration) poi;
-			hash.hashObject(gen.getType());
+			hash.hashObject(gen.getUnitType());
 			hash.hashFloat(gen.getPower());
 		}
 		else
@@ -42,8 +43,17 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 		Image img;
 		if (poi instanceof DecentralizedGeneration)
 		{
-			img = loader.getImageByUrl("/mapicon/sun.png");
-			con.setFillStyle(COLOR_SUN);
+			DecentralizedGeneration gen = (DecentralizedGeneration) poi;
+			if(gen.getUnitType().equals("pv"))
+			{
+				img = loader.getImageByUrl("/mapicon/sun.png");
+				con.setFillStyle(COLOR_SUN);
+			}
+			else
+			{
+				img = loader.getImageByUrl("/mapicon/windtourbine.png");
+				con.setFillStyle(COLOR_WIND);
+			}
 		}
 		else
 		{
@@ -90,14 +100,30 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 	@Override
 	public void renderSmallIcon(Canvas canvas, Poi poi) {
 		if (poi instanceof DecentralizedGeneration)
-			drawDefaultCircle(canvas, COLOR_SUN);
+		{
+			DecentralizedGeneration gen = (DecentralizedGeneration) poi; 
+			if(gen.getUnitType().equals("pv"))
+				drawDefaultCircle(canvas, COLOR_SUN);
+			else
+				drawDefaultCircle(canvas, COLOR_WIND);
+		}
 		else
 			drawDefaultCircle(canvas, COLOR_TRAFO);
 	}
 
 	@Override
 	public void getSmallIconHash(Hasher hash, Poi poi) {
-		hash.hashInt(12345); // to differentiate from full bicycle icons
+		if (poi instanceof DecentralizedGeneration)
+		{
+			DecentralizedGeneration gen = (DecentralizedGeneration) poi; 
+			if(gen.getUnitType().equals("pv"))
+				hash.hashInt(123);
+			else
+				hash.hashInt(346);
+		}
+		else
+			hash.hashInt(644);
+		
 	}
 	
 	

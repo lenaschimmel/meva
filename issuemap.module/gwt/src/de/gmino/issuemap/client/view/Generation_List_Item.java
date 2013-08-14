@@ -48,6 +48,8 @@ public class Generation_List_Item extends Composite implements ListViewItem<Dece
 	Label lbVoltage;
 	@UiField
 	Label lbLocation;
+	@UiField
+	Label lbType;
 
 	
 	@UiHandler("btGeocode")
@@ -85,5 +87,6 @@ public class Generation_List_Item extends Composite implements ListViewItem<Dece
 		lbPower.setText(item.getPower() + " kW");
 		lbVoltage.setText(item.getVoltage());
 		lbLocation.setText(item.getLocation().toDecimalString());
+		lbType.setText(item.getUnitType());
 	}
 }

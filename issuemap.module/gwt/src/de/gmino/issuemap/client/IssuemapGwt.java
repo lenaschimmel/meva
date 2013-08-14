@@ -326,6 +326,7 @@ public class IssuemapGwt implements EntryPoint {
 		Collection<String> imgs = new ArrayList<String>();
 		imgs.add("/mapicon/sun.png");
 		imgs.add("/mapicon/trafo.png");
+		imgs.add("/mapicon/windtourbine.png");
 		loader.loadImages(imgs , new ImageLoadListener() {
 			@Override
 			public void onLoaded() {
@@ -348,7 +349,7 @@ public class IssuemapGwt implements EntryPoint {
 					}
 				};
 				try {
-					zgb.showGpxFromUrl("/gpx/20kv.gpx", "#00FF00", false, 0);
+					//zgb.showGpxFromUrl("/gpx/20kv.gpx", "#00FF00", false, 0);
 					zgb.showGpxFromUrl("/gpx/110kv.gpx", "#FFFF00", false, 0);
 					zgb.showGpxFromUrl("/gpx/220kv.gpx", "#FF8800", false, 0);
 					zgb.showGpxFromUrl("/gpx/380kv.gpx", "#FF0000", false, 0);
