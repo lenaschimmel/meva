@@ -14,7 +14,7 @@ import de.gmino.issuemap.client.domain.ElectricalSubstation;
 
 public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 	
-	private static final String COLOR_SUN = "#3852AE";
+	private static final String COLOR_SUN = "#AEAE43";
 	private static final String COLOR_TRAFO = "#3852AE";
 	ImageUrlLoader loader = ImageUrlLoader.getInstance();
 	
