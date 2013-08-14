@@ -11,18 +11,18 @@
 		}
 
 		.parent {
-		background-color: #333;
+		background-color:
+		rgba(20,20,20,0.75);
 		position: absolute;
 		left: -29px;
 		top: -47px;
-		/* Override glass panel to 10% opacity (GLEICH 90% transparency) */
-		filter: alpha(opacity = 1) !important; /*IE */
-		opacity: 0.9 !important; /* non-IE */
+
 		border-top-right-radius: 10px;
 		border-bottom-right-radius: 10px;
 		border-top-left-radius: 10px;
 		border-bottom-left-radius: 10px;
-		border: 3px solid;
+		border:
+		3px solid;
 		padding: 10px;
 		color: #fff;
 		}
@@ -51,7 +51,8 @@
 		}
 
 		.meta_label {
-		padding-bottom: 3px;
+		padding-bottom:
+		3px;
 		margin-left: 10px;
 		text-align: right;
 		margin-right: 15px;
@@ -61,7 +62,8 @@
 		position: absolute;
 		bottom: 0px;
 		right: 0px;
-		cursor: pointer;
+		cursor:
+		pointer;
 		}
 
 		.rateButton {
@@ -86,39 +88,44 @@
 		}
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
-	    <g:Cell><!-- Kopfbereich a.k.a. Mouseover -->
-	        <g:HorizontalPanel width="100%">
-	            <g:cell width="40px">
-	                <g:Image ui:field="imageMarkerIcon">
-	                    
-	                </g:Image>
-	            </g:cell>
-	            <g:cell>
-	                <g:VerticalPanel>
-	                    <g:Label ui:field="labelTitle" styleName="{style.title_label}"></g:Label>
-	                    <g:HorizontalPanel>
-	                      	<g:Label ui:field="type">Fahradwerkstatt</g:Label>
-	                        <g:Image resource="{resources.close}" ui:field="close" styleName="{style.closeButton}"></g:Image>
-	                    </g:HorizontalPanel>
-	                </g:VerticalPanel>
-	            </g:cell>
-	        </g:HorizontalPanel>
-	    </g:Cell>
-	    <g:Cell><!-- Mittelteile mit Tabinhalten -->
-	       <g:DeckPanel ui:field="deckPanel">
-	           <g:ScrollPanel ui:field="tabDescription" width="400px" height="130px"><!-- Description -->
-	               <g:VerticalPanel>
-	               <g:HorizontalPanel ui:field="adressPanel"><g:Label width="120px" styleName="{style.meta_label_bold}">Adresse: </g:Label><g:Label ui:field="adress"></g:Label></g:HorizontalPanel>
-	               <g:HorizontalPanel ui:field="phonePanel"><g:Label width="120px"  styleName="{style.meta_label_bold}">Telefon: </g:Label><g:Label ui:field="phone"></g:Label></g:HorizontalPanel>
-	               <g:HorizontalPanel ui:field="emailPanel"><g:Label width="120px"  styleName="{style.meta_label_bold}">E-Mail: </g:Label><g:Label ui:field="email"></g:Label></g:HorizontalPanel>
-	               <g:HorizontalPanel ui:field="websitePanel"><g:Label width="120px"  styleName="{style.meta_label_bold}">Website: </g:Label><g:Label ui:field="website"></g:Label></g:HorizontalPanel>
-	               <g:HorizontalPanel ui:field="openinghoursPanel"><g:Label width="120px"  styleName="{style.meta_label_bold}">Öffnungszeiten: </g:Label><g:Label ui:field="openinghours"></g:Label></g:HorizontalPanel>
-	                   <g:HTML ui:field="description" styleName="{style.description_label}"></g:HTML>
-	               </g:VerticalPanel>
-	           </g:ScrollPanel>
-	           
-   	       </g:DeckPanel> 
-	    </g:Cell>
-	 
+		<g:Cell><!-- Kopfbereich a.k.a. Mouseover -->
+			<g:HorizontalPanel width="100%">
+				<g:cell width="40px">
+					<g:Image ui:field="imageMarkerIcon">
+
+					</g:Image>
+				</g:cell>
+				<g:cell>
+					<g:VerticalPanel>
+						<g:Label ui:field="labelTitle" styleName="{style.title_label}"></g:Label>
+						<g:HorizontalPanel>
+							<g:Label ui:field="type">Umspannwerk</g:Label>
+							<g:Image resource="{resources.close}" ui:field="close"
+								styleName="{style.closeButton}"></g:Image>
+						</g:HorizontalPanel>
+					</g:VerticalPanel>
+				</g:cell>
+			</g:HorizontalPanel>
+		</g:Cell>
+		<g:Cell><!-- Mittelteile mit Tabinhalten -->
+			<g:DeckPanel ui:field="deckPanel">
+				<g:ScrollPanel ui:field="tabDescription" width="400px"
+					height="130px"><!-- Description -->
+					<g:VerticalPanel>
+						<g:HorizontalPanel ui:field="adressPanel">
+							<g:Label width="120px" styleName="{style.meta_label_bold}">Adresse: </g:Label>
+							<g:Label ui:field="adress"></g:Label>
+						</g:HorizontalPanel>
+						<g:HorizontalPanel ui:field="powerPanel">
+							<g:Label width="120px" styleName="{style.meta_label_bold}">Leistung: </g:Label>
+							<g:Label ui:field="power"></g:Label>
+						</g:HorizontalPanel>
+						<g:HTML ui:field="description" styleName="{style.description_label}"></g:HTML>
+					</g:VerticalPanel>
+				</g:ScrollPanel>
+
+			</g:DeckPanel>
+		</g:Cell>
+
 	</g:VerticalPanel>
 </ui:UiBinder> 
