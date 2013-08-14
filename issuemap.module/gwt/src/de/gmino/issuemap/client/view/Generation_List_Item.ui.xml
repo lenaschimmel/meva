@@ -27,6 +27,7 @@
 			<g:cell verticalAlignment="ALIGN_MIDDLE"><g:Label width="180px" ui:field="lbLocation"></g:Label></g:cell>
 			<g:cell verticalAlignment="ALIGN_MIDDLE"><g:Label width="80px" ui:field="lbPower"></g:Label></g:cell>
 			<g:cell verticalAlignment="ALIGN_MIDDLE"><g:Label width="40px" ui:field="lbVoltage"></g:Label></g:cell>
+			<g:cell verticalAlignment="ALIGN_MIDDLE"><g:Label width="60px" ui:field="lbType"></g:Label></g:cell>
 			<g:cell verticalAlignment="ALIGN_MIDDLE"><g:Button ui:field="btGeocode">Geocode</g:Button></g:cell>
 		</g:HorizontalPanel>
 	</g:HTMLPanel>
