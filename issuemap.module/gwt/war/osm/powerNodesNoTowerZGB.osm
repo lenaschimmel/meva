@@ -1,593 +1,421 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <osm version='0.6' upload='true' generator='JOSM'>
-  <node id='-3811' timestamp='2012-12-31T16:57:28Z' visible='true' lat='51.7160032' lon='10.5306927'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='2713' />
-    <tag k='ref:addr' v='Sankt Andreasberg, Hallenbad' />
-  </node>
-  <node id='-3810' timestamp='2013-03-27T13:31:30Z' visible='true' lat='52.0864157' lon='10.4396845'>
+  <node id='-685' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.12341665918217' lon='10.414797358553512'>
     <tag k='power' v='sub_station' />
   </node>
-  <node id='-3809' timestamp='2012-02-15T07:17:30Z' visible='true' lat='52.1210233' lon='10.4237226'>
-    <tag k='name' v='Barum Ost' />
-    <tag k='operator' v='Salzgitter GmbH' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='A914348' />
-  </node>
-  <node id='-3807' timestamp='2011-06-22T07:15:00Z' visible='true' lat='52.3855936' lon='10.6449772'>
+  <node id='-684' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.117588520292315' lon='10.429035418049901'>
     <tag k='power' v='sub_station' />
   </node>
-  <node id='-3806' timestamp='2010-10-05T18:38:43Z' visible='true' lat='52.5008091' lon='10.7601466'>
-    <tag k='operator' v='LSW' />
+  <node id='-683' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.15580036342345' lon='10.373758245887437'>
     <tag k='power' v='sub_station' />
   </node>
-  <node id='-3805' timestamp='2012-08-26T11:04:48Z' visible='true' lat='51.7166319' lon='10.6176861'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='3009' />
-    <tag k='ref:addr' v='Braunlage, Barbarahütte' />
-  </node>
-  <node id='-3804' timestamp='2011-03-30T17:10:05Z' visible='true' lat='52.4735004' lon='10.675154'>
-    <tag k='name' v='Scharrkoppelweg' />
-    <tag k='operator' v='LSW' />
+  <node id='-682' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.18542195312151' lon='10.375712489347727'>
     <tag k='power' v='sub_station' />
   </node>
-  <node id='-3802' timestamp='2012-08-02T04:14:09Z' visible='true' lat='52.3730722' lon='10.7465494'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='Lehmkuhlenfeld' />
-  </node>
-  <node id='-3800' timestamp='2011-08-14T15:58:57Z' visible='true' lat='52.1521267' lon='10.7403384'>
+  <node id='-681' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.16008215908532' lon='10.413122292730407'>
     <tag k='power' v='sub_station' />
   </node>
-  <node id='-3798' timestamp='2012-03-19T06:32:03Z' visible='true' lat='52.2161015' lon='11.0062447'>
-    <tag k='name' v='BKB Tagebau' />
-    <tag k='operator' v='EON_Avavon' />
+  <node id='-680' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.18319673861132' lon='10.44299429990911'>
     <tag k='power' v='sub_station' />
   </node>
-  <node id='-3797' timestamp='2012-08-26T11:04:42Z' visible='true' lat='51.728429' lon='10.6178793'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='3034' />
-    <tag k='ref:addr' v='Braunlage, Hüttenberg' />
-  </node>
-  <node id='-3796' timestamp='2012-07-16T04:26:42Z' visible='true' lat='52.2477273' lon='10.7227095'>
-    <tag k='name' v='Abbenrode B1' />
-    <tag k='operator' v='e.on Avacon' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='MN11540' />
-  </node>
-  <node id='-3793' timestamp='2013-03-14T18:37:13Z' visible='true' lat='52.1811015' lon='10.2575513'>
-    <tag k='operator' v='EON_Avacon' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='Station: MN05282; Söhlde; WEA Loges' />
-  </node>
-  <node id='-3792' timestamp='2011-08-14T19:13:57Z' visible='true' lat='52.1501781' lon='10.7742644'>
+  <node id='-679' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.16727643072184' lon='10.48392449607754'>
     <tag k='power' v='sub_station' />
   </node>
-  <node id='-3788' timestamp='2011-08-21T20:48:14Z' visible='true' lat='52.1896297' lon='10.7119376'>
-    <tag k='addr:city' v='Evessen' />
-    <tag k='addr:street' v='Bertramstraße' />
-    <tag k='operator' v='e.on Avacon' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='A901843' />
-  </node>
-  <node id='-3787' timestamp='2012-09-15T18:20:37Z' visible='true' lat='51.8716431' lon='10.5676558'>
-    <tag k='operator' v='Stadtwerke Bad Harzburg GmbH' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='Burgberg' />
-  </node>
-  <node id='-3785' timestamp='2013-05-12T16:06:15Z' visible='true' lat='52.152078' lon='10.7457675'>
+  <node id='-678' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.1600282159619' lon='10.476942502073578'>
     <tag k='power' v='sub_station' />
   </node>
-  <node id='-3784' timestamp='2009-09-19T09:25:45Z' visible='true' lat='52.465462' lon='10.5305525'>
-    <tag k='name' v='Mietsbürgerweg' />
-    <tag k='operator' v='LSW' />
-    <tag k='power' v='sub_station' />
-    <tag k='source' v='survey' />
-  </node>
-  <node id='-3783' timestamp='2010-04-10T08:25:42Z' visible='true' lat='51.8054003' lon='10.3753003'>
+  <node id='-677' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.15609223370843' lon='10.490070160700748'>
     <tag k='power' v='sub_station' />
   </node>
-  <node id='-3782' timestamp='2011-07-10T11:37:19Z' visible='true' lat='52.193521' lon='10.5873491'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='Braunschweiger Straße' />
-  </node>
-  <node id='-3780' timestamp='2011-03-13T21:43:39Z' visible='true' lat='52.4594161' lon='10.4853361'>
+  <node id='-676' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.163479483201975' lon='10.487799964096048'>
     <tag k='power' v='sub_station' />
   </node>
-  <node id='-3779' timestamp='2012-08-11T19:54:01Z' visible='true' lat='52.22863' lon='10.702209'>
-    <tag k='name' v='Hemkenrode' />
-    <tag k='operator' v='e.on Avacon' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='MN11543' />
-  </node>
-  <node id='-3778' timestamp='2012-08-26T11:04:50Z' visible='true' lat='51.7206551' lon='10.6157503'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='3012' />
-    <tag k='ref:addr' v='Braunlage, Bodestraße' />
-  </node>
-  <node id='-3777' timestamp='2012-08-26T11:04:41Z' visible='true' lat='51.7150272' lon='10.5621012'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='2319' />
-    <tag k='source' v='survey' />
-  </node>
-  <node id='-3776' timestamp='2011-08-23T20:29:47Z' visible='true' lat='52.3719251' lon='10.7377848'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='Hurst Str. 3' />
-  </node>
-  <node id='-3775' timestamp='2011-08-15T16:25:58Z' visible='true' lat='51.7995051' lon='10.3396586'>
-    <tag k='operator' v='Harz Energie' />
+  <node id='-675' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.141919815581474' lon='10.542679499409628'>
     <tag k='power' v='sub_station' />
   </node>
-  <node id='-3774' timestamp='2012-08-26T11:04:47Z' visible='true' lat='51.6958733' lon='10.5661999'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='2326' />
-  </node>
-  <node id='-3773' timestamp='2009-04-10T13:53:02Z' visible='true' lat='52.2354464' lon='10.7366886'>
-    <tag k='disused' v='yes' />
+  <node id='-674' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.14428219854636' lon='10.55649808743823'>
     <tag k='power' v='sub_station' />
   </node>
-  <node id='-3771' timestamp='2012-12-30T20:49:39Z' visible='true' lat='51.76987' lon='10.5564349'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='2297.03' />
-  </node>
-  <node id='-3770' timestamp='2013-06-24T20:27:07Z' visible='true' lat='52.465001' lon='10.5543785'>
+  <node id='-673' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.160870813789906' lon='10.556525647685577'>
     <tag k='power' v='sub_station' />
   </node>
-  <node id='-3769' timestamp='2012-09-22T11:00:28Z' visible='true' lat='52.4947341' lon='10.5581032'>
-    <tag k='name' v='Jägerhof' />
-    <tag k='operator' v='LSW' />
+  <node id='-672' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.22896721057893' lon='10.479150584875137'>
     <tag k='power' v='sub_station' />
   </node>
-  <node id='-3768' timestamp='2012-03-17T08:30:23Z' visible='true' lat='52.4204924' lon='10.7216497'>
-    <tag k='operator' v='LSW' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='Hinterm Hagen' />
-  </node>
-  <node id='-3767' timestamp='2012-07-03T14:51:50Z' visible='true' lat='52.2371342' lon='10.7105323'>
-    <tag k='name' v='Destedt, Zum Vorlingen' />
-    <tag k='operator' v='e.on Avacon' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='A901834' />
-  </node>
-  <node id='-3766' timestamp='2012-09-18T12:36:10Z' visible='true' lat='52.1626213' lon='10.4874441'>
+  <node id='-671' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.23002519656339' lon='10.476115430718858'>
     <tag k='power' v='sub_station' />
   </node>
-  <node id='-3764' timestamp='2011-07-22T19:05:06Z' visible='true' lat='52.0723404' lon='10.558873'>
-    <tag k='name' v='An der Kirche/ Gut' />
-    <tag k='noexit' v='yes' />
+  <node id='-670' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.2332443416947' lon='10.479446697475751'>
     <tag k='power' v='sub_station' />
   </node>
-  <node id='-3763' timestamp='2012-01-15T17:45:58Z' visible='true' lat='52.1967' lon='10.6570124'>
-    <tag k='addr:city' v='Volzum' />
-    <tag k='addr:street' v='Steinstraße' />
-    <tag k='operator' v='e.on Avacon' />
+  <node id='-669' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.23354659685466' lon='10.476189458869012'>
     <tag k='power' v='sub_station' />
-    <tag k='ref' v='MN09245' />
   </node>
-  <node id='-3762' timestamp='2012-08-26T11:04:53Z' visible='true' lat='51.7146549' lon='10.5247997'>
+  <node id='-668' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.236795709844046' lon='10.473771205964006'>
     <tag k='power' v='sub_station' />
-    <tag k='ref' v='5145' />
   </node>
-  <node id='-3761' timestamp='2009-10-30T15:31:58Z' visible='true' lat='52.3229704' lon='10.2301469'>
+  <node id='-667' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.23626680068085' lon='10.485591033938467'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-666' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.29261341670039' lon='10.522169407595866'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-665' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.29433393840778' lon='10.51580298668269'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-664' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.29028909704542' lon='10.50746248176543'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-663' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.29140599314049' lon='10.504254595258793'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-662' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.28444846232093' lon='10.526695552403046'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-661' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.287010157617864' lon='10.565571038380943'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-660' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.28466194258611' lon='10.560545840911628'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-659' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.284170936438485' lon='10.565501243971646'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-658' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.269120271518965' lon='10.502820143983769'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-657' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.24011765279127' lon='10.561943959906133'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-656' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.257884007205455' lon='10.554837257491426'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-507' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.28453120236867' lon='10.367912979229008'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-503' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.457190693921525' lon='10.826926051255494'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-495' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.50364361956476' lon='10.531931087371666'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-494' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.44386964776171' lon='10.53639792956661'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-493' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.46641133381093' lon='10.530116432729967'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-480' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.42148295580465' lon='10.675165651691797'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-479' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.36730831928307' lon='10.760035653395782'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-472' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.23354788956401' lon='10.9913537606977'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-471' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.20016823482912' lon='10.999353568602517'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-465' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.15330764904636' lon='10.770455181670814'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-450' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.13900432168035' lon='10.307395179994783'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-445' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.24428795364023' lon='10.203163544579063'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-444' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.164682621612734' lon='10.571922436542259'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-443' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.16734650266544' lon='10.525334054045839'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-427' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.042358348109914' lon='10.353445218825234'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-426' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='52.01624505622648' lon='10.540390974012146'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-425' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='51.890849419484184' lon='10.559270039460948'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-424' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='51.92641053924427' lon='10.414372273561062'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-268' timestamp='2009-12-14T15:57:31Z' visible='true' lat='52.3219262' lon='10.2268609'>
     <tag k='power' v='sub_station' />
     <tag k='source' v='survey' />
   </node>
-  <node id='-3760' timestamp='2011-03-27T18:03:18Z' visible='true' lat='52.4679106' lon='10.5747469'>
-    <tag k='name' v='2. Koppelweg West' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3759' timestamp='2011-11-04T17:25:25Z' visible='true' lat='52.1431178' lon='10.7784629'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3758' timestamp='2012-08-26T17:19:05Z' visible='true' lat='51.715357' lon='10.516455'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='2538' />
-    <tag k='ref:addr' v='St. Andreasberg, Teichtal' />
-  </node>
-  <node id='-3757' timestamp='2012-11-12T14:40:30Z' visible='true' lat='52.3819818' lon='10.5427222'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3755' timestamp='2012-05-28T18:48:29Z' visible='true' lat='52.2923001' lon='10.8399527'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3754' timestamp='2012-05-27T12:04:01Z' visible='true' lat='52.470962' lon='10.6142966'>
-    <tag k='name' v='Clausmoorhof' />
-    <tag k='operator' v='LSW' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3753' timestamp='2012-05-05T06:43:36Z' visible='true' lat='52.2200121' lon='11.0046783'>
-    <tag k='name' v='Gustav-Steinbrecher-Straße/Schöninger Straße' />
-    <tag k='operator' v='EON_Avacon' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3752' timestamp='2011-11-04T17:25:28Z' visible='true' lat='52.1484348' lon='10.7874785'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3751' timestamp='2012-07-03T19:14:12Z' visible='true' lat='52.2059386' lon='10.6878062'>
-    <tag k='name' v='Lucklum, Pulverberg' />
-    <tag k='operator' v='e.on Avacon' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='MN08974' />
-  </node>
-  <node id='-3750' timestamp='2010-11-21T21:28:31Z' visible='true' lat='52.5287132' lon='10.362188'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3748' timestamp='2010-09-28T18:13:30Z' visible='true' lat='52.5031699' lon='10.8005675'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3746' timestamp='2012-02-01T17:33:08Z' visible='true' lat='52.1626407' lon='10.7859279'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3745' timestamp='2012-08-26T11:04:44Z' visible='true' lat='51.7195804' lon='10.6027953'>
-    <tag k='fixme' v='reference' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3744' timestamp='2010-10-05T15:19:28Z' visible='true' lat='52.4692775' lon='10.6010746'>
-    <tag k='created_by' v='Vespucci 0.6.5' />
-    <tag k='name' v='Vogelpark' />
-    <tag k='operator' v='LSW' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3743' timestamp='2012-01-10T11:41:59Z' visible='true' lat='52.155421' lon='10.6884656'>
-    <tag k='name' v='Weferlingen, Burgstraße' />
-    <tag k='operator' v='e.on Avacon' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='A901949' />
-  </node>
-  <node id='-3741' timestamp='2011-01-25T20:51:08Z' visible='true' lat='52.3594453' lon='10.7556139'>
-    <tag k='name' v='Kniggenkamp' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3740' timestamp='2011-04-02T10:36:10Z' visible='true' lat='52.4707745' lon='10.6811995'>
-    <tag k='created_by' v='Vespucci 0.6.5' />
-    <tag k='name' v='Alte Bergstraße' />
-    <tag k='operator' v='LSW' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3739' timestamp='2013-05-28T17:43:24Z' visible='true' lat='51.9845934' lon='10.5170053'>
-    <tag k='name' v='SSt Loeper Weg' />
-    <tag k='operator' v='e.on Avacon' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='MN11553' />
-  </node>
-  <node id='-3738' timestamp='2012-03-17T08:30:29Z' visible='true' lat='52.423244' lon='10.7292358'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='Alte Wolfsburger Landstr.' />
-  </node>
-  <node id='-3737' timestamp='2012-08-26T11:04:44Z' visible='true' lat='51.7301122' lon='10.6130543'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='3030' />
-    <tag k='ref:addr' v='Braunlage, Stadtwerke' />
-  </node>
-  <node id='-3736' timestamp='2009-01-22T09:54:30Z' visible='true' lat='52.2158218' lon='11.0011914'>
-    <tag k='created_by' v='Potlatch 0.10f' />
-    <tag k='operator' v='EON_Avacon' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3735' timestamp='2011-07-09T21:35:59Z' visible='true' lat='52.2176878' lon='10.6872631'>
-    <tag k='name' v='Wasserweg; Veltheim' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='MN09109' />
-  </node>
-  <node id='-3734' timestamp='2012-03-11T14:20:19Z' visible='true' lat='52.5677793' lon='10.6741968'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3732' timestamp='2012-01-26T07:54:12Z' visible='true' lat='52.1831949' lon='10.4258352'>
-    <tag k='name' v='Beddingen, Thingplatz' />
-    <tag k='operator' v='Salzgitter GmbH' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='A914355' />
-  </node>
-  <node id='-3731' timestamp='2012-09-06T18:55:22Z' visible='true' lat='52.5394719' lon='10.7180805'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3730' timestamp='2013-03-27T11:36:41Z' visible='true' lat='52.0845525' lon='10.4367059'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3729' timestamp='2012-08-26T11:04:41Z' visible='true' lat='51.714159' lon='10.5911781'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='5061' />
-  </node>
-  <node id='-3727' timestamp='2012-07-29T13:31:50Z' visible='true' lat='52.2428471' lon='10.8241079'>
-    <tag k='name' v='Königslutter, Klemenshang' />
-    <tag k='operator' v='e.on Avacon' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='MN09007' />
-  </node>
-  <node id='-3726' timestamp='2012-02-01T17:33:05Z' visible='true' lat='52.1578091' lon='10.8200329'>
-    <tag k='operator' v='e.on Avacon' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3725' timestamp='2009-09-18T10:53:08Z' visible='true' lat='52.4613975' lon='10.5330623'>
-    <tag k='name' v='Stieglitzweg' />
-    <tag k='operator' v='LSW' />
-    <tag k='phone' v='+495362-120' />
-    <tag k='power' v='sub_station' />
-    <tag k='source' v='survey' />
-  </node>
-  <node id='-3723' timestamp='2012-08-26T11:04:46Z' visible='true' lat='51.7192958' lon='10.6018453'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='5051' />
-  </node>
-  <node id='-3722' timestamp='2012-02-26T21:21:27Z' visible='true' lat='52.2032539' lon='10.6976622'>
-    <tag k='name' v='Lucklum, Steinmühle' />
-    <tag k='operator' v='e.on Avavon' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='MN09119' />
-  </node>
-  <node id='-3721' timestamp='2011-08-20T18:35:35Z' visible='true' lat='52.1230683' lon='10.7189719'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3720' timestamp='2010-10-24T17:06:03Z' visible='true' lat='52.3714074' lon='10.6758277'>
-    <tag k='name' v='Ehmener Straße' />
-    <tag k='number' v='A901884' />
-    <tag k='operator' v='EON_Avacon' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3719' timestamp='2012-08-26T11:04:41Z' visible='true' lat='51.7145183' lon='10.5921147'>
-    <tag k='fixme' v='reference' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3718' timestamp='2011-03-27T09:09:32Z' visible='true' lat='52.2007681' lon='10.9973854'>
-    <tag k='name' v='Station Helmstedt 380 kV-Anlage' />
-    <tag k='operator' v='EON_Avacon' />
-    <tag k='power' v='sub_station' />
-    <tag k='source' v='survey' />
-  </node>
-  <node id='-3716' timestamp='2011-08-02T15:08:59Z' visible='true' lat='52.3588519' lon='10.748405'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3715' timestamp='2010-07-28T18:18:50Z' visible='true' lat='52.2545951' lon='10.5511939'>
-    <tag k='operator' v='BS Energy' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='573' />
-  </node>
-  <node id='-3713' timestamp='2009-09-18T10:53:08Z' visible='true' lat='52.4619257' lon='10.5358003'>
-    <tag k='name' v='Real' />
-    <tag k='operator' v='LSW' />
-    <tag k='phone' v='+495362-120' />
-    <tag k='power' v='sub_station' />
-    <tag k='source' v='survey' />
-  </node>
-  <node id='-3712' timestamp='2011-07-16T02:33:00Z' visible='true' lat='52.3586693' lon='10.591818'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3711' timestamp='2011-07-25T01:23:04Z' visible='true' lat='52.326978' lon='10.4776673'>
-    <tag k='name' v='Waller See' />
-    <tag k='operator' v='BS.Energy' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3710' timestamp='2008-09-29T10:18:04Z' visible='true' lat='52.4233226' lon='10.7178774'>
-    <tag k='created_by' v='Potlatch 0.10c' />
-    <tag k='name' v='Hopfengarten' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3709' timestamp='2011-08-03T14:46:08Z' visible='true' lat='52.4425066' lon='10.7634755'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3708' timestamp='2013-03-20T14:41:41Z' visible='true' lat='52.4704811' lon='10.6869837'>
-    <tag k='name' v='Breslauer Straße' />
-    <tag k='operator' v='LSW' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3707' timestamp='2012-08-26T11:04:38Z' visible='true' lat='51.7303532' lon='10.6048425'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='3024' />
-    <tag k='ref:addr' v='Braunlage, Bismarckstraße' />
-  </node>
-  <node id='-3706' timestamp='2012-08-26T11:04:50Z' visible='true' lat='51.71853' lon='10.6168952'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='5057' />
-  </node>
-  <node id='-3705' timestamp='2012-08-26T11:04:40Z' visible='true' lat='51.7099912' lon='10.5198107'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='5149' />
-  </node>
-  <node id='-3704' timestamp='2013-05-16T18:25:52Z' visible='true' lat='52.4908929' lon='10.661894'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='50 - 1007' />
-  </node>
-  <node id='-3703' timestamp='2012-08-26T11:04:43Z' visible='true' lat='51.7293518' lon='10.6154285'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='3031' />
-    <tag k='ref:addr' v='Fichtenhang' />
-  </node>
-  <node id='-3702' timestamp='2011-03-27T18:03:28Z' visible='true' lat='52.4793409' lon='10.6001527'>
-    <tag k='operator' v='LSW' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3701' timestamp='2011-08-02T15:08:56Z' visible='true' lat='52.3604244' lon='10.7521172'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3700' timestamp='2013-02-15T22:44:59Z' visible='true' lat='51.698123' lon='10.5119132'>
-    <tag k='fixme' v='reference' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3699' timestamp='2008-11-26T20:42:11Z' visible='true' lat='52.4449258' lon='10.5877656'>
-    <tag k='created_by' v='Potlatch 0.10f' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3698' timestamp='2012-08-26T11:04:30Z' visible='true' lat='51.7264406' lon='10.6075087'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='3018.06' />
-  </node>
-  <node id='-3697' timestamp='2009-02-20T14:34:50Z' visible='true' lat='52.2732705' lon='10.6359207'>
-    <tag k='operator' v='EON_Avacon' />
-    <tag k='power' v='sub_station' />
-    <tag k='type' v='gas' />
-  </node>
-  <node id='-3696' timestamp='2012-07-14T23:12:02Z' visible='true' lat='52.2515776' lon='10.715665'>
-    <tag k='name' v='Abbenrode, Krugmorgen' />
-    <tag k='operator' v='e.on Avacon' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='A901814' />
-  </node>
-  <node id='-3695' timestamp='2013-01-02T18:15:38Z' visible='true' lat='52.4536373' lon='10.5028796'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3694' timestamp='2012-07-29T11:25:16Z' visible='true' lat='52.2012819' lon='10.9728947'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='Elzbrunnen 10' />
-  </node>
-  <node id='-3693' timestamp='2011-11-04T17:25:26Z' visible='true' lat='52.1442749' lon='10.7777038'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3692' timestamp='2012-08-04T06:42:53Z' visible='true' lat='51.9274454' lon='10.5003358'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3691' timestamp='2008-04-30T10:50:22Z' visible='true' lat='52.15885' lon='10.5568339'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3690' timestamp='2012-01-31T17:26:09Z' visible='true' lat='52.1869793' lon='10.6872408'>
-    <tag k='operator' v='e.on Avacon' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3689' timestamp='2012-02-15T07:17:30Z' visible='true' lat='52.1223614' lon='10.415627'>
-    <tag k='name' v='Barum West' />
-    <tag k='operator' v='Salzgitter GmbH' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='A914349' />
-  </node>
-  <node id='-3687' timestamp='2012-08-28T07:46:51Z' visible='true' lat='52.1449531' lon='10.768144'>
-    <tag k='operator' v='e.on Avacon' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3686' timestamp='2010-11-21T22:18:21Z' visible='true' lat='52.1473278' lon='10.7841232'>
-    <tag k='name' v='Schöppenstedt, Am Papenberge' />
-    <tag k='operator' v='e.on Avacon' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='A901775' />
-  </node>
-  <node id='-3685' timestamp='2012-08-15T13:15:30Z' visible='true' lat='51.7173447' lon='10.6090071'>
-    <tag k='operator' v='Harz Energie' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='3007' />
-    <tag k='ref:addr' v='Schützenplatz' />
-  </node>
-  <node id='-3684' timestamp='2012-08-15T13:15:33Z' visible='true' lat='51.7213748' lon='10.6069392'>
-    <tag k='operator' v='Harz Energie' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='5063' />
-  </node>
-  <node id='-3682' timestamp='2012-08-26T11:04:37Z' visible='true' lat='51.7170596' lon='10.5198056'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='2709.06' />
-  </node>
-  <node id='-3681' timestamp='2013-03-28T17:16:42Z' visible='true' lat='52.4965922' lon='10.5696335'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3680' timestamp='2011-03-14T17:50:17Z' visible='true' lat='52.5207504' lon='10.3698788'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3679' timestamp='2012-02-01T17:33:03Z' visible='true' lat='52.1553138' lon='10.8115033'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3678' timestamp='2012-02-01T17:33:09Z' visible='true' lat='52.1644233' lon='10.7877147'>
-    <tag k='operator' v='e.on Avacon' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3676' timestamp='2012-03-15T06:20:13Z' visible='true' lat='52.2709032' lon='10.6939001'>
-    <tag k='name' v='Schandelah, Kleinberg' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='A901924' />
-  </node>
-  <node id='-3675' timestamp='2011-09-07T10:13:22Z' visible='true' lat='52.2138432' lon='10.670524'>
-    <tag k='name' v='Veltheim, Voigtsmühle' />
-    <tag k='operator' v='e.on Avacon' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='MN09138' />
-  </node>
-  <node id='-3674' timestamp='2012-08-26T11:04:45Z' visible='true' lat='51.7218174' lon='10.6087355'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='3014' />
-    <tag k='ref:addr' v='Braunlage, Lauterberger Straße' />
-  </node>
-  <node id='-3673' timestamp='2012-08-03T09:58:45Z' visible='true' lat='51.7244085' lon='10.5940095'>
-    <tag k='designation' v='Umspannwerk' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3672' timestamp='2011-03-14T16:32:59Z' visible='true' lat='52.4880486' lon='10.4750942'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3671' timestamp='2012-02-24T18:53:22Z' visible='true' lat='52.4666816' lon='10.5425408'>
-    <tag k='contact:phone' v='+49 5362 120' />
-    <tag k='operator' v='LSW' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='Ernst-August-Straße' />
-  </node>
-  <node id='-3670' timestamp='2012-07-21T14:42:26Z' visible='true' lat='52.3633524' lon='10.7557715'>
-    <tag k='operator' v='LSW' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='Dingelberg' />
-  </node>
-  <node id='-3669' timestamp='2012-01-31T17:25:49Z' visible='true' lat='52.1465609' lon='10.7681025'>
-    <tag k='operator' v='e.on Avacon' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3668' timestamp='2013-04-23T20:58:28Z' visible='true' lat='52.2050311' lon='10.2789922'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3667' timestamp='2010-12-03T21:37:13Z' visible='true' lat='52.4444604' lon='10.8169837'>
-    <tag k='name' v='Bürgerkämpe 1' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3666' timestamp='2011-03-30T15:05:05Z' visible='true' lat='52.4702523' lon='10.6898327'>
-    <tag k='created_by' v='Vespucci 0.6.5' />
-    <tag k='name' v='Stieglitzweg' />
-    <tag k='operator' v='LSW' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3665' timestamp='2010-11-21T18:33:45Z' visible='true' lat='52.477269' lon='10.771945'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3664' timestamp='2013-05-22T12:58:28Z' visible='true' lat='52.4681778' lon='10.5849031'>
-    <tag k='addr:street' v='II. Koppelweg' />
-    <tag k='name' v='2. Koppelweg Ost' />
-    <tag k='operator' v='LSW' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3663' timestamp='2011-08-03T14:46:09Z' visible='true' lat='52.4416433' lon='10.7637104'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3662' timestamp='2011-03-14T16:32:58Z' visible='true' lat='52.5101885' lon='10.4099032'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3661' timestamp='2011-03-30T13:59:56Z' visible='true' lat='52.4719962' lon='10.6778799'>
-    <tag k='name' v='Lehmweg' />
-    <tag k='operator' v='LSW' />
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3660' timestamp='2012-05-28T17:13:59Z' visible='true' lat='52.2005249' lon='10.7093711'>
-    <tag k='name' v='Erkerode, Westhölzchen' />
-    <tag k='operator' v='e.on Avavon' />
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='MN09145' />
-  </node>
-  <node id='-3657' timestamp='2012-08-26T11:04:37Z' visible='true' lat='51.7165355' lon='10.5199649'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='2709.03' />
-  </node>
-  <node id='-3656' timestamp='2012-12-31T16:57:28Z' visible='true' lat='51.7159923' lon='10.5307279'>
-    <tag k='power' v='sub_station' />
-    <tag k='ref' v='5151' />
-  </node>
-  <node id='-3655' timestamp='2011-08-03T14:46:08Z' visible='true' lat='52.4419314' lon='10.763646'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3654' timestamp='2012-05-06T10:55:56Z' visible='true' lat='52.0718106' lon='10.4481394'>
-    <tag k='power' v='sub_station' />
-  </node>
-  <node id='-3653' timestamp='2012-07-28T23:03:32Z' visible='true' lat='52.1340034' lon='10.8882795'>
+  <node id='-266' timestamp='2012-07-28T23:03:32Z' visible='true' lat='52.1340034' lon='10.8882795'>
     <tag k='name' v='Wobeck' />
     <tag k='operator' v='e.on Avacon' />
     <tag k='power' v='sub_station' />
     <tag k='ref' v='MN09131' />
   </node>
-  <node id='-3652' timestamp='2009-12-14T15:57:31Z' visible='true' lat='52.3219262' lon='10.2268609'>
+  <node id='-264' timestamp='2012-05-06T10:55:56Z' visible='true' lat='52.0718106' lon='10.4481394'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-262' timestamp='2011-08-03T14:46:08Z' visible='true' lat='52.4419314' lon='10.763646'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-260' timestamp='2012-12-31T16:57:28Z' visible='true' lat='51.7159923' lon='10.5307279'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='5151' />
+  </node>
+  <node id='-258' timestamp='2012-08-26T11:04:37Z' visible='true' lat='51.7165355' lon='10.5199649'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='2709.03' />
+  </node>
+  <node id='-252' timestamp='2011-03-14T16:32:58Z' visible='true' lat='52.5101885' lon='10.4099032'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-250' timestamp='2011-08-03T14:46:09Z' visible='true' lat='52.4416433' lon='10.7637104'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-246' timestamp='2010-11-21T18:33:45Z' visible='true' lat='52.477269' lon='10.771945'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-242' timestamp='2010-12-03T21:37:13Z' visible='true' lat='52.4444604' lon='10.8169837'>
+    <tag k='name' v='Bürgerkämpe 1' />
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-240' timestamp='2013-04-23T20:58:28Z' visible='true' lat='52.2050311' lon='10.2789922'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-230' timestamp='2012-08-03T09:58:45Z' visible='true' lat='51.7244085' lon='10.5940095'>
+    <tag k='designation' v='Umspannwerk' />
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-228' timestamp='2012-08-26T11:04:45Z' visible='true' lat='51.7218174' lon='10.6087355'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='3014' />
+    <tag k='ref:addr' v='Braunlage, Lauterberger Straße' />
+  </node>
+  <node id='-224' timestamp='2012-03-15T06:20:13Z' visible='true' lat='52.2709032' lon='10.6939001'>
+    <tag k='name' v='Schandelah, Kleinberg' />
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='A901924' />
+  </node>
+  <node id='-220' timestamp='2012-02-01T17:33:03Z' visible='true' lat='52.1553138' lon='10.8115033'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-218' timestamp='2011-03-14T17:50:17Z' visible='true' lat='52.5207504' lon='10.3698788'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-214' timestamp='2012-08-26T11:04:37Z' visible='true' lat='51.7170596' lon='10.5198056'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='2709.06' />
+  </node>
+  <node id='-212' timestamp='2012-08-15T13:15:33Z' visible='true' lat='51.7213748' lon='10.6069392'>
+    <tag k='operator' v='Harz Energie' />
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='5063' />
+  </node>
+  <node id='-210' timestamp='2012-08-15T13:15:30Z' visible='true' lat='51.7173447' lon='10.6090071'>
+    <tag k='operator' v='Harz Energie' />
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='3007' />
+    <tag k='ref:addr' v='Schützenplatz' />
+  </node>
+  <node id='-198' action='modify' timestamp='2012-08-04T06:42:53Z' visible='true' lat='51.927932331909254' lon='10.500928025201226'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-188' timestamp='2009-02-20T14:34:50Z' visible='true' lat='52.2732705' lon='10.6359207'>
+    <tag k='operator' v='EON_Avacon' />
+    <tag k='power' v='sub_station' />
+    <tag k='type' v='gas' />
+  </node>
+  <node id='-186' timestamp='2012-08-26T11:04:30Z' visible='true' lat='51.7264406' lon='10.6075087'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='3018.06' />
+  </node>
+  <node id='-184' timestamp='2008-11-26T20:42:11Z' visible='true' lat='52.4449258' lon='10.5877656'>
+    <tag k='created_by' v='Potlatch 0.10f' />
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-182' timestamp='2013-02-15T22:44:59Z' visible='true' lat='51.698123' lon='10.5119132'>
+    <tag k='fixme' v='reference' />
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-176' timestamp='2012-08-26T11:04:43Z' visible='true' lat='51.7293518' lon='10.6154285'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='3031' />
+    <tag k='ref:addr' v='Fichtenhang' />
+  </node>
+  <node id='-172' timestamp='2012-08-26T11:04:40Z' visible='true' lat='51.7099912' lon='10.5198107'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='5149' />
+  </node>
+  <node id='-170' timestamp='2012-08-26T11:04:50Z' visible='true' lat='51.71853' lon='10.6168952'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='5057' />
+  </node>
+  <node id='-168' timestamp='2012-08-26T11:04:38Z' visible='true' lat='51.7303532' lon='10.6048425'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='3024' />
+    <tag k='ref:addr' v='Braunlage, Bismarckstraße' />
+  </node>
+  <node id='-164' timestamp='2011-08-03T14:46:08Z' visible='true' lat='52.4425066' lon='10.7634755'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-162' timestamp='2008-09-29T10:18:04Z' visible='true' lat='52.4233226' lon='10.7178774'>
+    <tag k='created_by' v='Potlatch 0.10c' />
+    <tag k='name' v='Hopfengarten' />
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-160' timestamp='2011-07-25T01:23:04Z' visible='true' lat='52.326978' lon='10.4776673'>
+    <tag k='name' v='Waller See' />
+    <tag k='operator' v='BS.Energy' />
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-158' timestamp='2011-07-16T02:33:00Z' visible='true' lat='52.3586693' lon='10.591818'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-154' action='modify' timestamp='2010-07-28T18:18:50Z' visible='true' lat='52.252178147847005' lon='10.519608555934628'>
+    <tag k='operator' v='BS Energy' />
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='573' />
+  </node>
+  <node id='-148' timestamp='2012-08-26T11:04:41Z' visible='true' lat='51.7145183' lon='10.5921147'>
+    <tag k='fixme' v='reference' />
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-146' timestamp='2010-10-24T17:06:03Z' visible='true' lat='52.3714074' lon='10.6758277'>
+    <tag k='name' v='Ehmener Straße' />
+    <tag k='number' v='A901884' />
+    <tag k='operator' v='EON_Avacon' />
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-140' timestamp='2012-08-26T11:04:46Z' visible='true' lat='51.7192958' lon='10.6018453'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='5051' />
+  </node>
+  <node id='-136' timestamp='2012-02-01T17:33:05Z' visible='true' lat='52.1578091' lon='10.8200329'>
+    <tag k='operator' v='e.on Avacon' />
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-134' timestamp='2012-07-29T13:31:50Z' visible='true' lat='52.2428471' lon='10.8241079'>
+    <tag k='name' v='Königslutter, Klemenshang' />
+    <tag k='operator' v='e.on Avacon' />
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='MN09007' />
+  </node>
+  <node id='-132' timestamp='2012-08-26T11:04:41Z' visible='true' lat='51.714159' lon='10.5911781'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='5061' />
+  </node>
+  <node id='-128' timestamp='2012-09-06T18:55:22Z' visible='true' lat='52.5394719' lon='10.7180805'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-126' timestamp='2012-01-26T07:54:12Z' visible='true' lat='52.1831949' lon='10.4258352'>
+    <tag k='name' v='Beddingen, Thingplatz' />
+    <tag k='operator' v='Salzgitter GmbH' />
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='A914355' />
+  </node>
+  <node id='-124' timestamp='2012-03-11T14:20:19Z' visible='true' lat='52.5677793' lon='10.6741968'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-118' timestamp='2012-08-26T11:04:44Z' visible='true' lat='51.7301122' lon='10.6130543'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='3030' />
+    <tag k='ref:addr' v='Braunlage, Stadtwerke' />
+  </node>
+  <node id='-116' timestamp='2012-03-17T08:30:29Z' visible='true' lat='52.423244' lon='10.7292358'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='Alte Wolfsburger Landstr.' />
+  </node>
+  <node id='-104' timestamp='2012-08-26T11:04:44Z' visible='true' lat='51.7195804' lon='10.6027953'>
+    <tag k='fixme' v='reference' />
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-100' timestamp='2010-09-28T18:13:30Z' visible='true' lat='52.5031699' lon='10.8005675'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-98' timestamp='2010-11-21T21:28:31Z' visible='true' lat='52.5287132' lon='10.362188'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-88' timestamp='2012-05-28T18:48:29Z' visible='true' lat='52.2923001' lon='10.8399527'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-86' timestamp='2012-11-12T14:40:30Z' visible='true' lat='52.3819818' lon='10.5427222'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-84' timestamp='2012-08-26T17:19:05Z' visible='true' lat='51.715357' lon='10.516455'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='2538' />
+    <tag k='ref:addr' v='St. Andreasberg, Teichtal' />
+  </node>
+  <node id='-78' timestamp='2009-10-30T15:31:58Z' visible='true' lat='52.3229704' lon='10.2301469'>
     <tag k='power' v='sub_station' />
     <tag k='source' v='survey' />
   </node>
-  <node id='-3650' timestamp='2011-03-30T17:09:57Z' visible='true' lat='52.4697686' lon='10.6845805'>
+  <node id='-76' timestamp='2012-08-26T11:04:53Z' visible='true' lat='51.7146549' lon='10.5247997'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='5145' />
+  </node>
+  <node id='-72' timestamp='2011-07-22T19:05:06Z' visible='true' lat='52.0723404' lon='10.558873'>
+    <tag k='name' v='An der Kirche/ Gut' />
+    <tag k='noexit' v='yes' />
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-66' timestamp='2012-03-17T08:30:23Z' visible='true' lat='52.4204924' lon='10.7216497'>
     <tag k='operator' v='LSW' />
     <tag k='power' v='sub_station' />
+    <tag k='ref' v='Hinterm Hagen' />
+  </node>
+  <node id='-60' timestamp='2012-12-30T20:49:39Z' visible='true' lat='51.76987' lon='10.5564349'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='2297.03' />
+  </node>
+  <node id='-56' timestamp='2012-08-26T11:04:47Z' visible='true' lat='51.6958733' lon='10.5661999'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='2326' />
+  </node>
+  <node id='-54' timestamp='2011-08-15T16:25:58Z' visible='true' lat='51.7995051' lon='10.3396586'>
+    <tag k='operator' v='Harz Energie' />
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-50' timestamp='2012-08-26T11:04:41Z' visible='true' lat='51.7150272' lon='10.5621012'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='2319' />
+    <tag k='source' v='survey' />
+  </node>
+  <node id='-48' timestamp='2012-08-26T11:04:50Z' visible='true' lat='51.7206551' lon='10.6157503'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='3012' />
+    <tag k='ref:addr' v='Braunlage, Bodestraße' />
+  </node>
+  <node id='-40' timestamp='2010-04-10T08:25:42Z' visible='true' lat='51.8054003' lon='10.3753003'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-28' timestamp='2013-03-14T18:37:13Z' visible='true' lat='52.1811015' lon='10.2575513'>
+    <tag k='operator' v='EON_Avacon' />
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='Station: MN05282; Söhlde; WEA Loges' />
+  </node>
+  <node id='-24' timestamp='2012-08-26T11:04:42Z' visible='true' lat='51.728429' lon='10.6178793'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='3034' />
+    <tag k='ref:addr' v='Braunlage, Hüttenberg' />
+  </node>
+  <node id='-14' timestamp='2012-08-26T11:04:48Z' visible='true' lat='51.7166319' lon='10.6176861'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='3009' />
+    <tag k='ref:addr' v='Braunlage, Barbarahütte' />
+  </node>
+  <node id='-12' timestamp='2010-10-05T18:38:43Z' visible='true' lat='52.5008091' lon='10.7601466'>
+    <tag k='operator' v='LSW' />
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-10' timestamp='2011-06-22T07:15:00Z' visible='true' lat='52.3855936' lon='10.6449772'>
+    <tag k='power' v='sub_station' />
+  </node>
+  <node id='-4' timestamp='2012-12-31T16:57:28Z' visible='true' lat='51.7160032' lon='10.5306927'>
+    <tag k='power' v='sub_station' />
+    <tag k='ref' v='2713' />
+    <tag k='ref:addr' v='Sankt Andreasberg, Hallenbad' />
   </node>
 </osm>
