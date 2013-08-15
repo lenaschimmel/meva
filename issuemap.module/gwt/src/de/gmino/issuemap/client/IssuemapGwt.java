@@ -357,7 +357,7 @@ public class IssuemapGwt implements EntryPoint {
 					zgb.showGpxFromUrl("/gpx/110kv.gpx", "#FFFF00", false, 0);
 					zgb.showGpxFromUrl("/gpx/220kv.gpx", "#FF8800", false, 0);
 					zgb.showGpxFromUrl("/gpx/380kv.gpx", "#FF0000", false, 0);
-					zgb.showGpxFromUrl("/gpx/zgb_aussengrenze_2000.gpx",	"#000066", true, 0);
+					zgb.showGpxFromUrl("/gpx/zgb_aussengrenze_700.gpx",	"#000066", true, 0);
 					} catch (RequestException e) {
 					e.printStackTrace();
 				}

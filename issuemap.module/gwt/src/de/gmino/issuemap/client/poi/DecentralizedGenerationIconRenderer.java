@@ -24,7 +24,7 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 		if (poi instanceof DecentralizedGeneration) {
 			DecentralizedGeneration gen = (DecentralizedGeneration) poi;
 			hash.hashObject(gen.getUnitType());
-			hash.hashFloat(gen.getPower());
+			hash.hashInt(gen.getPowerLevel());
 		}
 		else
 		{
@@ -84,7 +84,10 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 	@Override
 	public int getWidth(Poi poi) {
 		if (poi instanceof DecentralizedGeneration)
-			return 38;
+		{
+			DecentralizedGeneration gen = (DecentralizedGeneration) poi;
+			return 19 * gen.getPowerLevel();
+		}
 		else
 			return 48;
 	}
@@ -92,7 +95,10 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 	@Override
 	public int getHeight(Poi poi) {
 		if (poi instanceof DecentralizedGeneration)
-			return 44;
+		{
+			DecentralizedGeneration gen = (DecentralizedGeneration) poi;
+			return 22 * gen.getPowerLevel();
+		}
 		else
 			return 56;
 	}
@@ -101,11 +107,11 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 	public void renderSmallIcon(Canvas canvas, Poi poi) {
 		if (poi instanceof DecentralizedGeneration)
 		{
-			DecentralizedGeneration gen = (DecentralizedGeneration) poi; 
+			DecentralizedGeneration gen = (DecentralizedGeneration) poi;
 			if(gen.getUnitType().equals("pv"))
-				drawDefaultCircle(canvas, COLOR_SUN);
+				drawDefaultCircle(canvas, COLOR_SUN, 4 *  gen.getPowerLevel());
 			else
-				drawDefaultCircle(canvas, COLOR_WIND);
+				drawDefaultCircle(canvas, COLOR_WIND, 4 *  gen.getPowerLevel());
 		}
 		else
 			drawDefaultCircle(canvas, COLOR_TRAFO);
@@ -120,11 +126,10 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 				hash.hashInt(123);
 			else
 				hash.hashInt(346);
+			hash.hashInt(gen.getPowerLevel());
 		}
 		else
 			hash.hashInt(644);
 		
 	}
-	
-	
 }

@@ -42,4 +42,9 @@ public class DecentralizedGeneration extends DecentralizedGenerationGen {
 	}
 	
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
+	
+	public int getPowerLevel()
+	{
+		return (int)(2 * Math.log10(getPower()));
+	}
 }
