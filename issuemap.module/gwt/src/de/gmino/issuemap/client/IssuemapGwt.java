@@ -341,9 +341,12 @@ public class IssuemapGwt implements EntryPoint {
 				Requests.loadEntities(IssuemapGwt.<DecentralizedGeneration, de.gmino.issuemap.shared.domain.DecentralizedGeneration>convertCollection(mapObject.getGenerations()), new RequestListener<DecentralizedGeneration>() {
 					@Override
 					public void onFinished(Collection<DecentralizedGeneration> results) {
+						scatterPois(results);
 						for(DecentralizedGeneration gen : results)
 							markerLayer.addPoi(gen);
 					}
+
+
 				});
 				showEEEntries();
 				ZgbTools zgb = new ZgbTools(
@@ -573,5 +576,39 @@ public class IssuemapGwt implements EntryPoint {
 			if(type.equals("sub_station")) markerLayer.addPoi(station);
   		}
 	  	
+	}
+	
+	private void scatterPois(Collection<? extends Poi> pois) {
+		double minDistMeter;
+
+		for(Poi subjectPoi : pois)
+		{
+			if(subjectPoi instanceof DecentralizedGeneration && ((DecentralizedGeneration)subjectPoi).getUnitType().equals("wk"))
+				minDistMeter = 200;
+			else
+				minDistMeter = 20;
+			
+			double angle = Math.random() * Math.PI * 2.0;
+			double dLat = Math.sin(angle);
+			double dLon = Math.cos(angle);
+			LatLon subLoc = subjectPoi.getLocation();
+			boolean tooClose;
+			do
+			{
+				tooClose = false;
+				for(Poi objectPoi : pois)
+				{
+					final double distMeter = subLoc.getDistanceTo(objectPoi.getLocation()).getInMeter();
+					if(distMeter < minDistMeter)
+					{
+						tooClose = true;
+						break;
+					}
+				}
+				if(tooClose)
+					subLoc = new LatLon(subLoc.getLatitude() + minDistMeter * 0.000009259 * dLat, subLoc.getLongitude() + minDistMeter * 0.000009259 * dLon);
+			} while(tooClose);
+			subjectPoi.setLocation(subLoc);
+		}
 	}
 }
