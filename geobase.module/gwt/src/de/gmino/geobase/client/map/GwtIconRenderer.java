@@ -64,13 +64,13 @@ public abstract class GwtIconRenderer<PoiType extends Poi> implements IconRender
 	
 	protected void drawDefaultCircle(Canvas can, String color, int size)
 	{
-		can.setCoordinateSpaceWidth(24);
-		can.setCoordinateSpaceHeight(24);
+		can.setCoordinateSpaceWidth(32);
+		can.setCoordinateSpaceHeight(32);
 		Context2d con = can.getContext2d();
 		
 		con.setFillStyle(color);
 		con.beginPath();
-		con.arc(size/2, size/2, size/2, 0, Math.PI * 2.0, true);
+		con.arc(16,16, size/2, 0, Math.PI * 2.0, true);
 		con.closePath();
 		con.fill();
 		con.setStrokeStyle("#000000");

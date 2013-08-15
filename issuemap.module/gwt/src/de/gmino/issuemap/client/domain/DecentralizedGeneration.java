@@ -45,6 +45,6 @@ public class DecentralizedGeneration extends DecentralizedGenerationGen {
 	
 	public int getPowerLevel()
 	{
-		return (int)(2 * Math.log10(getPower()));
+		return (int)(2 * Math.log10(getPower())) + 1;
 	}
 }
