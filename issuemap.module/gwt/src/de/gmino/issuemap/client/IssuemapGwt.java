@@ -607,6 +607,17 @@ public class IssuemapGwt implements EntryPoint {
 	  		if(nearestStation != null)
 	  		{
 	  			gen.station = nearestStation;
+	  			
+	  			if(gen.getUnitType().equals("pv"))
+	  			{
+	  				nearestStation.sunPowerSum += gen.getPower();
+	  				nearestStation.numberOfSunUnits++;
+	  			}
+	  			else
+	  			{
+	  				nearestStation.windPowerSum += gen.getPower();
+	  				nearestStation.numberOfWindUnits++;
+	  			}
 	  			//System.out.println(gen.getTitle() + " has nearest station " + nearestStation.getTitle() + " with color " + nearestStation.color);
 	  		}
 	  	}

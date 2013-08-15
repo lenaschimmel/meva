@@ -79,6 +79,10 @@ public class ElectricalSubstation extends ElectricalSubstationGen {
 	}
 	
 	public String color;
+	public int numberOfSunUnits;
+	public int numberOfWindUnits;
+	public float sunPowerSum;
+	public float windPowerSum;
 	
 	public void setRandomColor()
 	{

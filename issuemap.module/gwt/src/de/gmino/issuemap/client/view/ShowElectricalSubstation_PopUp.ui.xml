@@ -105,12 +105,16 @@
 	       <g:DeckPanel ui:field="deckPanel">
 	           <g:ScrollPanel ui:field="tabDescription" width="400px" height="130px"><!-- Description -->
 	               <g:VerticalPanel>
-	                   <g:HorizontalPanel ui:field="adressPanel"><g:Label width="120px" styleName="{style.meta_label_bold}">Adresse: </g:Label><g:Label ui:field="adress"></g:Label></g:HorizontalPanel>
-	               <g:HorizontalPanel ui:field="operatorPanel"><g:Label width="120px"  styleName="{style.meta_label_bold}">Betreiber: </g:Label><g:Label ui:field="operator"></g:Label></g:HorizontalPanel>	              
-	               <g:HorizontalPanel ui:field="lowVoltagePanel"><g:Label width="120px" styleName="{style.meta_label_bold}">Spannung (hoch): </g:Label><g:Label ui:field="highvoltage"></g:Label></g:HorizontalPanel>
-	               <g:HorizontalPanel ui:field="highVoltagePanel"><g:Label width="120px"  styleName="{style.meta_label_bold}">Spannung (niedrig): </g:Label><g:Label ui:field="lowvoltage"></g:Label></g:HorizontalPanel>
-	               <g:HorizontalPanel ui:field="frequenzPanel"><g:Label width="120px" styleName="{style.meta_label_bold}">Frequenz: </g:Label><g:Label ui:field="frequenz"></g:Label></g:HorizontalPanel>
-	               <g:HorizontalPanel ui:field="consumptionPanel"><g:Label width="120px"  styleName="{style.meta_label_bold}">Verbraucherleistung: </g:Label><g:Label ui:field="consumption"></g:Label></g:HorizontalPanel> 
+	                   <g:HorizontalPanel ui:field="adressPanel"><g:Label width="140px" styleName="{style.meta_label_bold}">Adresse: </g:Label><g:Label ui:field="adress"></g:Label></g:HorizontalPanel>
+	               <g:HorizontalPanel ui:field="operatorPanel"><g:Label width="140px"  styleName="{style.meta_label_bold}">Betreiber: </g:Label><g:Label ui:field="operator"></g:Label></g:HorizontalPanel>	              
+	               <g:HorizontalPanel ui:field="lowVoltagePanel"><g:Label width="140px" styleName="{style.meta_label_bold}">Spannung (hoch): </g:Label><g:Label ui:field="highvoltage"></g:Label></g:HorizontalPanel>
+	               <g:HorizontalPanel ui:field="highVoltagePanel"><g:Label width="140px"  styleName="{style.meta_label_bold}">Spannung (niedrig): </g:Label><g:Label ui:field="lowvoltage"></g:Label></g:HorizontalPanel>
+	               <g:HorizontalPanel ui:field="frequenzPanel"><g:Label width="140px" styleName="{style.meta_label_bold}">Frequenz: </g:Label><g:Label ui:field="frequenz"></g:Label></g:HorizontalPanel>
+	               <g:HorizontalPanel ui:field="consumptionPanel"><g:Label width="140px"  styleName="{style.meta_label_bold}">Verbraucherleistung: </g:Label><g:Label ui:field="consumption"></g:Label></g:HorizontalPanel> 
+	               <g:HorizontalPanel><g:Label width="140px"  styleName="{style.meta_label_bold}">Anzahl PV-Anlagen: </g:Label><g:Label ui:field="numberSun"></g:Label></g:HorizontalPanel> 
+	               <g:HorizontalPanel><g:Label width="140px"  styleName="{style.meta_label_bold}">Anzahl WK-Anlagen: </g:Label><g:Label ui:field="numberWind"></g:Label></g:HorizontalPanel> 
+	               <g:HorizontalPanel><g:Label width="140px"  styleName="{style.meta_label_bold}">Max. Leistung PV: </g:Label><g:Label ui:field="powerSun"></g:Label></g:HorizontalPanel> 
+	               <g:HorizontalPanel><g:Label width="140px"  styleName="{style.meta_label_bold}">Max. Leistung WK: </g:Label><g:Label ui:field="powerWind"></g:Label></g:HorizontalPanel> 
 	              
 	                   <g:HTML ui:field="description" styleName="{style.description_label}"></g:HTML>
 	               </g:VerticalPanel>
