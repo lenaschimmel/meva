@@ -40,7 +40,7 @@ public class ElectricalSubstationPopupCreator implements GwtPopupCreator<Electri
 		int width = 38;
 		Hover_PopUp hoverPopUp = new Hover_PopUp((int) (0.66*height));
 		if (poi.getTitle().equals("")) {
-			hoverPopUp.setText("Fahradwerkstatt (Name unbekannt)", poi.getDescription());
+			hoverPopUp.setText("Umspannwerk", poi.getDescription());
 		} else {
 			hoverPopUp.setText(poi.getTitle(), poi.getDescription());
 		}
