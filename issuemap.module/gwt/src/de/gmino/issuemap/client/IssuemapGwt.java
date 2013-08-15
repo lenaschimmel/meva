@@ -139,6 +139,9 @@ public class IssuemapGwt implements EntryPoint {
 	private OpenLayersSmartLayer markerLayer;
 	private Footer footer = new Footer();
 	private Header header = new Header();
+	
+	Collection<DecentralizedGeneration> generations;
+
 
 	int counter = 0;
 
@@ -339,16 +342,22 @@ public class IssuemapGwt implements EntryPoint {
 				markerLayer.addMarkerIconRenderer(DecentralizedGeneration.type, new DecentralizedGenerationIconRenderer());
 				
 				Requests.loadEntities(IssuemapGwt.<DecentralizedGeneration, de.gmino.issuemap.shared.domain.DecentralizedGeneration>convertCollection(mapObject.getGenerations()), new RequestListener<DecentralizedGeneration>() {
+					
 					@Override
-					public void onFinished(Collection<DecentralizedGeneration> results) {
-						scatterPois(results);
-						for(DecentralizedGeneration gen : results)
-							markerLayer.addPoi(gen);
+					public void onFinished(final Collection<DecentralizedGeneration> gens) {
+						scatterPois(gens);
+						
+						generations = gens;
+						showEEEntries(new RequestListener<Void>() {
+							@Override
+							public void onFinished(Collection<Void> nothing) {
+								for(DecentralizedGeneration gen : gens)
+									markerLayer.addPoi(gen);
+							}
+						});
 					}
-
-
 				});
-				showEEEntries();
+				
 				ZgbTools zgb = new ZgbTools(
 						markerLayer) {
 					@Override
@@ -494,7 +503,7 @@ public class IssuemapGwt implements EntryPoint {
 		return ret;
 	}
 	
-	private void showEEEntries()
+	private void showEEEntries(final RequestListener<Void> listener)
 	{
 		RequestBuilder rb = new RequestBuilder(RequestBuilder.GET, "/osm/powerNodesNoTowerZGB.osm");
 
@@ -505,6 +514,7 @@ public class IssuemapGwt implements EntryPoint {
 				public void onResponseReceived(Request request, Response response) {
 					String osmString = response.getText();
 					parseAndShowEEOsm(osmString);
+					listener.onFinished(null);
 				}
 
 				@Override
@@ -520,7 +530,7 @@ public class IssuemapGwt implements EntryPoint {
 	
 	private void parseAndShowEEOsm(String osmString) {
 		Document osmDom = XMLParser.parse(osmString);
-
+		Collection<ElectricalSubstation> stations = new ArrayList<ElectricalSubstation>();
 		NodeList shopList = osmDom.getElementsByTagName("node");
 	  	for(int n = 0; n < shopList.getLength(); n++)
   		{
@@ -573,9 +583,33 @@ public class IssuemapGwt implements EntryPoint {
 			
 			station.setAddress(new Address(station.getTitle(), street, housenumber, postcode, city, ""));
 			
-			if(type.equals("sub_station")) markerLayer.addPoi(station);
+			if(type.equals("sub_station")) 
+			{
+				station.setRandomColor();
+				markerLayer.addPoi(station);
+				stations.add(station);
+			}
   		}
 	  	
+	  	for(DecentralizedGeneration gen : generations)
+	  	{
+	  		double minDistMeter = 100000;
+	  		ElectricalSubstation nearestStation = null;
+	  		for(ElectricalSubstation station : stations)
+	  		{
+	  			double dist = gen.getLocation().getDistanceTo(station.getLocation()).getMeters();
+	  			if(dist < minDistMeter)
+	  			{
+	  				minDistMeter = dist;
+	  				nearestStation = station;
+	  			}
+	  		}
+	  		if(nearestStation != null)
+	  		{
+	  			gen.station = nearestStation;
+	  			//System.out.println(gen.getTitle() + " has nearest station " + nearestStation.getTitle() + " with color " + nearestStation.color);
+	  		}
+	  	}
 	}
 	
 	private void scatterPois(Collection<? extends Poi> pois) {

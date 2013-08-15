@@ -196,8 +196,8 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 			else
 			{
 				iconUrl = renderer.getSmallIconUrl(o);
-				width = 24;
-				height = 24;
+				width = 32;
+				height = 32;
 			}
 			JavaScriptObject jso = nAddMarker(iconUrl, o.getLocation()
 					.getLatitude(), o.getLocation().getLongitude(),

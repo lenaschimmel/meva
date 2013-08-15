@@ -27,7 +27,10 @@ public class Hasher {
 
 	public void hashObject(Object o)
 	{
-		hashInt(o.hashCode());
+		if(o == null)
+			hashInt(77);
+		else
+			hashInt(o.hashCode());
 	}
 
 	public void hashFloat(float f)

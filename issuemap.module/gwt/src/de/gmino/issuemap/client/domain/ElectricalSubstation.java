@@ -22,6 +22,8 @@ import java.util.Collection;
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
+import com.google.gwt.user.client.Random;
+
 // imports for field types
 import de.gmino.geobase.client.domain.Address;
 import de.gmino.geobase.client.domain.LatLon;
@@ -75,4 +77,29 @@ public class ElectricalSubstation extends ElectricalSubstationGen {
 		operator = "";
 		unitType = "";
 	}
+	
+	public String color;
+	
+	public void setRandomColor()
+	{
+
+	    String hex1 = getRandomMiddleHex();
+	    String hex2 = getRandomMiddleHex();
+	    String hex3 = getRandomMiddleHex();
+	    String hex4 = getRandomMiddleHex();
+	    String hex5 = getRandomMiddleHex();
+	    String hex6 = getRandomMiddleHex();
+
+	    color = "#" + hex1 + hex2 + hex3 + hex4 + hex5 + hex6;
+
+
+	}
+	
+	private static String getRandomMiddleHex() {
+		String[] hex = new String[] { "3", "4", "5", "6", "7", "8", "9", "A", "B", "C" };
+		int randomNum = Random.nextInt(hex.length);
+		String sHex = hex[randomNum];
+		return sHex;
+	}
+
 }
