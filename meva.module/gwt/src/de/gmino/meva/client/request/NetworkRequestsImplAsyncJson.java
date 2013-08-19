@@ -19,7 +19,7 @@ import com.google.gwt.http.client.Response;
 
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityQuery;
-import de.gmino.meva.shared.EntityTypeName;
+import de.gmino.meva.shared.TypeName;
 import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.ValueQuery;
 import de.gmino.meva.shared.request.NetworkRequests;
@@ -127,7 +127,7 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 	}
 
 	@Override
-	public void getNewIds(EntityTypeName type, int count, final RequestListener<Long> listener) {
+	public void getNewIds(TypeName type, int count, final RequestListener<Long> listener) {
 		if(count == 0)
 		{
 			Collection<Long> ids = new LinkedList<Long>();
@@ -312,7 +312,7 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 	}
 
 	@Override
-	public void getIdsByType(EntityTypeName type, final RequestListener<Long> listener) {
+	public void getIdsByType(TypeName type, final RequestListener<Long> listener) {
 		final String typeName = type.toString();
 
 		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, baseUrl + "Json/allEntities");

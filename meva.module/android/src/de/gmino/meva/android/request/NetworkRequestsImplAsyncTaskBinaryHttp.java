@@ -22,7 +22,7 @@ import android.os.AsyncTask;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityBinary;
 import de.gmino.meva.shared.EntityQuery;
-import de.gmino.meva.shared.EntityTypeName;
+import de.gmino.meva.shared.TypeName;
 import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.ValueBinary;
@@ -198,7 +198,7 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public void getNewIds(final EntityTypeName type, int count, final RequestListener<Long> listener) {
+	public void getNewIds(final TypeName type, int count, final RequestListener<Long> listener) {
 
 		new AsyncTask<Integer, Long, Collection<Long>>() {
 			private Throwable storedException;
@@ -391,7 +391,7 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public void getIdsByType(final EntityTypeName type, final RequestListener<Long> listener) {
+	public void getIdsByType(final TypeName type, final RequestListener<Long> listener) {
 
 		new AsyncTask<Void, Long, Collection<Long>>() {
 			private Throwable storedException;

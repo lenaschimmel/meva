@@ -21,7 +21,7 @@ import de.gmino.meva.shared.EntityBinary;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.EntityFactoryInterface;
 import de.gmino.meva.shared.EntityQuery;
-import de.gmino.meva.shared.EntityTypeName;
+import de.gmino.meva.shared.TypeName;
 import de.gmino.meva.shared.Query;
 import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.ValueBinary;
@@ -96,7 +96,7 @@ public class BinaryServer extends HttpServlet {
 		Query query = null;
 		DataInputStream dis = new DataInputStream(req.getInputStream());
 		String typeName = dis.readUTF();
-		EntityTypeName type = EntityTypeName.getByString(typeName);
+		TypeName type = TypeName.getEntityByString(typeName, false);
 		long id = dis.readLong();
 		Collection<Entity> entities = new LinkedList<Entity>();
 		while (id != 0) {
@@ -120,7 +120,7 @@ public class BinaryServer extends HttpServlet {
 	private void getEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		DataInputStream dis = new DataInputStream(req.getInputStream());
 		String typeName = dis.readUTF();
-		EntityTypeName type = EntityTypeName.getByString(typeName);
+		TypeName type = TypeName.getEntityByString(typeName, false);
 		long id = dis.readLong();
 
 		Collection<Long> ids = new LinkedList<Long>();
@@ -145,7 +145,7 @@ public class BinaryServer extends HttpServlet {
 	private void newEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		DataInputStream dis = new DataInputStream(req.getInputStream());
 		String typeName = dis.readUTF();
-		EntityTypeName type = EntityTypeName.getByString(typeName);
+		TypeName type = TypeName.getEntityByString(typeName, false);
 		int count = dis.readInt();
 
 		Collection<Entity> entities = LocalRequetsImpl.getNewEntities(type, count);
@@ -162,7 +162,7 @@ public class BinaryServer extends HttpServlet {
 	private void allEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		DataInputStream dis = new DataInputStream(req.getInputStream());
 		String typeName = dis.readUTF();
-		EntityTypeName type = EntityTypeName.getByString(typeName);
+		TypeName type = TypeName.getEntityByString(typeName, false);
 		
 		Collection<Long> ids = LocalRequetsImpl.getIdsByType(type);
 

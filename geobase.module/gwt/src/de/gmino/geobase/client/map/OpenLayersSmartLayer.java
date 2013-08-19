@@ -22,7 +22,7 @@ import de.gmino.geobase.shared.map.Marker;
 import de.gmino.geobase.shared.map.PopupCreator;
 import de.gmino.geobase.shared.map.SmartLayer;
 import de.gmino.meva.shared.Entity;
-import de.gmino.meva.shared.EntityTypeName;
+import de.gmino.meva.shared.TypeName;
 
 public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLayersLayer {
 
@@ -32,8 +32,8 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 	private JavaScriptObject popupLayerJso;
 	private Set<Marker> markers;
 	private OpenLayersMapView mapView;
-	private TreeMap<EntityTypeName, GwtIconRenderer> rendererMap;
-	private TreeMap<EntityTypeName, GwtPopupCreator> popupCreatorMap;
+	private TreeMap<TypeName, GwtIconRenderer> rendererMap;
+	private TreeMap<TypeName, GwtPopupCreator> popupCreatorMap;
 	private TreeMap<Long, Poi> pois;
 	private TreeMap<Poi, JavaScriptObject> poiJsos;
 	private TreeMap<Poi, DivElement> poiTooltipDivs;
@@ -44,8 +44,8 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 		this.zoomThreshold = zoomThreshold; 
 		this.name = name;
 		this.mapView = mapView;
-		this.rendererMap = new TreeMap<EntityTypeName, GwtIconRenderer>();
-		this.popupCreatorMap = new TreeMap<EntityTypeName, GwtPopupCreator>();
+		this.rendererMap = new TreeMap<TypeName, GwtIconRenderer>();
+		this.popupCreatorMap = new TreeMap<TypeName, GwtPopupCreator>();
 		this.pois = new TreeMap<Long, Poi>();
 		this.poiJsos = new TreeMap<Poi, JavaScriptObject>();
 		this.poiTooltipDivs = new TreeMap<Poi, DivElement>();
@@ -170,13 +170,13 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 	}-*/;
 
 	@Override
-	public void addMarkerIconRenderer(EntityTypeName type,
+	public void addMarkerIconRenderer(TypeName type,
 			IconRenderer<? extends Poi, Canvas> renderer) {
 		rendererMap.put(type, (GwtIconRenderer<? extends Poi>) renderer);
 	}
 
 	@Override
-	public void addMarkerPopupCreator(EntityTypeName type,
+	public void addMarkerPopupCreator(TypeName type,
 			PopupCreator<? extends Poi, Widget> creator) {
 		popupCreatorMap.put(type, (GwtPopupCreator<? extends Poi>) creator);
 	}
