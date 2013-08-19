@@ -1,0 +1,56 @@
+{
+	"package" : "de.gmino.issuemap.TARGET.domain",
+	"concept" : "entity",
+	"name" : "Poi",
+	"keyvalue" : "true",
+	"attributes" : [
+		{
+			"type" : "LatLon",
+			"name" : "location"
+		},
+		{
+			"type" : "String",
+			"name" : "title"
+		},
+		{
+			"type" : "Markertype",
+			"name" : "markertype"
+		},	
+		{
+			"type" : "Map",
+			"name" : "map_instance"
+		},		
+		{
+			"type" : "Timestamp",
+			"name" : "creationTimestamp"
+		},	
+		{
+			"type" : "int",
+			"name" : "rating"
+		},
+		{
+			"type" : "int",
+			"name" : "number_of_rating"
+		},	
+		{
+			"type" : "boolean",
+			"name" : "resolved"
+		},		
+		{
+			"type" : "boolean",
+			"name" : "deleted"
+		},
+		{
+			"type" : "relation",
+			"name" : "comments",
+			"reltype" : "Comment",
+			"relname" : "issue"
+		},
+		{
+			"type" : "relation",
+			"name" : "photos",
+			"reltype" : "Photo",
+			"relname" : "issue"
+		}
+	]
+}

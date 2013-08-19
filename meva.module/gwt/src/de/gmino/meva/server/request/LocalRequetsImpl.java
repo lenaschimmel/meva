@@ -12,7 +12,7 @@ import de.gmino.meva.server.SqlHelper;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.EntityQuery;
-import de.gmino.meva.shared.EntityTypeName;
+import de.gmino.meva.shared.TypeName;
 import de.gmino.meva.shared.Query;
 
 /**
@@ -35,7 +35,7 @@ public class LocalRequetsImpl {
 		return query.evaluate();
 	}
 
-	public static Collection<Long> getNewIds(EntityTypeName type, int count) {
+	public static Collection<Long> getNewIds(TypeName type, int count) {
 		Collection<Long> ret = new ArrayList<Long>(count);
 		Connection dbCon = SqlHelper.getConnection();
 		try {
@@ -88,14 +88,14 @@ public class LocalRequetsImpl {
 		}
 	}
 
-	public static <EntityClass extends Entity> Collection<EntityClass> getLoadedEntitiesById(EntityTypeName type, Collection<Long> ids) {
+	public static <EntityClass extends Entity> Collection<EntityClass> getLoadedEntitiesById(TypeName type, Collection<Long> ids) {
 
 		Collection<EntityClass> entities = EntityFactory.getUnloadedEntitiesById(type, ids);
 		loadEntities(entities);
 		return entities;
 	}
 
-	public static <EntityClass extends Entity> Collection<EntityClass> getLoadedEntitiesByQuery(final EntityTypeName type, EntityQuery q) {
+	public static <EntityClass extends Entity> Collection<EntityClass> getLoadedEntitiesByQuery(final TypeName type, EntityQuery q) {
 
 		Collection<Long> ids = q.evaluate();
 		Collection<EntityClass> entities = EntityFactory.getUnloadedEntitiesById(type, ids);
@@ -103,7 +103,7 @@ public class LocalRequetsImpl {
 		return entities;
 	}
 
-	public static <EntityClass extends Entity> Collection<EntityClass> getNewEntities(final EntityTypeName type, final int count) {
+	public static <EntityClass extends Entity> Collection<EntityClass> getNewEntities(final TypeName type, final int count) {
 
 		Collection<Long> ids = getNewIds(type, count);
 		Collection<EntityClass> entitites = EntityFactory.getUnloadedEntitiesById(type, ids);
@@ -111,7 +111,7 @@ public class LocalRequetsImpl {
 		return entitites;
 	}
 
-	public static <EntityClass extends Entity> Collection<EntityClass> getUnloadedEntitiesByQuery(final EntityTypeName type, Query q) {
+	public static <EntityClass extends Entity> Collection<EntityClass> getUnloadedEntitiesByQuery(final TypeName type, Query q) {
 
 		Collection<Long> ids = q.evaluate();
 
@@ -119,7 +119,7 @@ public class LocalRequetsImpl {
 		return entities;
 	}
 
-	public static Collection<Long> getIdsByType(EntityTypeName type) {
+	public static Collection<Long> getIdsByType(TypeName type) {
 		Connection dbCon = SqlHelper.getConnection();
 		Collection<Long> ret = new ArrayList<Long>();
 		try {

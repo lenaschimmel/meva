@@ -36,47 +36,48 @@ import de.gmino.meva.shared.ValueBinary;
 import de.gmino.meva.server.EntitySql;
 
 // imports for field types
-import de.gmino.geobase.server.domain.Address;
 import de.gmino.geobase.server.domain.LatLon;
+import de.gmino.geobase.server.domain.Timestamp;
+import de.gmino.issuemap.server.domain.Comment;
 import de.gmino.issuemap.server.domain.Map;
+import de.gmino.issuemap.server.domain.Markertype;
+import de.gmino.issuemap.server.domain.Photo;
 
 
-import de.gmino.issuemap.server.domain.gen.ElectricalSubstationGen;
+import de.gmino.issuemap.server.domain.gen.PoiGen;
 @SuppressWarnings("unused")
-public class ElectricalSubstation extends ElectricalSubstationGen {
+public class Poi extends PoiGen {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
-	public ElectricalSubstation(long id)
+	public Poi(long id)
 	{
 		super(id);
 	}
 	
-	public ElectricalSubstation(
+	public Poi(
 			long id,
 			boolean ready,
 			LatLon location,
 			String title,
-			Address address,
-			String unitType,
-			String operator,
-			int frequence,
-			float high_voltage,
-			float low_voltage,
-			float consumption,
-			Map map_instance)
+			Markertype markertype,
+			Map map_instance,
+			Timestamp creationTimestamp,
+			int rating,
+			int number_of_rating,
+			boolean resolved,
+			boolean deleted)
 	{
 		super(
 			id,
 			ready,
 			(de.gmino.geobase.server.domain.LatLon)location,
 			title,
-			(de.gmino.geobase.server.domain.Address)address,
-			unitType,
-			operator,
-			frequence,
-			high_voltage,
-			low_voltage,
-			consumption,
-			(de.gmino.issuemap.server.domain.Map)map_instance
+			(de.gmino.issuemap.server.domain.Markertype)markertype,
+			(de.gmino.issuemap.server.domain.Map)map_instance,
+			(de.gmino.geobase.server.domain.Timestamp)creationTimestamp,
+			rating,
+			number_of_rating,
+			resolved,
+			deleted
 		);
 		this.ready = true;
 	}

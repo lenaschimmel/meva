@@ -37,7 +37,7 @@ public class EntityFactory {
 		}
 	}
 
-	public static <EntityClass extends Entity> Collection<EntityClass> getUnloadedEntitiesById(EntityTypeName type, Collection<Long> ids) {
+	public static <EntityClass extends Entity> Collection<EntityClass> getUnloadedEntitiesById(TypeName type, Collection<Long> ids) {
 		if (factoryImplementation == null)
 			throw new RuntimeException("You must first call setImplementations.");
 
@@ -59,7 +59,7 @@ public class EntityFactory {
 		return ret;
 	}
 
-	public static Entity getUnloadedEntityById(EntityTypeName type, long id) {
+	public static Entity getUnloadedEntityById(TypeName type, long id) {
 		// TODO Always delegating to the collection-variant avoids code
 		// duplication, but is not the best decision for performance.
 		Collection<Long> idList = new LinkedList<Long>();

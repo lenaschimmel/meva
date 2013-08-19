@@ -29,7 +29,7 @@ import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.EntityFactoryInterface;
 import de.gmino.meva.shared.EntityQuery;
-import de.gmino.meva.shared.EntityTypeName;
+import de.gmino.meva.shared.TypeName;
 import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.ValueQuery;
@@ -157,7 +157,7 @@ public class JsonServer extends HttpServlet {
 		JsonObject requestObject = requestValue.asObject();
 
 		String typeName = requestObject.getString("typeName");
-		EntityTypeName type = EntityTypeName.getByString(typeName);
+		TypeName type = TypeName.getEntityByString(typeName, true);
 		JsonObject entitiesMap = requestObject.getObject("entities");
 
 		Collection<Entity> entitiesToSave = new ArrayList<Entity>(entitiesMap.size());
@@ -182,7 +182,7 @@ public class JsonServer extends HttpServlet {
 		JsonObject requestObject = requestValue.asObject();
 
 		String typeName = requestObject.getString("typeName");
-		EntityTypeName type = EntityTypeName.getByString(typeName);
+		TypeName type = TypeName.getEntityByString(typeName, true);
 		JsonArray idArray = requestObject.getArray("ids");
 
 		Collection<Long> ids = new LinkedList<Long>();
@@ -218,7 +218,7 @@ public class JsonServer extends HttpServlet {
 		JsonObject requestObject = requestValue.asObject();
 
 		String typeName = requestObject.getString("typeName");
-		EntityTypeName type = EntityTypeName.getByString(typeName);
+		TypeName type = TypeName.getEntityByString(typeName, true);
 		int count = Integer.parseInt(requestObject.getString("count"));
 
 		Collection<Long> ids = LocalRequetsImpl.getNewIds(type, count);
@@ -249,7 +249,7 @@ public class JsonServer extends HttpServlet {
 		JsonObject requestObject = requestValue.asObject();
 
 		String typeName = requestObject.getString("typeName");
-		EntityTypeName type = EntityTypeName.getByString(typeName);
+		TypeName type = TypeName.getEntityByString(typeName, true);
 		
 		Collection<Long> ids = LocalRequetsImpl.getIdsByType(type);
 

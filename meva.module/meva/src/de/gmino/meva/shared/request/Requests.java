@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.EntityQuery;
-import de.gmino.meva.shared.EntityTypeName;
+import de.gmino.meva.shared.TypeName;
 import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.ValueQuery;
 
@@ -59,20 +59,20 @@ public class Requests {
 		networkImpl.getValuesByQuery(query, listener);
 	}
 
-	public static <EntityClass extends Entity> void getLoadedEntityById(EntityTypeName type, long id, RequestListener<EntityClass> listener) {
+	public static <EntityClass extends Entity> void getLoadedEntityById(TypeName type, long id, RequestListener<EntityClass> listener) {
 		Collection<Long> list = new LinkedList<Long>();
 		list.add(id);
 		getLoadedEntitiesById(type, list, listener);
 	}
 
-	public static <EntityClass extends Entity> void getLoadedEntitiesById(EntityTypeName type, Collection<Long> ids, RequestListener<EntityClass> listener) {
+	public static <EntityClass extends Entity> void getLoadedEntitiesById(TypeName type, Collection<Long> ids, RequestListener<EntityClass> listener) {
 		ensureImplementation();
 		
 		Collection<EntityClass> entities = EntityFactory.getUnloadedEntitiesById(type, ids);
 		loadEntities(entities, listener);
 	}
 	
-	public static <EntityClass extends Entity> void getLoadedEntitiesByType(EntityTypeName type, final RequestListener<EntityClass> listener) {
+	public static <EntityClass extends Entity> void getLoadedEntitiesByType(TypeName type, final RequestListener<EntityClass> listener) {
 		ensureImplementation();
 
 		getUnloadedEntitiesByType(type, new RequestListener<EntityClass>() {
@@ -83,7 +83,7 @@ public class Requests {
 		});
 	}	
 	
-	public static <EntityClass extends Entity> void getUnloadedEntitiesByType(final EntityTypeName type, final RequestListener<EntityClass> listener) {
+	public static <EntityClass extends Entity> void getUnloadedEntitiesByType(final TypeName type, final RequestListener<EntityClass> listener) {
 		ensureImplementation();
 
 		networkImpl.getIdsByType(type, new RequestListener<Long>() {
@@ -96,7 +96,7 @@ public class Requests {
 		
 	}
 
-	public static <EntityClass extends Entity> void getLoadedEntitiesByQuery(final EntityTypeName type, EntityQuery q, final RequestListener<EntityClass> listener) {
+	public static <EntityClass extends Entity> void getLoadedEntitiesByQuery(final TypeName type, EntityQuery q, final RequestListener<EntityClass> listener) {
 		ensureImplementation();
 
 		getIdsByQuery(q, new RequestListener<Long>() {
@@ -115,11 +115,11 @@ public class Requests {
 		});
 	}
 
-	public static <EntityClass extends Entity> void getNewEntity(final EntityTypeName type, final RequestListener<EntityClass> listener) {
+	public static <EntityClass extends Entity> void getNewEntity(final TypeName type, final RequestListener<EntityClass> listener) {
 		getNewEntities(type, 1, listener);
 	}
 
-	public static <EntityClass extends Entity> void getNewEntities(final EntityTypeName type, final int count, final RequestListener<EntityClass> listener) {
+	public static <EntityClass extends Entity> void getNewEntities(final TypeName type, final int count, final RequestListener<EntityClass> listener) {
 		ensureImplementation();
 
 		getNewIds(type, count, new RequestListener<Long>() {
@@ -142,14 +142,14 @@ public class Requests {
 		});
 	}
 
-	public static void getNewIds(EntityTypeName type, int count, RequestListener<Long> listener) {
+	public static void getNewIds(TypeName type, int count, RequestListener<Long> listener) {
 
 		ensureImplementation();
 
 		networkImpl.getNewIds(type, count, listener);
 	}
 
-	public static <EntityClass extends Entity> void getUnloadedEntitiesByQuery(final EntityTypeName type, EntityQuery q, final RequestListener<EntityClass> listener) {
+	public static <EntityClass extends Entity> void getUnloadedEntitiesByQuery(final TypeName type, EntityQuery q, final RequestListener<EntityClass> listener) {
 
 		ensureImplementation();
 
@@ -215,7 +215,7 @@ public class Requests {
 			//new Throwable().printStackTrace();
 			return;
 		}
-		EntityTypeName fistTypeName = entities.iterator().next().getType();
+		TypeName fistTypeName = entities.iterator().next().getType();
 		for (Entity e : entities) {
 			if (fistTypeName != e.getType())
 				throw new RuntimeException("Heterogenous types in Request: first Entity has type " + fistTypeName + ", another one has " + e.getType());

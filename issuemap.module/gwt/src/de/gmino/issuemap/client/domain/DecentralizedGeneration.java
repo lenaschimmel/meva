@@ -47,4 +47,6 @@ public class DecentralizedGeneration extends DecentralizedGenerationGen {
 	{
 		return (int)(2 * Math.log10(getPower())) + 1;
 	}
+	
+	public ElectricalSubstation station;
 }

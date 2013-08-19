@@ -139,9 +139,13 @@ public class ShowElectricalSubstation_PopUp extends Composite {
 		if (mSubstation.getConsumption()==0) {
 			consumptionPanel.getElement().removeFromParent();
 		} else {
-			consumption.setText(mSubstation.getConsumption()+"KW");
+			consumption.setText(mSubstation.getConsumption()+"kW");
 		}
-				
+		
+		numberWind.setText(mSubstation.numberOfWindUnits+"");
+		numberSun .setText(mSubstation.numberOfSunUnits+"");
+		powerWind .setText(mSubstation.windPowerSum+"kW");
+		powerSun  .setText(mSubstation.sunPowerSum+"kW");
 
 		deckPanel.showWidget(0);
 
@@ -183,6 +187,14 @@ public class ShowElectricalSubstation_PopUp extends Composite {
 	Label frequenz;
 	@UiField
 	Label consumption;
+	@UiField
+	Label numberWind;
+	@UiField
+	Label numberSun;
+	@UiField
+	Label powerWind;
+	@UiField
+	Label powerSun;
 	@UiField
 	HTML description;
 	@UiField

@@ -25,12 +25,15 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 			DecentralizedGeneration gen = (DecentralizedGeneration) poi;
 			hash.hashObject(gen.getUnitType());
 			hash.hashInt(gen.getPowerLevel());
+			if(gen.station != null)
+				hash.hashObject(gen.station.color);
 		}
 		else
 		{
 			ElectricalSubstation sub = (ElectricalSubstation) poi;
 			hash.hashFloat(sub.getLow_voltage());
 			hash.hashFloat(sub.getHigh_voltage());
+			hash.hashObject(sub.color);
 		}
 	}
 	
@@ -54,11 +57,15 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 				img = loader.getImageByUrl("/mapicon/windtourbine.png");
 				con.setFillStyle(COLOR_WIND);
 			}
+			if(gen.station != null)
+				con.setFillStyle(gen.station.color);
 		}
 		else
 		{
+			ElectricalSubstation sta = (ElectricalSubstation) poi;
 			img = loader.getImageByUrl("/mapicon/trafo.png");
-			con.setFillStyle(COLOR_TRAFO);
+			//con.setFillStyle(COLOR_TRAFO);
+			con.setFillStyle(sta.color);
 		}
 		
 		int imageWidth = getWidth(poi);
@@ -86,7 +93,7 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 		if (poi instanceof DecentralizedGeneration)
 		{
 			DecentralizedGeneration gen = (DecentralizedGeneration) poi;
-			return 19 * gen.getPowerLevel();
+			return 10 * gen.getPowerLevel() + 15;
 		}
 		else
 			return 48;
@@ -97,7 +104,7 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 		if (poi instanceof DecentralizedGeneration)
 		{
 			DecentralizedGeneration gen = (DecentralizedGeneration) poi;
-			return 22 * gen.getPowerLevel();
+			return 11 * gen.getPowerLevel() + 17;
 		}
 		else
 			return 56;
@@ -108,13 +115,21 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 		if (poi instanceof DecentralizedGeneration)
 		{
 			DecentralizedGeneration gen = (DecentralizedGeneration) poi;
+			String color;
 			if(gen.getUnitType().equals("pv"))
-				drawDefaultCircle(canvas, COLOR_SUN, 4 *  gen.getPowerLevel());
+				color = COLOR_SUN;
 			else
-				drawDefaultCircle(canvas, COLOR_WIND, 4 *  gen.getPowerLevel());
+				color = COLOR_WIND;
+			if(gen.station != null)
+				color = gen.station.color;
+			drawDefaultCircle(canvas, color, 4 *  gen.getPowerLevel());
 		}
 		else
-			drawDefaultCircle(canvas, COLOR_TRAFO);
+		{
+			//ElectricalSubstation sub = (ElectricalSubstation) poi;
+			//drawDefaultCircle(canvas, sub.color);
+			renderIcon(canvas, poi);
+		}
 	}
 
 	@Override
@@ -127,9 +142,15 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 			else
 				hash.hashInt(346);
 			hash.hashInt(gen.getPowerLevel());
+			if(gen.station != null)
+				hash.hashObject(gen.station.color);
 		}
 		else
+		{
+			ElectricalSubstation sub = (ElectricalSubstation)poi;
 			hash.hashInt(644);
+			hash.hashObject(sub.color);
+		}
 		
 	}
 }

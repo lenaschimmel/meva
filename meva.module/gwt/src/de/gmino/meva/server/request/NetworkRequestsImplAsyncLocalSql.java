@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityQuery;
-import de.gmino.meva.shared.EntityTypeName;
+import de.gmino.meva.shared.TypeName;
 import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.ValueQuery;
 import de.gmino.meva.shared.request.NetworkRequests;
@@ -37,7 +37,7 @@ public class NetworkRequestsImplAsyncLocalSql implements NetworkRequests {
 	}
 
 	@Override
-	public void getNewIds(EntityTypeName type, int count, RequestListener<Long> listener) {
+	public void getNewIds(TypeName type, int count, RequestListener<Long> listener) {
 		Collection<Long> results = LocalRequetsImpl.getNewIds(type, count);
 		for(Long result : results)
 			listener.onNewResult(result);
@@ -61,7 +61,7 @@ public class NetworkRequestsImplAsyncLocalSql implements NetworkRequests {
 	}
 
 	@Override
-	public void getIdsByType(EntityTypeName type,
+	public void getIdsByType(TypeName type,
 			RequestListener<Long> listener) {
 		Collection<Long> results = LocalRequetsImpl.getIdsByType(type);
 		for(Long result : results)

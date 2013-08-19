@@ -1,7 +1,7 @@
 // You may edit this file. It has been generated, but it will NOT be overwritten by Meva.
 // To regenerate this file, delete it and run Meva again.
 
-package de.gmino.issuemap.shared.domain;
+package de.gmino.issuemap.ios.domain;
 
 // gmino stuff
 import de.gmino.meva.shared.Entity;
@@ -23,57 +23,51 @@ import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
 // imports for field types
-import de.gmino.geobase.shared.domain.Address;
-import de.gmino.geobase.shared.domain.LatLon;
-import de.gmino.geobase.shared.domain.Poi;
-import de.gmino.issuemap.shared.domain.Map;
+import de.gmino.geobase.ios.domain.LatLon;
+import de.gmino.geobase.ios.domain.Timestamp;
+import de.gmino.issuemap.ios.domain.Comment;
+import de.gmino.issuemap.ios.domain.Map;
+import de.gmino.issuemap.ios.domain.Markertype;
+import de.gmino.issuemap.ios.domain.Photo;
 
 
-import de.gmino.issuemap.shared.domain.gen.ElectricalSubstationGen;
+import de.gmino.issuemap.ios.domain.gen.PoiGen;
 @SuppressWarnings("unused")
-public class ElectricalSubstation extends ElectricalSubstationGen implements Poi {
+public class Poi extends PoiGen {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
-	public ElectricalSubstation(long id)
+	public Poi(long id)
 	{
 		super(id);
 	}
 	
-	public ElectricalSubstation(
+	public Poi(
 			long id,
 			boolean ready,
 			LatLon location,
 			String title,
-			Address address,
-			String unitType,
-			String operator,
-			int frequence,
-			float high_voltage,
-			float low_voltage,
-			float consumption,
-			Map map_instance)
+			Markertype markertype,
+			Map map_instance,
+			Timestamp creationTimestamp,
+			int rating,
+			int number_of_rating,
+			boolean resolved,
+			boolean deleted)
 	{
 		super(
 			id,
 			ready,
-			(de.gmino.geobase.shared.domain.LatLon)location,
+			(de.gmino.geobase.ios.domain.LatLon)location,
 			title,
-			(de.gmino.geobase.shared.domain.Address)address,
-			unitType,
-			operator,
-			frequence,
-			high_voltage,
-			low_voltage,
-			consumption,
-			(de.gmino.issuemap.shared.domain.Map)map_instance
+			(de.gmino.issuemap.ios.domain.Markertype)markertype,
+			(de.gmino.issuemap.ios.domain.Map)map_instance,
+			(de.gmino.geobase.ios.domain.Timestamp)creationTimestamp,
+			rating,
+			number_of_rating,
+			resolved,
+			deleted
 		);
 		this.ready = true;
 	}
 	
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
-
-	@Override
-	public String getDescription() {
-		return "Substation. GetDescription not implemented.";
-	}
-	
 }
