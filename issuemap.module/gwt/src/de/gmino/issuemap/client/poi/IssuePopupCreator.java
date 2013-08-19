@@ -13,6 +13,7 @@ import de.gmino.issuemap.client.view.Hover_PopUp;
 import de.gmino.issuemap.client.view.ShowEvent_PopUp;
 import de.gmino.issuemap.client.view.ShowIssue_PopUp;
 import de.gmino.issuemap.client.view.ShowPoi_PopUp;
+import de.gmino.issuemap.client.view.Show_PopUp;
 
 public class IssuePopupCreator implements GwtPopupCreator<Issue> {
 
@@ -44,7 +45,7 @@ public class IssuePopupCreator implements GwtPopupCreator<Issue> {
 		} else if(markerId >= 80 && markerId <= 94){
 			popup = new ShowPoi_PopUp(map, poi, wrapper, smartLayer);
 		} else {
-			popup = new ShowIssue_PopUp(map, poi, wrapper, smartLayer);
+			popup = new Show_PopUp(map, poi, wrapper, smartLayer);
 		}
 		wrapper.add(popup);
 		return wrapper;

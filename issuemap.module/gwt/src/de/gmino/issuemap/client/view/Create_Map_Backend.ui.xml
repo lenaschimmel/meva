@@ -7,13 +7,96 @@
 		}
 		
 		.label{
-			display: block;
-			float: left;
-			width: 200px;
+			width: 180px;
+			margin: 1px;
 		}
 		.textBox{
-			width: 70%;
-}
+			position: absolute;
+			left: 200px;
+			height: 19px;
+			width: 500px;
+		}
+		
+		.textArea{
+			position: absolute;
+			left: 200px;
+			height: 200px;
+			width: 500px;
+			font-family: inherit;
+			font-size: inherit;
+		}
+		
+		.textBox12{
+			position: absolute;
+			left: 200px;
+			width: 245px;
+			height: 19px;
+			}
+			
+		.textBox22{
+			position: absolute;
+			left: 455px;
+			width: 245px;
+			height: 19px;
+			}
+			
+		.textBox14{
+			position: absolute;
+			left: 200px;
+			width: 120px;
+			height: 19px;
+			}
+			
+		.textBox24{
+			position: absolute;
+			left: 330px;
+			width: 120px;
+			height: 19px;
+			}
+			
+		.textBox34{
+			position: absolute;
+			left: 460px;
+			width: 120px;
+			height: 19px;
+			}
+			
+		.textBox44{
+			position: absolute;
+			left: 590px;
+			width: 110px;
+			height: 19px;
+			}
+			
+		.textBox13{
+			position: absolute;
+			left: 200px;
+			width: 160px;
+			height: 19px;
+			}
+			
+		.textBox123{
+			position: absolute;
+			left: 200px;
+			width: 330px;
+			height: 19px;
+			}
+			
+		.textBox23{
+			position: absolute;
+			left: 370px;
+			width: 160px;
+			height: 19px;
+			}
+		
+		.textBox33{
+			position: absolute;
+			left: 540px;
+			width: 160px;
+			height: 19px;
+			}
+			
+
 		
 		.parent{
 			background: rgba(200,200,200, 1);
@@ -24,52 +107,126 @@
 			border-top-left-radius: 4px;
 			border-bottom-left-radius: 4px;
 			border: 1px solid #ccc;
-			overflow: hidden;
+			
 			
 		}
 		
-		.heading{
+		.h1{
 			font-size: x-large;
 			text-align: center;
 			margin-bottom: 20px;
+			width: 100%;
+		}
+		.h2{
+			font-size: large;
+			margin-top:20px;
+			margin-bottom: 10px;
+			width: 100%;
+			clear: both;
 		}
 
 		.markerPanel{
 			margin-top: 20px;
 			}
+		.typeselect{
+			width: 500px;
+			position: absolute;
+			left: 200px;
+			margin-left: 10px;
+			height: 25px;
+			margin: 2px;
+		}
+		
+		.checkBox{
+			padding-top: 10px;
+
+	
+		}
+		.checkBoxlabel{
+			width: 180px;
+			margin: 2px;
+			
+		}
+		.checkBoxExtension{
+			width: 350px;
+			height: 25px;
+			margin-left: 5px;
+			}
 		
 	</ui:style>
-	<g:HTMLPanel styleName="{style.parent}">
-		<g:Label styleName="{style.heading}" ui:field="heading">Neue Map erstellen</g:Label>
-		<g:FlowPanel><g:InlineLabel text="Titel:" styleName="{style.label}"/><g:TextBox styleName="{style.textBox}" ui:field="title"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="Subdomain:" styleName="{style.label}"/><g:TextBox styleName="{style.textBox}" ui:field="subdomain"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="Info-Text:" styleName="{style.label}"/><g:TextBox styleName="{style.textBox}" ui:field="infoText"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="Marker-Farbe:" styleName="{style.label}"/><g:TextBox styleName="{style.textBox}" ui:field="primary_color"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="Text-Farbe:" styleName="{style.label}"/><g:TextBox styleName="{style.textBox}" ui:field="secondary_color"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="Hintergrund-Farbe:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="background_color"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="Erledigt-Farbe:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="resolved_color"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="Stadt:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="city"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="Initiale Latitude:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="initLocation_latitude"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="Initiale Longitude:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="initLocation_longitude"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="Initialer Zoom:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="initZoomlevel"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="URL zum Logo" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="logo_url"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="Website:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="website"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="E-Mail:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="email"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="Impressums URL:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="url_impressum"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="Name des Betreibers:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="recipient_name"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="Adresszusatz:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="additionalAddressLine"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="Straße:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="street"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="Hausnummer:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="houseNumber"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="PLZ:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="zip"/></g:FlowPanel>
-		<g:FlowPanel><g:InlineLabel text="Map-Typ:" styleName="{style.label}" />
-			<g:ListBox styleName="{style.textBox}" ui:field="mapType">
-				<g:item value='0'>Issue-Map</g:item>
-				<g:item value='1'>Event-Map</g:item>
-				<g:item value='2'>EE-Map</g:item>
+	<g:HTMLPanel >
+	<g:VerticalPanel styleName="{style.parent}" width="780px">
+		<g:Label styleName="{style.h1}" ui:field="heading">Neue Map erstellen</g:Label>
+		<g:Label styleName="{style.h2}">Metadaten</g:Label>
+		<g:HorizontalPanel height="28px"><g:Label text="Texte:" styleName="{style.label}"/><g:TextBox styleName="{style.textBox123}" ui:field="title"/><g:TextBox styleName="{style.textBox33}" ui:field="subdomain"/></g:HorizontalPanel>
+		<g:HorizontalPanel height="210px"><g:TextArea styleName="{style.textArea}" ui:field="infoText"/></g:HorizontalPanel>
+		<g:HorizontalPanel height="28px"><g:InlineLabel text="Logo-URL:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="logo_url"/></g:HorizontalPanel>
+		<g:HorizontalPanel height="28px"><g:Label text="Farben:" styleName="{style.label}"/><g:TextBox styleName="{style.textBox14}" ui:field="primary_color"/>
+		<g:TextBox styleName="{style.textBox24}" ui:field="secondary_color"/>
+		<g:TextBox styleName="{style.textBox34}" ui:field="background_color"/>
+		<g:TextBox styleName="{style.textBox44}" ui:field="resolved_color"/></g:HorizontalPanel>
+		<g:HorizontalPanel height="28px"><g:InlineLabel text="Start Position:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox13}" ui:field="initLocation_latitude"/><g:TextBox styleName="{style.textBox23}" ui:field="initLocation_longitude"/><g:TextBox styleName="{style.textBox33}" ui:field="initZoomlevel"/></g:HorizontalPanel>
+		<g:HorizontalPanel height="28px"><g:InlineLabel text="Website, Impressum:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox12}" ui:field="website"/><g:TextBox styleName="{style.textBox22}" ui:field="url_impressum"/></g:HorizontalPanel>
+		<g:HorizontalPanel height="28px"><g:InlineLabel text="Kontakt (Name, Mail):" styleName="{style.label}" /><g:TextBox styleName="{style.textBox12}" ui:field="recipient_name"/><g:TextBox styleName="{style.textBox22}" ui:field="email"/></g:HorizontalPanel>
+		<g:HorizontalPanel height="28px"><g:InlineLabel text="Adresszusatz:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="additionalAddressLine"/></g:HorizontalPanel>
+		<g:HorizontalPanel height="28px"><g:InlineLabel text="Straße, Hausnummer:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox12}" ui:field="street"/><g:TextBox styleName="{style.textBox22}" ui:field="houseNumber"/></g:HorizontalPanel>
+		<g:HorizontalPanel height="28px"><g:InlineLabel text="PLZ, Stadt:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox12}" ui:field="zip"/><g:TextBox styleName="{style.textBox22}" ui:field="city"/></g:HorizontalPanel>
+		
+		<g:Label styleName="{style.h2}">Marker-Klasse</g:Label>
+		<g:HorizontalPanel height="32px"><g:Label text="Klasse:" styleName="{style.label}" />
+			<g:ListBox styleName="{style.typeselect}" ui:field="mapType">
+				<g:item value='0'>Issues</g:item>
+				<g:item value='1'>Veranstaltungen</g:item>
+				<g:item value='2'>Dezentrale Energieerzeuger</g:item>
+				<g:item value='2'>keine</g:item>
 			</g:ListBox>
+		</g:HorizontalPanel>
+		<g:FlowPanel>
+			<g:ListBox styleName="{style.label}" ui:field="type1">
+				<g:item value='0'>Text kurz</g:item>
+				<g:item value='1'>Text lang</g:item>
+				<g:item value='2'>Integer</g:item>
+				<g:item value='2'>Float</g:item>
+				<g:item value='2'>Datum</g:item>
+			</g:ListBox>
+			<g:TextBox text="Wert 1" styleName="{style.textBox}" ui:field="value1"></g:TextBox>
 		</g:FlowPanel>
-		<g:Button styleName="{style.important}" ui:field="button" text="Speichern"/>
-		<g:FlowPanel width="100%" styleName="{style.markerPanel}" ui:field="markerPanel"></g:FlowPanel>
+				<g:FlowPanel>
+			<g:ListBox styleName="{style.label}" ui:field="type2">
+				<g:item value='0'>Text kurz</g:item>
+				<g:item value='1'>Text lang</g:item>
+				<g:item value='2'>Integer</g:item>
+				<g:item value='2'>Float</g:item>
+				<g:item value='2'>Datum</g:item>
+			</g:ListBox>
+			<g:TextBox text="Wert 2" styleName="{style.textBox}" ui:field="value2"></g:TextBox>
+		</g:FlowPanel>
+				<g:FlowPanel>
+			<g:ListBox styleName="{style.label}" ui:field="type3">
+				<g:item value='0'>Text kurz</g:item>
+				<g:item value='1'>Text lang</g:item>
+				<g:item value='2'>Integer</g:item>
+				<g:item value='2'>Float</g:item>
+				<g:item value='2'>Datum</g:item>
+			</g:ListBox>
+			<g:TextBox text="Wert 3" styleName="{style.textBox}" ui:field="value3"></g:TextBox>
+		</g:FlowPanel>
+		<g:Label styleName="{style.h2}">Marker-Auswahl</g:Label>
+		
+		
+		<g:FlowPanel width="100%"><g:FlowPanel width="100%" styleName="{style.markerPanel}" ui:field="markerPanel"></g:FlowPanel></g:FlowPanel>
 		<g:FlowPanel width="100%" styleName="{style.markerPanel}" ui:field="eePanel"></g:FlowPanel>
+		<g:Label styleName="{style.h2}">Imports</g:Label>
+		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="gpxImportCheckbox"/><g:Label text="GPX-Datein" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="gpxFiles"/></g:HorizontalPanel>
+		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="mapsImportCheckbox"/><g:Label text="Maps" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="mapIds"/></g:HorizontalPanel>
+		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="markerImportCheckbox"/><g:Label text="Marker" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="markerIds"/></g:HorizontalPanel>
+		<g:Label styleName="{style.h2}">Features</g:Label>
+		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="fotosCheckbox"/><g:Label text="Fotos" styleName="{style.label}"/></g:HorizontalPanel>
+		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="commentsCheckbox"/><g:Label text="Kommentare" styleName="{style.label}" /></g:HorizontalPanel>
+		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="ratingsCheckbox"/><g:Label text="Bewertungen" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="rateCriteria"/></g:HorizontalPanel>
+		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="listCheckbox"/><g:Label text="Listenansicht" styleName="{style.label}" /><g:ListBox styleName="{style.checkBoxExtension}" ui:field="sortCriteria"></g:ListBox></g:HorizontalPanel>
+		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="filtersCheckbox"/><g:Label text="Filter" styleName="{style.label}"/><g:ListBox styleName="{style.checkBoxExtension}" ui:field="filterCriteria"/></g:HorizontalPanel>
+		<g:Button styleName="{style.important}" ui:field="button" text="Speichern"/>
+	</g:VerticalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

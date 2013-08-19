@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.TreeMap;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -13,6 +14,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -68,7 +70,7 @@ public class Create_Map_Backend extends Composite {
 	@UiField
 	TextBox subdomain;
 	@UiField
-	TextBox infoText;
+	TextArea infoText;
 	@UiField
 	TextBox primary_color;
 	@UiField
@@ -125,6 +127,27 @@ public class Create_Map_Backend extends Composite {
 				}
 		});
 	}
+	
+	@UiHandler("primary_color")
+	void onPrimaryColorChange(ChangeEvent e) {
+		primary_color.getElement().getStyle().setBackgroundColor(primary_color.getText());
+	}
+	
+	@UiHandler("secondary_color")
+	void onSecondaryColorChange(ChangeEvent e) {
+		secondary_color.getElement().getStyle().setBackgroundColor(secondary_color.getText());
+	}
+	
+	@UiHandler("background_color")
+	void onBackgroundColorChange(ChangeEvent e) {
+		background_color.getElement().getStyle().setBackgroundColor(background_color.getText());
+	}
+	
+	@UiHandler("resolved_color")
+	void onResolvedColorChange(ChangeEvent e) {
+		resolved_color.getElement().getStyle().setBackgroundColor(resolved_color.getText());
+	}
+
 
 	private void performSave() {
 		map.setTitle(title.getText());
@@ -181,6 +204,11 @@ public class Create_Map_Backend extends Composite {
 		additionalAddressLine.setText("");
 		markerPanel.setVisible(false);
 		eePanel.setVisible(false);
+		primary_color.getElement().getStyle().setBackgroundColor("#FFF");
+		secondary_color.getElement().getStyle().setBackgroundColor("#FFF");
+		background_color.getElement().getStyle().setBackgroundColor("#FFF");
+		background_color.getElement().getStyle().setColor("#000");
+		resolved_color.getElement().getStyle().setBackgroundColor("#FFF");
 		
 		for(Marker_List_Item i : markerListItems.values()){
 			i.setUncheckBox();
@@ -201,6 +229,7 @@ public class Create_Map_Backend extends Composite {
 			@Override
 			public void onNewResult(Map result) {
 				Create_Map_Backend.this.map = result;
+				setPlaceholder();
 			}
 		});
 	}	
@@ -230,6 +259,12 @@ public class Create_Map_Backend extends Composite {
 		houseNumber.setText(map.getPostal_address().getHouseNumber());
 		zip.setText(map.getPostal_address().getZip());
 		additionalAddressLine.setText(map.getPostal_address().getAdditionalAddressLine());
+		primary_color.getElement().getStyle().setBackgroundColor(primary_color.getText());
+		secondary_color.getElement().getStyle().setBackgroundColor(secondary_color.getText());
+		background_color.getElement().getStyle().setBackgroundColor(background_color.getText());
+		background_color.getElement().getStyle().setColor("#FFF");
+		resolved_color.getElement().getStyle().setBackgroundColor(resolved_color.getText());
+
 		
 		if(map.getMapTyp().equals("Issue")) mapType.setSelectedIndex(0);
 		if(map.getMapTyp().equals("Event")) mapType.setSelectedIndex(1);
@@ -265,5 +300,49 @@ public class Create_Map_Backend extends Composite {
 			heading.setText("Map editieren (id="+map.getId()+")");
 	}
 
+	public void setPlaceholder(){
+		title.getElement().setAttribute("placeholder", "Titel der Karte");
+		title.getElement().setAttribute("title", "Titel der Karte");
+		subdomain.getElement().setAttribute("placeholder", "Subdomain");
+		subdomain.getElement().setAttribute("title", "Subdomain");
+		infoText.getElement().setAttribute("placeholder", "Informations-Text");
+		infoText.getElement().setAttribute("title", "Informations-Text");
+		logo_url.getElement().setAttribute("placeholder", "URL zum Logo");
+		logo_url.getElement().setAttribute("title", "URL zum Logo");
+		primary_color.getElement().setAttribute("placeholder", "Markerfarbe");
+		primary_color.getElement().setAttribute("title", "Markerfarbe");
+		secondary_color.getElement().setAttribute("placeholder", "Textfarbe");
+		secondary_color.getElement().setAttribute("title", "Textfarbe");
+		background_color.getElement().setAttribute("placeholder", "Hintergrund-Farbe");
+		background_color.getElement().setAttribute("title", "Hintergrund-Farbe");
+		resolved_color.getElement().setAttribute("placeholder", "Erledigt-Farbe");
+		resolved_color.getElement().setAttribute("title", "Erledigt-Farbe");
+		initLocation_latitude.getElement().setAttribute("placeholder", "Latitude");
+		initLocation_latitude.getElement().setAttribute("title", "Latitude");
+		initLocation_longitude.getElement().setAttribute("placeholder", "Longitude");
+		initLocation_longitude.getElement().setAttribute("title", "Longitude");
+		initZoomlevel.getElement().setAttribute("placeholder", "Zoomlevel");
+		initZoomlevel.getElement().setAttribute("title", "Zoomlevel");
+		website.getElement().setAttribute("placeholder", "URL zur Website des Betreibers");
+		website.getElement().setAttribute("title", "URL zur Website des Betreibers");
+		url_impressum.getElement().setAttribute("placeholder", "URL zum Impressum");
+		url_impressum.getElement().setAttribute("title", "URL zum Impressum");
+		recipient_name.getElement().setAttribute("placeholder", "Name des Betreibers");
+		recipient_name.getElement().setAttribute("title", "Name des Betreibers");
+		email.getElement().setAttribute("placeholder", "Mail-Adresse");
+		email.getElement().setAttribute("title", "Mail-Adresse");
+		additionalAddressLine.getElement().setAttribute("placeholder", "Adresszusatz");
+		additionalAddressLine.getElement().setAttribute("title", "Adresszusatz");
+		street.getElement().setAttribute("placeholder", "Straße");
+		street.getElement().setAttribute("title", "Straße");
+		houseNumber.getElement().setAttribute("placeholder", "Hausnummer");
+		houseNumber.getElement().setAttribute("title", "Hausnummer");
+		zip.getElement().setAttribute("placeholder", "PLZ");
+		zip.getElement().setAttribute("title", "PLZ");
+		city.getElement().setAttribute("placeholder", "Stadt");
+		city.getElement().setAttribute("title", "Stadt");
+		
+		
+	}
 	
 }
