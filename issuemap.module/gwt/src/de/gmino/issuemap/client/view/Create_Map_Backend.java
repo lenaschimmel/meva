@@ -131,6 +131,7 @@ public class Create_Map_Backend extends Composite {
 	@UiHandler("primary_color")
 	void onPrimaryColorChange(ChangeEvent e) {
 		primary_color.getElement().getStyle().setBackgroundColor(primary_color.getText());
+		
 	}
 	
 	@UiHandler("secondary_color")
@@ -262,7 +263,6 @@ public class Create_Map_Backend extends Composite {
 		primary_color.getElement().getStyle().setBackgroundColor(primary_color.getText());
 		secondary_color.getElement().getStyle().setBackgroundColor(secondary_color.getText());
 		background_color.getElement().getStyle().setBackgroundColor(background_color.getText());
-		background_color.getElement().getStyle().setColor("#FFF");
 		resolved_color.getElement().getStyle().setBackgroundColor(resolved_color.getText());
 
 		

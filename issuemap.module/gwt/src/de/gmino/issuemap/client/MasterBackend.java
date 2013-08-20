@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.view.Create_Map_Backend;
+import de.gmino.issuemap.client.view.Header;
 import de.gmino.issuemap.client.view.Show_Maps_Backend;
 import de.gmino.meva.client.UtilClient;
 import de.gmino.meva.client.request.NetworkRequestsImplAsyncJson;
@@ -20,6 +21,7 @@ public class MasterBackend  implements EntryPoint  {
 
 	Create_Map_Backend createMapField;
 	Show_Maps_Backend mapList;
+	Header header;
 	private static MasterBackend instance;
 	
 	public MasterBackend() {
@@ -40,6 +42,8 @@ public class MasterBackend  implements EntryPoint  {
 
 		createMapField= new Create_Map_Backend();
 		mapList = new Show_Maps_Backend();
+		header = new Header();
+		header.setDesignbyString("logo_geoengine.png", "Master Backend", "#FFF", "rgba(60,60,60,0.8)");
 		
 //		if(user==null){
 //			RootPanel.get("left").add(new Label("please login"));
@@ -48,8 +52,10 @@ public class MasterBackend  implements EntryPoint  {
 //		else{
 			RootPanel.get("right").add(createMapField);
 			RootPanel.get("left").add(mapList);
+			RootPanel.get("parent").add(header);
 //		}
 
+			
 	} 
 
 	public static MasterBackend getInstance()

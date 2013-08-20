@@ -1,0 +1,27 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+		
+		.keyValuePair{
+			white-space: nowrap;
+			font-size: 100%;
+			
+			border-bottom: 1px solid #FFF;
+			width: 100%;
+			padding-bottom: 3px;
+			margin-bottom: 8px;
+		}
+		
+		.key{text-transform:uppercase;
+			font-weight: bold;}
+		.value{padding-right: 10px}
+		
+	</ui:style>
+	<g:HTMLPanel ui:field="parent">
+		<g:HorizontalPanel styleName="{style.keyValuePair}"><g:cell><g:Label ui:field="key" styleName="{style.key}"/></g:cell><g:cell horizontalAlignment="ALIGN_RIGHT"><g:Label ui:field="value" styleName="{style.value}"/></g:cell> </g:HorizontalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder> 

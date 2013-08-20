@@ -301,7 +301,7 @@ public class IssuemapGwt implements EntryPoint {
 							}
 						}, 1000);
 						
-						header.setDesign(mapObject.getLogo().getUrl(),	mapObject.getTitle(), mapObject.getPrimary_color());
+						header.setDesignbyMapobject(mapObject.getLogo().getUrl(),	mapObject.getTitle(), mapObject.getPrimary_color());
 						footer.setDesign(mapObject.getPrimary_color());
 
 						if(map.getMapTyp().equals("EE"))

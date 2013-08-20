@@ -100,7 +100,7 @@ public class Header extends Composite  {
 		});
 	}
 
-	public void setDesign(String imgUrl, String titleString, String color) {
+	public void setDesignbyMapobject(String imgUrl, String titleString, String color) {
 		logo.setUrl(imgUrl);
 		title.setText(titleString);
 
@@ -116,6 +116,25 @@ public class Header extends Composite  {
 		decorated_panel.add(new Info_PopUp(mapObject, decorated_panel));
 		decorated_panel.setGlassEnabled(true);
 		//decorated_panel.setAnimationEnabled(true);
+	}
+	
+	public void setDesignbyString(String imgUrl, String titleString, String textcolor, String backgroundcolor) {
+		
+			logo.setUrl(imgUrl);
+			title.setText(titleString);
+
+			title.getElement().getStyle().setColor(textcolor);
+			// header.getElement().getStyle().setBorderColor(color);
+			// info_button.getElement().getStyle().setBackgroundColor(color);
+			info_button.setVisible(true);
+			header.getElement().getStyle()
+					.setBackgroundColor(backgroundcolor);
+			search_field.setVisible(true);
+			logo.setHeight("45px");
+			info_button.setVisible(false);
+			search_field.setVisible(false);
+		
+		
 	}
 
 	public void setMap(Map map) {

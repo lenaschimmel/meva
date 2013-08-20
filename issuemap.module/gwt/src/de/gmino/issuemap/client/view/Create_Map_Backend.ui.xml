@@ -7,7 +7,7 @@
 		}
 		
 		.label{
-			width: 180px;
+			width: 160px;
 			margin: 1px;
 		}
 		.textBox{
@@ -99,18 +99,24 @@
 
 		
 		.parent{
-			background: rgba(200,200,200, 1);
-			color: #000;
-			padding: 10px;
+			padding: 15px;
 			border-top-right-radius: 4px;
 			border-bottom-right-radius: 4px;
 			border-top-left-radius: 4px;
 			border-bottom-left-radius: 4px;
 			border: 1px solid #ccc;
+			background: rgba(60, 60, 60, 0.8);
 			
+			position: relative;
+			margin: auto;
+			color: #FFF;
+			overflow: auto;
+			width: 710px;
+			height: 95%;
 			
 		}
 		
+
 		.h1{
 			font-size: x-large;
 			text-align: center;
@@ -143,7 +149,7 @@
 	
 		}
 		.checkBoxlabel{
-			width: 180px;
+			width: 142px;
 			margin: 2px;
 			
 		}
@@ -152,19 +158,53 @@
 			height: 25px;
 			margin-left: 5px;
 			}
+			
+		.primarycolor{
+			background:  #FFF url('white.png') no-repeat left;
+			position: absolute;
+			left: 200px;
+			width: 118px;
+			height: 19px;
+			}
+		
+		.secondarycolor{
+			background:  #FFF url('white.png') no-repeat left;
+			position: absolute;
+			left: 328px;
+			width: 118px;
+			height: 19px;
+			}
+			
+		.backgroundcolor{
+			background:  #FFF url('white.png') no-repeat left;
+			position: absolute;
+			left: 456px;
+			width: 118px;
+			height: 19px;
+			}
+			
+		.resolvedcolor{
+			background:  #FFF url('white.png') no-repeat left;
+			position: absolute;
+			left: 584px;
+			width: 116px;
+			height: 19px;
+			}
 		
 	</ui:style>
-	<g:HTMLPanel >
-	<g:VerticalPanel styleName="{style.parent}" width="780px">
-		<g:Label styleName="{style.h1}" ui:field="heading">Neue Map erstellen</g:Label>
+	<g:HTMLPanel styleName="{style.parent}">
+	<g:VerticalPanel width="100%" >
+	<g:Label styleName="{style.h1}" ui:field="heading">Neue Map erstellen</g:Label>
+
+		
 		<g:Label styleName="{style.h2}">Metadaten</g:Label>
 		<g:HorizontalPanel height="28px"><g:Label text="Texte:" styleName="{style.label}"/><g:TextBox styleName="{style.textBox123}" ui:field="title"/><g:TextBox styleName="{style.textBox33}" ui:field="subdomain"/></g:HorizontalPanel>
 		<g:HorizontalPanel height="210px"><g:TextArea styleName="{style.textArea}" ui:field="infoText"/></g:HorizontalPanel>
 		<g:HorizontalPanel height="28px"><g:InlineLabel text="Logo-URL:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="logo_url"/></g:HorizontalPanel>
-		<g:HorizontalPanel height="28px"><g:Label text="Farben:" styleName="{style.label}"/><g:TextBox styleName="{style.textBox14}" ui:field="primary_color"/>
-		<g:TextBox styleName="{style.textBox24}" ui:field="secondary_color"/>
-		<g:TextBox styleName="{style.textBox34}" ui:field="background_color"/>
-		<g:TextBox styleName="{style.textBox44}" ui:field="resolved_color"/></g:HorizontalPanel>
+		<g:HorizontalPanel height="28px"><g:Label text="Farben:" styleName="{style.label}"/><g:TextBox styleName="{style.primarycolor}" ui:field="primary_color"/>
+		<g:TextBox styleName="{style.secondarycolor}" ui:field="secondary_color"/>
+		<g:TextBox styleName="{style.backgroundcolor}" ui:field="background_color"/>
+		<g:TextBox styleName="{style.resolvedcolor}" ui:field="resolved_color"/></g:HorizontalPanel>
 		<g:HorizontalPanel height="28px"><g:InlineLabel text="Start Position:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox13}" ui:field="initLocation_latitude"/><g:TextBox styleName="{style.textBox23}" ui:field="initLocation_longitude"/><g:TextBox styleName="{style.textBox33}" ui:field="initZoomlevel"/></g:HorizontalPanel>
 		<g:HorizontalPanel height="28px"><g:InlineLabel text="Website, Impressum:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox12}" ui:field="website"/><g:TextBox styleName="{style.textBox22}" ui:field="url_impressum"/></g:HorizontalPanel>
 		<g:HorizontalPanel height="28px"><g:InlineLabel text="Kontakt (Name, Mail):" styleName="{style.label}" /><g:TextBox styleName="{style.textBox12}" ui:field="recipient_name"/><g:TextBox styleName="{style.textBox22}" ui:field="email"/></g:HorizontalPanel>
@@ -224,9 +264,10 @@
 		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="fotosCheckbox"/><g:Label text="Fotos" styleName="{style.label}"/></g:HorizontalPanel>
 		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="commentsCheckbox"/><g:Label text="Kommentare" styleName="{style.label}" /></g:HorizontalPanel>
 		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="ratingsCheckbox"/><g:Label text="Bewertungen" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="rateCriteria"/></g:HorizontalPanel>
-		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="listCheckbox"/><g:Label text="Listenansicht" styleName="{style.label}" /><g:ListBox styleName="{style.checkBoxExtension}" ui:field="sortCriteria"></g:ListBox></g:HorizontalPanel>
-		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="filtersCheckbox"/><g:Label text="Filter" styleName="{style.label}"/><g:ListBox styleName="{style.checkBoxExtension}" ui:field="filterCriteria"/></g:HorizontalPanel>
+		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="listCheckbox"/><g:Label text="Listenansicht" styleName="{style.label}" /><g:ListBox height="24px" styleName="{style.textBox}" ui:field="sortCriteria"></g:ListBox></g:HorizontalPanel>
+		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="filtersCheckbox"/><g:Label text="Filter" styleName="{style.label}"/><g:ListBox height="24px" styleName="{style.textBox}" ui:field="filterCriteria"/></g:HorizontalPanel>
 		<g:Button styleName="{style.important}" ui:field="button" text="Speichern"/>
 	</g:VerticalPanel>
+
 	</g:HTMLPanel>
 </ui:UiBinder> 
