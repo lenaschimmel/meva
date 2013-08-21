@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
@@ -134,10 +135,10 @@ public class Show_PopUp extends Composite {
 		this.smartLayer = smartLayer;
 		this.mIssue = issue;
 		this.mWrapper = marker_Wrapper;
-//		setBoarderColor(map.getColor());
 
-		tbRatingUp.setVisible(false);
-		tbRatingDown.setVisible(false);
+
+//		tbRatingUp.setVisible(false);
+//		tbRatingDown.setVisible(false);
 		
 		lbTypeAndDate.setText(mIssue.getMarkertype().getMarkerName() + ", " + issue.getCreationTimestamp().relativeToNow().toReadableString(true,1));
 		lbTypeAndDate.setTitle("Eintrag vom " + dtf.format(issue.getCreationTimestamp().toDate()));
@@ -146,6 +147,31 @@ public class Show_PopUp extends Composite {
 		setRatingText();
 		lbTitle.setText(mIssue.getTitle());
 		lbTitle.setTitle(mIssue.getTitle());
+		
+		if(mIssue.getMap_instance().isHas_fotos()==false){
+			tabButtonPhotos.removeFromParent();
+			tabDivider2.removeFromParent();
+			pnPhotoMain.removeFromParent();
+			pnPhotoHeading.removeFromParent();
+			}
+		if(mIssue.getMap_instance().isHas_comments()==false){
+			tabButtonComments.removeFromParent();
+			tabDivider3.removeFromParent();
+		}
+		
+		if(mIssue.getMap_instance().isHas_ratings()==false){
+			pnRatingMain.removeFromParent();
+			pnRatingHeading.removeFromParent();
+			
+		}
+			lbRating.setVisible(mIssue.getMap_instance().isHas_ratings());
+			tbEdit.setVisible(mIssue.getMap_instance().isEdit());
+			tbResolved.setVisible(mIssue.getMap_instance().isMark());
+		
+		if(mIssue.getMap_instance().isHas_ratings()==false && mIssue.getMap_instance().isHas_fotos()==false)
+			descriptionPanel.setWidth("442px");
+		
+		
 		addKeyValue("Key", "Value", "Description");
 		description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mIssue.getDescription()).toSafeHtml());
 		commentTextBox.getElement().setAttribute("placeholder", "Bitte geben Sie einen Kommentar ein");
@@ -223,10 +249,10 @@ public class Show_PopUp extends Composite {
 	FocusPanel tbClose;
 	@UiField
 	FocusPanel tbEdit;
-	@UiField
-	FocusPanel tbRatingDown;
-	@UiField
-	FocusPanel tbRatingUp;
+//	@UiField
+//	FocusPanel tbRatingDown;
+//	@UiField
+//	FocusPanel tbRatingUp;
 	@UiField 
 	Label lbRating;
 	
@@ -241,10 +267,10 @@ public class Show_PopUp extends Composite {
 	
 //	@UiField
 //	Label rating;
-	@UiField
-	Image rate_up;
-	@UiField
-	Image rate_down;
+//	@UiField
+//	Image rate_up;
+//	@UiField
+//	Image rate_down;
 	@UiField
 	Label lbTypeAndDate;
 	@UiField
@@ -259,6 +285,8 @@ public class Show_PopUp extends Composite {
 	FlowPanel picturesPanel;
 	@UiField
 	VerticalPanel commentsPanel;
+	@UiField
+	Panel descriptionPanel;
 	@UiField
 	Label commentsHeader;
 	@UiField
@@ -290,12 +318,12 @@ public class Show_PopUp extends Composite {
 	@UiField 
 	Button tabButtonComments;
 	
-	@UiField
-	Label lbRatingUpCount;
+//	@UiField
+//	Label lbRatingUpCount;
 	@UiField
 	Label lbRatingUpCount2;
-	@UiField
-	Label lbRatingDownCount;
+//	@UiField
+//	Label lbRatingDownCount;
 	@UiField
 	Label lbRatingDownCount2;
 	
@@ -308,6 +336,12 @@ public class Show_PopUp extends Composite {
 	@UiField
 	Panel pnPhotoMain;
 	@UiField
+	Panel pnPhotoHeading;
+	@UiField
+	Panel pnRatingMain;
+	@UiField
+	Panel pnRatingHeading;
+	@UiField
 	Label lbPhotoMainHeader;
 	@UiField
 	Label lbNoComments;
@@ -315,6 +349,15 @@ public class Show_PopUp extends Composite {
 	ScrollPanel spComments;
 	@UiField
 	Label lbMorePhotos;
+	
+	
+
+	@UiField
+	Label tabDivider2;
+	@UiField
+	Label tabDivider3;
+	
+	
 	
 	@UiHandler("tabButtonDescription")
 	void onTabButtonDescriptionClick(ClickEvent e) {
@@ -338,12 +381,12 @@ public class Show_PopUp extends Composite {
 		tabButtonComments	.setStyleName(style.underline(), i == 2);
 	}
 	
-	@UiHandler("tbRating")
-	void onTbRatingClick(ClickEvent e) {
-		boolean visible = !tbRatingUp.isVisible();
-		tbRatingUp.setVisible(visible);
-		tbRatingDown.setVisible(visible);
-	}
+//	@UiHandler("tbRating")
+//	void onTbRatingClick(ClickEvent e) {
+//		boolean visible = !tbRatingUp.isVisible();
+//		tbRatingUp.setVisible(visible);
+//		tbRatingDown.setVisible(visible);
+//	}
 		
 	public void setupForm()
 	{
@@ -491,7 +534,7 @@ public class Show_PopUp extends Composite {
 		});
 	}
 	
-	@UiHandler({"tbRatingUp", "tbRatingUp2"})
+	@UiHandler({"tbRatingUp2"})
 	void onRateUp(ClickEvent e) {
 		if(mIssue.vote == 1)
 			mIssue.changeRating(0);
@@ -504,7 +547,7 @@ public class Show_PopUp extends Composite {
 	}
 	
 	
-	@UiHandler({"tbRatingDown", "tbRatingDown2"})
+	@UiHandler({"tbRatingDown2"})
 	void onRateDown(ClickEvent e) {
 		if(mIssue.vote == -1)
 			mIssue.changeRating(0);
@@ -520,22 +563,22 @@ public class Show_PopUp extends Composite {
 	private void updateButtonColorsAndLabels() {
 		if (mIssue.vote >= 1)
 		{
-			tbRatingUp.setStyleName(style.underline(), true);
+//			tbRatingUp.setStyleName(style.underline(), true);
 			tbRatingUp2.setStyleName(style.active(), true);
 		}
 		if (mIssue.vote >= 0)
 		{
-			tbRatingDown.setStyleName(style.underline(), false);
+//			tbRatingDown.setStyleName(style.underline(), false);
 			tbRatingDown2.setStyleName(style.active(), false);
 		}
 		if (mIssue.vote <= -1)
 		{
-			tbRatingDown.setStyleName(style.underline(), true);
+//			tbRatingDown.setStyleName(style.underline(), true);
 			tbRatingDown2.setStyleName(style.active(), true);
 		}
 		if (mIssue.vote <= 0)
 		{
-			tbRatingUp.setStyleName(style.underline(), false);
+//			tbRatingUp.setStyleName(style.underline(), false);
 			tbRatingUp2.setStyleName(style.active(), false);
 		}
 		
@@ -558,9 +601,9 @@ public class Show_PopUp extends Composite {
 		lbRating2.setText(ratingText);
 		int upVotes = (mIssue.getNumber_of_rating() + mIssue.getRating()) / 2;
 		int downVotes = (mIssue.getNumber_of_rating() - mIssue.getRating()) / 2;
-		lbRatingUpCount.setText("" + upVotes);
+//		lbRatingUpCount.setText("" + upVotes);
 		lbRatingUpCount2.setText("" + upVotes);
-		lbRatingDownCount.setText("" + downVotes);
+//		lbRatingDownCount.setText("" + downVotes);
 		lbRatingDownCount2.setText("" + downVotes);
 	}
 

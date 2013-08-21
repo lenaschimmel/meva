@@ -11,7 +11,7 @@
 		}
 		
 		.parent {
-			width: 300px;
+			width: 490px;
 			background: rgba(20, 20, 20, 0.8);
 			position: absolute;
 			left: -22px;
@@ -106,6 +106,14 @@
 			width: 40px;
 			border-bottom: 4px solid transparent;
 		}
+		
+		.topInfo {
+			color: #FFF;
+			background-color: #000;
+			height: 36px;
+			width: 45px;
+			border-bottom: 4px solid transparent;
+		}
 
 		.wideTopButton {
 			color: #FFF;
@@ -126,7 +134,7 @@
 
 		.tabButton {
 			height: 33px;
-			width: 100%;
+			width: 119px;
 
 			color: #CCC;
 			background-color: #333;
@@ -134,7 +142,7 @@
 			border-left: 0px none;
 			border-right: 0px none;
 			border-bottom: 4px solid transparent;
-			
+			float:left;
 			cursor: pointer;
 
 			white-space: nowrap;
@@ -154,7 +162,7 @@
 			background-color: #000;
 			border-bottom: 1px solid #666;
 			height: 40px;
-			width: 465px;
+			width: 500px;
 		}
 
 		.lowerBar {
@@ -235,6 +243,7 @@
     		border-top: 6px solid #333333;
     		height: 21px;
 			width: 1px;
+			float: left;
 		}
 
 		.mainArea {
@@ -252,6 +261,7 @@
 
 		.imageWrapper {
 			height: 31px;
+			width: 40px;
 			overflow: hidden;
 		}
 
@@ -307,6 +317,23 @@
     		position: absolute;
     		top: 10px;
 		}
+		
+		.tabDescription{
+			
+			height: 320px;
+
+			}
+			
+		.descriptionPanel{
+			width: 310px;
+			float: left;
+			margin-bottom: 12px;
+			}
+		.descriptionLeftPanel{
+			float: left;
+			margin-left: 15px;
+			}
+			
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
 		<g:Cell><!-- Kopfbereich a.k.a. Mouseover -->
@@ -317,14 +344,14 @@
 						</g:Image>
 					</g:SimplePanel>
 				</g:cell>
-				<g:cell width="285px">
+				<g:cell width="315px">
 					<g:VerticalPanel styleName="{style.dualTextPanel}" >
 						<g:Label ui:field="lbTitle" styleName="{style.lbTitle}"></g:Label>
 						<g:Label ui:field="lbTypeAndDate" styleName="{style.lbTypeAndDate}"></g:Label>
 					</g:VerticalPanel>
 				</g:cell>
 				
-				<g:cell height="100%" width="40px">
+<!-- 			<g:cell height="100%" width="40px">
 					<g:FocusPanel styleName="{style.wideTopButton}" ui:field="tbRatingUp" title="Rating um 1 erhöhen">
 					    <g:FlowPanel>
 					    	<g:Image resource="{resources.go_up}" styleName="{style.rateButton}" ui:field="rate_up" />
@@ -332,6 +359,7 @@
 					    </g:FlowPanel>
 					</g:FocusPanel>
 				</g:cell>
+				
 				<g:cell height="100%" width="40px">
 					<g:FocusPanel styleName="{style.wideTopButton}" ui:field="tbRatingDown" title="Rating um 1 senken">
 					    <g:FlowPanel>
@@ -339,9 +367,10 @@
 					    	<g:Label ui:field="lbRatingDownCount" styleName="{style.lbRatingSmall}">?</g:Label>
 					    </g:FlowPanel>
 					</g:FocusPanel>
-				</g:cell>
+				</g:cell> -->
+				
 				<g:cell height="100%" width="40px">
-					<g:FocusPanel styleName="{style.topButton}" ui:field="tbRating" title="Rating vergeben"><g:Label ui:field="lbRating" styleName="{style.lbRating}">?</g:Label></g:FocusPanel>
+					<g:FocusPanel styleName="{style.topInfo}" ui:field="tbRating" title="Rating"><g:Label ui:field="lbRating" styleName="{style.lbRating}">?</g:Label></g:FocusPanel>
 				</g:cell>
 				
 				<g:cell height="100%" width="40px">
@@ -359,23 +388,22 @@
 			</g:HorizontalPanel>
 		</g:Cell>
 		<g:Cell><!-- Tabknöpfe -->
-			<g:HorizontalPanel styleName="{style.lowerBar}" width="100%" height="33px" >
-				<g:cell width="25%" height="33px"><g:Button styleName="{style.tabButton}" ui:field="tabButtonDescription">Allgemein</g:Button></g:cell>
-				<g:cell width="1px" height="100%"><g:Label styleName="{style.tabDivider}">&nbsp;</g:Label></g:cell>
-				<g:cell width="25%"><g:Button styleName="{style.tabButton}" ui:field="tabButtonPhotos">Fotos</g:Button></g:cell>
-				<g:cell width="1px" height="100%"><g:Label styleName="{style.tabDivider}">&nbsp;</g:Label></g:cell>
-				<g:cell width="25%"><g:Button styleName="{style.tabButton}" ui:field="tabButtonComments">Kommentare</g:Button></g:cell>
-				<g:cell width="1px" height="100%"><g:Label styleName="{style.tabDivider}">&nbsp;</g:Label></g:cell>
-				<g:cell width="25%" height="100%">
+			<g:FlowPanel styleName="{style.lowerBar}" width="100%" height="33px" >
+				<g:Button styleName="{style.tabButton}" ui:field="tabButtonDescription">Allgemein</g:Button>
+				<g:Label ui:field="tabDivider1" styleName="{style.tabDivider}">&nbsp;</g:Label>
+				<g:Button styleName="{style.tabButton}" ui:field="tabButtonPhotos">Fotos</g:Button>
+				<g:Label ui:field="tabDivider2" styleName="{style.tabDivider}">&nbsp;</g:Label>
+				<g:Button styleName="{style.tabButton}" ui:field="tabButtonComments">Kommentare</g:Button>
+				<g:Label ui:field="tabDivider3" styleName="{style.tabDivider}">&nbsp;</g:Label>
+
 					<g:Label></g:Label>
-				</g:cell> 
-			</g:HorizontalPanel>
+			</g:FlowPanel>
 		</g:Cell>
 		<g:Cell><!-- Haubtbereich mit Tabinhalten -->
 			<g:DeckPanel ui:field="deckPanel" styleName="{style.mainArea}">
-			    <g:HorizontalPanel ui:field="tabDescription" height="240px"> <!-- Description -->
-			        <g:cell width="66%">
-				        <g:ScrollPanel width="100%" height="230px">
+			    <g:FlowPanel ui:field="tabDescription" styleName="{style.tabDescription}"> <!-- Description -->
+
+				        <g:ScrollPanel styleName="{style.descriptionPanel}" height="240px" ui:field="descriptionPanel">
 				        <g:VerticalPanel  width="100%">
 				        <g:cell><g:VerticalPanel width="100%" ui:field="keyValuePanel"/> </g:cell>
 				            <g:Label styleName="{style.lbBodyHeader}">Beschreibung</g:Label>
@@ -394,32 +422,30 @@
 							 -->
 							 </g:VerticalPanel>
 				        </g:ScrollPanel> 
-				    </g:cell>
-				    <g:cell width="12px">
-				    	<g:SimplePanel width="12px"></g:SimplePanel>
-				    </g:cell>
-				    <g:cell width="34%">
-				      	<g:VerticalPanel width="100%" height="100%">
-				      	    <g:HorizontalPanel styleName="{style.lbBodyHeader}">
+
+				      	<g:VerticalPanel styleName="{style.descriptionLeftPanel}" height="100%">
+				      	    <g:HorizontalPanel styleName="{style.lbBodyHeader}" ui:field="pnPhotoHeading" width="133px">
 				      	        <g:cell width="70px">
 							    	<g:Label ui:field="lbPhotoMainHeader">Foto</g:Label>
 							    </g:cell>
 							    <g:Label ui:field="lbMorePhotos" styleName="{style.lbWhatsThis}"></g:Label>
 							</g:HorizontalPanel>
 				           
-				            <g:cell height="48%">
-								<g:VerticalPanel width="100%" height="120px" ui:field="pnPhotoMain">
+				           
+								<g:VerticalPanel height="120px" ui:field="pnPhotoMain" width="133px">
 									<g:HTML ui:field="lbNoPhotosMain" styleName="{style.description_label}"><i>(Bisher keine Fotos)</i></g:HTML>
 								</g:VerticalPanel>
-							</g:cell>
-							<g:HorizontalPanel styleName="{style.lbBodyHeader}">
+							
+							
+							
+							<g:HorizontalPanel styleName="{style.lbBodyHeader}" ui:field="pnRatingHeading" width="133px">
 				      	        <g:cell width="100%">
 							    	<g:Label>Relevanz</g:Label>
 							    </g:cell>
 							    <g:Label ui:field="lbWhatsThis" styleName="{style.lbWhatsThis}">(Was ist das?)</g:Label>
 							</g:HorizontalPanel>
-				            <g:cell height="45%">
-								<g:AbsolutePanel width="100%" height="60px">
+				            
+								<g:AbsolutePanel height="60px" ui:field="pnRatingMain" width="133px">
 									<g:FocusPanel styleName="{style.btRelUp}" ui:field="tbRatingUp2" title="Rating um 1 erhöhen">
 									    <g:FlowPanel>
 									    	<g:Image resource="{resources.go_up}" styleName="{style.rateButtonBottom}" ui:field="rate_up2" />
@@ -434,10 +460,10 @@
 									</g:FocusPanel>
 									<g:Label ui:field="lbRating2" styleName="{style.lbRelShow}">?</g:Label>
 								</g:AbsolutePanel>
-							</g:cell>
+							
 				        </g:VerticalPanel>
-				    </g:cell>
-				</g:HorizontalPanel>
+
+				</g:FlowPanel>
 				<g:VerticalPanel width="100%"  height="240px"  ui:field="tabPhotos" >
 		            <g:Label styleName="{style.lbBodyHeader}" ui:field="photosHeader">Fotos</g:Label>
 		            <g:cell height="66%">
