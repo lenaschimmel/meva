@@ -4,34 +4,13 @@
 package de.gmino.issuemap.shared.domain;
 
 // gmino stuff
-import de.gmino.meva.shared.Entity;
-import de.gmino.meva.shared.EntityFactory;
-import de.gmino.meva.shared.RelationCollection;
-import de.gmino.meva.shared.TypeName;
-import de.gmino.meva.shared.Util;
-
-// default imports
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Collection;
-
-// imports for JSON
-import org.itemscript.core.values.JsonObject;
-import org.itemscript.core.values.JsonValue;
-
-// imports for field types
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.shared.domain.Timestamp;
-import de.gmino.issuemap.shared.domain.Comment;
-import de.gmino.issuemap.shared.domain.Map;
-import de.gmino.issuemap.shared.domain.Markertype;
-import de.gmino.issuemap.shared.domain.Photo;
-
-
 import de.gmino.issuemap.shared.domain.gen.PoiGen;
+import de.gmino.meva.shared.domain.KeyValueSet;
+// default imports
+// imports for JSON
+// imports for field types
 @SuppressWarnings("unused")
 public class Poi extends PoiGen {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
@@ -46,11 +25,12 @@ public class Poi extends PoiGen {
 			LatLon location,
 			String title,
 			Markertype markertype,
+			KeyValueSet keyvalueset,
 			Map map_instance,
 			Timestamp creationTimestamp,
 			int rating,
 			int number_of_rating,
-			boolean resolved,
+			boolean marked,
 			boolean deleted)
 	{
 		super(
@@ -59,13 +39,15 @@ public class Poi extends PoiGen {
 			(de.gmino.geobase.shared.domain.LatLon)location,
 			title,
 			(de.gmino.issuemap.shared.domain.Markertype)markertype,
+			(de.gmino.meva.shared.domain.KeyValueSet)keyvalueset,
 			(de.gmino.issuemap.shared.domain.Map)map_instance,
 			(de.gmino.geobase.shared.domain.Timestamp)creationTimestamp,
 			rating,
 			number_of_rating,
-			resolved,
+			marked,
 			deleted
 		);
+		loadValueSet();
 		this.ready = true;
 	}
 	

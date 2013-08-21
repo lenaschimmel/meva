@@ -16,6 +16,8 @@ import de.gmino.issuemap.server.domain.Photo;
 import de.gmino.issuemap.server.domain.Route;
 import de.gmino.issuemap.server.request.QueryMapBySubdomain;
 import de.gmino.issuemap.server.request.SendFeedback;
+import de.gmino.meva.server.domain.KeyValueDef;
+import de.gmino.meva.server.domain.KeyValueSet;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactoryInterface;
 
@@ -46,6 +48,10 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 			return new Photo(id);
 		if (typeName.equals("Route"))
 			return new Route(id);
+		if (typeName.equals("KeyValueSet"))
+			return new KeyValueSet(id);
+		if (typeName.equals("KeyValueDef"))
+			return new KeyValueDef(id);
 		if (typeName.equals("DecentralizedGeneration"))
 			return new DecentralizedGeneration(id);
 		throw new RuntimeException("Unsupported Entity type: " + typeName);

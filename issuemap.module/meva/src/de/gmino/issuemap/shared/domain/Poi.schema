@@ -17,6 +17,10 @@
 			"name" : "markertype"
 		},	
 		{
+			"type" : "KeyValueSet",
+			"name" : "keyvalueset"
+		},	
+		{
 			"type" : "Map",
 			"name" : "map_instance"
 		},		
@@ -34,7 +38,7 @@
 		},	
 		{
 			"type" : "boolean",
-			"name" : "resolved"
+			"name" : "marked"
 		},		
 		{
 			"type" : "boolean",

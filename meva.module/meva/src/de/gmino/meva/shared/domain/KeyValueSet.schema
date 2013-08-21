@@ -1,0 +1,17 @@
+{
+	"package" : "de.gmino.meva.TARGET.domain",
+	"concept" : "entity",
+	"name" : "KeyValueSet",
+	"attributes" : [
+		{
+			"type" : "String",
+			"name" : "name"
+		},
+		{
+			"type" : "relation",
+			"name" : "defs",
+			"reltype" : "KeyValueDef",
+			"relname" : "set"
+		}
+	]
+}

@@ -58,6 +58,8 @@ import de.gmino.issuemap.client.view.Footer;
 import de.gmino.issuemap.client.view.Header;
 import de.gmino.issuemap.client.view.IssueList_PopUp;
 import de.gmino.meva.client.UtilClient;
+import de.gmino.meva.client.domain.KeyValueDef;
+import de.gmino.meva.client.domain.KeyValueSet;
 import de.gmino.meva.client.request.NetworkRequestsImplAsyncJson;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.EntityQuery;
@@ -261,9 +263,19 @@ public class IssuemapGwt implements EntryPoint {
 			}
 		});
 		
-
+		Requests.getLoadedEntitiesByType(KeyValueDef.type, new RequestListener<KeyValueDef>() {
+			@Override
+			public void onFinished(Collection<KeyValueDef> results) {
+				Requests.getLoadedEntitiesByType(KeyValueSet.type, new RequestListener<KeyValueSet>() {
+					@Override
+					public void onFinished(Collection<KeyValueSet> results) {
+						mapRequest();
+					}
+				});
+			}
+		});
 		
-		mapRequest();
+		
 	}
 
 	public String getSubdomain() {
@@ -462,17 +474,50 @@ public class IssuemapGwt implements EntryPoint {
 				int count = 0;
 				final ArrayList<Issue> filteredRatingIssues = new ArrayList<Issue>();
 				for (final Issue i : ratingSortedIssues) {
+					
+					//testKeyValue(i);
+					
 					if (!i.isDeleted())
 						filteredRatingIssues.add(i);
 					if(count++ > 30)
 						break;
 				}
-				
 				list.updateData(filteredRatingIssues);
 			}
 		});
 	}
 
+	void testKeyValue(final Issue i) {
+		System.out.println("Get Testfeld's Description: " + i.getValue("Testfeld").getDescription());
+		System.out.println("Get Testfeld's Name: " + i.getValue("Testfeld").getName());
+		System.out.println("Get Testfeld's Type: " + i.getValue("Testfeld").getType());
+		
+		System.out.println("Get Testfeld as String: " + i.getValue("Testfeld").getString());
+		try {
+			System.out.println("Get Testfeld as int: " + i.getValue("Testfeld").getInt());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			System.out.println("Get Toastfeld as String: " + i.getValue("Toastfeld").getString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Set Testfeld as String.");
+		i.getValue("Testfeld").setString("Inhalt");
+		
+		System.out.println("Get Testfeld as String: " + i.getValue("Testfeld").getString());
+		
+		try {
+			System.out.println("Set Testfeld as int.");
+			i.getValue("Testfeld").setInt(4);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void setCounter() {
 		footer.setCounter(counter);
 	}
@@ -480,7 +525,6 @@ public class IssuemapGwt implements EntryPoint {
 	public void addFeedback_Button(){
 		Feedback_Button feedback = new Feedback_Button(mapObject);
 		RootPanel.get("feedback").add(feedback);
-		
 	}
 
 	public Map getMap()

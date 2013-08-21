@@ -69,6 +69,14 @@ public class TypeName implements Comparable<TypeName> {
 		return  ret;
 	}
 
+
+	public static TypeName getByString(String typeName) {
+		final TypeName ret = getInternalByString(typeName, false);
+		if (ret == null)
+			throw new RuntimeException("Did not find type " + typeName + " in " + dummy.hashCode());
+		return  ret;
+	}
+
 	private static TypeName getInternalByString(String typeName, boolean createNew) {
 		TypeName ret = types.get(typeName);
 		if (ret == null) {
