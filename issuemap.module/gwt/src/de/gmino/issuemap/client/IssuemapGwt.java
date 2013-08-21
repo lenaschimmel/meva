@@ -7,6 +7,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.DivElement;
@@ -66,7 +68,7 @@ import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
-public class IssuemapGwt implements EntryPoint {
+public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 	
 	public class AddIssuesCommand implements RepeatingCommand {
 
@@ -164,8 +166,17 @@ public class IssuemapGwt implements EntryPoint {
 	public static IssuemapGwt getInstance() {
 		return instance;
 	}
+	
+
+	@Override
+	public void onUncaughtException(Throwable e) {
+		System.err.println("### UncaughtExceptionHandler ###");
+		e.printStackTrace();
+	}
 
 	public void onModuleLoad() {
+		GWT.setUncaughtExceptionHandler(this);
+		
 		EntityFactory.setImplementations(new EntityFactoryImpl());
 		Util.setImpl(new UtilClient());
 

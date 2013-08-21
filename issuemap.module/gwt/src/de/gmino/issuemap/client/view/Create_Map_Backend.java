@@ -10,6 +10,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -112,6 +113,25 @@ public class Create_Map_Backend extends Composite {
 	@UiField
 	FlowPanel eePanel;
 	
+	@UiField
+	CheckBox fotosCheckbox;
+	@UiField
+	CheckBox commentsCheckbox;
+	@UiField
+	CheckBox ratingsCheckbox;
+	@UiField
+	CheckBox listCheckbox;
+	@UiField
+	CheckBox filtersCheckbox;
+	
+	@UiField
+	CheckBox editCheckbox;
+	@UiField
+	CheckBox deleteCheckbox;
+	@UiField
+	CheckBox markCheckbox;
+
+	
 	Map map;
 	private boolean isNewMap;
 	private EE_Backend eeBackend;
@@ -166,6 +186,14 @@ public class Create_Map_Backend extends Composite {
 		map.setEmail(email.getText());
 		map.setImpressum_url(url_impressum.getText());
 		map.setPostal_address(new Address(recipient_name.getText(),street.getText(),houseNumber.getText(),zip.getText(),city.getText(),additionalAddressLine.getText()));
+		map.setHas_fotos(fotosCheckbox.getValue());
+		map.setHas_comments(commentsCheckbox.getValue());
+		map.setHas_ratings(ratingsCheckbox.getValue());
+		map.setHas_list(listCheckbox.getValue());
+		map.setHas_filters(filtersCheckbox.getValue());
+		map.setDelete(deleteCheckbox.getValue());
+		map.setEdit(editCheckbox.getValue());
+		map.setMark(markCheckbox.getValue());
 		if(mapType.getSelectedIndex()==0) map.setMapTyp("Issue");
 		if(mapType.getSelectedIndex()==1) map.setMapTyp("Event");
 		if(mapType.getSelectedIndex()==2) map.setMapTyp("EE");
@@ -210,6 +238,16 @@ public class Create_Map_Backend extends Composite {
 		background_color.getElement().getStyle().setBackgroundColor("#FFF");
 		background_color.getElement().getStyle().setColor("#000");
 		resolved_color.getElement().getStyle().setBackgroundColor("#FFF");
+		fotosCheckbox.setValue(false);
+		commentsCheckbox.setValue(false);
+		ratingsCheckbox.setValue(false);
+		listCheckbox.setValue(false);
+		filtersCheckbox.setValue(false);
+		editCheckbox.setValue(false);
+		markCheckbox.setValue(false);
+		deleteCheckbox.setValue(false);
+		
+		
 		
 		for(Marker_List_Item i : markerListItems.values()){
 			i.setUncheckBox();
@@ -264,6 +302,14 @@ public class Create_Map_Backend extends Composite {
 		secondary_color.getElement().getStyle().setBackgroundColor(secondary_color.getText());
 		background_color.getElement().getStyle().setBackgroundColor(background_color.getText());
 		resolved_color.getElement().getStyle().setBackgroundColor(resolved_color.getText());
+		fotosCheckbox.setValue(map.isHas_fotos());
+		commentsCheckbox.setValue(map.isHas_comments());
+		ratingsCheckbox.setValue(map.isHas_ratings());
+		listCheckbox.setValue(map.isHas_list());
+		filtersCheckbox.setValue(map.isHas_filters());
+		editCheckbox.setValue(map.isEdit());
+		markCheckbox.setValue(map.isMark());
+		deleteCheckbox.setValue(map.isDelete());
 
 		
 		if(map.getMapTyp().equals("Issue")) mapType.setSelectedIndex(0);

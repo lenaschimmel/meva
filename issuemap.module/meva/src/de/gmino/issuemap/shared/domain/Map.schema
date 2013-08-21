@@ -79,6 +79,46 @@
 		{
 			"type" : "Address",
 			"name" : "postal_address"
+		},	
+		{
+			"type" : "boolean",
+			"name" : "has_fotos"
+		},	
+		{
+			"type" : "boolean",
+			"name" : "has_comments"
+		},	
+		{
+			"type" : "boolean",
+			"name" : "has_ratings"
+		},	
+		{
+			"type" : "boolean",
+			"name" : "has_list"
+		},	
+		{
+			"type" : "boolean",
+			"name" : "has_filters"
+		},	
+		{
+			"type" : "boolean",
+			"name" : "edit"
+		},	
+		{
+			"type" : "boolean",
+			"name" : "delete"
+		},	
+		{
+			"type" : "boolean",
+			"name" : "mark"
+		},	
+		{
+			"type" : "String",
+			"name" : "rate_criteria"
+		},	
+		{
+			"type" : "String",
+			"name" : "mark_description"
 		},
 		{
 			"type" : "relation",
