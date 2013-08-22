@@ -1,13 +1,19 @@
 package de.gmino.issuemap.client;
 
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.itemscript.core.values.JsonObject;
 
+import de.gmino.geobase.client.domain.Address;
+import de.gmino.geobase.client.domain.Distance;
+import de.gmino.geobase.client.domain.Duration;
+import de.gmino.geobase.client.domain.ImageUrl;
+import de.gmino.geobase.client.domain.LatLon;
+import de.gmino.geobase.client.domain.Timestamp;
 import de.gmino.issuemap.client.domain.Comment;
+import de.gmino.issuemap.client.domain.DecentralizedGeneration;
 import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Markertype;
@@ -15,11 +21,12 @@ import de.gmino.issuemap.client.domain.Photo;
 import de.gmino.issuemap.client.domain.Route;
 import de.gmino.issuemap.client.request.QueryMapBySubdomain;
 import de.gmino.issuemap.client.request.SendFeedback;
-import de.gmino.issuemap.client.domain.DecentralizedGeneration;
 import de.gmino.meva.client.domain.KeyValueDef;
 import de.gmino.meva.client.domain.KeyValueSet;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactoryInterface;
+import de.gmino.meva.shared.TypeName;
+import de.gmino.meva.shared.Value;
 
 public class EntityFactoryImpl implements EntityFactoryInterface {
 
@@ -68,5 +75,26 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 			return new SendFeedback((JsonObject)request);
 		else
 			throw new RuntimeException("Unrecognized query type: " + typeName);
+	}
+
+	@Override
+	public Value createValueObjectFromJson(TypeName type, JsonObject json) {
+		try {
+			if(type == LatLon.type)
+				return new LatLon(json);
+			if(type == Timestamp.type)
+				return new Timestamp(json);
+			if(type == Address.type)
+				return new Address(json);
+			if(type == Distance.type)
+				return new Distance(json);
+			if(type == Distance.type)
+				return new Duration(json);
+			if(type == ImageUrl.type)
+				return new ImageUrl(json);
+		} catch (IOException e) {
+			throw new RuntimeException("Error while deserializing: " + json);
+		}
+		throw new RuntimeException("Unsupported Value type: " + type);
 	}
 }

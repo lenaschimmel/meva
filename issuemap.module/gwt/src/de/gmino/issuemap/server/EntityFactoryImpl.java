@@ -7,6 +7,12 @@ import java.util.Collection;
 
 import org.itemscript.core.values.JsonObject;
 
+import de.gmino.geobase.server.domain.Address;
+import de.gmino.geobase.server.domain.Distance;
+import de.gmino.geobase.server.domain.Duration;
+import de.gmino.geobase.server.domain.ImageUrl;
+import de.gmino.geobase.server.domain.LatLon;
+import de.gmino.geobase.server.domain.Timestamp;
 import de.gmino.issuemap.server.domain.Comment;
 import de.gmino.issuemap.server.domain.DecentralizedGeneration;
 import de.gmino.issuemap.server.domain.Issue;
@@ -20,6 +26,8 @@ import de.gmino.meva.server.domain.KeyValueDef;
 import de.gmino.meva.server.domain.KeyValueSet;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactoryInterface;
+import de.gmino.meva.shared.TypeName;
+import de.gmino.meva.shared.Value;
 
 public class EntityFactoryImpl implements EntityFactoryInterface {
 
@@ -84,4 +92,24 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 			throw new RuntimeException("Unrecognized query type: " + typeName);
 	}
 
+	@Override
+	public Value createValueObjectFromJson(TypeName type, JsonObject json) {
+		try {
+			if(type == LatLon.type)
+				return new LatLon(json);
+			if(type == Timestamp.type)
+				return new Timestamp(json);
+			if(type == Address.type)
+				return new Address(json);
+			if(type == Distance.type)
+				return new Distance(json);
+			if(type == Distance.type)
+				return new Duration(json);
+			if(type == ImageUrl.type)
+				return new ImageUrl(json);
+		} catch (IOException e) {
+			throw new RuntimeException("Error while deserializing: " + json);
+		}
+		throw new RuntimeException("Unsupported Value type: " + type);
+	}
 }

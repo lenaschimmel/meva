@@ -661,6 +661,10 @@ public class ClassDefinition {
 			pw.println("import de.gmino.meva.shared.domain.KeyValueDef;");
 			pw.println("import de.gmino.meva.shared.request.RequestListener;");
 			pw.println("import de.gmino.meva.shared.request.Requests;");
+			pw.println("import org.itemscript.core.JsonSystem;");
+			pw.println("import org.itemscript.core.values.JsonObject;");
+			pw.println("import org.itemscript.core.values.JsonValue;");
+			pw.println("import org.itemscript.standard.StandardConfig;");
 			pw.println("");
 		}
 
@@ -1094,7 +1098,10 @@ public class ClassDefinition {
 		pw.println("		rs.next();");
 		pw.println("		deserializeSql(rs, dbCon);");
 		if (keyvalue)
+		{
 			pw.println("		loadValueSet();");
+			
+		}
 
 		pw.println("	}");
 		pw.println();
@@ -1216,7 +1223,23 @@ public class ClassDefinition {
 		 * }
 		 */
 		if (keyvalue)
+		{
 			pw.println("		loadValueSet();");
+			
+			pw.println("		JsonSystem system = StandardConfig.createSystem();");
+			
+			pw.println("		Statement stat = dbCon.createStatement();");
+			pw.println("		String sql = \"SELECT `key`, `value` FROM " + baseClassName + "_KeyValuePairs WHERE " + uncapitalizeFirst(baseClassName) + "_id='\" + id + \"';\";");
+			pw.println("		ResultSet pairRs = stat.executeQuery(sql);");
+			pw.println("		while(pairRs.next())");
+			pw.println("		{");
+			pw.println("			String key = pairRs.getString(1);");
+			pw.println("			String value = pairRs.getString(2);");
+			pw.println("			JsonValue valueValue = system.parse(value);");
+			pw.println("			JsonObject valueObject = valueValue.asObject();");
+			pw.println("			getValue(key).setJson(valueObject);");
+			pw.println("		}");
+		}
 		if (entity)
 			pw.println("		ready = true;");
 		pw.println("	}");
@@ -1336,7 +1359,7 @@ public class ClassDefinition {
 			pw.println("			ValueWrapper val = pairs.get(key);");
 			pw.println("			if(!firstPair)");
 			pw.println("				keyValueSql += \", \";");
-			pw.println("			keyValueSql += \"('\"+id+\"', '\"+key+\"', '\"+val.toString()+\"')\";");
+			pw.println("			keyValueSql += \"('\"+id+\"', '\"+key+\"', '\"+val.getJson()+\"')\";");
 			pw.println("			firstPair = false;");
 			pw.println("		}");
 			pw.println("		keyValueSql += \";\";");

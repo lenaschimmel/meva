@@ -197,7 +197,7 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 		
 		if(entitiesToLoad.isEmpty())
 		{
-			System.out.println("Nothing to load, all present.");
+			//System.out.println("Nothing to load, all present.");
 			listener.onFinished(entities);
 			return;
 		}

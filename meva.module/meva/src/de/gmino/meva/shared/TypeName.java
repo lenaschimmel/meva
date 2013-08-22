@@ -11,6 +11,7 @@ public class TypeName implements Comparable<TypeName> {
 	private boolean isValue;
 	private boolean isEntity;
 	
+	public static final TypeName Boolean = getNativeByString("Boolean", true);
 	public static final TypeName String = getNativeByString("String", true);
 	public static final TypeName Integer = getNativeByString("Integer", true);
 	public static final TypeName Double = getNativeByString("Double", true);

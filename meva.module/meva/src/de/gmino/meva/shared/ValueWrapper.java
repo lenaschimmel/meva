@@ -1,5 +1,7 @@
 package de.gmino.meva.shared;
 
+import org.itemscript.core.values.JsonObject;
+
 public class ValueWrapper {
 	
 	public TypeName getType() {
@@ -26,6 +28,13 @@ public class ValueWrapper {
 		if(!(type == TypeName.Integer))
 			throw new RuntimeException("This value has type " + type + ", Integer needed.");
 		return ((Integer)value).intValue();
+	}
+	
+	public boolean getBoolean()
+	{
+		if(!(type == TypeName.Boolean))
+			throw new RuntimeException("This value has type " + type + ", Boolean needed.");
+		return ((Boolean)value).booleanValue();
 	}
 	
 	public float getFloat()
@@ -69,11 +78,18 @@ public class ValueWrapper {
 			throw new RuntimeException("This value has type " + type + ", some Value needed.");
 		return (Value)value;
 	}
-	
+
 	public void setInt(int v)
 	{
 		if(!(type == TypeName.Integer))
 			throw new RuntimeException("This value has type " + type + ", Integer needed.");
+		value = v;
+	}
+	
+	public void setBoolean(boolean v)
+	{
+		if(!(type == TypeName.Boolean))
+			throw new RuntimeException("This value has type " + type + ", Boolean needed.");
 		value = v;
 	}
 	
@@ -120,9 +136,37 @@ public class ValueWrapper {
 		this.description = description;
 	}
 
-	public void setValue(Value v){
+	public void setValue(Value v) {
 		if(type != v.getType())
 			throw new RuntimeException("This value has type " + type + ", " + v.getTypeName() + " needed.");
 		value = v;
+	}
+	
+	public String getJson() {
+		if(type.isValue())
+			return getValue().toString();
+		else if(type.isEntity())
+			return getEntity().getId() + "";
+		else if(type == TypeName.String)
+			return getString();
+		else
+			return value.toString();
+	}
+	
+	public void setJson(JsonObject json) {
+		if(type.isValue())
+			EntityFactory.createValueObjectFromJson(type, json);
+		else if(type.isEntity())
+			EntityFactory.getUnloadedEntityById(type, json.asNumber().longValue());
+		else if(type == TypeName.String)
+			setString(json.asString().stringValue());
+		else if(type == TypeName.Integer)
+			setInt(json.asNumber().intValue());
+		else if(type == TypeName.Long)
+			setLong(json.asNumber().longValue());
+		else if(type == TypeName.Float)
+			setFloat(json.asNumber().floatValue());
+		else if(type == TypeName.Double)
+			setDouble(json.asNumber().doubleValue());
 	}
 }
