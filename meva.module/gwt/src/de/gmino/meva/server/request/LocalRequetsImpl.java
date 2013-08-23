@@ -63,7 +63,7 @@ public class LocalRequetsImpl {
 		
 		if(entitiesToLoad.isEmpty())
 		{
-			System.out.println("Nothing to load, all present.");
+			//System.out.println("Nothing to load, all present.");
 			return;
 		}
 		Connection dbCon = SqlHelper.getConnection();

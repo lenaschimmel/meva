@@ -1077,6 +1077,16 @@ public class ClassDefinition {
 			}
 			first = false;
 		}
+		if(keyvalue)
+		{
+			pw.println("		sb.append(\",\\n\" + moreIndentation + \"\\\"keyvalue\\\" : [\\n\");");
+			pw.println("		for(String key : pairs.keySet())");
+			pw.println("		{");
+			pw.println("			ValueWrapper value = pairs.get(key);");
+			pw.println("			sb.append(moreIndentation + \"\\t{\\\"key\\\":\" + value.getJson() + \"}\\n\");");
+			pw.println("		}");
+			pw.println("		sb.append(moreIndentation + \"]\\n\");");
+		}
 		pw.println("		sb.append(\"\\n\" + indentation + \"}\");");
 		pw.println("	}");
 	}
@@ -1236,8 +1246,7 @@ public class ClassDefinition {
 			pw.println("			String key = pairRs.getString(1);");
 			pw.println("			String value = pairRs.getString(2);");
 			pw.println("			JsonValue valueValue = system.parse(value);");
-			pw.println("			JsonObject valueObject = valueValue.asObject();");
-			pw.println("			getValue(key).setJson(valueObject);");
+			pw.println("			getValue(key).setJson(valueValue);");
 			pw.println("		}");
 		}
 		if (entity)

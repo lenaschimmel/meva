@@ -1,6 +1,6 @@
 package de.gmino.meva.shared;
 
-import org.itemscript.core.values.JsonObject;
+import org.itemscript.core.values.JsonValue;
 
 public class ValueWrapper {
 	
@@ -148,14 +148,14 @@ public class ValueWrapper {
 		else if(type.isEntity())
 			return getEntity().getId() + "";
 		else if(type == TypeName.String)
-			return getString();
+			return "\""+getString() + "\"";
 		else
 			return value.toString();
 	}
 	
-	public void setJson(JsonObject json) {
+	public void setJson(JsonValue json) {
 		if(type.isValue())
-			EntityFactory.createValueObjectFromJson(type, json);
+			EntityFactory.createValueObjectFromJson(type, json.asObject());
 		else if(type.isEntity())
 			EntityFactory.getUnloadedEntityById(type, json.asNumber().longValue());
 		else if(type == TypeName.String)
