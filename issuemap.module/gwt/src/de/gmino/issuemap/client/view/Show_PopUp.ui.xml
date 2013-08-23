@@ -266,12 +266,10 @@
 		}
 
 		.lbBodyHeader {
-			white-space: nowrap;
 			font-size: 100%;
 			text-transform:uppercase;
 			font-weight: bold;
 			border-bottom: 1px solid #FFF;
-			width: 100%;
 			padding-bottom: 3px;
 			margin-bottom: 8px;
 		}
@@ -334,6 +332,13 @@
 			margin-left: 15px;
 			}
 			
+		.ratingCriteria{
+				
+			}
+			
+		.rateInfo{
+			cursor: pointer;
+}
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
 		<g:Cell><!-- Kopfbereich a.k.a. Mouseover -->
@@ -389,7 +394,7 @@
 		</g:Cell>
 		<g:Cell><!-- Tabknöpfe -->
 			<g:FlowPanel styleName="{style.lowerBar}" width="100%" height="33px" >
-				<g:Button styleName="{style.tabButton}" ui:field="tabButtonDescription">Allgemein</g:Button>
+				<g:Button styleName="{style.tabButton}" ui:field="tabButtonDescription">Übersicht</g:Button>
 				<g:Label ui:field="tabDivider1" styleName="{style.tabDivider}">&nbsp;</g:Label>
 				<g:Button styleName="{style.tabButton}" ui:field="tabButtonPhotos">Fotos</g:Button>
 				<g:Label ui:field="tabDivider2" styleName="{style.tabDivider}">&nbsp;</g:Label>
@@ -406,7 +411,7 @@
 				        <g:ScrollPanel styleName="{style.descriptionPanel}" height="240px" ui:field="descriptionPanel">
 				        <g:VerticalPanel  width="100%">
 				        <g:cell><g:VerticalPanel width="100%" ui:field="keyValuePanel"/> </g:cell>
-				            <g:Label styleName="{style.lbBodyHeader}">Beschreibung</g:Label>
+				            <g:Label styleName="{style.lbBodyHeader}" width="98%">Beschreibung</g:Label>
 				            <g:cell height="100%">
 						
 									<g:HTML ui:field="description" styleName="{style.description_label}"></g:HTML>
@@ -439,10 +444,8 @@
 							
 							
 							<g:HorizontalPanel styleName="{style.lbBodyHeader}" ui:field="pnRatingHeading" width="133px">
-				      	        <g:cell width="100%">
-							    	<g:Label>Relevanz</g:Label>
-							    </g:cell>
-							    <g:Label ui:field="lbWhatsThis" styleName="{style.lbWhatsThis}">(Was ist das?)</g:Label>
+							    	<g:cell width="113px"><g:Label styleName="{style.ratingCriteria}" ui:field="ratingCriteria">Relevanz</g:Label></g:cell>
+							    <g:cell width="20px" verticalAlignment="ALIGN_MIDDLE"><g:Image ui:field="lbWhatsThis" styleName="{style.rateInfo}" resource='{resources.info_small}'></g:Image></g:cell>
 							</g:HorizontalPanel>
 				            
 								<g:AbsolutePanel height="60px" ui:field="pnRatingMain" width="133px">

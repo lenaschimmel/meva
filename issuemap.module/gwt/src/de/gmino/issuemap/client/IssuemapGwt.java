@@ -12,6 +12,7 @@ import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -389,10 +390,16 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 	}
 	
 	private void fillMapIssues() {
-		list = new IssueList_PopUp(mapObject, issueRenderer, markerLayer);
-		RootPanel.get("list").add(list);
-		
-		loadIssuesToList();
+		if (mapObject.isHas_list()) {
+			list = new IssueList_PopUp(mapObject, issueRenderer, markerLayer);
+			RootPanel.get("list").add(list);
+
+			loadIssuesToList();
+
+		} else {
+			RootPanel.get("list").getElement().getStyle().setDisplay(Display.NONE);
+			setListVisible(false);
+		}
 		loadIssuesToMap();
 	}
 
@@ -462,6 +469,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 	}
 	
 	public void loadIssuesToList() {
+		if(mapObject.isHas_list()){
 		Collection<de.gmino.issuemap.shared.domain.Issue> issues = mapObject.getIssues();
 		Requests.loadEntities(issues, new RequestListener<de.gmino.issuemap.shared.domain.Issue>() {
 			@Override
@@ -483,6 +491,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 			}
 		});
 	}
+}
 
 	public void setCounter() {
 		footer.setCounter(counter);

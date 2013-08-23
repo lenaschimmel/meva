@@ -11,14 +11,14 @@
 			font-size: 100%;
 			
 			border-bottom: 1px solid #FFF;
-			width: 100%;
+			width: 98%;
 			padding-bottom: 3px;
 			margin-bottom: 8px;
 		}
 		
 		.key{text-transform:uppercase;
 			font-weight: bold;}
-		.value{padding-right: 10px}
+		.value{}
 		
 	</ui:style>
 	<g:HTMLPanel ui:field="parent">

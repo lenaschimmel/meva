@@ -169,7 +169,10 @@ public class Show_PopUp extends Composite {
 			tbResolved.setVisible(mIssue.getMap_instance().isMark());
 		
 		if(mIssue.getMap_instance().isHas_ratings()==false && mIssue.getMap_instance().isHas_fotos()==false)
-			descriptionPanel.setWidth("442px");
+			descriptionPanel.setWidth("475px");
+		
+		ratingCriteria.setText(mIssue.getMap_instance().getRate_criteria());
+		tbResolved.getElement().setAttribute("title", mIssue.getMap_instance().getMark_description());
 		
 		
 		addKeyValue("Key", "Value", "Description");
@@ -350,6 +353,8 @@ public class Show_PopUp extends Composite {
 	@UiField
 	Label lbMorePhotos;
 	
+	@UiField
+	Label ratingCriteria;
 	
 
 	@UiField
