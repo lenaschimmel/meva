@@ -2,6 +2,7 @@
 	"package" : "de.gmino.issuemap.TARGET.domain",
 	"concept" : "entity",
 	"name" : "Issue",
+	"keyvalue" : "true",
 	"attributes" : [
 		{
 			"type" : "LatLon",
@@ -18,6 +19,10 @@
 		{
 			"type" : "Markertype",
 			"name" : "markertype"
+		},
+		{
+			"type" : "KeyValueSet",
+			"name" : "keyvalueset"
 		},	
 		{
 			"type" : "Map",

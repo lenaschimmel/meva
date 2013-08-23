@@ -14,4 +14,8 @@ public interface Value {
 
 	// Stuff
 	public String toString();
+	
+	public String getTypeName();
+	
+	public TypeName getType();
 }

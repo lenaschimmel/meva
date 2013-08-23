@@ -8,6 +8,7 @@ import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.shared.domain.gen.IssueGen;
+import de.gmino.meva.shared.domain.KeyValueSet;
 // default imports
 // imports for JSON
 // imports for field types
@@ -25,6 +26,7 @@ public class Issue extends IssueGen {
 			String title,
 			String description,
 			Markertype markertype,
+			KeyValueSet keyvalueset,
 			Map map_instance,
 			Timestamp creationTimestamp,
 			int rating,
@@ -45,6 +47,7 @@ public class Issue extends IssueGen {
 			title,
 			description,
 			(de.gmino.issuemap.shared.domain.Markertype)markertype,
+			(de.gmino.meva.shared.domain.KeyValueSet)keyvalueset,
 			(de.gmino.issuemap.shared.domain.Map)map_instance,
 			(de.gmino.geobase.shared.domain.Timestamp)creationTimestamp,
 			rating,
@@ -58,6 +61,7 @@ public class Issue extends IssueGen {
 			email,
 			phone
 		);
+		loadValueSet();
 		this.ready = true;
 	}
 	

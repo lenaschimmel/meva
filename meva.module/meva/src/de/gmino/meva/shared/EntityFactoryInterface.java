@@ -27,4 +27,6 @@ public interface EntityFactoryInterface {
 	 */
 	public Object createQueryObject(String typeName, Object requestSource) throws IOException;
 
+	public Value createValueObjectFromJson(TypeName type, JsonObject json);
+
 }

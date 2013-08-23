@@ -11,6 +11,7 @@ public class TypeName implements Comparable<TypeName> {
 	private boolean isValue;
 	private boolean isEntity;
 	
+	public static final TypeName Boolean = getNativeByString("Boolean", true);
 	public static final TypeName String = getNativeByString("String", true);
 	public static final TypeName Integer = getNativeByString("Integer", true);
 	public static final TypeName Double = getNativeByString("Double", true);
@@ -66,6 +67,14 @@ public class TypeName implements Comparable<TypeName> {
 		else if (!ret.isValue)
 			throw new RuntimeException("Type " + typeName + " is not a value.");
 		
+		return  ret;
+	}
+
+
+	public static TypeName getByString(String typeName) {
+		final TypeName ret = getInternalByString(typeName, false);
+		if (ret == null)
+			throw new RuntimeException("Did not find type " + typeName + " in " + dummy.hashCode());
 		return  ret;
 	}
 

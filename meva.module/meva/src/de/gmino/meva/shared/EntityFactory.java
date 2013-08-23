@@ -79,4 +79,8 @@ public class EntityFactory {
 			Object requestSource) throws IOException {
 		return factoryImplementation.createQueryObject(lastPart, requestSource);
 	}
+
+	public static Value createValueObjectFromJson(TypeName type, JsonObject json) {
+		return factoryImplementation.createValueObjectFromJson(type, json);
+	}
 }

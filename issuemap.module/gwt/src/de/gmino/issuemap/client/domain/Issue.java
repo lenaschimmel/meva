@@ -9,6 +9,7 @@ import de.gmino.geobase.client.domain.LatLon;
 import de.gmino.geobase.client.domain.Timestamp;
 import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.issuemap.client.domain.gen.IssueGen;
+import de.gmino.meva.client.domain.KeyValueSet;
 // default imports
 // imports for JSON
 // imports for field types
@@ -44,6 +45,7 @@ public class Issue extends IssueGen implements Poi {
 			String title,
 			String description,
 			Markertype markertype,
+			KeyValueSet keyvalueset,
 			Map map_instance,
 			Timestamp creationTimestamp,
 			int rating,
@@ -64,6 +66,7 @@ public class Issue extends IssueGen implements Poi {
 			title,
 			description,
 			(de.gmino.issuemap.client.domain.Markertype)markertype,
+			(de.gmino.meva.client.domain.KeyValueSet)keyvalueset,
 			(de.gmino.issuemap.client.domain.Map)map_instance,
 			(de.gmino.geobase.client.domain.Timestamp)creationTimestamp,
 			rating,
@@ -77,6 +80,7 @@ public class Issue extends IssueGen implements Poi {
 			email,
 			phone
 		);
+		loadValueSet();
 		this.ready = true;
 	}
 	
