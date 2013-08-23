@@ -6,6 +6,7 @@ import java.util.TreeMap;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -130,6 +131,13 @@ public class Create_Map_Backend extends Composite {
 	CheckBox deleteCheckbox;
 	@UiField
 	CheckBox markCheckbox;
+	@UiField
+	TextBox markDescription;
+	@UiField
+	TextBox rateCriteria;
+	@UiField
+	Label deleteLabel;
+
 
 	
 	Map map;
@@ -169,6 +177,20 @@ public class Create_Map_Backend extends Composite {
 		resolved_color.getElement().getStyle().setBackgroundColor(resolved_color.getText());
 	}
 
+	@UiHandler("editCheckbox")
+	public void onEditCheckbixClicked(ValueChangeEvent<Boolean> ev) {
+	    if(ev.getValue()){
+	    	deleteCheckbox.setVisible(true);
+	    	deleteLabel.setVisible(true);
+	    	
+	    }
+	    else {
+	    	deleteCheckbox.setVisible(false);
+	    	deleteCheckbox.setValue(false);
+	    	deleteLabel.setVisible(false);
+
+	    	}	    	
+	}
 
 	private void performSave() {
 		map.setTitle(title.getText());
@@ -194,6 +216,8 @@ public class Create_Map_Backend extends Composite {
 		map.setDelete(deleteCheckbox.getValue());
 		map.setEdit(editCheckbox.getValue());
 		map.setMark(markCheckbox.getValue());
+		map.setMark_description(markDescription.getText());
+		map.setRate_criteria(rateCriteria.getText());
 		if(mapType.getSelectedIndex()==0) map.setMapTyp("Issue");
 		if(mapType.getSelectedIndex()==1) map.setMapTyp("Event");
 		if(mapType.getSelectedIndex()==2) map.setMapTyp("EE");
@@ -246,6 +270,10 @@ public class Create_Map_Backend extends Composite {
 		editCheckbox.setValue(false);
 		markCheckbox.setValue(false);
 		deleteCheckbox.setValue(false);
+		deleteCheckbox.setVisible(false);
+		deleteLabel.setVisible(false);
+		rateCriteria.setText("");
+		markDescription.setText("");
 		
 		
 		
@@ -305,12 +333,17 @@ public class Create_Map_Backend extends Composite {
 		fotosCheckbox.setValue(map.isHas_fotos());
 		commentsCheckbox.setValue(map.isHas_comments());
 		ratingsCheckbox.setValue(map.isHas_ratings());
+		rateCriteria.setText(map.getRate_criteria());
 		listCheckbox.setValue(map.isHas_list());
 		filtersCheckbox.setValue(map.isHas_filters());
 		editCheckbox.setValue(map.isEdit());
 		markCheckbox.setValue(map.isMark());
+		markDescription.setText(map.getMark_description());
 		deleteCheckbox.setValue(map.isDelete());
-
+		if(map.isEdit()) {
+			deleteCheckbox.setVisible(true);
+			deleteLabel.setVisible(true);
+		}
 		
 		if(map.getMapTyp().equals("Issue")) mapType.setSelectedIndex(0);
 		if(map.getMapTyp().equals("Event")) mapType.setSelectedIndex(1);
@@ -387,8 +420,10 @@ public class Create_Map_Backend extends Composite {
 		zip.getElement().setAttribute("title", "PLZ");
 		city.getElement().setAttribute("placeholder", "Stadt");
 		city.getElement().setAttribute("title", "Stadt");
-		
-		
+		rateCriteria.getElement().setAttribute("placeholder", "Kriterium");
+		rateCriteria.getElement().setAttribute("title", "Kriterium");
+		markDescription.getElement().setAttribute("placeholder", "Beschriftung");
+		markDescription.getElement().setAttribute("title", "Beschriftung");
 	}
 	
 }

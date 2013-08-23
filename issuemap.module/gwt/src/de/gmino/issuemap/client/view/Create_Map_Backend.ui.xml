@@ -263,12 +263,12 @@
 		<g:Label styleName="{style.h2}">Features</g:Label>
 		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="fotosCheckbox"/><g:Label text="Fotos" styleName="{style.label}"/></g:HorizontalPanel>
 		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="commentsCheckbox"/><g:Label text="Kommentare" styleName="{style.label}" /></g:HorizontalPanel>
-		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="editCheckbox"/><g:Label text="Editieren erlauben" styleName="{style.label}" /></g:HorizontalPanel>
-		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="deleteCheckbox"/><g:Label text="Löschen erlauben" styleName="{style.label}" /></g:HorizontalPanel>
+		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="editCheckbox" /><g:Label text="Editieren erlauben" styleName="{style.label}" />
+		<g:CheckBox ui:field="deleteCheckbox" visible="false" /><g:Label text="Löschen erlauben" ui:field="deleteLabel" visible="false" styleName="{style.label}" /></g:HorizontalPanel>
 		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="markCheckbox"/><g:Label text="Marker Markieren" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="markDescription"/></g:HorizontalPanel>
 		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="ratingsCheckbox"/><g:Label text="Bewertungen" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="rateCriteria"/></g:HorizontalPanel>
 		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="listCheckbox"/><g:Label text="Listenansicht" styleName="{style.label}" /><g:ListBox height="24px" styleName="{style.textBox}" ui:field="sortCriteria"></g:ListBox></g:HorizontalPanel>
-		<g:HorizontalPanel height="32px"><g:CheckBox ui:field="filtersCheckbox"/><g:Label text="Filter" styleName="{style.label}"/><g:ListBox height="24px" styleName="{style.textBox}" ui:field="filterCriteria"/></g:HorizontalPanel>
+		<g:HorizontalPanel height="32px" visible="false"><g:CheckBox ui:field="filtersCheckbox"/><g:Label text="Filter" styleName="{style.label}"/><g:ListBox height="24px" styleName="{style.textBox}" ui:field="filterCriteria"/></g:HorizontalPanel>
 		<g:Button styleName="{style.important}" ui:field="button" text="Speichern"/>
 	</g:VerticalPanel>
 

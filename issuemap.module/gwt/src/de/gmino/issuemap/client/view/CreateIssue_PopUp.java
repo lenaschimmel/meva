@@ -82,7 +82,7 @@ public class CreateIssue_PopUp extends Composite {
 		this(map,smartLayer);
 		this.mIssue = editIssue;
 		button.setText("Speichern");
-		delete.setVisible(true);
+		if(editIssue.getMap_instance().isDelete()) delete.setVisible(true);
 		title.setText(editIssue.getTitle());
 		description.setText(editIssue.getDescription());
 		String markertypeId = editIssue.getMarkertypeId() + "";
