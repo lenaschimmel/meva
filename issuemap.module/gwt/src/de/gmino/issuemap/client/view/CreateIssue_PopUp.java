@@ -27,6 +27,10 @@ import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Markertype;
 import de.gmino.issuemap.client.domain.Poi;
+import de.gmino.meva.client.domain.LongText;
+import de.gmino.meva.shared.TypeName;
+import de.gmino.meva.shared.ValueWrapper;
+import de.gmino.meva.shared.domain.KeyValueDef;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
@@ -53,27 +57,42 @@ public class CreateIssue_PopUp extends Composite {
 	}
 	
 	public CreateIssue_PopUp(final Map map, final LatLon location, OpenLayersSmartLayer smartLayer) {
-		this(map,smartLayer);
-		
-		// this is a dummy instance, just needed to provide an early icon. As soon as the real issue object is present, it will be used instead.
-		mIssue = new Poi(-1);
-		mIssue.setMap_instance(map);
-		updateIcon();
-		
-        Requests.getNewEntity(Poi.type, new RequestListener<Poi>() {
-                public void onNewResult(Poi issue) {
-                        mIssue = issue; // needed for upload handler
-                        issue.setLocation(location);
-                        issue.setMap_instance(map);
-                        issue.setCreationTimestamp(Timestamp.now());
-                        updateIcon();
-                }
-        });
-		
-        newIssue = true;
-		headLable.setText("Neuen Marker erstellen");
-		description.getElement().setAttribute("placeholder", "Beschreibung");
-		title.getElement().setAttribute("placeholder", "Bitte geben Sie einen Titel ein");
+		this(map, smartLayer);
+
+		Requests.loadEntity(map.getMarkerClass(), new RequestListener<de.gmino.meva.shared.domain.KeyValueSet>() {
+			@Override
+			public void onNewResult(final de.gmino.meva.shared.domain.KeyValueSet set) {
+				Requests.loadEntities(set.getDefs(), new RequestListener<KeyValueDef>() {
+					@Override
+					public void onFinished(Collection<KeyValueDef> results) {
+						// this is a dummy instance, just needed to provide an
+						// early icon. As soon as the real issue object is
+						// present, it will be used instead.
+						mIssue = new Poi(-1);
+						mIssue.setKeyvalueset(map.getMarkerClass());
+						mIssue.setMap_instance(map);
+						updateIcon();
+
+						Requests.getNewEntity(Poi.type, new RequestListener<Poi>() {
+							public void onNewResult(Poi issue) {
+								mIssue = issue; // needed for upload handler
+								issue.setKeyvalueset(map.getMarkerClass());
+								issue.setLocation(location);
+								issue.setMap_instance(map);
+								issue.setCreationTimestamp(Timestamp.now());
+								updateIcon();
+							}
+						});
+
+						newIssue = true;
+						headLable.setText("Neuen Marker erstellen");
+						description.getElement().setAttribute("placeholder", "Beschreibung");
+						title.getElement().setAttribute("placeholder", "Bitte geben Sie einen Titel ein");
+					}
+				});
+			}
+		});
+
 	}
 
 	public CreateIssue_PopUp(Map map, Poi editIssue, OpenLayersSmartLayer smartLayer) {
@@ -82,7 +101,7 @@ public class CreateIssue_PopUp extends Composite {
 		button.setText("Speichern");
 		if(editIssue.getMap_instance().isDelete()) delete.setVisible(true);
 		title.setText(editIssue.getTitle());
-		description.setText(editIssue.getValue("description").getString());
+		description.setText(editIssue.getValue("Beschreibung").getString());
 		String markertypeId = editIssue.getMarkertypeId() + "";
 		for(int i = 0; i < typebox.getItemCount(); i++)
 			if(typebox.getValue(i).equals(markertypeId))
@@ -195,7 +214,7 @@ public class CreateIssue_PopUp extends Composite {
 		Markertype markertype = (Markertype) Markertype.getById(markertypeId);
 		issue.setTitle(title.getText());
 		issue.setMarkertype(markertype);
-		issue.getValue("description").setString(description.getText());
+		issue.getValue("Beschreibung").setValue(new LongText(description.getText()));
 	}
 	
 	

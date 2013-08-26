@@ -8,6 +8,7 @@ import de.gmino.geobase.server.domain.Address;
 import de.gmino.geobase.server.domain.ImageUrl;
 import de.gmino.geobase.server.domain.LatLon;
 import de.gmino.issuemap.server.domain.gen.MapGen;
+import de.gmino.meva.server.domain.KeyValueSet;
 // default imports
 // imports for JSON
 // imports for SQL stuff
@@ -51,7 +52,8 @@ public class Map extends MapGen {
 			boolean delete,
 			boolean mark,
 			String rate_criteria,
-			String mark_description)
+			String mark_description,
+			KeyValueSet markerClass)
 	{
 		super(
 			id,
@@ -84,7 +86,8 @@ public class Map extends MapGen {
 			delete,
 			mark,
 			rate_criteria,
-			mark_description
+			mark_description,
+			(de.gmino.meva.server.domain.KeyValueSet)markerClass
 		);
 		this.ready = true;
 	}

@@ -144,7 +144,7 @@ public class ShowIssue_PopUp extends Composite {
 		setRatingText();
 		lbTitle.setText(mIssue.getTitle());
 		lbTitle.setTitle(mIssue.getTitle());
-		description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mIssue.getValue("description").getString()).toSafeHtml());
+		description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mIssue.getValue("Beschreibung").getString()).toSafeHtml());
 		commentTextBox.getElement().setAttribute("placeholder", "Bitte geben Sie einen Kommentar ein");
 		
 		//mIssue.vote=0;

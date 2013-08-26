@@ -961,7 +961,15 @@ public class ClassDefinition {
 			}
 		}
 		if (keyvalue)
+		{
 			pw.println("		loadValueSet();");
+			pw.println("		JsonObject jsonPairs = json.get(\"keyvalue\").asObject();");
+			pw.println("		for(String key : pairs.keySet())");
+			pw.println("		{");
+			pw.println("			 ValueWrapper value = pairs.get(key);");
+			pw.println("			 value.setJson(jsonPairs.get(key));");
+			pw.println("		}");
+		}
 		pw.println("		ready = true;");
 		pw.println("		jsonLoadTime = System.currentTimeMillis();");
 		pw.println("	}");
@@ -992,7 +1000,7 @@ public class ClassDefinition {
 						+ capitalizeFirst(type) + "(" + val
 						+ ".asString().stringValue())");
 			} else if (type.equals("String")) {
-				pw.print("			" + val + ".isNull() ? null : " + val
+				pw.print("			(json == null || " + val + ".isNull()) ? null : " + val
 						+ ".asString().stringValue()");
 			} else {
 				if (attribute.isEntity()) {
@@ -1079,13 +1087,15 @@ public class ClassDefinition {
 		}
 		if(keyvalue)
 		{
-			pw.println("		sb.append(\",\\n\" + moreIndentation + \"\\\"keyvalue\\\" : [\\n\");");
+			pw.println("		sb.append(\",\\n\" + moreIndentation + \"\\\"keyvalue\\\" : {\\n\");");
+			pw.println("		boolean first = true;");
 			pw.println("		for(String key : pairs.keySet())");
 			pw.println("		{");
 			pw.println("			ValueWrapper value = pairs.get(key);");
-			pw.println("			sb.append(moreIndentation + \"\\t{\\\"key\\\":\" + value.getJson() + \"}\\n\");");
+			pw.println("			sb.append(moreIndentation + (first ? \"\" : \",\") + \"\\t\\\"\" + value.getName() + \"\\\":\" + value.getJson() + \"\\n\");");
+			pw.println("			first = false;");
 			pw.println("		}");
-			pw.println("		sb.append(moreIndentation + \"]\\n\");");
+			pw.println("		sb.append(moreIndentation + \"}\\n\");");
 		}
 		pw.println("		sb.append(\"\\n\" + indentation + \"}\");");
 		pw.println("	}");
@@ -1107,12 +1117,6 @@ public class ClassDefinition {
 		pw.println("		ResultSet rs = stat.executeQuery(selectString);");
 		pw.println("		rs.next();");
 		pw.println("		deserializeSql(rs, dbCon);");
-		if (keyvalue)
-		{
-			pw.println("		loadValueSet();");
-			
-		}
-
 		pw.println("	}");
 		pw.println();
 
@@ -1245,8 +1249,13 @@ public class ClassDefinition {
 			pw.println("		{");
 			pw.println("			String key = pairRs.getString(1);");
 			pw.println("			String value = pairRs.getString(2);");
-			pw.println("			JsonValue valueValue = system.parse(value);");
-			pw.println("			getValue(key).setJson(valueValue);");
+			pw.println("			try {");
+			pw.println("				JsonValue valueValue = system.parse(value);");
+			pw.println("				getValue(key).setJson(valueValue);");
+			pw.println("			} catch (Exception e) {");
+			pw.println("				System.err.println(\"Json Parse error in Poi \" + id + \": \" + e.getMessage());");
+			pw.println("				System.err.println(value);");
+			pw.println("			}");
 			pw.println("		}");
 		}
 		if (entity)
@@ -1643,6 +1652,8 @@ public class ClassDefinition {
 					pw.println("		this." + attribute.attributeName + " = new "
 							+ attribute.typeName + "();");
 			}
+			if(keyvalue)
+				pw.println("		loadValueSet();");
 		}
 		pw.println("	}");
 		pw.println("	");
@@ -1662,6 +1673,8 @@ public class ClassDefinition {
 			pw.println("		else");
 			pw.println("			this." + attribute.attributeName + "_id = 0;");
 		}
+		if(attribute.attributeName.equals("keyvalueset"))
+			pw.println("		loadValueSet();");
 		pw.println("	}");
 		pw.println("	");
 	}

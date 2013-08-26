@@ -13,6 +13,7 @@ import de.gmino.geobase.client.domain.LatLon;
 import de.gmino.issuemap.client.ImageUrlLoader;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.gen.MapGen;
+import de.gmino.meva.client.domain.KeyValueSet;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 // default imports
@@ -56,7 +57,8 @@ public class Map extends MapGen {
 			boolean delete,
 			boolean mark,
 			String rate_criteria,
-			String mark_description)
+			String mark_description,
+			KeyValueSet markerClass)
 	{
 		super(
 			id,
@@ -89,7 +91,8 @@ public class Map extends MapGen {
 			delete,
 			mark,
 			rate_criteria,
-			mark_description
+			mark_description,
+			(de.gmino.meva.client.domain.KeyValueSet)markerClass
 		);
 		this.ready = true;
 	}

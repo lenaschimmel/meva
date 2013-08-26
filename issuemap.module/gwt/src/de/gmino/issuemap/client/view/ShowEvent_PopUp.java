@@ -49,7 +49,7 @@ public class ShowEvent_PopUp extends Composite {
 		type.setText(mIssue.getMarkertype().getMarkerName());
 		resolved.setValue(mIssue.isMarked());
 		title.setText(mIssue.getTitle());
-		description.setText(mIssue.getValue("description").getString());
+		description.setText(mIssue.getValue("Beschreibung").getString());
 
 	}
 

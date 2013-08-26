@@ -138,6 +138,10 @@
 			"reltype" : "Markertype",
 			"relname" : "isUsedByMap",
 			"multiplerelation" : "true"
+		},
+		{
+			"type" : "KeyValueSet",
+			"name" : "markerClass"
 		}
 	]
 }

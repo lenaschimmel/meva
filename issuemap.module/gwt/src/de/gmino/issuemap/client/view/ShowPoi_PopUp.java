@@ -122,12 +122,12 @@ public class ShowPoi_PopUp extends Composite {
 		setRatingText();
 		labelTitle.setText(mIssue.getTitle());
 		if(issue.getPhotos().isEmpty())
-			description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mIssue.getValue("description").getString()).toSafeHtml());
+			description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mIssue.getValue("Beschreibung").getString()).toSafeHtml());
 		else {
 			Photo firstPhoto = (Photo) mIssue.getPhotos().iterator().next();
 			Requests.loadEntity(firstPhoto, new RequestListener<Photo>() {
 				public void onNewResult(Photo photo) {
-					description.setHTML( new SafeHtmlBuilder().appendHtmlConstant("<p><img src='" + photo.getImage().getUrl() + "&amp;h=200' style='float:right;' />"+ mIssue.getValue("description").getString() +"</p>").toSafeHtml());
+					description.setHTML( new SafeHtmlBuilder().appendHtmlConstant("<p><img src='" + photo.getImage().getUrl() + "&amp;h=200' style='float:right;' />"+ mIssue.getValue("Beschreibung").getString() +"</p>").toSafeHtml());
 							
 				};
 			});

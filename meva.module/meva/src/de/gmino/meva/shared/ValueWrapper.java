@@ -158,9 +158,9 @@ public class ValueWrapper {
 	
 	public void setJson(JsonValue json) {
 		if(type.isValue())
-			EntityFactory.createValueObjectFromJson(type, json.asObject());
+			setValue(EntityFactory.createValueObjectFromJson(type, json.asObject()));
 		else if(type.isEntity())
-			EntityFactory.getUnloadedEntityById(type, json.asNumber().longValue());
+			setEntity(EntityFactory.getUnloadedEntityById(type, json.asNumber().longValue()));
 		else if(type == TypeName.String)
 			setString(json.asString().stringValue());
 		else if(type == TypeName.Integer)

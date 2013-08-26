@@ -56,7 +56,7 @@ public class CreateEvent_PopUp extends Composite implements HasText {
 		this(map,smartLayer);
 		this.mIssue = editIssue;
 		title.setText(editIssue.getTitle());
-		description.setText(editIssue.getValue("description").getString());
+		description.setText(editIssue.getValue("Beschreibung").getString());
 		organizer.setText(editIssue.getValue("Veranstalter").getString());
 		pricebox.setSelectedIndex((int) editIssue.getValue("Eintritt").getFloat()); //TODO
 		String markertypeId = editIssue.getMarkertypeId() + "";
@@ -146,7 +146,7 @@ public class CreateEvent_PopUp extends Composite implements HasText {
 		Markertype markertype = (Markertype) Markertype.getById(markertypeId);
 		issue.setTitle(title.getText());
 		issue.setMarkertype(markertype);
-		issue.getValue("description").setString(description.getText());
+		issue.getValue("Beschreibung").setString(description.getText());
 		issue.getValue("Veranstalter").setString(organizer.getText());
 		issue.getValue("Eintritt").setFloat((long)pricebox.getSelectedIndex());
 	}

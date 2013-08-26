@@ -22,6 +22,7 @@ import de.gmino.geobase.shared.map.Marker;
 import de.gmino.geobase.shared.map.PopupCreator;
 import de.gmino.geobase.shared.map.SmartLayer;
 import de.gmino.meva.shared.Entity;
+import de.gmino.meva.shared.Log;
 import de.gmino.meva.shared.TypeName;
 
 public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLayersLayer {
@@ -89,43 +90,49 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 	}
 
 	public void clickedPoi(long poiId) {
-		final PoiInterface poi = pois.get(poiId);
-		Entity oAsEntity = (Entity) poi;
-		GwtPopupCreator<PoiInterface> creator = popupCreatorMap.get(oAsEntity.getType());
-		if(creator == null)
-			throw new RuntimeException("No PopupCreator for tyoe " + oAsEntity.getType().toString());
-		Widget widget = creator.createPopup(poi);
+		try {
+			final PoiInterface poi = pois.get(poiId);
+			Entity oAsEntity = (Entity) poi;
+			GwtPopupCreator<PoiInterface> creator = popupCreatorMap.get(oAsEntity.getType());
+			if(creator == null)
+				throw new RuntimeException("No PopupCreator for tyoe " + oAsEntity.getType().toString());
+			Widget widget = creator.createPopup(poi);
 
-		if (currentPopup != null) {
-			currentPopup.removeFromParent();
-			currentPopup = null;
-		}
-
-		// TODO: This div will never be removed, but because of its size it
-		// doesn't really matter.
-		DivElement div = mapView.createPopup(poi.getLocation(), poi.getId()
-				+ "", 1, 1);
-		HTMLPanel.wrap(div).add(widget);
-		final Widget inner = ((AbsolutePanel) widget).getWidget(0);
-	
-		currentPopup = widget;
-		
-		// the popup width is not always computeted correctly the first time and simple deferring doesn't help. Therefore, we ask for the width until it seems about right before using ist.
-		Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
-			@Override
-			public boolean execute() {
-				int offsetWidth = inner.getOffsetWidth();
-				int offsetHeight = inner.getOffsetHeight();
-				
-				if(offsetWidth < 160)
-					return true;
-				
-				mapView.panRectIntoMap(poi.getLocation(), offsetWidth,
-						offsetHeight,  22, 38, true);
-					
-				return false;
+			if (currentPopup != null) {
+				currentPopup.removeFromParent();
+				currentPopup = null;
 			}
-		}, 100);
+
+			// TODO: This div will never be removed, but because of its size it
+			// doesn't really matter.
+			DivElement div = mapView.createPopup(poi.getLocation(), poi.getId()
+					+ "", 1, 1);
+			HTMLPanel.wrap(div).add(widget);
+			final Widget inner = ((AbsolutePanel) widget).getWidget(0);
+
+			currentPopup = widget;
+			
+			// the popup width is not always computeted correctly the first time and simple deferring doesn't help. Therefore, we ask for the width until it seems about right before using ist.
+			Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+				@Override
+				public boolean execute() {
+					int offsetWidth = inner.getOffsetWidth();
+					int offsetHeight = inner.getOffsetHeight();
+					
+					if(offsetWidth < 160)
+						return true;
+					
+					mapView.panRectIntoMap(poi.getLocation(), offsetWidth,
+							offsetHeight,  22, 38, true);
+						
+					return false;
+				}
+			}, 100);
+		} catch (Exception e) {
+			Log.exception("Handling clickedPoi", e);
+			System.err.println("#####");
+			e.printStackTrace();
+		}
 	}
 
 	// TODO: This is a marker layer, not a vector layer
