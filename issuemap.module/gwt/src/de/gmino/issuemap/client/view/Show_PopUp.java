@@ -57,6 +57,7 @@ import de.gmino.issuemap.client.domain.Photo;
 import de.gmino.issuemap.client.poi.Marker_Wrapper;
 import de.gmino.issuemap.client.resources.ImageResources;
 import de.gmino.meva.shared.Log;
+import de.gmino.meva.shared.ValueWrapper;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
@@ -174,8 +175,11 @@ public class Show_PopUp extends Composite {
 		ratingCriteria.setText(mIssue.getMap_instance().getRate_criteria());
 		tbResolved.getElement().setAttribute("title", mIssue.getMap_instance().getMark_description());
 		
-		
-		addKeyValue("Key", "Value", "Description");
+//		for(ValueWrapper val :  issue.getValues())
+//		{
+//			System.out.println("ValueWrapper: " + val.getDescription());
+//			addKeyValue(val.getName(), val.getJson(), val.getDescription());
+//		}
 		description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mIssue.getDescription()).toSafeHtml());
 		commentTextBox.getElement().setAttribute("placeholder", "Bitte geben Sie einen Kommentar ein");
 		

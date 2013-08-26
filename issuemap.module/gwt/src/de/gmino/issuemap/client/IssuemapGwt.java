@@ -536,6 +536,8 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
 	}
 	
 	public void setCounter() {

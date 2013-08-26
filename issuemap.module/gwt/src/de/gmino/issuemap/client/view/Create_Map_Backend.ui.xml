@@ -190,6 +190,8 @@
 			width: 116px;
 			height: 19px;
 			}
+			
+
 		
 	</ui:style>
 	<g:HTMLPanel styleName="{style.parent}">
@@ -214,13 +216,13 @@
 		
 		<g:Label styleName="{style.h2}">Marker-Klasse</g:Label>
 		<g:HorizontalPanel height="32px"><g:Label text="Klasse:" styleName="{style.label}" />
-			<g:ListBox styleName="{style.typeselect}" ui:field="mapType">
-				<g:item value='0'>Issues</g:item>
-				<g:item value='1'>Veranstaltungen</g:item>
-				<g:item value='2'>Dezentrale Energieerzeuger</g:item>
-				<g:item value='2'>keine</g:item>
+			<g:ListBox styleName="{style.typeselect}" ui:field="mapClass">
+				<g:item value='0'>keine</g:item>
 			</g:ListBox>
 		</g:HorizontalPanel>
+		<g:FlexTable ui:field="tblkKeyValue" styleName="{style.textBox}"></g:FlexTable>
+		
+				<!-- 
 		<g:FlowPanel>
 			<g:ListBox styleName="{style.label}" ui:field="type1">
 				<g:item value='0'>Text kurz</g:item>
@@ -251,6 +253,7 @@
 			</g:ListBox>
 			<g:TextBox text="Wert 3" styleName="{style.textBox}" ui:field="value3"></g:TextBox>
 		</g:FlowPanel>
+		 -->
 		<g:Label styleName="{style.h2}">Marker-Auswahl</g:Label>
 		
 		

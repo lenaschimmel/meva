@@ -25,6 +25,10 @@
 			"reltype" : "Map",
 			"relname" : "hasMarkertypes",
 			"multiplerelation" : "true"
+		},
+		{
+			"type" : "KeyValueSet",
+			"name" : "markerClass" 
 		}
 	]
 }

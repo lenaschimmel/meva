@@ -5,6 +5,7 @@ package de.gmino.issuemap.server.domain;
 
 // gmino stuff
 import de.gmino.issuemap.server.domain.gen.MarkertypeGen;
+import de.gmino.meva.server.domain.KeyValueSet;
 // default imports
 // imports for JSON
 // imports for SQL stuff
@@ -22,7 +23,8 @@ public class Markertype extends MarkertypeGen {
 			String markerName,
 			String imageName,
 			int imageWidth,
-			int imageHeight)
+			int imageHeight,
+			KeyValueSet markerClass)
 	{
 		super(
 			id,
@@ -30,7 +32,8 @@ public class Markertype extends MarkertypeGen {
 			markerName,
 			imageName,
 			imageWidth,
-			imageHeight
+			imageHeight,
+			(de.gmino.meva.server.domain.KeyValueSet)markerClass
 		);
 		this.ready = true;
 	}

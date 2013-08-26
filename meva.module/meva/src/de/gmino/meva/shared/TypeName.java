@@ -1,5 +1,6 @@
 package de.gmino.meva.shared;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -111,5 +112,10 @@ public class TypeName implements Comparable<TypeName> {
 
 	public boolean isEntity() {
 		return isEntity;
+	}
+	
+	public static Collection<TypeName> getAllTypes()
+	{
+		return types.values();
 	}
 }

@@ -1,5 +1,6 @@
 package de.gmino.issuemap.client.view;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.TreeMap;
 
@@ -13,6 +14,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -23,8 +25,15 @@ import com.google.gwt.user.client.ui.Widget;
 import de.gmino.geobase.shared.domain.Address;
 import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.LatLon;
+import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Markertype;
+import de.gmino.issuemap.client.domain.Photo;
+import de.gmino.meva.client.domain.KeyValueDef;
+import de.gmino.meva.client.domain.KeyValueSet;
+import de.gmino.meva.shared.Entity;
+import de.gmino.meva.shared.RelationCollection;
+import de.gmino.meva.shared.TypeName;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
@@ -39,25 +48,40 @@ public class Create_Map_Backend extends Composite {
 
 	public Create_Map_Backend() {
 		initWidget(uiBinder.createAndBindUi(this));
-		//Alle Markertypes
-		Requests.getLoadedEntitiesByType(Markertype.type, new RequestListener<Markertype>() {
 
-			@Override
-			public void onNewResult(Markertype markertype) {
-				Marker_List_Item item = new Marker_List_Item(markertype.getImageName(), markertype.getMarkerName());
-				markerPanel.add(item);
-				markerListItems.put(markertype, item);
-				markertypes.put(item, markertype);
-				super.onNewResult(markertype);
-			}
-		});
 		getNewMapObject();
 		eeBackend = new EE_Backend();
 		eePanel.add(eeBackend);
 		eePanel.setVisible(false);
 		markerPanel.setVisible(false);
 		isNewMap = true;
+		
+		Requests.getLoadedEntitiesByType(KeyValueSet.type, new RequestListener<KeyValueSet>() {
+			@Override
+			public void onNewResult(KeyValueSet set) {
+				
+				
+					mapClass.addItem(set.getName(), set.getId()+"");
+				
+//				Collection defs = IssuemapGwt.<de.gmino.meva.client.domain.KeyValueDef, de.gmino.meva.shared.domain.KeyValueDef>convertCollection(set.getDefs());
+//				Requests.loadEntities(defs, new RequestListener<KeyValueDef>() {
+//					@Override
+//					public void onNewResult(KeyValueDef def) {
+//						String name = def.getName();
+//						String valueTypeString = def.getValueType();
+//						TypeName.getByString(valueTypeString).isEntity();
+//						
+//						for(TypeName tn : TypeName.getAllTypes())
+//						{
+//							System.out.println("Es gibt einen Typ namens " + tn.toString());
+//						}
+//					}
+//				});
+			}
+		});
+	
 	}
+	
 	
 	TreeMap<Markertype, Marker_List_Item> markerListItems = new TreeMap<Markertype, Marker_List_Item>(); 
 	HashMap<Marker_List_Item, Markertype> markertypes = new HashMap<Marker_List_Item, Markertype>(); 
@@ -98,7 +122,7 @@ public class Create_Map_Backend extends Composite {
 	@UiField
 	TextBox url_impressum;
 	@UiField
-	ListBox mapType;
+	ListBox mapClass;
 	@UiField
 	TextBox recipient_name;
 	@UiField
@@ -137,6 +161,8 @@ public class Create_Map_Backend extends Composite {
 	TextBox rateCriteria;
 	@UiField
 	Label deleteLabel;
+	@UiField
+	FlexTable tblkKeyValue;
 
 
 	
@@ -155,6 +181,60 @@ public class Create_Map_Backend extends Composite {
 				}
 		});
 	}
+	
+
+	@SuppressWarnings("unchecked")
+	@UiHandler("mapClass")
+	public void onMapClassChanged(ChangeEvent e)
+	{
+		tblkKeyValue.removeAllRows();
+		final KeyValueSet selectedSet = (KeyValueSet) KeyValueSet.getById(Long.parseLong(mapClass.getValue(mapClass.getSelectedIndex())));
+		Collection defs = IssuemapGwt.<de.gmino.meva.client.domain.KeyValueDef, de.gmino.meva.shared.domain.KeyValueDef>convertCollection(selectedSet.getDefs());
+		
+		
+		
+		Requests.loadEntities(defs, new RequestListener<KeyValueDef>() {
+			@Override
+			public void onFinished(Collection<KeyValueDef> results) {
+				int r = 0;
+				for(KeyValueDef def : results)
+				{
+					String name = def.getName();
+					String valueTypeString = def.getValueType();
+					
+					tblkKeyValue.setText(r, 0, valueTypeString);
+					tblkKeyValue.setText(r, 2, name);
+					if(TypeName.getByString(valueTypeString).isEntity())
+						tblkKeyValue.setText(r, 1, "Entität");
+					if(TypeName.getByString(valueTypeString).isValue())
+						tblkKeyValue.setText(r, 1, "Wert");
+					if(TypeName.getByString(valueTypeString).isNative())
+						tblkKeyValue.setText(r, 1, "Java-nativ");
+					r++;
+				}
+			}
+		});
+		
+		markerPanel.clear();
+		markerListItems.clear();
+		markertypes.clear();
+		markerPanel.setVisible(true);
+		
+		Requests.getLoadedEntitiesByType(Markertype.type, new RequestListener<Markertype>() {
+			@Override
+			public void onNewResult(Markertype markertype) {
+				if(markertype.getMarkerClassId() == selectedSet.getId())
+				{
+					Marker_List_Item item = new Marker_List_Item(markertype.getImageName(), markertype.getMarkerName());
+					markerPanel.add(item);
+					markerListItems.put(markertype, item);
+					markertypes.put(item, markertype);
+				}
+			}
+		});
+	}
+	
+	
 	
 	@UiHandler("primary_color")
 	void onPrimaryColorChange(ChangeEvent e) {
@@ -218,9 +298,7 @@ public class Create_Map_Backend extends Composite {
 		map.setMark(markCheckbox.getValue());
 		map.setMark_description(markDescription.getText());
 		map.setRate_criteria(rateCriteria.getText());
-		if(mapType.getSelectedIndex()==0) map.setMapTyp("Issue");
-		if(mapType.getSelectedIndex()==1) map.setMapTyp("Event");
-		if(mapType.getSelectedIndex()==2) map.setMapTyp("EE");
+
 		
 		for(Marker_List_Item i : markerListItems.values()){
 			if(i.selected)
@@ -249,7 +327,7 @@ public class Create_Map_Backend extends Composite {
 		website.setText("");
 		email.setText("");
 		url_impressum.setText("");
-		mapType.setSelectedIndex(0);
+		mapClass.setSelectedIndex(0);
 		recipient_name.setText("");
 		street.setText("");
 		houseNumber.setText("");
@@ -345,9 +423,9 @@ public class Create_Map_Backend extends Composite {
 			deleteLabel.setVisible(true);
 		}
 		
-		if(map.getMapTyp().equals("Issue")) mapType.setSelectedIndex(0);
-		if(map.getMapTyp().equals("Event")) mapType.setSelectedIndex(1);
-		if(map.getMapTyp().equals("EE")) mapType.setSelectedIndex(2);
+		if(map.getMapTyp().equals("Issue")) mapClass.setSelectedIndex(0);
+		if(map.getMapTyp().equals("Event")) mapClass.setSelectedIndex(1);
+		if(map.getMapTyp().equals("EE")) mapClass.setSelectedIndex(2);
 		
 		if(map.getMapTyp().equals("EE"))
 		{
