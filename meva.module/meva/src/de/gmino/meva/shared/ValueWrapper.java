@@ -143,6 +143,9 @@ public class ValueWrapper {
 	}
 	
 	public String getJson() {
+		if(value == null)
+			return "null";
+		
 		if(type.isValue())
 			return getValue().toString();
 		else if(type.isEntity())
