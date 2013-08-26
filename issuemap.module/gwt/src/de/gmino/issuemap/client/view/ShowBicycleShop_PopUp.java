@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
-import de.gmino.geobase.shared.domain.Poi;
+import de.gmino.geobase.shared.domain.PoiInterface;
 import de.gmino.issuemap.client.ImageUrlLoader;
 import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
 import de.gmino.issuemap.client.domain.BicycleShop;
@@ -134,7 +134,7 @@ public class ShowBicycleShop_PopUp extends Composite {
 
 		deckPanel.showWidget(0);
 
-		GwtIconRenderer<? super Poi> renderer = smartLayer
+		GwtIconRenderer<? super PoiInterface> renderer = smartLayer
 				.getRendererForPoi(mShop);
 		String iconUrl = renderer.getIconUrl(mShop);
 		imageMarkerIcon.setUrl(iconUrl);

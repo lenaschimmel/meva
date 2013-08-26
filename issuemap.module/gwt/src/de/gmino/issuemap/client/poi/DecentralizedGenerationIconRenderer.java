@@ -6,20 +6,20 @@ import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.ui.Image;
 
 import de.gmino.geobase.client.map.GwtIconRenderer;
-import de.gmino.geobase.shared.domain.Poi;
+import de.gmino.geobase.shared.domain.PoiInterface;
 import de.gmino.geobase.shared.map.Hasher;
 import de.gmino.issuemap.client.ImageUrlLoader;
 import de.gmino.issuemap.client.domain.DecentralizedGeneration;
 import de.gmino.issuemap.client.domain.ElectricalSubstation;
 
-public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
+public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<PoiInterface> {
 	
 	private static final String COLOR_SUN = "#DDDD33";
 	private static final String COLOR_WIND = "#43AE43";
 	private static final String COLOR_TRAFO = "#3852AE";
 	ImageUrlLoader loader = ImageUrlLoader.getInstance();
 	
-	public void getIconHash(de.gmino.geobase.shared.map.Hasher hash, Poi poi) 
+	public void getIconHash(de.gmino.geobase.shared.map.Hasher hash, PoiInterface poi) 
 	{
 		if (poi instanceof DecentralizedGeneration) {
 			DecentralizedGeneration gen = (DecentralizedGeneration) poi;
@@ -38,7 +38,7 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 	}
 	
 	@Override
-	public void renderIcon(Canvas can, Poi poi) {
+	public void renderIcon(Canvas can, PoiInterface poi) {
 		can.setCoordinateSpaceWidth(getWidth(poi));
 		can.setCoordinateSpaceHeight(getHeight(poi));
 		Context2d con = can.getContext2d();
@@ -89,7 +89,7 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 	}
 
 	@Override
-	public int getWidth(Poi poi) {
+	public int getWidth(PoiInterface poi) {
 		if (poi instanceof DecentralizedGeneration)
 		{
 			DecentralizedGeneration gen = (DecentralizedGeneration) poi;
@@ -100,7 +100,7 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 	}
 
 	@Override
-	public int getHeight(Poi poi) {
+	public int getHeight(PoiInterface poi) {
 		if (poi instanceof DecentralizedGeneration)
 		{
 			DecentralizedGeneration gen = (DecentralizedGeneration) poi;
@@ -111,7 +111,7 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 	}
 
 	@Override
-	public void renderSmallIcon(Canvas canvas, Poi poi) {
+	public void renderSmallIcon(Canvas canvas, PoiInterface poi) {
 		if (poi instanceof DecentralizedGeneration)
 		{
 			DecentralizedGeneration gen = (DecentralizedGeneration) poi;
@@ -133,7 +133,7 @@ public class DecentralizedGenerationIconRenderer extends GwtIconRenderer<Poi> {
 	}
 
 	@Override
-	public void getSmallIconHash(Hasher hash, Poi poi) {
+	public void getSmallIconHash(Hasher hash, PoiInterface poi) {
 		if (poi instanceof DecentralizedGeneration)
 		{
 			DecentralizedGeneration gen = (DecentralizedGeneration) poi; 

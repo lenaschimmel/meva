@@ -560,7 +560,7 @@ public class ClassDefinition {
 			pw.println("`"+uncapitalizeFirst(baseClassName)+"_id` BIGINT NOT NULL,");
 			pw.println("`key` varchar(100) NOT NULL,");
 			pw.println("`value` varchar(5000) NOT NULL,");
-			pw.println("PRIMARY KEY (`issue_id`,`key`)");
+			pw.println("PRIMARY KEY (`"+uncapitalizeFirst(baseClassName)+"_id`,`key`)");
 			pw.println(") ENGINE=MyISAM DEFAULT CHARSET=utf8;");
 		}
 		pw.println();

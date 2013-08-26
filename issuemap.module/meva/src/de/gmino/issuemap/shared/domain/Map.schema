@@ -123,7 +123,7 @@
 		{
 			"type" : "relation",
 			"name" : "issues",
-			"reltype" : "Issue",
+			"reltype" : "Poi",
 			"relname" : "map_instance"
 		},
 		{

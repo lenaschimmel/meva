@@ -6,10 +6,10 @@ package de.gmino.issuemap.shared.domain;
 import de.gmino.geobase.shared.domain.Distance;
 import de.gmino.geobase.shared.domain.Duration;
 import de.gmino.geobase.shared.domain.LatLon;
-import de.gmino.geobase.shared.domain.Poi;
+import de.gmino.geobase.shared.domain.PoiInterface;
 import de.gmino.issuemap.shared.domain.gen.RouteGen;
 
-public class Route extends RouteGen implements Poi {
+public class Route extends RouteGen implements PoiInterface {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public Route(long id)
 	{

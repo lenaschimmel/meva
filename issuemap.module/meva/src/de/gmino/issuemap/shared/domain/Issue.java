@@ -4,6 +4,7 @@
 package de.gmino.issuemap.shared.domain;
 
 // gmino stuff
+// imports for field types
 import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.shared.domain.Timestamp;
@@ -11,7 +12,8 @@ import de.gmino.issuemap.shared.domain.gen.IssueGen;
 import de.gmino.meva.shared.domain.KeyValueSet;
 // default imports
 // imports for JSON
-// imports for field types
+// imports for Key-Value-Set
+@SuppressWarnings("unused")
 public class Issue extends IssueGen {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public Issue(long id)

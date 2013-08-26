@@ -4,8 +4,8 @@
 	"name" : "Comment",
 	"attributes" : [
 		{
-			"type" : "Issue",
-			"name" : "issue"
+			"type" : "Poi",
+			"name" : "poi"
 		},
 		{
 			"type" : "String",

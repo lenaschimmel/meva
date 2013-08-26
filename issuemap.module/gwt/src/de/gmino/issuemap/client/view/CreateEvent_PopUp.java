@@ -20,9 +20,9 @@ import de.gmino.geobase.client.domain.ImageUrl;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.shared.domain.Timestamp;
-import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Markertype;
+import de.gmino.issuemap.client.domain.Poi;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
@@ -32,7 +32,7 @@ public class CreateEvent_PopUp extends Composite implements HasText {
 	private Map mapObject;
 	OpenLayersSmartLayer smartLayer;
 	private LatLon mLocation;
-	private Issue mIssue = null;
+	private Poi mIssue = null;
 
 	interface PopUpUiBinder extends UiBinder<Widget, CreateEvent_PopUp> {
 	}
@@ -52,13 +52,13 @@ public class CreateEvent_PopUp extends Composite implements HasText {
 		headLable.setText("Neuen Marker erstellen");
 	}
 
-	public CreateEvent_PopUp(Map map, Issue editIssue, OpenLayersSmartLayer smartLayer) {
+	public CreateEvent_PopUp(Map map, Poi editIssue, OpenLayersSmartLayer smartLayer) {
 		this(map,smartLayer);
 		this.mIssue = editIssue;
 		title.setText(editIssue.getTitle());
-		description.setText(editIssue.getDescription());
-		organizer.setText(editIssue.getOrganizer());
-		pricebox.setSelectedIndex((int) editIssue.getPrice()); //TODO
+		description.setText(editIssue.getValue("description").getString());
+		organizer.setText(editIssue.getValue("Veranstalter").getString());
+		pricebox.setSelectedIndex((int) editIssue.getValue("Eintritt").getFloat()); //TODO
 		String markertypeId = editIssue.getMarkertypeId() + "";
 		for(int i = 0; i < typebox.getItemCount(); i++)
 			if(typebox.getValue(i).equals(markertypeId))
@@ -66,8 +66,7 @@ public class CreateEvent_PopUp extends Composite implements HasText {
 				typebox.setSelectedIndex(i);
 				break;
 			}
-		if (editIssue.getPrimary_picture().getUrl().equals("")) picture.setText("Bild URL");
-		else picture.setText(editIssue.getPrimary_picture().getUrl());
+	
 	}
 	
 	@UiField
@@ -113,8 +112,8 @@ public class CreateEvent_PopUp extends Composite implements HasText {
 
 		// Add new content to Database
 		else {
-			Requests.getNewEntity(Issue.type, new RequestListener<Issue>() {
-				public void onNewResult(Issue issue) {
+			Requests.getNewEntity(Poi.type, new RequestListener<Poi>() {
+				public void onNewResult(Poi issue) {
 					setIssueValuesFromMask(issue);
 					issue.setCreationTimestamp(Timestamp.now());
 					issue.setLocation(mLocation);
@@ -142,15 +141,14 @@ public class CreateEvent_PopUp extends Composite implements HasText {
 		return button.getText();
 	}
 
-	private void setIssueValuesFromMask(Issue issue){
+	private void setIssueValuesFromMask(Poi issue){
 		long markertypeId = Long.parseLong(typebox.getValue(typebox.getSelectedIndex()));
 		Markertype markertype = (Markertype) Markertype.getById(markertypeId);
 		issue.setTitle(title.getText());
 		issue.setMarkertype(markertype);
-		issue.setDescription(description.getText());
-		issue.setPrimary_picture(new ImageUrl(picture.getText()));
-		issue.setOrganizer(organizer.getText());
-		issue.setPrice((long)pricebox.getSelectedIndex());
+		issue.getValue("description").setString(description.getText());
+		issue.getValue("Veranstalter").setString(organizer.getText());
+		issue.getValue("Eintritt").setFloat((long)pricebox.getSelectedIndex());
 	}
 	
 	public void setBoarderColor(String color){

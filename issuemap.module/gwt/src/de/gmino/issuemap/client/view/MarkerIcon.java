@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.gmino.issuemap.client.domain.Issue;
+import de.gmino.issuemap.client.domain.Poi;
 
 public class MarkerIcon extends Composite implements HasText {
 
@@ -20,7 +20,7 @@ public class MarkerIcon extends Composite implements HasText {
 	}
 
 
-	public MarkerIcon(Issue issue) {
+	public MarkerIcon(Poi issue) {
 		initWidget(uiBinder.createAndBindUi(this));
 		setImage(issue.getMarkertype().getImageName());
 //		Canvas canvas = Canvas.createIfSupported();

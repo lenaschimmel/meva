@@ -48,13 +48,13 @@
 			"type" : "relation",
 			"name" : "comments",
 			"reltype" : "Comment",
-			"relname" : "issue"
+			"relname" : "poi"
 		},
 		{
 			"type" : "relation",
 			"name" : "photos",
 			"reltype" : "Photo",
-			"relname" : "issue"
+			"relname" : "poi"
 		}
 	]
 }

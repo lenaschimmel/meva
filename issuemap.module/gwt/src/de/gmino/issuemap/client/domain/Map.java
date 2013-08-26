@@ -5,7 +5,6 @@ package de.gmino.issuemap.client.domain;
 
 // gmino stuff
 import java.util.Collection;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import de.gmino.geobase.client.domain.Address;
@@ -14,8 +13,6 @@ import de.gmino.geobase.client.domain.LatLon;
 import de.gmino.issuemap.client.ImageUrlLoader;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.gen.MapGen;
-import de.gmino.issuemap.client.domain.Markertype;
-import de.gmino.meva.shared.RelationCollection;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 // default imports

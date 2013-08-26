@@ -36,9 +36,9 @@ public class BicycleShopPopupCreator implements GwtPopupCreator<BicycleShop> {
 		int width = 38;
 		Hover_PopUp hoverPopUp = new Hover_PopUp((int) (0.66*height));
 		if (poi.getTitle().equals("")) {
-			hoverPopUp.setText("Fahradwerkstatt (Name unbekannt)", poi.getDescription());
+			hoverPopUp.setText("Fahradwerkstatt (Name unbekannt)");
 		} else {
-			hoverPopUp.setText(poi.getTitle(), poi.getDescription());
+			hoverPopUp.setText(poi.getTitle());
 		}
 		
 		hoverPopUp.getElement().getStyle().setPosition(Position.ABSOLUTE);

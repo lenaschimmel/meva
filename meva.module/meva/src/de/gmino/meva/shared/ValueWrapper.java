@@ -67,14 +67,14 @@ public class ValueWrapper {
 	
 	public Entity getEntity()
 	{
-		if(type.isEntity())
+		if(!type.isEntity())
 			throw new RuntimeException("This value has type " + type + ", some Entity needed.");
 		return (Entity)value;
 	}
 	
 	
 	public Value getValue(){
-		if(type.isValue())
+		if(!type.isValue())
 			throw new RuntimeException("This value has type " + type + ", some Value needed.");
 		return (Value)value;
 	}

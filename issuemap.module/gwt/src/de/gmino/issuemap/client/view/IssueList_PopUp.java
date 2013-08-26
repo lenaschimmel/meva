@@ -18,8 +18,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.issuemap.client.IssuemapGwt;
-import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
+import de.gmino.issuemap.client.domain.Poi;
 import de.gmino.issuemap.client.poi.IssueIconRenderer;
 
 public class IssueList_PopUp extends Composite {
@@ -33,7 +33,7 @@ public class IssueList_PopUp extends Composite {
 	private List_Button listButton;
 	private OpenLayersSmartLayer layer;
 	private IssueIconRenderer renderer;
-	private ListView<Issue> list;
+	private ListView<Poi> list;
 
 	public IssueList_PopUp(Map mapObject, IssueIconRenderer issueRenderer, OpenLayersSmartLayer smartLayer) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -44,17 +44,17 @@ public class IssueList_PopUp extends Composite {
 		RootPanel.get("list").getElement().getStyle().setDisplay(Display.NONE); // setZIndex(-1000);
 		IssuemapGwt.getInstance().setListVisible(false);
 		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
-		list = new  ListView<Issue>() {
+		list = new  ListView<Poi>() {
 			
 			@Override
-			ListViewItem<Issue> createListItem(Issue item) {
+			ListViewItem<Poi> createListItem(Poi item) {
 				return new IssueList_Item(item, renderer,layer);
 			}
 		};
 		IssueItemsPanel.add(list);
 	}
 	
-	public void updateData(ArrayList<Issue> data)
+	public void updateData(ArrayList<Poi> data)
 	{
 		list.updateData(data);
 	}

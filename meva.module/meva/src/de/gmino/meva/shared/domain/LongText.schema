@@ -1,0 +1,11 @@
+{
+	"package" : "de.gmino.meva.TARGET.domain",
+	"concept" : "value",
+	"name" : "LongText",
+	"attributes" : [
+		{
+			"type" : "String",
+			"name" : "text"
+		}
+	]
+}

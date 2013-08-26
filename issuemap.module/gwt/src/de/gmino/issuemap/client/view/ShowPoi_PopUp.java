@@ -37,15 +37,14 @@ import com.google.gwt.user.client.ui.Widget;
 import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.ImageUrl;
-import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.client.ImageUrlLoader;
-import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
+import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Comment;
-import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Photo;
+import de.gmino.issuemap.client.domain.Poi;
 import de.gmino.issuemap.client.poi.Marker_Wrapper;
 import de.gmino.issuemap.client.resources.ImageResources;
 import de.gmino.meva.shared.request.RequestListener;
@@ -106,11 +105,11 @@ public class ShowPoi_PopUp extends Composite {
 
 	Map mapObject;
 	OpenLayersSmartLayer smartLayer;
-	Issue mIssue;
+	Poi mIssue;
 	Marker_Wrapper mWrapper;
 
 	@SuppressWarnings("unchecked")
-	public ShowPoi_PopUp(Map map, Issue issue, Marker_Wrapper marker_Wrapper, OpenLayersSmartLayer smartLayer) {
+	public ShowPoi_PopUp(Map map, Poi issue, Marker_Wrapper marker_Wrapper, OpenLayersSmartLayer smartLayer) {
 		imageRes = GWT.create(ImageResources.class);
 		initWidget(uiBinder.createAndBindUi(this));
 		this.mapObject = map;
@@ -123,12 +122,12 @@ public class ShowPoi_PopUp extends Composite {
 		setRatingText();
 		labelTitle.setText(mIssue.getTitle());
 		if(issue.getPhotos().isEmpty())
-			description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mIssue.getDescription()).toSafeHtml());
+			description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mIssue.getValue("description").getString()).toSafeHtml());
 		else {
 			Photo firstPhoto = (Photo) mIssue.getPhotos().iterator().next();
 			Requests.loadEntity(firstPhoto, new RequestListener<Photo>() {
 				public void onNewResult(Photo photo) {
-					description.setHTML( new SafeHtmlBuilder().appendHtmlConstant("<p><img src='" + photo.getImage().getUrl() + "&amp;h=200' style='float:right;' />"+ mIssue.getDescription() +"</p>").toSafeHtml());
+					description.setHTML( new SafeHtmlBuilder().appendHtmlConstant("<p><img src='" + photo.getImage().getUrl() + "&amp;h=200' style='float:right;' />"+ mIssue.getValue("description").getString() +"</p>").toSafeHtml());
 							
 				};
 			});

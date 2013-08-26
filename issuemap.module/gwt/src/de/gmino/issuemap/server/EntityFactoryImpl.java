@@ -19,11 +19,17 @@ import de.gmino.issuemap.server.domain.Issue;
 import de.gmino.issuemap.server.domain.Map;
 import de.gmino.issuemap.server.domain.Markertype;
 import de.gmino.issuemap.server.domain.Photo;
+import de.gmino.issuemap.server.domain.Poi;
 import de.gmino.issuemap.server.domain.Route;
 import de.gmino.issuemap.server.request.QueryMapBySubdomain;
 import de.gmino.issuemap.server.request.SendFeedback;
+import de.gmino.meva.server.domain.Date;
+import de.gmino.meva.server.domain.DateTime;
 import de.gmino.meva.server.domain.KeyValueDef;
 import de.gmino.meva.server.domain.KeyValueSet;
+import de.gmino.meva.server.domain.LongText;
+import de.gmino.meva.server.domain.ShortText;
+import de.gmino.meva.server.domain.Time;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactoryInterface;
 import de.gmino.meva.shared.TypeName;
@@ -31,6 +37,14 @@ import de.gmino.meva.shared.Value;
 
 public class EntityFactoryImpl implements EntityFactoryInterface {
 
+	public EntityFactoryImpl() {
+		try {
+			createValueObjectFromJson(null, null);
+		} catch (Exception e) {
+			// Exception always occurs, but this is no error
+		}
+	}
+	
 	@Override
 	public Collection<Entity> createEntityObjects(String typeName, Collection<Long> ids) {
 		Collection<Entity> ret = new ArrayList<Entity>(ids.size());
@@ -44,8 +58,8 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 
 	@Override
 	public Entity createEntityObject(String typeName, long id) {
-		if (typeName.equals("Issue"))
-			return new Issue(id);
+		if (typeName.equals("Poi"))
+			return new Poi(id);
 		if (typeName.equals("Map"))
 			return new Map(id);
 		if (typeName.equals("Markertype"))
@@ -107,6 +121,16 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 				return new Duration(json);
 			if(type == ImageUrl.type)
 				return new ImageUrl(json);
+			if(type == LongText.type)
+				return new LongText(json);
+			if(type == ShortText.type)
+				return new ShortText(json);
+			if(type == Date.type)
+				return new Date(json);
+			if(type == Time.type)
+				return new Time(json);
+			if(type == DateTime.type)
+				return new DateTime(json);
 		} catch (IOException e) {
 			throw new RuntimeException("Error while deserializing: " + json);
 		}

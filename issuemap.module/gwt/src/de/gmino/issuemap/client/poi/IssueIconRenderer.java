@@ -7,15 +7,15 @@ import com.google.gwt.dom.client.ImageElement;
 import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.geobase.shared.map.Hasher;
 import de.gmino.issuemap.client.ImageUrlLoader;
-import de.gmino.issuemap.client.domain.Issue;
+import de.gmino.issuemap.client.domain.Poi;
 
-public class IssueIconRenderer extends GwtIconRenderer<Issue> {
+public class IssueIconRenderer extends GwtIconRenderer<Poi> {
 	
 	ImageUrlLoader loader = ImageUrlLoader.getInstance();
 	
-	public void getIconHash(de.gmino.geobase.shared.map.Hasher hash, Issue issue) 
+	public void getIconHash(de.gmino.geobase.shared.map.Hasher hash, Poi issue) 
 	{
-		hash.hashBoolean(issue.isResolved());
+		hash.hashBoolean(issue.isMarked());
 		hash.hashLong(issue.getMarkertype().getId());
 		hash.hashInt(issue.getComments().size());
 		hash.hashInt(issue.getPhotos().size());
@@ -23,7 +23,7 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 	}
 	
 	@Override
-	public void renderIcon(Canvas can, Issue issue) {
+	public void renderIcon(Canvas can, Poi issue) {
 		can.setCoordinateSpaceWidth(getWidth(issue));
 		can.setCoordinateSpaceHeight(getHeight(issue));
 		Context2d con = can.getContext2d();
@@ -100,7 +100,7 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		}
 	}
 
-	private String getColor(Issue issue, String markerName, long markerId) {
+	private String getColor(Poi issue, String markerName, long markerId) {
 		if (markerName.equals("Disco"))
 			return("#33BB00");
 		else if (markerName.equals("Theater"))
@@ -137,7 +137,7 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 		}
 		else {
 
-			if (issue.isResolved())
+			if (issue.isMarked())
 				return(issue.getMap_instance().getResolved_color());
 			else
 				return(issue.getMap_instance().getPrimary_color());
@@ -146,17 +146,17 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 	}
 
 	@Override
-	public int getWidth(Issue issue) {
+	public int getWidth(Poi issue) {
 		return (int)(issue.getMarkertype().getImageWidth() * getRelevanceFactor(issue));
 	}
 
 	@Override
-	public int getHeight(Issue issue) {
+	public int getHeight(Poi issue) {
 		return (int)(issue.getMarkertype().getImageHeight() * getRelevanceFactor(issue));
 	}
 	
 
-	private float getRelevanceFactor(Issue issue) {
+	private float getRelevanceFactor(Poi issue) {
 		return 1.0f;
 //		float rel = issue.getRating();
 //		if(rel < -5)
@@ -167,7 +167,7 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 	}
 
 	@Override
-	public void renderSmallIcon(Canvas canvas, Issue issue) {
+	public void renderSmallIcon(Canvas canvas, Poi issue) {
 		String markerName = issue.getMarkertype().getMarkerName();
 		long markerId = issue.getMarkertypeId();
 		String color = getColor(issue, markerName, markerId);
@@ -175,7 +175,7 @@ public class IssueIconRenderer extends GwtIconRenderer<Issue> {
 	}
 
 	@Override
-	public void getSmallIconHash(Hasher hash, Issue issue) {
+	public void getSmallIconHash(Hasher hash, Poi issue) {
 		String markerName = issue.getMarkertype().getMarkerName();
 		long markerId = issue.getMarkertypeId();
 		String color = getColor(issue, markerName, markerId);

@@ -3,35 +3,18 @@
 
 package de.gmino.issuemap.client.domain;
 
-
+// gmino stuff
+// imports for field types
 import de.gmino.geobase.client.domain.ImageUrl;
 import de.gmino.geobase.client.domain.LatLon;
 import de.gmino.geobase.client.domain.Timestamp;
-import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.issuemap.client.domain.gen.IssueGen;
 import de.gmino.meva.client.domain.KeyValueSet;
 // default imports
 // imports for JSON
-// imports for field types
-public class Issue extends IssueGen implements Poi {
-	
-	public int vote;
-	
-	public void changeRating(int newVote)
-	{
-		rating += newVote - vote;
-		if(vote == 0 && newVote != 0)
-			number_of_rating++;
-		if(vote != 0 && newVote == 0)
-			number_of_rating--;
-		vote = newVote;
-	}
-	
-	public String getDescriptionWithHtmlLineBreaks()
-	{
-		return description.replace("\n", "<br/>");
-	}
-	
+// imports for Key-Value-Set
+@SuppressWarnings("unused")
+public class Issue extends IssueGen {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public Issue(long id)
 	{

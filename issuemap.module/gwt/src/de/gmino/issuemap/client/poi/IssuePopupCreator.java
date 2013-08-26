@@ -7,15 +7,14 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.map.GwtPopupCreator;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
-import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
+import de.gmino.issuemap.client.domain.Poi;
 import de.gmino.issuemap.client.view.Hover_PopUp;
 import de.gmino.issuemap.client.view.ShowEvent_PopUp;
-import de.gmino.issuemap.client.view.ShowIssue_PopUp;
 import de.gmino.issuemap.client.view.ShowPoi_PopUp;
 import de.gmino.issuemap.client.view.Show_PopUp;
 
-public class IssuePopupCreator implements GwtPopupCreator<Issue> {
+public class IssuePopupCreator implements GwtPopupCreator<Poi> {
 
 	private Map map;
 	OpenLayersSmartLayer smartLayer;
@@ -27,7 +26,7 @@ public class IssuePopupCreator implements GwtPopupCreator<Issue> {
 	}
 
 	@Override
-	public Widget createPopup(Issue poi) {
+	public Widget createPopup(Poi poi) {
 		Marker_Wrapper wrapper = new Marker_Wrapper(poi, map);
 		String markerName = poi.getMarkertype().getMarkerName();
 		long markerId = poi.getMarkertypeId();
@@ -52,9 +51,9 @@ public class IssuePopupCreator implements GwtPopupCreator<Issue> {
 	}
 
 	@Override
-	public Widget createTooltip(Issue poi) {
+	public Widget createTooltip(Poi poi) {
 		Hover_PopUp hoverPopUp = new Hover_PopUp((int) (0.66*poi.getMarkertype().getImageHeight()));
-		hoverPopUp.setText(poi.getTitle(), poi.getDescription());
+		hoverPopUp.setText(poi.getTitle());
 		hoverPopUp.getElement().getStyle().setPosition(Position.ABSOLUTE);
 		hoverPopUp.getElement().getStyle().setTop(-0.85*poi.getMarkertype().getImageHeight(), Unit.PX);
 		hoverPopUp.getElement().getStyle().setLeft(0.3825*poi.getMarkertype().getImageWidth(), Unit.PX);

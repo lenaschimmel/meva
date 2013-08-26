@@ -19,7 +19,7 @@ public class Comment extends CommentGen {
 	public Comment(
 			long id,
 			boolean ready,
-			Issue issue,
+			Poi poi,
 			String text,
 			String user,
 			Timestamp timestamp,
@@ -28,7 +28,7 @@ public class Comment extends CommentGen {
 		super(
 			id,
 			ready,
-			(de.gmino.issuemap.shared.domain.Issue)issue,
+			(de.gmino.issuemap.shared.domain.Poi)poi,
 			text,
 			user,
 			(de.gmino.geobase.shared.domain.Timestamp)timestamp,

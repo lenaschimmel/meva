@@ -6,11 +6,11 @@ import java.util.TreeMap;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 
-import de.gmino.geobase.shared.domain.Poi;
+import de.gmino.geobase.shared.domain.PoiInterface;
 import de.gmino.geobase.shared.map.Hasher;
 import de.gmino.geobase.shared.map.IconRenderer;
 
-public abstract class GwtIconRenderer<PoiType extends Poi> implements IconRenderer<PoiType, Canvas> {
+public abstract class GwtIconRenderer<PoiType extends PoiInterface> implements IconRenderer<PoiType, Canvas> {
 	//void getIconHash(Hasher hash, PoiType poi);
 	//void renderIcon(Context con, PoiType poi);
 	

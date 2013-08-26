@@ -33,16 +33,16 @@ import de.gmino.geobase.client.map.OpenLayersMapView;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.Address;
 import de.gmino.geobase.shared.domain.LatLon;
-import de.gmino.geobase.shared.domain.Poi;
+import de.gmino.geobase.shared.domain.PoiInterface;
 import de.gmino.geobase.shared.map.Event;
 import de.gmino.geobase.shared.map.MapListener;
 import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
 import de.gmino.issuemap.client.domain.BicycleShop;
 import de.gmino.issuemap.client.domain.DecentralizedGeneration;
 import de.gmino.issuemap.client.domain.ElectricalSubstation;
-import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Markertype;
+import de.gmino.issuemap.client.domain.Poi;
 import de.gmino.issuemap.client.domain.Route;
 import de.gmino.issuemap.client.poi.BicycleShopIconRenderer;
 import de.gmino.issuemap.client.poi.BicycleShopPopupCreator;
@@ -75,10 +75,10 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 	
 	public class AddIssuesCommand implements RepeatingCommand {
 
-		private ArrayList<Issue> issues;
+		private ArrayList<Poi> issues;
 		private int i = 0;
 
-		public AddIssuesCommand(ArrayList<Issue> issues) {
+		public AddIssuesCommand(ArrayList<Poi> issues) {
 			this.issues = issues;
 		}
 			
@@ -101,9 +101,9 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 		return (l1 < l2) ? -1 : ((l1 == l2) ? 0 : 1);
 	}
 
-	private final class IssueLatitudeComparator implements Comparator<Issue> {
+	private final class IssueLatitudeComparator implements Comparator<Poi> {
 		@Override
-		public int compare(Issue i1, Issue i2) {
+		public int compare(Poi i1, Poi i2) {
 			int latitudeComparision = -Double.compare(i1.getLocation()
 					.getLatitude(), i2.getLocation().getLatitude());
 			if (latitudeComparision != 0)
@@ -113,9 +113,9 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 		}
 	}
 
-	private final class IssueRatingComparator implements Comparator<Issue> {
+	private final class IssueRatingComparator implements Comparator<Poi> {
 		@Override
-		public int compare(Issue i1, Issue i2) {
+		public int compare(Poi i1, Poi i2) {
 			int ratingComparision = -compareLong(i1.getRating(), i2.getRating());
 			if (ratingComparision != 0)
 				return ratingComparision;
@@ -140,7 +140,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 
 	public static OpenLayersMapView mapView;
 	private static Map mapObject;
-	private static TreeMap<Issue, DivElement> divByIssue = new TreeMap<Issue, DivElement>();
+	private static TreeMap<Poi, DivElement> divByIssue = new TreeMap<Poi, DivElement>();
 	private OpenLayersSmartLayer markerLayer;
 	private Footer footer = new Footer();
 	private Header header = new Header();
@@ -206,7 +206,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 		markerLayer = mapView.newSmartLayer("Issues", zoomThreshold);
 		mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);
 		issueRenderer = new IssueIconRenderer();
-		markerLayer.addMarkerIconRenderer(Issue.type, issueRenderer);
+		markerLayer.addMarkerIconRenderer(Poi.type, issueRenderer);
 
 		final ImageUrlLoader loader = ImageUrlLoader.getInstance();
 		loader.loadImage("/camera.png", null);
@@ -305,7 +305,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 						
 						
 						addFeedback_Button();
-						markerLayer.addMarkerPopupCreator(Issue.type, new IssuePopupCreator(map, markerLayer));
+						markerLayer.addMarkerPopupCreator(Poi.type, new IssuePopupCreator(map, markerLayer));
 
 						header.setMap(map);	
 
@@ -451,22 +451,22 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 		counter++;
 	}
 
-	public void deleteMarker(Issue nIssue) {
+	public void deleteMarker(Poi nIssue) {
 		markerLayer.removePoi(nIssue);
 		counter--;
 	}
 
 	public void loadIssuesToMap() {
-		Requests.loadEntities(IssuemapGwt.<Issue, de.gmino.issuemap.shared.domain.Issue>convertCollection(mapObject.getIssues()), new RequestListener<Issue>() {
+		Requests.loadEntities(IssuemapGwt.<Poi, de.gmino.issuemap.shared.domain.Poi>convertCollection(mapObject.getIssues()), new RequestListener<Poi>() {
 			@Override
-			public void onFinished(Collection<Issue> results) {
+			public void onFinished(Collection<Poi> results) {
 				Scheduler scheduler = Scheduler.get();
 				
-				Comparator<Issue> latitudeCompare = new IssueLatitudeComparator();
-				TreeSet<Issue> latitudeSortedIssues = new TreeSet<Issue>(latitudeCompare);
+				Comparator<Poi> latitudeCompare = new IssueLatitudeComparator();
+				TreeSet<Poi> latitudeSortedIssues = new TreeSet<Poi>(latitudeCompare);
 				latitudeSortedIssues.addAll(results);
-				final ArrayList<Issue> filteredLatitudeIssues = new ArrayList<Issue>();
-				for (final Issue i : latitudeSortedIssues) {
+				final ArrayList<Poi> filteredLatitudeIssues = new ArrayList<Poi>();
+				for (final Poi i : latitudeSortedIssues) {
 					if (!i.isDeleted())
 						filteredLatitudeIssues.add(i);					
 				}
@@ -482,17 +482,17 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 	
 	public void loadIssuesToList() {
 		if(mapObject.isHas_list()){
-		Collection<de.gmino.issuemap.shared.domain.Issue> issues = mapObject.getIssues();
-		Requests.loadEntities(issues, new RequestListener<de.gmino.issuemap.shared.domain.Issue>() {
+		Collection<de.gmino.issuemap.shared.domain.Poi> issues = mapObject.getIssues();
+		Requests.loadEntities(issues, new RequestListener<de.gmino.issuemap.shared.domain.Poi>() {
 			@Override
-			public void onFinished(Collection<de.gmino.issuemap.shared.domain.Issue> results) {
-				Comparator<Issue> ratingCompare = new IssueRatingComparator();
-				TreeSet<Issue> ratingSortedIssues = new TreeSet<Issue>(ratingCompare);
-				ratingSortedIssues.addAll(IssuemapGwt.<Issue, de.gmino.issuemap.shared.domain.Issue>convertCollection(results));
+			public void onFinished(Collection<de.gmino.issuemap.shared.domain.Poi> results) {
+				Comparator<Poi> ratingCompare = new IssueRatingComparator();
+				TreeSet<Poi> ratingSortedIssues = new TreeSet<Poi>(ratingCompare);
+				ratingSortedIssues.addAll(IssuemapGwt.<Poi, de.gmino.issuemap.shared.domain.Poi>convertCollection(results));
 				
 				int count = 0;
-				final ArrayList<Issue> filteredRatingIssues = new ArrayList<Issue>();
-				for (final Issue i : ratingSortedIssues) {
+				final ArrayList<Poi> filteredRatingIssues = new ArrayList<Poi>();
+				for (final Poi i : ratingSortedIssues) {
 					
 					//testKeyValue(i);
 					
@@ -507,7 +507,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 	}
 }
 
-	void testKeyValue(final Issue i) {
+	void testKeyValue(final Poi i) {
 		System.out.println("Get Testfeld's Description: " + i.getValue("Testfeld").getDescription());
 		System.out.println("Get Testfeld's Name: " + i.getValue("Testfeld").getName());
 		System.out.println("Get Testfeld's Type: " + i.getValue("Testfeld").getType());
@@ -689,10 +689,10 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 	  	}
 	}
 	
-	private void scatterPois(Collection<? extends Poi> pois) {
+	private void scatterPois(Collection<? extends PoiInterface> pois) {
 		double minDistMeter;
 
-		for(Poi subjectPoi : pois)
+		for(PoiInterface subjectPoi : pois)
 		{
 			if(subjectPoi instanceof DecentralizedGeneration && ((DecentralizedGeneration)subjectPoi).getUnitType().equals("wk"))
 				minDistMeter = 200;
@@ -707,7 +707,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 			do
 			{
 				tooClose = false;
-				for(Poi objectPoi : pois)
+				for(PoiInterface objectPoi : pois)
 				{
 					final double distMeter = subLoc.getDistanceTo(objectPoi.getLocation()).getInMeter();
 					if(distMeter < minDistMeter)

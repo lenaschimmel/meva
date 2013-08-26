@@ -11,7 +11,6 @@ import de.gmino.meva.shared.domain.KeyValueSet;
 // default imports
 // imports for JSON
 // imports for field types
-@SuppressWarnings("unused")
 public class Poi extends PoiGen {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public Poi(long id)
@@ -52,4 +51,18 @@ public class Poi extends PoiGen {
 	}
 	
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
+	
+	
+
+	public int vote;
+	
+	public void changeRating(int newVote)
+	{
+		rating += newVote - vote;
+		if(vote == 0 && newVote != 0)
+			number_of_rating++;
+		if(vote != 0 && newVote == 0)
+			number_of_rating--;
+		vote = newVote;
+	}
 }

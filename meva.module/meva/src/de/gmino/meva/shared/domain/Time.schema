@@ -1,0 +1,11 @@
+{
+	"package" : "de.gmino.meva.TARGET.domain",
+	"concept" : "value",
+	"name" : "Time",
+	"attributes" : [
+		{
+			"type" : "long",
+			"name" : "millisSinceMidnight"
+		}
+	]
+}

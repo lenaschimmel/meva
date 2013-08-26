@@ -4,8 +4,8 @@
 	"name" : "Photo",
 	"attributes" : [
 		{
-			"type" : "Issue",
-			"name" : "issue"
+			"type" : "Poi",
+			"name" : "poi"
 		},
 		{
 			"type" : "ImageUrl",

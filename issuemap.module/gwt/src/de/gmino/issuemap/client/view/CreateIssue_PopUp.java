@@ -11,7 +11,6 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -23,12 +22,11 @@ import com.google.gwt.user.client.ui.Widget;
 import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.LatLon;
-import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.client.IssuemapGwt;
-import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Markertype;
+import de.gmino.issuemap.client.domain.Poi;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
@@ -37,7 +35,7 @@ public class CreateIssue_PopUp extends Composite {
 	private static PopUpUiBinder uiBinder = GWT.create(PopUpUiBinder.class);
 	private Map mapObject;
 	OpenLayersSmartLayer smartLayer;
-	private Issue mIssue = null;
+	private Poi mIssue = null;
 	private boolean newIssue;
 
 	interface PopUpUiBinder extends UiBinder<Widget, CreateIssue_PopUp> {
@@ -58,12 +56,12 @@ public class CreateIssue_PopUp extends Composite {
 		this(map,smartLayer);
 		
 		// this is a dummy instance, just needed to provide an early icon. As soon as the real issue object is present, it will be used instead.
-		mIssue = new Issue(-1);
+		mIssue = new Poi(-1);
 		mIssue.setMap_instance(map);
 		updateIcon();
 		
-        Requests.getNewEntity(Issue.type, new RequestListener<Issue>() {
-                public void onNewResult(Issue issue) {
+        Requests.getNewEntity(Poi.type, new RequestListener<Poi>() {
+                public void onNewResult(Poi issue) {
                         mIssue = issue; // needed for upload handler
                         issue.setLocation(location);
                         issue.setMap_instance(map);
@@ -78,13 +76,13 @@ public class CreateIssue_PopUp extends Composite {
 		title.getElement().setAttribute("placeholder", "Bitte geben Sie einen Titel ein");
 	}
 
-	public CreateIssue_PopUp(Map map, Issue editIssue, OpenLayersSmartLayer smartLayer) {
+	public CreateIssue_PopUp(Map map, Poi editIssue, OpenLayersSmartLayer smartLayer) {
 		this(map,smartLayer);
 		this.mIssue = editIssue;
 		button.setText("Speichern");
 		if(editIssue.getMap_instance().isDelete()) delete.setVisible(true);
 		title.setText(editIssue.getTitle());
-		description.setText(editIssue.getDescription());
+		description.setText(editIssue.getValue("description").getString());
 		String markertypeId = editIssue.getMarkertypeId() + "";
 		for(int i = 0; i < typebox.getItemCount(); i++)
 			if(typebox.getValue(i).equals(markertypeId))
@@ -155,8 +153,8 @@ public class CreateIssue_PopUp extends Composite {
 					setIssueValuesFromMask(mIssue);
 					smartLayer.updatePoi(mIssue); // works even if the poi is a new one
 					mapObject.getIssues().add(mIssue); // works even if the poi is already present
-					Requests.saveEntity(mIssue, new RequestListener<Issue>() {
-						public void onFinished(java.util.Collection<Issue> results) {
+					Requests.saveEntity(mIssue, new RequestListener<Poi>() {
+						public void onFinished(java.util.Collection<Poi> results) {
 							final IssuemapGwt issueMap = IssuemapGwt.getInstance();
 							issueMap.loadIssuesToList();
 						};
@@ -192,12 +190,12 @@ public class CreateIssue_PopUp extends Composite {
 		imageMarkerIcon.setUrl(iconUrl);
 	}
 
-	private void setIssueValuesFromMask(Issue issue){
+	private void setIssueValuesFromMask(Poi issue){
 		long markertypeId = Long.parseLong(typebox.getValue(typebox.getSelectedIndex()));
 		Markertype markertype = (Markertype) Markertype.getById(markertypeId);
 		issue.setTitle(title.getText());
 		issue.setMarkertype(markertype);
-		issue.setDescription(description.getText());
+		issue.getValue("description").setString(description.getText());
 	}
 	
 	

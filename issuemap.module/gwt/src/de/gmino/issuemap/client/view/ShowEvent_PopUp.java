@@ -15,8 +15,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.ImageUrl;
-import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
+import de.gmino.issuemap.client.domain.Poi;
 import de.gmino.issuemap.client.poi.Marker_Wrapper;
 import de.gmino.meva.shared.request.Requests;
 
@@ -32,10 +32,10 @@ public class ShowEvent_PopUp extends Composite {
 
 	Map mapObject;
 	OpenLayersSmartLayer smartLayer;
-	Issue mIssue;
+	Poi mIssue;
 	Marker_Wrapper mWrapper;
 
-	public ShowEvent_PopUp(Map map, Issue issue, Marker_Wrapper marker_Wrapper, OpenLayersSmartLayer smartLayer) {
+	public ShowEvent_PopUp(Map map, Poi issue, Marker_Wrapper marker_Wrapper, OpenLayersSmartLayer smartLayer) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.mapObject = map;
 		this.smartLayer = smartLayer;
@@ -43,21 +43,13 @@ public class ShowEvent_PopUp extends Composite {
 		this.mWrapper = marker_Wrapper;
 		setBoarderColor(map.getPrimary_color());
 
-		if (mIssue.getPrimary_picture().getUrl().equals("")
-				|| mIssue.getPrimary_picture().getUrl().equals("Bild URL")) { 
-			picture.setVisible(false);
-			picture.setHeight("0px");
-		} else {
-			ImageUrl img = mIssue.getPrimary_picture();
-			picture.setUrl(img.getUrl());
-		}
 		date.setText(dtf.format(mIssue.getCreationTimestamp().toDate()));
-		organizer.setText(mIssue.getOrganizer());
-		price.setText(mIssue.getPrice() + " Euro");
+		organizer.setText(mIssue.getValue("Veranstalter").getString());
+		price.setText(mIssue.getValue("Eintritt").getFloat() + " Euro");
 		type.setText(mIssue.getMarkertype().getMarkerName());
-		resolved.setValue(mIssue.isResolved());
+		resolved.setValue(mIssue.isMarked());
 		title.setText(mIssue.getTitle());
-		description.setText(mIssue.getDescription());
+		description.setText(mIssue.getValue("description").getString());
 
 	}
 
@@ -111,7 +103,7 @@ public class ShowEvent_PopUp extends Composite {
 
 	@UiHandler("resolved")
 	void onCheckbox(ClickEvent e) {
-		mIssue.setResolved(resolved.getValue());
+		mIssue.setMarked(resolved.getValue());
 		Requests.saveEntity(mIssue, null);
 		smartLayer.updatePoi(mIssue);
 	}

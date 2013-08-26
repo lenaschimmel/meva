@@ -6,12 +6,12 @@ package de.gmino.issuemap.shared.domain;
 // gmino stuff
 import de.gmino.geobase.shared.domain.Address;
 import de.gmino.geobase.shared.domain.LatLon;
-import de.gmino.geobase.shared.domain.Poi;
+import de.gmino.geobase.shared.domain.PoiInterface;
 import de.gmino.issuemap.shared.domain.gen.BicycleShopGen;
 // default imports
 // imports for JSON
 // imports for field types
-public class BicycleShop extends BicycleShopGen implements Poi {
+public class BicycleShop extends BicycleShopGen implements PoiInterface {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public BicycleShop(long id)
 	{

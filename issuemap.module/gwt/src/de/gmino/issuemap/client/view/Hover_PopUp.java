@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class Hover_PopUp extends Composite implements HasText {
+public class Hover_PopUp extends Composite {
 
 	private static ShowPoi_PopUpUiBinder uiBinder = GWT
 			.create(ShowPoi_PopUpUiBinder.class);
@@ -32,19 +32,7 @@ public class Hover_PopUp extends Composite implements HasText {
 
 
 
-	public void setText(String titleString, String descriptionString) {
+	public void setText(String titleString) {
 		title.setText(titleString);
 	}
-
-	public String getText() {
-		return null;
-
-	}
-
-	@Override
-	public void setText(String text) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

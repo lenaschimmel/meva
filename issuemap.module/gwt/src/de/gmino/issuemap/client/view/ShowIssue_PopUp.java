@@ -31,7 +31,6 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
@@ -44,15 +43,14 @@ import com.google.gwt.user.client.ui.Widget;
 import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.ImageUrl;
-import de.gmino.geobase.shared.domain.Poi;
 import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.client.ImageUrlLoader;
 import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Comment;
-import de.gmino.issuemap.client.domain.Issue;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Photo;
+import de.gmino.issuemap.client.domain.Poi;
 import de.gmino.issuemap.client.poi.Marker_Wrapper;
 import de.gmino.issuemap.client.resources.ImageResources;
 import de.gmino.meva.shared.Log;
@@ -122,12 +120,12 @@ public class ShowIssue_PopUp extends Composite {
 
 	Map mapObject;
 	OpenLayersSmartLayer smartLayer;
-	Issue mIssue;
+	Poi mIssue;
 	Marker_Wrapper mWrapper;
 	boolean mainPhotoShown;
 
 	@SuppressWarnings("unchecked")
-	public ShowIssue_PopUp(Map map, Issue issue, Marker_Wrapper marker_Wrapper, OpenLayersSmartLayer smartLayer) {
+	public ShowIssue_PopUp(Map map, Poi issue, Marker_Wrapper marker_Wrapper, OpenLayersSmartLayer smartLayer) {
 		imageRes = GWT.create(ImageResources.class);
 		initWidget(uiBinder.createAndBindUi(this));
 		this.mapObject = map;
@@ -142,11 +140,11 @@ public class ShowIssue_PopUp extends Composite {
 		lbTypeAndDate.setText(mIssue.getMarkertype().getMarkerName() + ", " + issue.getCreationTimestamp().relativeToNow().toReadableString(true,1));
 		lbTypeAndDate.setTitle("Eintrag vom " + dtf.format(issue.getCreationTimestamp().toDate()));
 
-		tbResolved.setStyleName(style.underline(), mIssue.isResolved());
+		tbResolved.setStyleName(style.underline(), mIssue.isMarked());
 		setRatingText();
 		lbTitle.setText(mIssue.getTitle());
 		lbTitle.setTitle(mIssue.getTitle());
-		description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mIssue.getDescription()).toSafeHtml());
+		description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mIssue.getValue("description").getString()).toSafeHtml());
 		commentTextBox.getElement().setAttribute("placeholder", "Bitte geben Sie einen Kommentar ein");
 		
 		//mIssue.vote=0;
@@ -372,9 +370,9 @@ public class ShowIssue_PopUp extends Composite {
 					Requests.getNewEntity(Photo.type, new RequestListener<Photo>() {
 						@Override
 						public void onNewResult(final Photo photo) {
-							Requests.loadEntity(mIssue, new RequestListener<Issue>() {
+							Requests.loadEntity(mIssue, new RequestListener<Poi>() {
 								@Override
-								public void onFinished(Collection<Issue> results) {
+								public void onFinished(Collection<Poi> results) {
 									photo.setUser("anonym");
 									photo.setTimestamp(Timestamp.now());
 									photo.setImage(new ImageUrl(url));
@@ -423,8 +421,8 @@ public class ShowIssue_PopUp extends Composite {
 
 	@UiHandler("tbResolved")
 	void onCheckbox(ClickEvent e) {
-		mIssue.setResolved(!mIssue.isResolved());
-		tbResolved.setStyleName(style.underline(), mIssue.isResolved());
+		mIssue.setMarked(!mIssue.isMarked());
+		tbResolved.setStyleName(style.underline(), mIssue.isMarked());
 		updateIcon();
 	}
 
@@ -464,9 +462,9 @@ public class ShowIssue_PopUp extends Composite {
 		Requests.getNewEntity(Comment.type, new RequestListener<Comment>() {
 			@Override
 			public void onNewResult(final Comment comment) {
-				Requests.loadEntity(mIssue, new RequestListener<Issue>() {
+				Requests.loadEntity(mIssue, new RequestListener<Poi>() {
 					@Override
-					public void onFinished(Collection<Issue> results) {
+					public void onFinished(Collection<Poi> results) {
 						comment.setText(commentTextBox.getText());
 						comment.setUser("anonym");
 						comment.setTimestamp(Timestamp.now());

@@ -13,11 +13,11 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
-import de.gmino.issuemap.client.domain.Issue;
+import de.gmino.issuemap.client.domain.Poi;
 import de.gmino.issuemap.client.poi.IssueIconRenderer;
 import de.gmino.issuemap.client.view.ListView.ListViewItem;
 
-public class IssueList_Item extends Composite implements ListViewItem<Issue> {
+public class IssueList_Item extends Composite implements ListViewItem<Poi> {
 
 	private static IssueList_ItemUiBinder uiBinder = GWT
 			.create(IssueList_ItemUiBinder.class);
@@ -27,12 +27,12 @@ public class IssueList_Item extends Composite implements ListViewItem<Issue> {
 	interface IssueList_ItemUiBinder extends UiBinder<Widget, IssueList_Item> {
 	}
 
-	private Issue issue;
+	private Poi issue;
 	private OpenLayersSmartLayer layer;
 
 	private IssueIconRenderer renderer;
 	
-	public IssueList_Item(Issue issue, IssueIconRenderer renderer, OpenLayersSmartLayer layer) {
+	public IssueList_Item(Poi issue, IssueIconRenderer renderer, OpenLayersSmartLayer layer) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.renderer = renderer;
 		this.layer = layer;
@@ -65,7 +65,7 @@ public class IssueList_Item extends Composite implements ListViewItem<Issue> {
 	}
 
 	@Override
-	public void setDataItem(Issue issue) {
+	public void setDataItem(Poi issue) {
 		this.issue = issue;
 		labelTitle.setText(issue.getTitle());
 		type.setText(issue.getMarkertype().getMarkerName());

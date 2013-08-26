@@ -5,7 +5,6 @@ import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -22,10 +21,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
-import de.gmino.geobase.shared.domain.Poi;
+import de.gmino.geobase.shared.domain.PoiInterface;
 import de.gmino.issuemap.client.ImageUrlLoader;
 import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
-import de.gmino.issuemap.client.domain.BicycleShop;
 import de.gmino.issuemap.client.domain.ElectricalSubstation;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.poi.Marker_Wrapper;
@@ -149,7 +147,7 @@ public class ShowElectricalSubstation_PopUp extends Composite {
 
 		deckPanel.showWidget(0);
 
-		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mSubstation);
+		GwtIconRenderer<? super PoiInterface> renderer = smartLayer.getRendererForPoi(mSubstation);
 		String iconUrl = renderer.getIconUrl(mSubstation);
 		imageMarkerIcon.setUrl(iconUrl);
 	}

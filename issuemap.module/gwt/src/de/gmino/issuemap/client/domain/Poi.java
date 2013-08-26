@@ -6,13 +6,14 @@ package de.gmino.issuemap.client.domain;
 // gmino stuff
 import de.gmino.geobase.client.domain.LatLon;
 import de.gmino.geobase.client.domain.Timestamp;
+import de.gmino.geobase.shared.domain.PoiInterface;
 import de.gmino.issuemap.client.domain.gen.PoiGen;
 import de.gmino.meva.client.domain.KeyValueSet;
 // default imports
 // imports for JSON
 // imports for field types
 @SuppressWarnings("unused")
-public class Poi extends PoiGen {
+public class Poi extends PoiGen implements PoiInterface {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public Poi(long id)
 	{

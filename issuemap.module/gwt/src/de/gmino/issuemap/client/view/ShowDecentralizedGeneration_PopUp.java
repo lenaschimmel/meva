@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
-import de.gmino.geobase.shared.domain.Poi;
+import de.gmino.geobase.shared.domain.PoiInterface;
 import de.gmino.issuemap.client.ImageUrlLoader;
 import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
 import de.gmino.issuemap.client.domain.DecentralizedGeneration;
@@ -116,7 +116,7 @@ public class ShowDecentralizedGeneration_PopUp extends Composite {
 
 		deckPanel.showWidget(0);
 
-		GwtIconRenderer<? super Poi> renderer = smartLayer
+		GwtIconRenderer<? super PoiInterface> renderer = smartLayer
 				.getRendererForPoi(mGen);
 		String iconUrl = renderer.getIconUrl(mGen);
 		imageMarkerIcon.setUrl(iconUrl);

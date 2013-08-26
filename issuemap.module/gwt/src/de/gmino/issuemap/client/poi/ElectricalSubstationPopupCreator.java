@@ -6,13 +6,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.map.GwtPopupCreator;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
-import de.gmino.issuemap.client.domain.BicycleShop;
-import de.gmino.issuemap.client.domain.DecentralizedGeneration;
 import de.gmino.issuemap.client.domain.ElectricalSubstation;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.view.Hover_PopUp;
-import de.gmino.issuemap.client.view.ShowBicycleShop_PopUp;
-import de.gmino.issuemap.client.view.ShowDecentralizedGeneration_PopUp;
 import de.gmino.issuemap.client.view.ShowElectricalSubstation_PopUp;
 
 public class ElectricalSubstationPopupCreator implements GwtPopupCreator<ElectricalSubstation> {
@@ -40,9 +36,9 @@ public class ElectricalSubstationPopupCreator implements GwtPopupCreator<Electri
 		int width = 38;
 		Hover_PopUp hoverPopUp = new Hover_PopUp((int) (0.66*height));
 		if (poi.getTitle().equals("")) {
-			hoverPopUp.setText("Umspannwerk", poi.getDescription());
+			hoverPopUp.setText("Umspannwerk");
 		} else {
-			hoverPopUp.setText(poi.getTitle(), poi.getDescription());
+			hoverPopUp.setText(poi.getTitle());
 		}
 		
 		hoverPopUp.getElement().getStyle().setPosition(Position.ABSOLUTE);

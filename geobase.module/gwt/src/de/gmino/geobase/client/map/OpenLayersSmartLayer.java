@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.gmino.geobase.shared.domain.Poi;
+import de.gmino.geobase.shared.domain.PoiInterface;
 import de.gmino.geobase.shared.map.IconRenderer;
 import de.gmino.geobase.shared.map.Marker;
 import de.gmino.geobase.shared.map.PopupCreator;
@@ -34,9 +34,9 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 	private OpenLayersMapView mapView;
 	private TreeMap<TypeName, GwtIconRenderer> rendererMap;
 	private TreeMap<TypeName, GwtPopupCreator> popupCreatorMap;
-	private TreeMap<Long, Poi> pois;
-	private TreeMap<Poi, JavaScriptObject> poiJsos;
-	private TreeMap<Poi, DivElement> poiTooltipDivs;
+	private TreeMap<Long, PoiInterface> pois;
+	private TreeMap<PoiInterface, JavaScriptObject> poiJsos;
+	private TreeMap<PoiInterface, DivElement> poiTooltipDivs;
 	private Widget currentPopup;
 	private int currentZoomLevel;
 
@@ -46,9 +46,9 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 		this.mapView = mapView;
 		this.rendererMap = new TreeMap<TypeName, GwtIconRenderer>();
 		this.popupCreatorMap = new TreeMap<TypeName, GwtPopupCreator>();
-		this.pois = new TreeMap<Long, Poi>();
-		this.poiJsos = new TreeMap<Poi, JavaScriptObject>();
-		this.poiTooltipDivs = new TreeMap<Poi, DivElement>();
+		this.pois = new TreeMap<Long, PoiInterface>();
+		this.poiJsos = new TreeMap<PoiInterface, JavaScriptObject>();
+		this.poiTooltipDivs = new TreeMap<PoiInterface, DivElement>();
 		markers = new TreeSet<Marker>();
 		vectorLayerJso = nCreateVectorLayer(name, mapView.getMapJso());
 		popupLayerJso = nCreatePopupLayer(name);
@@ -60,13 +60,13 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 	public void selectedPoi(long poiId) {
 		if(currentZoomLevel <= zoomThreshold)
 			return;
-		Poi poi = pois.get(poiId);
+		PoiInterface poi = pois.get(poiId);
 		if (poiTooltipDivs.containsKey(poi)) {
 			System.out.println("Tooltip already there");
 			return;
 		}
 		Entity oAsEntity = (Entity) poi;
-		GwtPopupCreator<Poi> creator = popupCreatorMap.get(oAsEntity.getType());
+		GwtPopupCreator<PoiInterface> creator = popupCreatorMap.get(oAsEntity.getType());
 		if(creator == null)
 			throw new RuntimeException("No PopupCreator for tyoe " + oAsEntity.getType().toString());
 		Widget widget = creator.createTooltip(poi);
@@ -78,7 +78,7 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 	
 
 	public void deselectedPoi(long poiId) {
-		Poi poi = pois.get(poiId);
+		PoiInterface poi = pois.get(poiId);
 		DivElement div = poiTooltipDivs.get(poi);
 		if (div == null) {
 			System.out.println("Tooltip already gone");
@@ -89,9 +89,9 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 	}
 
 	public void clickedPoi(long poiId) {
-		final Poi poi = pois.get(poiId);
+		final PoiInterface poi = pois.get(poiId);
 		Entity oAsEntity = (Entity) poi;
-		GwtPopupCreator<Poi> creator = popupCreatorMap.get(oAsEntity.getType());
+		GwtPopupCreator<PoiInterface> creator = popupCreatorMap.get(oAsEntity.getType());
 		if(creator == null)
 			throw new RuntimeException("No PopupCreator for tyoe " + oAsEntity.getType().toString());
 		Widget widget = creator.createPopup(poi);
@@ -171,20 +171,20 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 
 	@Override
 	public void addMarkerIconRenderer(TypeName type,
-			IconRenderer<? extends Poi, Canvas> renderer) {
-		rendererMap.put(type, (GwtIconRenderer<? extends Poi>) renderer);
+			IconRenderer<? extends PoiInterface, Canvas> renderer) {
+		rendererMap.put(type, (GwtIconRenderer<? extends PoiInterface>) renderer);
 	}
 
 	@Override
 	public void addMarkerPopupCreator(TypeName type,
-			PopupCreator<? extends Poi, Widget> creator) {
-		popupCreatorMap.put(type, (GwtPopupCreator<? extends Poi>) creator);
+			PopupCreator<? extends PoiInterface, Widget> creator) {
+		popupCreatorMap.put(type, (GwtPopupCreator<? extends PoiInterface>) creator);
 	}
 
 	@Override
-	public void addPoi(Poi o) {
+	public void addPoi(PoiInterface o) {
 		if (pois.put(o.getId(), o) == null) {
-			GwtIconRenderer<? super Poi> renderer = getRendererForPoi(o);
+			GwtIconRenderer<? super PoiInterface> renderer = getRendererForPoi(o);
 			String iconUrl;
 			int width, height;
 			if(currentZoomLevel > zoomThreshold)
@@ -207,9 +207,9 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 		}
 	}
 
-	public GwtIconRenderer<? super Poi> getRendererForPoi(Poi o) {
+	public GwtIconRenderer<? super PoiInterface> getRendererForPoi(PoiInterface o) {
 		Entity oAsEntity = (Entity) o;
-		GwtIconRenderer<? super Poi> renderer = rendererMap.get(oAsEntity
+		GwtIconRenderer<? super PoiInterface> renderer = rendererMap.get(oAsEntity
 				.getType());
 		if (renderer == null)
 			throw new RuntimeException("No IconRenderer defined for "
@@ -248,7 +248,7 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 	}-*/;
 
 	@Override
-	public void removePoi(Poi o) {
+	public void removePoi(PoiInterface o) {
 		if (pois.remove(o.getId()) != null) {
 			JavaScriptObject jso = poiJsos.get(o);
 			if (jso != null) {
@@ -258,7 +258,7 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 	}
 
 	@Override
-	public void updatePoi(Poi o) {
+	public void updatePoi(PoiInterface o) {
 		removePoi(o);
 		addPoi(o);
 	}
@@ -285,8 +285,8 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 		currentZoomLevel = newZoomLevel;
 		if((previousZoomLevel <= zoomThreshold && newZoomLevel > zoomThreshold) || ( newZoomLevel <= zoomThreshold && previousZoomLevel > zoomThreshold))
 		{
-			Collection<Poi> poisCopy = new ArrayList<Poi>(pois.values());
-			for(Poi poi : poisCopy)
+			Collection<PoiInterface> poisCopy = new ArrayList<PoiInterface>(pois.values());
+			for(PoiInterface poi : poisCopy)
 				updatePoi(poi);
 		}
 	}

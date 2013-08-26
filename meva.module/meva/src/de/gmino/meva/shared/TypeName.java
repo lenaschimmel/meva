@@ -37,7 +37,7 @@ public class TypeName implements Comparable<TypeName> {
 		final TypeName ret = getInternalByString(typeName, createNew);
 		if(createNew)
 		{
-			System.out.println("Registered native TypeName " + typeName + " in " + dummy.hashCode());
+		//	System.out.println("Registered native TypeName " + typeName + " in " + dummy.hashCode());
 			ret.isNative = true;
 		}
 		else if (!ret.isNative)
@@ -50,7 +50,7 @@ public class TypeName implements Comparable<TypeName> {
 		final TypeName ret = getInternalByString(typeName, createNew);
 		if(createNew)
 		{
-			System.out.println("Registered entity TypeName " + typeName + " in " + dummy.hashCode());
+		//	System.out.println("Registered entity TypeName " + typeName + " in " + dummy.hashCode());
 			ret.isEntity = true;
 		}
 		else if (!ret.isEntity)
@@ -62,7 +62,7 @@ public class TypeName implements Comparable<TypeName> {
 		final TypeName ret = getInternalByString(typeName, createNew);
 		if(createNew)
 		{
-			System.out.println("Registered value TypeName " + typeName + " in " + dummy.hashCode());
+		//	System.out.println("Registered value TypeName " + typeName + " in " + dummy.hashCode());
 			ret.isValue = true;
 		}
 		else if (!ret.isValue)
