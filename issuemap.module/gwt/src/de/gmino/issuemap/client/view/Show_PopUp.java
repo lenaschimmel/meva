@@ -56,6 +56,7 @@ import de.gmino.issuemap.client.resources.ImageResources;
 import de.gmino.meva.client.domain.LongText;
 import de.gmino.meva.shared.Log;
 import de.gmino.meva.shared.Value;
+import de.gmino.meva.shared.ValueWrapper;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
@@ -173,13 +174,12 @@ public class Show_PopUp extends Composite {
 		ratingCriteria.setText(mIssue.getMap_instance().getRate_criteria());
 		tbResolved.getElement().setAttribute("title", mIssue.getMap_instance().getMark_description());
 		
-//		for(ValueWrapper val :  issue.getValues())
-//		{
-//			System.out.println("ValueWrapper: " + val.getDescription());
-//			addKeyValue(val.getName(), val.getJson(), val.getDescription());
-//		}
-		LongText descriptionLongText = (LongText)mIssue.getValue("Beschreibung").getValue();
-		description.setHTML(new SafeHtmlBuilder().appendEscapedLines(descriptionLongText.getText()).toSafeHtml());
+		for(ValueWrapper val :  issue.getValues())
+		{
+			System.out.println("ValueWrapper: " + val.getDescription());
+			addKeyValue(val);
+		}
+		
 		commentTextBox.getElement().setAttribute("placeholder", "Bitte geben Sie einen Kommentar ein");
 		
 		//mIssue.vote=0;
@@ -281,8 +281,7 @@ public class Show_PopUp extends Composite {
 	Label lbTypeAndDate;
 	@UiField
 	VerticalPanel keyValuePanel;
-	@UiField
-	HTML description;
+
 
 	
 	@UiField
@@ -616,7 +615,6 @@ public class Show_PopUp extends Composite {
 	}
 
 	public void setText(String titleString, String descriptionString) {
-		description.setText(descriptionString);
 		lbTitle.setText(titleString);
 	}
 
@@ -704,8 +702,8 @@ public class Show_PopUp extends Composite {
 		decorated_panel.center();
 	}
 	
-	public void addKeyValue(String key, String value, String description){
-		keyValuePanel.add(new String_KeyValueView(key, value, description));
+	public void addKeyValue(ValueWrapper valueWrapper){
+		keyValuePanel.add(new KeyValueView(valueWrapper));
 		
 	}
 }

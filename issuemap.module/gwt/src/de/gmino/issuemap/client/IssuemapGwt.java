@@ -56,6 +56,7 @@ import de.gmino.issuemap.client.poi.RoutePopupCreator;
 import de.gmino.issuemap.client.request.QueryMapBySubdomain;
 import de.gmino.issuemap.client.view.CreateEvent_PopUp;
 import de.gmino.issuemap.client.view.CreateIssue_PopUp;
+import de.gmino.issuemap.client.view.Create_PopUp;
 import de.gmino.issuemap.client.view.Feedback_Button;
 import de.gmino.issuemap.client.view.Footer;
 import de.gmino.issuemap.client.view.Header;
@@ -264,13 +265,8 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 
 			private Composite getPopupByMapObject(final LatLon location) {
 				Composite popUp;
-				if (mapObject.getMapTyp().equals("Issue")) {
-					popUp = new CreateIssue_PopUp(mapObject,
-							location, markerLayer);
-				} else {
-					popUp = new CreateEvent_PopUp(mapObject,
-							location, markerLayer);
-				}
+				popUp = new Create_PopUp(mapObject,
+						location, markerLayer);
 				return popUp;
 			}
 		});

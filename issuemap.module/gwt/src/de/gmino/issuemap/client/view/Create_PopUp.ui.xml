@@ -1,0 +1,119 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+	<ui:with field="resources"
+		type="de.gmino.issuemap.client.resources.ImageResources" />
+
+	<ui:style>
+		.parent {
+			width: 467px;
+			background: rgba(20, 20, 20, 0.8);
+			position: absolute;
+			left: -22px;
+			top: -38px;
+			border-top-right-radius: 4px;
+			border-bottom-right-radius: 4px;
+			border-top-left-radius: 4px;
+			border-bottom-left-radius: 4px;
+			border: 1px solid #ccc;
+
+			color: #fff;
+			padding-bottom: 15px;
+		}
+		
+		.content {
+			width: 438px;
+			margin-left: 10px; 
+			margin-right: 10px;
+			margin-top: 6px;
+		}
+		
+		.header{
+			padding-top: 0px;
+			padding-left: 5px;
+			border-bottom: 1px solid #666;
+			height: 40px;
+		}
+		.delete {
+			cursor: pointer;
+			margin-top: 5px;
+		}
+		
+		.description {
+			height: 200px;
+			font-family: inherit;
+			font-size: inherit;
+			margin-bottom: 5px;
+	
+			
+		}
+		
+		.marker{
+			margin-top: 3px;
+}
+		.title_label {
+			color: #FFF;
+			text-align: center;
+			font-weight: bold;
+			font-size: large;
+			margin-top: 7px;
+			white-space: nowrap;
+			width: auto;
+			border-top-right-radius: 10px;
+			border-top-left-radius: 10px;
+		}
+		
+		.closeButton {
+			position: absolute;
+			top: 15px;
+			right: 15px;
+
+			cursor: pointer;
+			background: url(img/close.png) no-repeat center;
+			
+		}
+		
+		.listbox{
+			margin-right: 180px;
+			width: 216px;
+}
+	</ui:style>
+	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
+		<g:HorizontalPanel width="100%" styleName="{style.header}">
+			<g:cell width="40px">
+				<g:Image ui:field="imageMarkerIcon" styleName="{style.marker}"/>
+			</g:cell>
+			<g:cell>
+				<g:Label styleName="{style.title_label}" ui:field="headLable">Marker
+					bearbeiten</g:Label>
+			</g:cell>
+			<g:cell>
+				<g:Image resource="{resources.delete}" styleName="{style.delete}" ui:field="delete" visible="false" title="Marker löschen"></g:Image>
+			</g:cell>
+		</g:HorizontalPanel>
+		<g:Image ui:field="close" url="img/close.png"
+			styleName="{style.closeButton}"></g:Image>
+		<g:VerticalPanel styleName="{style.content}">
+			<g:cell>
+
+
+				<g:TextBox width="468px" ui:field="title"></g:TextBox>
+
+
+			</g:cell>
+			<g:cell>
+				<g:TextArea width="472px" ui:field="description"
+					styleName="{style.description}"></g:TextArea>
+			</g:cell>
+
+			<g:cell horizontalAlignment="ALIGN_LEFT">
+				<g:HorizontalPanel>
+				<g:ListBox ui:field="typebox" styleName="{style.listbox}">
+				</g:ListBox><g:Button ui:field="button" text="Eintragen" />
+				</g:HorizontalPanel>
+			</g:cell>
+		</g:VerticalPanel>
+	</g:VerticalPanel>
+
+</ui:UiBinder> 

@@ -21,7 +21,9 @@
 		.value{}
 		
 	</ui:style>
-	<g:HTMLPanel ui:field="parent">
-		<g:HorizontalPanel styleName="{style.keyValuePair}"><g:cell><g:Label ui:field="key" styleName="{style.key}"/></g:cell><g:cell horizontalAlignment="ALIGN_RIGHT"><g:Label ui:field="value" styleName="{style.value}"/></g:cell> </g:HorizontalPanel>
+	<g:HTMLPanel ui:field="parent" width="100%">
+		<g:VerticalPanel ui:field="verticalPanel">
+		<g:HorizontalPanel width="100%" styleName="{style.keyValuePair}"><g:cell><g:Label ui:field="name" styleName="{style.key}"/></g:cell><g:cell horizontalAlignment="ALIGN_RIGHT"><g:SimplePanel ui:field="value_view" styleName="{style.value}"/></g:cell> </g:HorizontalPanel>
+		</g:VerticalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

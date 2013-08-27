@@ -5,10 +5,8 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 
 import de.gmino.geobase.shared.domain.PoiInterface;
 import de.gmino.issuemap.client.domain.Map;
-import de.gmino.issuemap.client.view.ShowIssue_PopUp;
 
 public class Marker_Wrapper extends AbsolutePanel { // implements MouseOverHandler, MouseOutHandler, ClickHandler { // Composite implements HasText {
-	ShowIssue_PopUp detail;
 	PoiInterface mIssue;
 	Map mMapObject;
 
