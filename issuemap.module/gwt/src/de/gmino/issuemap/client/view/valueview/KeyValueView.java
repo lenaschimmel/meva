@@ -16,7 +16,7 @@ import de.gmino.meva.client.domain.ShortText;
 import de.gmino.meva.shared.TypeName;
 import de.gmino.meva.shared.ValueWrapper;
 
-public class KeyValueView extends Composite {
+public abstract class KeyValueView extends Composite {
 
 	private static String_KeyValueViewUiBinder uiBinder = GWT.create(String_KeyValueViewUiBinder.class);
 
@@ -28,48 +28,44 @@ public class KeyValueView extends Composite {
 	@UiField
 	Label name;
 	@UiField
-	SimplePanel value_view;
+	SimplePanel value_view_right;
+	@UiField
+	SimplePanel value_view_bottom;
 	@UiField
 	HTMLPanel parent;
 	@UiField
 	VerticalPanel verticalPanel;
 
+	protected ValueWrapper val;
+	
+	public static KeyValueView getKeyValueView(ValueWrapper valueWrapper)
+	{
+		if(valueWrapper.getType() == LongText.type)
+			return new KeyValueLongTextView(valueWrapper);
+		if(valueWrapper.getType() == ShortText.type)
+			return new KeyValueShortTextView(valueWrapper);
+		if(valueWrapper.getType() == TypeName.String)
+			return new KeyValueStringtView(valueWrapper);
+		throw new RuntimeException("No KeyValueView class defined for value type " + valueWrapper.getType());
+	}
+
 	public KeyValueView(ValueWrapper valueWrapper) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.name.setText(valueWrapper.getName());
-	
-		if(valueWrapper.getType() == LongText.type)
-		{
-			String text = "";
-			LongText descriptionLongText = (LongText) valueWrapper.getValue();
-			if(descriptionLongText != null)
-				text = descriptionLongText.getText();
-			HTMLPanel description = new HTMLPanel(new SafeHtmlBuilder().appendEscapedLines(text).toSafeHtml());
-			verticalPanel.add(description);
-		}
-		
-		if(valueWrapper.getType() == TypeName.String)
-		{
-			Label label = new Label(valueWrapper.getString());
-			value_view.add(label);
-		}
-	
-		if(valueWrapper.getType() == ShortText.type)
-		{
-			ShortText valueShortText = (ShortText) valueWrapper.getValue();
-			Label label = new Label(valueShortText.getText());
-			value_view.add(label);
-		}
 		this.parent.setTitle(valueWrapper.getDescription());
+
+		setValue(valueWrapper);
 	}
 	
-	private String preventNullString(String text) {
-		if(text == null)
-			return "";
+	public void setValue(ValueWrapper val)
+	{
+		this.val = val;
+		if(currentEditMode)
+			enableEditMode();
 		else
-			return text;
+			enableShowMode();
 	}
-
+	
 	public void setEditMode(boolean edit)
 	{
 		if(currentEditMode == edit)
@@ -77,12 +73,12 @@ public class KeyValueView extends Composite {
 		currentEditMode = edit;
 		
 		if(edit)
-		{
-			name.getElement().getStyle().setColor("#FF0000");
-		}
+			enableEditMode();
 		else
-		{
-			name.getElement().getStyle().setColor("#FFFFFF");
-		}
+			enableShowMode();
 	}
+	
+	public abstract void enableEditMode();
+	
+	public abstract void enableShowMode();
 }

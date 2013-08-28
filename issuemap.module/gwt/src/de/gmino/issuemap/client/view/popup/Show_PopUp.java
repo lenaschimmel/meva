@@ -257,7 +257,7 @@ public class Show_PopUp extends Composite {
 		for(ValueWrapper val : poi.getValues())
 		{
 			System.out.println("ValueWrapper: " + val.getDescription());
-			KeyValueView keyValueView = new KeyValueView(val);
+			KeyValueView keyValueView = KeyValueView.getKeyValueView(val);
 			keyValueViews.put(val.getName(), keyValueView);
 			keyValuePanel.add(keyValueView);
 		}
