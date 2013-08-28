@@ -1,4 +1,4 @@
-package de.gmino.issuemap.client.view;
+package de.gmino.issuemap.client.view.popup;
 
 import java.util.Collection;
 

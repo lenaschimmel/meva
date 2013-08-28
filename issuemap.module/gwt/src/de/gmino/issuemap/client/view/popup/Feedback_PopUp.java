@@ -1,4 +1,4 @@
-package de.gmino.issuemap.client.view;
+package de.gmino.issuemap.client.view.popup;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Map;
+import de.gmino.issuemap.client.view.Feedback_Button;
 import de.gmino.issuemap.shared.request.SendFeedback;
 import de.gmino.meva.shared.request.Requests;
 

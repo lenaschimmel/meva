@@ -1,4 +1,4 @@
-package de.gmino.issuemap.client.view;
+package de.gmino.issuemap.client.view.list;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -11,6 +11,8 @@ import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.issuemap.client.IssuemapGwt;
+import de.gmino.issuemap.client.view.popup.Feedback_PopUp;
+import de.gmino.issuemap.client.view.popup.IssueList_PopUp;
 
 public class List_Button extends Composite implements HasText {
 

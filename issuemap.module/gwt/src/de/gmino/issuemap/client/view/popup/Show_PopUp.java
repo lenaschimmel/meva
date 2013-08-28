@@ -1,4 +1,4 @@
-package de.gmino.issuemap.client.view;
+package de.gmino.issuemap.client.view.popup;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -52,6 +52,7 @@ import de.gmino.issuemap.client.domain.Comment;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Photo;
 import de.gmino.issuemap.client.domain.Poi;
+import de.gmino.issuemap.client.view.valueview.KeyValueView;
 import de.gmino.issuemap.shared.domain.Markertype;
 import de.gmino.meva.client.domain.KeyValueSet;
 import de.gmino.meva.shared.Log;

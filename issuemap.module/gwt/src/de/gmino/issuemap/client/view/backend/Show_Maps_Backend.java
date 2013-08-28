@@ -1,4 +1,4 @@
-package de.gmino.issuemap.client.view;
+package de.gmino.issuemap.client.view.backend;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.issuemap.client.MasterBackend;
 import de.gmino.issuemap.client.domain.Map;
+import de.gmino.issuemap.client.view.list.Map_List_Item;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 

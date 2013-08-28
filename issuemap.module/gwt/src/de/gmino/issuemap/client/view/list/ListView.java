@@ -1,4 +1,4 @@
-package de.gmino.issuemap.client.view;
+package de.gmino.issuemap.client.view.list;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,7 +16,7 @@ public abstract class ListView<DataItem> extends VerticalPanel {
 	
 	private ArrayList<ListViewItem<DataItem>> items;
 	
-	abstract ListViewItem<DataItem> createListItem(DataItem item);
+	public abstract ListViewItem<DataItem> createListItem(DataItem item);
 	
 	public ListView() {
 		items = new ArrayList<ListViewItem<DataItem>>();

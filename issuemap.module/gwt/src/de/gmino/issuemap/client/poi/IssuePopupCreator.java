@@ -9,10 +9,10 @@ import de.gmino.geobase.client.map.GwtPopupCreator;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Poi;
-import de.gmino.issuemap.client.view.Hover_PopUp;
-import de.gmino.issuemap.client.view.ShowEvent_PopUp;
-import de.gmino.issuemap.client.view.ShowPoi_PopUp;
-import de.gmino.issuemap.client.view.Show_PopUp;
+import de.gmino.issuemap.client.view.popup.Hover_PopUp;
+import de.gmino.issuemap.client.view.popup.ShowEvent_PopUp;
+import de.gmino.issuemap.client.view.popup.ShowPoi_PopUp;
+import de.gmino.issuemap.client.view.popup.Show_PopUp;
 
 public class IssuePopupCreator implements GwtPopupCreator<Poi> {
 

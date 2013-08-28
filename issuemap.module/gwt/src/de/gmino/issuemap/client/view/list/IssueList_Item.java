@@ -1,4 +1,4 @@
-package de.gmino.issuemap.client.view;
+package de.gmino.issuemap.client.view.list;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.issuemap.client.domain.Poi;
 import de.gmino.issuemap.client.poi.IssueIconRenderer;
-import de.gmino.issuemap.client.view.ListView.ListViewItem;
+import de.gmino.issuemap.client.view.list.ListView.ListViewItem;
 
 public class IssueList_Item extends Composite implements ListViewItem<Poi> {
 

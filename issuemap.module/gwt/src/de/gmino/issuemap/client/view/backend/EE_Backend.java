@@ -1,4 +1,4 @@
-package de.gmino.issuemap.client.view;
+package de.gmino.issuemap.client.view.backend;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,6 +25,9 @@ import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.DecentralizedGeneration;
 import de.gmino.issuemap.client.domain.Map;
+import de.gmino.issuemap.client.view.list.Generation_List_Item;
+import de.gmino.issuemap.client.view.list.ListView;
+import de.gmino.issuemap.client.view.list.ListView.ListViewItem;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
@@ -94,8 +97,7 @@ public class EE_Backend extends Composite  {
 		this.data = new ArrayList<DecentralizedGeneration>();
 		list = new ListView<DecentralizedGeneration>(){
 			@Override
-			de.gmino.issuemap.client.view.ListView.ListViewItem<DecentralizedGeneration> createListItem(
-					DecentralizedGeneration gen) {
+			public de.gmino.issuemap.client.view.list.ListView.ListViewItem<DecentralizedGeneration> createListItem(DecentralizedGeneration gen) {
 				return new Generation_List_Item(gen);
 			}
 		};

@@ -1,4 +1,4 @@
-package de.gmino.issuemap.client.view;
+package de.gmino.issuemap.client.view.backend;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -28,6 +28,7 @@ import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Markertype;
+import de.gmino.issuemap.client.view.list.Marker_List_Item;
 import de.gmino.meva.client.domain.KeyValueDef;
 import de.gmino.meva.client.domain.KeyValueSet;
 import de.gmino.meva.shared.TypeName;

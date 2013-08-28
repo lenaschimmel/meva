@@ -1,4 +1,4 @@
-package de.gmino.issuemap.client.view;
+package de.gmino.issuemap.client.view.popup;
 
 import java.util.ArrayList;
 
@@ -21,6 +21,10 @@ import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Poi;
 import de.gmino.issuemap.client.poi.IssueIconRenderer;
+import de.gmino.issuemap.client.view.list.IssueList_Item;
+import de.gmino.issuemap.client.view.list.ListView;
+import de.gmino.issuemap.client.view.list.List_Button;
+import de.gmino.issuemap.client.view.list.ListView.ListViewItem;
 
 public class IssueList_PopUp extends Composite {
 
@@ -47,7 +51,7 @@ public class IssueList_PopUp extends Composite {
 		list = new  ListView<Poi>() {
 			
 			@Override
-			ListViewItem<Poi> createListItem(Poi item) {
+			public ListViewItem<Poi> createListItem(Poi item) {
 				return new IssueList_Item(item, renderer,layer);
 			}
 		};

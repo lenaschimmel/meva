@@ -8,8 +8,8 @@ import de.gmino.geobase.client.map.GwtPopupCreator;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Route;
-import de.gmino.issuemap.client.view.Hover_PopUp;
-import de.gmino.issuemap.client.view.ShowRoute_PopUp;
+import de.gmino.issuemap.client.view.popup.Hover_PopUp;
+import de.gmino.issuemap.client.view.popup.ShowRoute_PopUp;
 
 public class RoutePopupCreator implements GwtPopupCreator<Route> {
 

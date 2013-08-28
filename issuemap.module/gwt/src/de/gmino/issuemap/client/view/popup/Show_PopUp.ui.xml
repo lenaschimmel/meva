@@ -3,7 +3,7 @@
 
 	<ui:with field="resources" type="de.gmino.issuemap.client.resources.ImageResources" />
 
-	<ui:style type="de.gmino.issuemap.client.view.Show_PopUp.Style">
+	<ui:style type="de.gmino.issuemap.client.view.popup.Show_PopUp.Style">
 		.important {
 		font-weight: bold;
 		}

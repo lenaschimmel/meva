@@ -1,4 +1,4 @@
-package de.gmino.issuemap.client.view;
+package de.gmino.issuemap.client.view.list;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -14,7 +14,7 @@ import de.gmino.geobase.client.request.Geocoder;
 import de.gmino.geobase.client.request.Geocoder.SearchLocationListener;
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.issuemap.client.domain.DecentralizedGeneration;
-import de.gmino.issuemap.client.view.ListView.ListViewItem;
+import de.gmino.issuemap.client.view.list.ListView.ListViewItem;
 import de.gmino.meva.shared.request.Requests;
 
 public class Generation_List_Item extends Composite implements ListViewItem<DecentralizedGeneration> {

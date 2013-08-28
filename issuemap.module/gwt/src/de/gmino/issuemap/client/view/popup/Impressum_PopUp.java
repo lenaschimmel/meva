@@ -1,15 +1,12 @@
-package de.gmino.issuemap.client.view;
+package de.gmino.issuemap.client.view.popup;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -17,24 +14,25 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.issuemap.client.domain.Map;
 
-public class Info_PopUp extends Composite implements HasText {
+public class Impressum_PopUp extends Composite implements HasText {
 
 	private static Info_PopUpUiBinder uiBinder = GWT
 			.create(Info_PopUpUiBinder.class);
 
 	private DecoratedPopupPanel decorated_panel;
-	private Map mapObject;
 	
-	interface Info_PopUpUiBinder extends UiBinder<Widget, Info_PopUp> {
+	interface Info_PopUpUiBinder extends UiBinder<Widget, Impressum_PopUp> {
 	}
 
-	public Info_PopUp(Map mapObject, DecoratedPopupPanel decorated_panel) {
+	public Impressum_PopUp(Map mapObject, DecoratedPopupPanel decorated_panel) {
 		initWidget(uiBinder.createAndBindUi(this));
-		title.setText(mapObject.getTitle());
 		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
-		infotext.setHTML(new SafeHtmlBuilder().appendEscapedLines(mapObject.getInfoText()).toSafeHtml());
 		this.decorated_panel = decorated_panel;
-		this.mapObject=mapObject;
+		full_name.setText(mapObject.getPostal_address().getRecipientName());
+		street.setText(mapObject.getPostal_address().getStreet()+" "+mapObject.getPostal_address().getHouseNumber());
+		town.setText(mapObject.getPostal_address().getZip()+ " "+ mapObject.getPostal_address().getCity());
+		email.setText(mapObject.getEmail());
+		
 		
 	}
 
@@ -43,27 +41,17 @@ public class Info_PopUp extends Composite implements HasText {
 	@UiField
 	Label title;
 	@UiField
-	HTML infotext;
+	Label full_name;
 	@UiField
-	Label impressum;
-
-	public Info_PopUp(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-
-	}
+	Label street;
+	@UiField
+	Label town;
+	@UiField
+	Label email;
 
 	@UiHandler("close")
 	void onClick(ClickEvent e) {
 		decorated_panel.hide();
-	}
-	
-	@UiHandler("impressum")
-	void onImpressumClick(ClickEvent e){
-		Window.open(mapObject.getImpressum_url(), "Impressum", "");
-		decorated_panel.hide();
-
-
-		
 	}
 
 	public void setText(String text) {

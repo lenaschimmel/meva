@@ -7,9 +7,9 @@ import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import de.gmino.issuemap.client.domain.Map;
-import de.gmino.issuemap.client.view.Create_Map_Backend;
 import de.gmino.issuemap.client.view.Header;
-import de.gmino.issuemap.client.view.Show_Maps_Backend;
+import de.gmino.issuemap.client.view.backend.Create_Map_Backend;
+import de.gmino.issuemap.client.view.backend.Show_Maps_Backend;
 import de.gmino.meva.client.UtilClient;
 import de.gmino.meva.client.request.NetworkRequestsImplAsyncJson;
 import de.gmino.meva.shared.EntityFactory;
