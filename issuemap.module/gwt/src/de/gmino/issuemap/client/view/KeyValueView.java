@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.Widget;
 import de.gmino.meva.client.domain.LongText;
 import de.gmino.meva.client.domain.ShortText;
 import de.gmino.meva.shared.TypeName;
-import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.ValueWrapper;
 
 public class KeyValueView extends Composite {
@@ -24,50 +23,38 @@ public class KeyValueView extends Composite {
 	interface String_KeyValueViewUiBinder extends UiBinder<Widget, KeyValueView> {
 	}
 
+	@UiField
+	Label name;
+	@UiField
+	SimplePanel value_view;
+	@UiField
+	HTMLPanel parent;
+	@UiField
+	VerticalPanel verticalPanel;
 
-
-
-
-
-public KeyValueView(ValueWrapper valueWrapper) {
-	initWidget(uiBinder.createAndBindUi(this));
-	this.name.setText(valueWrapper.getName());
-	if(valueWrapper.getType() == LongText.type)
-	{
+	public KeyValueView(ValueWrapper valueWrapper) {
+		initWidget(uiBinder.createAndBindUi(this));
+		this.name.setText(valueWrapper.getName());
+	
+		if(valueWrapper.getType() == LongText.type)
+		{
+			LongText descriptionLongText = (LongText) valueWrapper.getValue();
+			HTMLPanel description = new HTMLPanel(new SafeHtmlBuilder().appendEscapedLines(descriptionLongText.getText()).toSafeHtml());
+			verticalPanel.add(description);
+		}
 		
-		LongText descriptionLongText = (LongText) valueWrapper.getValue();
-		HTMLPanel description = new HTMLPanel(new SafeHtmlBuilder().appendEscapedLines(descriptionLongText.getText()).toSafeHtml());
-		verticalPanel.add(description);
+		if(valueWrapper.getType() == TypeName.String)
+		{
+			Label label = new Label(valueWrapper.getString());
+			value_view.add(label);
+		}
+	
+		if(valueWrapper.getType() == ShortText.type)
+		{
+			ShortText valueShortText = (ShortText) valueWrapper.getValue();
+			Label label = new Label(valueShortText.getText());
+			value_view.add(label);
+		}
+		this.parent.setTitle(valueWrapper.getDescription());
 	}
-	if(valueWrapper.getType() == TypeName.String)
-	{
-
-		Label label = new Label(valueWrapper.getString());
-		value_view.add(label);
-	}
-	if(valueWrapper.getType() == ShortText.type)
-	{
-
-		ShortText valueShortText = (ShortText) valueWrapper.getValue();
-		Label label = new Label(valueShortText.getText());
-		value_view.add(label);
-	}
-	this.parent.setTitle(valueWrapper.getDescription());
-	}
-
-
-
-
-@UiField
-Label name;
-@UiField
-SimplePanel value_view;
-@UiField
-HTMLPanel parent;
-@UiField
-VerticalPanel verticalPanel;
-
-
-
-
 }

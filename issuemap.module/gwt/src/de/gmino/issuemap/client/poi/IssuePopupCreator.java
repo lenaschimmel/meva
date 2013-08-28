@@ -27,27 +27,9 @@ public class IssuePopupCreator implements GwtPopupCreator<Poi> {
 
 	@Override
 	public Widget createPopup(Poi poi) {
-		Marker_Wrapper wrapper = new Marker_Wrapper(poi, map);
-		String markerName = poi.getMarkertype().getMarkerName();
-		long markerId = poi.getMarkertypeId();
-		Composite popup;
-		if (markerName.equals("Disco")
-				|| markerName.equals("Theater")
-				|| markerName.equals("Konzert")
-				|| markerName.equals("Sport")
-				|| markerName.equals("Party")) {
-			popup = new ShowEvent_PopUp(map, poi, wrapper, smartLayer);
-			
-			//wrapper.setWidth(showEvent_PopUp.getOffsetWidth()+"px");
-			//wrapper.setHeight(showEvent_PopUp.getOffsetHeight()+"px");
-			//Window.alert("Size: " + showEvent_PopUp.getOffsetWidth() + " x " + showEvent_PopUp.getOffsetHeight());
-		} else if(markerId >= 80 && markerId <= 94){
-			popup = new ShowPoi_PopUp(map, poi, wrapper, smartLayer);
-		} else {
-			popup = new Show_PopUp(map, poi, wrapper, smartLayer);
-		}
-		wrapper.add(popup);
-		return wrapper;
+		Show_PopUp popup = new Show_PopUp(map, smartLayer);
+		popup.setPoi(poi);
+		return popup;
 	}
 
 	@Override
@@ -59,5 +41,4 @@ public class IssuePopupCreator implements GwtPopupCreator<Poi> {
 		hoverPopUp.getElement().getStyle().setLeft(0.3825*poi.getMarkertype().getImageWidth(), Unit.PX);
 		return hoverPopUp;
 	}
-
 }

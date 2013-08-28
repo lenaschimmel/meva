@@ -138,7 +138,7 @@ public class ShowPoi_PopUp extends Composite {
 		
 		loadAndShowComments();
 		loadAndShowPhotos();
-		setupForm();
+		setupPhotoUploadForm();
 		deckPanel.showWidget(0);
 		
 		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mIssue);
@@ -268,7 +268,7 @@ public class ShowPoi_PopUp extends Composite {
 		deckPanel.showWidget(2);
 	}
 	
-	public void setupForm()
+	public void setupPhotoUploadForm()
 	{
 		form.setAction("/Upload/uploader");
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);

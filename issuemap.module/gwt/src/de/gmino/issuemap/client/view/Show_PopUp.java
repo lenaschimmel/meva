@@ -1,19 +1,20 @@
 package de.gmino.issuemap.client.view;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.FontStyle;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.resources.client.CssResource;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -30,7 +31,6 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
@@ -51,23 +51,137 @@ import de.gmino.issuemap.client.domain.Comment;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Photo;
 import de.gmino.issuemap.client.domain.Poi;
-import de.gmino.issuemap.client.poi.Marker_Wrapper;
-import de.gmino.issuemap.client.resources.ImageResources;
-import de.gmino.meva.client.domain.LongText;
 import de.gmino.meva.shared.Log;
-import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.ValueWrapper;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
 public class Show_PopUp extends Composite {
 
-	static DateTimeFormat dtf = DateTimeFormat.getFormat("dd.MM.yyyy, 'um' HH:mm");
-	ImageResources imageRes;
-
+	/**** Ui-Binder stuff ****/
 	private static Detail_PopUpUiBinder uiBinder = GWT
 			.create(Detail_PopUpUiBinder.class);
+	
+	interface Detail_PopUpUiBinder extends UiBinder<Widget, Show_PopUp> {
+	}
+	
+	interface Style extends CssResource {
+		String underline();
+		String active();
+	}
+	
+	@UiField
+	Style style;
 
+	/**** other fields ****/
+	static DateTimeFormat dtf = DateTimeFormat.getFormat("dd.MM.yyyy, 'um' HH:mm");
+
+	Map mapObject;
+	OpenLayersSmartLayer smartLayer;
+	Poi mPoi;
+	boolean mainPhotoShown;
+	HashMap<Widget, String> displayValueSafe = new HashMap<Widget, String>();
+	
+	/**** Ui-Fields ****/
+	
+	@UiField
+	Label lbTitle;
+	
+	@UiField
+	FocusPanel tbResolved;
+	@UiField
+	FocusPanel tbClose;
+	@UiField
+	FocusPanel tbEdit;
+	@UiField 
+	Label lbRating;
+	
+	@UiField
+	FocusPanel tbRatingDown2;
+	@UiField
+	FocusPanel tbRatingUp2;
+	@UiField 
+	Label lbRating2;
+
+	@UiField
+	Label lbTypeAndDate;
+	@UiField
+	VerticalPanel keyValuePanel;
+	
+	@UiField
+	VerticalPanel parent;
+	@UiField
+	FlowPanel picturesPanel;
+	@UiField
+	VerticalPanel commentsPanel;
+	@UiField
+	Panel descriptionPanel;
+	@UiField
+	Label commentsHeader;
+	@UiField
+	Label photosHeader;
+	@UiField 
+	TextBox commentTextBox;
+	@UiField
+	Button commentButton;
+	@UiField
+	FileUpload fileupload;
+	@UiField
+	FormPanel form;
+	
+	@UiField
+	DeckPanel deckPanel;
+	@UiField
+	Panel tabDescription;
+	@UiField
+	Panel tabPhotos;
+	@UiField
+	Panel tabComments;
+	
+	@UiField 
+	Button tabButtonDescription;
+	@UiField 
+	Button tabButtonPhotos;
+	@UiField 
+	Button tabButtonComments;
+	
+	@UiField
+	Label lbRatingUpCount2;
+	@UiField
+	Label lbRatingDownCount2;
+	
+	@UiField
+	Image imageMarkerIcon;
+	@UiField
+	Label lbNoPhotos;
+	@UiField
+	Label lbNoPhotosMain;
+	@UiField
+	Panel pnPhotoMain;
+	@UiField
+	Panel pnPhotoHeading;
+	@UiField
+	Panel pnRatingMain;
+	@UiField
+	Panel pnRatingHeading;
+	@UiField
+	Label lbPhotoMainHeader;
+	@UiField
+	Label lbNoComments;
+	@UiField
+	ScrollPanel spComments;
+	@UiField
+	Label lbMorePhotos;
+	
+	@UiField
+	Label ratingCriteria;
+	
+	@UiField
+	Label tabDivider2;
+	@UiField
+	Label tabDivider3;
+
+	// TODO Merge functionality into a widget class which shows the thumbnail and manages its loading.
 	private static final class ShowPhotoThingy implements ClickHandler {
 		private final String photoBaseUrl;
 		private ImageUrlLoader loader;
@@ -110,110 +224,105 @@ public class Show_PopUp extends Composite {
 		}
 	}
 
-	interface Detail_PopUpUiBinder extends UiBinder<Widget, Show_PopUp> {
-	}
-	
-	interface Style extends CssResource {
-		String underline();
-		String active();
-	}
-	
-	@UiField
-	Style style;
-
-	Map mapObject;
-	OpenLayersSmartLayer smartLayer;
-	Poi mIssue;
-	Marker_Wrapper mWrapper;
-	boolean mainPhotoShown;
-
 	@SuppressWarnings("unchecked")
-	public Show_PopUp(Map map, Poi issue, Marker_Wrapper marker_Wrapper, OpenLayersSmartLayer smartLayer) {
-		imageRes = GWT.create(ImageResources.class);
+	public Show_PopUp(Map map, OpenLayersSmartLayer smartLayer) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.mapObject = map;
 		this.smartLayer = smartLayer;
-		this.mIssue = issue;
-		this.mWrapper = marker_Wrapper;
-
-
-//		tbRatingUp.setVisible(false);
-//		tbRatingDown.setVisible(false);
 		
-		lbTypeAndDate.setText(mIssue.getMarkertype().getMarkerName() + ", " + issue.getCreationTimestamp().relativeToNow().toReadableString(true,1));
-		lbTypeAndDate.setTitle("Eintrag vom " + dtf.format(issue.getCreationTimestamp().toDate()));
+		enableOrDisableFeatures();
+		commentTextBox.getElement().setAttribute("placeholder", "Bitte geben Sie einen Kommentar ein");
+		setupPhotoUploadForm();
+		activateTab(0);
+	}
 
-		tbResolved.setStyleName(style.underline(), mIssue.isMarked());
+	public void setPoi(Poi poi) {
+		this.mPoi = poi;
+
+		lbTypeAndDate.setText(mPoi.getMarkertype().getMarkerName() + ", " + poi.getCreationTimestamp().relativeToNow().toReadableString(true,1));
+		lbTypeAndDate.setTitle("Eintrag vom " + dtf.format(poi.getCreationTimestamp().toDate()));
+
+		tbResolved.setStyleName(style.underline(), mPoi.isMarked());
 		setRatingText();
-		lbTitle.setText(mIssue.getTitle());
-		lbTitle.setTitle(mIssue.getTitle());
+		lbTitle.setText(mPoi.getTitle());
+		lbTitle.setTitle(mPoi.getTitle());
 		
-		if(mIssue.getMap_instance().isHas_fotos()==false){
-			tabButtonPhotos.removeFromParent();
-			tabDivider2.removeFromParent();
-			pnPhotoMain.removeFromParent();
-			pnPhotoHeading.removeFromParent();
-			}
-		if(mIssue.getMap_instance().isHas_comments()==false){
-			tabButtonComments.removeFromParent();
-			tabDivider3.removeFromParent();
-		}
-		
-		if(mIssue.getMap_instance().isHas_ratings()==false){
-			pnRatingMain.removeFromParent();
-			pnRatingHeading.removeFromParent();
-			
-		}
-			lbRating.setVisible(mIssue.getMap_instance().isHas_ratings());
-			tbEdit.setVisible(mIssue.getMap_instance().isEdit());
-			tbResolved.setVisible(mIssue.getMap_instance().isMark());
-		
-		if(mIssue.getMap_instance().isHas_ratings()==false && mIssue.getMap_instance().isHas_fotos()==false)
-			descriptionPanel.setWidth("475px");
-		
-		ratingCriteria.setText(mIssue.getMap_instance().getRate_criteria());
-		tbResolved.getElement().setAttribute("title", mIssue.getMap_instance().getMark_description());
-		
-		for(ValueWrapper val :  issue.getValues())
+		for(ValueWrapper val :  poi.getValues())
 		{
 			System.out.println("ValueWrapper: " + val.getDescription());
 			addKeyValue(val);
 		}
 		
-		commentTextBox.getElement().setAttribute("placeholder", "Bitte geben Sie einen Kommentar ein");
-		
-		//mIssue.vote=0;
 		updateButtonColorsAndLabels();
-		
 		loadAndShowComments();
 		loadAndShowPhotos();
-		setupForm();
-		deckPanel.showWidget(0);
-		
-		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mIssue);
-		String iconUrl = renderer.getIconUrl(mIssue);
+
+		GwtIconRenderer<? super Poi> renderer = this.smartLayer.getRendererForPoi(mPoi);
+		String iconUrl = renderer.getIconUrl(mPoi);
 		imageMarkerIcon.setUrl(iconUrl);
-		activateTab(0);
+	}
+
+	private void enableOrDisableFeatures() {
+		boolean showPhotoFeatures = mapObject.isHas_fotos();
+		showOrHide(showPhotoFeatures, tabButtonPhotos ,tabDivider2, pnPhotoMain, pnPhotoHeading);
+		
+		boolean showCommentFeatures = mapObject.isHas_comments();
+		showOrHide(showCommentFeatures, tabButtonComments, tabDivider3);
+		
+		boolean showRatingFeatures = mapObject.isHas_ratings();
+		showOrHide(showRatingFeatures, pnRatingMain, pnRatingHeading, lbRating);
+
+		tbEdit.setVisible(mapObject.isEdit());
+		tbResolved.setVisible(mapObject.isMark());
+		
+		if(!showRatingFeatures && !showPhotoFeatures)
+			descriptionPanel.setWidth("475px");
+		else
+			descriptionPanel.setWidth("310px");
+		
+		ratingCriteria.setText(mapObject.getRate_criteria());
+		tbResolved.getElement().setAttribute("title", mapObject.getMark_description());
+	}
+	
+	private void showOrHide(boolean show, Widget... widgets)
+	{
+		if(show)
+			for(Widget w : widgets)
+			{
+				com.google.gwt.dom.client.Style elementStyle = w.getElement().getStyle();
+				String displayValue = elementStyle.getDisplay();
+				if(!displayValue.equals("none"));
+					displayValueSafe.put(w, displayValue);
+				elementStyle.setDisplay(Display.NONE);
+			}
+		else
+			for(Widget w : widgets)
+			{
+				com.google.gwt.dom.client.Style elementStyle = w.getElement().getStyle();
+				String displayValue = displayValueSafe.get(w);
+				if(displayValue == null || displayValue.equals("") || displayValue.equalsIgnoreCase("none"))
+					elementStyle.setDisplay(Display.BLOCK);
+				else
+					elementStyle.setDisplay(Display.valueOf(displayValue));
+			}
 	}
 
 	@SuppressWarnings("unchecked")
 	private void loadAndShowComments() {
-		final int commentCount = mIssue.getComments().size();
+		final int commentCount = mPoi.getComments().size();
 		if(commentCount == 0)
 			commentsHeader.setText("Bisher keine Kommentare.");
 		else
 		{
 			commentsHeader.setText(commentCount + " Kommentare (lade...)");
-			Requests.loadEntities(mIssue.getComments(), new RequestListener<de.gmino.issuemap.shared.domain.Comment>() {
+			Requests.loadEntities(mPoi.getComments(), new RequestListener<de.gmino.issuemap.shared.domain.Comment>() {
 				@Override
 				public void onFinished(Collection<de.gmino.issuemap.shared.domain.Comment> comments) {
 					commentsHeader.setText(commentCount + " Kommentare:");
 					for(de.gmino.issuemap.shared.domain.Comment comment : comments)
 						showComment((Comment)comment);
 				}
-
-				
-				
+	
 				@Override
 				public void onError(String message, Throwable e) {
 					commentsHeader.setText("Fehler beim Laden der Kommentare.");
@@ -224,13 +333,13 @@ public class Show_PopUp extends Composite {
 
 	@SuppressWarnings("unchecked")
 	private void loadAndShowPhotos() {
-		final int photoCount = mIssue.getPhotos().size();
+		final int photoCount = mPoi.getPhotos().size();
 		if(photoCount == 0)
 			photosHeader.setText("Bisher keine Fotos.");
 		else
 		{
 			photosHeader.setText(photoCount + " Fotos (lade...)");
-			Requests.loadEntities(IssuemapGwt.<Photo, de.gmino.issuemap.shared.domain.Photo>convertCollection(mIssue.getPhotos()), new RequestListener<Photo>() {
+			Requests.loadEntities(IssuemapGwt.<Photo, de.gmino.issuemap.shared.domain.Photo>convertCollection(mPoi.getPhotos()), new RequestListener<Photo>() {
 				@Override
 				public void onFinished(Collection<Photo> photos) {
 					photosHeader.setText(photoCount + " Fotos:");
@@ -245,126 +354,6 @@ public class Show_PopUp extends Composite {
 			});
 		}
 	}
-
-	@UiField
-	Label lbTitle;
-	
-	@UiField
-	FocusPanel tbResolved;
-	@UiField
-	FocusPanel tbClose;
-	@UiField
-	FocusPanel tbEdit;
-//	@UiField
-//	FocusPanel tbRatingDown;
-//	@UiField
-//	FocusPanel tbRatingUp;
-	@UiField 
-	Label lbRating;
-	
-
-	@UiField
-	FocusPanel tbRatingDown2;
-	@UiField
-	FocusPanel tbRatingUp2;
-	@UiField 
-	Label lbRating2;
-
-	
-//	@UiField
-//	Label rating;
-//	@UiField
-//	Image rate_up;
-//	@UiField
-//	Image rate_down;
-	@UiField
-	Label lbTypeAndDate;
-	@UiField
-	VerticalPanel keyValuePanel;
-
-
-	
-	@UiField
-	VerticalPanel parent;
-	@UiField
-	FlowPanel picturesPanel;
-	@UiField
-	VerticalPanel commentsPanel;
-	@UiField
-	Panel descriptionPanel;
-	@UiField
-	Label commentsHeader;
-	@UiField
-	Label photosHeader;
-	@UiField 
-	TextBox commentTextBox;
-	@UiField
-	Button commentButton;
-	@UiField
-	FileUpload fileupload;
-	@UiField
-	FormPanel form;
-//	@UiField
-//	HorizontalPanel panelRating;
-	
-	@UiField
-	DeckPanel deckPanel;
-	@UiField
-	Panel tabDescription;
-	@UiField
-	Panel tabPhotos;
-	@UiField
-	Panel tabComments;
-	
-	@UiField 
-	Button tabButtonDescription;
-	@UiField 
-	Button tabButtonPhotos;
-	@UiField 
-	Button tabButtonComments;
-	
-//	@UiField
-//	Label lbRatingUpCount;
-	@UiField
-	Label lbRatingUpCount2;
-//	@UiField
-//	Label lbRatingDownCount;
-	@UiField
-	Label lbRatingDownCount2;
-	
-	@UiField
-	Image imageMarkerIcon;
-	@UiField
-	Label lbNoPhotos;
-	@UiField
-	Label lbNoPhotosMain;
-	@UiField
-	Panel pnPhotoMain;
-	@UiField
-	Panel pnPhotoHeading;
-	@UiField
-	Panel pnRatingMain;
-	@UiField
-	Panel pnRatingHeading;
-	@UiField
-	Label lbPhotoMainHeader;
-	@UiField
-	Label lbNoComments;
-	@UiField
-	ScrollPanel spComments;
-	@UiField
-	Label lbMorePhotos;
-	
-	@UiField
-	Label ratingCriteria;
-	
-
-	@UiField
-	Label tabDivider2;
-	@UiField
-	Label tabDivider3;
-	
-	
 	
 	@UiHandler("tabButtonDescription")
 	void onTabButtonDescriptionClick(ClickEvent e) {
@@ -387,15 +376,9 @@ public class Show_PopUp extends Composite {
 		tabButtonPhotos		.setStyleName(style.underline(), i == 1);
 		tabButtonComments	.setStyleName(style.underline(), i == 2);
 	}
-	
-//	@UiHandler("tbRating")
-//	void onTbRatingClick(ClickEvent e) {
-//		boolean visible = !tbRatingUp.isVisible();
-//		tbRatingUp.setVisible(visible);
-//		tbRatingDown.setVisible(visible);
-//	}
 		
-	public void setupForm()
+	// TODO Extract Upload form into its own widget class, providing a callback with a photo entity as return value.
+	public void setupPhotoUploadForm()
 	{
 		form.setAction("/Upload/uploader");
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);
@@ -425,24 +408,24 @@ public class Show_PopUp extends Composite {
 					Requests.getNewEntity(Photo.type, new RequestListener<Photo>() {
 						@Override
 						public void onNewResult(final Photo photo) {
-							Requests.loadEntity(mIssue, new RequestListener<Poi>() {
+							Requests.loadEntity(mPoi, new RequestListener<Poi>() {
 								@Override
 								public void onFinished(Collection<Poi> results) {
 									photo.setUser("anonym");
 									photo.setTimestamp(Timestamp.now());
 									photo.setImage(new ImageUrl(url));
-									mIssue.getPhotos().add(photo);
+									mPoi.getPhotos().add(photo);
 									Requests.saveEntity(photo, null);
-									Requests.saveEntity(mIssue, null);
+									Requests.saveEntity(mPoi, null);
 									showPhoto(photo);
-									smartLayer.updatePoi(mIssue);
+									smartLayer.updatePoi(mPoi);
 									updateIcon();
 								}
 							});
 						}
 					});
 					
-					Requests.saveEntity(mIssue, null);
+					Requests.saveEntity(mPoi, null);
 				}
 				else
 					Window.alert("Beim Upload ist ein Fehler aufgetreten. Bitt versuchen Sie es erneut.");
@@ -458,35 +441,26 @@ public class Show_PopUp extends Composite {
 
 	@UiHandler("tbEdit")
 	void onTbEdit(ClickEvent e) {
-		this.removeFromParent();
-		CreateIssue_PopUp cip = new CreateIssue_PopUp(mapObject, mIssue, smartLayer);
-		mWrapper.add(cip);
-
+		setEditMode();
 	}
 
-//	@UiHandler("delete")
-//	void onDelete(ClickEvent e) {
-//		mIssue.setDeleted(true);
-//		Requests.saveEntity(mIssue, null);
-//		this.removeFromParent();
-//		IssuemapGwt.getInstance().deleteMarker(mIssue);
-//		IssuemapGwt.getInstance().setCounter();
-//
-//	}
+	public void setEditMode() {
+		lbTitle.setText("EDIT " + lbTitle.getText());
+	}
 
 	@UiHandler("tbResolved")
 	void onCheckbox(ClickEvent e) {
-		mIssue.setMarked(!mIssue.isMarked());
-		tbResolved.setStyleName(style.underline(), mIssue.isMarked());
+		mPoi.setMarked(!mPoi.isMarked());
+		tbResolved.setStyleName(style.underline(), mPoi.isMarked());
 		updateIcon();
 	}
 
 	private void updateIcon() {
-		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mIssue);
-		String iconUrl = renderer.getIconUrl(mIssue);
+		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mPoi);
+		String iconUrl = renderer.getIconUrl(mPoi);
 		imageMarkerIcon.setUrl(iconUrl);
-		Requests.saveEntity(mIssue, null);
-		smartLayer.updatePoi(mIssue);
+		Requests.saveEntity(mPoi, null);
+		smartLayer.updatePoi(mPoi);
 		IssuemapGwt.getInstance().loadIssuesToList();
 	}
 
@@ -517,20 +491,20 @@ public class Show_PopUp extends Composite {
 		Requests.getNewEntity(Comment.type, new RequestListener<Comment>() {
 			@Override
 			public void onNewResult(final Comment comment) {
-				Requests.loadEntity(mIssue, new RequestListener<Poi>() {
+				Requests.loadEntity(mPoi, new RequestListener<Poi>() {
 					@Override
 					public void onFinished(Collection<Poi> results) {
 						comment.setText(commentTextBox.getText());
 						comment.setUser("anonym");
 						comment.setTimestamp(Timestamp.now());
-						mIssue.getComments().add(comment);
+						mPoi.getComments().add(comment);
 						Requests.saveEntity(comment, null);
-						Requests.saveEntity(mIssue, null);
+						Requests.saveEntity(mPoi, null);
 						showComment(comment);
 						commentTextBox.setText("");
 						commentTextBox.setEnabled(true);
-						smartLayer.updatePoi(mIssue);
-						int commentCount = mIssue.getComments().size();
+						smartLayer.updatePoi(mPoi);
+						int commentCount = mPoi.getComments().size();
 						commentsHeader.setText(commentCount  + " Kommentare:");
 						updateIcon();	
 					}
@@ -543,74 +517,50 @@ public class Show_PopUp extends Composite {
 	
 	@UiHandler({"tbRatingUp2"})
 	void onRateUp(ClickEvent e) {
-		if(mIssue.vote == 1)
-			mIssue.changeRating(0);
+		if(mPoi.vote == 1)
+			mPoi.changeRating(0);
 		else
-			mIssue.changeRating(1);
+			mPoi.changeRating(1);
 		
-		Requests.saveEntity(mIssue, null);
+		Requests.saveEntity(mPoi, null);
 		updateButtonColorsAndLabels();
 		updateIcon();
 	}
-	
-	
+		
 	@UiHandler({"tbRatingDown2"})
 	void onRateDown(ClickEvent e) {
-		if(mIssue.vote == -1)
-			mIssue.changeRating(0);
+		if(mPoi.vote == -1)
+			mPoi.changeRating(0);
 		else
-			mIssue.changeRating(-1);
+			mPoi.changeRating(-1);
 		
-		Requests.saveEntity(mIssue, null);
+		Requests.saveEntity(mPoi, null);
 		updateButtonColorsAndLabels();
 		updateIcon();
 	}
-
 	
 	private void updateButtonColorsAndLabels() {
-		if (mIssue.vote >= 1)
-		{
-//			tbRatingUp.setStyleName(style.underline(), true);
+		if (mPoi.vote >= 1)
 			tbRatingUp2.setStyleName(style.active(), true);
-		}
-		if (mIssue.vote >= 0)
-		{
-//			tbRatingDown.setStyleName(style.underline(), false);
+		if (mPoi.vote >= 0)
 			tbRatingDown2.setStyleName(style.active(), false);
-		}
-		if (mIssue.vote <= -1)
-		{
-//			tbRatingDown.setStyleName(style.underline(), true);
+		if (mPoi.vote <= -1)
 			tbRatingDown2.setStyleName(style.active(), true);
-		}
-		if (mIssue.vote <= 0)
-		{
-//			tbRatingUp.setStyleName(style.underline(), false);
+		if (mPoi.vote <= 0)
 			tbRatingUp2.setStyleName(style.active(), false);
-		}
 		
-//		if (mIssue.vote >= 1)
-//				rate_up.setResource(imageRes.go_up());
-//		if (mIssue.vote >= 0)
-//			rate_down.setResource(imageRes.go_down_grey());
-//		if (mIssue.vote <= -1)
-//			rate_down.setResource(imageRes.go_down());
-//		if (mIssue.vote <= 0)
-//			rate_up.setResource(imageRes.go_up_grey());
 		setRatingText();
 	}
 
 	private void setRatingText() {
-		String ratingText = "" + (mIssue.getRating());
-		if(mIssue.getRating() > 0)
+		String ratingText = "" + (mPoi.getRating());
+		if(mPoi.getRating() > 0)
 			ratingText = "+" + ratingText;
 		lbRating.setText(ratingText);
 		lbRating2.setText(ratingText);
-		int upVotes = (mIssue.getNumber_of_rating() + mIssue.getRating()) / 2;
-		int downVotes = (mIssue.getNumber_of_rating() - mIssue.getRating()) / 2;
-//		lbRatingUpCount.setText("" + upVotes);
+		int upVotes = (mPoi.getNumber_of_rating() + mPoi.getRating()) / 2;
+		int downVotes = (mPoi.getNumber_of_rating() - mPoi.getRating()) / 2;
 		lbRatingUpCount2.setText("" + upVotes);
-//		lbRatingDownCount.setText("" + downVotes);
 		lbRatingDownCount2.setText("" + downVotes);
 	}
 
@@ -640,10 +590,9 @@ public class Show_PopUp extends Composite {
 		vp.add(commenttext);
 		vp.add(commentheader);
 		commentsPanel.add(vp);
-		tabButtonComments.setText("Kommentare (" + mIssue.getComments().size() + ")");
+		tabButtonComments.setText("Kommentare (" + mPoi.getComments().size() + ")");
 		lbNoComments.setVisible(false);
 		spComments.scrollToBottom();
-		
 	}
 	
 	private void showPhoto(Photo photo) {
@@ -660,7 +609,7 @@ public class Show_PopUp extends Composite {
 		image.getElement().getStyle().setProperty("margin", "auto");
 		imagePanel.add(image);
 		picturesPanel.add(imagePanel);
-		final int photoCount = mIssue.getPhotos().size();
+		final int photoCount = mPoi.getPhotos().size();
 		photosHeader.setText(photoCount + " Fotos:");
 		tabButtonPhotos.setText("Fotos (" + photoCount + ")");
 		if(photoCount == 1)
@@ -677,7 +626,6 @@ public class Show_PopUp extends Composite {
 			mainImage.getElement().getStyle().setCursor(Cursor.POINTER);
 			pnPhotoMain.add(mainImage);
 			final ClickHandler photoClick = new ClickHandler() {
-				
 				@Override
 				public void onClick(ClickEvent event) {
 					activateTab(1);
@@ -704,6 +652,5 @@ public class Show_PopUp extends Composite {
 	
 	public void addKeyValue(ValueWrapper valueWrapper){
 		keyValuePanel.add(new KeyValueView(valueWrapper));
-		
 	}
 }
