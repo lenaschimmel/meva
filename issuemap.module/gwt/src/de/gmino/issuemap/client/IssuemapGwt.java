@@ -20,7 +20,6 @@ import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.xml.client.Document;
@@ -54,13 +53,11 @@ import de.gmino.issuemap.client.poi.IssuePopupCreator;
 import de.gmino.issuemap.client.poi.RouteIconRenderer;
 import de.gmino.issuemap.client.poi.RoutePopupCreator;
 import de.gmino.issuemap.client.request.QueryMapBySubdomain;
-import de.gmino.issuemap.client.view.CreateEvent_PopUp;
-import de.gmino.issuemap.client.view.CreateIssue_PopUp;
-import de.gmino.issuemap.client.view.Create_PopUp;
 import de.gmino.issuemap.client.view.Feedback_Button;
 import de.gmino.issuemap.client.view.Footer;
 import de.gmino.issuemap.client.view.Header;
 import de.gmino.issuemap.client.view.IssueList_PopUp;
+import de.gmino.issuemap.client.view.Show_PopUp;
 import de.gmino.meva.client.UtilClient;
 import de.gmino.meva.client.domain.KeyValueDef;
 import de.gmino.meva.client.domain.KeyValueSet;
@@ -241,9 +238,9 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 			public void onEvent(final LatLon location, Event event) {
 				DivElement div = ((OpenLayersMapView) mapView).createPopup(
 						location, "centerPopup", 1, 1);
-				final Composite popUp = getPopupByMapObject(location);
+				final Show_PopUp popUp = new Show_PopUp(mapObject, markerLayer);
+				popUp.createNewPoi(location);
 				HTMLPanel.wrap(div).add(popUp);
-				
 				
 				// the popup width is not always computeted correctly the first time and simple deferring doesn't help. Therefore, we ask for the width until it seems about right before using ist.
 				Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
@@ -261,13 +258,6 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 						return false;
 					}
 				}, 100);
-			}
-
-			private Composite getPopupByMapObject(final LatLon location) {
-				Composite popUp;
-				popUp = new Create_PopUp(mapObject,
-						location, markerLayer);
-				return popUp;
 			}
 		});
 		

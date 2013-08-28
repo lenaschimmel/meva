@@ -22,6 +22,8 @@ public class KeyValueView extends Composite {
 
 	interface String_KeyValueViewUiBinder extends UiBinder<Widget, KeyValueView> {
 	}
+	
+	boolean currentEditMode;
 
 	@UiField
 	Label name;
@@ -38,8 +40,11 @@ public class KeyValueView extends Composite {
 	
 		if(valueWrapper.getType() == LongText.type)
 		{
+			String text = "";
 			LongText descriptionLongText = (LongText) valueWrapper.getValue();
-			HTMLPanel description = new HTMLPanel(new SafeHtmlBuilder().appendEscapedLines(descriptionLongText.getText()).toSafeHtml());
+			if(descriptionLongText != null)
+				text = descriptionLongText.getText();
+			HTMLPanel description = new HTMLPanel(new SafeHtmlBuilder().appendEscapedLines(text).toSafeHtml());
 			verticalPanel.add(description);
 		}
 		
@@ -56,5 +61,28 @@ public class KeyValueView extends Composite {
 			value_view.add(label);
 		}
 		this.parent.setTitle(valueWrapper.getDescription());
+	}
+	
+	private String preventNullString(String text) {
+		if(text == null)
+			return "";
+		else
+			return text;
+	}
+
+	public void setEditMode(boolean edit)
+	{
+		if(currentEditMode == edit)
+			return;
+		currentEditMode = edit;
+		
+		if(edit)
+		{
+			name.getElement().getStyle().setColor("#FF0000");
+		}
+		else
+		{
+			name.getElement().getStyle().setColor("#FFFFFF");
+		}
 	}
 }
