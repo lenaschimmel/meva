@@ -17,6 +17,8 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 
+import de.gmino.meva.client.domain.KeyValueDef;
+import de.gmino.meva.client.domain.KeyValueSet;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityQuery;
 import de.gmino.meva.shared.TypeName;
@@ -185,6 +187,11 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 		
 		long now = System.currentTimeMillis();
 		long loadTreshold = now - 2 * 1000; // 2 Seconds
+		
+		TypeName type = entities.iterator().next().getType();
+		if(type == KeyValueSet.type || type == KeyValueDef.type)
+			loadTreshold = now - 120 * 1000; // 2 Minutes
+		
 		for (EntityClass e : entities) {
 			if (!e.isReady() || e.getJsonLoadTime() < loadTreshold)
 			{

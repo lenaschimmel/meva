@@ -192,6 +192,8 @@ public class Show_PopUp extends Composite {
 	DeckPanel dpTabsOrDropdown;
 	@UiField
 	TextBox tbTitle;
+	@UiField
+	Button btDelete;
 
     @UiField
     ListBox lbMarkertype;
@@ -315,6 +317,8 @@ public class Show_PopUp extends Composite {
 
 	public void createNewPoi(final de.gmino.geobase.shared.domain.LatLon location)
 	{
+		newIssue = true;
+		setEditMode(true);
 		final Markertype firstMarkertype = map.getHasMarkertypes().iterator().next();
 		final KeyValueSet markerClass = (KeyValueSet) firstMarkertype.getMarkerClass();
 		Requests.loadEntity(markerClass, new RequestListener<de.gmino.meva.shared.domain.KeyValueSet>() {
@@ -331,7 +335,6 @@ public class Show_PopUp extends Composite {
 								poi.setCreationTimestamp(Timestamp.now());
 								poi.setMarkertype(firstMarkertype);
 								setPoi(poi);
-								newIssue = true;
 								setEditMode(true);
 							}
 						});
@@ -342,13 +345,13 @@ public class Show_PopUp extends Composite {
 	}
 
 	private void enableOrDisableFeatures() {
-		boolean showPhotoFeatures = map.isHas_fotos();
+		boolean showPhotoFeatures = map.isHas_fotos() && !isInEditMode;
 		showOrHideWidgets(showPhotoFeatures, tabButtonPhotos ,tabDivider2, pnPhotoMain, pnPhotoHeading);
 		
 		boolean showCommentFeatures = map.isHas_comments();
 		showOrHideWidgets(showCommentFeatures, tabButtonComments, tabDivider3);
 		
-		boolean showRatingFeatures = map.isHas_ratings();
+		boolean showRatingFeatures = map.isHas_ratings() && !isInEditMode;
 		showOrHideWidgets(showRatingFeatures, pnRatingMain, pnRatingHeading, lbRating);
 
 		tbEdit.setVisible(map.isEdit());
@@ -382,7 +385,7 @@ public class Show_PopUp extends Composite {
 				if(displayValue == null || displayValue.equals("") || displayValue.equalsIgnoreCase("none"))
 					elementStyle.setDisplay(Display.BLOCK);
 				else
-					elementStyle.setDisplay(Display.valueOf(displayValue));
+					elementStyle.setDisplay(Display.valueOf(displayValue.toUpperCase()));
 			}
 	}
 
@@ -470,15 +473,19 @@ public class Show_PopUp extends Composite {
 	public void setEditMode(boolean edit) {
 		isInEditMode = edit;
 		
+		enableOrDisableFeatures();
+		
 		for(KeyValueView view : keyValueViews.values())
 			view.setEditMode(edit);
 		
 		dpTabsOrDropdown.showWidget(edit ? 1 : 0);
 		dpTtitleOrTextBox.showWidget(edit ? 1 : 0);
+		showOrHideWidgets(!newIssue && map.isDelete(), btDelete);
 		
 		if(edit)
 		{
-			markertypeIdBeforeEdit = mPoi.getMarkertypeId();
+			if(mPoi != null)
+				markertypeIdBeforeEdit = mPoi.getMarkertypeId();
 			activateTab(0);
 		}
 		else if(mPoi != null)
@@ -679,6 +686,11 @@ public class Show_PopUp extends Composite {
 	@UiHandler("btCancel")
 	public void onBtCancelClicked(ClickEvent e)
 	{
+		if(newIssue)
+		{
+			this.removeFromParent();
+			return;
+		}
 		if(markertypeIdBeforeEdit != 0)
 		{
 			mPoi.setMarkertype((Markertype) Markertype.getById(markertypeIdBeforeEdit));
@@ -717,5 +729,19 @@ public class Show_PopUp extends Composite {
 				setValuesFromPoi();
 			}
 		});
+	}
+	
+	@UiHandler("btDelete")
+	void onDelete(ClickEvent e) {
+		if(Window.confirm("Möchten sie diesen Marker wirklich löschen?"))
+		{
+			mPoi.setDeleted(true);
+			final IssuemapGwt issueMap = IssuemapGwt.getInstance();
+			issueMap.deleteMarker(mPoi);
+			issueMap.setCounter();
+			issueMap.loadIssuesToList();
+			Requests.saveEntity(mPoi, null);
+			this.removeFromParent();
+		}
 	}
 }

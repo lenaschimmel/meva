@@ -415,6 +415,7 @@
 					</g:HorizontalPanel>
 					<g:HorizontalPanel>
 						<g:TextBox ui:field="tbTitle"></g:TextBox>
+						<g:Button ui:field="btDelete">Löschen</g:Button>
 						<g:Button ui:field="btSave">Speichern</g:Button>
 						<g:Button ui:field="btCancel">Abbrechen</g:Button>
 					</g:HorizontalPanel>
