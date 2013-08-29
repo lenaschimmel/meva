@@ -46,13 +46,12 @@ import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.Timestamp;
-import de.gmino.issuemap.client.ImageUrlLoader;
-import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Comment;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Photo;
 import de.gmino.issuemap.client.domain.Poi;
+import de.gmino.issuemap.client.view.ThumbnailView;
 import de.gmino.issuemap.client.view.valueview.KeyValueView;
 import de.gmino.issuemap.shared.domain.Markertype;
 import de.gmino.meva.client.domain.KeyValueSet;
@@ -202,49 +201,6 @@ public class Show_PopUp extends Composite {
 
 	private long markertypeIdBeforeEdit;
 
-	// TODO Merge functionality into a widget class which shows the thumbnail and manages its loading.
-	private static final class ShowPhotoThingy implements ClickHandler {
-		private final String photoBaseUrl;
-		private ImageUrlLoader loader;
-		private String scaledUrl;
-		private boolean loaded;
-
-		private ShowPhotoThingy(String photoBaseUrl) {
-			this.photoBaseUrl = photoBaseUrl;
-		}
-
-		@Override
-		public void onClick(ClickEvent event) {
-			if(loaded)
-				showPopup();
-			else
-			{
-				loader = ImageUrlLoader.getInstance();
-				scaledUrl = photoBaseUrl+"&h=500";
-				loader.loadImage(scaledUrl, new ImageLoadListener() {
-					@Override
-					public void onLoaded() {
-						loaded = true;
-						showPopup();
-					}
-				});
-			}
-		}
-		
-		private void showPopup() {
-			Image popupImage = loader.getImageByUrl(scaledUrl);
-			popupImage.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
-			
-			DecoratedPopupPanel popup = new DecoratedPopupPanel(true, true);
-			popup.setGlassEnabled(true);
-			
-			popupImage.setHeight("500px");
-			popup.add(popupImage);
-			popup.show();
-			popup.center();
-		}
-	}
-
 	@SuppressWarnings("unchecked")
 	public Show_PopUp(Map map, OpenLayersSmartLayer smartLayer) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -389,7 +345,7 @@ public class Show_PopUp extends Composite {
 	
 	private void showOrHideWidgets(boolean show, Widget... widgets)
 	{
-		if(show)
+		if(!show)
 			for(Widget w : widgets)
 			{
 				com.google.gwt.dom.client.Style elementStyle = w.getElement().getStyle();
@@ -715,10 +671,10 @@ public class Show_PopUp extends Composite {
 		imagePanel.getElement().getStyle().setMargin(3, Unit.PX);
 		imagePanel.getElement().getStyle().setFloat(com.google.gwt.dom.client.Style.Float.LEFT);
 		
-		Image image = new Image(photoBaseUrl+"&h=100&w=100");
-		image.getElement().getStyle().setCursor(Cursor.POINTER);
-		image.getElement().getStyle().setProperty("margin", "auto");
-		imagePanel.add(image);
+		ThumbnailView showPhoto = new ThumbnailView(photoBaseUrl);
+
+		imagePanel.add(showPhoto);
+		
 		picturesPanel.add(imagePanel);
 		final int photoCount = mPoi.getPhotos().size();
 		photosHeader.setText(photoCount + " Fotos:");
@@ -727,7 +683,7 @@ public class Show_PopUp extends Composite {
 			lbMorePhotos.setText("");
 		else
 			lbMorePhotos.setText("("+(photoCount - 1)+" weitere)");
-		image.addClickHandler(new ShowPhotoThingy(photoBaseUrl));
+		
 		if(!mainPhotoShown)
 		{
 			mainPhotoShown = true;
