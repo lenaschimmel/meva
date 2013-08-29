@@ -26,7 +26,9 @@
 	top:75px;
 	left:10px;
 	bottom: 20px;
-	width:510px;
+	min-width: 510px;
+	width: 40%;
+	z-index: 10;
 
 			
 }
@@ -37,9 +39,11 @@
 
 			position: absolute;
 			top: 75px;
-			left: 530px;
+			left: 10px;
 			right: 10px;
 			bottom: 20px;
+			margin-left: 520px;
+	z-index: 0;
 
 					
 

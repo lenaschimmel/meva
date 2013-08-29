@@ -40,7 +40,7 @@ public class Marker_List_Item extends Composite {
 	public void setCheckBox(){
 		selected=true;
 		markerCheckbox.setValue(true);
-		parent.getElement().getStyle().setBackgroundColor("rgba(255,0,0,0.2)");
+		parent.getElement().getStyle().setBackgroundColor("rgba(77,173,222,0.2)");
 	}
 	
 	public void setUncheckBox(){

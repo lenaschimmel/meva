@@ -8,12 +8,14 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -50,8 +52,9 @@ public class Create_Map_Backend extends Composite {
 		eeBackend = new EE_Backend();
 		eePanel.add(eeBackend);
 		eePanel.setVisible(false);
-		markerPanel.setVisible(false);
 		isNewMap = true;
+		deckPanel.showWidget(0);
+		activateTab(0);
 		
 		Requests.getLoadedEntitiesByType(KeyValueSet.type, new RequestListener<KeyValueSet>() {
 			@Override
@@ -77,8 +80,26 @@ public class Create_Map_Backend extends Composite {
 			}
 		});
 	
+		
+		Requests.getLoadedEntitiesByType(Markertype.type, new RequestListener<Markertype>() {
+			@Override
+			public void onNewResult(Markertype markertype) {
+				Marker_List_Item item = new Marker_List_Item(markertype.getImageName(), markertype.getMarkerName());
+				markerListItems.put(markertype, item);
+				markertypes.put(item, markertype);
+				markerPanel.add(item);
+				item.setVisible(false);
+
+			}
+		});
+		
 	}
 	
+	
+	interface Style extends CssResource {
+		String underline();
+		String active();
+	}
 	
 	TreeMap<Markertype, Marker_List_Item> markerListItems = new TreeMap<Markertype, Marker_List_Item>(); 
 	HashMap<Marker_List_Item, Markertype> markertypes = new HashMap<Marker_List_Item, Markertype>(); 
@@ -160,8 +181,27 @@ public class Create_Map_Backend extends Composite {
 	Label deleteLabel;
 	@UiField
 	FlexTable tblkKeyValue;
+	
+	@UiField
+	Button tabButtonMeta;
+	@UiField
+	Button tabButtonMarker;
+	@UiField
+	Button tabButtonOptions;
+	@UiField
+	DeckPanel deckPanel;
+	@UiField
+	Style style;
 
+	
 
+		
+	private void activateTab(int i) {
+		deckPanel.showWidget(i);
+		tabButtonMeta.setStyleName(style.underline(), i == 0);
+		tabButtonMarker		.setStyleName(style.underline(), i == 1);
+		tabButtonOptions	.setStyleName(style.underline(), i == 2);
+	}
 	
 	Map map;
 	private boolean isNewMap;
@@ -212,21 +252,22 @@ public class Create_Map_Backend extends Composite {
 			}
 		});
 		
-		markerPanel.clear();
-		markerListItems.clear();
-		markertypes.clear();
-		markerPanel.setVisible(true);
+//		markerPanel.clear();
+//		markerListItems.clear();
+//		markertypes.clear();
+		
 		
 		Requests.getLoadedEntitiesByType(Markertype.type, new RequestListener<Markertype>() {
 			@Override
 			public void onNewResult(Markertype markertype) {
+
 				if(markertype.getMarkerClassId() == selectedSet.getId())
 				{
-					Marker_List_Item item = new Marker_List_Item(markertype.getImageName(), markertype.getMarkerName());
-					markerPanel.add(item);
-					markerListItems.put(markertype, item);
-					markertypes.put(item, markertype);
+
+					markerListItems.get(markertype).setVisible(true);
+
 				}
+				else {markerListItems.get(markertype).setVisible(false);}
 			}
 		});
 	}
@@ -268,6 +309,21 @@ public class Create_Map_Backend extends Composite {
 
 	    	}	    	
 	}
+	
+	@UiHandler("tabButtonMeta")
+	void onTabButtonMetaClick(ClickEvent e) {
+		activateTab(0);
+	}
+
+	@UiHandler("tabButtonMarker")
+	void onTabButtonMarkerClick(ClickEvent e) {
+		activateTab(1);
+	}
+		
+	@UiHandler("tabButtonOptions")
+	void onTabButtonOptionsClick(ClickEvent e) {
+		activateTab(2);
+	}
 
 	private void performSave() {
 		map.setTitle(title.getText());
@@ -295,6 +351,7 @@ public class Create_Map_Backend extends Composite {
 		map.setMark(markCheckbox.getValue());
 		map.setMark_description(markDescription.getText());
 		map.setRate_criteria(rateCriteria.getText());
+
 
 		
 		for(Marker_List_Item i : markerListItems.values()){
@@ -330,7 +387,6 @@ public class Create_Map_Backend extends Composite {
 		houseNumber.setText("");
 		zip.setText("");
 		additionalAddressLine.setText("");
-		markerPanel.setVisible(false);
 		eePanel.setVisible(false);
 		primary_color.getElement().getStyle().setBackgroundColor("#FFF");
 		secondary_color.getElement().getStyle().setBackgroundColor("#FFF");
@@ -420,17 +476,7 @@ public class Create_Map_Backend extends Composite {
 			deleteLabel.setVisible(true);
 		}
 		
-		if(map.getMapTyp().equals("Issue")) mapClass.setSelectedIndex(0);
-		if(map.getMapTyp().equals("Event")) mapClass.setSelectedIndex(1);
-		if(map.getMapTyp().equals("EE")) mapClass.setSelectedIndex(2);
-		
-		if(map.getMapTyp().equals("EE"))
-		{
-			eePanel.setVisible(true);
-			eeBackend.setMap(map);
-		}
-		else
-		{
+
 			markerPanel.setVisible(true);
 			//Alle Markertypes der Map
 			map.loadMarkertypes(new RequestListener<Markertype>() {
@@ -441,7 +487,7 @@ public class Create_Map_Backend extends Composite {
 				}
 				
 			});
-		}
+		
 		
 		isNewMap = getNewId;
 		

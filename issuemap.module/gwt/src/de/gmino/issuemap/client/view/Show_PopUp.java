@@ -459,7 +459,7 @@ public class Show_PopUp extends Composite {
 	@UiHandler("tbEdit")
 	void onTbEdit(ClickEvent e) {
 		this.removeFromParent();
-		CreateIssue_PopUp cip = new CreateIssue_PopUp(mapObject, mIssue, smartLayer);
+		Create_PopUp cip = new Create_PopUp(mapObject, mIssue, smartLayer);
 		mWrapper.add(cip);
 
 	}

@@ -31,6 +31,7 @@ import de.gmino.meva.client.domain.LongText;
 import de.gmino.meva.shared.TypeName;
 import de.gmino.meva.shared.ValueWrapper;
 import de.gmino.meva.shared.domain.KeyValueDef;
+import de.gmino.meva.shared.domain.KeyValueSet;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
@@ -59,7 +60,10 @@ public class Create_PopUp extends Composite {
 	public Create_PopUp(final Map map, final LatLon location, OpenLayersSmartLayer smartLayer) {
 		this(map, smartLayer);
 
-		Requests.loadEntity(map.getMarkerClass(), new RequestListener<de.gmino.meva.shared.domain.KeyValueSet>() {
+		final KeyValueSet markerClass = map.getHasMarkertypes().iterator().next().getMarkerClass();
+		System.out.println("Semi-zufällig gewählte Markerklasse: " + markerClass.getName());
+		
+		Requests.loadEntity(markerClass, new RequestListener<de.gmino.meva.shared.domain.KeyValueSet>() {
 			@Override
 			public void onNewResult(final de.gmino.meva.shared.domain.KeyValueSet set) {
 				Requests.loadEntities(set.getDefs(), new RequestListener<KeyValueDef>() {
@@ -70,17 +74,18 @@ public class Create_PopUp extends Composite {
 						// present, it will be used instead.
 						headLable.setText("Neuen Marker erstellen");
 						mIssue = new Poi(-1);
-						mIssue.setKeyvalueset(map.getMarkerClass());
+						
+						mIssue.setKeyvalueset(markerClass);
 						mIssue.setMap_instance(map);
 						updateIcon();
 
 						Requests.getNewEntity(Poi.type, new RequestListener<Poi>() {
 							public void onNewResult(Poi issue) {
 								mIssue = issue; // needed for upload handler
-								issue.setKeyvalueset(map.getMarkerClass());
 								issue.setLocation(location);
 								issue.setMap_instance(map);
 								issue.setCreationTimestamp(Timestamp.now());
+								mIssue.setKeyvalueset(markerClass);
 								updateIcon();
 							}
 						});

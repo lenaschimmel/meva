@@ -55,7 +55,6 @@ import de.gmino.issuemap.client.poi.RouteIconRenderer;
 import de.gmino.issuemap.client.poi.RoutePopupCreator;
 import de.gmino.issuemap.client.request.QueryMapBySubdomain;
 import de.gmino.issuemap.client.view.CreateEvent_PopUp;
-import de.gmino.issuemap.client.view.CreateIssue_PopUp;
 import de.gmino.issuemap.client.view.Create_PopUp;
 import de.gmino.issuemap.client.view.Feedback_Button;
 import de.gmino.issuemap.client.view.Footer;
@@ -324,9 +323,11 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 						header.setDesignbyMapobject(mapObject.getLogo().getUrl(),	mapObject.getTitle(), mapObject.getPrimary_color());
 						footer.setDesign(mapObject.getPrimary_color());
 
-						if(map.getMapTyp().equals("EE"))
-							fillMapEE();
-						else
+//						if(map.getMarkerClass().getName().equals("Energieanlage"))
+//						
+////						if(map.getMapTyp().equals("EE"))
+//							fillMapEE();
+//						else
 							map.loadMarkertypes(new RequestListener<Markertype>() {
 								@Override
 								public void onFinished(Collection<Markertype> results) {

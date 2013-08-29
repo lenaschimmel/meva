@@ -1,0 +1,23 @@
+{
+	"package" : "de.gmino.issuemap.TARGET.domain",
+	"concept" : "entity",
+	"name" : "User",
+	"attributes" : [
+		{
+			"type" : "String",
+			"name" : "userName"
+		},
+		{
+			"type" : "String",
+			"name" : "password"
+		},
+		{
+			"type" : "Address",
+			"name" : "postal_address"
+		},
+		{
+			"type" : "String",
+			"name" : "email"
+		}
+	]
+}

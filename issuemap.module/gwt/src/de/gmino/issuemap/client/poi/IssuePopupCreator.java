@@ -10,8 +10,6 @@ import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Poi;
 import de.gmino.issuemap.client.view.Hover_PopUp;
-import de.gmino.issuemap.client.view.ShowEvent_PopUp;
-import de.gmino.issuemap.client.view.ShowPoi_PopUp;
 import de.gmino.issuemap.client.view.Show_PopUp;
 
 public class IssuePopupCreator implements GwtPopupCreator<Poi> {
@@ -28,24 +26,10 @@ public class IssuePopupCreator implements GwtPopupCreator<Poi> {
 	@Override
 	public Widget createPopup(Poi poi) {
 		Marker_Wrapper wrapper = new Marker_Wrapper(poi, map);
-		String markerName = poi.getMarkertype().getMarkerName();
-		long markerId = poi.getMarkertypeId();
 		Composite popup;
-		if (markerName.equals("Disco")
-				|| markerName.equals("Theater")
-				|| markerName.equals("Konzert")
-				|| markerName.equals("Sport")
-				|| markerName.equals("Party")) {
-			popup = new ShowEvent_PopUp(map, poi, wrapper, smartLayer);
-			
-			//wrapper.setWidth(showEvent_PopUp.getOffsetWidth()+"px");
-			//wrapper.setHeight(showEvent_PopUp.getOffsetHeight()+"px");
-			//Window.alert("Size: " + showEvent_PopUp.getOffsetWidth() + " x " + showEvent_PopUp.getOffsetHeight());
-		} else if(markerId >= 80 && markerId <= 94){
-			popup = new ShowPoi_PopUp(map, poi, wrapper, smartLayer);
-		} else {
+
 			popup = new Show_PopUp(map, poi, wrapper, smartLayer);
-		}
+		
 		wrapper.add(popup);
 		return wrapper;
 	}

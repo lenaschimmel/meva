@@ -4,6 +4,7 @@
 package de.gmino.issuemap.shared.domain;
 
 // gmino stuff
+import de.gmino.geobase.shared.domain.Address;
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.shared.domain.gen.PoiGen;

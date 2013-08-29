@@ -7,7 +7,7 @@
 			float: left;
 			width: 135px;
 			height: 130px;
-			border: 1px solid #ccc;
+			border: 1px solid rgba(90,90,90,0.7);
 		}
 		.markerImage{
 			padding-top:10px;
