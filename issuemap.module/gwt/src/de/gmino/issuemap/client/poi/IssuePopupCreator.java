@@ -2,15 +2,15 @@ package de.gmino.issuemap.client.poi;
 
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.map.GwtPopupCreator;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Poi;
-import de.gmino.issuemap.client.view.Hover_PopUp;
-import de.gmino.issuemap.client.view.Show_PopUp;
+import de.gmino.issuemap.client.view.popup.Hover_PopUp;
+import de.gmino.issuemap.client.view.popup.Show_PopUp;
+
 
 public class IssuePopupCreator implements GwtPopupCreator<Poi> {
 
@@ -25,13 +25,11 @@ public class IssuePopupCreator implements GwtPopupCreator<Poi> {
 
 	@Override
 	public Widget createPopup(Poi poi) {
-		Marker_Wrapper wrapper = new Marker_Wrapper(poi, map);
-		Composite popup;
 
-			popup = new Show_PopUp(map, poi, wrapper, smartLayer);
-		
-		wrapper.add(popup);
-		return wrapper;
+		Show_PopUp popup = new Show_PopUp(map, smartLayer);
+		popup.setPoi(poi);
+		return popup;
+
 	}
 
 	@Override
@@ -43,5 +41,4 @@ public class IssuePopupCreator implements GwtPopupCreator<Poi> {
 		hoverPopUp.getElement().getStyle().setLeft(0.3825*poi.getMarkertype().getImageWidth(), Unit.PX);
 		return hoverPopUp;
 	}
-
 }

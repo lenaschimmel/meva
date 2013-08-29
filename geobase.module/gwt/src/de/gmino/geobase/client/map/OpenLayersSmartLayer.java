@@ -90,13 +90,14 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 	}
 
 	public void clickedPoi(long poiId) {
+		System.out.println("Clicked POI, entering try-block.");
 		try {
 			final PoiInterface poi = pois.get(poiId);
 			Entity oAsEntity = (Entity) poi;
 			GwtPopupCreator<PoiInterface> creator = popupCreatorMap.get(oAsEntity.getType());
 			if(creator == null)
 				throw new RuntimeException("No PopupCreator for tyoe " + oAsEntity.getType().toString());
-			Widget widget = creator.createPopup(poi);
+			final Widget widget = creator.createPopup(poi);
 
 			if (currentPopup != null) {
 				currentPopup.removeFromParent();
@@ -108,16 +109,15 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 			DivElement div = mapView.createPopup(poi.getLocation(), poi.getId()
 					+ "", 1, 1);
 			HTMLPanel.wrap(div).add(widget);
-			final Widget inner = ((AbsolutePanel) widget).getWidget(0);
-
+			
 			currentPopup = widget;
 			
 			// the popup width is not always computeted correctly the first time and simple deferring doesn't help. Therefore, we ask for the width until it seems about right before using ist.
 			Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
 				@Override
 				public boolean execute() {
-					int offsetWidth = inner.getOffsetWidth();
-					int offsetHeight = inner.getOffsetHeight();
+					int offsetWidth  = widget.getOffsetWidth();
+					int offsetHeight = widget.getOffsetHeight();
 					
 					if(offsetWidth < 160)
 						return true;
@@ -128,7 +128,8 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 					return false;
 				}
 			}, 100);
-		} catch (Exception e) {
+			System.out.println("Clicked POI, finished try-block.");
+		} catch (Throwable e) {
 			Log.exception("Handling clickedPoi", e);
 			System.err.println("#####");
 			e.printStackTrace();

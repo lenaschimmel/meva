@@ -22,6 +22,7 @@ import de.gmino.geobase.client.request.Geocoder.SearchLocationListener;
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Map;
+import de.gmino.issuemap.client.view.popup.Info_PopUp;
 
 public class Header extends Composite  {
 

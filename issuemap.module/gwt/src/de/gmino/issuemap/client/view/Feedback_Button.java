@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.issuemap.client.domain.Map;
+import de.gmino.issuemap.client.view.popup.Feedback_PopUp;
 
 public class Feedback_Button extends Composite implements HasText {
 

@@ -8,8 +8,8 @@ import de.gmino.geobase.client.map.GwtPopupCreator;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.issuemap.client.domain.ElectricalSubstation;
 import de.gmino.issuemap.client.domain.Map;
-import de.gmino.issuemap.client.view.Hover_PopUp;
-import de.gmino.issuemap.client.view.ShowElectricalSubstation_PopUp;
+import de.gmino.issuemap.client.view.popup.Hover_PopUp;
+import de.gmino.issuemap.client.view.popup.ShowElectricalSubstation_PopUp;
 
 public class ElectricalSubstationPopupCreator implements GwtPopupCreator<ElectricalSubstation> {
 

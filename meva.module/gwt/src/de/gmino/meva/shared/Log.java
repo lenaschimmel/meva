@@ -11,7 +11,7 @@ public class Log {
 		getLogger().info(msg);
 	}
 	
-	public static void exception(String msg, Exception e) {
+	public static void exception(String msg, Throwable e) {
 		getLogger().log(Level.SEVERE, msg, e);
 	}
 	
