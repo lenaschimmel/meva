@@ -2,26 +2,55 @@ package de.gmino.issuemap.client.view;
 
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.Display;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.Image;
 
 import de.gmino.issuemap.client.ImageUrlLoader;
 import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
 
-public class ThumbnailView extends Image implements ClickHandler {
+public class ThumbnailView extends AbsolutePanel implements ClickHandler {
 	private final String photoBaseUrl;
 	private ImageUrlLoader loader;
 	private String scaledUrl;
 	private boolean loaded;
+	
+	private Image photo;
+	private Image loadAnimation;
 
 	public ThumbnailView(String photoBaseUrl) {
-		super(photoBaseUrl + "&h=100&w=100");
 		this.photoBaseUrl = photoBaseUrl;
-		getElement().getStyle().setCursor(Cursor.POINTER);
-		getElement().getStyle().setProperty("margin", "auto");
-		addClickHandler(this);
+		
+		setWidth("100px");
+		setHeight("100px");
+
+		loadAnimation = new Image("loading.gif");
+		loadAnimation.setSize("41px","39px");
+		add(loadAnimation, 30, 30);
+		
+		loader = ImageUrlLoader.getInstance();
+		final String thumbUrl = photoBaseUrl+"&h=100&w=100";
+		loader.loadImage(thumbUrl, new ImageLoadListener() {
+			@Override
+			public void onLoaded() {
+				System.out.println("Loaded " + thumbUrl);
+				photo =  loader.getImageByUrl(thumbUrl);
+				photo.getElement().getStyle().setCursor(Cursor.POINTER);
+				photo.addClickHandler(ThumbnailView.this);
+				int w = photo.getWidth();
+				int h = photo.getHeight();
+				int l = (100 - w) / 2;
+				int t = (100 - h) / 2;
+				add(photo, l, t);
+				photo.getElement().getStyle().setDisplay(Display.BLOCK);
+			}
+		});
+		
+		
+		
 	}
 
 	@Override
