@@ -52,6 +52,8 @@ import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Photo;
 import de.gmino.issuemap.client.domain.Poi;
 import de.gmino.issuemap.client.view.ThumbnailView;
+import de.gmino.issuemap.client.view.PhotoUploadForm;
+import de.gmino.issuemap.client.view.PhotoUploadForm.PhotoUploadListener;
 import de.gmino.issuemap.client.view.valueview.KeyValueView;
 import de.gmino.issuemap.shared.domain.Markertype;
 import de.gmino.meva.client.domain.KeyValueSet;
@@ -131,9 +133,7 @@ public class Show_PopUp extends Composite {
 	@UiField
 	Button commentButton;
 	@UiField
-	FileUpload fileupload;
-	@UiField
-	FormPanel form;
+	SimplePanel uploadPlaceholder;
 	
 	@UiField
 	DeckPanel deckPanel;
@@ -211,7 +211,27 @@ public class Show_PopUp extends Composite {
 		commentTextBox.getElement().setAttribute("placeholder", "Bitte geben Sie einen Kommentar ein");
 
 		tbTitle.getElement().setAttribute("placeholder", "Name des Eintrags");
-		setupPhotoUploadForm();
+		
+		PhotoUploadListener photoUploadListener = new PhotoUploadListener() {
+			
+			@Override
+			public void photoUploaded(final Photo photo) {
+				Requests.loadEntity(mPoi, new RequestListener<Poi>() {
+					@Override
+					public void onFinished(Collection<Poi> results) {
+
+						mPoi.getPhotos().add(photo);
+						Requests.saveEntity(photo, null);
+						Requests.saveEntity(mPoi, null);
+						showPhoto(photo);
+						Show_PopUp.this.smartLayer.updatePoi(mPoi);
+						updateIcon();
+					}
+				});
+			}
+		};
+		uploadPlaceholder.add(new PhotoUploadForm(photoUploadListener));
+		
 		activateTab(0);
 		
 		for (de.gmino.issuemap.shared.domain.Markertype mt : map.getHasMarkertypes())
@@ -434,61 +454,7 @@ public class Show_PopUp extends Composite {
 		tabButtonComments	.setStyleName(style.underline(), i == 2);
 	}
 		
-	// TODO Extract Upload form into its own widget class, providing a callback with a photo entity as return value.
-	public void setupPhotoUploadForm()
-	{
-		form.setAction("/Upload/uploader");
-		form.setEncoding(FormPanel.ENCODING_MULTIPART);
-		form.setMethod(FormPanel.METHOD_POST);
-		fileupload.setName("img");
-		// Add an event handler to the form.
-
-		form.addSubmitHandler(new SubmitHandler() {
-			
-			@Override
-			public void onSubmit(SubmitEvent event) {
-				System.out.println("Submitted form.");
-			}
-		});
-		
-		form.addSubmitCompleteHandler(new SubmitCompleteHandler() {
-
-			@Override
-			public void onSubmitComplete(SubmitCompleteEvent event) {
-				System.out.println("Submit complete.");
-				
-				final String url = event.getResults().replace("<pre>", "").replace("</pre>", "").trim();
-				
-				if(url.startsWith("http://"))
-				{
-					Requests.getNewEntity(Photo.type, new RequestListener<Photo>() {
-						@Override
-						public void onNewResult(final Photo photo) {
-							Requests.loadEntity(mPoi, new RequestListener<Poi>() {
-								@Override
-								public void onFinished(Collection<Poi> results) {
-									photo.setUser("anonym");
-									photo.setTimestamp(Timestamp.now());
-									photo.setImage(new ImageUrl(url));
-									mPoi.getPhotos().add(photo);
-									Requests.saveEntity(photo, null);
-									Requests.saveEntity(mPoi, null);
-									showPhoto(photo);
-									smartLayer.updatePoi(mPoi);
-									updateIcon();
-								}
-							});
-						}
-					});
-					
-					Requests.saveEntity(mPoi, null);
-				}
-				else
-					Window.alert("Beim Upload ist ein Fehler aufgetreten. Bitt versuchen Sie es erneut.");
-					Log.log("Photo upload error. Instead of an url, we got this: " + url);
-			}
-		});
-	}
+	
 	
 	@UiHandler("tbClose")
 	void onTbClose(ClickEvent e) {
@@ -533,14 +499,6 @@ public class Show_PopUp extends Composite {
 		imageMarkerIcon.setUrl(iconUrl);
 	}
 
-	@UiHandler("uploadButton")
-	void onUpload(ClickEvent e) {
-		if(fileupload.getFilename() != null && fileupload.getFilename().length() > 0)
-		{
-			System.out.println("Image File Name: " + fileupload.getFilename());
-			form.submit();
-		}
-	}
 	
 	@UiHandler("commentTextBox")
 	void onKeyUp(KeyUpEvent event) {

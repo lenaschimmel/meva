@@ -498,16 +498,7 @@
 					</g:cell>
 					<g:Label styleName="{style.lbBodyHeader}">Eigenes Foto hochladen</g:Label>
 					<g:cell height="40px">
-						<g:FormPanel ui:field="form" width="100%">
-							<g:HorizontalPanel>
-								<g:cell width="95%">
-									<g:FileUpload ui:field="fileupload" />
-								</g:cell>
-								<g:cell>
-									<g:Button ui:field="uploadButton">Hochladen</g:Button>
-								</g:cell>
-							</g:HorizontalPanel>
-						</g:FormPanel>
+						<g:SimplePanel ui:field="uploadPlaceholder"></g:SimplePanel> 
 					</g:cell>
 				</g:VerticalPanel>
 				<g:VerticalPanel width="100%" height="240px" ui:field="tabComments">

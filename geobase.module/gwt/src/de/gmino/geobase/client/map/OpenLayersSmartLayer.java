@@ -90,6 +90,7 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 	}
 
 	public void clickedPoi(long poiId) {
+		System.out.println("Clicked POI, entering try-block.");
 		try {
 			final PoiInterface poi = pois.get(poiId);
 			Entity oAsEntity = (Entity) poi;
@@ -127,7 +128,8 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 					return false;
 				}
 			}, 100);
-		} catch (Exception e) {
+			System.out.println("Clicked POI, finished try-block.");
+		} catch (Throwable e) {
 			Log.exception("Handling clickedPoi", e);
 			System.err.println("#####");
 			e.printStackTrace();
