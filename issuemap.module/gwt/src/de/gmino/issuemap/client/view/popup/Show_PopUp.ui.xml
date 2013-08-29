@@ -373,14 +373,14 @@
 		.editTitle{
 			margin-top: 6px;
 			width: 98%;
-			height: 24px;
+			height: 22px;
 			color: #FFF;
 			background-color: #333;
 			font-weight: bold;
-			border-left: 1px solid #333;
-			border-top: 1px solid #333;
-			border-right: 1px solid #444;
-			border-bottom: 1px solid #444;
+			border-left: 1px solid #444;
+			border-top: 1px solid #444;
+			border-right: 1px solid #555;
+			border-bottom: 1px solid #555;
 			border-radius: 2px 2px 2px 2px;
 			padding-left: 5px;
 			font-size: 115%;
@@ -388,19 +388,19 @@
 		}
 		
         .listbox{
-        margin-top: 2px;
-        margin-left: 39px;
+        margin-top: 3px;
+        margin-left: 12px;
         height: 26px;
         padding-top: 2px;
         padding-left: 5px;
         
-        width: 91%;
+        width: 96%;
         color: #FFF;
-			background-color: #555;
-			border-left: 1px solid #333;
-			border-top: 1px solid #333;
-			border-right: 1px solid #444;
-			border-bottom: 1px solid #444;
+			background-color: #444;
+			border-left: 1px solid #555;
+			border-top: 1px solid #555;
+			border-right: 1px solid #666;
+			border-bottom: 1px solid #666;
 			border-radius: 2px 2px 2px 2px;
 		}
 
@@ -446,13 +446,20 @@
 						</g:cell>
 					</g:HorizontalPanel>
 					<g:HorizontalPanel>
+
 						<g:cell><g:TextBox styleName="{style.editTitle}" ui:field="tbTitle"></g:TextBox></g:cell>
+						<g:cell height="100%" width="40px">
+							<g:FocusPanel styleName="{style.topButton} {style.tbDelete}" ui:field="btDelete" title="Änderungen Speichern" />
+						</g:cell>
 						<g:cell height="100%" width="40px">
 							<g:FocusPanel styleName="{style.topButton} {style.tbSave}" ui:field="btSave" title="Änderungen Speichern" />
 						</g:cell>
 						<g:cell height="100%" width="40px">
 							<g:FocusPanel styleName="{style.topButton} {style.tbClose}" ui:field="btCancel" title="Änderungen Verwerfen" />
 						</g:cell>
+
+
+
 					</g:HorizontalPanel>
 				</g:DeckPanel>
 			</g:HorizontalPanel>
@@ -474,6 +481,7 @@
 				</g:FlowPanel>
 			</g:DeckPanel>
 		</g:Cell>
+		
 		<g:Cell><!-- Haubtbereich mit Tabinhalten -->
 			<g:DeckPanel ui:field="deckPanel" styleName="{style.mainArea}">
 				<g:FlowPanel ui:field="tabDescription" styleName="{style.tabDescription}"> <!-- Description -->

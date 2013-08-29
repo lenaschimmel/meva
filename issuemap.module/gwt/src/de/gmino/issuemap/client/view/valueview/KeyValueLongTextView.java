@@ -5,7 +5,6 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.TextArea;
 
 import de.gmino.meva.client.domain.LongText;
-import de.gmino.meva.client.domain.ShortText;
 import de.gmino.meva.shared.ValueWrapper;
 
 public class KeyValueLongTextView extends KeyValueView {
@@ -22,7 +21,11 @@ public class KeyValueLongTextView extends KeyValueView {
 		if(textBox == null)
 			textBox = new TextArea();
 		textBox.setText(getStringFromVal());
+		textBox.setWidth("473px");
+		textBox.setHeight("190px");
+		textBox.setStyleName(style.inputStyle());
 		value_view_bottom.clear();
+
 		value_view_bottom.add(textBox);
 	}
 
