@@ -9,6 +9,7 @@ import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.FontStyle;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -33,6 +34,7 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -40,7 +42,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.gmino.geobase.client.domain.LatLon;
 import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.ImageUrl;
@@ -87,6 +88,7 @@ public class Show_PopUp extends Composite {
 	private boolean mainPhotoShown;
 	private HashMap<Widget, String> displayValueSafe = new HashMap<Widget, String>();
 	private TreeMap<String, KeyValueView> keyValueViews = new TreeMap<String, KeyValueView>();
+	private boolean newIssue;
 	
 	/**** Ui-Fields ****/
 	@UiField
@@ -185,6 +187,20 @@ public class Show_PopUp extends Composite {
 	Label tabDivider2;
 	@UiField
 	Label tabDivider3;
+	@UiField
+	DeckPanel dpTtitleOrTextBox;
+	@UiField
+	DeckPanel dpTabsOrDropdown;
+	@UiField
+	TextBox tbTitle;
+
+    @UiField
+    ListBox lbMarkertype;
+
+	
+	private boolean isInEditMode;
+
+	private long markertypeIdBeforeEdit;
 
 	// TODO Merge functionality into a widget class which shows the thumbnail and manages its loading.
 	private static final class ShowPhotoThingy implements ClickHandler {
@@ -237,21 +253,47 @@ public class Show_PopUp extends Composite {
 		
 		enableOrDisableFeatures();
 		commentTextBox.getElement().setAttribute("placeholder", "Bitte geben Sie einen Kommentar ein");
+
+		tbTitle.getElement().setAttribute("placeholder", "Name des Eintrags");
 		setupPhotoUploadForm();
 		activateTab(0);
+		
+		for (de.gmino.issuemap.shared.domain.Markertype mt : map.getHasMarkertypes())
+			lbMarkertype.addItem(mt.getMarkerName(), mt.getId() + "");
+		
+		setEditMode(false);
 	}
 
 	public void setPoi(Poi poi) {
 		this.mPoi = poi;
 
-		lbTypeAndDate.setText(mPoi.getMarkertype().getMarkerName() + ", " + poi.getCreationTimestamp().relativeToNow().toReadableString(true,1));
-		lbTypeAndDate.setTitle("Eintrag vom " + dtf.format(poi.getCreationTimestamp().toDate()));
+		setValuesFromPoi();
+		
+		createAndFillKeyValueViews(poi);
+	}
 
+	private void setValuesFromPoi() {
+		lbTypeAndDate.setText(mPoi.getMarkertype().getMarkerName() + ", " + mPoi.getCreationTimestamp().relativeToNow().toReadableString(true,1));
+		lbTypeAndDate.setTitle("Eintrag vom " + dtf.format(mPoi.getCreationTimestamp().toDate()));
+		
 		tbResolved.setStyleName(style.underline(), mPoi.isMarked());
 		setRatingText();
 		lbTitle.setText(mPoi.getTitle());
 		lbTitle.setTitle(mPoi.getTitle());
+		tbTitle.setText(mPoi.getTitle());
+			
+		updateButtonColorsAndLabels();
+		loadAndShowComments();
+		loadAndShowPhotos();
+
+		GwtIconRenderer<? super Poi> renderer = this.smartLayer.getRendererForPoi(mPoi);
+		String iconUrl = renderer.getIconUrl(mPoi);
+		imageMarkerIcon.setUrl(iconUrl);
 		
+		selectMarkertypeInListbox();
+	}
+
+	private void createAndFillKeyValueViews(Poi poi) {
 		keyValuePanel.clear();
 		keyValueViews.clear();
 		for(ValueWrapper val : poi.getValues())
@@ -261,16 +303,40 @@ public class Show_PopUp extends Composite {
 			keyValueViews.put(val.getName(), keyValueView);
 			keyValuePanel.add(keyValueView);
 		}
-		
-		updateButtonColorsAndLabels();
-		loadAndShowComments();
-		loadAndShowPhotos();
+	}
 
-		GwtIconRenderer<? super Poi> renderer = this.smartLayer.getRendererForPoi(mPoi);
-		String iconUrl = renderer.getIconUrl(mPoi);
-		imageMarkerIcon.setUrl(iconUrl);
+	private void selectMarkertypeInListbox() {
+		String markertypeId = mPoi.getMarkertypeId() + "";
+		for(int i = 0; i < lbMarkertype.getItemCount(); i++)
+			if(lbMarkertype.getValue(i).equals(markertypeId))
+			{
+				lbMarkertype.setSelectedIndex(i);
+				break;
+			}
 	}
 	
+	@UiHandler("lbMarkertype")
+	void onLbMarkertypeChange(ChangeEvent e)
+	{
+		long markertypeId = Long.parseLong(lbMarkertype.getValue(lbMarkertype.getSelectedIndex()));
+		Markertype markertype = (Markertype) Markertype.getById(markertypeId);
+		mPoi.setMarkertype(markertype);
+		updateIcon();
+	}
+	
+	private void setIssueValuesFromMask(){
+		long markertypeId = Long.parseLong(lbMarkertype.getValue(lbMarkertype.getSelectedIndex()));
+		Markertype markertype = (Markertype) Markertype.getById(markertypeId);
+		mPoi.setTitle(tbTitle.getText());
+		mPoi.setMarkertype(markertype);
+		updateIcon();
+		
+		for(KeyValueView view : keyValueViews.values())
+			view.saveValue();
+		//mPoi.setDescription(description.getText());
+	}
+	
+
 	public void createNewPoi(final de.gmino.geobase.shared.domain.LatLon location)
 	{
 		final Markertype firstMarkertype = map.getHasMarkertypes().iterator().next();
@@ -289,6 +355,7 @@ public class Show_PopUp extends Composite {
 								poi.setCreationTimestamp(Timestamp.now());
 								poi.setMarkertype(firstMarkertype);
 								setPoi(poi);
+								newIssue = true;
 								setEditMode(true);
 							}
 						});
@@ -343,7 +410,6 @@ public class Show_PopUp extends Composite {
 			}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void loadAndShowComments() {
 		final int commentCount = mPoi.getComments().size();
 		if(commentCount == 0)
@@ -367,7 +433,6 @@ public class Show_PopUp extends Composite {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void loadAndShowPhotos() {
 		final int photoCount = mPoi.getPhotos().size();
 		if(photoCount == 0)
@@ -476,13 +541,26 @@ public class Show_PopUp extends Composite {
 
 	@UiHandler("tbEdit")
 	void onTbEdit(ClickEvent e) {
-		setEditMode(true);
+		setEditMode(!isInEditMode);
 	}
 
 	public void setEditMode(boolean edit) {
+		isInEditMode = edit;
+		
 		for(KeyValueView view : keyValueViews.values())
-		{
 			view.setEditMode(edit);
+		
+		dpTabsOrDropdown.showWidget(edit ? 1 : 0);
+		dpTtitleOrTextBox.showWidget(edit ? 1 : 0);
+		
+		if(edit)
+		{
+			markertypeIdBeforeEdit = mPoi.getMarkertypeId();
+			activateTab(0);
+		}
+		else if(mPoi != null)
+		{
+			selectMarkertypeInListbox();
 		}
 	}
 
@@ -497,9 +575,6 @@ public class Show_PopUp extends Composite {
 		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mPoi);
 		String iconUrl = renderer.getIconUrl(mPoi);
 		imageMarkerIcon.setUrl(iconUrl);
-		Requests.saveEntity(mPoi, null);
-		smartLayer.updatePoi(mPoi);
-		IssuemapGwt.getInstance().loadIssuesToList();
 	}
 
 	@UiHandler("uploadButton")
@@ -676,7 +751,7 @@ public class Show_PopUp extends Composite {
 	public void onWhatsThisClicked(ClickEvent e)
 	{
 		final DecoratedPopupPanel decorated_panel = new DecoratedPopupPanel(true, true);
-		final Label messageLabel = new Label("Sie können abstimmen, ob sie diese Meldung für wichtig (+1) oder unwichtig (-1) halten. Aus den abgebenen Stimmen berechnen wir eine Summe. Damit können andere schnell die wichtigsten Punkte finden. Meldungen, die überweigend als unwichtig bewertet werden, werden ausgeblendet um die Übersichtlichkeit der Karte beizubehalten");
+		final Label messageLabel = new Label("Sie können abstimmen, ob sie diesen Eintrag für wichtig (+1) oder unwichtig (-1) halten. Aus den abgebenen Stimmen berechnen wir eine Summe. Damit können andere schnell die wichtigsten Punkte finden. Meldungen, die überweigend als unwichtig bewertet werden, werden ausgeblendet um die Übersichtlichkeit der Karte beizubehalten");
 		messageLabel.setWordWrap(true);
 		messageLabel.setWidth("250px");
 		decorated_panel.add(messageLabel);
@@ -684,5 +759,48 @@ public class Show_PopUp extends Composite {
 		decorated_panel.setAnimationEnabled(true);
 		decorated_panel.show();
 		decorated_panel.center();
+	}
+
+	@UiHandler("btCancel")
+	public void onBtCancelClicked(ClickEvent e)
+	{
+		if(markertypeIdBeforeEdit != 0)
+		{
+			mPoi.setMarkertype((Markertype) Markertype.getById(markertypeIdBeforeEdit));
+			updateIcon();
+		}
+		setEditMode(false);
+	}
+	
+	@UiHandler("btSave")
+	public void onBtSaveClicked(ClickEvent e)
+	{
+		Requests.loadEntity(map, new RequestListener<Map>() {
+			@Override
+			public void onFinished(Collection<Map> results) {
+				setIssueValuesFromMask();
+				smartLayer.updatePoi(mPoi); // works even if the poi is a new one
+				map.getIssues().add(mPoi); // works even if the poi is already present
+				Requests.saveEntity(mPoi, new RequestListener<Poi>() {
+					public void onFinished(java.util.Collection<Poi> results) {
+						final IssuemapGwt issueMap = IssuemapGwt.getInstance();
+						issueMap.loadIssuesToList();
+					};
+				});
+				
+				Requests.saveEntity(map, null);
+				
+				if(newIssue)
+				{
+					// Add marker to map
+					final IssuemapGwt issueMap = IssuemapGwt.getInstance();
+					issueMap.addMarker(mPoi);
+					issueMap.setCounter();
+				}
+				newIssue = false;
+				setEditMode(false);
+				setValuesFromPoi();
+			}
+		});
 	}
 }

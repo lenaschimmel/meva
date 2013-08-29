@@ -78,7 +78,17 @@ public abstract class KeyValueView extends Composite {
 			enableShowMode();
 	}
 	
+	protected String preventNullString(String text)
+	{
+		if(text == null)
+			return "";
+		else
+			return text;
+	}
+	
 	public abstract void enableEditMode();
 	
 	public abstract void enableShowMode();
+
+	public abstract void saveValue();
 }

@@ -5,9 +5,12 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.TextArea;
 
 import de.gmino.meva.client.domain.LongText;
+import de.gmino.meva.client.domain.ShortText;
 import de.gmino.meva.shared.ValueWrapper;
 
 public class KeyValueLongTextView extends KeyValueView {
+
+	private TextArea textBox;
 
 	public KeyValueLongTextView(ValueWrapper valueWrapper) {
 		super(valueWrapper);
@@ -16,7 +19,8 @@ public class KeyValueLongTextView extends KeyValueView {
 
 	@Override
 	public void enableEditMode() {
-		TextArea textBox = new TextArea();
+		if(textBox == null)
+			textBox = new TextArea();
 		textBox.setText(getStringFromVal());
 		value_view_bottom.clear();
 		value_view_bottom.add(textBox);
@@ -24,7 +28,7 @@ public class KeyValueLongTextView extends KeyValueView {
 
 	@Override
 	public void enableShowMode() {
-		HTMLPanel description = new HTMLPanel(new SafeHtmlBuilder().appendEscapedLines(getStringFromVal()).toSafeHtml());
+		HTMLPanel description = new HTMLPanel(new SafeHtmlBuilder().appendEscapedLines(preventNullString(getStringFromVal())).toSafeHtml());
 		value_view_bottom.clear();
 		value_view_bottom.add(description);
 	}
@@ -37,4 +41,8 @@ public class KeyValueLongTextView extends KeyValueView {
 		return text;
 	}
 
+	@Override
+	public void saveValue() {
+		val.setValue(new LongText(textBox.getText()));
+	}
 }

@@ -8,6 +8,8 @@ import de.gmino.meva.shared.ValueWrapper;
 
 public class KeyValueShortTextView extends KeyValueView {
 
+	private TextBox textBox;
+
 	public KeyValueShortTextView(ValueWrapper valueWrapper) {
 		super(valueWrapper);
 		setValue(valueWrapper);
@@ -15,7 +17,8 @@ public class KeyValueShortTextView extends KeyValueView {
 	
 	@Override
 	public void enableEditMode() {
-		TextBox textBox = new TextBox();
+		if(textBox == null)
+			textBox = new TextBox();
 		textBox.setText(getStringFromVal());
 		value_view_right.clear();
 		value_view_right.add(textBox);
@@ -34,5 +37,10 @@ public class KeyValueShortTextView extends KeyValueView {
 		if(descriptionShortText != null)
 			text = descriptionShortText.getText();
 		return text;
+	}
+
+	@Override
+	public void saveValue() {
+		val.setValue(new ShortText(textBox.getText()));
 	}
 }
