@@ -299,6 +299,10 @@ public class OpenLayersSmartLayer implements SmartLayer<Canvas, Widget>, OpenLay
 		}
 	}
 
+	public void setzoomThreshold(int Treshold){
+		zoomThreshold=Treshold;
+	}
+	
 	@Override
 	public String getName() {
 		return name;

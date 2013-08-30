@@ -4,7 +4,7 @@
 	<ui:style type="de.gmino.issuemap.client.view.backend.Create_Map_Backend.Style">
 		.important {
 			font-weight: bold;
-			margin-left: 15px;
+			margin: 15px;
 		}
 		
 		.label{
@@ -151,6 +151,7 @@
 		
 		.checkBox{
 			padding-left: 10px;
+			margin-left: 10px;
 
 	
 		}
@@ -263,20 +264,25 @@
 			</g:FlowPanel>
 		<g:DeckPanel ui:field="deckPanel" styleName="{}">
 		<g:VerticalPanel ui:field="createTab1">
-		<g:Label styleName="{style.h2}">Metadaten</g:Label>
+		<g:Label styleName="{style.h2}">Allgemein</g:Label>
 		<g:HorizontalPanel height="28px"><g:Label text="Texte:" styleName="{style.label}"/><g:TextBox styleName="{style.textBox123}" ui:field="title"/><g:TextBox styleName="{style.textBox33}" ui:field="subdomain"/></g:HorizontalPanel>
 		<g:HorizontalPanel height="210px"><g:TextArea styleName="{style.textArea}" ui:field="infoText"/></g:HorizontalPanel>
+		<g:HorizontalPanel height="28px"><g:Label text="Start Position:" styleName="{style.label}"/><g:TextBox styleName="{style.textBox123}" ui:field="map_city"/><g:Button height="26px" text="Positionssuche" styleName="{style.textBox33}" ui:field="locationSearchButton"/></g:HorizontalPanel>
+		<g:HorizontalPanel height="28px"><g:InlineLabel text="" styleName="{style.label}" /><g:TextBox styleName="{style.textBox14}" ui:field="initLocation_latitude"/><g:TextBox styleName="{style.textBox24}" ui:field="initLocation_longitude"/><g:TextBox styleName="{style.textBox34}" ui:field="initZoomlevel"/><g:ListBox height="24px" styleName="{style.textBox44}" ui:field="layerSelect"><g:item value="0">Mapquest</g:item><g:item value="1">OSM Mapnik</g:item><g:item value="2">ÖPNV</g:item><g:item value="3">Bing</g:item><g:item value="4">Bing Hybrid</g:item></g:ListBox> </g:HorizontalPanel>
+		<g:HorizontalPanel height="32px"><g:Label text="Suchfeld:" styleName="{style.label}"/><g:CheckBox styleName="{style.checkBox}" ui:field="searchStreetCheckbox" /><g:Label text="Suche Straßen der Stadt" styleName="{style.label}" />
+		<g:CheckBox ui:field="searchCityCheckbox" /><g:Label text="Suche Städte"  styleName="{style.label}" /></g:HorizontalPanel>
+		<g:Label styleName="{style.h2}">Design</g:Label>
 		<g:HorizontalPanel height="28px"><g:InlineLabel text="Logo-URL:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="logo_url"/></g:HorizontalPanel>
 		<g:HorizontalPanel height="28px"><g:Label text="Farben:" styleName="{style.label}"/><g:TextBox styleName="{style.primarycolor}" ui:field="primary_color"/>
 		<g:TextBox styleName="{style.secondarycolor}" ui:field="secondary_color"/>
 		<g:TextBox styleName="{style.backgroundcolor}" ui:field="background_color"/>
 		<g:TextBox styleName="{style.resolvedcolor}" ui:field="resolved_color"/></g:HorizontalPanel>
-		<g:HorizontalPanel height="28px"><g:InlineLabel text="Start Position:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox13}" ui:field="initLocation_latitude"/><g:TextBox styleName="{style.textBox23}" ui:field="initLocation_longitude"/><g:TextBox styleName="{style.textBox33}" ui:field="initZoomlevel"/></g:HorizontalPanel>
+		<g:Label styleName="{style.h2}">Infos zum Betreiber</g:Label>
 		<g:HorizontalPanel height="28px"><g:InlineLabel text="Website, Impressum:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox12}" ui:field="website"/><g:TextBox styleName="{style.textBox22}" ui:field="url_impressum"/></g:HorizontalPanel>
 		<g:HorizontalPanel height="28px"><g:InlineLabel text="Kontakt (Name, Mail):" styleName="{style.label}" /><g:TextBox styleName="{style.textBox12}" ui:field="recipient_name"/><g:TextBox styleName="{style.textBox22}" ui:field="email"/></g:HorizontalPanel>
 		<g:HorizontalPanel height="28px"><g:InlineLabel text="Adresszusatz:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox}" ui:field="additionalAddressLine"/></g:HorizontalPanel>
 		<g:HorizontalPanel height="28px"><g:InlineLabel text="Straße, Hausnummer:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox12}" ui:field="street"/><g:TextBox styleName="{style.textBox22}" ui:field="houseNumber"/></g:HorizontalPanel>
-		<g:HorizontalPanel height="28px"><g:InlineLabel text="PLZ, Stadt:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox12}" ui:field="zip"/><g:TextBox styleName="{style.textBox22}" ui:field="city"/></g:HorizontalPanel>
+		<g:HorizontalPanel height="28px"><g:InlineLabel text="PLZ, Stadt:" styleName="{style.label}" /><g:TextBox styleName="{style.textBox12}" ui:field="zip"/><g:TextBox styleName="{style.textBox22}" ui:field="owner_city"/></g:HorizontalPanel>
 		</g:VerticalPanel>
 		
 		<g:VerticalPanel ui:field="createTab2">

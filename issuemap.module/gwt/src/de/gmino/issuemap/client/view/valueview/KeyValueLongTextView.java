@@ -21,7 +21,7 @@ public class KeyValueLongTextView extends KeyValueView {
 		if(textBox == null)
 			textBox = new TextArea();
 		textBox.setText(getStringFromVal());
-		textBox.setWidth("473px");
+		textBox.setWidth("469px");
 		textBox.setHeight("190px");
 		textBox.setStyleName(style.inputStyle());
 		value_view_bottom.clear();

@@ -193,15 +193,8 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 		mapView = new OpenLayersMapView("map", "mapquest");
 		
 		mapView.setBorders(30 + GENERAL_POPUP_MARGIN, 58 + GENERAL_POPUP_MARGIN, 357 + GENERAL_POPUP_MARGIN, 53 +GENERAL_POPUP_MARGIN);
-		int zoomThreshold = 12;
-		if(subdomain.equals("zgb"))
-			zoomThreshold = 11;
-		if(subdomain.equals("piraten-braunschweig"))
-			zoomThreshold = 13;
-		if(subdomain.equals("ee"))
-			zoomThreshold = 14;
 		
-		markerLayer = mapView.newSmartLayer("Issues", zoomThreshold);
+		markerLayer = mapView.newSmartLayer("Issues", 12);
 		mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);
 		issueRenderer = new IssueIconRenderer();
 		markerLayer.addMarkerIconRenderer(Poi.type, issueRenderer);
@@ -288,7 +281,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 					@SuppressWarnings("unchecked")
 					public void onNewResult(final Map map) {
 						mapObject = map;
-						
+						markerLayer.setzoomThreshold(map.getInitZoomlevel()-3);
 						
 						addFeedback_Button();
 						markerLayer.addMarkerPopupCreator(Poi.type, new IssuePopupCreator(map, markerLayer));

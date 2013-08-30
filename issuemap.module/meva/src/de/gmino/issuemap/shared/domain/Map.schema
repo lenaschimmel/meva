@@ -119,6 +119,14 @@
 		{
 			"type" : "String",
 			"name" : "mark_description"
+		},	
+		{
+			"type" : "boolean",
+			"name" : "searchStreet"
+		},	
+		{
+			"type" : "boolean",
+			"name" : "searchCity"
 		},
 		{
 			"type" : "relation",
