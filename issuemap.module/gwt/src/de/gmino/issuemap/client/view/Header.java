@@ -98,10 +98,10 @@ public class Header extends Composite  {
 	}
 
 	private String createSearchQuery() {
-		if(true)
-			return search_field.getText();
-		else
+		if(!mapObject.isSearchCity() && mapObject.isSearchStreet())
 			return mapObject.getCity() + ", " + search_field.getText();
+		else
+			return search_field.getText();
 	}
 
 	public void setBackendDesign(String imgUrl, String titleString, String textcolor, String backgroundcolor) {
@@ -133,9 +133,13 @@ public class Header extends Composite  {
 		decorated_panel.setWidget(new Info_PopUp(mapObject, decorated_panel));
 		decorated_panel.setGlassEnabled(true);
 		
-		if(true)
+		if(map.isSearchCity() && map.isSearchStreet())
 			search_field.getElement().setAttribute("placeholder", "Stadt, Straße");
-		else
+		else if(map.isSearchStreet())
 			search_field.getElement().setAttribute("placeholder", "Straßensuche");
+		else if(map.isSearchCity())
+			search_field.getElement().setAttribute("placeholder", "Stadtsuche");
+		else
+			search_field.setVisible(false);
 	}
 }

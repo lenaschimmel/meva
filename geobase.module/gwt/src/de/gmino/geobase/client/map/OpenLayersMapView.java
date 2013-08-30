@@ -351,9 +351,61 @@ public class OpenLayersMapView extends AbstractMapView {
 
 	@Override
 	public MapLayer newMapLayer(MapProvider provider) {
-		// TODO support Layers
+		nCreateLayer(provider.toString().toLowerCase());
 		return null;
 	}
+
+	public void newMapLayer(String layerName) {
+		nCreateLayer(layerName); 
+	}
+	
+	private native void nCreateLayer(String layerName) /*-{
+		var map = this.@de.gmino.geobase.client.map.OpenLayersMapView::map;
+		var layer;
+		
+		var apiKey = "Ah0O_YCYQ7m711V6lrEMLXiGs_9BUbsPhSiVpJqaEFi89UheesY4EXUCrEuMbmwp";
+		
+		if(layerName == "Bing Road")
+		{
+			layer = new $wnd.OpenLayers.Layer.Bing({
+                name: "Bing Road",
+                key: apiKey,
+                type: "Road"
+            });
+		}
+		else if(layerName == "Bing Hybrid")
+		{
+			layer = new $wnd.OpenLayers.Layer.Bing({
+                name: "Bing Hybrid",
+                key: apiKey,
+                type: "AerialWithLabels"
+            });
+		}
+		else if(layerName == "Bing Aerial")
+		{
+			layer = new $wnd.OpenLayers.Layer.Bing({
+                name: "Bing Aerial",
+                key: apiKey,
+                type: "Aerial"
+            });
+		}
+		else 
+		{
+			layer = new $wnd.OpenLayers.Layer.OSM("Simple OSM Map", 
+				[
+					"http://a.gmino.de:8090/"+layerName+"/${z}/${x}/${y}.png",
+					"http://b.gmino.de:8090/"+layerName+"/${z}/${x}/${y}.png",
+					"http://c.gmino.de:8090/"+layerName+"/${z}/${x}/${y}.png",
+					"http://d.gmino.de:8090/"+layerName+"/${z}/${x}/${y}.png"
+				],
+				{isBaseLayer: true, visibility: true, transitionEffect: "resize"}
+			);
+		}
+		layer.tileOptions = {crossOriginKeyword: null};
+
+		map.addLayer(layer);
+		map.setBaseLayer(layer);
+	}-*/;
 
 	public JavaScriptObject getMapJso() {
 		return map;
