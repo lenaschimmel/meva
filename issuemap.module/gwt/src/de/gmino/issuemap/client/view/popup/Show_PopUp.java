@@ -211,7 +211,6 @@ public class Show_PopUp extends Composite {
 		
 		enableOrDisableFeatures();
 		commentTextBox.getElement().setAttribute("placeholder", "Bitte geben Sie einen Kommentar ein");
-
 		tbTitle.getElement().setAttribute("placeholder", "Name des Eintrags");
 		
 		PhotoUploadListener photoUploadListener = new PhotoUploadListener() {
@@ -255,6 +254,7 @@ public class Show_PopUp extends Composite {
 		lbTypeAndDate.setTitle("Eintrag vom " + dtf.format(mPoi.getCreationTimestamp().toDate()));
 		
 		tbResolved.setStyleName(style.underline(), mPoi.isMarked());
+		if (mPoi.isMarked()) tbResolved.getElement().getStyle().setBorderColor(map.getResolved_color());
 		setRatingText();
 		lbTitle.setText(mPoi.getTitle());
 		lbTitle.setTitle(mPoi.getTitle());
@@ -453,8 +453,14 @@ public class Show_PopUp extends Composite {
 	private void activateTab(int i) {
 		deckPanel.showWidget(i);
 		tabButtonDescription.setStyleName(style.underline(), i == 0);
+		if(i==0) tabButtonDescription.getElement().getStyle().setBorderColor(map.getPrimary_color());
+		else tabButtonDescription.getElement().getStyle().setBorderColor("transparent");
 		tabButtonPhotos		.setStyleName(style.underline(), i == 1);
+		if(i==1) tabButtonPhotos.getElement().getStyle().setBorderColor(map.getPrimary_color());
+		else tabButtonPhotos.getElement().getStyle().setBorderColor("transparent");
 		tabButtonComments	.setStyleName(style.underline(), i == 2);
+		if(i==2) tabButtonComments.getElement().getStyle().setBorderColor(map.getPrimary_color());
+		else tabButtonComments.getElement().getStyle().setBorderColor("transparent");
 	}
 		
 	
@@ -496,8 +502,11 @@ public class Show_PopUp extends Composite {
 
 	@UiHandler("tbResolved")
 	void onCheckbox(ClickEvent e) {
+	
 		mPoi.setMarked(!mPoi.isMarked());
 		tbResolved.setStyleName(style.underline(), mPoi.isMarked());
+		if (mPoi.isMarked()) tbResolved.getElement().getStyle().setBorderColor(map.getResolved_color());
+		else tbResolved.getElement().getStyle().setBorderColor("transparent");
 		updateIcon();
 	}
 
