@@ -30,12 +30,22 @@ public class OpenLayersMapView extends AbstractMapView {
 	private native JavaScriptObject nCreateMap(String elementName, String layerName) /*-{
 		var that = this;
 		var map = new $wnd.OpenLayers.Map(elementName, {zoomMethod: null});
+		//, controls : [
+		//		new $wnd.OpenLayers.Control.Attribution(),
+		//		new $wnd.OpenLayers.Control.Navigation(),
+		//		new $wnd.OpenLayers.Control.PanZoomBar(),
+		//		new $wnd.OpenLayers.Control.LayerSwitcher()]});
+				
 		var layer = new $wnd.OpenLayers.Layer.OSM("Simple OSM Map", 
 				[
 					"http://a.gmino.de:8090/"+layerName+"/${z}/${x}/${y}.png",
 					"http://b.gmino.de:8090/"+layerName+"/${z}/${x}/${y}.png",
 					"http://c.gmino.de:8090/"+layerName+"/${z}/${x}/${y}.png",
-					"http://d.gmino.de:8090/"+layerName+"/${z}/${x}/${y}.png"
+					"http://d.gmino.de:8090/"+layerName+"/${z}/${x}/${y}.png",
+					"http://e.gmino.de:8090/"+layerName+"/${z}/${x}/${y}.png",
+					"http://f.gmino.de:8090/"+layerName+"/${z}/${x}/${y}.png",
+					"http://g.gmino.de:8090/"+layerName+"/${z}/${x}/${y}.png",
+					"http://h.gmino.de:8090/"+layerName+"/${z}/${x}/${y}.png"
 				],
 				{isBaseLayer: true, visibility: true, transitionEffect: "resize"}
 		);
@@ -351,7 +361,7 @@ public class OpenLayersMapView extends AbstractMapView {
 
 	@Override
 	public MapLayer newMapLayer(MapProvider provider) {
-		nCreateLayer(provider.toString().toLowerCase());
+		nCreateLayer(provider.getUrlName());
 		return null;
 	}
 
