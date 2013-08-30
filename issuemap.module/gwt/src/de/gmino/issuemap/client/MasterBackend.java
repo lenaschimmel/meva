@@ -43,7 +43,7 @@ public class MasterBackend  implements EntryPoint  {
 		createMapField= new Create_Map_Backend();
 		mapList = new Show_Maps_Backend();
 		header = new Header();
-		header.setDesignbyString("logo_geoengine.png", "Master Backend", "#FFF", "rgba(40,40,40,0.8)");
+		header.setBackendDesign("logo_geoengine.png", "Master Backend", "#FFF", "rgba(40,40,40,0.8)");
 		
 //		if(user==null){
 //			RootPanel.get("left").add(new Label("please login"));

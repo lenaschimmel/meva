@@ -37,7 +37,6 @@ public class Header extends Composite  {
 		initWidget(uiBinder.createAndBindUi(this));
 		info_button.setVisible(false);
 		search_field.setVisible(false);
-		search_field.getElement().setAttribute("placeholder", "Straßensuche");
 		logo.setHeight("30px");
 		header.setHeight("57px");
 	}
@@ -76,8 +75,7 @@ public class Header extends Composite  {
 	}
 
 	private void performSearch() {
-		final String query = mapObject.getCity() + ", "
-				+ search_field.getText();
+		final String query = createSearchQuery();
 		Geocoder gc = new Geocoder();
 		gc.searchLocationByString(query, new SearchLocationListener() {
 
@@ -94,51 +92,54 @@ public class Header extends Composite  {
 
 			@Override
 			public void onError(String message) {
-				Window.alert("Es ist ein Fehler bei der Straßensuche passiert: "
-						+ message);
+				Window.alert("Es ist ein Fehler bei der Straßensuche passiert: " + message);
 			}
 		});
 	}
 
-	public void setDesignbyMapobject(String imgUrl, String titleString, String color) {
+	private String createSearchQuery() {
+		if(!mapObject.isSearchCity() && mapObject.isSearchStreet())
+			return mapObject.getCity() + ", " + search_field.getText();
+		else
+			return search_field.getText();
+	}
+
+	public void setBackendDesign(String imgUrl, String titleString, String textcolor, String backgroundcolor) {
 		logo.setUrl(imgUrl);
 		title.setText(titleString);
 
+		title.getElement().getStyle().setColor(textcolor);
+		info_button.setVisible(true);
+		header.getElement().getStyle().setBackgroundColor(backgroundcolor);
+		search_field.setVisible(true);
+		logo.setHeight("45px");
+		info_button.setVisible(false);
+		search_field.setVisible(false);
+	}
+
+	public void setFrontendDesign(Map map) {
+		this.mapObject = map;
+		logo.setTitle("Klicken Sie, um die Website " + map.getWebsite() + " zu besuchen (öffnet in neuem Fenster / Tab).");
+		logo.setUrl(map.getLogo().getUrl());
+		title.setText(map.getTitle());
+
 		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
-		// header.getElement().getStyle().setBorderColor(color);
-		// info_button.getElement().getStyle().setBackgroundColor(color);
 		info_button.setVisible(true);
 		header.getElement().getStyle()
 				.setBackgroundColor(mapObject.getBackground_color());
 		search_field.setVisible(true);
 		logo.setHeight("45px");
 		info_button.setVisible(true);
-		decorated_panel.add(new Info_PopUp(mapObject, decorated_panel));
+		decorated_panel.setWidget(new Info_PopUp(mapObject, decorated_panel));
 		decorated_panel.setGlassEnabled(true);
-		//decorated_panel.setAnimationEnabled(true);
-	}
-	
-	public void setDesignbyString(String imgUrl, String titleString, String textcolor, String backgroundcolor) {
 		
-			logo.setUrl(imgUrl);
-			title.setText(titleString);
-
-			title.getElement().getStyle().setColor(textcolor);
-			// header.getElement().getStyle().setBorderColor(color);
-			// info_button.getElement().getStyle().setBackgroundColor(color);
-			info_button.setVisible(true);
-			header.getElement().getStyle()
-					.setBackgroundColor(backgroundcolor);
-			search_field.setVisible(true);
-			logo.setHeight("45px");
-			info_button.setVisible(false);
+		if(map.isSearchCity() && map.isSearchStreet())
+			search_field.getElement().setAttribute("placeholder", "Stadt, Straße");
+		else if(map.isSearchStreet())
+			search_field.getElement().setAttribute("placeholder", "Straßensuche");
+		else if(map.isSearchCity())
+			search_field.getElement().setAttribute("placeholder", "Stadtsuche");
+		else
 			search_field.setVisible(false);
-		
-		
-	}
-
-	public void setMap(Map map) {
-		this.mapObject = map;
-		logo.setTitle("Klicken Sie, um die Website " + map.getWebsite() + " zu besuchen (öffnet in neuem Fenster / Tab).");
 	}
 }

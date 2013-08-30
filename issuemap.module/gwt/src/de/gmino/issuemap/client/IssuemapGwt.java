@@ -35,6 +35,7 @@ import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.shared.domain.PoiInterface;
 import de.gmino.geobase.shared.map.Event;
 import de.gmino.geobase.shared.map.MapListener;
+import de.gmino.geobase.shared.map.MapProvider;
 import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
 import de.gmino.issuemap.client.domain.BicycleShop;
 import de.gmino.issuemap.client.domain.DecentralizedGeneration;
@@ -283,14 +284,17 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 						mapObject = map;
 						markerLayer.setzoomThreshold(map.getInitZoomlevel()-3);
 						
+						mapView.newMapLayer(MapProvider.HIKE_BIKE);
+						
 						addFeedback_Button();
 						markerLayer.addMarkerPopupCreator(Poi.type, new IssuePopupCreator(map, markerLayer));
 
-						header.setMap(map);	
+						header.setFrontendDesign(map);	
 
 						footer.setMap(map);
 						Window.setTitle(map.getTitle());
 
+						mapView.newMapLayer(map.getLayer());
 						mapView.setZoom(mapObject.getInitZoomlevel());
 						mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);
 						
@@ -304,7 +308,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 							}
 						}, 1000);
 						
-						header.setDesignbyMapobject(mapObject.getLogo().getUrl(),	mapObject.getTitle(), mapObject.getPrimary_color());
+						header.setFrontendDesign(mapObject);
 						footer.setDesign(mapObject.getPrimary_color());
 
 //						if(map.getMarkerClass().getName().equals("Energieanlage"))
