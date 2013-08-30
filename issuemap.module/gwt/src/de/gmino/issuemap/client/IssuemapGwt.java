@@ -284,8 +284,6 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 						mapObject = map;
 						markerLayer.setzoomThreshold(map.getInitZoomlevel()-3);
 						
-						mapView.newMapLayer(MapProvider.HIKE_BIKE);
-						
 						addFeedback_Button();
 						markerLayer.addMarkerPopupCreator(Poi.type, new IssuePopupCreator(map, markerLayer));
 
