@@ -193,7 +193,7 @@ public class Show_PopUp extends Composite {
 	@UiField
 	TextBox tbTitle;
 	@UiField
-	Button btDelete;
+	FocusPanel btDelete;
 
     @UiField
     ListBox lbMarkertype;
@@ -700,35 +700,41 @@ public class Show_PopUp extends Composite {
 	}
 	
 	@UiHandler("btSave")
-	public void onBtSaveClicked(ClickEvent e)
-	{
-		Requests.loadEntity(map, new RequestListener<Map>() {
-			@Override
-			public void onFinished(Collection<Map> results) {
-				setIssueValuesFromMask();
-				smartLayer.updatePoi(mPoi); // works even if the poi is a new one
-				map.getIssues().add(mPoi); // works even if the poi is already present
-				Requests.saveEntity(mPoi, new RequestListener<Poi>() {
-					public void onFinished(java.util.Collection<Poi> results) {
+	public void onBtSaveClicked(ClickEvent e) {
+
+		if (tbTitle.getText().equals(""))
+			tbTitle.getElement().setAttribute("placeholder", "Bitte geben Sie dem Eintrag einen Namen");
+
+		else {
+			Requests.loadEntity(map, new RequestListener<Map>() {
+				@Override
+				public void onFinished(Collection<Map> results) {
+					setIssueValuesFromMask();
+					smartLayer.updatePoi(mPoi); // works even if the poi is a
+												// new one
+					map.getIssues().add(mPoi); // works even if the poi is
+												// already present
+					Requests.saveEntity(mPoi, new RequestListener<Poi>() {
+						public void onFinished(java.util.Collection<Poi> results) {
+							final IssuemapGwt issueMap = IssuemapGwt.getInstance();
+							issueMap.loadIssuesToList();
+						};
+					});
+
+					Requests.saveEntity(map, null);
+
+					if (newIssue) {
+						// Add marker to map
 						final IssuemapGwt issueMap = IssuemapGwt.getInstance();
-						issueMap.loadIssuesToList();
-					};
-				});
-				
-				Requests.saveEntity(map, null);
-				
-				if(newIssue)
-				{
-					// Add marker to map
-					final IssuemapGwt issueMap = IssuemapGwt.getInstance();
-					issueMap.addMarker(mPoi);
-					issueMap.setCounter();
+						issueMap.addMarker(mPoi);
+						issueMap.setCounter();
+					}
+					newIssue = false;
+					setEditMode(false);
+					setValuesFromPoi();
 				}
-				newIssue = false;
-				setEditMode(false);
-				setValuesFromPoi();
-			}
-		});
+			});
+		}
 	}
 	
 	@UiHandler("btDelete")

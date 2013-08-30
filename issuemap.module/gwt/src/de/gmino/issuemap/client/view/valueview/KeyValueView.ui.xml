@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:style>
+	<ui:style type="de.gmino.issuemap.client.view.valueview.KeyValueView.Style">
 		.important {
 		font-weight: bold;
 		}
@@ -17,7 +17,22 @@
 
 		.key{text-transform:uppercase;
 		font-weight: bold;}
-		.value{}
+
+		.value{
+
+			}
+
+		.inputStyle{
+			color: #FFF;
+			background-color: #444;
+			border-left: 1px solid #555;
+			border-top: 1px solid #555;
+			border-right: 1px solid #666;
+			border-bottom: 1px solid #666;
+			border-radius: 2px 2px 2px 2px;
+			font-family: inherit;
+			font-size: inherit;
+			}
 
 	</ui:style>
 	<g:HTMLPanel ui:field="parent" width="100%">
@@ -30,7 +45,7 @@
 					<g:SimplePanel ui:field="value_view_right" styleName="{style.value}" />
 				</g:cell>
 			</g:HorizontalPanel>
-			<g:SimplePanel ui:field="value_view_bottom" styleName="{style.value}" />
+			<g:SimplePanel width="100%" ui:field="value_view_bottom" styleName="{style.value}" />
 		</g:VerticalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

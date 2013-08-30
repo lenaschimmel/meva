@@ -1,7 +1,7 @@
 package de.gmino.issuemap.client.view.valueview;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
@@ -37,6 +37,14 @@ public abstract class KeyValueView extends Composite {
 	VerticalPanel verticalPanel;
 
 	protected ValueWrapper val;
+	
+	interface Style extends CssResource {
+		String inputStyle();
+	}
+	
+	@UiField
+	Style style;
+	
 	
 	public static KeyValueView getKeyValueView(ValueWrapper valueWrapper)
 	{

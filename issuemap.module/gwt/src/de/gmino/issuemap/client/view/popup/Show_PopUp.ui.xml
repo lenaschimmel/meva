@@ -200,6 +200,10 @@
 		background: url(img/resolved.png) no-repeat center;
 		}
 
+		.tbSave {
+		background: url(img/Floppy.png) no-repeat center;
+		}
+
 		.lbRating {
 		line-height:
 		39px;
@@ -366,10 +370,38 @@
 		cursor: pointer;
 		}
 
-  
+		.editTitle{
+			margin-top: 6px;
+			width: 98%;
+			height: 24px;
+			color: #FFF;
+			background-color: #333;
+			font-weight: bold;
+			border-left: 1px solid #444;
+			border-top: 1px solid #444;
+			border-right: 1px solid #555;
+			border-bottom: 1px solid #555;
+			border-radius: 2px 2px 2px 2px;
+			padding-left: 5px;
+			font-size: 115%;
+
+		}
+		
         .listbox{
-        margin-right: 180px;
-        width: 216px;
+        margin-top: 3px;
+        margin-left: 12px;
+        height: 26px;
+        padding-top: 2px;
+        padding-left: 5px;
+        
+        width: 96%;
+        color: #FFF;
+			background-color: #444;
+			border-left: 1px solid #555;
+			border-top: 1px solid #555;
+			border-right: 1px solid #666;
+			border-bottom: 1px solid #666;
+			border-radius: 1px 1px 1px 1px;
 		}
 
 	</ui:style>
@@ -414,17 +446,27 @@
 						</g:cell>
 					</g:HorizontalPanel>
 					<g:HorizontalPanel>
-						<g:TextBox ui:field="tbTitle"></g:TextBox>
-						<g:Button ui:field="btDelete">Löschen</g:Button>
-						<g:Button ui:field="btSave">Speichern</g:Button>
-						<g:Button ui:field="btCancel">Abbrechen</g:Button>
+
+						<g:cell><g:TextBox styleName="{style.editTitle}" ui:field="tbTitle"></g:TextBox></g:cell>
+						<g:cell height="100%" width="40px">
+							<g:FocusPanel styleName="{style.topButton} {style.tbDelete}" ui:field="btDelete" title="Eintrag löschen" />
+						</g:cell>
+						<g:cell height="100%" width="40px">
+							<g:FocusPanel styleName="{style.topButton} {style.tbSave}" ui:field="btSave" title="Änderungen Speichern" />
+						</g:cell>
+						<g:cell height="100%" width="40px">
+							<g:FocusPanel styleName="{style.topButton} {style.tbClose}" ui:field="btCancel" title="Änderungen Verwerfen" />
+						</g:cell>
+
+
+
 					</g:HorizontalPanel>
 				</g:DeckPanel>
 			</g:HorizontalPanel>
 		</g:Cell>
 		<g:Cell><!-- Tabknöpfe -->
 		    <g:DeckPanel ui:field="dpTabsOrDropdown">
-				<g:FlowPanel styleName="{style.lowerBar}" width="100%" height="33px">
+				<g:FlowPanel   width="100%" height="33px"  styleName="{style.lowerBar}" >
 					<g:Button styleName="{style.tabButton}" ui:field="tabButtonDescription">Übersicht</g:Button>
 					<g:Label ui:field="tabDivider1" styleName="{style.tabDivider}">&nbsp;</g:Label>
 					<g:Button styleName="{style.tabButton}" ui:field="tabButtonPhotos">Fotos</g:Button>
@@ -434,11 +476,12 @@
 
 					<g:Label />
 				</g:FlowPanel>
-
+				<g:FlowPanel   width="100%" height="33px"  styleName="{style.lowerBar}" >
 					<g:ListBox ui:field="lbMarkertype" styleName="{style.listbox}"></g:ListBox>
-
+				</g:FlowPanel>
 			</g:DeckPanel>
 		</g:Cell>
+		
 		<g:Cell><!-- Haubtbereich mit Tabinhalten -->
 			<g:DeckPanel ui:field="deckPanel" styleName="{style.mainArea}">
 				<g:FlowPanel ui:field="tabDescription" styleName="{style.tabDescription}"> <!-- Description -->

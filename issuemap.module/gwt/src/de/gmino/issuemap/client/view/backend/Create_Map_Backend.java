@@ -125,7 +125,9 @@ public class Create_Map_Backend extends Composite {
 	@UiField
 	TextBox resolved_color;
 	@UiField
-	TextBox city;
+	TextBox owner_city;
+	@UiField
+	TextBox map_city;
 	@UiField
 	TextBox initLocation_latitude;
 	@UiField
@@ -167,6 +169,12 @@ public class Create_Map_Backend extends Composite {
 	CheckBox listCheckbox;
 	@UiField
 	CheckBox filtersCheckbox;
+	@UiField
+	CheckBox searchStreetCheckbox;
+	@UiField
+	CheckBox searchCityCheckbox;
+	@UiField
+	ListBox layerSelect;
 	
 	@UiField
 	CheckBox editCheckbox;
@@ -334,14 +342,14 @@ public class Create_Map_Backend extends Composite {
 		map.setSecondary_color(secondary_color.getText());
 		map.setBackground_color(background_color.getText());
 		map.setResolved_color(resolved_color.getText());
-		map.setCity(city.getText());
+		map.setCity(map_city.getText());
 		map.setInitLocation(new LatLon(Double.parseDouble(initLocation_latitude.getText()) , Double.parseDouble(initLocation_longitude.getText())));
 		map.setInitZoomlevel(Integer.parseInt(initZoomlevel.getText()));
 		map.setLogo(new ImageUrl(logo_url.getText()));
 		map.setWebsite(website.getText());
 		map.setEmail(email.getText());
 		map.setImpressum_url(url_impressum.getText());
-		map.setPostal_address(new Address(recipient_name.getText(),street.getText(),houseNumber.getText(),zip.getText(),city.getText(),additionalAddressLine.getText()));
+		map.setPostal_address(new Address(recipient_name.getText(),street.getText(),houseNumber.getText(),zip.getText(),owner_city.getText(),additionalAddressLine.getText()));
 		map.setHas_fotos(fotosCheckbox.getValue());
 		map.setHas_comments(commentsCheckbox.getValue());
 		map.setHas_ratings(ratingsCheckbox.getValue());
@@ -352,7 +360,15 @@ public class Create_Map_Backend extends Composite {
 		map.setMark(markCheckbox.getValue());
 		map.setMark_description(markDescription.getText());
 		map.setRate_criteria(rateCriteria.getText());
+		map.setSearchStreet(searchStreetCheckbox.getValue());
+		map.setSearchCity(searchCityCheckbox.getValue());
+		if(layerSelect.getSelectedIndex()==0) map.setLayer("mapquest");
+		if(layerSelect.getSelectedIndex()==1) map.setLayer("mapnik");
+		if(layerSelect.getSelectedIndex()==2) map.setLayer("oepnv");
+		if(layerSelect.getSelectedIndex()==3) map.setLayer("Bing Road");
+		if(layerSelect.getSelectedIndex()==4) map.setLayer("Bing Hybrid");
 
+	
 
 		
 		for(Marker_List_Item i : markerListItems.values()){
@@ -374,7 +390,7 @@ public class Create_Map_Backend extends Composite {
 		secondary_color.setText("");
 		background_color.setText("");
 		resolved_color.setText("");
-		city.setText("");
+		map_city.setText("");
 		initLocation_latitude.setText("");
 		initLocation_longitude.setText("");
 		initZoomlevel.setText("");
@@ -387,6 +403,7 @@ public class Create_Map_Backend extends Composite {
 		street.setText("");
 		houseNumber.setText("");
 		zip.setText("");
+		owner_city.setText("");
 		additionalAddressLine.setText("");
 		eePanel.setVisible(false);
 		primary_color.getElement().getStyle().setBackgroundColor("#FFF");
@@ -406,6 +423,9 @@ public class Create_Map_Backend extends Composite {
 		deleteLabel.setVisible(false);
 		rateCriteria.setText("");
 		markDescription.setText("");
+		searchStreetCheckbox.setValue(false);
+		searchCityCheckbox.setValue(false);
+		layerSelect.setSelectedIndex(0);
 		
 		
 		
@@ -445,7 +465,7 @@ public class Create_Map_Backend extends Composite {
 		secondary_color.setText(map.getSecondary_color());
 		background_color.setText(map.getBackground_color());
 		resolved_color.setText(map.getResolved_color());
-		city.setText(map.getCity());
+		map_city.setText(map.getCity());
 		initLocation_latitude.setText(map.getInitLocation().getLatitude()+"");
 		initLocation_longitude.setText(map.getInitLocation().getLongitude()+"");
 		initZoomlevel.setText(map.getInitZoomlevel()+"");
@@ -457,6 +477,7 @@ public class Create_Map_Backend extends Composite {
 		street.setText(map.getPostal_address().getStreet());
 		houseNumber.setText(map.getPostal_address().getHouseNumber());
 		zip.setText(map.getPostal_address().getZip());
+		owner_city.setText(map.getPostal_address().getCity());
 		additionalAddressLine.setText(map.getPostal_address().getAdditionalAddressLine());
 		primary_color.getElement().getStyle().setBackgroundColor(primary_color.getText());
 		secondary_color.getElement().getStyle().setBackgroundColor(secondary_color.getText());
@@ -476,7 +497,13 @@ public class Create_Map_Backend extends Composite {
 			deleteCheckbox.setVisible(true);
 			deleteLabel.setVisible(true);
 		}
-		
+		searchCityCheckbox.setValue(map.isSearchCity());
+		searchStreetCheckbox.setValue(map.isSearchStreet());
+		if (map.getLayer().equals("mapquest")) layerSelect.setSelectedIndex(0);
+		if (map.getLayer().equals("mapnik")) layerSelect.setSelectedIndex(1);
+		if (map.getLayer().equals("oepnv")) layerSelect.setSelectedIndex(2);
+		if (map.getLayer().equals("Bing Road")) layerSelect.setSelectedIndex(3);
+		if (map.getLayer().equals("Bing Hybrid")) layerSelect.setSelectedIndex(4);
 
 			markerPanel.setVisible(true);
 			//Alle Markertypes der Map
@@ -518,6 +545,8 @@ public class Create_Map_Backend extends Composite {
 		background_color.getElement().setAttribute("title", "Hintergrund-Farbe");
 		resolved_color.getElement().setAttribute("placeholder", "Erledigt-Farbe");
 		resolved_color.getElement().setAttribute("title", "Erledigt-Farbe");
+		map_city.getElement().setAttribute("placeholder", "Stadt");
+		map_city.getElement().setAttribute("title", "Stadt");
 		initLocation_latitude.getElement().setAttribute("placeholder", "Latitude");
 		initLocation_latitude.getElement().setAttribute("title", "Latitude");
 		initLocation_longitude.getElement().setAttribute("placeholder", "Longitude");
@@ -540,12 +569,13 @@ public class Create_Map_Backend extends Composite {
 		houseNumber.getElement().setAttribute("title", "Hausnummer");
 		zip.getElement().setAttribute("placeholder", "PLZ");
 		zip.getElement().setAttribute("title", "PLZ");
-		city.getElement().setAttribute("placeholder", "Stadt");
-		city.getElement().setAttribute("title", "Stadt");
+		owner_city.getElement().setAttribute("placeholder", "Stadt");
+		owner_city.getElement().setAttribute("title", "Stadt");
 		rateCriteria.getElement().setAttribute("placeholder", "Kriterium");
 		rateCriteria.getElement().setAttribute("title", "Kriterium");
 		markDescription.getElement().setAttribute("placeholder", "Beschriftung");
 		markDescription.getElement().setAttribute("title", "Beschriftung");
+		layerSelect.getElement().setAttribute("title", "Karten-Layer");
 	}
 	
 }

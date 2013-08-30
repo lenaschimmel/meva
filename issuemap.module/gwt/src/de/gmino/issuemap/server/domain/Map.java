@@ -52,7 +52,9 @@ public class Map extends MapGen {
 			boolean delete,
 			boolean mark,
 			String rate_criteria,
-			String mark_description)
+			String mark_description,
+			boolean searchStreet,
+			boolean searchCity)
 	{
 		super(
 			id,
@@ -85,7 +87,9 @@ public class Map extends MapGen {
 			delete,
 			mark,
 			rate_criteria,
-			mark_description
+			mark_description,
+			searchStreet,
+			searchCity
 		);
 		this.ready = true;
 	}
