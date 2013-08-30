@@ -460,12 +460,12 @@ public class Show_PopUp extends Composite {
 	
 	
 	@UiHandler("tbClose")
-	void onTbClose(ClickEvent e) {
+	void onTbCloseClicked(ClickEvent e) {
 		this.removeFromParent();
 	}
 
 	@UiHandler("tbEdit")
-	void onTbEdit(ClickEvent e) {
+	void onTbEditClicked(ClickEvent e) {
 
 		setEditMode(!isInEditMode);
 	}
@@ -495,10 +495,12 @@ public class Show_PopUp extends Composite {
 	}
 
 	@UiHandler("tbResolved")
-	void onCheckbox(ClickEvent e) {
+	void onTbResolvedClicked(ClickEvent e) {
 		mPoi.setMarked(!mPoi.isMarked());
 		tbResolved.setStyleName(style.underline(), mPoi.isMarked());
+		Requests.saveEntity(mPoi, null);
 		updateIcon();
+		updateList();
 	}
 
 	private void updateIcon() {
@@ -506,10 +508,14 @@ public class Show_PopUp extends Composite {
 		String iconUrl = renderer.getIconUrl(mPoi);
 		imageMarkerIcon.setUrl(iconUrl);
 	}
+	
+	private void updateList() {
+		IssuemapGwt.getInstance().loadIssuesToList();
+	}
 
 	
 	@UiHandler("commentTextBox")
-	void onKeyUp(KeyUpEvent event) {
+	void onCommentTextBoxKeyUp(KeyUpEvent event) {
 		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 			sendComment();
 		}
@@ -541,7 +547,8 @@ public class Show_PopUp extends Composite {
 						smartLayer.updatePoi(mPoi);
 						int commentCount = mPoi.getComments().size();
 						commentsHeader.setText(commentCount  + " Kommentare:");
-						updateIcon();	
+						updateIcon();
+						updateList();
 					}
 				});
 			}
@@ -558,6 +565,7 @@ public class Show_PopUp extends Composite {
 		Requests.saveEntity(mPoi, null);
 		updateButtonColorsAndLabels();
 		updateIcon();
+		updateList();
 	}
 		
 	@UiHandler({"tbRatingDown2"})
@@ -570,6 +578,7 @@ public class Show_PopUp extends Composite {
 		Requests.saveEntity(mPoi, null);
 		updateButtonColorsAndLabels();
 		updateIcon();
+		updateList();
 	}
 	
 	private void updateButtonColorsAndLabels() {
@@ -729,6 +738,7 @@ public class Show_PopUp extends Composite {
 						issueMap.addMarker(mPoi);
 						issueMap.setCounter();
 					}
+					updateList();
 					newIssue = false;
 					setEditMode(false);
 					setValuesFromPoi();
