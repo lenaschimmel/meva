@@ -289,7 +289,6 @@
 		<g:Label styleName="{style.h2}">Marker-Klasse</g:Label>
 		<g:HorizontalPanel height="32px"><g:Label text="Klasse:" styleName="{style.label}" />
 			<g:ListBox styleName="{style.typeselect}" ui:field="mapClass">
-				<g:item value='0'>keine</g:item>
 			</g:ListBox>
 		</g:HorizontalPanel>
 		<g:FlexTable ui:field="tblkKeyValue" styleName="{style.textBox}"></g:FlexTable>

@@ -505,7 +505,9 @@ public class Show_PopUp extends Composite {
 	
 		mPoi.setMarked(!mPoi.isMarked());
 		tbResolved.setStyleName(style.underline(), mPoi.isMarked());
-(??)
+		if (mPoi.isMarked()) tbResolved.getElement().getStyle().setBorderColor(map.getResolved_color());
+		else tbResolved.getElement().getStyle().setBorderColor("transparent");
+
 		updateIcon();
 		updateList();
 	}
