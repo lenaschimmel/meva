@@ -293,7 +293,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 						addFeedback_Button();
 						markerLayer.addMarkerPopupCreator(Poi.type, new IssuePopupCreator(map, markerLayer));
 
-						header.setMap(map);	
+						header.setFrontendDesign(map);	
 
 						footer.setMap(map);
 						Window.setTitle(map.getTitle());
@@ -311,7 +311,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 							}
 						}, 1000);
 						
-						header.setDesignbyMapobject(mapObject.getLogo().getUrl(),	mapObject.getTitle(), mapObject.getPrimary_color());
+						header.setFrontendDesign(mapObject);
 						footer.setDesign(mapObject.getPrimary_color());
 
 //						if(map.getMarkerClass().getName().equals("Energieanlage"))

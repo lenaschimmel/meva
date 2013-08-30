@@ -48,9 +48,6 @@ public class ThumbnailView extends AbsolutePanel implements ClickHandler {
 				photo.getElement().getStyle().setDisplay(Display.BLOCK);
 			}
 		});
-		
-		
-		
 	}
 
 	@Override
