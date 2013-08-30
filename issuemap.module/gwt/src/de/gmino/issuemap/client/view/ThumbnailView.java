@@ -32,7 +32,7 @@ public class ThumbnailView extends AbsolutePanel implements ClickHandler {
 		add(loadAnimation, 30, 30);
 		
 		loader = ImageUrlLoader.getInstance();
-		final String thumbUrl = photoBaseUrl+"&h=100&w=100";
+		final String thumbUrl = photoBaseUrl+"&h=100&w=100&r=" + Math.random();
 		loader.loadImage(thumbUrl, new ImageLoadListener() {
 			@Override
 			public void onLoaded() {
@@ -45,6 +45,8 @@ public class ThumbnailView extends AbsolutePanel implements ClickHandler {
 				int h = photo.getHeight();
 				int l = (100 - w) / 2;
 				int t = (100 - h) / 2;
+				if(w == 0 || h == 0)
+					l = t = 0;
 				add(photo, l, t);
 			}
 		});
