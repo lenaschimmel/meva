@@ -40,12 +40,12 @@ public class ThumbnailView extends AbsolutePanel implements ClickHandler {
 				photo =  loader.getImageByUrl(thumbUrl);
 				photo.getElement().getStyle().setCursor(Cursor.POINTER);
 				photo.addClickHandler(ThumbnailView.this);
+				photo.getElement().getStyle().setDisplay(Display.BLOCK);
 				int w = photo.getWidth();
 				int h = photo.getHeight();
 				int l = (100 - w) / 2;
 				int t = (100 - h) / 2;
 				add(photo, l, t);
-				photo.getElement().getStyle().setDisplay(Display.BLOCK);
 			}
 		});
 	}
