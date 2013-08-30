@@ -173,6 +173,8 @@ public class Create_Map_Backend extends Composite {
 	CheckBox searchStreetCheckbox;
 	@UiField
 	CheckBox searchCityCheckbox;
+	@UiField
+	ListBox layerSelect;
 	
 	@UiField
 	CheckBox editCheckbox;
@@ -360,6 +362,11 @@ public class Create_Map_Backend extends Composite {
 		map.setRate_criteria(rateCriteria.getText());
 		map.setSearchStreet(searchStreetCheckbox.getValue());
 		map.setSearchCity(searchCityCheckbox.getValue());
+		if(layerSelect.getSelectedIndex()==0) map.setLayer("mapquest");
+		if(layerSelect.getSelectedIndex()==1) map.setLayer("mapnik");
+		if(layerSelect.getSelectedIndex()==2) map.setLayer("oepnv");
+		if(layerSelect.getSelectedIndex()==3) map.setLayer("Bing Road");
+		if(layerSelect.getSelectedIndex()==4) map.setLayer("Bing Hybrid");
 
 	
 
@@ -418,6 +425,7 @@ public class Create_Map_Backend extends Composite {
 		markDescription.setText("");
 		searchStreetCheckbox.setValue(false);
 		searchCityCheckbox.setValue(false);
+		layerSelect.setSelectedIndex(0);
 		
 		
 		
@@ -491,6 +499,11 @@ public class Create_Map_Backend extends Composite {
 		}
 		searchCityCheckbox.setValue(map.isSearchCity());
 		searchStreetCheckbox.setValue(map.isSearchStreet());
+		if (map.getLayer().equals("mapquest")) layerSelect.setSelectedIndex(0);
+		if (map.getLayer().equals("mapnik")) layerSelect.setSelectedIndex(1);
+		if (map.getLayer().equals("oepnv")) layerSelect.setSelectedIndex(2);
+		if (map.getLayer().equals("Bing Road")) layerSelect.setSelectedIndex(3);
+		if (map.getLayer().equals("Bing Hybrid")) layerSelect.setSelectedIndex(4);
 
 			markerPanel.setVisible(true);
 			//Alle Markertypes der Map
@@ -562,6 +575,7 @@ public class Create_Map_Backend extends Composite {
 		rateCriteria.getElement().setAttribute("title", "Kriterium");
 		markDescription.getElement().setAttribute("placeholder", "Beschriftung");
 		markDescription.getElement().setAttribute("title", "Beschriftung");
+		layerSelect.getElement().setAttribute("title", "Karten-Layer");
 	}
 	
 }
