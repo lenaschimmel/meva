@@ -238,7 +238,7 @@ public class Show_PopUp extends Composite {
 		for (de.gmino.issuemap.shared.domain.Markertype mt : map.getHasMarkertypes())
 			lbMarkertype.addItem(mt.getMarkerName(), mt.getId() + "");
 		
-		setEditMode(false);
+		setEditMode(false, true);
 	}
 
 	public void setPoi(Poi poi) {
@@ -318,7 +318,7 @@ public class Show_PopUp extends Composite {
 	public void createNewPoi(final de.gmino.geobase.shared.domain.LatLon location)
 	{
 		newIssue = true;
-		setEditMode(true);
+		setEditMode(true, false);
 		final Markertype firstMarkertype = map.getHasMarkertypes().iterator().next();
 		final KeyValueSet markerClass = (KeyValueSet) firstMarkertype.getMarkerClass();
 		Requests.loadEntity(markerClass, new RequestListener<de.gmino.meva.shared.domain.KeyValueSet>() {
@@ -335,7 +335,7 @@ public class Show_PopUp extends Composite {
 								poi.setCreationTimestamp(Timestamp.now());
 								poi.setMarkertype(firstMarkertype);
 								setPoi(poi);
-								setEditMode(true);
+								setEditMode(true, true);
 							}
 						});
 					}
@@ -473,10 +473,10 @@ public class Show_PopUp extends Composite {
 	@UiHandler("tbEdit")
 	void onTbEditClicked(ClickEvent e) {
 
-		setEditMode(!isInEditMode);
+		setEditMode(!isInEditMode, true);
 	}
 
-	public void setEditMode(boolean edit) {
+	public void setEditMode(boolean edit, boolean enabled) {
 		isInEditMode = edit;
 		
 		enableOrDisableFeatures();
@@ -486,6 +486,8 @@ public class Show_PopUp extends Composite {
 		
 		dpTabsOrDropdown.showWidget(edit ? 1 : 0);
 		dpTtitleOrTextBox.showWidget(edit ? 1 : 0);
+		tbTitle.setEnabled(enabled);
+		lbMarkertype.setEnabled(enabled);
 		showOrHideWidgets(!newIssue && map.isDelete(), btDelete);
 		
 		if(edit)
@@ -505,8 +507,11 @@ public class Show_PopUp extends Composite {
 	
 		mPoi.setMarked(!mPoi.isMarked());
 		tbResolved.setStyleName(style.underline(), mPoi.isMarked());
-		if (mPoi.isMarked()) tbResolved.getElement().getStyle().setBorderColor(map.getResolved_color());
-		else tbResolved.getElement().getStyle().setBorderColor("transparent");
+
+		if (mPoi.isMarked())
+			tbResolved.getElement().getStyle().setBorderColor(map.getResolved_color());
+		else
+			tbResolved.getElement().getStyle().setBorderColor("transparent");
 
 		updateIcon();
 		updateList();
@@ -714,7 +719,7 @@ public class Show_PopUp extends Composite {
 			mPoi.setMarkertype((Markertype) Markertype.getById(markertypeIdBeforeEdit));
 			updateIcon();
 		}
-		setEditMode(false);
+		setEditMode(false, true);
 	}
 	
 	@UiHandler("btSave")
@@ -749,7 +754,7 @@ public class Show_PopUp extends Composite {
 					}
 					updateList();
 					newIssue = false;
-					setEditMode(false);
+					setEditMode(false, true);
 					setValuesFromPoi();
 				}
 			});

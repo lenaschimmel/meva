@@ -99,7 +99,11 @@
 		{
 			"type" : "boolean",
 			"name" : "has_filters"
-		},	
+		},
+		{
+			"type" : "boolean",
+			"name" : "create"
+		},		
 		{
 			"type" : "boolean",
 			"name" : "edit"

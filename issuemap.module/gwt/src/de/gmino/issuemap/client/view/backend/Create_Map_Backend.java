@@ -177,6 +177,8 @@ public class Create_Map_Backend extends Composite {
 	ListBox layerSelect;
 	
 	@UiField
+	CheckBox createCheckbox;
+	@UiField
 	CheckBox editCheckbox;
 	@UiField
 	CheckBox deleteCheckbox;
@@ -355,6 +357,7 @@ public class Create_Map_Backend extends Composite {
 		map.setHas_ratings(ratingsCheckbox.getValue());
 		map.setHas_list(listCheckbox.getValue());
 		map.setHas_filters(filtersCheckbox.getValue());
+		map.setCreate(createCheckbox.getValue());
 		map.setDelete(deleteCheckbox.getValue());
 		map.setEdit(editCheckbox.getValue());
 		map.setMark(markCheckbox.getValue());
@@ -398,7 +401,6 @@ public class Create_Map_Backend extends Composite {
 		website.setText("");
 		email.setText("");
 		url_impressum.setText("");
-		mapClass.setSelectedIndex(0);
 		recipient_name.setText("");
 		street.setText("");
 		houseNumber.setText("");
@@ -418,6 +420,7 @@ public class Create_Map_Backend extends Composite {
 		filtersCheckbox.setValue(false);
 		editCheckbox.setValue(false);
 		markCheckbox.setValue(false);
+		createCheckbox.setValue(false);
 		deleteCheckbox.setValue(false);
 		deleteCheckbox.setVisible(false);
 		deleteLabel.setVisible(false);
@@ -489,6 +492,7 @@ public class Create_Map_Backend extends Composite {
 		rateCriteria.setText(map.getRate_criteria());
 		listCheckbox.setValue(map.isHas_list());
 		filtersCheckbox.setValue(map.isHas_filters());
+		createCheckbox.setValue(map.isCreate());
 		editCheckbox.setValue(map.isEdit());
 		markCheckbox.setValue(map.isMark());
 		markDescription.setText(map.getMark_description());
