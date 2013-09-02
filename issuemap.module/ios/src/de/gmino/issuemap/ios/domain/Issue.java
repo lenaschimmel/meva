@@ -9,6 +9,7 @@ import de.gmino.geobase.ios.domain.LatLon;
 import de.gmino.geobase.ios.domain.Timestamp;
 import de.gmino.issuemap.ios.domain.gen.IssueGen;
 import de.gmino.meva.ios.domain.KeyValueSet;
+
 // default imports
 // imports for JSON
 // imports for field types
