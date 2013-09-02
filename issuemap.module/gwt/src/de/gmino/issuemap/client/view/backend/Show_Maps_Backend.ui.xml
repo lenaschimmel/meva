@@ -12,7 +12,7 @@
 			border-top-left-radius: 2px;
 			border-bottom-left-radius: 2px;
 			border: 1px solid rgba(100,100,100, 0.5);
-			background: rgba(50, 50, 50, 0.8);
+			background: rgba(50, 50, 50, 0.85);
 			color: #FFF;
 			position: relative;
 			margin: auto;

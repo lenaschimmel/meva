@@ -226,34 +226,8 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 		// });
 
 		// Add create-PopUp by Double-Click
-		mapView.addEventListener(Event.dblclick, new MapListener() {
+		
 
-			@Override
-			public void onEvent(final LatLon location, Event event) {
-				DivElement div = ((OpenLayersMapView) mapView).createPopup(
-						location, "centerPopup", 1, 1);
-				final Show_PopUp popUp = new Show_PopUp(mapObject, markerLayer);
-				popUp.createNewPoi(location);
-				HTMLPanel.wrap(div).add(popUp);
-				
-				// the popup width is not always computeted correctly the first time and simple deferring doesn't help. Therefore, we ask for the width until it seems about right before using ist.
-				Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
-					@Override
-					public boolean execute() {
-						int offsetWidth = popUp.getOffsetWidth();
-						int offsetHeight = popUp.getOffsetHeight();
-						
-						if(offsetWidth < 160)
-							return true;
-						
-						mapView.panRectIntoMap(location, offsetWidth,
-								offsetHeight, true);
-						
-						return false;
-					}
-				}, 100);
-			}
-		});
 		
 		Requests.getLoadedEntitiesByType(KeyValueDef.type, new RequestListener<KeyValueDef>() {
 			@Override
@@ -281,7 +255,9 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 
 					@SuppressWarnings("unchecked")
 					public void onNewResult(final Map map) {
-						mapObject = map;
+						
+					mapObject = map;
+					if(mapObject.isCreate()) setListener();
 						markerLayer.setzoomThreshold(map.getInitZoomlevel()-3);
 						
 						addFeedback_Button();
@@ -294,14 +270,15 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 
 						mapView.newMapLayer(map.getLayer());
 						mapView.setZoom(mapObject.getInitZoomlevel());
-						mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);
+//						mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);
 						
 						Scheduler.get().scheduleFixedDelay(
 						new RepeatingCommand() {
 							
 							@Override
 							public boolean execute() {
-									mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);
+							//	mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);
+								mapView.setCenter(mapObject.getInitLocation(),false);
 								return false;
 							}
 						}, 1000);
@@ -704,5 +681,39 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 			} while(tooClose);
 			subjectPoi.setLocation(subLoc);
 		}
+	}
+	
+	public void setListener(){
+		
+		mapView.addEventListener(Event.dblclick, new MapListener() {
+
+			@Override
+			public void onEvent(final LatLon location, Event event) {
+				DivElement div = ((OpenLayersMapView) mapView).createPopup(
+						location, "centerPopup", 1, 1);
+				final Show_PopUp popUp = new Show_PopUp(mapObject, markerLayer);
+				popUp.createNewPoi(location);
+				HTMLPanel.wrap(div).add(popUp);
+				
+				// the popup width is not always computeted correctly the first time and simple deferring doesn't help. Therefore, we ask for the width until it seems about right before using ist.
+				Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+					@Override
+					public boolean execute() {
+						int offsetWidth = popUp.getOffsetWidth();
+						int offsetHeight = popUp.getOffsetHeight();
+						
+						if(offsetWidth < 160)
+							return true;
+						
+						mapView.panRectIntoMap(location, offsetWidth,
+								offsetHeight, true);
+						
+						return false;
+					}
+				}, 100);
+			}
+		});
+		
+		
 	}
 }
