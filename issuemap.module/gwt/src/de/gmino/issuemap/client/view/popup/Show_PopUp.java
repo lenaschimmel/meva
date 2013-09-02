@@ -508,6 +508,7 @@ public class Show_PopUp extends Composite {
 		mPoi.setMarked(!mPoi.isMarked());
 		tbResolved.setStyleName(style.underline(), mPoi.isMarked());
 		updateIcon();
+		Requests.saveEntity(mPoi, null);
 		updateList();
 	}
 
