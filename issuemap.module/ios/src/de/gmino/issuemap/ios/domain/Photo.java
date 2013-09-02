@@ -4,31 +4,12 @@
 package de.gmino.issuemap.ios.domain;
 
 // gmino stuff
-import de.gmino.meva.shared.Entity;
-import de.gmino.meva.shared.EntityFactory;
-import de.gmino.meva.shared.RelationCollection;
-import de.gmino.meva.shared.EntityTypeName;
-import de.gmino.meva.shared.Util;
-
-// default imports
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Collection;
-
-// imports for JSON
-import org.itemscript.core.values.JsonObject;
-import org.itemscript.core.values.JsonValue;
-
-// imports for field types
 import de.gmino.geobase.ios.domain.ImageUrl;
 import de.gmino.geobase.ios.domain.Timestamp;
-import de.gmino.issuemap.ios.domain.Issue;
-
-
 import de.gmino.issuemap.ios.domain.gen.PhotoGen;
+// default imports
+// imports for JSON
+// imports for field types
 public class Photo extends PhotoGen {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	public Photo(long id)
@@ -39,7 +20,7 @@ public class Photo extends PhotoGen {
 	public Photo(
 			long id,
 			boolean ready,
-			Issue issue,
+			Poi poi,
 			ImageUrl image,
 			String user,
 			Timestamp timestamp,
@@ -48,7 +29,7 @@ public class Photo extends PhotoGen {
 		super(
 			id,
 			ready,
-			(de.gmino.issuemap.ios.domain.Issue)issue,
+			(de.gmino.issuemap.ios.domain.Poi)poi,
 			(de.gmino.geobase.ios.domain.ImageUrl)image,
 			user,
 			(de.gmino.geobase.ios.domain.Timestamp)timestamp,

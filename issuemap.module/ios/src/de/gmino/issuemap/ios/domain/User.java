@@ -4,35 +4,34 @@
 package de.gmino.issuemap.ios.domain;
 
 // gmino stuff
-import de.gmino.geobase.ios.domain.Timestamp;
-import de.gmino.issuemap.ios.domain.gen.CommentGen;
+import de.gmino.geobase.ios.domain.Address;
+import de.gmino.issuemap.ios.domain.gen.UserGen;
 // default imports
 // imports for JSON
 // imports for field types
-public class Comment extends CommentGen {
+@SuppressWarnings("unused")
+public class User extends UserGen {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
-	public Comment(long id)
+	public User(long id)
 	{
 		super(id);
 	}
 	
-	public Comment(
+	public User(
 			long id,
 			boolean ready,
-			Poi poi,
-			String text,
-			String user,
-			Timestamp timestamp,
-			boolean deleted)
+			String userName,
+			String password,
+			Address postal_address,
+			String email)
 	{
 		super(
 			id,
 			ready,
-			(de.gmino.issuemap.ios.domain.Poi)poi,
-			text,
-			user,
-			(de.gmino.geobase.ios.domain.Timestamp)timestamp,
-			deleted
+			userName,
+			password,
+			(de.gmino.geobase.ios.domain.Address)postal_address,
+			email
 		);
 		this.ready = true;
 	}
