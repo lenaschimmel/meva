@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.view.Header;
+import de.gmino.issuemap.client.view.Login;
 import de.gmino.issuemap.client.view.backend.Create_Map_Backend;
 import de.gmino.issuemap.client.view.backend.Show_Maps_Backend;
 import de.gmino.meva.client.UtilClient;
@@ -22,6 +23,7 @@ public class MasterBackend  implements EntryPoint  {
 	Create_Map_Backend createMapField;
 	Show_Maps_Backend mapList;
 	Header header;
+	Login login;
 	private static MasterBackend instance;
 	
 	public MasterBackend() {
@@ -36,27 +38,33 @@ public class MasterBackend  implements EntryPoint  {
 		Requests.setImplementation(new NetworkRequestsImplAsyncJson("http://"
 				+ Location.getHost() + "/"));
 		
-//		UserService userService = UserServiceFactory.getUserService();
-//		User user = userService.getCurrentUser();
-		
 
-		createMapField= new Create_Map_Backend();
-		mapList = new Show_Maps_Backend();
 		header = new Header();
 		header.setBackendDesign("logo_geoengine.png", "Master Backend", "#FFF", "rgba(40,40,40,0.8)");
+		login= new Login(this);
 		
-//		if(user==null){
-//			RootPanel.get("left").add(new Label("please login"));
-//		}
-//		
-//		else{
-			RootPanel.get("right").add(createMapField);
-			RootPanel.get("left").add(mapList);
-			RootPanel.get("parent").add(header);
-//		}
+			
+		createMapField= new Create_Map_Backend();
+		mapList = new Show_Maps_Backend();
+		createMapField.setVisible(false);
+		mapList.setVisible(false);
+		RootPanel.get("right").add(createMapField);
+		RootPanel.get("left").add(mapList);
+		RootPanel.get("parent").add(header);
+		RootPanel.get("parent").add(login);
+
 
 			
 	} 
+	
+	public void onLogin(){
+		login.removeFromParent();
+		createMapField.setVisible(true);
+		mapList.setVisible(true);
+
+
+		
+	}
 
 	public static MasterBackend getInstance()
 	{

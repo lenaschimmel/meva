@@ -452,10 +452,10 @@
 							<g:FocusPanel styleName="{style.topButton} {style.tbDelete}" ui:field="btDelete" title="Eintrag löschen" />
 						</g:cell>
 						<g:cell height="100%" width="40px">
-							<g:FocusPanel styleName="{style.topButton} {style.tbSave}" ui:field="btSave" title="Änderungen Speichern" />
+							<g:FocusPanel styleName="{style.topButton} {style.tbSave}" ui:field="btSave" title="Speichern" />
 						</g:cell>
 						<g:cell height="100%" width="40px">
-							<g:FocusPanel styleName="{style.topButton} {style.tbClose}" ui:field="btCancel" title="Änderungen Verwerfen" />
+							<g:FocusPanel styleName="{style.topButton} {style.tbClose}" ui:field="btCancel" title="Verwerfen" />
 						</g:cell>
 
 
