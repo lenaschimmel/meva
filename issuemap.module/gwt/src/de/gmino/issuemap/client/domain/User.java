@@ -4,11 +4,13 @@
 package de.gmino.issuemap.client.domain;
 
 // gmino stuff
+import de.gmino.meva.client.domain.DateTime;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.RelationCollection;
 import de.gmino.meva.shared.TypeName;
 import de.gmino.meva.shared.Util;
+
 
 // default imports
 import java.io.DataInputStream;
@@ -19,19 +21,23 @@ import java.io.StringWriter;
 import java.util.Collection;
 import java.util.TreeMap;
 
+
 // imports for JSON
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
+
 
 // imports for Key-Value-Set
 import de.gmino.meva.shared.ValueWrapper;
 import de.gmino.meva.shared.domain.KeyValueDef;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
+
 import org.itemscript.core.JsonSystem;
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 import org.itemscript.standard.StandardConfig;
+
 
 // imports for field types
 import de.gmino.geobase.client.domain.Address;
@@ -52,7 +58,10 @@ public class User extends UserGen {
 			String userName,
 			String password,
 			Address postal_address,
-			String email)
+			String email,
+			boolean activated,
+			String sessionId,
+			DateTime expirationTime)
 	{
 		super(
 			id,
@@ -60,7 +69,10 @@ public class User extends UserGen {
 			userName,
 			password,
 			(de.gmino.geobase.client.domain.Address)postal_address,
-			email
+			email,
+			activated,
+			sessionId,
+			(de.gmino.meva.client.domain.DateTime)expirationTime
 		);
 		this.ready = true;
 	}

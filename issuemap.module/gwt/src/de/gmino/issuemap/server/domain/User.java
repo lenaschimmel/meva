@@ -10,6 +10,7 @@ import de.gmino.meva.shared.RelationCollection;
 import de.gmino.meva.shared.TypeName;
 import de.gmino.meva.shared.Util;
 
+
 // default imports
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -19,19 +20,23 @@ import java.io.StringWriter;
 import java.util.Collection;
 import java.util.TreeMap;
 
+
 // imports for JSON
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
+
 
 // imports for Key-Value-Set
 import de.gmino.meva.shared.ValueWrapper;
 import de.gmino.meva.shared.domain.KeyValueDef;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
+
 import org.itemscript.core.JsonSystem;
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 import org.itemscript.standard.StandardConfig;
+
 
 // imports for SQL stuff
 import java.sql.Connection;
@@ -41,11 +46,13 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.TreeSet;
 
+
 // imports for serialization interfaces
 import de.gmino.meva.shared.EntityBinary;
 import de.gmino.meva.shared.ValueBinary;
 import de.gmino.meva.server.EntitySql;
 
+import de.gmino.meva.server.domain.DateTime;
 // imports for field types
 import de.gmino.geobase.server.domain.Address;
 
@@ -65,7 +72,10 @@ public class User extends UserGen {
 			String userName,
 			String password,
 			Address postal_address,
-			String email)
+			String email,
+			boolean activated,
+			String sessionId,
+			DateTime expirationTime)
 	{
 		super(
 			id,
@@ -73,7 +83,10 @@ public class User extends UserGen {
 			userName,
 			password,
 			(de.gmino.geobase.server.domain.Address)postal_address,
-			email
+			email,
+			activated,
+			sessionId,
+			(de.gmino.meva.server.domain.DateTime)expirationTime
 		);
 		this.ready = true;
 	}
