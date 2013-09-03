@@ -514,6 +514,7 @@ public class Show_PopUp extends Composite {
 			tbResolved.getElement().getStyle().setBorderColor("transparent");
 
 		updateIcon();
+		Requests.saveEntity(mPoi, null);
 		updateList();
 	}
 
@@ -521,6 +522,8 @@ public class Show_PopUp extends Composite {
 		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mPoi);
 		String iconUrl = renderer.getIconUrl(mPoi);
 		imageMarkerIcon.setUrl(iconUrl);
+		IssuemapGwt.getInstance().deleteMarker(mPoi);
+		IssuemapGwt.getInstance().addMarker(mPoi);
 	}
 	
 	private void updateList() {
