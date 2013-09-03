@@ -18,6 +18,20 @@
 		{
 			"type" : "String",
 			"name" : "email"
+		},
+		{
+			"type" : "relation",
+			"name" : "usesMaps",
+			"reltype" : "Map",
+			"relname" : "isUsedByMap",
+			"multiplerelation" : "true"
+		},
+		{
+			"type" : "relation",
+			"name" : "ownsMaps",
+			"reltype" : "Map",
+			"relname" : "isUsedByMap",
+			"multiplerelation" : "true"
 		}
 	]
 }

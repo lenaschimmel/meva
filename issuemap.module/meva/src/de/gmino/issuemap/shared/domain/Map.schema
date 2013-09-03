@@ -150,6 +150,20 @@
 			"reltype" : "Markertype",
 			"relname" : "isUsedByMap",
 			"multiplerelation" : "true"
+		},
+		{
+			"type" : "relation",
+			"name" : "hasUser",
+			"reltype" : "User",
+			"relname" : "usesMaps",
+			"multiplerelation" : "true"
+		},
+		{
+			"type" : "relation",
+			"name" : "hasOwner",
+			"reltype" : "User",
+			"relname" : "ownsMap",
+			"multiplerelation" : "true"
 		}
 	]
 }

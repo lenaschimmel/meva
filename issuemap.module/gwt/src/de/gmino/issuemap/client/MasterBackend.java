@@ -44,12 +44,7 @@ public class MasterBackend  implements EntryPoint  {
 		login= new Login(this);
 		
 			
-		createMapField= new Create_Map_Backend();
-		mapList = new Show_Maps_Backend();
-		createMapField.setVisible(false);
-		mapList.setVisible(false);
-		RootPanel.get("right").add(createMapField);
-		RootPanel.get("left").add(mapList);
+
 		RootPanel.get("parent").add(header);
 		RootPanel.get("parent").add(login);
 
@@ -58,9 +53,13 @@ public class MasterBackend  implements EntryPoint  {
 	} 
 	
 	public void onLogin(){
+		createMapField= new Create_Map_Backend();
+		mapList = new Show_Maps_Backend();
+
+		RootPanel.get("right").add(createMapField);
+		RootPanel.get("left").add(mapList);
 		login.removeFromParent();
-		createMapField.setVisible(true);
-		mapList.setVisible(true);
+
 
 
 		
