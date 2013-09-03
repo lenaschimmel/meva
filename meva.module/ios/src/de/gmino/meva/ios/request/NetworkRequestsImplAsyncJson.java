@@ -1,7 +1,20 @@
 package de.gmino.meva.ios.request;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
 
+import org.itemscript.core.ItemscriptSystem;
+import org.itemscript.core.JsonSystem;
+import org.itemscript.core.values.JsonArray;
+import org.itemscript.core.values.JsonObject;
+import org.itemscript.core.values.JsonValue;
+import org.itemscript.standard.StandardConfig;
+
+import de.gmino.meva.ios.domain.KeyValueDef;
+import de.gmino.meva.ios.domain.KeyValueSet;
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityQuery;
 import de.gmino.meva.shared.TypeName;
@@ -11,51 +24,9 @@ import de.gmino.meva.shared.request.NetworkRequests;
 import de.gmino.meva.shared.request.RequestListener;
 
 public class NetworkRequestsImplAsyncJson implements NetworkRequests {
-
-	@Override
-	public void getIdsByQuery(EntityQuery query, RequestListener<Long> listener) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public <ValueClass extends Value> void getValuesByQuery(ValueQuery query,
-			RequestListener<ValueClass> listener) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void getNewIds(TypeName type, int count,
-			RequestListener<Long> listener) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public <EntityClass extends Entity> void loadEntities(
-			Collection<EntityClass> entities,
-			RequestListener<EntityClass> listener) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public <EntityClass extends Entity> void saveEntities(
-			Collection<EntityClass> entities,
-			RequestListener<EntityClass> listener) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void getIdsByType(TypeName type,
-			RequestListener<Long> requestListener) {
-		// TODO Auto-generated method stub
-		
-	}
-/*
 	private String baseUrl;
+	
+	JsonSystem jsonSystem = StandardConfig.createSystem();
 
 	public NetworkRequestsImplAsyncJson(String baseUrl) {
 		this.baseUrl = baseUrl;
@@ -71,9 +42,8 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 				@Override
 				public void onResponseReceived(Request request, Response response) {
 					Collection<Value> values = new LinkedList<Value>();
-					JsonSystem system = ItemscriptSystem  GwtSystem.SYSTEM;
 					String jsonString = response.getText();
-					JsonObject answer = system.parse(jsonString).asObject();
+					JsonObject answer = jsonSystem.parse(jsonString).asObject();
 					String status = answer.getString("status");
 					if (status.equals("ERROR")) {
 						String message = answer.getString("content");
@@ -120,10 +90,9 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 				@Override
 				public void onResponseReceived(Request request, Response response) {
 					Collection<Long> ids = new LinkedList<Long>();
-					JsonSystem system = GwtSystem.SYSTEM;
 					String jsonString = response.getText();
 					System.out.println("JSON answer: " + jsonString);
-					JsonObject answer = system.parse(jsonString).asObject();
+					JsonObject answer = jsonSystem.parse(jsonString).asObject();
 					String status = answer.getString("status");
 					if (status.equals("ERROR")) {
 						String message = answer.getString("content");
@@ -173,9 +142,8 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 				@Override
 				public void onResponseReceived(Request request, Response response) {
 					Collection<Long> ids = new LinkedList<Long>();
-					JsonSystem system = GwtSystem.SYSTEM;
 					String jsonString = response.getText();
-					JsonObject answer = system.parse(jsonString).asObject();
+					JsonObject answer = jsonSystem.parse(jsonString).asObject();
 					String status = answer.getString("status");
 					if (status.equals("ERROR")) {
 						String message = answer.getString("content");
@@ -252,9 +220,8 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 				@Override
 				public void onResponseReceived(Request request, Response response) {
 					Collection<Long> ids = new LinkedList<Long>();
-					JsonSystem system = GwtSystem.SYSTEM;
 					String jsonString = response.getText();
-					JsonObject answer = system.parse(jsonString).asObject();
+					JsonObject answer = jsonSystem.parse(jsonString).asObject();
 					String status = answer.getString("status");
 					if (status.equals("ERROR")) {
 						String message = answer.getString("content");
@@ -316,9 +283,8 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 				@Override
 				public void onResponseReceived(Request request, Response response) {
 					Collection<Long> ids = new LinkedList<Long>();
-					JsonSystem system = GwtSystem.SYSTEM;
 					String jsonString = response.getText();
-					JsonObject answer = system.parse(jsonString).asObject();
+					JsonObject answer = jsonSystem.parse(jsonString).asObject();
 					String status = answer.getString("status");
 					if (status.equals("ERROR")) {
 						String message = answer.getString("content");
@@ -360,9 +326,8 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 				@Override
 				public void onResponseReceived(Request request, Response response) {
 					Collection<Long> ids = new LinkedList<Long>();
-					JsonSystem system = GwtSystem.SYSTEM;
 					String jsonString = response.getText();
-					JsonObject answer = system.parse(jsonString).asObject();
+					JsonObject answer = jsonSystem.parse(jsonString).asObject();
 					String status = answer.getString("status");
 					if (status.equals("ERROR")) {
 						String message = answer.getString("content");
@@ -386,5 +351,5 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 		} catch (Exception exception) {
 			listener.onError("Json request generated an exception (thrown).", exception);
 		}
-	}*/
+	}
 }
