@@ -96,9 +96,9 @@ public class Distance extends DistanceGen {
 		final double foot = getInFoot();
 
 		if (foot < 20)
-			return Util.format("%.1f′", foot);
+			return Util.format("%.1f???", foot);
 		else if (foot < 1000)
-			return Util.format("%d′", (int) foot);
+			return Util.format("%d???", (int) foot);
 		else {
 			final double miles = getInMiles();
 			if (miles < 5)

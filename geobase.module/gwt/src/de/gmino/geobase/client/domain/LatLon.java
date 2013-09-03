@@ -41,7 +41,7 @@ public class LatLon extends LatLonGen {
 	public String toDecimalString()
 	{
 		
-		return format.format(latitude) + "°, " + format.format(longitude) + "°";
+		return format.format(latitude) + "??, " + format.format(longitude) + "??";
 	}
 	
 	public boolean isEmpty()

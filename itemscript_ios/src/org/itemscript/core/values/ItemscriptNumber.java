@@ -1,5 +1,5 @@
 /*
- * Copyright © 2010, Data Base Architects, Inc. All rights reserved.
+ * Copyright ï¿½ 2010, Data Base Architects, Inc. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
@@ -40,11 +40,11 @@ final class ItemscriptNumber extends ItemscriptScalar implements JsonNumber {
     }
 
     public ItemscriptNumber(JsonSystem system, Float value) {
-        this(system, (double) value);
+        this(system, (double) value.floatValue());
     }
 
     public ItemscriptNumber(JsonSystem system, Integer value) {
-        this(system, (double) value);
+        this(system, (double) value.intValue());
     }
 
     protected ItemscriptNumber(JsonSystem system, JsonContainer parent) {
@@ -52,7 +52,7 @@ final class ItemscriptNumber extends ItemscriptScalar implements JsonNumber {
     }
 
     public ItemscriptNumber(JsonSystem system, Long value) {
-        this(system, (double) value);
+        this(system, (double) value.longValue());
     }
 
     @Override

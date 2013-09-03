@@ -59,7 +59,7 @@ public class LatLon extends LatLonGen {
 
 	public String toDecimalString()
 	{
-		return latitude + "°, " + longitude + "°";
+		return latitude + "??, " + longitude + "??";
 	}
 
 	public boolean isEmpty()

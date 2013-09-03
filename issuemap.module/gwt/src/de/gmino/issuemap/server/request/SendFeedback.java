@@ -89,7 +89,7 @@ public class SendFeedback extends SendFeedbackGen {
         	            msg.setFrom(new InternetAddress("greenmobileinnovations@gmail.com ", "greenmobile Innovations Geoengine - Karte " + map.getTitle()));
         	            if(toDevelopers)
         	            	msg.addRecipient(Message.RecipientType.TO,
-        	                        new InternetAddress("info@gmino.de", "Geoengine-Zuständiger"));
+        	                        new InternetAddress("info@gmino.de", "Geoengine-Zust??ndiger"));
         	            else
         	            	msg.addRecipient(Message.RecipientType.TO,
         	                    new InternetAddress(map.getEmail(), map.getPostal_address().getRecipientName()));
@@ -99,7 +99,7 @@ public class SendFeedback extends SendFeedbackGen {
         	            String user = (emailAddress != null && emailAddress.length() > 3) ? "Ein Nutzer mit der (nicht verifizierten) Adresse " + emailAddress : "Ein annonymer Nutzer";
         	            String addressat = toDevelopers ? "Hallo Gminos" : "Sehr gehrte " + map.getPostal_address().getRecipientName();
         	            	
-        	            String fullMessage = addressat + ",\n" + user + " hat auf der Geoengine-Seite " + map.getSubdomain() + ".geoengine.de den folgenden Kommentar für sie verfasst:\n\n" + message;
+        	            String fullMessage = addressat + ",\n" + user + " hat auf der Geoengine-Seite " + map.getSubdomain() + ".geoengine.de den folgenden Kommentar f??r sie verfasst:\n\n" + message;
         	            
         	            msg.setText(fullMessage);
         	            Transport.send(msg);

@@ -1,0 +1,13 @@
+PODS:
+  - CocoaLumberjack (1.6.2)
+  - Colours (2.0)
+
+DEPENDENCIES:
+  - CocoaLumberjack
+  - Colours
+
+SPEC CHECKSUMS:
+  CocoaLumberjack: d73e1e317ced14ab930797dda6c17156ff17aaa1
+  Colours: db86d21666586908dee6f27f54d04bd81a67984a
+
+COCOAPODS: 0.20.2
