@@ -37,7 +37,8 @@ public class Markertype extends MarkertypeGen {
 			String markerName,
 			String imageName,
 			int imageWidth,
-			int imageHeight)
+			int imageHeight,
+			KeyValueSet markerClass)
 	{
 		super(
 			id,
@@ -45,7 +46,8 @@ public class Markertype extends MarkertypeGen {
 			markerName,
 			imageName,
 			imageWidth,
-			imageHeight
+			imageHeight,
+			(de.gmino.meva.ios.domain.KeyValueSet)markerClass
 		);
 		this.ready = true;
 	}

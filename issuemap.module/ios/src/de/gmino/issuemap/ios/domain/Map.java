@@ -58,7 +58,20 @@ public class Map extends MapGen {
 			String website,
 			String impressum_url,
 			String email,
-			Address postal_address)
+			Address postal_address,
+			boolean has_fotos,
+			boolean has_comments,
+			boolean has_ratings,
+			boolean has_list,
+			boolean has_filters,
+			boolean create,
+			boolean edit,
+			boolean delete,
+			boolean mark,
+			String rate_criteria,
+			String mark_description,
+			boolean searchStreet,
+			boolean searchCity)
 	{
 		super(
 			id,
@@ -81,7 +94,20 @@ public class Map extends MapGen {
 			website,
 			impressum_url,
 			email,
-			(de.gmino.geobase.ios.domain.Address)postal_address
+			(de.gmino.geobase.ios.domain.Address)postal_address,
+			has_fotos,
+			has_comments,
+			has_ratings,
+			has_list,
+			has_filters,
+			create,
+			edit,
+			delete,
+			mark,
+			rate_criteria,
+			mark_description,
+			searchStreet,
+			searchCity
 		);
 		this.ready = true;
 	}

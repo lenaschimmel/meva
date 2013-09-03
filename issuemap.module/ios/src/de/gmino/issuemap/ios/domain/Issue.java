@@ -47,6 +47,7 @@ public class Issue extends IssueGen {
 			String title,
 			String description,
 			Markertype markertype,
+			KeyValueSet keyvalueset,
 			Map map_instance,
 			Timestamp creationTimestamp,
 			int rating,
@@ -67,6 +68,7 @@ public class Issue extends IssueGen {
 			title,
 			description,
 			(de.gmino.issuemap.ios.domain.Markertype)markertype,
+			(de.gmino.meva.ios.domain.KeyValueSet)keyvalueset,
 			(de.gmino.issuemap.ios.domain.Map)map_instance,
 			(de.gmino.geobase.ios.domain.Timestamp)creationTimestamp,
 			rating,
@@ -80,6 +82,7 @@ public class Issue extends IssueGen {
 			email,
 			phone
 		);
+		loadValueSet();
 		this.ready = true;
 	}
 	
