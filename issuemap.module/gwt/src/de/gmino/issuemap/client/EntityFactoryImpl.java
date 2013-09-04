@@ -19,6 +19,7 @@ import de.gmino.issuemap.client.domain.Markertype;
 import de.gmino.issuemap.client.domain.Photo;
 import de.gmino.issuemap.client.domain.Poi;
 import de.gmino.issuemap.client.domain.Route;
+import de.gmino.issuemap.client.domain.User;
 import de.gmino.issuemap.client.request.QueryMapBySubdomain;
 import de.gmino.issuemap.client.request.SendFeedback;
 import de.gmino.meva.client.domain.Date;
@@ -74,6 +75,8 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 			return new KeyValueDef(id);
 		if (typeName.equals("DecentralizedGeneration"))
 			return new DecentralizedGeneration(id);
+		if (typeName.equals("User"))
+			return new User(id);
 		throw new RuntimeException("Unsupported Entity type: " + typeName);
 	}
 

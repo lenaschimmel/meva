@@ -1,4 +1,4 @@
-package de.gmino.issuemap.client.view;
+package de.gmino.issuemap.client.view.backend;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -19,16 +19,16 @@ import de.gmino.issuemap.client.domain.User;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
-public class Signin extends Composite {
+public class Register extends Composite {
 
 	private Login login;
 	
 	private static LoginUiBinder uiBinder = GWT.create(LoginUiBinder.class);
 
-	interface LoginUiBinder extends UiBinder<Widget, Signin> {
+	interface LoginUiBinder extends UiBinder<Widget, Register> {
 	}
 
-	public Signin(Login login) {
+	public Register(Login login) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.login=login;
 	}
@@ -54,39 +54,34 @@ public class Signin extends Composite {
 	@UiField
 	Button next;
 	@UiField
-	Button signinButton;
+	Button registerButton;
 	@UiField
 	VerticalPanel inputWrapper;
 	
-	@UiHandler("signinButton")
-	void onClick(ClickEvent e) {
-//		Requests.getNewEntity(User.type, new RequestListener<User>() {
-//			@Override
-//			public void onNewResult(User newUser) {
-//				newUser.setUserName(user.getText());
-//				newUser.setPassword(password1.getText());
-//				newUser.setEmail(mail.getText());
-//				newUser.setPostal_address(new Address(firstname.getText() + " " + name.getText(), street.getText(), housenumber.getText(), zip.getText(), city.getText(), ""));
-//				Requests.saveEntity(newUser, null);
-//			}
-//		});
+	@UiHandler("registerButton")
+	void onRegisterButtonClicked(ClickEvent e) {
+		Requests.getNewEntity(User.type, new RequestListener<User>() {
+			@Override
+			public void onNewResult(User newUser) {
+				System.out.println("User result.");
+				newUser.setUserName(user.getText());
+				newUser.setPassword(password1.getText());
+				newUser.setEmail(mail.getText());
+				newUser.setPostal_address(new Address(firstname.getText() + " " + name.getText(), street.getText(), housenumber.getText(), zip.getText(), city.getText(), ""));
+				Requests.saveEntity(newUser, null);
+			}
+		});
 		
 		inputWrapper.clear();
 
 		inputWrapper.add(new Label("In Kürze erhalten Sie eine Mail mit dem Aktivierungs-Link für Ihren Account"));
 		next.setVisible(true);
-		signinButton.setVisible(false);
-		
-		
-
+		registerButton.setVisible(false);
 	}
+	
 	@UiHandler("next")
-	void onClick2(ClickEvent e) {
+	void onNextButtonClicked(ClickEvent e) {
 		this.removeFromParent();
 		login.setVisible(true);
-		
-		
 	}
-
-
 }

@@ -13,9 +13,9 @@ import de.gmino.geobase.server.domain.Duration;
 import de.gmino.geobase.server.domain.ImageUrl;
 import de.gmino.geobase.server.domain.LatLon;
 import de.gmino.geobase.server.domain.Timestamp;
+import de.gmino.issuemap.server.domain.User;
 import de.gmino.issuemap.server.domain.Comment;
 import de.gmino.issuemap.server.domain.DecentralizedGeneration;
-import de.gmino.issuemap.server.domain.Issue;
 import de.gmino.issuemap.server.domain.Map;
 import de.gmino.issuemap.server.domain.Markertype;
 import de.gmino.issuemap.server.domain.Photo;
@@ -76,6 +76,8 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 			return new KeyValueDef(id);
 		if (typeName.equals("DecentralizedGeneration"))
 			return new DecentralizedGeneration(id);
+		if (typeName.equals("User"))
+			return new User(id);
 		throw new RuntimeException("Unsupported Entity type: " + typeName);
 	}
 

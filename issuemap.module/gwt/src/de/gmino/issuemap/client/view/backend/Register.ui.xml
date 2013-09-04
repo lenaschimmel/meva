@@ -15,15 +15,17 @@
 			border: 1px solid rgba(100,100,100, 0.5);
 			background: rgba(50, 50, 50, 0.85);
 			color: #FFF;
-			
 		}
+
 		.button{
 			cursor: pointer;
 		}
+
 		.label{
 			margin-right: 10px;
 			width: 150px;
-			margin-left: 10px;		}
+			margin-left: 10px;		
+		}
 			
 		.h1{
 			font-size: large;
@@ -40,46 +42,47 @@
 			margin-right: 10px;
 			width: 200px;
 			margin-bottom: 3px;
-			}
+		}
 			
 		.textBox_street{
 			margin-right: 2px;
 			width: 159px;
 			margin-bottom: 3px;
-			}
+		}
 			
 		.textBox_housenumber{
 			margin-right: 10px;
 			width: 33px;
 			margin-bottom: 3px;
-			}
+		}
 			
 		.textBox_zip{
 			margin-right: 2px;
 			width: 50px;
 			margin-bottom: 3px;
-			}
+		}
 		
 		.textBox_city{
 			margin-right: 10px;
 			width: 142px;
 			margin-bottom: 3px;
-			}
+		}
 			
 					
 		.buttonsPanel{
 			margin-right: 10px;
 			margin-bottom: 10px;
 			margin-left: 10px;
-			}
+		}
+
 		.inputWrapper{
 			padding: 10px;
-			}
+		}
+
 		.agbWrapper{
 			margin-left: 6px;
 			margin-top: 10px;
-			}
-			
+		}
 	</ui:style>
 	<g:HTMLPanel styleName="{style.parent}">
 	<g:Label styleName="{style.h1}" ui:field="heading">Sign in</g:Label>
@@ -93,6 +96,6 @@
 	    <g:HorizontalPanel><g:Label text="Stadt:" styleName="{style.label}"/> <g:TextBox styleName="{style.textBox_zip}" ui:field="zip"/> <g:TextBox styleName="{style.textBox_city}" ui:field="city"/> </g:HorizontalPanel>
 		<g:HorizontalPanel styleName="{style.agbWrapper}"> <g:CheckBox ui:field="agbCheckbox" /> <g:Label text="Ich akzeptiere die AGBs von geoEngine"/> </g:HorizontalPanel>
 		</g:VerticalPanel>
-		 <g:HorizontalPanel styleName="{style.buttonsPanel}"> <g:cell width="80%" horizontalAlignment="ALIGN_LEFT"><g:Button styleName="{style.button}" text="Zum Login" visible="false" ui:field="next"/></g:cell> <g:cell width="20%" horizontalAlignment="ALIGN_RIGHT"><g:Button styleName="{style.button}" text="Registrieren" ui:field="signinButton"/></g:cell></g:HorizontalPanel>
+		 <g:HorizontalPanel styleName="{style.buttonsPanel}"> <g:cell width="80%" horizontalAlignment="ALIGN_LEFT"><g:Button styleName="{style.button}" text="Zum Login" visible="false" ui:field="next"/></g:cell> <g:cell width="20%" horizontalAlignment="ALIGN_RIGHT"><g:Button styleName="{style.button}" text="Registrieren" ui:field="registerButton"/></g:cell></g:HorizontalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

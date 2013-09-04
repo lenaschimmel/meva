@@ -1,4 +1,4 @@
-package de.gmino.issuemap.client.view;
+package de.gmino.issuemap.client.view.backend;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -38,7 +38,7 @@ public class Login extends Composite {
 	public Button loginButton;
 	
 	@UiHandler("loginButton")
-	void onClick(ClickEvent e) {
+	void onLoginButtonClicked(ClickEvent e) {
 		
 		if(password.getText().equals("caputisimo")&&user.getText().equals("gmino")) currentInstance.onLogin();
 	}
@@ -50,10 +50,9 @@ public class Login extends Composite {
 		}
 	}
 	
-	@UiHandler("signinButton")
-	void onClick2(ClickEvent e) {
-		
-		Signin signin= new Signin(this);
+	@UiHandler("registerButton")
+	void onRegisterButtonClicked(ClickEvent e) {
+		Register signin= new Register(this);
 		this.setVisible(false);
 		RootPanel.get("parent").add(signin);
 	}
