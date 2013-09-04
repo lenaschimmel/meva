@@ -35,14 +35,14 @@
 			"type" : "relation",
 			"name" : "usesMaps",
 			"reltype" : "Map",
-			"relname" : "isUsedByMap",
+			"relname" : "hasUser",
 			"multiplerelation" : "true"
 		},
 		{
 			"type" : "relation",
 			"name" : "ownsMaps",
 			"reltype" : "Map",
-			"relname" : "isUsedByMap",
+			"relname" : "hasOwner",
 			"multiplerelation" : "true"
 		}
 	]
