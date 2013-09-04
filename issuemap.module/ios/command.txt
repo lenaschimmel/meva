@@ -1,0 +1,1 @@
+find ~/meva/issuemap.module/ios ~/meva/itemscript_ios/src -name "*.java" | xargs ./j2objc -sourcepath ~/meva/issuemap.module/ios/src:~/meva/issuemap.module/ios/gen:~/meva/issuemap.module/ios/cpy:~/meva/itemscript_ios/src/ -d ~/meva/issuemap.module/ios_objc/BasisApp/ --prefixes ~/meva/issuemap.module/ios/prefixes
