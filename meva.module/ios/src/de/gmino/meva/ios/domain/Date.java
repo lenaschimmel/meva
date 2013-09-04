@@ -1,13 +1,13 @@
 // You may edit this file. It has been generated, but it will NOT be overwritten by Meva.
 // To regenerate this file, delete it and run Meva again.
 
-package de.gmino.issuemap.ios.domain;
+package de.gmino.meva.ios.domain;
 
 // gmino stuff
-import de.gmino.meva.shared.Entity;
+import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.RelationCollection;
-import de.gmino.meva.shared.EntityTypeName;
+import de.gmino.meva.shared.TypeName;
 import de.gmino.meva.shared.Util;
 
 // default imports
@@ -17,43 +17,31 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Collection;
+import java.util.TreeMap;
 
 // imports for JSON
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
-// imports for field types
-import de.gmino.geobase.ios.domain.Timestamp;
-import de.gmino.issuemap.ios.domain.Issue;
 
-
-import de.gmino.issuemap.ios.domain.gen.CommentGen;
-public class Comment extends CommentGen {
+import de.gmino.meva.ios.domain.gen.DateGen;
+@SuppressWarnings("unused")
+public class Date extends DateGen {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
-	public Comment(long id)
+	public Date()
 	{
-		super(id);
 	}
-	
-	public Comment(
-			long id,
-			boolean ready,
-			Poi poi,
-			String text,
-			String user,
-			Timestamp timestamp,
-			boolean deleted)
+
+	public Date(JsonObject json) throws IOException
+	{
+		super(json);
+	}
+	public Date(
+			long millisSinceEpoch)
 	{
 		super(
-			id,
-			ready,
-			(de.gmino.issuemap.ios.domain.Poi)poi,
-			text,
-			user,
-			(de.gmino.geobase.ios.domain.Timestamp)timestamp,
-			deleted
+			millisSinceEpoch
 		);
-		this.ready = true;
 	}
 	
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT

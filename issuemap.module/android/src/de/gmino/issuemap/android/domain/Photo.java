@@ -1,7 +1,7 @@
 // You may edit this file. It has been generated, but it will NOT be overwritten by Meva.
 // To regenerate this file, delete it and run Meva again.
 
-package de.gmino.issuemap.ios.domain;
+package de.gmino.issuemap.android.domain;
 
 // gmino stuff
 import de.gmino.meva.shared.Entity;
@@ -17,58 +17,57 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Collection;
+import java.util.TreeMap;
 
 // imports for JSON
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
+// imports for SQL stuff
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.TreeSet;
+
+// imports for serialization interfaces
+import de.gmino.meva.shared.EntityBinary;
+import de.gmino.meva.shared.ValueBinary;
+
 // imports for field types
-import de.gmino.geobase.ios.domain.LatLon;
-import de.gmino.geobase.ios.domain.Timestamp;
-import de.gmino.issuemap.ios.domain.Comment;
-import de.gmino.issuemap.ios.domain.Map;
-import de.gmino.issuemap.ios.domain.Markertype;
-import de.gmino.issuemap.ios.domain.Photo;
+import de.gmino.geobase.android.domain.ImageUrl;
+import de.gmino.geobase.android.domain.Timestamp;
+import de.gmino.issuemap.android.domain.Poi;
 
 
-import de.gmino.issuemap.ios.domain.gen.PoiGen;
+import de.gmino.issuemap.android.domain.gen.PhotoGen;
 @SuppressWarnings("unused")
-public class Poi extends PoiGen {
+public class Photo extends PhotoGen {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
-	public Poi(long id)
+	public Photo(long id)
 	{
 		super(id);
 	}
 	
-	public Poi(
+	public Photo(
 			long id,
 			boolean ready,
-			LatLon location,
-			String title,
-			Markertype markertype,
-			KeyValueSet keyvalueset,
-			Map map_instance,
-			Timestamp creationTimestamp,
-			int rating,
-			int number_of_rating,
-			boolean marked,
+			Poi poi,
+			ImageUrl image,
+			String user,
+			Timestamp timestamp,
 			boolean deleted)
 	{
 		super(
 			id,
 			ready,
-			(de.gmino.geobase.ios.domain.LatLon)location,
-			title,
-			(de.gmino.issuemap.ios.domain.Markertype)markertype,
-			(de.gmino.meva.ios.domain.KeyValueSet)keyvalueset,
-			(de.gmino.issuemap.ios.domain.Map)map_instance,
-			(de.gmino.geobase.ios.domain.Timestamp)creationTimestamp,
-			rating,
-			number_of_rating,
-			marked,
+			(de.gmino.issuemap.android.domain.Poi)poi,
+			(de.gmino.geobase.android.domain.ImageUrl)image,
+			user,
+			(de.gmino.geobase.android.domain.Timestamp)timestamp,
 			deleted
 		);
-		loadValueSet();
 		this.ready = true;
 	}
 	

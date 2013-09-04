@@ -17,58 +17,49 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Collection;
+import java.util.TreeMap;
 
 // imports for JSON
 import org.itemscript.core.values.JsonObject;
 import org.itemscript.core.values.JsonValue;
 
 // imports for field types
-import de.gmino.geobase.ios.domain.LatLon;
-import de.gmino.geobase.ios.domain.Timestamp;
-import de.gmino.issuemap.ios.domain.Comment;
+import de.gmino.geobase.ios.domain.Address;
 import de.gmino.issuemap.ios.domain.Map;
-import de.gmino.issuemap.ios.domain.Markertype;
-import de.gmino.issuemap.ios.domain.Photo;
+import de.gmino.meva.ios.domain.DateTime;
 
 
-import de.gmino.issuemap.ios.domain.gen.PoiGen;
+import de.gmino.issuemap.ios.domain.gen.UserGen;
 @SuppressWarnings("unused")
-public class Poi extends PoiGen {
+public class User extends UserGen {
 	// BEGINNING OF CONSTRUCTOR BLOCK - DO NOT EDIT
-	public Poi(long id)
+	public User(long id)
 	{
 		super(id);
 	}
 	
-	public Poi(
+	public User(
 			long id,
 			boolean ready,
-			LatLon location,
-			String title,
-			Markertype markertype,
-			KeyValueSet keyvalueset,
-			Map map_instance,
-			Timestamp creationTimestamp,
-			int rating,
-			int number_of_rating,
-			boolean marked,
-			boolean deleted)
+			String userName,
+			String password,
+			Address postal_address,
+			String email,
+			boolean activated,
+			String sessionId,
+			DateTime expirationTime)
 	{
 		super(
 			id,
 			ready,
-			(de.gmino.geobase.ios.domain.LatLon)location,
-			title,
-			(de.gmino.issuemap.ios.domain.Markertype)markertype,
-			(de.gmino.meva.ios.domain.KeyValueSet)keyvalueset,
-			(de.gmino.issuemap.ios.domain.Map)map_instance,
-			(de.gmino.geobase.ios.domain.Timestamp)creationTimestamp,
-			rating,
-			number_of_rating,
-			marked,
-			deleted
+			userName,
+			password,
+			(de.gmino.geobase.ios.domain.Address)postal_address,
+			email,
+			activated,
+			sessionId,
+			(de.gmino.meva.ios.domain.DateTime)expirationTime
 		);
-		loadValueSet();
 		this.ready = true;
 	}
 	
