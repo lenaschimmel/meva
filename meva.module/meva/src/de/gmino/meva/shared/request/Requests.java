@@ -126,13 +126,9 @@ public class Requests {
 			@Override
 			public void onFinished(Collection<Long> ids) {
 				Collection<EntityClass> entitites = EntityFactory.getUnloadedEntitiesById(type, ids);
+				for(EntityClass e : entitites)
+					listener.onNewResult(e);
 				listener.onFinished(entitites);
-			}
-
-			@Override
-			public void onNewResult(Long result) {
-				EntityClass e = (EntityClass) EntityFactory.getUnloadedEntityById(type, result);
-				listener.onNewResult(e);
 			}
 
 			@Override
