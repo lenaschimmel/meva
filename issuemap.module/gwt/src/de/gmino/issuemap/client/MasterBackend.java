@@ -3,6 +3,8 @@ package de.gmino.issuemap.client;
 import java.util.Collection;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -40,9 +42,16 @@ public class MasterBackend  implements EntryPoint  {
 		
 
 		header = new Header();
-		header.setBackendDesign("logo_geoengine.png", "Master Backend", "#FFF", "rgba(40,40,40,0.8)");
+		header.setBackendDesign("logo_geoengine.png", "geoEngine Backend", "#FFF", "rgba(40,40,40,0.8)");
+		header.setURL("http://gmino.geoengine.de/masterBackend.html");
 		login= new Login(this);
 		
+		  Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+		        public void execute () {
+		            login.user.setFocus(true);
+		        }
+		   });
+
 			
 
 		RootPanel.get("parent").add(header);

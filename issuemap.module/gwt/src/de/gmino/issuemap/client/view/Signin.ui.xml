@@ -1,0 +1,98 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.parent{
+			position: absolute;
+			width: 400px;
+			top: 100px;
+			left: 50px;
+			z-index: 100;
+			border-top-right-radius: 2px;
+			border-bottom-right-radius: 2px;
+			border-top-left-radius: 2px;
+			border-bottom-left-radius: 2px;
+			border: 1px solid rgba(100,100,100, 0.5);
+			background: rgba(50, 50, 50, 0.85);
+			color: #FFF;
+			
+		}
+		.button{
+			cursor: pointer;
+		}
+		.label{
+			margin-right: 10px;
+			width: 150px;
+			margin-left: 10px;		}
+			
+		.h1{
+			font-size: large;
+			font-weight: bold;
+			text-align: center;
+			padding-bottom: 8px;
+			padding-top: 5px;
+			width: 100%;
+			background: #000;
+			margin-bottom: 10px;
+		}
+		
+		.textBox{
+			margin-right: 10px;
+			width: 200px;
+			margin-bottom: 3px;
+			}
+			
+		.textBox_street{
+			margin-right: 2px;
+			width: 159px;
+			margin-bottom: 3px;
+			}
+			
+		.textBox_housenumber{
+			margin-right: 10px;
+			width: 33px;
+			margin-bottom: 3px;
+			}
+			
+		.textBox_zip{
+			margin-right: 2px;
+			width: 50px;
+			margin-bottom: 3px;
+			}
+		
+		.textBox_city{
+			margin-right: 10px;
+			width: 142px;
+			margin-bottom: 3px;
+			}
+			
+					
+		.buttonsPanel{
+			margin-right: 10px;
+			margin-bottom: 10px;
+			margin-left: 10px;
+			}
+		.inputWrapper{
+			padding: 10px;
+			}
+		.agbWrapper{
+			margin-left: 6px;
+			margin-top: 10px;
+			}
+			
+	</ui:style>
+	<g:HTMLPanel styleName="{style.parent}">
+	<g:Label styleName="{style.h1}" ui:field="heading">Sign in</g:Label>
+		<g:VerticalPanel ui:field="inputWrapper" styleName="{style.inputWrapper}">
+	    <g:HorizontalPanel><g:Label text="Benutzer:" styleName="{style.label}"/> <g:TextBox styleName="{style.textBox}" ui:field="user"/> </g:HorizontalPanel>
+	    <g:HorizontalPanel><g:Label text="E-Mail:" styleName="{style.label}"/> <g:TextBox styleName="{style.textBox}" ui:field="mail"/> </g:HorizontalPanel>
+	    <g:HorizontalPanel><g:Label text="Passwort:" styleName="{style.label}"/> <g:TextBox styleName="{style.textBox}" ui:field="password1"/> </g:HorizontalPanel>
+	    <g:HorizontalPanel><g:Label text="Vorname:" styleName="{style.label}"/> <g:TextBox styleName="{style.textBox}" ui:field="firstname"/> </g:HorizontalPanel>
+	    <g:HorizontalPanel><g:Label text="Nachname:" styleName="{style.label}"/> <g:TextBox styleName="{style.textBox}" ui:field="name"/> </g:HorizontalPanel>
+	    <g:HorizontalPanel><g:Label text="Straße:" styleName="{style.label}"/> <g:TextBox styleName="{style.textBox_street}" ui:field="street"/><g:TextBox styleName="{style.textBox_housenumber}" ui:field="housenumber"/> </g:HorizontalPanel>
+	    <g:HorizontalPanel><g:Label text="Stadt:" styleName="{style.label}"/> <g:TextBox styleName="{style.textBox_zip}" ui:field="zip"/> <g:TextBox styleName="{style.textBox_city}" ui:field="city"/> </g:HorizontalPanel>
+		<g:HorizontalPanel styleName="{style.agbWrapper}"> <g:CheckBox ui:field="agbCheckbox" /> <g:Label text="Ich akzeptiere die AGBs von geoEngine"/> </g:HorizontalPanel>
+		</g:VerticalPanel>
+		 <g:HorizontalPanel styleName="{style.buttonsPanel}"> <g:cell width="80%" horizontalAlignment="ALIGN_LEFT"><g:Button styleName="{style.button}" text="Zum Login" visible="false" ui:field="next"/></g:cell> <g:cell width="20%" horizontalAlignment="ALIGN_RIGHT"><g:Button styleName="{style.button}" text="Registrieren" ui:field="signinButton"/></g:cell></g:HorizontalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder> 

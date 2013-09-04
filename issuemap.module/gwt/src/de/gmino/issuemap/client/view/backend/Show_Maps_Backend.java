@@ -1,5 +1,7 @@
 package de.gmino.issuemap.client.view.backend;
 
+import java.util.Collection;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -8,6 +10,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -39,6 +42,10 @@ public class Show_Maps_Backend extends Composite  {
 	Button buttonNew;
 	@UiField
 	VerticalPanel verticalPanel;
+	@UiField
+	VerticalPanel loading;
+	@UiField
+	HorizontalPanel buttonsPanel;
 
 	@UiHandler("buttonRefresh")
 	void onClickRefresh(ClickEvent e) {
@@ -67,6 +74,13 @@ public class Show_Maps_Backend extends Composite  {
 			@Override
 			public void onNewResult(Map result) {
 				addMapElement(result);
+			}
+			
+			@Override
+			public void onFinished(Collection<Map> results) {
+				loading.removeFromParent();
+				buttonsPanel.setVisible(true);
+				super.onFinished(results);
 			}
 		});
 	}

@@ -47,8 +47,13 @@
 		<g:VerticalPanel  height="100%" width="100%">
 			<g:Label styleName="{style.h1}">Map Liste</g:Label>
 	
-		<g:VerticalPanel styleName="{style.listPanel}" ui:field="verticalPanel" width="100%"></g:VerticalPanel>
-		<g:HorizontalPanel styleName="{style.buttons}">
+		<g:VerticalPanel styleName="{style.listPanel}" ui:field="verticalPanel" width="100%">
+			<g:VerticalPanel ui:field="loading" width="100%">
+				<g:cell horizontalAlignment="CENTER"> <g:Image url="loading.gif"/> </g:cell>
+				<g:cell horizontalAlignment="CENTER"> <g:Label>Karten werden geladen ...</g:Label> </g:cell>
+			</g:VerticalPanel>
+		</g:VerticalPanel>
+		<g:HorizontalPanel styleName="{style.buttons}" ui:field="buttonsPanel" visible="false">
 		<g:Button styleName="{style.important}" ui:field="buttonRefresh" text="Aktualisieren" />
 		<g:Button styleName="{style.important}" ui:field="buttonNew" text="Neue Karte erzeugen" />
 		<g:Button styleName="{style.important}" ui:field="buttonExport" text="CSV-Export" />

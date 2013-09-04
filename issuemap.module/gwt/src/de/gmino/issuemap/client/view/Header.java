@@ -29,7 +29,8 @@ public class Header extends Composite  {
 	private static HeaderUiBinder uiBinder = GWT.create(HeaderUiBinder.class);
 	private Map mapObject;
 	final DecoratedPopupPanel decorated_panel = new DecoratedPopupPanel();
-
+	private boolean customURL;
+	private String URL;
 	interface HeaderUiBinder extends UiBinder<Widget, Header> {
 	}
 
@@ -71,7 +72,10 @@ public class Header extends Composite  {
 
 	@UiHandler("logo")
 	void onClick(ClickEvent event) {
-		Window.open(mapObject.getWebsite(), "Partei-Website", "");
+		if(customURL==true) Window.Location.replace(URL);
+		else{
+			Window.open(mapObject.getWebsite(), "Partei-Website", "");
+		}
 	}
 
 	private void performSearch() {
@@ -142,4 +146,10 @@ public class Header extends Composite  {
 		else
 			search_field.setVisible(false);
 	}
+
+	public void setURL(String URL){
+		customURL=true;
+		this.URL=URL;
+	}
+	
 }

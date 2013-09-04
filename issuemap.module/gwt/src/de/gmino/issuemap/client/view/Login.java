@@ -2,11 +2,15 @@ package de.gmino.issuemap.client.view;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -27,15 +31,31 @@ public class Login extends Composite {
 	}
 	
 	@UiField
-	TextBox user;
+	public TextBox user;
 	@UiField
-	TextBox password;
+	public TextBox password;
+	@UiField
+	public Button loginButton;
 	
 	@UiHandler("loginButton")
 	void onClick(ClickEvent e) {
 		
-
-		currentInstance.onLogin();
+		if(password.getText().equals("caputisimo")&&user.getText().equals("gmino")) currentInstance.onLogin();
+	}
+	
+	@UiHandler("password")
+	void onKeyUp(KeyUpEvent event) {
+		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+			if(password.getText().equals("caputisimo")&&user.getText().equals("gmino")) currentInstance.onLogin();
+		}
+	}
+	
+	@UiHandler("signinButton")
+	void onClick2(ClickEvent e) {
+		
+		Signin signin= new Signin(this);
+		this.setVisible(false);
+		RootPanel.get("parent").add(signin);
 	}
 	
 	public String getUser(){

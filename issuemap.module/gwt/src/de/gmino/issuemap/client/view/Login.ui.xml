@@ -4,6 +4,7 @@
 	<ui:style>
 		.parent{
 			position: absolute;
+			width: 400px;
 			top: 100px;
 			left: 50px;
 			z-index: 100;
@@ -21,7 +22,7 @@
 		}
 		.label{
 			margin-right: 10px;
-			width: 100px;
+			width: 150px;
 			margin-left: 10px;		}
 			
 		.h1{
@@ -37,13 +38,19 @@
 		
 		.textBox{
 			margin-right: 10px;
-}
-		
+			width: 210px;
+			margin-bottom: 3px;
+			}
+		.buttonsPanel{
+			margin: 10px;
+			}
+			
+			
 	</ui:style>
 	<g:HTMLPanel styleName="{style.parent}">
 	<g:Label styleName="{style.h1}" ui:field="heading">Login</g:Label>
-	    <g:HorizontalPanel><g:Label text="Benutzer:" styleName="{style.label}"/> <g:TextBox styleName="{style.textBox}" ui:field="user"/> </g:HorizontalPanel>
-	    <g:HorizontalPanel><g:Label text="Passwort:" styleName="{style.label}"/> <g:TextBox styleName="{style.textBox}" ui:field="password"/> </g:HorizontalPanel>
-	    <g:Button styleName="{style.button}" text="Login" ui:field="loginButton"/>
+	    <g:HorizontalPanel><g:Label text="Benutzer/E-Mail:" styleName="{style.label}"/> <g:TextBox styleName="{style.textBox}" ui:field="user"/> </g:HorizontalPanel>
+	    <g:HorizontalPanel><g:Label text="Passwort:" styleName="{style.label}"/> <g:PasswordTextBox styleName="{style.textBox}" ui:field="password"/> </g:HorizontalPanel>
+	    <g:HorizontalPanel styleName="{style.buttonsPanel}"> <g:cell width="80%" horizontalAlignment="ALIGN_LEFT"> <g:Button styleName="{style.button}" text="Login" ui:field="loginButton"/></g:cell><g:cell width="20%" horizontalAlignment="ALIGN_RIGHT"><g:Button styleName="{style.button}" text="Registrieren" ui:field="signinButton"/></g:cell></g:HorizontalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 
