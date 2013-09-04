@@ -37,7 +37,7 @@ public class List_Button extends Composite implements HasText {
 	void onClick(ClickEvent e) {
 		this.setVisible(false);
 		issueList_PopUp.setParentVisible();
-		IssuemapGwt.getInstance().setListVisible(true);
+		IssuemapGwt.getInstance().updateListMargin(true);
 	}
 
 	public void setText(String text) {

@@ -3,7 +3,6 @@ package de.gmino.issuemap.client;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -35,7 +34,6 @@ import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.geobase.shared.domain.PoiInterface;
 import de.gmino.geobase.shared.map.Event;
 import de.gmino.geobase.shared.map.MapListener;
-import de.gmino.geobase.shared.map.MapProvider;
 import de.gmino.issuemap.client.ImageUrlLoader.ImageLoadListener;
 import de.gmino.issuemap.client.domain.BicycleShop;
 import de.gmino.issuemap.client.domain.DecentralizedGeneration;
@@ -129,23 +127,14 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 		}
 	}
 
-	/**
-	 * The message displayed to the user when the server cannot be reached or
-	 * returns an error.
-	 */
-	private static final String SERVER_ERROR = "An error occurred while "
-			+ "attempting to contact the server. Please check your network "
-			+ "connection and try again.";
-
 	public static OpenLayersMapView mapView;
 	private static Map mapObject;
-	private static TreeMap<Poi, DivElement> divByIssue = new TreeMap<Poi, DivElement>();
 	private OpenLayersSmartLayer markerLayer;
 	private Footer footer = new Footer();
 	private Header header = new Header();
 	
 	Collection<DecentralizedGeneration> generations;
-
+	Collection<Poi> pois;
 
 	int counter = 0;
 
@@ -163,85 +152,76 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 		if (instance != null)
 			throw new RuntimeException("Can't create multiple instances!");
 		instance = this;
+		pois = new ArrayList<Poi>();
 	}
 
 	public static IssuemapGwt getInstance() {
 		return instance;
 	}
 	
-
 	@Override
 	public void onUncaughtException(Throwable e) {
 		System.err.println("### UncaughtExceptionHandler ###");
 		e.printStackTrace();
+		Log.exception("### UncaughtExceptionHandler ###", e);
 	}
 
 	public void onModuleLoad() {
 		GWT.setUncaughtExceptionHandler(this);
 		
-		EntityFactory.setImplementations(new EntityFactoryImpl());
-		Util.setImpl(new UtilClient());
+		try {
+			EntityFactory.setImplementations(new EntityFactoryImpl());
+			Util.setImpl(new UtilClient());
 
-		Requests.setImplementation(new NetworkRequestsImplAsyncJson("http://"
-				+ Location.getHost() + "/"));
+			Requests.setImplementation(new NetworkRequestsImplAsyncJson("http://" + Location.getHost() + "/"));
 
-		String[] domainSplit = Location.getHostName().split("\\.");
-		subdomain = domainSplit[0];
-		if (subdomain.equalsIgnoreCase("www"))
-			subdomain = domainSplit[1];
+			String[] domainSplit = Location.getHostName().split("\\.");
+			subdomain = domainSplit[0];
+			if (subdomain.equalsIgnoreCase("www"))
+				subdomain = domainSplit[1];
 
-		// Create the map
-		mapView = new OpenLayersMapView("map", "mapquest");
-		
-		mapView.setBorders(30 + GENERAL_POPUP_MARGIN, 58 + GENERAL_POPUP_MARGIN, 357 + GENERAL_POPUP_MARGIN, 53 +GENERAL_POPUP_MARGIN);
-		
-		markerLayer = mapView.newSmartLayer("Issues", 12);
-		mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);
-		issueRenderer = new IssueIconRenderer();
-		markerLayer.addMarkerIconRenderer(Poi.type, issueRenderer);
+			// Create the map view
+			mapView = new OpenLayersMapView("map", "mapquest");
+			
+			mapView.setBorders(30 + GENERAL_POPUP_MARGIN, 58 + GENERAL_POPUP_MARGIN, 357 + GENERAL_POPUP_MARGIN, 53 +GENERAL_POPUP_MARGIN);
+			
+			markerLayer = mapView.newSmartLayer("Issues", 12);
+			mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);
+			issueRenderer = new IssueIconRenderer();
+			markerLayer.addMarkerIconRenderer(Poi.type, issueRenderer);
 
-		final ImageUrlLoader loader = ImageUrlLoader.getInstance();
-		loader.loadImage("/camera.png", null);
-		loader.loadImage("/bubble.png", null);
-		
-		if (subdomain.equals("zgb")) {
-			// TODO improves performance to load it first, but listener is not yet adjusted to wait for it.
-			loader.loadImage("/mapicon/cycleway.png", null);
-			markerLayer.addMarkerIconRenderer(BicycleShop.type,
-					new BicycleShopIconRenderer());
-			markerLayer.addMarkerIconRenderer(Route.type,
-					new RouteIconRenderer());
-		}
-		
-		// Add Header to RootPanel
-		RootPanel.get("bar_top").add(header);
-		RootPanel.get("bar_bottom").add(footer);
-		
-		// mapView.addEventListener(Event.click, new MapListener() {
-		//
-		// @Override
-		// public void onEvent(LatLon location, Event event) {
-		// footer.setText(location.toString());
-		// }
-		// });
-
-		// Add create-PopUp by Double-Click
-		
-
-		
-		Requests.getLoadedEntitiesByType(KeyValueDef.type, new RequestListener<KeyValueDef>() {
-			@Override
-			public void onFinished(Collection<KeyValueDef> results) {
-				Requests.getLoadedEntitiesByType(KeyValueSet.type, new RequestListener<KeyValueSet>() {
-					@Override
-					public void onFinished(Collection<KeyValueSet> results) {
-						mapRequest();
-					}
-				});
+			final ImageUrlLoader loader = ImageUrlLoader.getInstance();
+			loader.loadImage("/camera.png", null);
+			loader.loadImage("/bubble.png", null);
+			
+			if (subdomain.equals("zgb")) {
+				// TODO improves performance to load it first, but listener is not yet adjusted to wait for it.
+				loader.loadImage("/mapicon/cycleway.png", null);
+				markerLayer.addMarkerIconRenderer(BicycleShop.type,
+						new BicycleShopIconRenderer());
+				markerLayer.addMarkerIconRenderer(Route.type,
+						new RouteIconRenderer());
 			}
-		});
-		
-		
+			
+			// Add Header to RootPanel
+			RootPanel.get("bar_top").add(header);
+			RootPanel.get("bar_bottom").add(footer);
+
+			Requests.getLoadedEntitiesByType(KeyValueDef.type, new RequestListener<KeyValueDef>() {
+				@Override
+				public void onFinished(Collection<KeyValueDef> results) {
+					Requests.getLoadedEntitiesByType(KeyValueSet.type, new RequestListener<KeyValueSet>() {
+						@Override
+						public void onFinished(Collection<KeyValueSet> results) {
+							mapRequest();
+						}
+					});
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.exception("Error in onModuleLoad caught.", e);
+		}
 	}
 
 	public String getSubdomain() {
@@ -250,63 +230,57 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 
 	void mapRequest() {
 		EntityQuery q = new QueryMapBySubdomain(subdomain);
-		Requests.getLoadedEntitiesByQuery(Map.type, q,
-				new RequestListener<Map>() {
+		Requests.getLoadedEntitiesByQuery(Map.type, q, new RequestListener<Map>() {
 
-					@SuppressWarnings("unchecked")
-					public void onNewResult(final Map map) {
-						
-					mapObject = map;
-					if(mapObject.isCreate()) setListener();
-						markerLayer.setzoomThreshold(map.getInitZoomlevel()-3);
-						
-						addFeedback_Button();
-						markerLayer.addMarkerPopupCreator(Poi.type, new IssuePopupCreator(map, markerLayer));
+			@SuppressWarnings("unchecked")
+			public void onNewResult(final Map map) {
 
-						header.setFrontendDesign(map);	
+				mapObject = map;
+				if (mapObject.isCreate())
+					addDblClickListenerToMapView();
+				markerLayer.setzoomThreshold(map.getInitZoomlevel() - 3);
 
-						footer.setMap(map);
-						Window.setTitle(map.getTitle());
+				addFeedback_Button();
+				markerLayer.addMarkerPopupCreator(Poi.type, new IssuePopupCreator(map, markerLayer));
 
-						mapView.newMapLayer(map.getLayer());
-						mapView.setZoom(mapObject.getInitZoomlevel());
-//						mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);
-						
-						Scheduler.get().scheduleFixedDelay(
-						new RepeatingCommand() {
-							
-							@Override
-							public boolean execute() {
-							//	mapView.setCenterAndZoom(mapObject.getInitLocation(), mapObject.getInitZoomlevel(), false);
-								mapView.setCenter(mapObject.getInitLocation(),false);
-								return false;
-							}
-						}, 1000);
-						
-						header.setFrontendDesign(mapObject);
-						footer.setDesign(mapObject.getPrimary_color());
+				header.setFrontendDesign(map);
 
-//						if(map.getMarkerClass().getName().equals("Energieanlage"))
-//						
-////						if(map.getMapTyp().equals("EE"))
-//							fillMapEE();
-//						else
-							map.loadMarkertypes(new RequestListener<Markertype>() {
-								@Override
-								public void onFinished(Collection<Markertype> results) {
-									if (subdomain.equals("zgb")) 
-										fillMapZgb();
-									else 
-										fillMapIssues();
-								}
-							});
-					};
+				footer.setMap(map);
+				Window.setTitle(map.getTitle());
+
+				mapView.newMapLayer(map.getLayer());
+				mapView.setZoom(mapObject.getInitZoomlevel());
+
+				Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
 
 					@Override
-					public void onError(String message, Throwable e) {
-						Window.alert(message);
+					public boolean execute() {
+						mapView.setCenter(mapObject.getInitLocation(), false);
+						return false;
+					}
+				}, 1000);
+
+				header.setFrontendDesign(mapObject);
+				footer.setDesign(mapObject.getPrimary_color());
+
+				map.loadMarkertypes(new RequestListener<Markertype>() {
+					@Override
+					public void onFinished(Collection<Markertype> results) {
+						if (subdomain.equals("zgb"))
+							fillMapZgb();
+						else {
+							showOrHideList();
+							loadIssues();
+						}
 					}
 				});
+			};
+
+			@Override
+			public void onError(String message, Throwable e) {
+				Window.alert(message);
+			}
+		});
 	}
 
 	private void fillMapEE() {
@@ -361,146 +335,99 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 		});
 	}
 	
-	private void fillMapIssues() {
+	public void showOrHideList() {
 		if (mapObject.isHas_list()) {
 			list = new IssueList_PopUp(mapObject, issueRenderer, markerLayer);
 			RootPanel.get("list").add(list);
-
-			loadIssuesToList();
-
 		} else {
 			RootPanel.get("list").getElement().getStyle().setDisplay(Display.NONE);
-			setListVisible(false);
+			updateListMargin(false);
 		}
-		loadIssuesToMap();
 	}
 
 	private void fillMapZgb() {
-		markerLayer
-				.addMarkerPopupCreator(
-						BicycleShop.type,
-						new BicycleShopPopupCreator(
-								mapObject,
-								markerLayer));
-		markerLayer
-				.addMarkerPopupCreator(
-						Route.type,
-						new RoutePopupCreator(
-								mapObject,
-								markerLayer));
+		markerLayer.addMarkerPopupCreator(BicycleShop.type,	new BicycleShopPopupCreator(mapObject, markerLayer));
+		markerLayer.addMarkerPopupCreator(Route.type, new RoutePopupCreator(mapObject, markerLayer));
 
-		ZgbTools zgb = new ZgbTools(
-				markerLayer) {
+		ZgbTools zgb = new ZgbTools(markerLayer) {
 			@Override
 			public void onAllRoutesShown() {
 				System.out.println("All routes shown, now loading bicycle shops and Issues.");
 				showBicycleShops();
-				fillMapIssues();
+				showOrHideList();
+				loadIssues();
 			}
 		};
 		zgb.showRoutes();
 	}
 	
-	// update Map position
 	static void setMapPosition(LatLon position) {
 		mapView.setCenter(position, true);
 	}
 
 	public void addMarker(Poi poi) {
+		pois.add(poi);
 		markerLayer.addPoi(poi);
 		counter++;
+		fillList();
 	}
 
-	public void deleteMarker(Poi nIssue) {
-		markerLayer.removePoi(nIssue);
+	public void deleteMarker(Poi poi) {
+		pois.remove(poi);
+		markerLayer.removePoi(poi);
 		counter--;
+		fillList();
 	}
 
-	public void loadIssuesToMap() {
-		Requests.loadEntities(IssuemapGwt.<Poi, de.gmino.issuemap.shared.domain.Poi>convertCollection(mapObject.getIssues()), new RequestListener<Poi>() {
+	public void showAllPoisOnMap() {
+		Scheduler scheduler = Scheduler.get();
+		
+		Comparator<Poi> latitudeCompare = new IssueLatitudeComparator();
+		TreeSet<Poi> latitudeSortedIssues = new TreeSet<Poi>(latitudeCompare);
+		latitudeSortedIssues.addAll(pois);
+		final ArrayList<Poi> filteredLatitudeIssues = new ArrayList<Poi>();
+		for (final Poi i : latitudeSortedIssues) {
+			if (!i.isDeleted())
+				filteredLatitudeIssues.add(i);					
+		}
+		scheduler.scheduleIncremental(new AddIssuesCommand(filteredLatitudeIssues));
+		
+		counter = filteredLatitudeIssues.size();
+		updateCounter();
+		counter = 0; // will be incremented by the deferred command and we don't want to count everything twice.
+	}
+	
+	public void loadIssues() {
+		pois = IssuemapGwt.<Poi, de.gmino.issuemap.shared.domain.Poi>convertCollection(mapObject.getIssues());
+		Requests.loadEntities(pois, new RequestListener<Poi>() {
 			@Override
 			public void onFinished(Collection<Poi> results) {
-				Scheduler scheduler = Scheduler.get();
-				
-				Comparator<Poi> latitudeCompare = new IssueLatitudeComparator();
-				TreeSet<Poi> latitudeSortedIssues = new TreeSet<Poi>(latitudeCompare);
-				latitudeSortedIssues.addAll(results);
-				final ArrayList<Poi> filteredLatitudeIssues = new ArrayList<Poi>();
-				for (final Poi i : latitudeSortedIssues) {
-					if (!i.isDeleted())
-						filteredLatitudeIssues.add(i);					
-				}
-				scheduler.scheduleIncremental(new AddIssuesCommand(filteredLatitudeIssues));
-				
-				counter = filteredLatitudeIssues.size();
-				setCounter();
-				counter = 0; // will be incremented by the deferred command and we don't want to count everything twice.
-				
+				showAllPoisOnMap();	
+				fillList();
 			}
 		});
 	}
 	
-	public void loadIssuesToList() {
-		if(mapObject.isHas_list()){
-		Collection<de.gmino.issuemap.shared.domain.Poi> issues = mapObject.getIssues();
-		Requests.loadEntities(issues, new RequestListener<de.gmino.issuemap.shared.domain.Poi>() {
-			@Override
-			public void onFinished(Collection<de.gmino.issuemap.shared.domain.Poi> results) {
-				Comparator<Poi> ratingCompare = new IssueRatingComparator();
-				TreeSet<Poi> ratingSortedIssues = new TreeSet<Poi>(ratingCompare);
-				ratingSortedIssues.addAll(IssuemapGwt.<Poi, de.gmino.issuemap.shared.domain.Poi>convertCollection(results));
-				
-				int count = 0;
-				final ArrayList<Poi> filteredRatingIssues = new ArrayList<Poi>();
-				for (final Poi i : ratingSortedIssues) {
-					
-					//testKeyValue(i);
-					
-					if (!i.isDeleted())
-						filteredRatingIssues.add(i);
-					if(count++ > 30)
-						break;
-				}
-				list.updateData(filteredRatingIssues);
-			}
-		});
-	}
-}
-
-	void testKeyValue(final Poi i) {
-		System.out.println("Get Testfeld's Description: " + i.getValue("Testfeld").getDescription());
-		System.out.println("Get Testfeld's Name: " + i.getValue("Testfeld").getName());
-		System.out.println("Get Testfeld's Type: " + i.getValue("Testfeld").getType());
+	public void fillList() {
+		if(!mapObject.isHas_list())
+			return;
 		
-		System.out.println("Get Testfeld as String: " + i.getValue("Testfeld").getString());
-		try {
-			System.out.println("Get Testfeld as int: " + i.getValue("Testfeld").getInt());
-		} catch (Exception e) {
-			e.printStackTrace();
+		Comparator<Poi> ratingCompare = new IssueRatingComparator();
+		TreeSet<Poi> ratingSortedIssues = new TreeSet<Poi>(ratingCompare);
+		ratingSortedIssues.addAll(pois);
+		
+		int count = 0;
+		final ArrayList<Poi> filteredRatingIssues = new ArrayList<Poi>();
+		for (final Poi i : ratingSortedIssues) {
+			if (!i.isDeleted())
+				filteredRatingIssues.add(i);
+			if(count++ > 30)
+				break;
 		}
-		try {
-			System.out.println("Get Toastfeld as String: " + i.getValue("Toastfeld").getString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		System.out.println("Set Testfeld as String.");
-		i.getValue("Testfeld").setString("Inhalt");
-		
-		System.out.println("Get Testfeld as String: " + i.getValue("Testfeld").getString());
-		
-		try {
-			System.out.println("Set Testfeld as int.");
-			i.getValue("Testfeld").setInt(4);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
+		list.updateData(filteredRatingIssues);
 	}
 	
-	public void setCounter() {
+	public void updateCounter() {
 		footer.setCounter(counter);
 	}
 		
@@ -514,8 +441,8 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 		return mapObject;
 	}
 
-	public void setListVisible(boolean visible) {
-		if(visible)
+	public void updateListMargin(boolean listVisible) {
+		if(listVisible)
 			mapView.setBorderRight(357 + GENERAL_POPUP_MARGIN);
 		else
 			mapView.setBorderRight(40 + GENERAL_POPUP_MARGIN);
@@ -573,7 +500,6 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
   			String street = "", postcode = "", housenumber = "", city = "";
   			String type = null;
 			
-  			
 			ElectricalSubstation station = new ElectricalSubstation(Math.abs(id));
 			station.preventNulls();
 			station.setLocation(new LatLon(latitude, longitude));
@@ -644,7 +570,6 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 	  				nearestStation.windPowerSum += gen.getPower();
 	  				nearestStation.numberOfWindUnits++;
 	  			}
-	  			//System.out.println(gen.getTitle() + " has nearest station " + nearestStation.getTitle() + " with color " + nearestStation.color);
 	  		}
 	  	}
 	}
@@ -683,8 +608,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 		}
 	}
 	
-	public void setListener(){
-		
+	public void addDblClickListenerToMapView(){
 		mapView.addEventListener(Event.dblclick, new MapListener() {
 
 			@Override
@@ -713,7 +637,5 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 				}, 100);
 			}
 		});
-		
-		
 	}
 }

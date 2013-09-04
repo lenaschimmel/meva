@@ -7,7 +7,6 @@ package de.gmino.meva.ios.domain;
 import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.RelationCollection;
-import de.gmino.meva.shared.EntityTypeName;
 import de.gmino.meva.shared.Util;
 
 // default imports

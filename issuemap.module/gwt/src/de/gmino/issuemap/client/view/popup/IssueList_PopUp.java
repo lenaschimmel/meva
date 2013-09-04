@@ -46,7 +46,7 @@ public class IssueList_PopUp extends Composite {
 		listButton = new List_Button(this);
 		RootPanel.get("feedback").add(listButton);
 		RootPanel.get("list").getElement().getStyle().setDisplay(Display.NONE); // setZIndex(-1000);
-		IssuemapGwt.getInstance().setListVisible(false);
+		IssuemapGwt.getInstance().updateListMargin(false);
 		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
 		list = new  ListView<Poi>() {
 			
@@ -76,7 +76,7 @@ public class IssueList_PopUp extends Composite {
 	void onClick(ClickEvent e) {
 		RootPanel.get("list").getElement().getStyle().setDisplay(Display.NONE); // setZIndex(-1000);
 		listButton.setVisible(true);
-		IssuemapGwt.getInstance().setListVisible(false);
+		IssuemapGwt.getInstance().updateListMargin(false);
 	}
 	
 	 public void setParentVisible(){

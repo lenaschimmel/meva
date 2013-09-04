@@ -527,7 +527,7 @@ public class Show_PopUp extends Composite {
 	}
 	
 	private void updateList() {
-		IssuemapGwt.getInstance().loadIssuesToList();
+		IssuemapGwt.getInstance().fillList();
 	}
 
 	
@@ -743,7 +743,7 @@ public class Show_PopUp extends Composite {
 					Requests.saveEntity(mPoi, new RequestListener<Poi>() {
 						public void onFinished(java.util.Collection<Poi> results) {
 							final IssuemapGwt issueMap = IssuemapGwt.getInstance();
-							issueMap.loadIssuesToList();
+							issueMap.fillList();
 						};
 					});
 
@@ -753,7 +753,7 @@ public class Show_PopUp extends Composite {
 						// Add marker to map
 						final IssuemapGwt issueMap = IssuemapGwt.getInstance();
 						issueMap.addMarker(mPoi);
-						issueMap.setCounter();
+						issueMap.updateCounter();
 					}
 					updateList();
 					newIssue = false;
@@ -771,8 +771,8 @@ public class Show_PopUp extends Composite {
 			mPoi.setDeleted(true);
 			final IssuemapGwt issueMap = IssuemapGwt.getInstance();
 			issueMap.deleteMarker(mPoi);
-			issueMap.setCounter();
-			issueMap.loadIssuesToList();
+			issueMap.updateCounter();
+			issueMap.fillList();
 			Requests.saveEntity(mPoi, null);
 			this.removeFromParent();
 		}
