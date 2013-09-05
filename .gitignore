@@ -61,3 +61,4 @@ issuemap.module/gwt/war/masterBackend/
 issuemap.module/gwt/war/masterBackend/gwt/clean/
 issuemap.module/gwt/.settings/com.google.appengine.eclipse.core.prefs
 .DS_Store
+xcuserdata
