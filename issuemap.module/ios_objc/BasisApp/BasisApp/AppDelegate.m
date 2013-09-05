@@ -19,9 +19,9 @@
 {
 
 
-   [DeGminoMevaSharedEntityFactory setImplementationsWithDeGminoMevaSharedEntityFactoryInterface:    [[DeGminoIssuemapIosEntityFactoryImpl alloc] init]];
+   [MESEntityFactory setImplementationsWithMESEntityFactoryInterface:    [[IMEntityFactoryImpl alloc] init]];
     
-    [DeGminoMevaSharedUtil setImpl:[[DeGminoMevaIosUtilIos alloc]init]];
+    [MESUtil setImpl:[[MEUtilIos alloc]init]];
     
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
