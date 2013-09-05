@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface Request : NSObject
-
+-(void)sendRequest;
 @end
