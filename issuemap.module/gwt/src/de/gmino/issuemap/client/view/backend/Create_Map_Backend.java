@@ -370,6 +370,7 @@ public class Create_Map_Backend extends Composite {
 		if(layerSelect.getSelectedIndex()==2) map.setLayer("oepnv");
 		if(layerSelect.getSelectedIndex()==3) map.setLayer("Bing Road");
 		if(layerSelect.getSelectedIndex()==4) map.setLayer("Bing Hybrid");
+		if(layerSelect.getSelectedIndex()==5) map.setLayer("landscape");
 
 	
 
@@ -508,6 +509,7 @@ public class Create_Map_Backend extends Composite {
 		if (map.getLayer().equals("oepnv")) layerSelect.setSelectedIndex(2);
 		if (map.getLayer().equals("Bing Road")) layerSelect.setSelectedIndex(3);
 		if (map.getLayer().equals("Bing Hybrid")) layerSelect.setSelectedIndex(4);
+		if (map.getLayer().equals("landscape")) layerSelect.setSelectedIndex(5);
 
 			markerPanel.setVisible(true);
 			//Alle Markertypes der Map

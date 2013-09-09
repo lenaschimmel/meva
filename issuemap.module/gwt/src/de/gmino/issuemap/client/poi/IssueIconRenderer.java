@@ -120,17 +120,17 @@ public class IssueIconRenderer extends GwtIconRenderer<Poi> {
 				case 91:
 				case 92:
 				case 94:
-					return("#FF0000"); // Kultur
+					return("#a264a1"); // Kultur
 				case 80:
 				case 81:
 				case 85:
 				case 90:
-					return("#33BB00"); // Freizeit
+					return("#92b844"); // Freizeit
 				case 84:
 				case 86:
 				case 93:
 				case 83:
-					return("#FF8700"); // Infrastruktur
+					return("#e9a14d"); // Infrastruktur
 			}
 		}
 		else {
