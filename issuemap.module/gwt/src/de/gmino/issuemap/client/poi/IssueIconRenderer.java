@@ -109,8 +109,6 @@ public class IssueIconRenderer extends GwtIconRenderer<Poi> {
 			return("#FF8800");
 		else if (markerName.equals("Sport"))
 			return("#3852AE");
-		else if (markerName.equals("Konzert"))
-			return("#B200FF");
 		else if (markerId >= 80 && markerId <= 94)
 			{
 			switch((int)markerId)
