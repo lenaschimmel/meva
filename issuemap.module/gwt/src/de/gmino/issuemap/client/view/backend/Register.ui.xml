@@ -89,7 +89,7 @@
 		<g:VerticalPanel ui:field="inputWrapper" styleName="{style.inputWrapper}">
 	    <g:HorizontalPanel><g:Label text="Benutzer:" styleName="{style.label}"/> <g:TextBox styleName="{style.textBox}" ui:field="user"/> </g:HorizontalPanel>
 	    <g:HorizontalPanel><g:Label text="E-Mail:" styleName="{style.label}"/> <g:TextBox styleName="{style.textBox}" ui:field="mail"/> </g:HorizontalPanel>
-	    <g:HorizontalPanel><g:Label text="Passwort:" styleName="{style.label}"/> <g:TextBox styleName="{style.textBox}" ui:field="password1"/> </g:HorizontalPanel>
+	    <g:HorizontalPanel><g:Label text="Passwort:" styleName="{style.label}"/> <g:PasswordTextBox styleName="{style.textBox}" ui:field="password1"/> </g:HorizontalPanel>
 	    <g:HorizontalPanel><g:Label text="Vorname:" styleName="{style.label}"/> <g:TextBox styleName="{style.textBox}" ui:field="firstname"/> </g:HorizontalPanel>
 	    <g:HorizontalPanel><g:Label text="Nachname:" styleName="{style.label}"/> <g:TextBox styleName="{style.textBox}" ui:field="name"/> </g:HorizontalPanel>
 	    <g:HorizontalPanel><g:Label text="Straße:" styleName="{style.label}"/> <g:TextBox styleName="{style.textBox_street}" ui:field="street"/><g:TextBox styleName="{style.textBox_housenumber}" ui:field="housenumber"/> </g:HorizontalPanel>

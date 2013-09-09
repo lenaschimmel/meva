@@ -47,7 +47,6 @@ public class IssueList_PopUp extends Composite {
 		RootPanel.get("feedback").add(listButton);
 		RootPanel.get("list").getElement().getStyle().setDisplay(Display.NONE); // setZIndex(-1000);
 		IssuemapGwt.getInstance().updateListMargin(false);
-		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
 		list = new  ListView<Poi>() {
 			
 			@Override
