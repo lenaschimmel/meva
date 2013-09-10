@@ -1,7 +1,6 @@
 package de.gmino.meva.ios.request;
 
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 public class RequestBuilder {
 

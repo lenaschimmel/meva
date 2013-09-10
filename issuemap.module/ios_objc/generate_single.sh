@@ -5,4 +5,4 @@ j2objc \
 ../ios/gen:\
 ../../itemscript_ios/src \
  --prefixes ../ios/prefixes \
- -use-arc $1
+ -use-arc $*
