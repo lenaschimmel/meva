@@ -4,6 +4,6 @@ find ../ios/ ../../itemscript_ios/src -name "*.java" | \
  -sourcepath ../ios/cpy:\
 ../ios/src:\
 ../ios/gen:\
-../../itemscript_ios/src\
- --prefixes ../ios/prefixes\
+../../itemscript_ios/src \
+ --prefixes ../ios/prefixes \
  -use-arc

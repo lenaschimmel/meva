@@ -10,23 +10,30 @@
 #import "de/gmino/issuemap/ios/EntityFactoryImpl.h"
 #import "de/gmino/meva/shared/Util.h"
 #import "de/gmino/meva/ios/UtilIos.h"
-#import "de/gmino/meva/ios/UtilIos.h"
+#import "Request.h"
 #import "AppDelegate.h"
+#import "StartViewController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-
+    StartViewController *startViewController = [[StartViewController alloc] init];
+    _navController = [[NavigationViewController alloc] initWithRootViewController:startViewController];
 
    [MESEntityFactory setImplementationsWithMESEntityFactoryInterface:    [[IMEntityFactoryImpl alloc] init]];
     
     [MESUtil setImpl:[[MEUtilIos alloc]init]];
+
+    Request *myRequest = [[Request alloc] init];
+    [myRequest sendRequest];
+
     
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
+    self.window.rootViewController = _navController;
     [self.window makeKeyAndVisible];
     return YES;
 }

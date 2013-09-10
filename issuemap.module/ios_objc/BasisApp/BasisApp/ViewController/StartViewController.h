@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SBTableAlert.h"
 
-@interface StartViewController : UIViewController
-
+@interface StartViewController : UIViewController <SBTableAlertDataSource,SBTableAlertDelegate,UITableViewDataSource,UITableViewDelegate>
 @end
