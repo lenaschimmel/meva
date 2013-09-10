@@ -10,9 +10,14 @@
 #import "de/gmino/issuemap/ios/EntityFactoryImpl.h"
 #import "de/gmino/meva/shared/Util.h"
 #import "de/gmino/meva/ios/UtilIos.h"
+#import "de/gmino/meva/ios/request/NetworkRequestsImplAsyncJson.h"
+#import "de/gmino/meva/shared/request/Requests.h"
 #import "Request.h"
 #import "AppDelegate.h"
 #import "StartViewController.h"
+#import "de/gmino/issuemap/shared/domain/Poi.h"
+#import "java/util/Collection.h"
+#import "java/util/Iterator.h"
 
 @implementation AppDelegate
 
@@ -24,9 +29,11 @@
    [MESEntityFactory setImplementationsWithMESEntityFactoryInterface:    [[IMEntityFactoryImpl alloc] init]];
     
     [MESUtil setImpl:[[MEUtilIos alloc]init]];
-
-    Request *myRequest = [[Request alloc] init];
-    [myRequest sendRequest];
+    
+    [MESRequests setImplementationWithMESNetworkRequests:[[DeGminoMevaIosRequestNetworkRequestsImplAsyncJson alloc] initWithNSString:@"http://ios.geoengine.de/"]];
+    
+    [MESRequests getNewIdsWithMESTypeName:[IMSPoi type] withInt:1
+                   withMESRequestListener:(MESRequestListener*)self];
 
     
 
@@ -36,6 +43,11 @@
     self.window.rootViewController = _navController;
     [self.window makeKeyAndVisible];
     return YES;
+}
+
+- (void)onFinishedWithJavaUtilCollection:(id<JavaUtilCollection>) ids
+{
+    NSLog(@"Request finished: %@",[[[ids iterator] next] description]);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

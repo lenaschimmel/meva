@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "de/gmino/meva/ios/request/RequestCallback.h"
 
-@interface Request : NSObject
--(void)sendRequest;
+@interface RequestDelegate : NSObject
+-(id)initWithMERequestCallback:(id<DeGminoMevaIosRequestRequestCallback>) cb;
 @end

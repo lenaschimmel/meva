@@ -2,6 +2,10 @@ package de.gmino.meva.ios.request;
 
 import java.util.HashMap;
 
+/*-[
+#import "RequestDelegate.h"
+]-*/
+
 public class RequestBuilder {
 
 	public static final String POST = "POST";
@@ -53,7 +57,7 @@ public class RequestBuilder {
 	    	dataUsingEncoding:NSUTF8StringEncoding]];
 	    
 	    // create the connection with the request and start loading the data
-	    NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:request delegate:self];
+	    NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:request delegate:[[RequestDelegate alloc] initWithMERequestCallback:callback]];
 	    if (theConnection) {
 	        // Create the NSMutableData to hold the received data. ReceivedData is an instance variable declared elsewhere.
 	        receivedData = [NSMutableData data];
