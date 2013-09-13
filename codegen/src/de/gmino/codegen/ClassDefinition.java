@@ -1377,7 +1377,7 @@ public class ClassDefinition {
 			pw.println("			ValueWrapper val = pairs.get(key);");
 			pw.println("			if(!firstPair)");
 			pw.println("				keyValueSql += \", \";");
-			pw.println("			keyValueSql += \"('\"+id+\"', '\"+key+\"', '\"+val.getJson()+\"')\";");
+			pw.println("			keyValueSql += \"('\"+id+\"', '\"+key+\"', '\"+val.getJson().replace(\"\\\\\",\"\\\\\\\\\")+\"')\";");
 			pw.println("			firstPair = false;");
 			pw.println("		}");
 			pw.println("		keyValueSql += \";\";");
