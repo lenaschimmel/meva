@@ -89,7 +89,7 @@ public class Show_PopUp extends Composite {
 	private boolean mainPhotoShown;
 	private HashMap<Widget, String> displayValueSafe = new HashMap<Widget, String>();
 	private TreeMap<String, KeyValueView> keyValueViews = new TreeMap<String, KeyValueView>();
-	private boolean newIssue;
+	private boolean newPoi;
 	
 	/**** Ui-Fields ****/
 	@UiField
@@ -304,7 +304,7 @@ public class Show_PopUp extends Composite {
 		updateIcon();
 	}
 	
-	private void setIssueValuesFromMask(){
+	private void setPoiValuesFromMask(){
 		long markertypeId = Long.parseLong(lbMarkertype.getValue(lbMarkertype.getSelectedIndex()));
 		Markertype markertype = (Markertype) Markertype.getById(markertypeId);
 		mPoi.setTitle(tbTitle.getText());
@@ -319,7 +319,7 @@ public class Show_PopUp extends Composite {
 
 	public void createNewPoi(final de.gmino.geobase.shared.domain.LatLon location)
 	{
-		newIssue = true;
+		newPoi = true;
 		setEditMode(true, false);
 		final Markertype firstMarkertype = map.getHasMarkertypes().iterator().next();
 		final KeyValueSet markerClass = (KeyValueSet) firstMarkertype.getMarkerClass();
@@ -469,6 +469,11 @@ public class Show_PopUp extends Composite {
 	
 	@UiHandler("tbClose")
 	void onTbCloseClicked(ClickEvent e) {
+		if(newPoi)
+		{
+			mPoi.setMap_instance(null);
+			
+		}
 		this.removeFromParent();
 	}
 
@@ -490,7 +495,7 @@ public class Show_PopUp extends Composite {
 		dpTtitleOrTextBox.showWidget(edit ? 1 : 0);
 		tbTitle.setEnabled(enabled);
 		lbMarkertype.setEnabled(enabled);
-		showOrHideWidgets(!newIssue && map.isDelete(), btDelete);
+		showOrHideWidgets(!newPoi && map.isDelete(), btDelete);
 		
 		if(edit)
 		{
@@ -524,8 +529,11 @@ public class Show_PopUp extends Composite {
 		GwtIconRenderer<? super Poi> renderer = smartLayer.getRendererForPoi(mPoi);
 		String iconUrl = renderer.getIconUrl(mPoi);
 		imageMarkerIcon.setUrl(iconUrl);
-		IssuemapGwt.getInstance().deleteMarker(mPoi);
-		IssuemapGwt.getInstance().addMarker(mPoi);
+		if(!newPoi)
+		{
+			IssuemapGwt.getInstance().deleteMarker(mPoi);
+			IssuemapGwt.getInstance().addMarker(mPoi);
+		}
 	}
 	
 	private void updateList() {
@@ -714,7 +722,7 @@ public class Show_PopUp extends Composite {
 	@UiHandler("btCancel")
 	public void onBtCancelClicked(ClickEvent e)
 	{
-		if(newIssue)
+		if(newPoi)
 		{
 			this.removeFromParent();
 			return;
@@ -737,7 +745,7 @@ public class Show_PopUp extends Composite {
 			Requests.loadEntity(map, new RequestListener<Map>() {
 				@Override
 				public void onFinished(Collection<Map> results) {
-					setIssueValuesFromMask();
+					setPoiValuesFromMask();
 					smartLayer.updatePoi(mPoi); // works even if the poi is a
 												// new one
 					map.getIssues().add(mPoi); // works even if the poi is
@@ -751,14 +759,14 @@ public class Show_PopUp extends Composite {
 
 					Requests.saveEntity(map, null);
 
-					if (newIssue) {
+					if (newPoi) {
 						// Add marker to map
 						final IssuemapGwt issueMap = IssuemapGwt.getInstance();
 						issueMap.addMarker(mPoi);
 						issueMap.updateCounter();
 					}
 					updateList();
-					newIssue = false;
+					newPoi = false;
 					setEditMode(false, true);
 					setValuesFromPoi();
 				}
