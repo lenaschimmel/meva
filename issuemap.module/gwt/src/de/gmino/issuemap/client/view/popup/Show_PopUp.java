@@ -238,12 +238,12 @@ public class Show_PopUp extends Composite {
 	public void setPoi(Poi poi) {
 		this.mPoi = poi;
 
-		setValuesFromPoi();
+		setValuesFromPoi(true);
 		
 		createAndFillKeyValueViews(poi);
 	}
 
-	private void setValuesFromPoi() {
+	private void setValuesFromPoi(boolean addPhotosAndComments) {
 		lbTypeAndDate.setText(mPoi.getMarkertype().getMarkerName() + ", " + mPoi.getCreationTimestamp().relativeToNow().toReadableString(true,1));
 		lbTypeAndDate.setTitle("Eintrag vom " + dtf.format(mPoi.getCreationTimestamp().toDate()));
 		
@@ -255,8 +255,11 @@ public class Show_PopUp extends Composite {
 		tbTitle.setText(mPoi.getTitle());
 			
 		updateButtonColorsAndLabels();
-		loadAndShowComments();
-		loadAndShowPhotos();
+		if(addPhotosAndComments)
+		{
+			loadAndShowComments();
+			loadAndShowPhotos();
+		}
 
 		GwtIconRenderer<? super Poi> renderer = this.smartLayer.getRendererForPoi(mPoi);
 		String iconUrl = renderer.getIconUrl(mPoi);
@@ -760,7 +763,7 @@ public class Show_PopUp extends Composite {
 					updateList();
 					newPoi = false;
 					setEditMode(false, true);
-					setValuesFromPoi();
+					setValuesFromPoi(false);
 				}
 			});
 		}
