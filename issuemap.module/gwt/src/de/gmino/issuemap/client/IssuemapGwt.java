@@ -261,11 +261,11 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 				}, 1000);
 
 				header.setFrontendDesign(mapObject);
-				footer.setDesign(mapObject.getPrimary_color());
-
+				footer.setDesign();
 				map.loadMarkertypes(new RequestListener<Markertype>() {
 					@Override
 					public void onFinished(Collection<Markertype> results) {
+						footer.setMarkerIcon(markerLayer);
 						if (subdomain.equals("zgb"))
 							fillMapZgb();
 						else {

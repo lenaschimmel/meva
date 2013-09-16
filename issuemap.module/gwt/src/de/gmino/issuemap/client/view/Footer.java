@@ -17,7 +17,13 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.gmino.geobase.client.map.GwtIconRenderer;
+import de.gmino.geobase.client.map.OpenLayersSmartLayer;
+import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.client.domain.Map;
+import de.gmino.issuemap.client.domain.Poi;
+import de.gmino.issuemap.shared.domain.Markertype;
+import de.gmino.meva.client.domain.KeyValueSet;
 
 /**
  * @author greenmobile
@@ -26,7 +32,7 @@ import de.gmino.issuemap.client.domain.Map;
 public class Footer extends Composite implements HasText {
 
 	private static UIUiBinder uiBinder = GWT.create(UIUiBinder.class);
-	Map mapObject;
+	Map map;
 
 	interface UIUiBinder extends UiBinder<Widget, Footer> {
 	}
@@ -78,22 +84,44 @@ public class Footer extends Composite implements HasText {
 		Window.open("http://geoengine.de", "greenmobile geoengine", "");
 	}
 	
-	public void setDesign(String color) {
+	public void setDesign() {
 //		chart_button.getElement().getStyle().setBackgroundColor(color);
 //		list_button.getElement().getStyle().setBackgroundColor(color);
 //		preferences_button.getElement().getStyle().setBackgroundColor(color);
-		text.getElement().getStyle().setColor(mapObject.getSecondary_color());
-		counter.getElement().getStyle().setColor(mapObject.getSecondary_color());
+		text.getElement().getStyle().setColor(map.getSecondary_color());
+		counter.getElement().getStyle().setColor(map.getSecondary_color());
 		text.setVisible(true);
 		cursor.setVisible(true);
-		footer.getElement().getStyle().setBackgroundColor(mapObject.getBackground_color());
-		if(mapObject.isEdit()){
+		footer.getElement().getStyle().setBackgroundColor(map.getBackground_color());
+		if(map.isEdit()){
 			counterPanel.setVisible(true);
 			doubleClickInfoPanel.setVisible(true);
 		}			
+		
 //		chart_button.setVisible(true);
 //		list_button.setVisible(true);
 //		preferences_button.setVisible(true);
+	}
+
+	public void setMarkerIcon(OpenLayersSmartLayer smartLayer) {
+		Poi poi = new Poi(-1);
+		
+		Markertype chosenMarkertype = map.getHasMarkertypes().iterator().next();
+		for(Markertype mt : map.getHasMarkertypes())
+		{
+			if(mt.getMarkerName().equals("Sonstiges"))
+				chosenMarkertype = mt;
+		}
+		final KeyValueSet markerClass = (KeyValueSet) chosenMarkertype.getMarkerClass();
+		poi.setKeyvalueset(markerClass);
+		poi.setMap_instance(map);
+		poi.setCreationTimestamp(Timestamp.now());
+		poi.setMarkertype(chosenMarkertype);
+		GwtIconRenderer<? super Poi> renderer =  smartLayer.getRendererForPoi(poi);
+		String iconUrl = renderer.getIconUrl(poi);
+		counter_icon.setUrl(iconUrl);
+		counter_icon.setVisible(true);
+		counter.setText("Einträge werden geladen...");
 	}
 
 	@Override
@@ -109,13 +137,11 @@ public class Footer extends Composite implements HasText {
 
 
 	public void setMap(Map map) {
-		this.mapObject = map;
+		this.map = map;
 	}
 
 	public void setCounter(int count) {
 		counter.setText("Bisher wurden " + count+" Stellen markiert");
-		counter_icon.setVisible(true);
-		
 	}
 
 }
