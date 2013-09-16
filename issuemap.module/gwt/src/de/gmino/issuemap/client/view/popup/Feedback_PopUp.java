@@ -33,7 +33,7 @@ public class Feedback_PopUp extends Composite implements HasText {
 
 	public Feedback_PopUp(Map mapObject, Feedback_Button feedback_Button) {
 		initWidget(uiBinder.createAndBindUi(this));
-		parent.getElement().getStyle().setBackgroundColor(mapObject.getBackground_color());
+		parent.getElement().getStyle().setBackgroundColor(mapObject.getPopupBackgroundColor());
 		message.getElement().setAttribute("placeholder", "Geben Sie hier Ihre Nachricht ein");
 		email.getElement().setAttribute("placeholder", "Ihre Email-Adresse (optional)");
 		typebox.setItemText(1, 	"Feedback an: " + mapObject.getPostal_address().getRecipientName());

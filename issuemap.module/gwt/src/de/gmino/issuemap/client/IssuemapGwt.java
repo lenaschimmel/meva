@@ -261,7 +261,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 				}, 1000);
 
 				header.setFrontendDesign(mapObject);
-				footer.setDesign(mapObject.getPrimary_color());
+				footer.setDesign();
 
 				map.loadMarkertypes(new RequestListener<Markertype>() {
 					@Override

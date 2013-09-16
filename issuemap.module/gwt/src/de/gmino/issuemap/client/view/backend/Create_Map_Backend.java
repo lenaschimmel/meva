@@ -117,11 +117,15 @@ public class Create_Map_Backend extends Composite {
 	@UiField
 	TextArea infoText;
 	@UiField
-	TextBox primary_color;
+	TextBox bar_text_color;
 	@UiField
-	TextBox secondary_color;
+	TextBox bar_background_color;
 	@UiField
-	TextBox background_color;
+	TextBox popup_text_color;
+	@UiField
+	TextBox popup_background_color;
+	@UiField
+	TextBox marker_color;
 	@UiField
 	TextBox resolved_color;
 	@UiField
@@ -285,20 +289,30 @@ public class Create_Map_Backend extends Composite {
 	
 	
 	
-	@UiHandler("primary_color")
-	void onPrimaryColorChange(ChangeEvent e) {
-		primary_color.getElement().getStyle().setBackgroundColor(primary_color.getText());
+	@UiHandler("bar_background_color")
+	void onHeaderBackgroundChange(ChangeEvent e) {
+		bar_background_color.getElement().getStyle().setBackgroundColor(bar_background_color.getText());
 		
 	}
 	
-	@UiHandler("secondary_color")
-	void onSecondaryColorChange(ChangeEvent e) {
-		secondary_color.getElement().getStyle().setBackgroundColor(secondary_color.getText());
+	@UiHandler("bar_text_color")
+	void onHeaderTextChange(ChangeEvent e) {
+		bar_text_color.getElement().getStyle().setBackgroundColor(bar_text_color.getText());
 	}
 	
-	@UiHandler("background_color")
-	void onBackgroundColorChange(ChangeEvent e) {
-		background_color.getElement().getStyle().setBackgroundColor(background_color.getText());
+	@UiHandler("popup_background_color")
+	void onPopupBackgroundChange(ChangeEvent e) {
+		popup_background_color.getElement().getStyle().setBackgroundColor(popup_background_color.getText());
+	}
+	
+	@UiHandler("popup_text_color")
+	void onPopupTextChange(ChangeEvent e) {
+		popup_text_color.getElement().getStyle().setBackgroundColor(popup_text_color.getText());
+	}
+	
+	@UiHandler("marker_color")
+	void onMarkerColorChange(ChangeEvent e) {
+		marker_color.getElement().getStyle().setBackgroundColor(marker_color.getText());
 	}
 	
 	@UiHandler("resolved_color")
@@ -340,10 +354,12 @@ public class Create_Map_Backend extends Composite {
 		map.setTitle(title.getText());
 		map.setSubdomain(subdomain.getText());
 		map.setInfoText(infoText.getText());
-		map.setPrimary_color(primary_color.getText());
-		map.setSecondary_color(secondary_color.getText());
-		map.setBackground_color(background_color.getText());
-		map.setResolved_color(resolved_color.getText());
+		map.setBarBackgroundColor(bar_background_color.getText());
+		map.setBarTextColor(bar_text_color.getText());
+		map.setPopupBackgroundColor(popup_background_color.getText());
+		map.setPopupTextColor(popup_text_color.getText());
+		map.setMarkerColor(marker_color.getText());
+		map.setResolvedColor(resolved_color.getText());
 		map.setCity(map_city.getText());
 		map.setInitLocation(new LatLon(Double.parseDouble(initLocation_latitude.getText()) , Double.parseDouble(initLocation_longitude.getText())));
 		map.setInitZoomlevel(Integer.parseInt(initZoomlevel.getText()));
@@ -390,9 +406,11 @@ public class Create_Map_Backend extends Composite {
 		title.setText("");
 		subdomain.setText("");
 		infoText.setText("");
-		primary_color.setText("");
-		secondary_color.setText("");
-		background_color.setText("");
+		bar_background_color.setText("");
+		bar_text_color.setText("");
+		popup_background_color.setText("");
+		popup_text_color.setText("");
+		marker_color.setText("");
 		resolved_color.setText("");
 		map_city.setText("");
 		initLocation_latitude.setText("");
@@ -409,10 +427,11 @@ public class Create_Map_Backend extends Composite {
 		owner_city.setText("");
 		additionalAddressLine.setText("");
 		eePanel.setVisible(false);
-		primary_color.getElement().getStyle().setBackgroundColor("#FFF");
-		secondary_color.getElement().getStyle().setBackgroundColor("#FFF");
-		background_color.getElement().getStyle().setBackgroundColor("#FFF");
-		background_color.getElement().getStyle().setColor("#000");
+		bar_background_color.getElement().getStyle().setBackgroundColor("#FFF");
+		bar_text_color.getElement().getStyle().setBackgroundColor("#FFF");
+		popup_background_color.getElement().getStyle().setBackgroundColor("#FFF");
+		popup_text_color.getElement().getStyle().setBackgroundColor("#FFF");
+		marker_color.getElement().getStyle().setBackgroundColor("#FFF");
 		resolved_color.getElement().getStyle().setBackgroundColor("#FFF");
 		fotosCheckbox.setValue(false);
 		commentsCheckbox.setValue(false);
@@ -465,10 +484,23 @@ public class Create_Map_Backend extends Composite {
 		title.setText(map.getTitle());
 		subdomain.setText(map.getSubdomain());
 		infoText.setText(map.getInfoText());
-		primary_color.setText(map.getPrimary_color());
-		secondary_color.setText(map.getSecondary_color());
-		background_color.setText(map.getBackground_color());
-		resolved_color.setText(map.getResolved_color());
+		
+		bar_background_color.setText(map.getBarBackgroundColor());
+		bar_text_color.setText(map.getBarTextColor());
+		popup_background_color.setText(map.getPopupBackgroundColor());
+		popup_text_color.setText(map.getPopupTextColor());
+		marker_color.setText(map.getMarkerColor());
+		resolved_color.setText(map.getResolvedColor());
+		
+		bar_background_color.getElement().getStyle().setBackgroundColor(bar_background_color.getText());
+		bar_text_color.getElement().getStyle().setBackgroundColor(bar_text_color.getText());
+		popup_background_color.getElement().getStyle().setBackgroundColor(popup_background_color.getText());
+		popup_text_color.getElement().getStyle().setBackgroundColor(popup_text_color.getText());
+		marker_color.getElement().getStyle().setBackgroundColor(marker_color.getText());
+		resolved_color.getElement().getStyle().setBackgroundColor(resolved_color.getText());
+		
+		
+		
 		map_city.setText(map.getCity());
 		initLocation_latitude.setText(map.getInitLocation().getLatitude()+"");
 		initLocation_longitude.setText(map.getInitLocation().getLongitude()+"");
@@ -483,10 +515,6 @@ public class Create_Map_Backend extends Composite {
 		zip.setText(map.getPostal_address().getZip());
 		owner_city.setText(map.getPostal_address().getCity());
 		additionalAddressLine.setText(map.getPostal_address().getAdditionalAddressLine());
-		primary_color.getElement().getStyle().setBackgroundColor(primary_color.getText());
-		secondary_color.getElement().getStyle().setBackgroundColor(secondary_color.getText());
-		background_color.getElement().getStyle().setBackgroundColor(background_color.getText());
-		resolved_color.getElement().getStyle().setBackgroundColor(resolved_color.getText());
 		fotosCheckbox.setValue(map.isHas_fotos());
 		commentsCheckbox.setValue(map.isHas_comments());
 		ratingsCheckbox.setValue(map.isHas_ratings());
@@ -543,12 +571,16 @@ public class Create_Map_Backend extends Composite {
 		infoText.getElement().setAttribute("title", "Informations-Text");
 		logo_url.getElement().setAttribute("placeholder", "URL zum Logo");
 		logo_url.getElement().setAttribute("title", "URL zum Logo");
-		primary_color.getElement().setAttribute("placeholder", "Markerfarbe");
-		primary_color.getElement().setAttribute("title", "Markerfarbe");
-		secondary_color.getElement().setAttribute("placeholder", "Textfarbe");
-		secondary_color.getElement().setAttribute("title", "Textfarbe");
-		background_color.getElement().setAttribute("placeholder", "Hintergrund-Farbe");
-		background_color.getElement().setAttribute("title", "Hintergrund-Farbe");
+		bar_background_color.getElement().setAttribute("placeholder", "Hintergrund-Farbe");
+		bar_text_color.getElement().setAttribute("title", "Textfarbe");
+		bar_background_color.getElement().setAttribute("placeholder", "Hintergrund-Farbe");
+		bar_text_color.getElement().setAttribute("title", "Textfarbe");
+		popup_background_color.getElement().setAttribute("placeholder", "Hintergrund-Farbe");
+		popup_text_color.getElement().setAttribute("title", "Textfarbe");
+		popup_background_color.getElement().setAttribute("placeholder", "Hintergrund-Farbe");
+		popup_text_color.getElement().setAttribute("title", "Textfarbe");
+		marker_color.getElement().setAttribute("placeholder", "Markerfarbe");
+		marker_color.getElement().setAttribute("title", "Markerfarbe");
 		resolved_color.getElement().setAttribute("placeholder", "Erledigt-Farbe");
 		resolved_color.getElement().setAttribute("title", "Erledigt-Farbe");
 		map_city.getElement().setAttribute("placeholder", "Stadt");

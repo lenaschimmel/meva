@@ -78,15 +78,15 @@ public class Footer extends Composite implements HasText {
 		Window.open("http://geoengine.de", "greenmobile geoengine", "");
 	}
 	
-	public void setDesign(String color) {
+	public void setDesign() {
 //		chart_button.getElement().getStyle().setBackgroundColor(color);
 //		list_button.getElement().getStyle().setBackgroundColor(color);
 //		preferences_button.getElement().getStyle().setBackgroundColor(color);
-		text.getElement().getStyle().setColor(mapObject.getSecondary_color());
-		counter.getElement().getStyle().setColor(mapObject.getSecondary_color());
+		text.getElement().getStyle().setColor(mapObject.getBarTextColor());
+		counter.getElement().getStyle().setColor(mapObject.getBarTextColor());
 		text.setVisible(true);
 		cursor.setVisible(true);
-		footer.getElement().getStyle().setBackgroundColor(mapObject.getBackground_color());
+		footer.getElement().getStyle().setBackgroundColor(mapObject.getBarBackgroundColor());
 		if(mapObject.isEdit()){
 			counterPanel.setVisible(true);
 			doubleClickInfoPanel.setVisible(true);

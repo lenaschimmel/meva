@@ -43,7 +43,7 @@ public class List_PopUp extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.renderer = issueRenderer;
 		this.layer = smartLayer;
-		flowPanel.getElement().getStyle().setBackgroundColor(mapObject.getBackground_color());
+		flowPanel.getElement().getStyle().setBackgroundColor(mapObject.getPopupBackgroundColor());
 		listButton = new List_Button(this);
 		RootPanel.get("feedback").add(listButton);
 		RootPanel.get("list").getElement().getStyle().setDisplay(Display.NONE); // setZIndex(-1000);

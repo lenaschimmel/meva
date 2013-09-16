@@ -26,7 +26,7 @@ public class Impressum_PopUp extends Composite implements HasText {
 
 	public Impressum_PopUp(Map mapObject, DecoratedPopupPanel decorated_panel) {
 		initWidget(uiBinder.createAndBindUi(this));
-		title.getElement().getStyle().setColor(mapObject.getSecondary_color());
+		title.getElement().getStyle().setColor(mapObject.getPopupBackgroundColor());
 		this.decorated_panel = decorated_panel;
 		full_name.setText(mapObject.getPostal_address().getRecipientName());
 		street.setText(mapObject.getPostal_address().getStreet()+" "+mapObject.getPostal_address().getHouseNumber());

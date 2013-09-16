@@ -97,7 +97,7 @@ public class ShowDecentralizedGeneration_PopUp extends Composite {
 		this.smartLayer = smartLayer;
 		this.mGen = gen;
 		this.mWrapper = marker_Wrapper;
-		setBoarderColor(map.getPrimary_color());
+
 
 		type.setText(mGen.getDescription());
 		if (mGen.getAddress().getStreet().equals(""))

@@ -34,9 +34,9 @@ public class IssueList_Item extends Composite implements ListViewItem<Poi> {
 	
 	public IssueList_Item(Poi issue, IssueIconRenderer renderer, OpenLayersSmartLayer layer) {
 		initWidget(uiBinder.createAndBindUi(this));
-		labelTitle.getElement().getStyle().setColor(issue.getMap_instance().getSecondary_color());
-		date.getElement().getStyle().setColor(issue.getMap_instance().getSecondary_color());
-		type.getElement().getStyle().setColor(issue.getMap_instance().getSecondary_color());
+		labelTitle.getElement().getStyle().setColor(issue.getMap_instance().getPopupTextColor());
+		date.getElement().getStyle().setColor(issue.getMap_instance().getPopupTextColor());
+		type.getElement().getStyle().setColor(issue.getMap_instance().getPopupTextColor());
 		this.renderer = renderer;
 		this.layer = layer;
 		setDataItem(issue);
@@ -72,12 +72,16 @@ public class IssueList_Item extends Composite implements ListViewItem<Poi> {
 		this.issue = issue;
 		labelTitle.setText(issue.getTitle());
 		type.setText(issue.getMarkertype().getMarkerName());
-		if(issue.getRating()>0) rating.setText("+"+issue.getRating());
-		else rating.setText(""+issue.getRating());
-		rating.getElement().getStyle().setColor(issue.getMap_instance().getSecondary_color());
-		date.setText(", " + issue.getCreationTimestamp().relativeToNow().toReadableString(true,1));
+		if (issue.getMap_instance().isHas_ratings()) {
+			if (issue.getRating() > 0)
+				rating.setText("+" + issue.getRating());
+			else
+				rating.setText("" + issue.getRating());
+			rating.getElement().getStyle().setColor(issue.getMap_instance().getPopupTextColor());
+		}
+		date.setText(", " + issue.getCreationTimestamp().relativeToNow().toReadableString(true, 1));
 		date.setTitle(dtf.format(issue.getCreationTimestamp().toDate()));
-		
+
 		String iconUrl = renderer.getIconUrl(issue);
 		imageMarkerIcon.setUrl(iconUrl);
 	}

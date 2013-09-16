@@ -210,8 +210,8 @@ public class Show_PopUp extends Composite {
 		this.smartLayer = smartLayer;
 		
 		enableOrDisableFeatures();
-		parent.getElement().getStyle().setBackgroundColor(map.getBackground_color());
-		deckPanel.getElement().getStyle().setColor(map.getSecondary_color());
+		parent.getElement().getStyle().setBackgroundColor(map.getPopupBackgroundColor());
+		deckPanel.getElement().getStyle().setColor(map.getPopupTextColor());
 		commentTextBox.getElement().setAttribute("placeholder", "Bitte geben Sie einen Kommentar ein");
 		tbTitle.getElement().setAttribute("placeholder", "Name des Eintrags");
 		
@@ -256,7 +256,7 @@ public class Show_PopUp extends Composite {
 		lbTypeAndDate.setTitle("Eintrag vom " + dtf.format(mPoi.getCreationTimestamp().toDate()));
 		
 		tbResolved.setStyleName(style.underline(), mPoi.isMarked());
-		if (mPoi.isMarked()) tbResolved.getElement().getStyle().setBorderColor(map.getResolved_color());
+		if (mPoi.isMarked()) tbResolved.getElement().getStyle().setBorderColor(map.getResolvedColor());
 		setRatingText();
 		lbTitle.setText(mPoi.getTitle());
 		lbTitle.setTitle(mPoi.getTitle());
@@ -455,13 +455,13 @@ public class Show_PopUp extends Composite {
 	private void activateTab(int i) {
 		deckPanel.showWidget(i);
 		tabButtonDescription.setStyleName(style.underline(), i == 0);
-		if(i==0) tabButtonDescription.getElement().getStyle().setBorderColor(map.getPrimary_color());
+		if(i==0) tabButtonDescription.getElement().getStyle().setBorderColor(map.getMarkerColor());
 		else tabButtonDescription.getElement().getStyle().setBorderColor("transparent");
 		tabButtonPhotos		.setStyleName(style.underline(), i == 1);
-		if(i==1) tabButtonPhotos.getElement().getStyle().setBorderColor(map.getPrimary_color());
+		if(i==1) tabButtonPhotos.getElement().getStyle().setBorderColor(map.getMarkerColor());
 		else tabButtonPhotos.getElement().getStyle().setBorderColor("transparent");
 		tabButtonComments	.setStyleName(style.underline(), i == 2);
-		if(i==2) tabButtonComments.getElement().getStyle().setBorderColor(map.getPrimary_color());
+		if(i==2) tabButtonComments.getElement().getStyle().setBorderColor(map.getMarkerColor());
 		else tabButtonComments.getElement().getStyle().setBorderColor("transparent");
 	}
 		
@@ -511,7 +511,7 @@ public class Show_PopUp extends Composite {
 		tbResolved.setStyleName(style.underline(), mPoi.isMarked());
 
 		if (mPoi.isMarked())
-			tbResolved.getElement().getStyle().setBorderColor(map.getResolved_color());
+			tbResolved.getElement().getStyle().setBorderColor(map.getResolvedColor());
 		else
 			tbResolved.getElement().getStyle().setBorderColor("transparent");
 

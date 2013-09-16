@@ -136,9 +136,9 @@ public class IssueIconRenderer extends GwtIconRenderer<Poi> {
 		else {
 
 			if (issue.isMarked())
-				return(issue.getMap_instance().getResolved_color());
+				return(issue.getMap_instance().getResolvedColor());
 			else
-				return(issue.getMap_instance().getPrimary_color());
+				return(issue.getMap_instance().getMarkerColor());
 		}
 		return "#FFFFFF";
 	}

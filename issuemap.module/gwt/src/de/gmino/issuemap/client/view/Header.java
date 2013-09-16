@@ -127,10 +127,10 @@ public class Header extends Composite  {
 		logo.setUrl(map.getLogo().getUrl());
 		title.setText(map.getTitle());
 
-		title.getElement().getStyle().setColor(mapObject.getPrimary_color());
+		title.getElement().getStyle().setColor(mapObject.getBarTextColor());
 		info_button.setVisible(true);
 		header.getElement().getStyle()
-				.setBackgroundColor(mapObject.getBackground_color());
+				.setBackgroundColor(mapObject.getBarBackgroundColor());
 		search_field.setVisible(true);
 		logo.setHeight("45px");
 		info_button.setVisible(true);

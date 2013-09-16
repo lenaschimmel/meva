@@ -14,22 +14,30 @@
 		{
 			"type" : "String",
 			"name" : "subdomain"
+		},
+		{
+			"type" : "String",
+			"name" : "barBackgroundColor"
 		},		
 		{
 			"type" : "String",
-			"name" : "primary_color"
+			"name" : "barTextColor"
 		},		
 		{
 			"type" : "String",
-			"name" : "secondary_color"
+			"name" : "popupBackgroundColor"
 		},		
 		{
 			"type" : "String",
-			"name" : "background_color"
+			"name" : "popupTextColor"
 		},		
 		{
 			"type" : "String",
-			"name" : "resolved_color"
+			"name" : "markerColor"
+		},			
+		{
+			"type" : "String",
+			"name" : "resolvedColor"
 		},
 		{
 			"type" : "String",
