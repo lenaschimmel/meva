@@ -266,6 +266,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 				map.loadMarkertypes(new RequestListener<Markertype>() {
 					@Override
 					public void onFinished(Collection<Markertype> results) {
+						footer.setMarkerIcon(markerLayer);
 						if (subdomain.equals("zgb"))
 							fillMapZgb();
 						else {
