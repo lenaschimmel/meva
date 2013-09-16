@@ -210,6 +210,8 @@ public class Show_PopUp extends Composite {
 		this.smartLayer = smartLayer;
 		
 		enableOrDisableFeatures();
+		parent.getElement().getStyle().setBackgroundColor(map.getBackground_color());
+		deckPanel.getElement().getStyle().setColor(map.getSecondary_color());
 		commentTextBox.getElement().setAttribute("placeholder", "Bitte geben Sie einen Kommentar ein");
 		tbTitle.getElement().setAttribute("placeholder", "Name des Eintrags");
 		

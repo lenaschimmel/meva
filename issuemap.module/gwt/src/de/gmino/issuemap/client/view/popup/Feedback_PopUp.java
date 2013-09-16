@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -32,6 +33,7 @@ public class Feedback_PopUp extends Composite implements HasText {
 
 	public Feedback_PopUp(Map mapObject, Feedback_Button feedback_Button) {
 		initWidget(uiBinder.createAndBindUi(this));
+		parent.getElement().getStyle().setBackgroundColor(mapObject.getBackground_color());
 		message.getElement().setAttribute("placeholder", "Geben Sie hier Ihre Nachricht ein");
 		email.getElement().setAttribute("placeholder", "Ihre Email-Adresse (optional)");
 		typebox.setItemText(1, 	"Feedback an: " + mapObject.getPostal_address().getRecipientName());
@@ -44,7 +46,8 @@ public class Feedback_PopUp extends Composite implements HasText {
 	Label title;
 	@UiField
 	Button sendButton;	
-
+	@UiField
+	Panel parent;
 
 	@UiField
 	ListBox typebox;

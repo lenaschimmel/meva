@@ -34,6 +34,9 @@ public class IssueList_Item extends Composite implements ListViewItem<Poi> {
 	
 	public IssueList_Item(Poi issue, IssueIconRenderer renderer, OpenLayersSmartLayer layer) {
 		initWidget(uiBinder.createAndBindUi(this));
+		labelTitle.getElement().getStyle().setColor(issue.getMap_instance().getSecondary_color());
+		date.getElement().getStyle().setColor(issue.getMap_instance().getSecondary_color());
+		type.getElement().getStyle().setColor(issue.getMap_instance().getSecondary_color());
 		this.renderer = renderer;
 		this.layer = layer;
 		setDataItem(issue);

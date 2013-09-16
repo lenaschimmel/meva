@@ -20,7 +20,7 @@
 					
 			.focusPanel:hover {
 
-			background: #444;
+			background: rgba(200,200,200,0.2);
 
 		}
 		

@@ -26,6 +26,8 @@
 			background: rgba(0, 0, 0, 0.8);
 			min-width: 730px;
 			border-top: 1px solid rgba(0, 0, 0, 0.5);
+		    -webkit-box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.4);
+			box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.4);
 
 		}
 		
@@ -61,7 +63,7 @@
 			</g:PushButton> </g:cell> -->
 
 		<g:cell horizontalAlignment="ALIGN_LEFT" width="175px">
-			<g:HorizontalPanel styleName="{style.info_box}">
+			<g:HorizontalPanel styleName="{style.info_box}" visible="false" ui:field="counterPanel">
 				<g:Image styleName="{style.counter_icon}" ui:field="counter_icon"
 					url="mapicon/pin_white.png" visible="false" />
 				<g:Label styleName="{style.footText}" ui:field="counter"></g:Label>
@@ -70,7 +72,7 @@
 		</g:cell>
 
 		<g:cell horizontalAlignment="ALIGN_LEFT" width="305px">
-			<g:HorizontalPanel styleName="{style.info_box}">
+			<g:HorizontalPanel styleName="{style.info_box}" visible="false" ui:field="doubleClickInfoPanel">
 				<g:Image styleName="{style.counter_icon}" ui:field="cursor"
 					url="cursor_white.png" visible="false" />
 				<g:Label styleName="{style.footText}" ui:field="text">Mit einem

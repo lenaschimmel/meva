@@ -20,7 +20,12 @@
 			padding-left: 10px;
 			padding-top: 5px;
 			min-width: 730px;
-			border-bottom: 1px solid rgba(0, 0, 0, 0.5);		}
+			border-bottom: 1px solid rgba(0, 0, 0, 0.5);	
+			-webkit-box-shadow: 4px 4px 20px 4px rgba(0, 0, 0, 0.4);
+			box-shadow: 4px 4px 20px 4px rgba(0, 0, 0, 0.4);
+			
+
+			}
 		
 		.title {
 			font-size: 1.7em;
@@ -69,11 +74,16 @@
     
 
 		}
+		
+		.blur{ 
+
+		
+}
 	</ui:style>
 
 	<g:HorizontalPanel styleName="{style.header}" width="100%"
 		ui:field="header">
-
+	<g:HTMLPanel styleName="{style.blur}"></g:HTMLPanel>
 		<g:cell width="25%" verticalAlignment="ALIGN_MIDDLE">
 			<g:Image ui:field="logo" url="loading.gif" height="45px" styleName="{style.image}"/>
 		</g:cell>

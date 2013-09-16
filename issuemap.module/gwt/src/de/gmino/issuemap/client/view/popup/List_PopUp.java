@@ -26,12 +26,12 @@ import de.gmino.issuemap.client.view.list.ListView;
 import de.gmino.issuemap.client.view.list.List_Button;
 import de.gmino.issuemap.client.view.list.ListView.ListViewItem;
 
-public class IssueList_PopUp extends Composite {
+public class List_PopUp extends Composite {
 
 	private static IssueList_PopUpUiBinder uiBinder = GWT
 			.create(IssueList_PopUpUiBinder.class);
 	
-	interface IssueList_PopUpUiBinder extends UiBinder<Widget, IssueList_PopUp> {
+	interface IssueList_PopUpUiBinder extends UiBinder<Widget, List_PopUp> {
 	}
 	
 	private List_Button listButton;
@@ -39,10 +39,11 @@ public class IssueList_PopUp extends Composite {
 	private IssueIconRenderer renderer;
 	private ListView<Poi> list;
 
-	public IssueList_PopUp(Map mapObject, IssueIconRenderer issueRenderer, OpenLayersSmartLayer smartLayer) {
+	public List_PopUp(Map mapObject, IssueIconRenderer issueRenderer, OpenLayersSmartLayer smartLayer) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.renderer = issueRenderer;
 		this.layer = smartLayer;
+		flowPanel.getElement().getStyle().setBackgroundColor(mapObject.getBackground_color());
 		listButton = new List_Button(this);
 		RootPanel.get("feedback").add(listButton);
 		RootPanel.get("list").getElement().getStyle().setDisplay(Display.NONE); // setZIndex(-1000);

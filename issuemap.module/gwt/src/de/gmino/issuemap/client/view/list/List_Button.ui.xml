@@ -12,6 +12,8 @@
 		right: 0px;
 		top: -63px;
 		cursor: pointer;
+		
+
 		}
 
 	</ui:style>

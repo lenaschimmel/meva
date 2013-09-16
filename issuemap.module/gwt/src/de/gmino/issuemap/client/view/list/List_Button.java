@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.view.popup.Feedback_PopUp;
-import de.gmino.issuemap.client.view.popup.IssueList_PopUp;
+import de.gmino.issuemap.client.view.popup.List_PopUp;
 
 public class List_Button extends Composite implements HasText {
 
@@ -20,12 +20,12 @@ public class List_Button extends Composite implements HasText {
 			.create(List_ButtonUiBinder.class);
 	
 	public Feedback_PopUp feedbackPopup;
-	private IssueList_PopUp issueList_PopUp;
+	private List_PopUp issueList_PopUp;
 
 	interface List_ButtonUiBinder extends UiBinder<Widget, List_Button> {
 	}
 
-	public List_Button(IssueList_PopUp issueList_PopUp) {
+	public List_Button(List_PopUp issueList_PopUp) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.issueList_PopUp=issueList_PopUp;
 	}

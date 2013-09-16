@@ -303,9 +303,12 @@
 						<g:TextBox styleName="{style.textBox}" ui:field="logo_url" />
 					</g:HorizontalPanel>
 					<g:HorizontalPanel height="28px">
-						<g:Label text="Farben:" styleName="{style.label}" />
+						<g:Label text="Kopf- und Fußleisten:" styleName="{style.label}" />
 						<g:TextBox styleName="{style.primarycolor}" ui:field="primary_color" />
 						<g:TextBox styleName="{style.secondarycolor}" ui:field="secondary_color" />
+					</g:HorizontalPanel>
+						<g:HorizontalPanel height="28px">
+						<g:Label text="Marker:" styleName="{style.label}" />
 						<g:TextBox styleName="{style.backgroundcolor}" ui:field="background_color" />
 						<g:TextBox styleName="{style.resolvedcolor}" ui:field="resolved_color" />
 					</g:HorizontalPanel>

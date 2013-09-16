@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.issuemap.client.domain.Map;
@@ -56,12 +57,15 @@ public class Footer extends Composite implements HasText {
 	Image counter_icon;
 	@UiField
 	Image cursor;
-	
 	@UiField
 	Label text;
-	
 	@UiField
 	Label counter;
+	@UiField
+	Panel counterPanel;
+	@UiField
+	Panel doubleClickInfoPanel;
+	
 	
 	
 	public Footer(String firstName) {
@@ -83,6 +87,10 @@ public class Footer extends Composite implements HasText {
 		text.setVisible(true);
 		cursor.setVisible(true);
 		footer.getElement().getStyle().setBackgroundColor(mapObject.getBackground_color());
+		if(mapObject.isEdit()){
+			counterPanel.setVisible(true);
+			doubleClickInfoPanel.setVisible(true);
+		}			
 //		chart_button.setVisible(true);
 //		list_button.setVisible(true);
 //		preferences_button.setVisible(true);

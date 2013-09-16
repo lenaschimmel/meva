@@ -55,7 +55,7 @@ import de.gmino.issuemap.client.request.QueryMapBySubdomain;
 import de.gmino.issuemap.client.view.Feedback_Button;
 import de.gmino.issuemap.client.view.Footer;
 import de.gmino.issuemap.client.view.Header;
-import de.gmino.issuemap.client.view.popup.IssueList_PopUp;
+import de.gmino.issuemap.client.view.popup.List_PopUp;
 import de.gmino.issuemap.client.view.popup.Show_PopUp;
 import de.gmino.meva.client.UtilClient;
 import de.gmino.meva.client.domain.KeyValueDef;
@@ -144,7 +144,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 
 	private static final int GENERAL_POPUP_MARGIN = 20;
 
-	private IssueList_PopUp list;
+	private List_PopUp list;
 
 	private String subdomain;
 
@@ -337,7 +337,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 	
 	public void showOrHideList() {
 		if (mapObject.isHas_list()) {
-			list = new IssueList_PopUp(mapObject, issueRenderer, markerLayer);
+			list = new List_PopUp(mapObject, issueRenderer, markerLayer);
 			RootPanel.get("list").add(list);
 		} else {
 			RootPanel.get("list").getElement().getStyle().setDisplay(Display.NONE);
