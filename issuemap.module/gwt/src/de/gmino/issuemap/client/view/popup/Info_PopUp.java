@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.issuemap.client.domain.Map;
@@ -31,8 +32,10 @@ public class Info_PopUp extends Composite implements HasText {
 	public Info_PopUp(Map mapObject, DecoratedPopupPanel decorated_panel) {
 		initWidget(uiBinder.createAndBindUi(this));
 		title.setText(mapObject.getTitle());
-		title.getElement().getStyle().setColor(mapObject.getPopupTextColor());
 		infotext.setHTML(new SafeHtmlBuilder().appendEscapedLines(mapObject.getInfoText()).toSafeHtml());
+		parent.getElement().getStyle().setBackgroundColor(mapObject.getPopupBackgroundColor());
+		infotext.getElement().getStyle().setColor(mapObject.getPopupTextColor());
+		impressum.getElement().getStyle().setColor(mapObject.getPopupTextColor());
 		this.decorated_panel = decorated_panel;
 		this.mapObject=mapObject;
 		
@@ -46,6 +49,8 @@ public class Info_PopUp extends Composite implements HasText {
 	HTML infotext;
 	@UiField
 	Label impressum;
+	@UiField
+	Panel parent;
 
 	public Info_PopUp(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));

@@ -168,15 +168,15 @@
 		background: #FFF url('white.png') no-repeat left;
 		position: absolute;
 		left: 200px;
-		width: 118px;
+		width: 168px;
 		height: 19px;
 		}
 
 		.secondarycolor{
 		background: #FFF url('white.png') no-repeat left;
 		position: absolute;
-		left: 328px;
-		width: 118px;
+		left: 378px;
+		width: 168px;
 		height: 19px;
 		}
 

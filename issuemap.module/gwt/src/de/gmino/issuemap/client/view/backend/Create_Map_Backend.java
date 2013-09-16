@@ -572,12 +572,12 @@ public class Create_Map_Backend extends Composite {
 		logo_url.getElement().setAttribute("placeholder", "URL zum Logo");
 		logo_url.getElement().setAttribute("title", "URL zum Logo");
 		bar_background_color.getElement().setAttribute("placeholder", "Hintergrund-Farbe");
-		bar_text_color.getElement().setAttribute("title", "Textfarbe");
-		bar_background_color.getElement().setAttribute("placeholder", "Hintergrund-Farbe");
+		bar_background_color.getElement().setAttribute("title", "Hintergrund-Farbe");
+		bar_text_color.getElement().setAttribute("placeholder", "Textfarbe");
 		bar_text_color.getElement().setAttribute("title", "Textfarbe");
 		popup_background_color.getElement().setAttribute("placeholder", "Hintergrund-Farbe");
-		popup_text_color.getElement().setAttribute("title", "Textfarbe");
-		popup_background_color.getElement().setAttribute("placeholder", "Hintergrund-Farbe");
+		popup_background_color.getElement().setAttribute("title", "Hintergrund-Farbe");
+		popup_text_color.getElement().setAttribute("placeholder", "Textfarbe");	
 		popup_text_color.getElement().setAttribute("title", "Textfarbe");
 		marker_color.getElement().setAttribute("placeholder", "Markerfarbe");
 		marker_color.getElement().setAttribute("title", "Markerfarbe");

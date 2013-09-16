@@ -104,7 +104,8 @@ public class ShowRoute_PopUp extends Composite {
 		this.mWrapper = marker_Wrapper;
 
 		type.setText("Radtour");
-		
+		parent.getElement().getStyle().setBackgroundColor(map.getPopupBackgroundColor());
+		parent.getElement().getStyle().setColor(map.getPopupTextColor());
 		labelTitle.setText(mRoute.getTitle());
 		description.setHTML(new SafeHtmlBuilder().appendEscapedLines(mRoute.getDescription()).toSafeHtml());
 		
@@ -142,6 +143,7 @@ public class ShowRoute_PopUp extends Composite {
 	Label length;
 	@UiField
 	Label ridetime;
+
 	
 	
 	@UiField
