@@ -29,7 +29,7 @@ import de.gmino.meva.client.domain.KeyValueSet;
  * @author greenmobile
  *
  */
-public class Footer extends Composite implements HasText {
+public class Footer extends Composite {
 
 	private static UIUiBinder uiBinder = GWT.create(UIUiBinder.class);
 	Map map;
@@ -37,26 +37,14 @@ public class Footer extends Composite implements HasText {
 	interface UIUiBinder extends UiBinder<Widget, Footer> {
 	}
 
-
 	public Footer() {
 		initWidget(uiBinder.createAndBindUi(this));
-//		chart_button.setVisible(false);
-//		list_button.setVisible(false);
-//		preferences_button.setVisible(false);
 		text.setVisible(false);
 		footer.setHeight("50px");
 	}
 
-
-
 	@UiField
 	HorizontalPanel footer;
-//	@UiField
-//	PushButton chart_button;
-//	@UiField
-//	PushButton list_button;
-//	@UiField
-//	PushButton preferences_button;
 	@UiField
 	Image gmino_logo;
 	@UiField
@@ -72,11 +60,8 @@ public class Footer extends Composite implements HasText {
 	@UiField
 	Panel doubleClickInfoPanel;
 	
-	
-	
 	public Footer(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
-
 	}
 
 	@UiHandler("gmino_logo")
@@ -85,9 +70,6 @@ public class Footer extends Composite implements HasText {
 	}
 	
 	public void setDesign() {
-//		chart_button.getElement().getStyle().setBackgroundColor(color);
-//		list_button.getElement().getStyle().setBackgroundColor(color);
-//		preferences_button.getElement().getStyle().setBackgroundColor(color);
 		text.getElement().getStyle().setColor(map.getSecondary_color());
 		counter.getElement().getStyle().setColor(map.getSecondary_color());
 		text.setVisible(true);
@@ -97,10 +79,6 @@ public class Footer extends Composite implements HasText {
 			counterPanel.setVisible(true);
 			doubleClickInfoPanel.setVisible(true);
 		}			
-		
-//		chart_button.setVisible(true);
-//		list_button.setVisible(true);
-//		preferences_button.setVisible(true);
 	}
 
 	public void setMarkerIcon(OpenLayersSmartLayer smartLayer) {
@@ -124,18 +102,6 @@ public class Footer extends Composite implements HasText {
 		counter.setText("Einträge werden geladen...");
 	}
 
-	@Override
-	public String getText() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setText(String text) {
-		this.text.setText(text);
-	}
-
-
 	public void setMap(Map map) {
 		this.map = map;
 	}
@@ -143,5 +109,4 @@ public class Footer extends Composite implements HasText {
 	public void setCounter(int count) {
 		counter.setText("Bisher wurden " + count+" Stellen markiert");
 	}
-
 }
