@@ -72,8 +72,13 @@ public class NetworkRequestsImplAsyncLocalSql implements NetworkRequests {
 	}
 
 	@Override
-	public void doLogin(String username, String password, RequestListener<Long> listener) {
-		throw new RuntimeException("Method doLogin() is not available server side.");
+	public void login(String username, String password, RequestListener<Long> listener) {
+		throw new RuntimeException("Method login() is not available server side.");
+	}
+
+	@Override
+	public void logout() {
+		throw new RuntimeException("Method logout() is not available server side.");
 	}
 
 }

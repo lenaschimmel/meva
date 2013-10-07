@@ -21,5 +21,7 @@ public interface NetworkRequests {
 
 	public void getIdsByType(TypeName type, RequestListener<Long> requestListener);
 	
-	public void doLogin(String username, String password, final RequestListener<Long> listener);
+	public void login(String username, String password, final RequestListener<Long> listener);
+
+	public void logout();
 }

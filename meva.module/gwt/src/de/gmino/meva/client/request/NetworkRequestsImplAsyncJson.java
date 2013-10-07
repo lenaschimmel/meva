@@ -36,7 +36,7 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 	}
 
 	@Override
-	public void doLogin(String userName, String password, final RequestListener<Long> listener) {
+	public void login(String userName, String password, final RequestListener<Long> listener) {
 		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, baseUrl + "Json/login");
 		rb.setHeader("Content-Type", "application/json");
 		try {
@@ -67,6 +67,38 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 			});
 		} catch (Exception exception) {
 			listener.onError("Json request generated an exception (thrown).", exception);
+		}
+	}
+
+
+	@Override
+	public void logout() {
+		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, baseUrl + "Json/logout");
+		rb.setHeader("Content-Type", "application/json");
+		try {
+			rb.sendRequest("{}", new RequestCallback() {
+
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					JsonSystem system = GwtSystem.SYSTEM;
+					String jsonString = response.getText();
+					JsonObject answer = system.parse(jsonString).asObject();
+					String status = answer.getString("status");
+					if (status.equals("ERROR")) {
+						String message = answer.getString("content");
+						throw new RuntimeException("The server reported an error: " + message);
+					} else {
+					
+					}
+				}
+
+				@Override
+				public void onError(Request request, Throwable exception) {
+					throw new RuntimeException("Json request generated an exception (via method).", exception);
+				}
+			});
+		} catch (Exception exception) {
+			throw new RuntimeException("Json request generated an exception (thrown).", exception);
 		}
 	}
 

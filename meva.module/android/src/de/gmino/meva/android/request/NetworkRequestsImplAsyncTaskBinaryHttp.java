@@ -447,8 +447,13 @@ public class NetworkRequestsImplAsyncTaskBinaryHttp implements NetworkRequests {
 	}
 
 	@Override
-	public void doLogin(String username, String password, RequestListener<Long> listener) {
+	public void login(String username, String password, RequestListener<Long> listener) {
 		throw new RuntimeException("Login not yet implemented for binary requests.");
+	}
+	
+	@Override
+	public void logout() {
+		throw new RuntimeException("Logout not yet implemented for binary requests.");
 	}
 
 
