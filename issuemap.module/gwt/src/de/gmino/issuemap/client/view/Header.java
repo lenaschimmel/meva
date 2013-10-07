@@ -138,7 +138,7 @@ public class Header extends Composite  {
 		title.setText(map.getTitle());
 
 		title.getElement().getStyle().setColor(mapObject.getPrimary_color());
-		logout.getElement().getStyle().setColor(mapObject.getPrimary_color());
+		logout.getElement().getStyle().setColor(mapObject.getSecondary_color());
 		info_button.setVisible(true);
 		header.getElement().getStyle()
 				.setBackgroundColor(mapObject.getBackground_color());

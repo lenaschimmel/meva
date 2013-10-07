@@ -1,6 +1,3 @@
-/**
- * 
- */
 package de.gmino.issuemap.client.view;
 
 import com.google.gwt.core.client.GWT;
@@ -19,11 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.issuemap.client.domain.Map;
 
-/**
- * @author greenmobile
- *
- */
-public class Footer extends Composite implements HasText {
+public class Footer extends Composite {
 
 	private static UIUiBinder uiBinder = GWT.create(UIUiBinder.class);
 	Map mapObject;
@@ -34,9 +27,6 @@ public class Footer extends Composite implements HasText {
 
 	public Footer() {
 		initWidget(uiBinder.createAndBindUi(this));
-//		chart_button.setVisible(false);
-//		list_button.setVisible(false);
-//		preferences_button.setVisible(false);
 		text.setVisible(false);
 		footer.setHeight("50px");
 	}
@@ -45,12 +35,6 @@ public class Footer extends Composite implements HasText {
 
 	@UiField
 	HorizontalPanel footer;
-//	@UiField
-//	PushButton chart_button;
-//	@UiField
-//	PushButton list_button;
-//	@UiField
-//	PushButton preferences_button;
 	@UiField
 	Image gmino_logo;
 	@UiField
@@ -66,11 +50,8 @@ public class Footer extends Composite implements HasText {
 	@UiField
 	Panel doubleClickInfoPanel;
 	
-	
-	
 	public Footer(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
-
 	}
 
 	@UiHandler("gmino_logo")
@@ -78,10 +59,8 @@ public class Footer extends Composite implements HasText {
 		Window.open("http://geoengine.de", "greenmobile geoengine", "");
 	}
 	
-	public void setDesign(String color) {
-//		chart_button.getElement().getStyle().setBackgroundColor(color);
-//		list_button.getElement().getStyle().setBackgroundColor(color);
-//		preferences_button.getElement().getStyle().setBackgroundColor(color);
+	public void setDesign(Map map) {
+		this.mapObject = map;
 		text.getElement().getStyle().setColor(mapObject.getSecondary_color());
 		counter.getElement().getStyle().setColor(mapObject.getSecondary_color());
 		text.setVisible(true);
@@ -91,31 +70,11 @@ public class Footer extends Composite implements HasText {
 			counterPanel.setVisible(true);
 			doubleClickInfoPanel.setVisible(true);
 		}			
-//		chart_button.setVisible(true);
-//		list_button.setVisible(true);
-//		preferences_button.setVisible(true);
-	}
-
-	@Override
-	public String getText() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setText(String text) {
-		this.text.setText(text);
-	}
-
-
-	public void setMap(Map map) {
-		this.mapObject = map;
 	}
 
 	public void setCounter(int count) {
 		counter.setText("Bisher wurden " + count+" Stellen markiert");
 		counter_icon.setVisible(true);
-		
 	}
 
 }
