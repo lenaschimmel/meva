@@ -1,6 +1,3 @@
-/**
- * 
- */
 package de.gmino.issuemap.client.view;
 
 import com.google.gwt.core.client.GWT;
@@ -24,12 +21,7 @@ import de.gmino.issuemap.client.domain.Poi;
 import de.gmino.issuemap.shared.domain.Markertype;
 import de.gmino.meva.client.domain.KeyValueSet;
 
-/**
- * @author greenmobile
- *
- */
 public class Footer extends Composite {
-
 	private static UIUiBinder uiBinder = GWT.create(UIUiBinder.class);
 	Map map;
 
@@ -68,7 +60,8 @@ public class Footer extends Composite {
 		Window.open("http://geoengine.de", "greenmobile geoengine", "");
 	}
 	
-	public void setDesign() {
+	public void setDesign(Map map) {
+		this.map = map;
 		text.getElement().getStyle().setColor(map.getBarTextColor());
 		counter.getElement().getStyle().setColor(map.getBarTextColor());
 		text.setVisible(true);
@@ -101,11 +94,8 @@ public class Footer extends Composite {
 		counter.setText("Einträge werden geladen...");
 	}
 
-	public void setMap(Map map) {
-		this.map = map;
-	}
-
 	public void setCounter(int count) {
 		counter.setText("Bisher wurden " + count+" Stellen markiert");
+		counter_icon.setVisible(true);
 	}
 }

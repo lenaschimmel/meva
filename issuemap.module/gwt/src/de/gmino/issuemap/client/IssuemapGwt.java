@@ -245,8 +245,9 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 
 				header.setFrontendDesign(map);
 
-				footer.setMap(map);
 				Window.setTitle(map.getTitle());
+				header.setFrontendDesign(mapObject);
+				footer.setDesign(mapObject);
 
 				mapView.newMapLayer(map.getLayer());
 				mapView.setZoom(mapObject.getInitZoomlevel());
@@ -261,7 +262,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 				}, 1000);
 
 				header.setFrontendDesign(mapObject);
-				footer.setDesign();
+				footer.setDesign(mapObject);
 
 				map.loadMarkertypes(new RequestListener<Markertype>() {
 					@Override

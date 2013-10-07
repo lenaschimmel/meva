@@ -38,5 +38,7 @@
     stale session data. For details, see
     http://code.google.com/appengine/docs/java/config/appconfig.html#Enabling_Sessions
   -->
+  <sessions-enabled>true</sessions-enabled>
+  <async-session-persistence enabled="true" />
 
 </appengine-web-app>
