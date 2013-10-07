@@ -43,6 +43,7 @@ public class JsonServer extends HttpServlet {
 
 	private static final long serialVersionUID = -3067797075737374489L;
 	private JsonSystem jsonSystem;
+	private Object loggedInUserId;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -68,10 +69,9 @@ public class JsonServer extends HttpServlet {
 
 		HttpSession session = req.getSession();
 		if(session != null)
-		{
-			session.getAttribute("loggedInUserId");
-			
-		}
+			loggedInUserId = session.getAttribute("loggedInUserId");
+		else
+			loggedInUserId = 0;
 		
 		try {
 			if (lastPart.equals("getEntities")) {
@@ -110,18 +110,18 @@ public class JsonServer extends HttpServlet {
 		JsonValue requestValue = getJsonSystem().parse(requestString);
 		JsonObject requestObject = requestValue.asObject();
 
-		String username = requestObject.getString("username");
+		String username = requestObject.getString("userName");
 		String password = requestObject.getString("password");
 	
 		Connection dbCon = SqlHelper.getConnection();
 		Statement stmt = dbCon.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT id FROM User WHERE userName='"+username+"' AND password='"+password+"';");
-		String content = "";
+		String content = "\"User not found or invalid password.\"";
 		String status = "ERROR";
 		if(rs.next())
 		{
 			long userId = rs.getLong(1);
-			content = userId + "";
+			content = "\"" + userId + "\"";
 			status = "OK";
 			req.getSession(true).setAttribute("loggedInUserId", userId + "");
 		}
@@ -188,7 +188,7 @@ public class JsonServer extends HttpServlet {
 	private void writeAnswer(ServletOutputStream outputStream, String status, String content) {
 		try {
 			OutputStreamWriter osw = new OutputStreamWriter(outputStream, Charset.forName("UTF-8"));
-			osw.write("{ \"status\":\"" + status + "\" , \"content\":" + content + "}");
+			osw.write("{ \"status\":\"" + status + "\" , \"content\":" + content + ", \"userId\":" + loggedInUserId + "}");
 			osw.flush();
 			osw.close();
 			outputStream.flush();

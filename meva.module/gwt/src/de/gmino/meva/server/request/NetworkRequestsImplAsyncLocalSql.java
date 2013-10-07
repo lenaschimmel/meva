@@ -2,6 +2,8 @@ package de.gmino.meva.server.request;
 
 import java.util.Collection;
 
+import com.google.gwt.http.client.RequestException;
+
 import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityQuery;
 import de.gmino.meva.shared.TypeName;
@@ -67,6 +69,11 @@ public class NetworkRequestsImplAsyncLocalSql implements NetworkRequests {
 		for(Long result : results)
 			listener.onNewResult(result);
 		listener.onFinished(results);
+	}
+
+	@Override
+	public void doLogin(String username, String password, RequestListener<Long> listener) {
+		throw new RuntimeException("Method doLogin() is not available server side.");
 	}
 
 }

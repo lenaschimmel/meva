@@ -204,6 +204,12 @@ public class Requests {
 		ensureSameTypes(entities);
 		networkImpl.saveEntities(entities, listener);
 	}
+	
+	public static void login(String username, String password, final RequestListener<Long> listener)
+	{
+		ensureImplementation();
+		networkImpl.doLogin(username, password, listener);
+	}
 
 	public static void ensureSameTypes(Collection<? extends Entity> entities) {
 		if (entities.isEmpty()) {
