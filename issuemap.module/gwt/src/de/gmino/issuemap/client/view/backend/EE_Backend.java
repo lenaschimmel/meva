@@ -22,12 +22,11 @@ import de.gmino.geobase.client.domain.Address;
 import de.gmino.geobase.client.request.Geocoder;
 import de.gmino.geobase.client.request.Geocoder.SearchLocationListener;
 import de.gmino.geobase.shared.domain.LatLon;
-import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.DecentralizedGeneration;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.view.list.Generation_List_Item;
 import de.gmino.issuemap.client.view.list.ListView;
-import de.gmino.issuemap.client.view.list.ListView.ListViewItem;
+import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
@@ -214,7 +213,7 @@ public class EE_Backend extends Composite  {
 	{
 		
 		this.map = map;
-		Collection<de.gmino.issuemap.client.domain.DecentralizedGeneration> generations = IssuemapGwt.<DecentralizedGeneration,de.gmino.issuemap.shared.domain.DecentralizedGeneration>convertCollection(map.getGenerations());
+		Collection<de.gmino.issuemap.client.domain.DecentralizedGeneration> generations = Util.<DecentralizedGeneration,de.gmino.issuemap.shared.domain.DecentralizedGeneration>convertCollection(map.getGenerations());
 		Requests.loadEntities(generations, new RequestListener<DecentralizedGeneration>() {
 			@Override
 			public void onFinished(Collection<DecentralizedGeneration> results) {

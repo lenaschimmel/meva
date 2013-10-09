@@ -11,9 +11,8 @@ import de.gmino.geobase.client.domain.Address;
 import de.gmino.geobase.client.domain.ImageUrl;
 import de.gmino.geobase.client.domain.LatLon;
 import de.gmino.issuemap.client.ImageUrlLoader;
-import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.gen.MapGen;
-import de.gmino.meva.client.domain.KeyValueSet;
+import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 // default imports
@@ -104,7 +103,7 @@ public class Map extends MapGen {
 	// END OF CONSTRUCTOR BLOCK - DO NOT EDIT
 	@SuppressWarnings("unchecked")
 	public void loadMarkertypes(final RequestListener<Markertype> listener) {
-		Requests.loadEntities(IssuemapGwt.<Markertype, de.gmino.issuemap.shared.domain.Markertype>convertCollection(getHasMarkertypes()), new RequestListener<Markertype>() {
+		Requests.loadEntities(Util.<Markertype, de.gmino.issuemap.shared.domain.Markertype>convertCollection(getHasMarkertypes()), new RequestListener<Markertype>() {
 			@Override
 			public void onFinished(final Collection<Markertype> results) {
 				Collection<String> imagesToLoad = new TreeSet<String>();

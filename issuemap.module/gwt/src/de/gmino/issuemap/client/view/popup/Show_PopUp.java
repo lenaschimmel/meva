@@ -24,14 +24,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
-import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -44,20 +38,19 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
-import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Comment;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Photo;
 import de.gmino.issuemap.client.domain.Poi;
-import de.gmino.issuemap.client.view.ThumbnailView;
 import de.gmino.issuemap.client.view.PhotoUploadForm;
 import de.gmino.issuemap.client.view.PhotoUploadForm.PhotoUploadListener;
+import de.gmino.issuemap.client.view.ThumbnailView;
 import de.gmino.issuemap.client.view.valueview.KeyValueView;
 import de.gmino.issuemap.shared.domain.Markertype;
 import de.gmino.meva.client.domain.KeyValueSet;
-import de.gmino.meva.shared.Log;
+import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.ValueWrapper;
 import de.gmino.meva.shared.domain.KeyValueDef;
 import de.gmino.meva.shared.request.RequestListener;
@@ -421,7 +414,7 @@ public class Show_PopUp extends Composite {
 		else
 		{
 			photosHeader.setText(photoCount + " Fotos (lade...)");
-			Requests.loadEntities(IssuemapGwt.<Photo, de.gmino.issuemap.shared.domain.Photo>convertCollection(mPoi.getPhotos()), new RequestListener<Photo>() {
+			Requests.loadEntities(Util.<Photo, de.gmino.issuemap.shared.domain.Photo>convertCollection(mPoi.getPhotos()), new RequestListener<Photo>() {
 				@Override
 				public void onFinished(Collection<Photo> photos) {
 					photosHeader.setText(photoCount + " Fotos:");

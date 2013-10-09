@@ -27,13 +27,13 @@ import com.google.gwt.user.client.ui.Widget;
 import de.gmino.geobase.shared.domain.Address;
 import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.LatLon;
-import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Markertype;
 import de.gmino.issuemap.client.view.list.Marker_List_Item;
 import de.gmino.meva.client.domain.KeyValueDef;
 import de.gmino.meva.client.domain.KeyValueSet;
 import de.gmino.meva.shared.TypeName;
+import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
@@ -237,9 +237,7 @@ public class Create_Map_Backend extends Composite {
 	{
 		tblkKeyValue.removeAllRows();
 		final KeyValueSet selectedSet = (KeyValueSet) KeyValueSet.getById(Long.parseLong(mapClass.getValue(mapClass.getSelectedIndex())));
-		Collection defs = IssuemapGwt.<de.gmino.meva.client.domain.KeyValueDef, de.gmino.meva.shared.domain.KeyValueDef>convertCollection(selectedSet.getDefs());
-		
-		
+		Collection defs = Util.<de.gmino.meva.client.domain.KeyValueDef, de.gmino.meva.shared.domain.KeyValueDef>convertCollection(selectedSet.getDefs());
 		
 		Requests.loadEntities(defs, new RequestListener<KeyValueDef>() {
 			@Override
@@ -262,12 +260,7 @@ public class Create_Map_Backend extends Composite {
 				}
 			}
 		});
-		
-//		markerPanel.clear();
-//		markerListItems.clear();
-//		markertypes.clear();
-		
-		
+			
 		Requests.getLoadedEntitiesByType(Markertype.type, new RequestListener<Markertype>() {
 			@Override
 			public void onNewResult(Markertype markertype) {

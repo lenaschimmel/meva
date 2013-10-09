@@ -2,33 +2,22 @@ package de.gmino.issuemap.client;
 
 import java.util.Collection;
 
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import de.gmino.issuemap.client.domain.Map;
-import de.gmino.issuemap.client.view.Header;
 import de.gmino.issuemap.client.view.backend.Create_Map_Backend;
-import de.gmino.issuemap.client.view.backend.Login;
 import de.gmino.issuemap.client.view.backend.Show_Maps_Backend;
-import de.gmino.meva.client.UtilClient;
-import de.gmino.meva.client.request.NetworkRequestsImplAsyncJson;
-import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.Log;
-import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
-public class MasterBackend  implements EntryPoint, UncaughtExceptionHandler  {
+public class MasterBackend extends BaseApp {
 
 	Create_Map_Backend createMapField;
 	Show_Maps_Backend mapList;
-	Header header;
-	Login login;
+
 	private static MasterBackend instance;
 	
 	public MasterBackend() {
@@ -43,58 +32,35 @@ public class MasterBackend  implements EntryPoint, UncaughtExceptionHandler  {
 	}
 	
 	@Override
-	public void onModuleLoad() {
-		GWT.setUncaughtExceptionHandler(this);
+	public void initApp() 
+	{		
+		header.setBackendDesign("logo_geoengine.png", "geoEngine Backend", "#FFF", "rgba(40,40,40,0.8)");
+		header.setURL("http://gmino.geoengine.de/masterBackend.html");
 		
-		try {
-			EntityFactory.setImplementations(new EntityFactoryImpl());
-			Util.setImpl(new UtilClient());
-
-			Requests.setImplementation(new NetworkRequestsImplAsyncJson("http://"
-					+ Location.getHost() + "/"));
-
-			header = new Header();
-			header.setBackendDesign("logo_geoengine.png", "geoEngine Backend", "#FFF", "rgba(40,40,40,0.8)");
-			header.setURL("http://gmino.geoengine.de/masterBackend.html");
-			login = new Login(this);
-			
-			  Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			        public void execute () {
-			            login.user.setFocus(true);
-			        }
-			   });
-
-			RootPanel.get("parent").add(header);
-			
-			
-			Requests.checkLogin(new RequestListener<Long>() {
-				@Override
-				public void onNewResult(Long result) {
-					if(result > 0)
-						onLogin();
-					else
-						RootPanel.get("parent").add(login);
-				}
-				
-				@Override
-				public void onError(String message, Throwable e) {
-					RootPanel.get("parent").add(login);
-				}
-			});
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			Log.exception("Error in onModuleLoad caught.", e);
-		}
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			public void execute() {
+				login.user.setFocus(true);
+			}
+		});
 	} 
 	
-	public void onLogin(){
-		createMapField= new Create_Map_Backend();
-		mapList = new Show_Maps_Backend();
+	public void onLogin()
+	{
+		if(createMapField == null)
+			createMapField= new Create_Map_Backend();
+		if(mapList == null)
+			mapList = new Show_Maps_Backend();
 
 		RootPanel.get("right").add(createMapField);
 		RootPanel.get("left").add(mapList);
 		login.removeFromParent();
+	}	
+	
+	public void onLogut()
+	{
+		RootPanel.get("parent").add(login);
+		createMapField.removeFromParent();
+		mapList.removeFromParent();
 	}
 
 	public static MasterBackend getInstance()

@@ -5,9 +5,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.TreeSet;
 
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.DivElement;
@@ -53,22 +50,17 @@ import de.gmino.issuemap.client.poi.RouteIconRenderer;
 import de.gmino.issuemap.client.poi.RoutePopupCreator;
 import de.gmino.issuemap.client.request.QueryMapBySubdomain;
 import de.gmino.issuemap.client.view.Feedback_Button;
-import de.gmino.issuemap.client.view.Footer;
-import de.gmino.issuemap.client.view.Header;
 import de.gmino.issuemap.client.view.popup.List_PopUp;
 import de.gmino.issuemap.client.view.popup.Show_PopUp;
-import de.gmino.meva.client.UtilClient;
 import de.gmino.meva.client.domain.KeyValueDef;
 import de.gmino.meva.client.domain.KeyValueSet;
-import de.gmino.meva.client.request.NetworkRequestsImplAsyncJson;
-import de.gmino.meva.shared.EntityFactory;
 import de.gmino.meva.shared.EntityQuery;
 import de.gmino.meva.shared.Log;
 import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
-public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
+public class IssuemapGwt extends BaseApp  {
 	
 	public class AddIssuesCommand implements RepeatingCommand {
 
@@ -129,10 +121,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 
 	public static OpenLayersMapView mapView;
 	private static Map mapObject;
-	private OpenLayersSmartLayer markerLayer;
-	private Footer footer = new Footer();
-	private Header header = new Header();
-	
+	OpenLayersSmartLayer markerLayer;
 	Collection<DecentralizedGeneration> generations;
 	Collection<Poi> pois;
 
@@ -140,13 +129,13 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 
 	private static IssuemapGwt instance;
 
-	private IssueIconRenderer issueRenderer;
+	IssueIconRenderer issueRenderer;
 
-	private static final int GENERAL_POPUP_MARGIN = 20;
+	static final int GENERAL_POPUP_MARGIN = 20;
 
 	private List_PopUp list;
 
-	private String subdomain;
+	String subdomain;
 
 	public IssuemapGwt() {
 		if (instance != null)
@@ -155,74 +144,53 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 		pois = new ArrayList<Poi>();
 	}
 
+	@Override
+	protected void initApp() throws Exception {
+		String[] domainSplit = Location.getHostName().split("\\.");
+		subdomain = domainSplit[0];
+		if (subdomain.equalsIgnoreCase("www"))
+			subdomain = domainSplit[1];
+
+		// Create the map view
+		mapView = new OpenLayersMapView("map", "mapquest");
+		
+		mapView.setBorders(30 + GENERAL_POPUP_MARGIN, 58 + GENERAL_POPUP_MARGIN, 357 + GENERAL_POPUP_MARGIN, 53 +GENERAL_POPUP_MARGIN);
+		
+		markerLayer = mapView.newSmartLayer("Issues", 12);
+		mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);
+		issueRenderer = new IssueIconRenderer();
+		markerLayer.addMarkerIconRenderer(Poi.type, issueRenderer);
+
+		final ImageUrlLoader loader = ImageUrlLoader.getInstance();
+		loader.loadImage("/camera.png", null);
+		loader.loadImage("/bubble.png", null);
+		
+		if (subdomain.equals("zgb")) {
+			// TODO improves performance to load it first, but listener is not yet adjusted to wait for it.
+			loader.loadImage("/mapicon/cycleway.png", null);
+			markerLayer.addMarkerIconRenderer(BicycleShop.type,
+					new BicycleShopIconRenderer());
+			markerLayer.addMarkerIconRenderer(Route.type,
+					new RouteIconRenderer());
+		}
+
+		Requests.getLoadedEntitiesByType(KeyValueDef.type, new RequestListener<KeyValueDef>() {
+			@Override
+			public void onFinished(Collection<KeyValueDef> results) {
+				Requests.getLoadedEntitiesByType(KeyValueSet.type, new RequestListener<KeyValueSet>() {
+					@Override
+					public void onFinished(Collection<KeyValueSet> results) {
+						mapRequest();
+					}
+				});
+			}
+		});
+	}
+	
 	public static IssuemapGwt getInstance() {
 		return instance;
 	}
-	
-	@Override
-	public void onUncaughtException(Throwable e) {
-		System.err.println("### UncaughtExceptionHandler ###");
-		e.printStackTrace();
-		Log.exception("### UncaughtExceptionHandler ###", e);
-	}
 
-	public void onModuleLoad() {
-		GWT.setUncaughtExceptionHandler(this);
-		
-		try {
-			EntityFactory.setImplementations(new EntityFactoryImpl());
-			Util.setImpl(new UtilClient());
-
-			Requests.setImplementation(new NetworkRequestsImplAsyncJson("http://" + Location.getHost() + "/"));
-
-			String[] domainSplit = Location.getHostName().split("\\.");
-			subdomain = domainSplit[0];
-			if (subdomain.equalsIgnoreCase("www"))
-				subdomain = domainSplit[1];
-
-			// Create the map view
-			mapView = new OpenLayersMapView("map", "mapquest");
-			
-			mapView.setBorders(30 + GENERAL_POPUP_MARGIN, 58 + GENERAL_POPUP_MARGIN, 357 + GENERAL_POPUP_MARGIN, 53 +GENERAL_POPUP_MARGIN);
-			
-			markerLayer = mapView.newSmartLayer("Issues", 12);
-			mapView.setCenterAndZoom(new LatLon(20, 0), 0, false);
-			issueRenderer = new IssueIconRenderer();
-			markerLayer.addMarkerIconRenderer(Poi.type, issueRenderer);
-
-			final ImageUrlLoader loader = ImageUrlLoader.getInstance();
-			loader.loadImage("/camera.png", null);
-			loader.loadImage("/bubble.png", null);
-			
-			if (subdomain.equals("zgb")) {
-				// TODO improves performance to load it first, but listener is not yet adjusted to wait for it.
-				loader.loadImage("/mapicon/cycleway.png", null);
-				markerLayer.addMarkerIconRenderer(BicycleShop.type,
-						new BicycleShopIconRenderer());
-				markerLayer.addMarkerIconRenderer(Route.type,
-						new RouteIconRenderer());
-			}
-			
-			// Add Header to RootPanel
-			RootPanel.get("bar_top").add(header);
-			RootPanel.get("bar_bottom").add(footer);
-
-			Requests.getLoadedEntitiesByType(KeyValueDef.type, new RequestListener<KeyValueDef>() {
-				@Override
-				public void onFinished(Collection<KeyValueDef> results) {
-					Requests.getLoadedEntitiesByType(KeyValueSet.type, new RequestListener<KeyValueSet>() {
-						@Override
-						public void onFinished(Collection<KeyValueSet> results) {
-							mapRequest();
-						}
-					});
-				}
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-			Log.exception("Error in onModuleLoad caught.", e);
-		}
-	}
 
 	public String getSubdomain() {
 		return subdomain;
@@ -270,7 +238,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 							fillMapZgb();
 						else {
 							showOrHideList();
-							loadIssues();
+							loadPois();
 						}
 					}
 				});
@@ -299,7 +267,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 				markerLayer.addMarkerPopupCreator(DecentralizedGeneration.type, new DecentralizedGenerationPopupCreator(mapObject, markerLayer));
 				markerLayer.addMarkerIconRenderer(DecentralizedGeneration.type, new DecentralizedGenerationIconRenderer());
 				
-				Requests.loadEntities(IssuemapGwt.<DecentralizedGeneration, de.gmino.issuemap.shared.domain.DecentralizedGeneration>convertCollection(mapObject.getGenerations()), new RequestListener<DecentralizedGeneration>() {
+				Requests.loadEntities(Util.<DecentralizedGeneration, de.gmino.issuemap.shared.domain.DecentralizedGeneration>convertCollection(mapObject.getGenerations()), new RequestListener<DecentralizedGeneration>() {
 					
 					@Override
 					public void onFinished(final Collection<DecentralizedGeneration> gens) {
@@ -355,7 +323,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 				System.out.println("All routes shown, now loading bicycle shops and Issues.");
 				showBicycleShops();
 				showOrHideList();
-				loadIssues();
+				loadPois();
 			}
 		};
 		zgb.showRoutes();
@@ -397,8 +365,8 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 		counter = 0; // will be incremented by the deferred command and we don't want to count everything twice.
 	}
 	
-	public void loadIssues() {
-		pois = IssuemapGwt.<Poi, de.gmino.issuemap.shared.domain.Poi>convertCollection(mapObject.getIssues());
+	public void loadPois() {
+		pois = Util.<Poi, de.gmino.issuemap.shared.domain.Poi>convertCollection(mapObject.getIssues());
 		Requests.loadEntities(pois, new RequestListener<Poi>() {
 			@Override
 			public void onFinished(Collection<Poi> results) {
@@ -446,14 +414,6 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 			mapView.setBorderRight(357 + GENERAL_POPUP_MARGIN);
 		else
 			mapView.setBorderRight(40 + GENERAL_POPUP_MARGIN);
-	}
-	
-	public static <NewType, OldType> Collection<NewType> convertCollection(Collection<OldType> collection)
-	{
-		Collection<NewType> ret = new ArrayList<NewType>(collection.size());
-		for(OldType old : collection)
-			ret.add((NewType)old);
-		return ret;
 	}
 	
 	private void showEEEntries(final RequestListener<Void> listener)
@@ -638,4 +598,17 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 			}
 		});
 	}
+
+	@Override
+	public void onLogin() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onLogut() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

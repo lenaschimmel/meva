@@ -1,5 +1,8 @@
 package de.gmino.meva.shared;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class Util {
 	private static UtilImpl impl;
 
@@ -31,5 +34,13 @@ public class Util {
 		if(unescaped == null)
 			return null;
 		return unescaped.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\n");
+	}
+	
+	public static <NewType, OldType> Collection<NewType> convertCollection(Collection<OldType> collection)
+	{
+		Collection<NewType> ret = new ArrayList<NewType>(collection.size());
+		for(OldType old : collection)
+			ret.add((NewType)old);
+		return ret;
 	}
 }
