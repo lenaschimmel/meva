@@ -56,7 +56,7 @@ public class MasterBackend  implements EntryPoint, UncaughtExceptionHandler  {
 			header = new Header();
 			header.setBackendDesign("logo_geoengine.png", "geoEngine Backend", "#FFF", "rgba(40,40,40,0.8)");
 			header.setURL("http://gmino.geoengine.de/masterBackend.html");
-			login= new Login(this);
+			login = new Login(this);
 			
 			  Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			        public void execute () {
@@ -65,7 +65,23 @@ public class MasterBackend  implements EntryPoint, UncaughtExceptionHandler  {
 			   });
 
 			RootPanel.get("parent").add(header);
-			RootPanel.get("parent").add(login);
+			
+			
+			Requests.checkLogin(new RequestListener<Long>() {
+				@Override
+				public void onNewResult(Long result) {
+					if(result > 0)
+						onLogin();
+					else
+						RootPanel.get("parent").add(login);
+				}
+				
+				@Override
+				public void onError(String message, Throwable e) {
+					RootPanel.get("parent").add(login);
+				}
+			});
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.exception("Error in onModuleLoad caught.", e);
