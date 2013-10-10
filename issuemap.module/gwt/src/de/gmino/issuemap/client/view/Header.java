@@ -33,12 +33,10 @@ public class Header extends Composite  {
 	private boolean customURL;
 	private String URL;
 	private DecoratedPopupPanel decorated_panel;
-	private BaseApp app;
 	interface HeaderUiBinder extends UiBinder<Widget, Header> {
 	}
 
-	public Header(BaseApp app, DecoratedPopupPanel decorated_panel) {
-		this.app = app;
+	public Header(DecoratedPopupPanel decorated_panel) {
 		this.decorated_panel=decorated_panel;
 		initWidget(uiBinder.createAndBindUi(this));
 		info_button.setVisible(false);
@@ -83,7 +81,7 @@ public class Header extends Composite  {
 	@UiHandler("logout")
 	void onLogoutClick(ClickEvent event) {
 		Requests.logout();
-		app.onLogut();
+		BaseApp.getInstance().onLogut();
 	}
 
 	@UiHandler("logo")

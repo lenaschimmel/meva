@@ -9,12 +9,10 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -24,7 +22,6 @@ import de.gmino.geobase.shared.domain.Timestamp;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Poi;
-import de.gmino.issuemap.client.view.list.IssueList_Item;
 import de.gmino.issuemap.client.view.popup.Info_PopUp;
 import de.gmino.issuemap.client.view.popup.List_PopUp;
 import de.gmino.issuemap.shared.domain.Markertype;
@@ -32,21 +29,22 @@ import de.gmino.meva.client.domain.KeyValueSet;
 
 public class Footer extends Composite {
 	private static UIUiBinder uiBinder = GWT.create(UIUiBinder.class);
-	Map map;
+	
 	private List_PopUp issueList_PopUp;
 	private DecoratedPopupPanel decoratedPopupPanel;
+	private Info_PopUp infoPopup;
+	
+	private Map map;
 	private String iconUrl;
 	private String resolvedUrl;
-
 
 	interface UIUiBinder extends UiBinder<Widget, Footer> {
 	}
 
-	public Footer(List_PopUp list, DecoratedPopupPanel decorated_panel) {
+	public Footer(DecoratedPopupPanel decorated_panel) {
 		initWidget(uiBinder.createAndBindUi(this));
 		text.setVisible(false);
 		footer.setHeight("50px");
-		this.issueList_PopUp=list;
 		this.decoratedPopupPanel=decorated_panel;
 	}
 
@@ -72,8 +70,6 @@ public class Footer extends Composite {
 	FocusPanel resolvedCounterPanel;
 	@UiField
 	FocusPanel doubleClickInfoPanel;
-	private Info_PopUp infoPopup;
-	
 
 
 	@UiHandler("gmino_logo")
@@ -127,8 +123,8 @@ public class Footer extends Composite {
 			counterPanel.setVisible(true);
 			doubleClickInfoPanel.setVisible(true);
 		}	
-		if(map.isMark()) resolvedCounterPanel.setVisible(true);
-
+		if(map.isMark()) 
+			resolvedCounterPanel.setVisible(true);
 	}
 
 	public void setMarkerIcon(OpenLayersSmartLayer smartLayer) {
@@ -155,10 +151,6 @@ public class Footer extends Composite {
 		resolvedCounter.setText("Einträge werden geladen...");
 	}
 
-	public void setMap(Map map) {
-		this.map = map;
-	}
-	
 	public void setList(List_PopUp list){
 		this.issueList_PopUp=list;
 	}
@@ -166,13 +158,11 @@ public class Footer extends Composite {
 	public void setCounter(int count) {
 		counter.setText("Bisher wurden " + count+" Einträge erstellt");
 		counter_icon.setUrl(iconUrl);
-
 	}
 	
 	public void setResolvedCounter(int resolvedCount) {
 		resolvedCounter.setText("Bisher wurden " + resolvedCount+" Einträge erledigt");
 		resolvedCounter_icon.setUrl(resolvedUrl);
-
 	}
 
 	public void setInfoPopup(Info_PopUp infoPopUp) {

@@ -123,21 +123,15 @@ public class IssuemapGwt extends BaseApp  {
 	public static OpenLayersMapView mapView;
 	private static Map mapObject;
 	private OpenLayersSmartLayer markerLayer;
+	IssueIconRenderer issueRenderer;
+
 	private List_PopUp list;
 	private Info_PopUp infoPopUp;
+	static final int GENERAL_POPUP_MARGIN = 20;
 
 	Collection<DecentralizedGeneration> generations;
 	Collection<Poi> pois;
-
 	int counter = 0;
-
-
-	private static IssuemapGwt instance;
-
-	IssueIconRenderer issueRenderer;
-
-	static final int GENERAL_POPUP_MARGIN = 20;
-
 
 	String subdomain;
 
@@ -192,9 +186,8 @@ public class IssuemapGwt extends BaseApp  {
 	}
 	
 	public static IssuemapGwt getInstance() {
-		return instance;
+		return (IssuemapGwt)instance;
 	}
-
 
 	public String getSubdomain() {
 		return subdomain;
@@ -203,53 +196,9 @@ public class IssuemapGwt extends BaseApp  {
 	void mapRequest() {
 		EntityQuery q = new QueryMapBySubdomain(subdomain);
 		Requests.getLoadedEntitiesByQuery(Map.type, q, new RequestListener<Map>() {
-
-			@SuppressWarnings("unchecked")
 			public void onNewResult(final Map map) {
-
-				mapObject = map;
-				if (mapObject.isCreate())
-					addDblClickListenerToMapView();
-				markerLayer.setzoomThreshold(map.getInitZoomlevel() - 2);
-
-				addFeedback_Button();
-				markerLayer.addMarkerPopupCreator(Poi.type, new IssuePopupCreator(map, markerLayer));
-				infoPopUp = new Info_PopUp(map,decorated_panel);
-				header.setFrontendDesign(map, infoPopUp);
-				footer.setMap(map);
-				footer.setInfoPopup(infoPopUp);
-				footer.setDesign(mapObject);
-
-				Window.setTitle(map.getTitle());
-
-				mapView.newMapLayer(map.getLayer());
-				mapView.setZoom(mapObject.getInitZoomlevel());
-
-				Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
-
-					@Override
-					public boolean execute() {
-						mapView.setCenter(mapObject.getInitLocation(), false);
-						return false;
-					}
-				}, 1000);
-
-				map.loadMarkertypes(new RequestListener<Markertype>() {
-					@Override
-					public void onFinished(Collection<Markertype> results) {
-						footer.setMarkerIcon(markerLayer);
-						infoPopUp.setMarkerIcons(markerLayer);
-
-						
-						if (subdomain.equals("zgb"))
-							fillMapZgb();
-						else {
-							showOrHideList();
-							loadPois();
-						}
-					}
-				});
-			};
+				mapObjectReceived(map);
+			}
 
 			@Override
 			public void onError(String message, Throwable e) {
@@ -616,13 +565,53 @@ public class IssuemapGwt extends BaseApp  {
 	@Override
 	public void onLogin() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onLogut() {
 		// TODO Auto-generated method stub
-		
 	}
 
+	public void mapObjectReceived(final Map map) {
+		mapObject = map;
+		if (mapObject.isCreate())
+			addDblClickListenerToMapView();
+		markerLayer.setzoomThreshold(map.getInitZoomlevel() - 2);
+	
+		addFeedback_Button();
+		markerLayer.addMarkerPopupCreator(Poi.type, new IssuePopupCreator(map, markerLayer));
+		infoPopUp = new Info_PopUp(map,decorated_panel);
+		header.setFrontendDesign(map, infoPopUp);
+		footer.setInfoPopup(infoPopUp);
+		footer.setDesign(mapObject);
+	
+		Window.setTitle(map.getTitle());
+	
+		mapView.newMapLayer(map.getLayer());
+		mapView.setZoom(mapObject.getInitZoomlevel());
+	
+		Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+			@Override
+			public boolean execute() {
+				mapView.setCenter(mapObject.getInitLocation(), false);
+				return false;
+			}
+		}, 1000);
+	
+		map.loadMarkertypes(new RequestListener<Markertype>() {
+			@Override
+			public void onFinished(Collection<Markertype> results) {
+				footer.setMarkerIcon(markerLayer);
+				infoPopUp.setMarkerIcons(markerLayer);
+	
+				
+				if (subdomain.equals("zgb"))
+					fillMapZgb();
+				else {
+					showOrHideList();
+					loadPois();
+				}
+			}
+		});
+	}
 }

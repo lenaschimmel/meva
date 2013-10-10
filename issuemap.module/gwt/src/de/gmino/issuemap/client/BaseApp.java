@@ -2,8 +2,8 @@ package de.gmino.issuemap.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
@@ -25,12 +25,19 @@ public abstract class BaseApp implements EntryPoint, UncaughtExceptionHandler {
 	protected Footer footer;
 	protected Header header;
 	protected DecoratedPopupPanel decorated_panel = new DecoratedPopupPanel();
-	protected Login login = new Login(this);;
+	protected Login login = new Login(this);
+	
+	protected static BaseApp instance;
 
+	public static BaseApp getInstance()
+	{
+		return instance;
+	}
+	
 	public BaseApp() {
 		super();
-		footer = new Footer(null, decorated_panel);
-		header = new Header(this, decorated_panel);
+		footer = new Footer(decorated_panel);
+		header = new Header(decorated_panel);
 	}
 
 	@Override
@@ -67,7 +74,6 @@ public abstract class BaseApp implements EntryPoint, UncaughtExceptionHandler {
 		}
 	}
 
-	
 	@Override
 	public void onUncaughtException(Throwable e) {
 		System.err.println("### UncaughtExceptionHandler ###");
