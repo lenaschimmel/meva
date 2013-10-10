@@ -211,6 +211,12 @@ public class Requests {
 		networkImpl.login(username, password, listener);
 	}
 	
+	public static void checkLogin(final RequestListener<Long> listener)
+	{
+		ensureImplementation();
+		networkImpl.login("", "", listener);
+	}
+	
 	public static void logout()
 	{
 		ensureImplementation();

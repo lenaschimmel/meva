@@ -13,22 +13,22 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.gmino.issuemap.client.MasterBackend;
+import de.gmino.issuemap.client.BaseApp;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
 public class Login extends Composite {
 	
-	MasterBackend currentInstance;
+	BaseApp app;
 
 	private static LoginUiBinder uiBinder = GWT.create(LoginUiBinder.class);
 
 	interface LoginUiBinder extends UiBinder<Widget, Login> {
 	}
 
-	public Login(MasterBackend currentInstance) {
+	public Login(BaseApp currentInstance) {
 		initWidget(uiBinder.createAndBindUi(this));
-		this.currentInstance=currentInstance;
+		this.app = currentInstance;
 	}
 	
 	@UiField
@@ -43,7 +43,7 @@ public class Login extends Composite {
 		Requests.login(user.getText(), password.getText(), new RequestListener<Long>() {
 			@Override
 			public void onNewResult(Long loggedInUserId) {
-				currentInstance.onLogin();
+				app.onLogin();
 			}
 		});
 	}

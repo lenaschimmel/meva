@@ -112,18 +112,28 @@ public class JsonServer extends HttpServlet {
 
 		String username = requestObject.getString("userName");
 		String password = requestObject.getString("password");
-	
-		Connection dbCon = SqlHelper.getConnection();
-		Statement stmt = dbCon.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT id FROM User WHERE userName='"+username+"' AND password='"+password+"';");
+
 		String content = "\"User not found or invalid password.\"";
 		String status = "ERROR";
-		if(rs.next())
+
+		if(!username.isEmpty() && !password.isEmpty())
 		{
-			long userId = rs.getLong(1);
-			content = "\"" + userId + "\"";
+	
+			Connection dbCon = SqlHelper.getConnection();
+			Statement stmt = dbCon.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT id FROM User WHERE userName='"+username+"' AND password='"+password+"';");
+			if(rs.next())
+			{
+				long userId = rs.getLong(1);
+				content = "\"" + userId + "\"";
+				status = "OK";
+				req.getSession(true).setAttribute("loggedInUserId", userId + "");
+			}
+		}
+		else if(loggedInUserId != null)
+		{
+			content = "\"" + loggedInUserId + "\"";
 			status = "OK";
-			req.getSession(true).setAttribute("loggedInUserId", userId + "");
 		}
 		
 		resp.setContentType("text/json; charset=utf-8");

@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.gmino.geobase.client.request.Geocoder;
 import de.gmino.geobase.client.request.Geocoder.SearchLocationListener;
 import de.gmino.geobase.shared.domain.LatLon;
+import de.gmino.issuemap.client.BaseApp;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.view.popup.Info_PopUp;
@@ -32,16 +33,18 @@ public class Header extends Composite  {
 	private boolean customURL;
 	private String URL;
 	private DecoratedPopupPanel decorated_panel;
+	private BaseApp app;
 	interface HeaderUiBinder extends UiBinder<Widget, Header> {
 	}
 
-	public Header(DecoratedPopupPanel decorated_panel) {
+	public Header(BaseApp app, DecoratedPopupPanel decorated_panel) {
+		this.app = app;
+		this.decorated_panel=decorated_panel;
 		initWidget(uiBinder.createAndBindUi(this));
 		info_button.setVisible(false);
 		search_field.setVisible(false);
 		logo.setHeight("30px");
 		header.setHeight("57px");
-		this.decorated_panel=decorated_panel;
 	}
 
 	@UiField
@@ -80,8 +83,8 @@ public class Header extends Composite  {
 	@UiHandler("logout")
 	void onLogoutClick(ClickEvent event) {
 		Requests.logout();
+		app.onLogut();
 	}
-
 
 	@UiHandler("logo")
 	void onLogoClick(ClickEvent event) {
@@ -168,5 +171,4 @@ public class Header extends Composite  {
 		customURL=true;
 		this.URL=URL;
 	}
-	
 }

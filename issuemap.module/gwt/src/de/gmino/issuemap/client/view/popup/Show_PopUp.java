@@ -50,6 +50,7 @@ import de.gmino.issuemap.client.view.ThumbnailView;
 import de.gmino.issuemap.client.view.valueview.KeyValueView;
 import de.gmino.issuemap.shared.domain.Markertype;
 import de.gmino.meva.client.domain.KeyValueSet;
+import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.ValueWrapper;
 import de.gmino.meva.shared.domain.KeyValueDef;
 import de.gmino.meva.shared.request.RequestListener;
@@ -421,7 +422,7 @@ public class Show_PopUp extends Composite {
 		else
 		{
 			photosHeader.setText(photoCount + " Fotos (lade...)");
-			Requests.loadEntities(IssuemapGwt.<Photo, de.gmino.issuemap.shared.domain.Photo>convertCollection(mPoi.getPhotos()), new RequestListener<Photo>() {
+			Requests.loadEntities(Util.<Photo, de.gmino.issuemap.shared.domain.Photo>convertCollection(mPoi.getPhotos()), new RequestListener<Photo>() {
 				@Override
 				public void onFinished(Collection<Photo> photos) {
 					photosHeader.setText(photoCount + " Fotos:");
