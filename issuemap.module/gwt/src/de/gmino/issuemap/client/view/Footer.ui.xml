@@ -15,6 +15,14 @@
 		.info_box {
 			border-left: 1px solid #4C4C4C;
 			border-right: 1px solid #000000;
+			float: left;
+			cursor:pointer;
+		}
+		
+		.info_box:hover {
+
+			background: rgba(200,200,200,0.2);
+
 		}
 		
 		.footer {
@@ -38,47 +46,54 @@
 		
 		.counter_icon {
 			margin-top: 8px;
-			margin-left: 10px;
+			margin-left: 10px;			
 		}
 		
 		.footText {
 			color: #FFFFFF;
 			margin-top: 7px;
 			margin-left: 5px;
+			float: right;
 		}
 	</ui:style>
 	<g:HorizontalPanel styleName="{style.footer}" width="100%"
 		ui:field="footer">
+	<g:cell horizontalAlignment="ALIGN_LEFT">
+		<g:FlowPanel width="100%">
 
-		<!-- <g:cell width="52px" horizontalAlignment="ALIGN_RIGHT"> <g:PushButton 
-			styleName="{style.button}" ui:field="chart_button" width="50px" title="Karten-Statistik 
-			anzeigen"> <g:upFace image='{resources.chart}'/> <g:upHoveringFace image='{resources.chart_hover}'/> 
-			</g:PushButton> </g:cell> <g:cell width="52px" horizontalAlignment="ALIGN_RIGHT"> 
-			<g:PushButton styleName="{style.button}" ui:field="list_button" width="50px" 
-			title="Karten-Objekte als Liste anzeigen"> <g:upFace image='{resources.list}'/> 
-			<g:upHoveringFace image='{resources.list_hover}'/> </g:PushButton> </g:cell> 
-			<g:cell width="52px" horizontalAlignment="ALIGN_LEFT"> <g:PushButton styleName="{style.button}" 
-			ui:field="preferences_button" width="50px" title="Einstellungen"> <g:upFace 
-			image='{resources.preferences}'/> <g:upHoveringFace image='{resources.preferences_hover}'/> 
-			</g:PushButton> </g:cell> -->
 
-		<g:cell horizontalAlignment="ALIGN_LEFT" width="175px">
-			<g:HorizontalPanel styleName="{style.info_box}" visible="false" ui:field="counterPanel">
-				<g:Image styleName="{style.counter_icon}" ui:field="counter_icon"
-					url="mapicon/pin_white.png" visible="false" />
-				<g:Label styleName="{style.footText}" ui:field="counter"></g:Label>
-			</g:HorizontalPanel>
 
-		</g:cell>
+			<g:FocusPanel width="180px" styleName="{style.info_box}"
+				visible="false" ui:field="counterPanel">
+				<g:HorizontalPanel>
+					<g:Image styleName="{style.counter_icon}" ui:field="counter_icon"
+						url="loading.gif" visible="false" />
+					<g:Label styleName="{style.footText}" ui:field="counter"></g:Label>
+				</g:HorizontalPanel>
+			</g:FocusPanel>
 
-		<g:cell horizontalAlignment="ALIGN_LEFT" width="305px">
-			<g:HorizontalPanel styleName="{style.info_box}" visible="false" ui:field="doubleClickInfoPanel">
-				<g:Image styleName="{style.counter_icon}" ui:field="cursor"
-					url="cursor_white.png" visible="false" />
-				<g:Label styleName="{style.footText}" ui:field="text">Mit einem
-					Doppelklick in die Karte können Sie einen neuen Eintrag erstellen</g:Label>
-			</g:HorizontalPanel>
-		</g:cell>
+			<g:FocusPanel width="180px" styleName="{style.info_box}"
+				visible="false" ui:field="resolvedCounterPanel">
+				<g:HorizontalPanel>
+
+					<g:Image styleName="{style.counter_icon}" ui:field="resolvedCounter_icon"
+						url="loading.gif" visible="false" />
+					<g:Label styleName="{style.footText}" ui:field="resolvedCounter"></g:Label>
+				</g:HorizontalPanel>
+			</g:FocusPanel>
+
+			<g:FocusPanel width="290px" styleName="{style.info_box}"
+				visible="false" ui:field="doubleClickInfoPanel">
+				<g:HorizontalPanel>
+
+					<g:Image styleName="{style.counter_icon}" ui:field="cursor"
+						url="cursor_white.png" visible="false" />
+					<g:Label styleName="{style.footText}" ui:field="text">Mit einem
+						Doppelklick in die Karte können Sie einen neuen Eintrag erstellen</g:Label>
+				</g:HorizontalPanel>
+			</g:FocusPanel>
+		</g:FlowPanel>
+	</g:cell>
 
 		<g:cell horizontalAlignment="ALIGN_RIGHT">
 			<g:Image styleName="{style.gmino_logo}" url="logo_geoengine.png"

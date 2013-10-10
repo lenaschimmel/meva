@@ -19,6 +19,7 @@ import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
+import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.xml.client.Document;
@@ -55,6 +56,7 @@ import de.gmino.issuemap.client.request.QueryMapBySubdomain;
 import de.gmino.issuemap.client.view.Feedback_Button;
 import de.gmino.issuemap.client.view.Footer;
 import de.gmino.issuemap.client.view.Header;
+import de.gmino.issuemap.client.view.popup.Info_PopUp;
 import de.gmino.issuemap.client.view.popup.List_PopUp;
 import de.gmino.issuemap.client.view.popup.Show_PopUp;
 import de.gmino.meva.client.UtilClient;
@@ -130,13 +132,19 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 	public static OpenLayersMapView mapView;
 	private static Map mapObject;
 	private OpenLayersSmartLayer markerLayer;
-	private Footer footer = new Footer();
-	private Header header = new Header();
+	private List_PopUp list;
+	private Info_PopUp infoPopUp;
+	private DecoratedPopupPanel decorated_panel = new DecoratedPopupPanel();
+	private Footer footer = new Footer(list, decorated_panel);
+	private Header header = new Header(decorated_panel);
+
+
 	
 	Collection<DecentralizedGeneration> generations;
 	Collection<Poi> pois;
 
 	int counter = 0;
+
 
 	private static IssuemapGwt instance;
 
@@ -144,7 +152,6 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 
 	private static final int GENERAL_POPUP_MARGIN = 20;
 
-	private List_PopUp list;
 
 	private String subdomain;
 
@@ -238,14 +245,15 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 				mapObject = map;
 				if (mapObject.isCreate())
 					addDblClickListenerToMapView();
-				markerLayer.setzoomThreshold(map.getInitZoomlevel() - 3);
+				markerLayer.setzoomThreshold(map.getInitZoomlevel() - 2);
 
 				addFeedback_Button();
 				markerLayer.addMarkerPopupCreator(Poi.type, new IssuePopupCreator(map, markerLayer));
-
-				header.setFrontendDesign(map);
+				infoPopUp = new Info_PopUp(map,decorated_panel);
+				header.setFrontendDesign(map, infoPopUp);
 
 				footer.setMap(map);
+				footer.setInfoPopup(infoPopUp);
 				Window.setTitle(map.getTitle());
 
 				mapView.newMapLayer(map.getLayer());
@@ -260,13 +268,16 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 					}
 				}, 1000);
 
-				header.setFrontendDesign(mapObject);
+				header.setFrontendDesign(mapObject, infoPopUp);
 				footer.setDesign();
 
 				map.loadMarkertypes(new RequestListener<Markertype>() {
 					@Override
 					public void onFinished(Collection<Markertype> results) {
 						footer.setMarkerIcon(markerLayer);
+						infoPopUp.setMarkerIcons(markerLayer);
+
+						
 						if (subdomain.equals("zgb"))
 							fillMapZgb();
 						else {
@@ -340,6 +351,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 		if (mapObject.isHas_list()) {
 			list = new List_PopUp(mapObject, issueRenderer, markerLayer);
 			RootPanel.get("list").add(list);
+			footer.setList(list);
 		} else {
 			RootPanel.get("list").getElement().getStyle().setDisplay(Display.NONE);
 			updateListMargin(false);
@@ -405,6 +417,8 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 			public void onFinished(Collection<Poi> results) {
 				showAllPoisOnMap();	
 				fillList();
+				infoPopUp.setResolvedList(markerLayer, issueRenderer, pois);
+				updateResolvedCounter();
 			}
 		});
 	}
@@ -420,7 +434,7 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 		int count = 0;
 		final ArrayList<Poi> filteredRatingIssues = new ArrayList<Poi>();
 		for (final Poi i : ratingSortedIssues) {
-			if (!i.isDeleted())
+			if (!i.isDeleted()&&!i.isMarked())
 				filteredRatingIssues.add(i);
 			if(count++ > 30)
 				break;
@@ -430,6 +444,10 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 	
 	public void updateCounter() {
 		footer.setCounter(counter);
+	}
+	
+	public void updateResolvedCounter() {
+		footer.setResolvedCounter(infoPopUp.getResolvedCount());
 	}
 		
 	public void addFeedback_Button(){

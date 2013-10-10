@@ -420,7 +420,7 @@
 			<g:HorizontalPanel styleName="{style.upperBar}">
 				<g:cell width="40px">
 					<g:SimplePanel styleName="{style.imageWrapper}">
-						<g:Image ui:field="imageMarkerIcon" styleName="{style.imageMarkerIcon}" />
+						<g:Image url="loading_small.gif" ui:field="imageMarkerIcon" styleName="{style.imageMarkerIcon}" />
 
 					</g:SimplePanel>
 				</g:cell>

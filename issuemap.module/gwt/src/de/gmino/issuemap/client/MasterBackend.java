@@ -53,7 +53,7 @@ public class MasterBackend  implements EntryPoint, UncaughtExceptionHandler  {
 			Requests.setImplementation(new NetworkRequestsImplAsyncJson("http://"
 					+ Location.getHost() + "/"));
 
-			header = new Header();
+			header = new Header(null);
 			header.setBackendDesign("logo_geoengine.png", "geoEngine Backend", "#FFF", "rgba(40,40,40,0.8)");
 			header.setURL("http://gmino.geoengine.de/masterBackend.html");
 			login= new Login(this);

@@ -82,4 +82,8 @@ public class List_PopUp extends Composite {
 	 public void setParentVisible(){
 		RootPanel.get("list").getElement().getStyle().setDisplay(Display.BLOCK);
 	}
+	 
+	 public List_Button getListButton(){
+		 return listButton;
+	 }
 }

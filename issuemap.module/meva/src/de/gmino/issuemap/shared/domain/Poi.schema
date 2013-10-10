@@ -27,6 +27,10 @@
 		{
 			"type" : "Timestamp",
 			"name" : "creationTimestamp"
+		},		
+		{
+			"type" : "Timestamp",
+			"name" : "resolvedTimestamp"
 		},	
 		{
 			"type" : "int",

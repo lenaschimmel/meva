@@ -244,8 +244,13 @@ public class Show_PopUp extends Composite {
 	}
 
 	private void setValuesFromPoi(boolean addPhotosAndComments) {
-		lbTypeAndDate.setText(mPoi.getMarkertype().getMarkerName() + ", " + mPoi.getCreationTimestamp().relativeToNow().toReadableString(true,1));
-		lbTypeAndDate.setTitle("Eintrag vom " + dtf.format(mPoi.getCreationTimestamp().toDate()));
+		if (mPoi.getCreationTimestamp().getMillisSinceEpoch() == 1372938278000L) {
+			lbTypeAndDate.setText(mPoi.getMarkertype().getMarkerName());
+			lbTypeAndDate.setTitle("Unbekannter Zeitpunkt");
+		} else {
+			lbTypeAndDate.setText(mPoi.getMarkertype().getMarkerName() + ", " + mPoi.getCreationTimestamp().relativeToNow().toReadableString(true, 1));
+			lbTypeAndDate.setTitle("Eintrag vom " + dtf.format(mPoi.getCreationTimestamp().toDate()));
+		}
 		
 		tbResolved.setStyleName(style.underline(), mPoi.isMarked());
 		if (mPoi.isMarked()) tbResolved.getElement().getStyle().setBorderColor(map.getResolvedColor());
@@ -510,8 +515,9 @@ public class Show_PopUp extends Composite {
 		mPoi.setMarked(!mPoi.isMarked());
 		tbResolved.setStyleName(style.underline(), mPoi.isMarked());
 
-		if (mPoi.isMarked())
+		if (mPoi.isMarked()){
 			tbResolved.getElement().getStyle().setBorderColor(map.getResolvedColor());
+		mPoi.setResolvedTimestamp(Timestamp.now());}
 		else
 			tbResolved.getElement().getStyle().setBorderColor("transparent");
 

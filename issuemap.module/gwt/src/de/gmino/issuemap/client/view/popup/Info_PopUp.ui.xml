@@ -5,15 +5,14 @@
 	<ui:with field="resources"
 		type="de.gmino.issuemap.client.resources.ImageResources" />
 
-	<ui:style>
+		<ui:style type="de.gmino.issuemap.client.view.popup.Info_PopUp.Style">
+
 		.parent {
 		width: 600px;
 		background-color: #333;
 		position: absolute;
-		top: -50px;
+		top: 0px;
 		left: -300px;
-		filter: literal("alpha(opacity = 1)") !important; /* IE */
-		opacity: 0.9 !important; /* non-IE */
 		border-top-right-radius: 4px;
 		border-bottom-right-radius: 4px;
 		border-top-left-radius: 4px;
@@ -24,7 +23,6 @@
 		}
 
 	
-		
 		
 
 		.title_label {
@@ -44,11 +42,12 @@
 
 
 		.info_label {
-		margin-top: 5px;
 		color: #FFF;
 		margin-bottom: 10px;
 		padding-right: 10px;
 		padding: 15px;
+		overflow: auto;
+		width: 570px;
 		}
 
 		.closeButton {
@@ -68,14 +67,164 @@
 		padding-bottom: 15px;
 		}
 		
+		.lowerBar {
+		background-color: #333;
+		border-bottom:
+		1px solid #666;
+		-webkit-box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.4);
+		box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.4);
+		}
+		
+
+		
+		.tabButton {
+		height: 33px;
+		width: 129px;
+
+		color: #CCC;
+		background-color: #333;
+		border-top: none;
+		border-left: 0px none;
+		border-right: 0px none;
+		border-bottom: 4px solid transparent;
+		float:left;
+		cursor: pointer;
+
+		white-space: nowrap;
+		font-size: 80%;
+		text-align: center;
+		text-transform:uppercase;
+		font-weight: bold;
+		}
+
+		.tabButton:hover {
+		background-color: #666;
+		border-bottom: 4px solid #4DADDE;
+		color: #FFF;
+		}
+		
+		.h2{
+		font-size: large;
+		margin-top:15px;
+
+		clear: both;
+		}
+		
+		.tabDivider {
+		background-color:
+		#999999;
+		border-bottom: 6px solid #333333;
+		border-top: 6px solid
+		#333333;
+		height:
+		21px;
+		width: 1px;
+		float: left;
+		}
+		
+				.underline {
+		border-bottom: 4px solid #4DADDE;
+		}
+
+		.active {
+		background: rgba(155,155,155, 0.5);
+		border-radius: 4px;
+		}
+		
+		.helptext{
+			width: 300px;
+			margin-right: 30px;
+			margin-left: 5px;
+}
+				
 	</ui:style>
 	<g:VerticalPanel styleName="{style.parent}" ui:field="parent">
 		<g:Label ui:field="title" styleName="{style.title_label}"></g:Label>
+
+				<g:FlowPanel   width="100%" height="33px"  styleName="{style.lowerBar}" >
+					<g:Button styleName="{style.tabButton}" ui:field="tabButtonInfo">Information</g:Button>
+					<g:Label ui:field="tabDivider1" styleName="{style.tabDivider}">&nbsp;</g:Label>
+					<g:Button visible="false" styleName="{style.tabButton}" ui:field="tabButtonResolved">Erledigte Einträge</g:Button>
+					<g:Label ui:field="tabDivider3" styleName="{style.tabDivider}">&nbsp;</g:Label>
+					<g:Button styleName="{style.tabButton}" ui:field="tabButtonHelp">Hilfe</g:Button>
+					<g:Label ui:field="tabDivider2" styleName="{style.tabDivider}">&nbsp;</g:Label>
+
+					<g:Label />
+				</g:FlowPanel>
+
+
 		<g:Image resource="{resources.close}" ui:field="close"
 			styleName="{style.closeButton}"></g:Image>
+					<g:DeckPanel ui:field="deckPanel" width="567px" styleName="{}">
 		
 			<g:HTML ui:field="infotext" styleName="{style.info_label}"/>
-		
+			<g:SimplePanel ui:field="help" styleName="{style.info_label}">
+				<g:VerticalPanel>
+
+					<g:Label>Dies ist eine interaktive Webkarte. Auf der Karte befinden sich verschiedene Einträge. Beim Anklicken dieser Einträge öffnet sich ein Popup mit weiteren Informationen. Sie können die Karte mit gedrückter linker Maustaste verschieben. Durch die Betätigung des Mausrades können sie in die Karte hinein oder heraus zoomen.</g:Label>
+			
+					
+					<g:Label visible="false" styleName="{style.h2}" ui:field="createHeading">Neue Marker hinzufügen</g:Label>
+					<g:HorizontalPanel visible="false" ui:field="createContent">	
+						<g:Label styleName="{style.helptext}">Als Nutzer können Sie dieser Karte weitere Einträge hinzufügen. Dafür navigieren Sie einfach zu der gewünschten Stelle und klicken doppelt in die Karte. An der entsprechenden Stelle erscheint dann ein Popup, in dem Sie den Titel und weitere Informationen eintragen können.</g:Label>
+						<g:Image  url="doubleclick.png" />
+						<g:Image  url="arrow1.png" />
+						<g:Image   url="edit_pencil.png"  />
+						<g:Image  url="arrow2.png" />
+						<g:Image  ui:field="marker_icon1" url="mapicon/pin_white.png" visible="false" />
+					</g:HorizontalPanel>
+					
+					
+					<g:Label visible="false" styleName="{style.h2}" ui:field="editHeading">Marker Editieren</g:Label>
+					<g:HorizontalPanel visible="false" ui:field="editContent">
+						<g:Label styleName="{style.helptext}">Sie können bestehende Einträge bearbeiten. Dafür öffnen Sie einfach das Popup eines Eintrages und klicken Sie oben rechts auf das Stift-Symbol. Daraufhin können Sie die Texte und Werte des Popups verändern. Durch einen Klick auf Speichern (Symbol: Diskette) werden die Änderungen übernommen. Wollen Sie die Änderungen verwerfen, klicken Sie einfach auf „Schließen“.</g:Label>	
+						<g:Image  url="editButton.png" />
+						<g:Image  url="arrow1.png" />
+						<g:Image  url="edit_pencil.png"  />
+						<g:Image  url="arrow2.png" />
+						<g:Image  url="saveButton.png" />
+					</g:HorizontalPanel>
+					
+					<g:Label visible="false" styleName="{style.h2}" ui:field="deleteHeading">Marker Löschen</g:Label>
+					<g:HorizontalPanel visible="false" ui:field="deleteContent">
+						<g:Label styleName="{style.helptext}">Zum Löschen eines Eintrages öffnen Sie zunächst das Popup des betreffenden Eintrages und klicken Sie auf das Stift-Symbol zum Bearbeiten. Das Mülleimer Symbol im oberen rechten Bereich ermöglicht Ihnen, den Eintrag dauerhaft zu entfernen.</g:Label>					
+						<g:Image  url="deleteButton.png" />
+						<g:Image  url="arrow1.png" />
+						<g:Image  url="away.png"  />
+					</g:HorizontalPanel>
+					
+					<g:Label visible="false" styleName="{style.h2}" ui:field="fotoHeading">Fotos ansehen und hochladen</g:Label>
+					<g:HorizontalPanel visible="false" ui:field="fotoContent">
+						<g:Label styleName="{style.helptext}">Wenn Sie einen Eintrag angewählt haben, können Sie im Reiter „Fotos“ alle Fotos ansehen, die zu diesem Eintrag hochgeladen wurden. Unten im gleichen Reiter können Sie Fotos von Ihrem Computer auswählen (Durchsuchen) und anschließend durch einen Klick auf „Hochladen“ hinzufügen.</g:Label>					
+					</g:HorizontalPanel>
+					
+					<g:Label visible="false" styleName="{style.h2}" ui:field="commentsHeading">Kommentieren</g:Label>
+					<g:HorizontalPanel visible="false" ui:field="commentsContent">
+						<g:Label styleName="{style.helptext}">Im Reiter Kommentare sehen Sie alle Kommentare zu einem Eintrag. Sie können im Textfeld ganz unten Ihren eigenen Kommentar eingeben.</g:Label>					
+					</g:HorizontalPanel>
+					
+					<g:Label visible="false" styleName="{style.h2}" ui:field="markHeading">Markieren</g:Label>
+					<g:HorizontalPanel visible="false" ui:field="markContent">
+						<g:Label styleName="{style.helptext}">Wenn Ein eintrag abgeschlossen (erledigt) ist, können Sie diesen mit dem Häkchen im Popup oben entsprechend markieren.</g:Label>					
+					</g:HorizontalPanel>
+					
+					<g:Label visible="false" styleName="{style.h2}" ui:field="rateHeading">Bewertungen</g:Label>
+					<g:HorizontalPanel visible="false" ui:field="rateContent">
+						<g:Label styleName="{style.helptext}">Mit den Pfeilen hoch (+1) und runter (-1) können Sie alle Einträge bewerten.</g:Label>					
+					</g:HorizontalPanel>
+					
+					<g:Label visible="false" styleName="{style.h2}" ui:field="listHeading">Listenansicht</g:Label>
+					<g:HorizontalPanel visible="false" ui:field="listContent">
+						<g:Label styleName="{style.helptext}">Klicken Sie am Rand der Karte auf den Button "Liste anzeigen" um alle Eintäge als sortierte Liste zu sehen.</g:Label>					
+					</g:HorizontalPanel> 
+										
+					
+				</g:VerticalPanel>	
+				
+			</g:SimplePanel>
+			<g:SimplePanel ui:field="resolvedPanel" styleName="{style.info_label}"/>
+			
+		</g:DeckPanel>
 			<g:Label ui:field="impressum" styleName="{style.impressum}">Impressum</g:Label>
 	</g:VerticalPanel>
 </ui:UiBinder> 

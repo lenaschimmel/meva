@@ -9,10 +9,6 @@
 		},
 		{
 			"type" : "String",
-			"name" : "description"
-		},
-		{
-			"type" : "String",
 			"name" : "subdomain"
 		},
 		{
@@ -54,10 +50,6 @@
 		{
 			"type" : "String",
 			"name" : "layer"
-		},
-		{
-			"type" : "String",
-			"name" : "headerText"
 		},	
 		{
 			"type" : "ImageUrl",

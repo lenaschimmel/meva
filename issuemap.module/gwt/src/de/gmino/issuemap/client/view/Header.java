@@ -28,18 +28,19 @@ public class Header extends Composite  {
 
 	private static HeaderUiBinder uiBinder = GWT.create(HeaderUiBinder.class);
 	private Map mapObject;
-	final DecoratedPopupPanel decorated_panel = new DecoratedPopupPanel();
 	private boolean customURL;
 	private String URL;
+	private DecoratedPopupPanel decorated_panel;
 	interface HeaderUiBinder extends UiBinder<Widget, Header> {
 	}
 
-	public Header() {
+	public Header(DecoratedPopupPanel decorated_panel) {
 		initWidget(uiBinder.createAndBindUi(this));
 		info_button.setVisible(false);
 		search_field.setVisible(false);
 		logo.setHeight("30px");
 		header.setHeight("57px");
+		this.decorated_panel=decorated_panel;
 	}
 
 	@UiField
@@ -52,14 +53,16 @@ public class Header extends Composite  {
 	TextBox search_field;
 	@UiField
 	PushButton info_button;
+	private Info_PopUp infoPopup;
 
 	@UiHandler("info_button")
 	void onInfoClick(ClickEvent e) {
-		if (decorated_panel.isShowing()) {
+		if (decorated_panel.isShowing()&&infoPopup.getActiveTab()==0) {
 			decorated_panel.hide();
 		} else {
-			decorated_panel.setPopupPosition(Window.getClientWidth() / 2, Window.getClientHeight() / 3);
+			decorated_panel.setPopupPosition(Window.getClientWidth() / 2, (int) (Window.getClientHeight()*0.15));
 			decorated_panel.show();
+			infoPopup.activateTab(0);
 		}
 	}
 
@@ -121,8 +124,9 @@ public class Header extends Composite  {
 		search_field.setVisible(false);
 	}
 
-	public void setFrontendDesign(Map map) {
+	public void setFrontendDesign(Map map, Info_PopUp infoPopup) {
 		this.mapObject = map;
+		this.infoPopup=infoPopup;
 		logo.setTitle("Klicken Sie, um die Website " + map.getWebsite() + " zu besuchen (öffnet in neuem Fenster / Tab).");
 		logo.setUrl(map.getLogo().getUrl());
 		title.setText(map.getTitle());
@@ -134,8 +138,9 @@ public class Header extends Composite  {
 		search_field.setVisible(true);
 		logo.setHeight("45px");
 		info_button.setVisible(true);
-		decorated_panel.setWidget(new Info_PopUp(mapObject, decorated_panel));
-		decorated_panel.setGlassEnabled(true);
+
+		decorated_panel.setWidget(infoPopup);
+		decorated_panel.setGlassEnabled(false);
 		
 		if(map.isSearchCity() && map.isSearchStreet())
 			search_field.getElement().setAttribute("placeholder", "Stadt, Straße");

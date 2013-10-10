@@ -1,0 +1,79 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	
+	<ui:with field="resources"
+		type="de.gmino.issuemap.client.resources.ImageResources" />
+
+
+	<ui:style>
+	
+			.parent {
+			padding-left: 5px;
+			padding-bottom: 5px;
+			padding-top: 10px;
+			padding-right: 5px;
+			color: #fff;
+		}
+		
+					
+
+
+		}
+		
+		.title_label {
+			color: #FFF;
+			font-weight: bold;
+			font-size: medium;
+			margin-left: 0px;
+			 overflow: hidden;
+			 text-overflow: ellipsis;
+			 white-space: nowrap;
+			 width: 260px;
+			 
+		}
+		
+		.type_label{
+			margin-left: 0px;
+			
+}
+		.markerIcon{
+			margin-top: 3px;
+			
+}
+		.labelsPanal{
+		}
+		.rating{
+			font-size: large;
+			margin: 8px;
+			font-weight: bolder;
+			text-align: right;
+			margin-left: 10px;
+		}
+
+		.create_date{
+			text-align: right;
+			margin-left:10px;
+		}
+
+		.resolved_date{
+			text-align: right;
+			margin-left:50px;
+		}
+	</ui:style>
+	<g:FocusPanel ui:field="focusPanel">
+		<g:HorizontalPanel styleName="{style.parent}">
+			<g:cell width="50px" >
+				<g:Image ui:field="imageMarkerIcon" styleName="{style.markerIcon}"/>
+			</g:cell>
+			<g:cell>
+				<g:VerticalPanel styleName="{style.labelsPanal}">
+					<g:Label ui:field="labelTitle" styleName="{style.title_label}"></g:Label>
+						<g:Label ui:field="type" styleName="{style.type_label}"></g:Label>
+				</g:VerticalPanel>
+			</g:cell>
+			<g:cell width="100px"><g:Label ui:field="create_date" styleName="{style.create_date}"></g:Label></g:cell>
+			<g:cell width="120px"><g:Label ui:field="resolved_date" styleName="{style.resolved_date}"></g:Label></g:cell>
+		</g:HorizontalPanel>
+	</g:FocusPanel>
+</ui:UiBinder> 
