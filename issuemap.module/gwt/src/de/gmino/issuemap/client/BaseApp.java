@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import de.gmino.issuemap.client.view.Footer;
 import de.gmino.issuemap.client.view.Header;
 import de.gmino.issuemap.client.view.backend.Login;
+import de.gmino.issuemap.shared.domain.User;
 import de.gmino.meva.client.UtilClient;
 import de.gmino.meva.client.request.NetworkRequestsImplAsyncJson;
 import de.gmino.meva.shared.EntityFactory;
@@ -25,8 +26,14 @@ public abstract class BaseApp implements EntryPoint, UncaughtExceptionHandler {
 	protected Footer footer;
 	protected Header header;
 	protected DecoratedPopupPanel decorated_panel = new DecoratedPopupPanel();
-	protected Login login = new Login(this);
+	protected Login login = new Login();
+	protected User loggedInUser;
+	private boolean activeAutoLogin;
 	
+	public User getLoggedInUser() {
+		return loggedInUser;
+	}
+
 	protected static BaseApp instance;
 
 	public static BaseApp getInstance()
@@ -34,10 +41,12 @@ public abstract class BaseApp implements EntryPoint, UncaughtExceptionHandler {
 		return instance;
 	}
 	
-	public BaseApp() {
+	public BaseApp(boolean activeAutoLogin) {
 		super();
+		this.activeAutoLogin = activeAutoLogin;
 		footer = new Footer(decorated_panel);
 		header = new Header(decorated_panel);
+		header.setLoggedIn(false);
 	}
 
 	@Override
@@ -56,14 +65,15 @@ public abstract class BaseApp implements EntryPoint, UncaughtExceptionHandler {
 				@Override
 				public void onNewResult(Long result) {
 					if(result > 0)
-						onLogin();
-					else
+						onLoggedInUserIdKnown(result);
+					else if(activeAutoLogin)
 						showLoginField();
 				}
 				
 				@Override
 				public void onError(String message, Throwable e) {
-					showLoginField();
+					if(activeAutoLogin)
+						showLoginField();
 				}
 			});
 			
@@ -83,7 +93,7 @@ public abstract class BaseApp implements EntryPoint, UncaughtExceptionHandler {
 	
 	protected abstract void initApp() throws Exception;
 	public abstract void onLogin();
-	public abstract void onLogut();
+	public abstract void onLogout();
 
 	public void showLoginField() {
 		RootPanel.get("parent").add(login);
@@ -92,5 +102,42 @@ public abstract class BaseApp implements EntryPoint, UncaughtExceptionHandler {
 				login.user.setFocus(true);
 			}
 		});
+	}
+	
+	public void onLoggedInUserIdKnown(Long loggedInUserId) {
+		Requests.getLoadedEntityById(User.type, loggedInUserId, new RequestListener<User>() {
+			@Override
+			public void onNewResult(User user) {
+				loggedInUser = user;
+				header.setLoggedIn(true);
+				onLogin();
+				login.removeFromParent();
+			}
+		});
+	}
+
+	public void doLogin(String userName, String password) {
+		Requests.login(userName, password, new RequestListener<Long>() {
+			@Override
+			public void onNewResult(Long loggedInUserId) {
+				onLoggedInUserIdKnown(loggedInUserId);
+			}
+		});
+	}
+	
+	public void doLogout()
+	{
+		Requests.logout();
+		loggedInUser = null;
+		header.setLoggedIn(false);
+		onLogout();
+	}
+	
+	public void doLogAction()
+	{
+		if(loggedInUser == null)
+			showLoginField();
+		else
+			doLogout();
 	}
 }

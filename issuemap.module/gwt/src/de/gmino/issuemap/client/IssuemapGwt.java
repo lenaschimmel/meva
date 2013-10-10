@@ -136,6 +136,7 @@ public class IssuemapGwt extends BaseApp  {
 	String subdomain;
 
 	public IssuemapGwt() {
+		super(false);
 		if (instance != null)
 			throw new RuntimeException("Can't create multiple instances!");
 		instance = this;
@@ -568,7 +569,7 @@ public class IssuemapGwt extends BaseApp  {
 	}
 
 	@Override
-	public void onLogut() {
+	public void onLogout() {
 		// TODO Auto-generated method stub
 	}
 

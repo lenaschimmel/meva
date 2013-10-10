@@ -24,7 +24,6 @@ import de.gmino.issuemap.client.BaseApp;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.view.popup.Info_PopUp;
-import de.gmino.meva.shared.request.Requests;
 
 public class Header extends Composite  {
 
@@ -56,7 +55,9 @@ public class Header extends Composite  {
 	@UiField
 	PushButton info_button;
 	@UiField
-	Label logout;
+	Label logInfo;
+	@UiField
+	Label logAction;
 
 	private Info_PopUp infoPopup;
 
@@ -78,10 +79,14 @@ public class Header extends Composite  {
 		}
 	}
 
-	@UiHandler("logout")
+	@UiHandler("logAction")
 	void onLogoutClick(ClickEvent event) {
-		Requests.logout();
-		BaseApp.getInstance().onLogut();
+		BaseApp.getInstance().doLogAction();
+	}
+	
+	public void setLogInfoText(String text)
+	{
+		logInfo.setText(text);
 	}
 
 	@UiHandler("logo")
@@ -127,7 +132,8 @@ public class Header extends Composite  {
 		title.setText(titleString);
 
 		title.getElement().getStyle().setColor(textcolor);
-		logout.getElement().getStyle().setColor(textcolor);
+		logInfo.getElement().getStyle().setColor(textcolor);
+		logAction.getElement().getStyle().setColor(textcolor);
 		info_button.setVisible(true);
 		header.getElement().getStyle().setBackgroundColor(backgroundcolor);
 		search_field.setVisible(true);
@@ -144,7 +150,8 @@ public class Header extends Composite  {
 		title.setText(map.getTitle());
 
 		title.getElement().getStyle().setColor(mapObject.getBarTextColor());
-		logout.getElement().getStyle().setColor(mapObject.getBarTextColor());
+		logAction.getElement().getStyle().setColor(mapObject.getBarTextColor());
+		logInfo.getElement().getStyle().setColor(mapObject.getBarTextColor());
 		info_button.setVisible(true);
 		header.getElement().getStyle()
 				.setBackgroundColor(mapObject.getBarBackgroundColor());
@@ -168,5 +175,18 @@ public class Header extends Composite  {
 	public void setURL(String URL){
 		customURL=true;
 		this.URL=URL;
+	}
+
+	public void setLoggedIn(boolean loggedIn) {
+		if(loggedIn)
+		{
+			logInfo.setText("Eingeloggt als " + BaseApp.getInstance().getLoggedInUser().getUserName() + ".");
+			logAction.setText("Ausloggen");
+		}
+		else
+		{
+			logInfo.setText("Nicht eingeloggt.");
+			logAction.setText("Einloggen");		
+		}
 	}
 }

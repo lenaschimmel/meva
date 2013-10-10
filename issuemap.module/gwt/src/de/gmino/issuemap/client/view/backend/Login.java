@@ -14,21 +14,17 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.issuemap.client.BaseApp;
-import de.gmino.meva.shared.request.RequestListener;
-import de.gmino.meva.shared.request.Requests;
+
 
 public class Login extends Composite {
 	
-	BaseApp app;
-
 	private static LoginUiBinder uiBinder = GWT.create(LoginUiBinder.class);
 
 	interface LoginUiBinder extends UiBinder<Widget, Login> {
 	}
 
-	public Login(BaseApp currentInstance) {
+	public Login() {
 		initWidget(uiBinder.createAndBindUi(this));
-		this.app = currentInstance;
 	}
 	
 	@UiField
@@ -39,23 +35,14 @@ public class Login extends Composite {
 	public Button loginButton;
 	
 	
-	private void doLogin() {
-		Requests.login(user.getText(), password.getText(), new RequestListener<Long>() {
-			@Override
-			public void onNewResult(Long loggedInUserId) {
-				app.onLogin();
-			}
-		});
-	}
-	
 	@UiHandler("loginButton")
 	void onLoginButtonClicked(ClickEvent e) {
-		doLogin();
+	 	BaseApp.getInstance().doLogin(user.getText(), password.getText());
 	}
 	@UiHandler("password")
 	void onKeyUp(KeyUpEvent event) {
 		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-			doLogin();
+			BaseApp.getInstance().doLogin(user.getText(), password.getText());
 		}
 	}
 	

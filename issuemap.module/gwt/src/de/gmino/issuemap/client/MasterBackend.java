@@ -17,6 +17,7 @@ public class MasterBackend extends BaseApp {
 	Show_Maps_Backend mapList;
 
 	public MasterBackend() {
+		super(true);
 		instance = this;
 	}
 	
@@ -46,7 +47,7 @@ public class MasterBackend extends BaseApp {
 		login.removeFromParent();
 	}	
 	
-	public void onLogut()
+	public void onLogout()
 	{
 		RootPanel.get("parent").add(login);
 		createMapField.removeFromParent();

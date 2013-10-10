@@ -5,7 +5,6 @@
 	<ui:with field="resources"
 		type="de.gmino.issuemap.client.resources.ImageResources" />
 
-
 	<ui:style>
 		.header {
 			font-size: 90%;
@@ -43,7 +42,6 @@
 			display: block;
 			font-size: 16pt;
 			cursor: pointer;
-
 		}
 		
 		.button {
@@ -71,14 +69,19 @@
     		display: block;
     		height: 28px;
     		padding: 0 22px 0 28px;
-    
-
 		}
 		
 		.blur { 
 		}
 
-		.logout {
+		.logInfo {
+			margin-right: 6px;
+			margin-top: 13px;
+			font-size: 1.3em;			
+		}
+
+		.logAction {
+			margin-right: 6px;
 			text-decoration: underline;
 			cursor: pointer;
 			margin-top: 13px;
@@ -105,7 +108,10 @@
 		</g:cell>
 
 		<g:cell width="20%" horizontalAlignment="ALIGN_RIGHT">
-			<g:Label styleName="{style.logout}" ui:field="logout">Logout</g:Label>
+			<g:Label styleName="{style.logInfo}" ui:field="logInfo">Nicht eingeloggt</g:Label>
+		</g:cell>
+		<g:cell width="20%" horizontalAlignment="ALIGN_RIGHT">
+			<g:Label styleName="{style.logAction}" ui:field="logAction">Logout</g:Label>
 		</g:cell>
 		<g:cell>
 			<g:Label></g:Label>
@@ -117,7 +123,6 @@
 		<g:cell>
 			<g:Label></g:Label>
 		</g:cell>
-
 
 	</g:HorizontalPanel>
 </ui:UiBinder> 
