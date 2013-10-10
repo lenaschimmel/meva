@@ -251,9 +251,10 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 				markerLayer.addMarkerPopupCreator(Poi.type, new IssuePopupCreator(map, markerLayer));
 				infoPopUp = new Info_PopUp(map,decorated_panel);
 				header.setFrontendDesign(map, infoPopUp);
-
 				footer.setMap(map);
 				footer.setInfoPopup(infoPopUp);
+				footer.setDesign(mapObject);
+
 				Window.setTitle(map.getTitle());
 
 				mapView.newMapLayer(map.getLayer());
@@ -267,9 +268,6 @@ public class IssuemapGwt implements EntryPoint, UncaughtExceptionHandler {
 						return false;
 					}
 				}, 1000);
-
-				header.setFrontendDesign(mapObject, infoPopUp);
-				footer.setDesign();
 
 				map.loadMarkertypes(new RequestListener<Markertype>() {
 					@Override

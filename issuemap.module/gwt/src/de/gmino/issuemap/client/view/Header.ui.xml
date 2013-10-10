@@ -58,7 +58,7 @@
 			cursor: pointer;
 		}
 		
-		.image{
+		.image {
 			cursor: pointer;
 		}
 		
@@ -75,20 +75,25 @@
 
 		}
 		
-		.blur{ 
+		.blur { 
+		}
 
-		
-}
+		.logout {
+			text-decoration: underline;
+			cursor: pointer;
+			margin-top: 13px;
+			font-size: 1.3em;			
+		}
 	</ui:style>
 
 	<g:HorizontalPanel styleName="{style.header}" width="100%"
 		ui:field="header">
 	<g:HTMLPanel styleName="{style.blur}"></g:HTMLPanel>
-		<g:cell width="25%" verticalAlignment="ALIGN_MIDDLE">
+		<g:cell width="20%" verticalAlignment="ALIGN_MIDDLE">
 			<g:Image ui:field="logo" url="loading.gif" height="45px" styleName="{style.image}"/>
 		</g:cell>
 
-		<g:cell width="50%" horizontalAlignment="ALIGN_CENTER">
+		<g:cell width="45%" horizontalAlignment="ALIGN_CENTER">
 			<g:HorizontalPanel>
 				<g:Label styleName="{style.title}" ui:field="title">... Daten werden geladen</g:Label>
 				<g:PushButton styleName="{style.infoButton}"
@@ -99,7 +104,14 @@
 			</g:HorizontalPanel>
 		</g:cell>
 
-		<g:cell width="25%" horizontalAlignment="ALIGN_RIGHT">
+		<g:cell width="20%" horizontalAlignment="ALIGN_RIGHT">
+			<g:Label styleName="{style.logout}" ui:field="logout">Logout</g:Label>
+		</g:cell>
+		<g:cell>
+			<g:Label></g:Label>
+		</g:cell>
+		
+		<g:cell width="20%" horizontalAlignment="ALIGN_RIGHT">
 			<g:TextBox styleName="{style.searchField}" text="" ui:field="search_field"></g:TextBox>
 		</g:cell>
 		<g:cell>

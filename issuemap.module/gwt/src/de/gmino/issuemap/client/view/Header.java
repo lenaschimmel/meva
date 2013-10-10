@@ -23,6 +23,7 @@ import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.view.popup.Info_PopUp;
+import de.gmino.meva.shared.request.Requests;
 
 public class Header extends Composite  {
 
@@ -53,6 +54,9 @@ public class Header extends Composite  {
 	TextBox search_field;
 	@UiField
 	PushButton info_button;
+	@UiField
+	Label logout;
+
 	private Info_PopUp infoPopup;
 
 	@UiHandler("info_button")
@@ -73,8 +77,14 @@ public class Header extends Composite  {
 		}
 	}
 
+	@UiHandler("logout")
+	void onLogoutClick(ClickEvent event) {
+		Requests.logout();
+	}
+
+
 	@UiHandler("logo")
-	void onClick(ClickEvent event) {
+	void onLogoClick(ClickEvent event) {
 		if(customURL==true) Window.Location.replace(URL);
 		else{
 			Window.open(mapObject.getWebsite(), "Partei-Website", "");
@@ -116,6 +126,7 @@ public class Header extends Composite  {
 		title.setText(titleString);
 
 		title.getElement().getStyle().setColor(textcolor);
+		logout.getElement().getStyle().setColor(textcolor);
 		info_button.setVisible(true);
 		header.getElement().getStyle().setBackgroundColor(backgroundcolor);
 		search_field.setVisible(true);
@@ -132,6 +143,7 @@ public class Header extends Composite  {
 		title.setText(map.getTitle());
 
 		title.getElement().getStyle().setColor(mapObject.getBarTextColor());
+		logout.getElement().getStyle().setColor(mapObject.getBarTextColor());
 		info_button.setVisible(true);
 		header.getElement().getStyle()
 				.setBackgroundColor(mapObject.getBarBackgroundColor());

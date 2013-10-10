@@ -7,7 +7,6 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -15,6 +14,8 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.issuemap.client.MasterBackend;
+import de.gmino.meva.shared.request.RequestListener;
+import de.gmino.meva.shared.request.Requests;
 
 public class Login extends Composite {
 	
@@ -37,19 +38,28 @@ public class Login extends Composite {
 	@UiField
 	public Button loginButton;
 	
-	@UiHandler("loginButton")
-	void onLoginButtonClicked(ClickEvent e) {
-		
-		if(password.getText().equals("caputisimo")&&user.getText().equals("gmino")) currentInstance.onLogin();
+	
+	private void doLogin() {
+		Requests.login(user.getText(), password.getText(), new RequestListener<Long>() {
+			@Override
+			public void onNewResult(Long loggedInUserId) {
+				currentInstance.onLogin();
+			}
+		});
 	}
 	
+	@UiHandler("loginButton")
+	void onLoginButtonClicked(ClickEvent e) {
+		doLogin();
+	}
 	@UiHandler("password")
 	void onKeyUp(KeyUpEvent event) {
 		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-			if(password.getText().equals("caputisimo")&&user.getText().equals("gmino")) currentInstance.onLogin();
+			doLogin();
 		}
 	}
 	
+
 	@UiHandler("registerButton")
 	void onRegisterButtonClicked(ClickEvent e) {
 		Register signin= new Register(this);

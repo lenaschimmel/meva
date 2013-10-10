@@ -1,6 +1,3 @@
-/**
- * 
- */
 package de.gmino.issuemap.client.view;
 
 import com.google.gwt.core.client.GWT;
@@ -33,12 +30,7 @@ import de.gmino.issuemap.client.view.popup.List_PopUp;
 import de.gmino.issuemap.shared.domain.Markertype;
 import de.gmino.meva.client.domain.KeyValueSet;
 
-/**
- * @author greenmobile
- *
- */
 public class Footer extends Composite {
-
 	private static UIUiBinder uiBinder = GWT.create(UIUiBinder.class);
 	Map map;
 	private List_PopUp issueList_PopUp;
@@ -123,7 +115,8 @@ public class Footer extends Composite {
 		}
 	}
 	
-	public void setDesign() {
+	public void setDesign(Map map) {
+		this.map = map;
 		text.getElement().getStyle().setColor(map.getBarTextColor());
 		counter.getElement().getStyle().setColor(map.getBarTextColor());
 		resolvedCounter.getElement().getStyle().setColor(map.getBarTextColor());

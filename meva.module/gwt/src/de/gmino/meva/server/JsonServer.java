@@ -3,6 +3,10 @@ package de.gmino.meva.server;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,11 +15,11 @@ import java.util.Map.Entry;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.itemscript.core.JsonSystem;
 import org.itemscript.core.values.JsonArray;
@@ -38,6 +42,8 @@ import de.gmino.meva.shared.request.Requests;
 public class JsonServer extends HttpServlet {
 
 	private static final long serialVersionUID = -3067797075737374489L;
+	private JsonSystem jsonSystem;
+	private Object loggedInUserId;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -61,6 +67,12 @@ public class JsonServer extends HttpServlet {
 		String[] parts = req.getRequestURI().split("/");
 		String lastPart = parts[parts.length - 1];
 
+		HttpSession session = req.getSession();
+		if(session != null)
+			loggedInUserId = session.getAttribute("loggedInUserId");
+		else
+			loggedInUserId = 0;
+		
 		try {
 			if (lastPart.equals("getEntities")) {
 				getEntities(req, resp);
@@ -70,6 +82,10 @@ public class JsonServer extends HttpServlet {
 				allEntities(req, resp);
 			} else if (lastPart.equals("saveEntities")) {
 				saveEntities(req, resp);
+			} else if (lastPart.equals("login")) {
+				login(req, resp);
+			} else if (lastPart.equals("logout")) {
+				logout(req, resp);
 			} else {
 				otherRequest(req, resp, lastPart);
 			}
@@ -82,12 +98,44 @@ public class JsonServer extends HttpServlet {
 		}
 	}
 
+	private void logout(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		req.getSession(true).invalidate();
+		resp.setContentType("text/json; charset=utf-8");
+		resp.setCharacterEncoding("utf-8");
+		writeAnswer(resp.getOutputStream(), "OK", "\"User logged out.\"");
+	}
+
+	private void login(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {
+		String requestString = convertStreamToString(req.getInputStream());
+		JsonValue requestValue = getJsonSystem().parse(requestString);
+		JsonObject requestObject = requestValue.asObject();
+
+		String username = requestObject.getString("userName");
+		String password = requestObject.getString("password");
+	
+		Connection dbCon = SqlHelper.getConnection();
+		Statement stmt = dbCon.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT id FROM User WHERE userName='"+username+"' AND password='"+password+"';");
+		String content = "\"User not found or invalid password.\"";
+		String status = "ERROR";
+		if(rs.next())
+		{
+			long userId = rs.getLong(1);
+			content = "\"" + userId + "\"";
+			status = "OK";
+			req.getSession(true).setAttribute("loggedInUserId", userId + "");
+		}
+		
+		resp.setContentType("text/json; charset=utf-8");
+		resp.setCharacterEncoding("utf-8");
+		writeAnswer(resp.getOutputStream(), status, content);
+	}
+
 	private void otherRequest(HttpServletRequest req, HttpServletResponse resp, String lastPart) throws IOException {
-		JsonSystem system = StandardConfig.createSystem();
 
 		String input = convertStreamToString(req.getInputStream());
 		System.out.println("Query: " + input);
-		JsonObject request = system.parse(input).asObject();
+		JsonObject request = getJsonSystem().parse(input).asObject();
 
 		Object query = EntityFactory.createQueryObject(lastPart, request);
 		
@@ -132,7 +180,7 @@ public class JsonServer extends HttpServlet {
 	 * @param outputStream
 	 * @param status
 	 * @param content
-	 *            Please not that you must wrap Strings in an extra pair of
+	 *            Please note that you must wrap Strings in an extra pair of
 	 *            (escaped) quotes if they are used as Json Strong values,
 	 *            because this parameter is written "as is", so that you can
 	 *            pass a Number or Array or Object.
@@ -140,7 +188,7 @@ public class JsonServer extends HttpServlet {
 	private void writeAnswer(ServletOutputStream outputStream, String status, String content) {
 		try {
 			OutputStreamWriter osw = new OutputStreamWriter(outputStream, Charset.forName("UTF-8"));
-			osw.write("{ \"status\":\"" + status + "\" , \"content\":" + content + "}");
+			osw.write("{ \"status\":\"" + status + "\" , \"content\":" + content + ", \"userId\":" + loggedInUserId + "}");
 			osw.flush();
 			osw.close();
 			outputStream.flush();
@@ -151,9 +199,8 @@ public class JsonServer extends HttpServlet {
 	}
 
 	private void saveEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		JsonSystem system = StandardConfig.createSystem();
 		String requestString = convertStreamToString(req.getInputStream());
-		JsonValue requestValue = system.parse(requestString);
+		JsonValue requestValue = getJsonSystem().parse(requestString);
 		JsonObject requestObject = requestValue.asObject();
 
 		String typeName = requestObject.getString("typeName");
@@ -176,9 +223,8 @@ public class JsonServer extends HttpServlet {
 	}
 
 	private void getEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		JsonSystem system = StandardConfig.createSystem();
 		String requestString = convertStreamToString(req.getInputStream());
-		JsonValue requestValue = system.parse(requestString);
+		JsonValue requestValue = getJsonSystem().parse(requestString);
 		JsonObject requestObject = requestValue.asObject();
 
 		String typeName = requestObject.getString("typeName");
@@ -212,9 +258,8 @@ public class JsonServer extends HttpServlet {
 
 	private void newEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-		JsonSystem system = StandardConfig.createSystem();
 		String requestString = convertStreamToString(req.getInputStream());
-		JsonValue requestValue = system.parse(requestString);
+		JsonValue requestValue = getJsonSystem().parse(requestString);
 		JsonObject requestObject = requestValue.asObject();
 
 		String typeName = requestObject.getString("typeName");
@@ -243,9 +288,8 @@ public class JsonServer extends HttpServlet {
 
 	private void allEntities(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-		JsonSystem system = StandardConfig.createSystem();
 		String requestString = convertStreamToString(req.getInputStream());
-		JsonValue requestValue = system.parse(requestString);
+		JsonValue requestValue = getJsonSystem().parse(requestString);
 		JsonObject requestObject = requestValue.asObject();
 
 		String typeName = requestObject.getString("typeName");
@@ -286,5 +330,12 @@ public class JsonServer extends HttpServlet {
 		} catch (java.util.NoSuchElementException e) {
 			return "";
 		}
+	}
+	
+	private JsonSystem getJsonSystem()
+	{
+		if(jsonSystem == null)
+			jsonSystem = StandardConfig.createSystem();
+		return jsonSystem;
 	}
 }

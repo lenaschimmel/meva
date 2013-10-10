@@ -20,4 +20,8 @@ public interface NetworkRequests {
 	public <EntityClass extends Entity> void saveEntities(Collection<EntityClass> entities, RequestListener<EntityClass> listener);
 
 	public void getIdsByType(TypeName type, RequestListener<Long> requestListener);
+	
+	public void login(String username, String password, final RequestListener<Long> listener);
+
+	public void logout();
 }

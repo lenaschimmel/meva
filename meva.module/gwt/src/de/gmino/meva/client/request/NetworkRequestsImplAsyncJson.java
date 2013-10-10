@@ -36,6 +36,74 @@ public class NetworkRequestsImplAsyncJson implements NetworkRequests {
 	}
 
 	@Override
+	public void login(String userName, String password, final RequestListener<Long> listener) {
+		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, baseUrl + "Json/login");
+		rb.setHeader("Content-Type", "application/json");
+		try {
+			rb.sendRequest("{\"userName\":\"" + userName + "\", \"password\":\"" + password + "\"}", new RequestCallback() {
+
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					JsonSystem system = GwtSystem.SYSTEM;
+					String jsonString = response.getText();
+					JsonObject answer = system.parse(jsonString).asObject();
+					String status = answer.getString("status");
+					if (status.equals("ERROR")) {
+						String message = answer.getString("content");
+						listener.onError("The server reported an error: " + message, null);
+					} else {
+						long loggedInUserId = answer.getLong("content");
+						Collection<Long> ids = new LinkedList<Long>();
+						ids.add(loggedInUserId);
+						listener.onNewResult(loggedInUserId);
+						listener.onFinished(ids);
+					}
+				}
+
+				@Override
+				public void onError(Request request, Throwable exception) {
+					listener.onError("Json request generated an exception (via method).", exception);
+				}
+			});
+		} catch (Exception exception) {
+			listener.onError("Json request generated an exception (thrown).", exception);
+		}
+	}
+
+
+	@Override
+	public void logout() {
+		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, baseUrl + "Json/logout");
+		rb.setHeader("Content-Type", "application/json");
+		try {
+			rb.sendRequest("{}", new RequestCallback() {
+
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					JsonSystem system = GwtSystem.SYSTEM;
+					String jsonString = response.getText();
+					JsonObject answer = system.parse(jsonString).asObject();
+					String status = answer.getString("status");
+					if (status.equals("ERROR")) {
+						String message = answer.getString("content");
+						throw new RuntimeException("The server reported an error: " + message);
+					} else {
+					
+					}
+				}
+
+				@Override
+				public void onError(Request request, Throwable exception) {
+					throw new RuntimeException("Json request generated an exception (via method).", exception);
+				}
+			});
+		} catch (Exception exception) {
+			throw new RuntimeException("Json request generated an exception (thrown).", exception);
+		}
+	}
+
+	
+	@Override
 	public <ValueClass extends Value> void getValuesByQuery(final ValueQuery query, final RequestListener<ValueClass> listener) {
 		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, baseUrl + "Json/" + query.getUrlPostfix());
 		rb.setHeader("Content-Type", "application/json");
