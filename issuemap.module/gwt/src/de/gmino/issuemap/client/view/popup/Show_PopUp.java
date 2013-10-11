@@ -39,6 +39,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.gmino.geobase.client.map.GwtIconRenderer;
 import de.gmino.geobase.client.map.OpenLayersSmartLayer;
 import de.gmino.geobase.shared.domain.Timestamp;
+import de.gmino.issuemap.client.BaseApp;
 import de.gmino.issuemap.client.IssuemapGwt;
 import de.gmino.issuemap.client.domain.Comment;
 import de.gmino.issuemap.client.domain.Map;
@@ -49,6 +50,7 @@ import de.gmino.issuemap.client.view.PhotoUploadForm.PhotoUploadListener;
 import de.gmino.issuemap.client.view.ThumbnailView;
 import de.gmino.issuemap.client.view.valueview.KeyValueView;
 import de.gmino.issuemap.shared.domain.Markertype;
+import de.gmino.issuemap.shared.domain.User;
 import de.gmino.meva.client.domain.KeyValueSet;
 import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.ValueWrapper;
@@ -552,9 +554,9 @@ public class Show_PopUp extends Composite {
 	
 	@UiHandler("commentButton")
 	void onCommentButtonClick(ClickEvent e) {
-		if(commentTextBox.getText().equals("")){}
-		else {sendComment();
-	}}
+		if(!commentTextBox.getText().isEmpty())
+			sendComment();
+	}
 
 	private void sendComment() {
 		commentTextBox.setEnabled(false);
@@ -565,7 +567,11 @@ public class Show_PopUp extends Composite {
 					@Override
 					public void onFinished(Collection<Poi> results) {
 						comment.setText(commentTextBox.getText());
-						comment.setUser("anonym");
+						User user = BaseApp.getInstance().getLoggedInUser();
+						if(user != null)
+							comment.setUser(user.getUserName());
+						else
+							comment.setUser("anonym");
 						comment.setTimestamp(Timestamp.now());
 						mPoi.getComments().add(comment);
 						Requests.saveEntity(comment, null);
@@ -646,9 +652,12 @@ public class Show_PopUp extends Composite {
 	private void showComment(Comment comment) {
 		VerticalPanel vp = new VerticalPanel();
 		vp.getElement().getStyle().setPaddingBottom(5, Unit.PX);
-		Label commentheader;
-		if (comment.getUser().equals("anonym")) commentheader = new Label(comment.getTimestamp().relativeToNow().toReadableString(true, 2) + ".");
-		else commentheader = new Label(comment.getTimestamp().relativeToNow().toReadableString(true, 2) + " von " + comment.getUser() + ".");
+		String headerText;
+		if (comment.getUser().equals("anonym")) 
+			headerText = comment.getTimestamp().relativeToNow().toReadableString(true, 2) + ".";
+		else 
+			headerText = comment.getTimestamp().relativeToNow().toReadableString(true, 2) + " von " + comment.getUser() + ".";
+		Label commentheader = new Label(headerText);
 		commentheader.setTitle("Eingetragen am " + dtf.format(comment.getTimestamp().toDate()));
 		commentheader.getElement().getStyle().setFontSize(10, Unit.PX);
 		commentheader.getElement().getStyle().setMarginTop(3, Unit.PX);
