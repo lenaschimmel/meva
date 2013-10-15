@@ -81,4 +81,9 @@ public class MasterBackend extends BaseApp {
 	{
 		createMapField.showExistingMap((Map)Map.getById(id), true);
 	}
+	
+	public void refreshMapList()
+	{
+		mapList.refreshMapList();
+	}
 }

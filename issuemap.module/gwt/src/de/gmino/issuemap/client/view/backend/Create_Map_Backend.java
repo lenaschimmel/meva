@@ -28,6 +28,7 @@ import de.gmino.geobase.shared.domain.Address;
 import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.LatLon;
 import de.gmino.issuemap.client.BaseApp;
+import de.gmino.issuemap.client.MasterBackend;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Markertype;
 import de.gmino.issuemap.client.view.list.Marker_List_Item;
@@ -61,27 +62,9 @@ public class Create_Map_Backend extends Composite {
 		Requests.getLoadedEntitiesByType(KeyValueSet.type, new RequestListener<KeyValueSet>() {
 			@Override
 			public void onNewResult(KeyValueSet set) {
-				
-				
-					mapClass.addItem(set.getName(), set.getId()+"");
-				
-//				Collection defs = IssuemapGwt.<de.gmino.meva.client.domain.KeyValueDef, de.gmino.meva.shared.domain.KeyValueDef>convertCollection(set.getDefs());
-//				Requests.loadEntities(defs, new RequestListener<KeyValueDef>() {
-//					@Override
-//					public void onNewResult(KeyValueDef def) {
-//						String name = def.getName();
-//						String valueTypeString = def.getValueType();
-//						TypeName.getByString(valueTypeString).isEntity();
-//						
-//						for(TypeName tn : TypeName.getAllTypes())
-//						{
-//							System.out.println("Es gibt einen Typ namens " + tn.toString());
-//						}
-//					}
-//				});
+				mapClass.addItem(set.getName(), set.getId()+"");
 			}
 		});
-	
 		
 		Requests.getLoadedEntitiesByType(Markertype.type, new RequestListener<Markertype>() {
 			@Override
@@ -91,12 +74,9 @@ public class Create_Map_Backend extends Composite {
 				markertypes.put(item, markertype);
 				markerPanel.add(item);
 				item.setVisible(false);
-
 			}
 		});
-		
 	}
-	
 	
 	interface Style extends CssResource {
 		String underline();
@@ -210,8 +190,6 @@ public class Create_Map_Backend extends Composite {
 	Style style;
 
 	
-
-		
 	private void activateTab(int i) {
 		deckPanel.showWidget(i);
 		tabButtonMeta.setStyleName(style.underline(), i == 0);
@@ -226,7 +204,10 @@ public class Create_Map_Backend extends Composite {
 	@UiHandler("button")
 	void onClick(ClickEvent e) {
 		if(isNewMap)
+		{
+			map.getHasOwner().add(BaseApp.getInstance().getLoggedInUser());
 			performSave();
+		}
 		else
 			Requests.loadEntity(map, new RequestListener<Map>() {
 				public void onFinished(java.util.Collection<Map> results) {
@@ -234,7 +215,6 @@ public class Create_Map_Backend extends Composite {
 				}
 		});
 	}
-	
 
 	@SuppressWarnings("unchecked")
 	@UiHandler("mapClass")
@@ -271,17 +251,12 @@ public class Create_Map_Backend extends Composite {
 			public void onNewResult(Markertype markertype) {
 
 				if(markertype.getMarkerClassId() == selectedSet.getId())
-				{
-
 					markerListItems.get(markertype).setVisible(true);
-
-				}
-				else {markerListItems.get(markertype).setVisible(false);}
+				else
+					markerListItems.get(markertype).setVisible(false);
 			}
 		});
 	}
-	
-	
 	
 	@UiHandler("bar_background_color")
 	void onHeaderBackgroundChange(ChangeEvent e) {
@@ -319,13 +294,11 @@ public class Create_Map_Backend extends Composite {
 	    if(ev.getValue()){
 	    	deleteCheckbox.setVisible(true);
 	    	deleteLabel.setVisible(true);
-	    	
 	    }
 	    else {
 	    	deleteCheckbox.setVisible(false);
 	    	deleteCheckbox.setValue(false);
 	    	deleteLabel.setVisible(false);
-
 	    	}	    	
 	}
 	
@@ -381,9 +354,6 @@ public class Create_Map_Backend extends Composite {
 		if(layerSelect.getSelectedIndex()==3) map.setLayer("Bing Road");
 		if(layerSelect.getSelectedIndex()==4) map.setLayer("Bing Hybrid");
 		if(layerSelect.getSelectedIndex()==5) map.setLayer("landscape");
-
-	
-
 		
 		for(Marker_List_Item i : markerListItems.values()){
 			if(i.selected)
@@ -392,7 +362,12 @@ public class Create_Map_Backend extends Composite {
 				map.getHasMarkertypes().remove(markertypes.get(i));
 
 		}
-		Requests.saveEntity(map, null);
+		Requests.saveEntity(map, new RequestListener<Map>() {
+			@Override
+			public void onFinished(Collection<Map> results) {
+				((MasterBackend)BaseApp.getInstance()).refreshMapList();
+			}
+		});
 		isNewMap = false;
 	};
 	
@@ -444,12 +419,8 @@ public class Create_Map_Backend extends Composite {
 		searchCityCheckbox.setValue(false);
 		layerSelect.setSelectedIndex(0);
 		
-		
-		
-		for(Marker_List_Item i : markerListItems.values()){
+		for(Marker_List_Item i : markerListItems.values())
 			i.setUncheckBox();
-		}
-		
 	}
 	
 	public void showNewMap()
@@ -465,7 +436,6 @@ public class Create_Map_Backend extends Composite {
 			@Override
 			public void onNewResult(Map result) {
 				Create_Map_Backend.this.map = result;
-				map.getHasOwner().add(BaseApp.getInstance().getLoggedInUser());
 				setPlaceholder();
 			}
 		});
@@ -493,8 +463,6 @@ public class Create_Map_Backend extends Composite {
 		popup_text_color.getElement().getStyle().setBackgroundColor(popup_text_color.getText());
 		marker_color.getElement().getStyle().setBackgroundColor(marker_color.getText());
 		resolved_color.getElement().getStyle().setBackgroundColor(resolved_color.getText());
-		
-		
 		
 		map_city.setText(map.getCity());
 		initLocation_latitude.setText(map.getInitLocation().getLatitude()+"");
@@ -534,17 +502,15 @@ public class Create_Map_Backend extends Composite {
 		if (map.getLayer().equals("Bing Hybrid")) layerSelect.setSelectedIndex(4);
 		if (map.getLayer().equals("landscape")) layerSelect.setSelectedIndex(5);
 
-			markerPanel.setVisible(true);
-			//Alle Markertypes der Map
-			map.loadMarkertypes(new RequestListener<Markertype>() {
-				@Override
-				public void onNewResult(Markertype result) {
-						markerListItems.get(result).setCheckBox();
-					super.onNewResult(result);
-				}
-				
-			});
-		
+		markerPanel.setVisible(true);
+		//Alle Markertypes der Map
+		map.loadMarkertypes(new RequestListener<Markertype>() {
+			@Override
+			public void onNewResult(Markertype result) {
+					markerListItems.get(result).setCheckBox();
+				super.onNewResult(result);
+			}
+		});
 		
 		isNewMap = getNewId;
 		
@@ -610,5 +576,4 @@ public class Create_Map_Backend extends Composite {
 		markDescription.getElement().setAttribute("title", "Beschriftung");
 		layerSelect.getElement().setAttribute("title", "Karten-Layer");
 	}
-	
 }
