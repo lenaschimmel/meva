@@ -7,7 +7,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -22,7 +21,7 @@ import de.gmino.issuemap.client.view.Feedback_Button;
 import de.gmino.issuemap.shared.request.SendFeedback;
 import de.gmino.meva.shared.request.Requests;
 
-public class Feedback_PopUp extends Composite implements HasText {
+public class Feedback_PopUp extends Composite {
 
 	private static Feedback_PopUpUiBinder uiBinder = GWT
 			.create(Feedback_PopUpUiBinder.class);
@@ -78,13 +77,4 @@ public class Feedback_PopUp extends Composite implements HasText {
 		this.removeFromParent();
 		IssuemapGwt.getInstance().addFeedback_Button();
 	}
-
-	public void setText(String text) {
-
-	}
-
-	public String getText() {
-		return null;
-	}
-
 }

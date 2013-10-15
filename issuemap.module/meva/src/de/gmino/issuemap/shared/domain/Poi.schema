@@ -49,6 +49,10 @@
 			"name" : "deleted"
 		},
 		{
+			"type" : "User",
+			"name" : "creator"
+		},
+		{
 			"type" : "relation",
 			"name" : "comments",
 			"reltype" : "Comment",

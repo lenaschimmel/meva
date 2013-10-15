@@ -54,7 +54,7 @@ public class Comment extends CommentGen {
 			boolean ready,
 			Poi poi,
 			String text,
-			String user,
+			User user,
 			Timestamp timestamp,
 			boolean deleted)
 	{
@@ -63,7 +63,7 @@ public class Comment extends CommentGen {
 			ready,
 			(de.gmino.issuemap.android.domain.Poi)poi,
 			text,
-			user,
+			(de.gmino.issuemap.android.domain.User)user,
 			(de.gmino.geobase.android.domain.Timestamp)timestamp,
 			deleted
 		);

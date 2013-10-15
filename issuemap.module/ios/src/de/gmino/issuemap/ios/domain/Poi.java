@@ -53,7 +53,8 @@ public class Poi extends PoiGen {
 			int rating,
 			int number_of_rating,
 			boolean marked,
-			boolean deleted)
+			boolean deleted,
+			User creator)
 	{
 		super(
 			id,
@@ -68,7 +69,8 @@ public class Poi extends PoiGen {
 			rating,
 			number_of_rating,
 			marked,
-			deleted
+			deleted,
+			(de.gmino.issuemap.ios.domain.User)creator
 		);
 		loadValueSet();
 		this.ready = true;

@@ -12,12 +12,11 @@ import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.Timestamp;
+import de.gmino.issuemap.client.BaseApp;
 import de.gmino.issuemap.client.domain.Photo;
 import de.gmino.meva.shared.Log;
 import de.gmino.meva.shared.request.RequestListener;
@@ -58,20 +57,10 @@ public class PhotoUploadForm extends Composite {
 		fileupload.setName("img");
 		// Add an event handler to the form.
 
-		form.addSubmitHandler(new SubmitHandler() {
-
-			@Override
-			public void onSubmit(SubmitEvent event) {
-				System.out.println("Submitted form.");
-			}
-		});
-
 		form.addSubmitCompleteHandler(new SubmitCompleteHandler() {
 
 			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
-				System.out.println("Submit complete.");
-
 				final String url = event.getResults().replace("<pre>", "")
 						.replace("</pre>", "").trim();
 
@@ -80,17 +69,16 @@ public class PhotoUploadForm extends Composite {
 							new RequestListener<Photo>() {
 								@Override
 								public void onNewResult(final Photo photo) {
-									photo.setUser("anonym");
+									photo.setUser(BaseApp.getInstance().getLoggedInUser());
 									photo.setTimestamp(Timestamp.now());
 									photo.setImage(new ImageUrl(url));
-									PhotoUploadForm.this.listener
-											.photoUploaded(photo);
+									PhotoUploadForm.this.listener.photoUploaded(photo);
 								}
 							});
-				} else
+				} else {
 					Window.alert("Beim Upload ist ein Fehler aufgetreten. Bitt versuchen Sie es erneut.");
-				Log.log("Photo upload error. Instead of an url, we got this: "
-						+ url);
+					Log.log("Photo upload error. Instead of an url, we got this: " + url);
+				}
 			}
 		});
 	}

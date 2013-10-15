@@ -24,7 +24,7 @@ public class Photo extends PhotoGen {
 			boolean ready,
 			Poi poi,
 			ImageUrl image,
-			String user,
+			User user,
 			Timestamp timestamp,
 			boolean deleted)
 	{
@@ -33,7 +33,7 @@ public class Photo extends PhotoGen {
 			ready,
 			(de.gmino.issuemap.server.domain.Poi)poi,
 			(de.gmino.geobase.server.domain.ImageUrl)image,
-			user,
+			(de.gmino.issuemap.server.domain.User)user,
 			(de.gmino.geobase.server.domain.Timestamp)timestamp,
 			deleted
 		);

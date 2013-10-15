@@ -16,6 +16,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.gmino.geobase.shared.domain.Address;
 import de.gmino.issuemap.client.domain.User;
+import de.gmino.issuemap.client.request.ValidateEmailAddress;
+import de.gmino.meva.shared.ValueQuery;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
@@ -69,6 +71,8 @@ public class Register extends Composite {
 				newUser.setEmail(mail.getText());
 				newUser.setPostal_address(new Address(firstname.getText() + " " + name.getText(), street.getText(), housenumber.getText(), zip.getText(), city.getText(), ""));
 				Requests.saveEntity(newUser, null);
+				ValueQuery q = new ValidateEmailAddress(newUser);
+				Requests.getValuesByQuery(q, null);
 			}
 		});
 		

@@ -73,9 +73,7 @@ public class User extends UserGen {
 			String password,
 			Address postal_address,
 			String email,
-			boolean activated,
-			String sessionId,
-			DateTime expirationTime)
+			boolean activated)
 	{
 		super(
 			id,
@@ -84,9 +82,7 @@ public class User extends UserGen {
 			password,
 			(de.gmino.geobase.server.domain.Address)postal_address,
 			email,
-			activated,
-			sessionId,
-			(de.gmino.meva.server.domain.DateTime)expirationTime
+			activated
 		);
 		this.ready = true;
 	}

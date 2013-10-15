@@ -50,7 +50,6 @@ import de.gmino.issuemap.client.view.PhotoUploadForm.PhotoUploadListener;
 import de.gmino.issuemap.client.view.ThumbnailView;
 import de.gmino.issuemap.client.view.valueview.KeyValueView;
 import de.gmino.issuemap.shared.domain.Markertype;
-import de.gmino.issuemap.shared.domain.User;
 import de.gmino.meva.client.domain.KeyValueSet;
 import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.ValueWrapper;
@@ -339,6 +338,7 @@ public class Show_PopUp extends Composite {
 								poi.setMap_instance(map);
 								poi.setCreationTimestamp(Timestamp.now());
 								poi.setMarkertype(firstMarkertype);
+								poi.setCreator(BaseApp.getInstance().getLoggedInUser());
 								setPoi(poi);
 								setEditMode(true, true);
 							}
@@ -514,7 +514,6 @@ public class Show_PopUp extends Composite {
 
 	@UiHandler("tbResolved")
 	void onTbResolvedClicked(ClickEvent e) {
-	
 		mPoi.setMarked(!mPoi.isMarked());
 		tbResolved.setStyleName(style.underline(), mPoi.isMarked());
 
@@ -567,11 +566,7 @@ public class Show_PopUp extends Composite {
 					@Override
 					public void onFinished(Collection<Poi> results) {
 						comment.setText(commentTextBox.getText());
-						User user = BaseApp.getInstance().getLoggedInUser();
-						if(user != null)
-							comment.setUser(user.getUserName());
-						else
-							comment.setUser("anonym");
+						comment.setUser(BaseApp.getInstance().getLoggedInUser());
 						comment.setTimestamp(Timestamp.now());
 						mPoi.getComments().add(comment);
 						Requests.saveEntity(comment, null);
@@ -652,12 +647,14 @@ public class Show_PopUp extends Composite {
 	private void showComment(Comment comment) {
 		VerticalPanel vp = new VerticalPanel();
 		vp.getElement().getStyle().setPaddingBottom(5, Unit.PX);
+		
 		String headerText;
-		if (comment.getUser().equals("anonym")) 
+		if (comment.getUser() == null) 
 			headerText = comment.getTimestamp().relativeToNow().toReadableString(true, 2) + ".";
 		else 
-			headerText = comment.getTimestamp().relativeToNow().toReadableString(true, 2) + " von " + comment.getUser() + ".";
+			headerText = comment.getTimestamp().relativeToNow().toReadableString(true, 2) + " von " + comment.getUser().getUserName() + ".";
 		Label commentheader = new Label(headerText);
+		
 		commentheader.setTitle("Eingetragen am " + dtf.format(comment.getTimestamp().toDate()));
 		commentheader.getElement().getStyle().setFontSize(10, Unit.PX);
 		commentheader.getElement().getStyle().setMarginTop(3, Unit.PX);

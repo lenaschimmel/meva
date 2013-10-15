@@ -22,6 +22,7 @@ import de.gmino.issuemap.client.domain.Route;
 import de.gmino.issuemap.client.domain.User;
 import de.gmino.issuemap.client.request.QueryMapBySubdomain;
 import de.gmino.issuemap.client.request.SendFeedback;
+import de.gmino.issuemap.server.request.ValidateEmailAddress;
 import de.gmino.meva.client.domain.Date;
 import de.gmino.meva.client.domain.DateTime;
 import de.gmino.meva.client.domain.KeyValueDef;
@@ -89,6 +90,8 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 			return new QueryMapBySubdomain((JsonObject)request);
 		else if (typeName.equals("SendFeedback"))
 			return new SendFeedback((JsonObject)request);
+		else if (typeName.equals("ValidateEmailAddress"))
+			return new ValidateEmailAddress((JsonObject)request);
 		else
 			throw new RuntimeException("Unrecognized query type: " + typeName);
 	}

@@ -13,7 +13,6 @@ import de.gmino.geobase.server.domain.Duration;
 import de.gmino.geobase.server.domain.ImageUrl;
 import de.gmino.geobase.server.domain.LatLon;
 import de.gmino.geobase.server.domain.Timestamp;
-import de.gmino.issuemap.server.domain.User;
 import de.gmino.issuemap.server.domain.Comment;
 import de.gmino.issuemap.server.domain.DecentralizedGeneration;
 import de.gmino.issuemap.server.domain.Map;
@@ -21,8 +20,10 @@ import de.gmino.issuemap.server.domain.Markertype;
 import de.gmino.issuemap.server.domain.Photo;
 import de.gmino.issuemap.server.domain.Poi;
 import de.gmino.issuemap.server.domain.Route;
+import de.gmino.issuemap.server.domain.User;
 import de.gmino.issuemap.server.request.QueryMapBySubdomain;
 import de.gmino.issuemap.server.request.SendFeedback;
+import de.gmino.issuemap.server.request.ValidateEmailAddress;
 import de.gmino.meva.server.domain.Date;
 import de.gmino.meva.server.domain.DateTime;
 import de.gmino.meva.server.domain.KeyValueDef;
@@ -34,6 +35,7 @@ import de.gmino.meva.shared.Entity;
 import de.gmino.meva.shared.EntityFactoryInterface;
 import de.gmino.meva.shared.TypeName;
 import de.gmino.meva.shared.Value;
+
 
 public class EntityFactoryImpl implements EntityFactoryInterface {
 
@@ -95,6 +97,8 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 			return new QueryMapBySubdomain(request);
 		else if (typeName.equals("SendFeedback"))
 			return new SendFeedback(request);
+		else if (typeName.equals("ValidateEmailAddress"))
+			return new ValidateEmailAddress((JsonObject)request);
 		else
 			throw new RuntimeException("Unrecognized query type: " + typeName);
 	}
@@ -104,6 +108,8 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
 			return new QueryMapBySubdomain(request);
 		else if (typeName.equals("SendFeedback"))
 			return new SendFeedback(request);
+		else if (typeName.equals("ValidateEmailAddress"))
+			return new ValidateEmailAddress(request);
 		else
 			throw new RuntimeException("Unrecognized query type: " + typeName);
 	}

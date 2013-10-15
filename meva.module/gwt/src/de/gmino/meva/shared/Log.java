@@ -12,6 +12,7 @@ public class Log {
 	}
 	
 	public static void exception(String msg, Throwable e) {
+		e.printStackTrace();
 		getLogger().log(Level.SEVERE, msg, e);
 	}
 	

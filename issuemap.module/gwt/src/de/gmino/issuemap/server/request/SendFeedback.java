@@ -11,8 +11,6 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.mail.Message;
 import javax.mail.Session;
@@ -24,6 +22,7 @@ import org.itemscript.core.values.JsonObject;
 
 import de.gmino.issuemap.server.domain.Map;
 import de.gmino.issuemap.server.request.gen.SendFeedbackGen;
+import de.gmino.meva.shared.Log;
 import de.gmino.meva.shared.Value;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
@@ -70,21 +69,16 @@ public class SendFeedback extends SendFeedbackGen {
 	
 	@Override
 	public Collection<? extends Value> evaluate() {
-		
-		
-		Properties props = new Properties();
-        final Session session = Session.getDefaultInstance(props, null);
-
-        Requests.loadEntity(map, new RequestListener<de.gmino.issuemap.shared.domain.Map>() {
+		Requests.loadEntity(map, new RequestListener<de.gmino.issuemap.shared.domain.Map>() {
         	@Override
         	public void onNewResult(de.gmino.issuemap.shared.domain.Map result) {
-        		Logger logger = Logger.getLogger("SendFeedback");
-        		logger.setLevel(Level.ALL);
         		 try {
+        			 	Properties props = new Properties();
+        		        final Session session = Session.getDefaultInstance(props, null);
         			 
         	            Message msg = new MimeMessage(session);
 
-        	            logger.info("Trying to send mail, content: " + message);
+        	            Log.log("Trying to send mail, content: " + message);
 
         	            msg.setFrom(new InternetAddress("greenmobileinnovations@gmail.com ", "greenmobile Innovations Geoengine - Karte " + map.getTitle()));
         	            if(toDevelopers)
@@ -104,17 +98,13 @@ public class SendFeedback extends SendFeedbackGen {
         	            msg.setText(fullMessage);
         	            Transport.send(msg);
         	            
-        	            logger.info("Mail has been sent, content: " + fullMessage);
+        	            Log.log("Mail has been sent, content: " + fullMessage);
         	    
         	        } catch (Exception e) {
-        	            e.printStackTrace();
-        	            logger.log(Level.SEVERE, "Error sending mail.", e);
-
+        	            Log.exception("Error sending mail.", e);
         	        }
         	}
 		});
-        
-       
 		
 		return new LinkedList<de.gmino.meva.shared.domain.Void>();
 	}

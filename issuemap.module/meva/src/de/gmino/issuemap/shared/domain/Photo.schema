@@ -12,7 +12,7 @@
 			"name" : "image"
 		},	
 		{
-			"type" : "String",
+			"type" : "User",
 			"name" : "user"
 		},	
 		{

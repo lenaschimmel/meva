@@ -33,7 +33,8 @@ public class Poi extends PoiGen implements PoiInterface {
 			int rating,
 			int number_of_rating,
 			boolean marked,
-			boolean deleted)
+			boolean deleted,
+			User creator)
 	{
 		super(
 			id,
@@ -48,7 +49,8 @@ public class Poi extends PoiGen implements PoiInterface {
 			rating,
 			number_of_rating,
 			marked,
-			deleted
+			deleted,
+			(de.gmino.issuemap.client.domain.User)creator
 		);
 		loadValueSet();
 		this.ready = true;

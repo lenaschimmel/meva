@@ -24,14 +24,6 @@
 			"name" : "activated"
 		},
 		{
-			"type" : "String",
-			"name" : "sessionId"
-		},
-		{
-			"type" : "DateTime",
-			"name" : "expirationTime"
-		},
-		{
 			"type" : "relation",
 			"name" : "usesMaps",
 			"reltype" : "Map",
