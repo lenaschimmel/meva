@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.gmino.geobase.shared.domain.Address;
 import de.gmino.geobase.shared.domain.ImageUrl;
 import de.gmino.geobase.shared.domain.LatLon;
+import de.gmino.issuemap.client.BaseApp;
 import de.gmino.issuemap.client.domain.Map;
 import de.gmino.issuemap.client.domain.Markertype;
 import de.gmino.issuemap.client.view.list.Marker_List_Item;
@@ -49,7 +50,7 @@ public class Create_Map_Backend extends Composite {
 	public Create_Map_Backend() {
 		initWidget(uiBinder.createAndBindUi(this));
 
-		getNewMapObject();
+		showNewMap();
 		eeBackend = new EE_Backend();
 		eePanel.add(eeBackend);
 		eePanel.setVisible(false);
@@ -464,6 +465,7 @@ public class Create_Map_Backend extends Composite {
 			@Override
 			public void onNewResult(Map result) {
 				Create_Map_Backend.this.map = result;
+				map.getHasOwner().add(BaseApp.getInstance().getLoggedInUser());
 				setPlaceholder();
 			}
 		});

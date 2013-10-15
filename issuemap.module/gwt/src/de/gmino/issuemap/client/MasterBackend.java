@@ -41,6 +41,8 @@ public class MasterBackend extends BaseApp {
 			createMapField= new Create_Map_Backend();
 		if(mapList == null)
 			mapList = new Show_Maps_Backend();
+		else
+			mapList.refreshMapList();
 
 		RootPanel.get("right").add(createMapField);
 		RootPanel.get("left").add(mapList);

@@ -22,7 +22,7 @@ import de.gmino.issuemap.client.domain.Route;
 import de.gmino.issuemap.client.domain.User;
 import de.gmino.issuemap.client.request.QueryMapBySubdomain;
 import de.gmino.issuemap.client.request.SendFeedback;
-import de.gmino.issuemap.server.request.ValidateEmailAddress;
+import de.gmino.issuemap.client.request.ValidateEmailAddress;
 import de.gmino.meva.client.domain.Date;
 import de.gmino.meva.client.domain.DateTime;
 import de.gmino.meva.client.domain.KeyValueDef;

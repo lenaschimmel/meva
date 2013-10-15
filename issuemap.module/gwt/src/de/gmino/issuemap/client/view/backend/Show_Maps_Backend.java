@@ -14,9 +14,12 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.gmino.issuemap.client.BaseApp;
 import de.gmino.issuemap.client.MasterBackend;
 import de.gmino.issuemap.client.domain.Map;
+import de.gmino.issuemap.client.domain.User;
 import de.gmino.issuemap.client.view.list.Map_List_Item;
+import de.gmino.meva.shared.Util;
 import de.gmino.meva.shared.request.RequestListener;
 import de.gmino.meva.shared.request.Requests;
 
@@ -49,6 +52,10 @@ public class Show_Maps_Backend extends Composite  {
 
 	@UiHandler("buttonRefresh")
 	void onClickRefresh(ClickEvent e) {
+		refreshMapList();
+	}
+
+	public void refreshMapList() {
 		verticalPanel.clear();
 		executeRequest();
 	}
@@ -63,26 +70,31 @@ public class Show_Maps_Backend extends Composite  {
 		Window.open("/CsvExport", "_blank", "");
 	}
 	
-		public void addMapElement(Map map) {
+	public void addMapElement(Map map) {
 		Map_List_Item mapListItem = new Map_List_Item(map.getId(), map.getSubdomain(), map.getTitle());
 		verticalPanel.add(mapListItem);
 	}
 
 	
 	private void executeRequest(){
-		Requests.getLoadedEntitiesByType(Map.type, new RequestListener<Map>() {
-			@Override
-			public void onNewResult(Map result) {
-				addMapElement(result);
-			}
-			
-			@Override
-			public void onFinished(Collection<Map> results) {
-				loading.removeFromParent();
-				buttonsPanel.setVisible(true);
-				super.onFinished(results);
-			}
-		});
+		User user = (User) BaseApp.getInstance().getLoggedInUser();
+		if(user != null)
+		{
+			Requests.loadEntities(Util.<Map, de.gmino.issuemap.shared.domain.Map>convertCollection(user.getOwnsMaps()), new RequestListener<Map>() {
+				@Override
+				public void onNewResult(Map result) {
+					addMapElement(result);
+				}
+				
+				@Override
+				public void onFinished(Collection<Map> results) {
+					loading.removeFromParent();
+					buttonsPanel.setVisible(true);
+					super.onFinished(results);
+				}
+			});
+		}
+		else
+			System.out.println("Can't show list, user unknown.");
 	}
-	
 }
