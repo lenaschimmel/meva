@@ -1,0 +1,12 @@
+{
+	"concept" : "value",
+	"package" : "de.gmino.issuemap.TARGET.request",
+	"name" : "ValidateEmailAddress",
+	"query" : "Void",
+	"attributes" : [
+		{
+			"type" : "User",
+			"name" : "user"
+		}
+	]
+}
