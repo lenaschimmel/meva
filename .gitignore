@@ -60,4 +60,5 @@ issuemap.module/gwt/war/masterBackend/
 *.cache.*
 issuemap.module/gwt/war/masterBackend/gwt/clean/
 issuemap.module/gwt/.settings/com.google.appengine.eclipse.core.prefs
+*.sql
 
