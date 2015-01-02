@@ -5,39 +5,48 @@
 	"attributes" : [
 		{
 			"type" : "String",
-			"name" : "title"
+			"name" : "title",
+			"maxLen" : "100"
 		},
 		{
 			"type" : "String",
-			"name" : "subdomain"
+			"name" : "subdomain",
+			"maxLen" : "100"
 		},
 		{
 			"type" : "String",
-			"name" : "barBackgroundColor"
+			"name" : "barBackgroundColor",
+			"maxLen" : "10"
 		},		
 		{
 			"type" : "String",
-			"name" : "barTextColor"
+			"name" : "barTextColor",
+			"maxLen" : "10"
 		},		
 		{
 			"type" : "String",
-			"name" : "popupBackgroundColor"
+			"name" : "popupBackgroundColor",
+			"maxLen" : "10"
 		},		
 		{
 			"type" : "String",
-			"name" : "popupTextColor"
+			"name" : "popupTextColor",
+			"maxLen" : "10"
 		},		
 		{
 			"type" : "String",
-			"name" : "markerColor"
+			"name" : "markerColor",
+			"maxLen" : "10"
 		},			
 		{
 			"type" : "String",
-			"name" : "resolvedColor"
+			"name" : "resolvedColor",
+			"maxLen" : "10"
 		},
 		{
 			"type" : "String",
-			"name" : "city"
+			"name" : "city",
+			"maxLen" : "100"
 		},		
 		{
 			"type" : "LatLon",
@@ -49,7 +58,8 @@
 		},
 		{
 			"type" : "String",
-			"name" : "layer"
+			"name" : "layer",
+			"maxLen" : "50"
 		},	
 		{
 			"type" : "ImageUrl",
@@ -62,19 +72,23 @@
 		},	
 		{
 			"type" : "String",
-			"name" : "mapTyp"
+			"name" : "mapTyp",
+			"maxLen" : "100"
 		},	
 		{
 			"type" : "String",
-			"name" : "website"
+			"name" : "website",
+			"maxLen" : "100"
 		},	
 		{
 			"type" : "String",
-			"name" : "impressum_url"
+			"name" : "impressum_url",
+			"maxLen" : "100"
 		},	
 		{
 			"type" : "String",
-			"name" : "email"
+			"name" : "email",
+			"maxLen" : "100"
 		},	
 		{
 			"type" : "Address",
@@ -118,11 +132,13 @@
 		},	
 		{
 			"type" : "String",
-			"name" : "rate_criteria"
+			"name" : "rate_criteria",
+			"maxLen" : "100"
 		},	
 		{
 			"type" : "String",
-			"name" : "mark_description"
+			"name" : "mark_description",
+			"maxLen" : "100"
 		},	
 		{
 			"type" : "boolean",

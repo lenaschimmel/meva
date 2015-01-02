@@ -206,7 +206,8 @@ public class ClassDefinition {
 			generateDeserialisers(pw);
 
 			pw.println("	// Sql");
-			generateTableComment(pw);
+			//generateTableComment(pw);
+			generateTableComment(Meva.commentPw);
 			generateSqlSerializer(pw);
 			pw.println();
 		}
@@ -524,10 +525,10 @@ public class ClassDefinition {
 		pw.println();
 		pw.println("/*");
 		pw.println("To generate a table, use the following SQL command:");
-		pw.println();
+		pw.println("*/");
 		pw.println("CREATE TABLE IF NOT EXISTS `" + baseClassName + "` (");
 		generateTableCommentAttributeList("", pw);
-		pw.println("\tPRIMARY KEY (`id`)");
+        pw.println("\tPRIMARY KEY (`id`)");
 		pw.println(") ENGINE=MyISAM DEFAULT CHARSET=utf8;");
 		pw.println();
 
@@ -547,10 +548,10 @@ public class ClassDefinition {
 					pw.println();
 				} else {
 					pw.println();
-					pw.println("There is no table `" + baseClassName + "_"
+					pw.println("/* There is no table `" + baseClassName + "_"
 							+ attDef.attributeName + "`, see `"
 							+ attDef.reltype + "_" + attDef.relname
-							+ "` in type " + attDef.reltype + " instead.");
+							+ "` in type " + attDef.reltype + " instead. */");
 					pw.println();
 				}
 			}
@@ -563,8 +564,10 @@ public class ClassDefinition {
 			pw.println("PRIMARY KEY (`"+uncapitalizeFirst(baseClassName)+"_id`,`key`)");
 			pw.println(") ENGINE=MyISAM DEFAULT CHARSET=utf8;");
 		}
+		
+		pw.println("INSERT IGNORE INTO `MaxId` (`typeName`, `maxId`) VALUES ('"+baseClassName+"', 0);");
 		pw.println();
-		pw.println("*/");
+		//pw.println("*/");
 		pw.println();
 	}
 
@@ -1754,12 +1757,16 @@ public class ClassDefinition {
 			attributeDefiniton.containingType = ret.baseClassName;
 			ret.attributes.add(attributeDefiniton);
 			if (typeName.equals("relation")) {
-				attributeDefiniton.relname = (String) att.get("relname");
-				attributeDefiniton.reltype = (String) att.get("reltype");
-				if (att.get("multiplerelation") != null
-						&& att.get("multiplerelation").equals("true"))
-					attributeDefiniton.multipleRelation = true;
-			}
+                attributeDefiniton.relname = (String) att.get("relname");
+                attributeDefiniton.reltype = (String) att.get("reltype");
+                if (att.get("multiplerelation") != null
+                        && att.get("multiplerelation").equals("true"))
+                    attributeDefiniton.multipleRelation = true;
+            }
+			if (typeName.equals("String")) {
+                if (att.get("maxLen") != null)
+                    attributeDefiniton.maxLen = Integer.parseInt((String) att.get("maxLen"));
+            }
 		}
 
 		ret.moduleName = moduleName;

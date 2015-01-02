@@ -4,7 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import com.google.appengine.api.rdbms.AppEngineDriver;
+//import com.google.appengine.api.rdbms.AppEngineDriver;
+import com.mysql.jdbc.Driver;
 
 import de.gmino.meva.shared.Log;
 
@@ -14,7 +15,7 @@ public class SqlHelper {
 	static
 	{
 		try {
-			DriverManager.registerDriver(new AppEngineDriver());
+			DriverManager.registerDriver(new Driver());
 		} catch (SQLException e) {
 			Log.exception("Error registering DB driver.",e);
 		}

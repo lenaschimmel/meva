@@ -36,11 +36,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.TreeSet;
 
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+//import javax.mail.Message;
+//import javax.mail.Session;
+//import javax.mail.Transport;
+//import javax.mail.internet.InternetAddress;
+//import javax.mail.internet.MimeMessage;
 
 // imports for serialization interfaces
 import de.gmino.meva.shared.EntityBinary;
@@ -91,23 +91,23 @@ public class ValidateEmailAddress extends ValidateEmailAddressGen {
         	public void onNewResult(de.gmino.issuemap.shared.domain.User result) {
         		 try {
         			 	Properties props = new Properties();
-        		        final Session session = Session.getDefaultInstance(props, null);
+        		        //final Session session = Session.getDefaultInstance(props, null);
         			 
-        	            Message msg = new MimeMessage(session);
+        	            //Message msg = new MimeMessage(session);
 
         	            Log.log("Trying to send validation mail.");
-
+/*
         	            msg.setFrom(new InternetAddress("greenmobileinnovations@gmail.com ", "greenmobile Innovations Geoengine"));
         	            msg.addRecipient(Message.RecipientType.TO,
         	                new InternetAddress(user.getEmail(), user.getUserName()));
 
         	            msg.setSubject("Verifikation ihrer Emailadresse bei Geoengine");
-        	     
+        	     */
         	            String fullMessage = "Hallo " + user.getUserName() + ",\nSie haben sich gerade auf der Seite geoengine.de angemeldet. Bitte bestätigen Sie Ihre Email-Adresse, indem sie die folgende Seite aufrufen: bla.";
-        	            
+        	       /*     
         	            msg.setText(fullMessage);
         	            Transport.send(msg);
-        	            
+        	            */
         	            Log.log("Mail has been sent, content: " + fullMessage);
         	    
         	        } catch (Exception e) {
